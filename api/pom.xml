@@ -6,7 +6,14 @@
 
     <groupId>gszero.blog</groupId>
     <artifactId>api</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>auth-center</module>
+        <module>blog-common</module>
+        <module>blog-gateway</module>
+        <module>user-center</module>
+    </modules>
 
     <properties>
         <java.version>1.8</java.version>
@@ -27,6 +34,7 @@
         <redis.version>2.2.6.RELEASE</redis.version>
         <servlet.api.version>3.0-alpha-1</servlet.api.version>
         <lombok.version>1.18.22</lombok.version>
+        <jackson-annotations.version>2.13.2</jackson-annotations.version>
     </properties>
 
     <dependencyManagement>
@@ -108,6 +116,11 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson-annotations.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
