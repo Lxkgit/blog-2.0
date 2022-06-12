@@ -59,7 +59,7 @@
         <dependency>
             <groupId>gszero.blog</groupId>
             <artifactId>blog-common</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 
