@@ -2,6 +2,7 @@ package com.blog.auth.config;
 
 import com.blog.auth.service.impl.RedisAuthorizationCodeServices;
 import com.blog.auth.service.impl.RedisClientDetailsService;
+import com.blog.common.entity.auth.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,11 +18,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author: lxk
@@ -69,13 +72,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+        enhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
+//        enhancerChain.setTokenEnhancers(Collections.singletonList(tokenEnhancer()));
         // 配置认证管理器
         endpoints.authenticationManager(this.authenticationManager);
         endpoints.tokenStore(tokenStore());
         // 授权码模式下，code存储
         endpoints.authorizationCodeServices(redisAuthorizationCodeServices);
 
-        endpoints.accessTokenConverter(accessTokenConverter());
+//        endpoints.accessTokenConverter(accessTokenConverter());
+        endpoints.tokenEnhancer(enhancerChain);
+    }
+
+    @Bean
+    public TokenEnhancer tokenEnhancer(){
+        return new TokenEnhancerConfig();
     }
 
     @Bean
@@ -94,7 +106,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
             @Override
             public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
                 OAuth2AccessToken oAuth2AccessToken = super.enhance(accessToken, authentication);
-//                addLoginUserInfo(oAuth2AccessToken, authentication); // 2018.07.13 将当前用户信息追加到登陆后返回数据里
+                addLoginUserInfo(oAuth2AccessToken, authentication); // 2018.07.13 将当前用户信息追加到登陆后返回数据里
                 return oAuth2AccessToken;
             }
         };
@@ -118,24 +130,24 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      * @param accessToken
      * @param authentication
      */
-//    private void addLoginUserInfo(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-//        if (!addUserInfo) {
-//            return;
-//        }
-//
-//        if (accessToken instanceof DefaultOAuth2AccessToken) {
-//            DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
-//
-//            Authentication userAuthentication = authentication.getUserAuthentication();
-//            Object principal = userAuthentication.getPrincipal();
-//            if (principal instanceof LoginAppUser) {
-//                LoginAppUser loginUser = (LoginAppUser) principal;
-//
-//                Map<String, Object> map = new HashMap<>(defaultOAuth2AccessToken.getAdditionalInformation()); // 旧的附加参数
-//                map.put("loginUser", loginUser); // 追加当前登陆用户
-//
-//                defaultOAuth2AccessToken.setAdditionalInformation(map);
-//            }
-//        }
-//    }
+    private void addLoginUserInfo(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+        if (!addUserInfo) {
+            return;
+        }
+
+        if (accessToken instanceof DefaultOAuth2AccessToken) {
+            DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
+
+            Authentication userAuthentication = authentication.getUserAuthentication();
+            Object principal = userAuthentication.getPrincipal();
+            if (principal instanceof LoginUser) {
+                LoginUser loginUser = (LoginUser) principal;
+
+                Map<String, Object> map = new HashMap<>(defaultOAuth2AccessToken.getAdditionalInformation()); // 旧的附加参数
+                map.put("loginUser", loginUser); // 追加当前登陆用户
+
+                defaultOAuth2AccessToken.setAdditionalInformation(map);
+            }
+        }
+    }
 }

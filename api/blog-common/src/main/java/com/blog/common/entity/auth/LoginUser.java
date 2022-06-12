@@ -3,6 +3,7 @@ package com.blog.common.entity.auth;
 
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.entity.user.SysRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,13 +25,13 @@ import java.util.Set;
 @Setter
 public class LoginUser extends BlogUser implements UserDetails {
 
-    private static final long serialVersionUID = -1146227555198606905L;
-
+    private static final long serialVersionUID = -5650242260144561959L;
     private Set<SysRole> sysRoles;
 
     private Set<String> permissions;
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collection = new HashSet<>();
         if (!CollectionUtils.isEmpty(sysRoles)) {

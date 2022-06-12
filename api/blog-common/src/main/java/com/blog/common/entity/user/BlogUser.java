@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 public class BlogUser implements Serializable {
 
-    private static final long serialVersionUID = 8809205744130731028L;
+    private static final long serialVersionUID = -1202327391177030056L;
 
     private Integer id;
     private String username;

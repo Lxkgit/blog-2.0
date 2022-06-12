@@ -13,8 +13,7 @@ import java.io.Serializable;
 @Data
 public class SysPermission implements Serializable {
 
-    private static final long serialVersionUID = 1879789473317712892L;
-
+    private static final long serialVersionUID = -3075133684027009758L;
     private Integer id;
     private Integer parentId;
     private String menuName;

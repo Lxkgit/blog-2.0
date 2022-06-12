@@ -1,5 +1,6 @@
 package com.blog.user.config;
 
+import com.blog.common.constant.PermitUrl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,15 +25,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().exceptionHandling()
-                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-                .and()
-                .requestMatchers().antMatchers("/user/**")
-                .and()
-                .authorizeRequests().antMatchers("/user/login","/user/register").permitAll() // 放开权限的url
-                .and()
-                .authorizeRequests().antMatchers("/user/**").authenticated()
-                .and()
-                .httpBasic();
+                .authenticationEntryPoint(
+                        (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                .and().authorizeRequests()
+                .antMatchers(PermitUrl.permitAllUrl("/user/**", "/wechat/**")).permitAll() // 放开权限的url
+                .anyRequest().authenticated().and().httpBasic();
     }
 
     @Bean

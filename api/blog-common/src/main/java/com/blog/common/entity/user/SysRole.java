@@ -12,8 +12,8 @@ import java.io.Serializable;
 
 @Data
 public class SysRole implements Serializable {
-    private static final long serialVersionUID = 6043137253225659914L;
 
+    private static final long serialVersionUID = -2065620443741793238L;
     private Integer id;
     private String code;
     private String name;
