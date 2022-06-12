@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.user.dao.SysPermissionDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.user.SysPermission">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <id column="menu_name" property="menuName" jdbcType="VARCHAR"/>
+        <id column="menu_icon" property="menuIcon" jdbcType="VARCHAR"/>
+        <id column="menu_path" property="menuPath" jdbcType="VARCHAR"/>
+        <id column="permission" property="permission" jdbcType="VARCHAR"/>
+        <id column="component" property="component" jdbcType="VARCHAR"/>
+        <id column="menu_type" property="menuType" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, parent_id, menu_name, menu_icon, menu_path, permission, component, menu_type
+    </sql>
+
+
+    <select id="selectPermissionByRoleIds" resultMap="BaseResultMap">
+        SELECT p.*
+        FROM sys_permission p LEFT JOIN sys_role_permission rp on rp.permission_id = p.id
+        WHERE rp.role_id in
+        <foreach collection="roleIds" index="index" item="item" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

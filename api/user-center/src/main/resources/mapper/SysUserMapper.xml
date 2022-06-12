@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.user.dao.SysUserDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.user.BlogUser">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="username" property="username" jdbcType="VARCHAR"/>
+        <id column="password" property="password" jdbcType="VARCHAR"/>
+        <id column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <id column="head_img" property="headImg" jdbcType="VARCHAR"/>
+        <id column="email" property="email" jdbcType="VARCHAR"/>
+        <id column="create_time" property="createTime" jdbcType="DATE"/>
+        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+        <id column="enabled" property="enabled" jdbcType="BOOLEAN"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, username, password, nickname, head_img, email, create_time, update_time, enabled
+    </sql>
+
+    <!--根据用户名查找用户信息-->
+    <select id="selectUserByUsername" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user
+        where username = #{username}
+    </select>
+
+    <!--添加用户-->
+    <insert id="insertUser" parameterType="com.blog.common.entity.user.BlogUser">
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null and username !=''">
+                username,
+            </if>
+            <if test="password != null and password !=''">
+                password,
+            </if>
+            <if test="nickname != null and nickname !=''">
+                nickname,
+            </if>
+            <if test="headImg != null and headImg !=''">
+                head_img,
+            </if>
+            <if test="email != null and email !=''">
+                email,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="enabled != null">
+                enabled,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null and username !=''">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password !=''">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null and nickname !=''">
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="headImg != null and headImg !=''">
+                #{headImg,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email !=''">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=DATE},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=DATE},
+            </if>
+            <if test="enabled != null">
+                #{enabled,jdbcType=BOOLEAN},
+            </if>
+        </trim>
+    </insert>
+
+
+</mapper>
