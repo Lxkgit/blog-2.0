@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.content.dao.ArticleTypeDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.content.ArticleType">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <id column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <id column="num" property="num" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, parent_id, type_name, num
+    </sql>
+
+    <select id="selectArticleTypeByArray" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from article_type
+        where id in
+        <foreach item="type" collection="array" open="(" separator="," close=")">
+            #{type}
+        </foreach>
+    </select>
+
+</mapper>

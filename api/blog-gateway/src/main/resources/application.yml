@@ -40,9 +40,9 @@ spring:
             - Path=/user/**
 
         - id: web-blog
-          uri: lb://api-blog
+          uri: lb://blog-content
           predicates:
-            - Path=/api/**
+            - Path=/content/**
 
 logging:
   level:

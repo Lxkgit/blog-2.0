@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.content.dao.ArticleDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.content.Article">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="title" property="title" jdbcType="VARCHAR"/>
+        <id column="content_md" property="contentMd" jdbcType="VARCHAR"/>
+        <id column="content_html" property="contentHtml" jdbcType="VARCHAR"/>
+        <id column="article_type" property="articleType" jdbcType="VARCHAR"/>
+        <id column="article_label" property="articleLabel" jdbcType="VARCHAR"/>
+        <id column="article_status" property="articleStatus" jdbcType="INTEGER"/>
+        <id column="browse_count" property="browseCount" jdbcType="INTEGER"/>
+        <id column="like_count" property="likeCount" jdbcType="INTEGER"/>
+        <id column="create_time" property="createTime" jdbcType="DATE"/>
+        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, title, content_md, content_html, article_type, article_label,
+         article_status, browse_count, like_count, create_time, update_time
+    </sql>
+
+    <select id="selectArticleCount" resultType="java.lang.Integer">
+        select count(*)
+        from article
+    </select>
+
+    <select id="selectArticleListByPage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List"/>
+        from article
+        limit #{startNum}, #{pageSize}
+    </select>
+
+    <select id="selectArticleListByPageAndUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List"/>
+        from article
+        where user_id = #{userId}
+        limit #{startNum}, #{pageSize}
+    </select>
+
+</mapper>

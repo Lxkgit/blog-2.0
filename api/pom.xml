@@ -13,6 +13,7 @@
         <module>blog-common</module>
         <module>blog-gateway</module>
         <module>user-center</module>
+        <module>blog-content</module>
     </modules>
 
     <properties>
