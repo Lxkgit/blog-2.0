@@ -24,19 +24,54 @@
     <select id="selectArticleCount" resultType="java.lang.Integer">
         select count(*)
         from article
+        <if test="userId != 0 ">
+            where user_id = #{userId}
+        </if>
     </select>
 
     <select id="selectArticleListByPage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select <include refid="Base_Column_List"/>
         from article
+        <if test="userId != 0 ">
+            where user_id = #{userId}
+        </if>
         limit #{startNum}, #{pageSize}
     </select>
 
-    <select id="selectArticleListByPageAndUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select <include refid="Base_Column_List"/>
-        from article
-        where user_id = #{userId}
-        limit #{startNum}, #{pageSize}
-    </select>
+    <update id="updateArticle" parameterType="com.blog.common.entity.content.bo.ArticleBo">
+        update article
+        <set>
+            <if test="title !=null and title!=''">
+                title = #{title},
+            </if>
+            <if test="contentMd !=null and contentMd !=''">
+                content_md = #{contentMd},
+            </if>
+            <if test="contentHtml !=null and contentHtml !=''">
+                content_html = #{contentHtml},
+            </if>
+            <if test="articleType !=null and articleType !=''">
+                article_type = #{articleType},
+            </if>
+            <if test="articleLabel !=null and articleLabel !=''">
+                article_label = #{articleLabel},
+            </if>
+            <if test="updateTime !=null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        <where>
+            id = #{id} and user_id = #{updateUserId}
+        </where>
+    </update>
+
+    <delete id="deleteArticle" parameterType="com.blog.common.entity.content.bo.ArticleBo">
+        delete from article
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and user_id = #{userId};
+    </delete>
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.blog.common.entity.content;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,11 +15,9 @@ import java.util.Date;
  */
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Article {
 
-    @TableId(value = "id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     private int userId;
     private String title;

@@ -3,6 +3,7 @@ package com.blog.content.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blog.common.entity.content.Article;
+import com.blog.common.entity.content.bo.ArticleBo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -13,8 +14,9 @@ import java.util.List;
 @Repository
 public interface ArticleDAO extends BaseMapper<Article> {
 
-    Integer selectArticleCount();
-    List<Article> selectArticleListByPage(@Param("startNum")int startNum, @Param("pageSize") int pageSize);
-    List<Article> selectArticleListByPageAndUserId(@Param("userId")int userId, @Param("startNum")int startNum, @Param("pageSize") int pageSize);
+    Integer selectArticleCount(@Param("userId") int userId);
+    List<Article> selectArticleListByPage(@Param("startNum")int startNum, @Param("pageSize") int pageSize, @Param("userId") int userId);
+    Integer updateArticle(ArticleBo articleBo);
+    Integer deleteArticle(ArticleBo articleBo);
 
 }
