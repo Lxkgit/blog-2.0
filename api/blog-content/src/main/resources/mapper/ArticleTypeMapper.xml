@@ -21,4 +21,27 @@
         </foreach>
     </select>
 
+    <update id="updateArticleType" parameterType="com.blog.common.entity.content.ArticleType">
+        update article_type
+        <set>
+            <if test="parentId !=null">
+                parent_id = #{parentId},
+            </if>
+            <if test="typeName !=null and typeName !=''">
+                type_name = #{typeName},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <delete id="deleteArticleTypeByIds">
+        delete from article_type
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and num = 0;
+    </delete>
+
 </mapper>
