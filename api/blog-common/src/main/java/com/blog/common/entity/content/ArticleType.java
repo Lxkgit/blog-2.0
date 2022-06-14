@@ -15,7 +15,10 @@ public class ArticleType {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
     private int parentId;
+
     private String typeName;
+
     private int num;
 }
