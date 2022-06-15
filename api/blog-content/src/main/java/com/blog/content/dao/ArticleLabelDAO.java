@@ -11,4 +11,7 @@ import java.util.List;
 public interface ArticleLabelDAO extends BaseMapper<ArticleLabel> {
 
     List<ArticleLabel> selectArticleLabelByArray(@Param("array") String[] labels);
+    List<ArticleLabel> selectArticleLabel(@Param("userId") Integer userId);
+    int updateArticleLabel(ArticleLabel articleLabel);
+    int deleteArticleLabelByIds(@Param("ids") String[] ids, @Param("userId") Integer userId);
 }
