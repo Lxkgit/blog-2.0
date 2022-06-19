@@ -16,6 +16,8 @@ public class ArticleLabelType {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    private Integer userId;
+
     private String typeName;
 
     private int labelNum;

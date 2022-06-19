@@ -30,6 +30,12 @@
         </if>
     </select>
 
+    <select id="selectArticleLabelByLabelType" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from article_label
+        where label_type = #{labelType}
+    </select>
+
     <update id="updateArticleLabel" parameterType="com.blog.common.entity.content.ArticleLabel">
         update article_label
         <set>
