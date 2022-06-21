@@ -3,13 +3,14 @@
 <mapper namespace="com.blog.content.dao.ArticleLabelDAO">
     <resultMap id="BaseResultMap" type="com.blog.common.entity.content.ArticleLabel">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
         <id column="label_type" property="labelType" jdbcType="INTEGER"/>
         <id column="label_name" property="labelName" jdbcType="VARCHAR"/>
         <id column="article_num" property="articleNum" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, label_type, label_name, article_num
+        id, user_id,label_type, label_name, article_num
     </sql>
 
     <select id="selectArticleLabelByArray" resultMap="BaseResultMap">
@@ -20,5 +21,44 @@
             #{label}
         </foreach>
     </select>
+
+    <select id="selectArticleLabel" resultType="java.lang.Integer">
+        select <include refid="Base_Column_List"/>
+        from article_label
+        <if test="userId != 0 ">
+            where user_id = #{userId}
+        </if>
+    </select>
+
+    <select id="selectArticleLabelByLabelType" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from article_label
+        where label_type = #{labelType}
+    </select>
+
+    <update id="updateArticleLabel" parameterType="com.blog.common.entity.content.ArticleLabel">
+        update article_label
+        <set>
+            <if test="labelType !=null and labelType !=''">
+                label_type = #{labelType},
+            </if>
+            <if test="labelName !=null and labelName !=''">
+                label_name = #{labelName},
+            </if>
+        </set>
+        <where>
+            id = #{id} and article_num = 0;
+        </where>
+    </update>
+
+    <delete id="deleteArticleLabelByIds">
+        delete from article_label
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and num = 0 and user_id = #{userId};
+    </delete>
+
 
 </mapper>

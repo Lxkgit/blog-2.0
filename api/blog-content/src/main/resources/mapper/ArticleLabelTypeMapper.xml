@@ -3,12 +3,49 @@
 <mapper namespace="com.blog.content.dao.ArticleLabelTypeDAO">
     <resultMap id="BaseResultMap" type="com.blog.common.entity.content.ArticleLabelType">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <id column="label_num" property="labelNum" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="ArticleLabelTypeVo" type="com.blog.common.entity.content.vo.ArticleLabelTypeVo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
         <id column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <id column="label_num" property="labelNum" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, type_name, label_num
+        id, user_id, type_name, label_num
     </sql>
+
+    <select id="selectArticleLabelTypeList" resultMap="ArticleLabelTypeVo">
+        select <include refid="Base_Column_List"/>
+        from article_label_type
+        <if test="id != 0 ">
+            where id = #{id}
+        </if>
+    </select>
+
+    <update id="updateArticleLabelType" parameterType="com.blog.common.entity.content.ArticleLabelType">
+        update article_label_type
+        <set>
+            <if test="typeName !=null and typeName !=''">
+                type_name = #{typeName},
+            </if>
+        </set>
+        <where>
+            id = #{id} and label_num = 0;
+        </where>
+    </update>
+
+    <delete id="deleteArticleLabelTypeByIds">
+        delete from article_label_type
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and label_num = 0;
+    </delete>
 
 </mapper>

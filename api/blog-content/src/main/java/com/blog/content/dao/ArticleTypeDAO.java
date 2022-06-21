@@ -11,4 +11,6 @@ import java.util.List;
 public interface ArticleTypeDAO extends BaseMapper<ArticleType> {
 
     List<ArticleType> selectArticleTypeByArray(@Param("array") String[] types);
+    int updateArticleType(ArticleType articleType);
+    int deleteArticleTypeByIds(@Param("ids") String[] ids);
 }

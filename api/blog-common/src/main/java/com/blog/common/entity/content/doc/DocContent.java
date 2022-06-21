@@ -1,4 +1,4 @@
-package com.blog.common.entity.content;
+package com.blog.common.entity.content.doc;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,29 +8,21 @@ import java.util.Date;
 
 /**
  * @Author: lxk
- * @date 2022/6/8 19:48
- * @description: 文章实体类
+ * @date 2022/6/20 9:56
+ * @description: 文档内容
  */
 
 @Data
-public class Article {
+public class DocContent {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private int userId;
+    private Integer userId;
 
-    private String title;
+    private Integer catalogId;
 
-    private String contentMd;
-
-    private String contentHtml;
-
-    private String articleType;
-
-    private String articleLabel;
-
-    private int articleStatus;
+    private String docContentMd;
 
     private int browseCount;
 
