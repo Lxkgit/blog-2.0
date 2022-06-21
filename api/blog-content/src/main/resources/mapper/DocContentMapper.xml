@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.content.dao.DocContentDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.content.doc.DocContent">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="catalog_id" property="catalogId" jdbcType="INTEGER"/>
+        <id column="doc_content_md" property="docContentMd" jdbcType="VARCHAR"/>
+        <id column="browse_count" property="browseCount" jdbcType="INTEGER"/>
+        <id column="like_count" property="likeCount" jdbcType="INTEGER"/>
+        <id column="create_time" property="createTime" jdbcType="DATE"/>
+        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, catalog_id, doc_content_md, browse_count, like_count, create_time, update_time
+    </sql>
+
+    <select id="selectDocContentByCatalogId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from doc_content
+        where catalog_id = #{id}
+    </select>
+
+    <update id="updateDocContent" parameterType="com.blog.common.entity.content.doc.DocContent">
+        update doc_content
+        <set>
+            <if test="docContentMd !=null and docContentMd !=''">
+                doc_content_md = #{docContentMd},
+            </if>
+            <if test="updateTime !=null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        <where>
+            id = #{id} and user_id = #{userId}
+        </where>
+    </update>
+
+</mapper>

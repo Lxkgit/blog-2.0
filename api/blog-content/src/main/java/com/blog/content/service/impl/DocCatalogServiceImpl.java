@@ -1,6 +1,7 @@
 package com.blog.content.service.impl;
 
 import com.blog.common.entity.content.doc.DocCatalog;
+import com.blog.common.entity.content.doc.enums.DocType;
 import com.blog.common.entity.content.doc.vo.DocCatalogVo;
 import com.blog.content.dao.DocCatalogDAO;
 import com.blog.content.service.DocCatalogService;
@@ -30,13 +31,17 @@ public class DocCatalogServiceImpl implements DocCatalogService {
     }
 
     @Override
-    public List<DocCatalogVo> selectDocCatalogTree(Integer treeNode) {
-        return docCatalogDAO.selectDocCatalogTree(treeNode);
+    public List<DocCatalogVo> selectDocCatalogTree(Integer treeNode, Integer userId) {
+        return docCatalogDAO.selectDocCatalogTree(treeNode, userId);
     }
 
     @Override
     public int saveDocCatalog(DocCatalog docCatalog) {
-        return docCatalogDAO.insert(docCatalog);
+        docCatalog.setDocType(docCatalog.getDocType().toLowerCase());
+        if (docCatalog.getDocType().equals(DocType.CATALOG.getDocType()) || docCatalog.getDocType().equals(DocType.CONTENT.getDocType())){
+            return docCatalogDAO.insert(docCatalog);
+        }
+        return 0;
     }
 
     @Override
@@ -48,7 +53,12 @@ public class DocCatalogServiceImpl implements DocCatalogService {
     public Map<String, Object> deleteDocCatalogByIds(String catalogIds, Integer userId) {
         Map<String, Object> map = new HashMap<>();
         String[] ids = catalogIds.split(",");
-        int num = docCatalogDAO.deleteDocCatalogByIds(ids, userId);
+        int num = 0;
+        for (String id : ids){
+            if (docCatalogDAO.selectCountByParentId(id) == 0){
+                num += docCatalogDAO.deleteDocCatalogById(id, userId);
+            }
+        }
         map.put("delete", ids.length);
         map.put("success", num);
         if (ids.length != num) {

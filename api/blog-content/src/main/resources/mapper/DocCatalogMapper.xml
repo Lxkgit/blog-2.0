@@ -21,6 +21,12 @@
         id, user_id, parent_id, doc_name, doc_type
     </sql>
 
+    <select id="selectCountByParentId" resultType="java.lang.Integer">
+    select count(*)
+    from doc_catalog
+    where parent_id = #{id}
+</select>
+
     <select id="selectDocCatalogList" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from doc_catalog
@@ -30,6 +36,9 @@
         select <include refid="Base_Column_List"/>
         from doc_catalog
         where parent_id = #{parentId}
+        <if test="userId != 0 ">
+            and user_id = #{userId}
+        </if>
     </select>
 
     <update id="updateDocCatalog" parameterType="com.blog.common.entity.content.doc.DocCatalog">
@@ -50,14 +59,11 @@
         </where>
     </update>
 
-    <delete id="deleteDocCatalogByIds">
-        delete from doc_catalog
-        where id in
-        <foreach item="id" collection="ids" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-        and user_id = #{userId} and (select count(*) from  doc_catalog where parentId = #{id}) = 0;
-    </delete>
+    <delete id="deleteDocCatalogById">
+    delete from doc_catalog
+    where id = #{id}
+    and user_id = #{userId};
+</delete>
 
 
 </mapper>

@@ -39,8 +39,24 @@ public class DocCatalogController {
     }
 
     @GetMapping("/tree")
-    public Result getDocCatalogTree(@RequestParam(required = false, value = "treeNode", defaultValue = "0") Integer treeNode) {
-        return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogTree(treeNode));
+    public Result getDocCatalogTree(@RequestParam(required = false, value = "treeNode", defaultValue = "0") Integer treeNode,
+                                    @RequestParam(required = false, value = "auth", defaultValue = "false") Boolean auth) {
+        if (auth){
+            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+            String token = request.getHeader("Authorization");
+            if (StringUtils.isEmpty(token)) {
+                token = request.getParameter("Authorization");
+            }
+            try {
+                BlogUser blogUser = JwtUtil.getUserInfo(token);
+                return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogTree(treeNode, blogUser.getId()));
+            } catch (Exception e){
+                log.warn(Constant.JWTError, e);
+            }
+        } else {
+            return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogTree(treeNode, 0));
+        }
+        return ResultFactory.buildFailResult("查询失败 ... ");
     }
 
     @PostMapping("/save")
