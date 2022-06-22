@@ -33,8 +33,20 @@
             </if>
         </set>
         <where>
-            id = #{id} and user_id = #{userId}
+            catalog_id = #{catalogId} and user_id = #{userId}
         </where>
     </update>
+
+    <delete id="deleteDocContentById">
+    delete from doc_content
+    where id = #{id}
+    and user_id = #{userId};
+</delete>
+
+    <delete id="deleteDocContentByCatalogId">
+    delete from doc_content
+    where catalog_id = #{catalogId}
+    and user_id = #{userId};
+</delete>
 
 </mapper>

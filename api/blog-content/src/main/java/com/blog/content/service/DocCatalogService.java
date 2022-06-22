@@ -10,8 +10,8 @@ public interface DocCatalogService {
 
     List<DocCatalog> selectDocCatalogList();
     List<DocCatalogVo> selectDocCatalogTree(Integer treeNode, Integer userId);
-    int saveDocCatalog(DocCatalog docCatalog);
-    int updateDocCatalog(DocCatalog docCatalog);
+    Map<String, Object> saveDoc(DocCatalog docCatalog);
+    Map<String, Object> updateDocCatalog(DocCatalog docCatalog);
     Map<String, Object> deleteDocCatalogByIds(String ids, Integer userId);
 
 }

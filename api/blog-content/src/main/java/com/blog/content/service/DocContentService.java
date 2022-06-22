@@ -13,4 +13,6 @@ public interface DocContentService {
     DocContent selectDocContentByCatalogId(Integer id);
     int saveDocContent(DocContent docContent);
     int updateDocContent(DocContent docContent);
+    int deleteDocContentById(Integer id, Integer userId);
+    int deleteDocContentByCatalogId(Integer parentId, Integer userId);
 }

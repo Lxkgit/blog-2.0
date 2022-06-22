@@ -1,10 +1,13 @@
 package com.blog.content.service.impl;
 
 import com.blog.common.entity.content.doc.DocCatalog;
+import com.blog.common.entity.content.doc.DocContent;
 import com.blog.common.entity.content.doc.enums.DocType;
 import com.blog.common.entity.content.doc.vo.DocCatalogVo;
 import com.blog.content.dao.DocCatalogDAO;
 import com.blog.content.service.DocCatalogService;
+import com.blog.content.service.DocContentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,6 +27,9 @@ public class DocCatalogServiceImpl implements DocCatalogService {
     @Resource
     private DocCatalogDAO docCatalogDAO;
 
+    @Autowired
+    private DocContentService docContentService;
+
 
     @Override
     public List<DocCatalog> selectDocCatalogList() {
@@ -36,17 +42,67 @@ public class DocCatalogServiceImpl implements DocCatalogService {
     }
 
     @Override
-    public int saveDocCatalog(DocCatalog docCatalog) {
+    public Map<String, Object> saveDoc(DocCatalog docCatalog) {
+        Map<String, Object> map = new HashMap<>();
+        DocContent docContent = new DocContent();
+        docContent.setUserId(docCatalog.getUserId());
+
         docCatalog.setDocType(docCatalog.getDocType().toLowerCase());
         if (docCatalog.getDocType().equals(DocType.CATALOG.getDocType()) || docCatalog.getDocType().equals(DocType.CONTENT.getDocType())){
-            return docCatalogDAO.insert(docCatalog);
+            int catalogFlag = docCatalogDAO.insert(docCatalog);
+            if (catalogFlag==1) {
+                map.put("catalog", "目录创建成功 ... ");
+            } else {
+                map.put("catalog", "目录创建失败 ... ");
+            }
+            if (docCatalog.getDocType().equals(DocType.CONTENT.getDocType())) {
+                docContent.setCatalogId(docCatalog.getId());
+                int contentFlag = docContentService.saveDocContent(docContent);
+                if (contentFlag==1) {
+                    map.put("content", "文档创建成功 ... ");
+                } else {
+                    map.put("content", "文档创建失败 ... ");
+                }
+            }
+        } else {
+            map.put("msg", "请输入正确的文档目录类型 ... ");
         }
-        return 0;
+        return map;
     }
 
     @Override
-    public int updateDocCatalog(DocCatalog docCatalog) {
-        return docCatalogDAO.updateDocCatalog(docCatalog);
+    public Map<String, Object> updateDocCatalog(DocCatalog docCatalog) {
+        Map<String, Object> map = new HashMap<>();
+        if (docCatalog.getDocType().equals(DocType.CATALOG.getDocType()) || docCatalog.getDocType().equals(DocType.CONTENT.getDocType())){
+            int flag = docCatalogDAO.updateDocCatalog(docCatalog);
+            if (flag == 1){
+                map.put("catalog", "文档目录修改成功 ... ");
+            } else {
+                map.put("catalog", "文档目录修改失败 ... ");
+            }
+
+            if (docCatalog.getDocType().equals(DocType.CONTENT.getDocType())){
+                DocContent docContentSelect = docContentService.selectDocContentByCatalogId(docCatalog.getId());
+                if (docContentSelect == null){
+                    DocContent docContent = new DocContent();
+                    docContent.setCatalogId(docCatalog.getId());
+                    docContent.setUserId(docCatalog.getUserId());
+                    docContentService.saveDocContent(docContent);
+                    map.put("content", "文档内容创建成功 ... ");
+                }
+
+            }
+            if (docCatalog.getDocType().equals(DocType.CATALOG.getDocType())){
+                DocContent docContentSelect = docContentService.selectDocContentByCatalogId(docCatalog.getId());
+                if (docContentSelect != null) {
+                    docContentService.deleteDocContentByCatalogId(docCatalog.getId(), docCatalog.getUserId());
+                    map.put("content", "文档内容删除成功 ... ");
+                }
+            }
+        } else {
+            map.put("msg", "请输入正确的目录分类 ... ");
+        }
+        return map;
     }
 
     @Override
@@ -57,6 +113,7 @@ public class DocCatalogServiceImpl implements DocCatalogService {
         for (String id : ids){
             if (docCatalogDAO.selectCountByParentId(id) == 0){
                 num += docCatalogDAO.deleteDocCatalogById(id, userId);
+                docContentService.deleteDocContentByCatalogId(Integer.parseInt(id), userId);
             }
         }
         map.put("delete", ids.length);

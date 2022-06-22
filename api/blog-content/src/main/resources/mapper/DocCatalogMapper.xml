@@ -41,6 +41,41 @@
         </if>
     </select>
 
+    <insert id="insertDocCatalog" parameterType="com.blog.common.entity.content.doc.DocCatalog">
+        <selectKey resultType="java.lang.Integer" keyProperty="value" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into doc_catalog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">
+                user_id,
+            </if>
+            <if test="parentId !=null">
+                parent_id,
+            </if>
+            <if test="docName !=null and docName !=''">
+                doc_name,
+            </if>
+            <if test="docType !=null and docType !=''">
+                doc_type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId !=null">
+                #{user_id,jdbcType=INTEGER},
+            </if>
+            <if test="parentId !=null">
+                #{parent_id,jdbcType=INTEGER},
+            </if>
+            <if test="docName !=null and docName !=''">
+                #{doc_name,jdbcType=VARCHAR},
+            </if>
+            <if test="docType !=null and docType !=''">
+                #{doc_type,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
     <update id="updateDocCatalog" parameterType="com.blog.common.entity.content.doc.DocCatalog">
         update doc_catalog
         <set>

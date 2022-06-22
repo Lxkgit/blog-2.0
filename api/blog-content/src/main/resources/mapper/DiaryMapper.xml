@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.content.dao.DiaryDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.content.diary.Diary">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="diary_md" property="diaryMd" jdbcType="VARCHAR"/>
+        <id column="diary_date" property="diaryDate" jdbcType="DATE"/>
+        <id column="create_time" property="createTime" jdbcType="DATE"/>
+        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, diary_md, diary_date, create_time, update_time
+    </sql>
+
+    <select id="selectDiaryByDate" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from blog_diary
+        where diary_date like CONCAT('%',#{date},'%')
+        and user_id = #{userId}
+    </select>
+
+    <update id="updateDiary" parameterType="com.blog.common.entity.content.diary.Diary">
+        update blog_diary
+        <set>
+            <if test="diaryMd !=null and diaryMd !=''">
+                diary_md = #{diaryMd},
+            </if>
+            <if test="diaryDate !=null">
+                diary_date = #{diaryDate},
+            </if>
+            <if test="updateTime !=null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        <where>
+            id = #{id} and user_id = #{userId}
+        </where>
+    </update>
+
+    <delete id="deleteDiaryByIds">
+        delete from blog_diary
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and user_id = #{userId};
+    </delete>
+
+    <delete id="deleteDiaryByDate">
+        delete from blog_diary
+        where diary_date like CONCAT('%',#{date},'%')
+        and user_id = #{userId};
+    </delete>
+
+</mapper>
