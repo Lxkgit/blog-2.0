@@ -11,5 +11,4 @@ public interface DiaryDAO extends BaseMapper<Diary> {
     List<Diary> selectDiaryByDate(@Param("date") String date, @Param("userId") Integer userId);
     int updateDiary(Diary diary);
     int deleteDiaryByIds(@Param("ids") String[] ids, @Param("userId") Integer userId);
-    int deleteDiaryByDate(@Param("date") String date, @Param("userId") Integer userId);
 }

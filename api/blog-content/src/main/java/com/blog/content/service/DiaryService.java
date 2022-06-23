@@ -9,5 +9,5 @@ public interface DiaryService {
     Map<String, Object> selectDiaryByDate(String dateDay, String dateMonth, Integer userId);
     int saveDiary(Diary diary);
     int updateDiary(Diary diary);
-    Map<String, Object> deleteDiaryByDate(String date, String dateMonth, String ids, Integer userId);
+    Map<String, Object> deleteDiaryByDate(String ids, Integer userId);
 }

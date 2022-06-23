@@ -6,8 +6,8 @@
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
         <id column="diary_md" property="diaryMd" jdbcType="VARCHAR"/>
         <id column="diary_date" property="diaryDate" jdbcType="DATE"/>
-        <id column="create_time" property="createTime" jdbcType="DATE"/>
-        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -45,12 +45,6 @@
         <foreach item="id" collection="ids" open="(" separator="," close=")">
             #{id}
         </foreach>
-        and user_id = #{userId};
-    </delete>
-
-    <delete id="deleteDiaryByDate">
-        delete from blog_diary
-        where diary_date like CONCAT('%',#{date},'%')
         and user_id = #{userId};
     </delete>
 

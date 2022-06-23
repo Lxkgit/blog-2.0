@@ -65,31 +65,13 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public Map<String, Object> deleteDiaryByDate(String date, String dateMonth, String diaryIds, Integer userId) {
+    public Map<String, Object> deleteDiaryByDate(String diaryIds, Integer userId) {
         Map<String, Object> map = new HashMap<>();
-        if (date != null && !date.equals("")) {
-            String pattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$";
-            boolean isMatch = Pattern.matches(pattern, date);
-            if (isMatch) {
-                int num = diaryDAO.deleteDiaryByDate(date, userId);
-                map.put("num" , "成功删除 " + num + " 篇日记 ... ");
-            } else {
-                map.put("msg", "请输入正确的日期格式(yyyy-MM-dd) ... ");
-            }
-        } else if (diaryIds != null && !diaryIds.equals("")) {
+       if (diaryIds != null && !diaryIds.equals("")) {
             String[] ids = diaryIds.split(",");
             int num = diaryDAO.deleteDiaryByIds(ids, userId);
             map.put("delete", ids.length);
             map.put("success", num);
-        } else if (dateMonth != null && !dateMonth.equals("")) {
-            String pattern = "^[0-9]{4}-[0-9]{2}$";
-            boolean isMatch = Pattern.matches(pattern, dateMonth);
-            if (isMatch) {
-                int num = diaryDAO.deleteDiaryByDate(dateMonth, userId);
-                map.put("num" , "成功删除 " + num + " 篇日记 ... ");
-            } else {
-                map.put("msg", "请输入正确的日期格式(yyyy-MM) ... ");
-            }
         } else {
             map.put("msg", "ids、date和dateMonth参数不能同时为空 ... ");
         }

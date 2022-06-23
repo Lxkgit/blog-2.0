@@ -91,9 +91,7 @@ public class DiaryController {
     }
 
     @DeleteMapping("/delete")
-    public Result deleteDiaryByDate(@RequestParam(required = false, value = "date") @DateTimeFormat(pattern = "yyyy-MM") String date,
-                                    @RequestParam(required = false, value = "dateMonth") @DateTimeFormat(pattern = "yyyy-MM-dd") String dateMonth,
-                                    @RequestParam(required = false, value = "ids") String ids){
+    public Result deleteDiaryByDate(@RequestParam(required = false, value = "ids") String ids){
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String token = request.getHeader("Authorization");
         if (StringUtils.isEmpty(token)) {
@@ -101,7 +99,7 @@ public class DiaryController {
         }
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
-            return ResultFactory.buildSuccessResult(diaryService.deleteDiaryByDate(date, dateMonth, ids, blogUser.getId()));
+            return ResultFactory.buildSuccessResult(diaryService.deleteDiaryByDate(ids, blogUser.getId()));
         } catch (Exception e){
             log.warn(Constant.JWTError, e);
         }
