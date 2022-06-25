@@ -83,6 +83,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 //        endpoints.accessTokenConverter(accessTokenConverter());
         endpoints.tokenEnhancer(enhancerChain);
+        endpoints.userDetailsService(userDetailsService);
     }
 
     @Bean

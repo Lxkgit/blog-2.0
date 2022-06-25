@@ -22,7 +22,7 @@
         </foreach>
     </select>
 
-    <select id="selectArticleLabel" resultType="java.lang.Integer">
+    <select id="selectArticleLabel" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from article_label
         <if test="userId != 0 ">
