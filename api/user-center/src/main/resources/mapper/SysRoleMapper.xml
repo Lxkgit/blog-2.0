@@ -18,4 +18,38 @@
         where ru.user_id = #{userId};
     </select>
 
+    <select id="selectRoleCount" resultType="java.lang.Integer">
+        select count(*)
+        from sys_role
+    </select>
+
+    <select id="selectRoleListByPage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List"/>
+        from sys_role
+        limit #{startNum}, #{pageSize}
+    </select>
+
+    <update id="updateRole" parameterType="com.blog.common.entity.user.SysRole">
+        update sys_role
+        <set>
+            <if test="code !=null and code !=''">
+                code = #{code},
+            </if>
+            <if test="name !=null and name !=''">
+                name = #{name},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <delete id="deleteRoleByIds">
+        delete from sys_role
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
 </mapper>

@@ -1,7 +1,9 @@
 package com.blog.user.service;
 
 import com.blog.common.entity.user.SysPermission;
+import com.blog.common.entity.user.vo.SysPermissionVo;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,4 +14,5 @@ import java.util.Set;
 
 public interface SysPermissionService {
     Set<SysPermission> selectPermissionByRoleIds(Set<Integer> roleIds);
+    List<SysPermissionVo> selectPermissionListByUserId(Integer userId);
 }

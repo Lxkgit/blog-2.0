@@ -2,11 +2,16 @@ package com.blog.user.service.impl;
 
 
 import com.blog.common.entity.user.SysRole;
+import com.blog.common.util.MyPage;
+import com.blog.common.util.MyPageUtils;
 import com.blog.user.dao.SysRoleDAO;
 import com.blog.user.service.SysRoleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -24,5 +29,40 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public Set<SysRole> selectRoleByUserId(Integer userId) {
         return sysRoleDAO.selectRoleByUserId(userId);
+    }
+
+    @Override
+    public MyPage<SysRole> selectRoleByPage(int page, int size) {
+        MyPage<SysRole> myPage = null;
+        List<SysRole> roleList = sysRoleDAO.selectRoleListByPage((page-1)*size, size);
+
+        try {
+            int count = sysRoleDAO.selectRoleCount();
+            myPage = MyPageUtils.pageUtil(roleList, page, size, count);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return myPage;
+    }
+
+    @Override
+    public int saveRole(SysRole sysRole) {
+        return sysRoleDAO.insert(sysRole);
+    }
+
+    @Override
+    public int updateRole(SysRole sysRole) {
+        return sysRoleDAO.updateRole(sysRole);
+    }
+
+    @Override
+    public Map<String, Object> deleteRoleByIds(String roleIds) {
+        HashMap<String, Object> map = new HashMap<>();
+        String[] ids = roleIds.split(",");
+        int num = ids.length;
+        int del = sysRoleDAO.deleteRoleByIds(ids);
+        map.put("delete", num);
+        map.put("success", del);
+        return map;
     }
 }
