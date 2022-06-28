@@ -2,6 +2,7 @@ package com.blog.user.service.impl;
 
 
 import com.blog.common.entity.user.SysRole;
+import com.blog.common.entity.user.vo.SysRoleVo;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
 import com.blog.user.dao.SysRoleDAO;
@@ -19,6 +20,7 @@ import java.util.Set;
  * @date 2022/6/6 17:11
  * @description:
  */
+
 
 @Service
 public class SysRoleServiceImpl implements SysRoleService {
@@ -56,6 +58,15 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
+    public Map<String, Object> selectRolePermission(Integer roleId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("roleId", roleId);
+        List<Integer> perIds = sysRoleDAO.selectRolePermission(roleId);
+        map.put("perIds", perIds);
+        return map;
+    }
+
+    @Override
     public Map<String, Object> deleteRoleByIds(String roleIds) {
         HashMap<String, Object> map = new HashMap<>();
         String[] ids = roleIds.split(",");
@@ -63,6 +74,19 @@ public class SysRoleServiceImpl implements SysRoleService {
         int del = sysRoleDAO.deleteRoleByIds(ids);
         map.put("delete", num);
         map.put("success", del);
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> updateRolePermission(SysRoleVo sysRoleVo) {
+        HashMap<String, Object> map = new HashMap<>();
+        int del = sysRoleDAO.deleteRolePermission(sysRoleVo.getId());
+        map.put("delete", del);
+        List<Integer> perIds = sysRoleVo.getPerIds();
+        if (perIds.size()>0){
+            int save = sysRoleDAO.saveRolePermission(sysRoleVo.getId(), perIds);
+            map.put("save", save);
+        }
         return map;
     }
 }

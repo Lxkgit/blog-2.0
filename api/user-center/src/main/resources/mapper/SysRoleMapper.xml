@@ -3,12 +3,12 @@
 <mapper namespace="com.blog.user.dao.SysRoleDAO">
     <resultMap id="BaseResultMap" type="com.blog.common.entity.user.SysRole">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <id column="code" property="code" jdbcType="VARCHAR"/>
-        <id column="name" property="name" jdbcType="VARCHAR"/>
+        <id column="role_code" property="roleCode" jdbcType="VARCHAR"/>
+        <id column="role_name" property="roleName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, code, name
+        id, role_code, role_name
     </sql>
 
     <!--根据用户名查找用户信息-->
@@ -32,11 +32,11 @@
     <update id="updateRole" parameterType="com.blog.common.entity.user.SysRole">
         update sys_role
         <set>
-            <if test="code !=null and code !=''">
-                code = #{code},
+            <if test="roleCode !=null and roleCode !=''">
+                role_code = #{roleCode},
             </if>
-            <if test="name !=null and name !=''">
-                name = #{name},
+            <if test="roleName !=null and roleName !=''">
+                role_name = #{roleName},
             </if>
         </set>
         <where>
@@ -51,5 +51,25 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="selectRolePermission" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select permission_id
+        from sys_role_permission
+        where role_id = #{id}
+    </select>
+
+    <insert id="deleteRolePermission">
+        delete from sys_role_permission
+        where role_id = #{id}
+    </insert>
+
+    <insert id="saveRolePermission">
+        insert into sys_role_permission
+        (role_id, permission_id)
+        VALUES
+        <foreach collection ="perIds" item="perId" separator =",">
+            (#{id}, #{perId})
+        </foreach >
+    </insert>
 
 </mapper>

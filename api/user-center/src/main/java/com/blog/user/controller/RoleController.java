@@ -1,6 +1,7 @@
 package com.blog.user.controller;
 
 import com.blog.common.entity.user.SysRole;
+import com.blog.common.entity.user.vo.SysRoleVo;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.user.service.SysRoleService;
@@ -44,5 +45,20 @@ public class RoleController {
     @DeleteMapping("/delete")
     public Result deleteDiaryByDate(@RequestParam(value = "ids") String ids){
         return ResultFactory.buildSuccessResult(sysRoleService.deleteRoleByIds(ids));
+    }
+
+    @GetMapping("/permission/select")
+    public Result selectRolePermission(@RequestParam(value = "roleId") Integer roleId) {
+        return ResultFactory.buildSuccessResult(sysRoleService.selectRolePermission(roleId));
+
+    }
+
+    @PostMapping("/permission/update")
+    public Result updateRolePermission(@RequestBody SysRoleVo sysRoleVo) {
+        if (sysRoleVo.getId().equals(1)) {
+            return ResultFactory.buildFailResult("超级管理员用户权限无法修改 ... ");
+        }
+        return ResultFactory.buildSuccessResult(sysRoleService.updateRolePermission(sysRoleVo));
+
     }
 }

@@ -36,10 +36,10 @@ public class LoginUser extends BlogUser implements UserDetails {
         Collection<GrantedAuthority> collection = new HashSet<>();
         if (!CollectionUtils.isEmpty(sysRoles)) {
             sysRoles.forEach(role -> {
-                if (role.getCode().startsWith("ROLE_")) {
-                    collection.add(new SimpleGrantedAuthority(role.getCode()));
+                if (role.getRoleCode().startsWith("ROLE_")) {
+                    collection.add(new SimpleGrantedAuthority(role.getRoleCode()));
                 } else {
-                    collection.add(new SimpleGrantedAuthority("ROLE_" + role.getCode()));
+                    collection.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleCode()));
                 }
             });
         }

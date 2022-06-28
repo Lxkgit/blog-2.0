@@ -4,6 +4,8 @@ import com.blog.common.entity.auth.LoginUser;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.entity.user.SysPermission;
 import com.blog.common.entity.user.SysRole;
+import com.blog.common.util.MyPage;
+import com.blog.common.util.MyPageUtils;
 import com.blog.user.dao.SysUserDAO;
 import com.blog.user.service.SysPermissionService;
 import com.blog.user.service.SysRoleService;
@@ -17,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -92,5 +95,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public BlogUser selectUserByUsername(String username) {
         return sysUserDAO.selectUserByUsername(username);
+    }
+
+    @Override
+    public MyPage<BlogUser> selectUserByPage(int page, int size) {
+        MyPage<BlogUser> myPage = null;
+        List<BlogUser> userList = sysUserDAO.selectUserListByPage((page-1)*size, size);
+        try {
+            int count = sysUserDAO.selectUserCount();
+            myPage = MyPageUtils.pageUtil(userList, page, size, count);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return myPage;
     }
 }

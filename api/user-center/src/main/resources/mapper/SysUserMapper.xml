@@ -12,8 +12,21 @@
         <id column="update_time" property="updateTime" jdbcType="DATE"/>
         <id column="enabled" property="enabled" jdbcType="BOOLEAN"/>
     </resultMap>
+    <resultMap id="NoPasswordMap" type="com.blog.common.entity.user.BlogUser">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="username" property="username" jdbcType="VARCHAR"/>
+        <id column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <id column="head_img" property="headImg" jdbcType="VARCHAR"/>
+        <id column="email" property="email" jdbcType="VARCHAR"/>
+        <id column="create_time" property="createTime" jdbcType="DATE"/>
+        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+        <id column="enabled" property="enabled" jdbcType="BOOLEAN"/>
+    </resultMap>
     <sql id="Base_Column_List">
         id, username, password, nickname, head_img, email, create_time, update_time, enabled
+    </sql>
+    <sql id="No_Password_List">
+        id, username, nickname, head_img, email, create_time, update_time, enabled
     </sql>
 
     <!--根据用户名查找用户信息-->
@@ -22,6 +35,18 @@
         <include refid="Base_Column_List"/>
         from sys_user
         where username = #{username}
+    </select>
+
+    <!--分页查找用户-->
+    <select id="selectUserListByPage" resultMap="NoPasswordMap" parameterType="java.lang.Integer">
+        select <include refid="No_Password_List"/>
+        from sys_user
+        limit #{startNum}, #{pageSize}
+    </select>
+
+    <select id="selectUserCount" resultType="java.lang.Integer">
+        select count(*)
+        from sys_user
     </select>
 
     <!--添加用户-->

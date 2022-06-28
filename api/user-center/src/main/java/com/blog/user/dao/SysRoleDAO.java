@@ -16,4 +16,7 @@ public interface SysRoleDAO extends BaseMapper<SysRole> {
     List<SysRole> selectRoleListByPage(@Param("startNum") Integer startNum, @Param("pageSize") Integer pageSize);
     int updateRole(SysRole sysRole);
     int deleteRoleByIds(@Param("ids") String[] ids);
+    List<Integer> selectRolePermission(@Param("id") Integer roleId);
+    int deleteRolePermission(@Param("id") Integer id);
+    int saveRolePermission(@Param("id") Integer id, @Param("perIds") List<Integer> perIds);
 }

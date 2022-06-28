@@ -44,4 +44,14 @@ public class UserController {
     public BlogUser selectUserByUsername(String username) {
         return userService.selectUserByUsername(username);
     }
+
+    @GetMapping("/list")
+    public Result selectUserList(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                 @RequestParam(value = "size", defaultValue = "0") Integer size) {
+        if (page==0 || size==0){
+            return ResultFactory.buildFailResult("请输入正确的查询页 ... ");
+        }
+        return ResultFactory.buildSuccessResult(userService.selectUserByPage(page, size));
+    }
+
 }
