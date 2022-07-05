@@ -15,6 +15,8 @@ const addCount = () => {
   <h1>{{ msg }}</h1>
   <p>vuex test: {{ store.state.count }}</p>
   <button @click="addCount">点我count+1</button>
+
+  <div><a-button type="primary">Primary Button</a-button></div>
 </template>
 
 <style scoped>
