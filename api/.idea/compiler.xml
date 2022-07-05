@@ -2,12 +2,21 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="api" />
+        <module name="auth-center" />
+        <module name="blog-content" />
+        <module name="blog-common" />
+        <module name="content" />
+        <module name="blog-gateway" />
+        <module name="user-center" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="content" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

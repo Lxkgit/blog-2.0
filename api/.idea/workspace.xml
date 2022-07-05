@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:master" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="22-07-03: 微服务部署修改打包方式" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -19,14 +42,111 @@
     </option>
   </component>
   <component name="ProjectId" id="2AR7yfzPiHMa9dZxGc5LrF9UaRs" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="E:/project/ij" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.3465909" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\workspace\blog-2.0\api\blog-content\src\main\resources\mapper" />
+      <recent name="F:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\util" />
+      <recent name="F:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\content\vo" />
+      <recent name="F:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\content" />
+      <recent name="F:\workspace\blog-2.0\api\blog-content\src\main\java\com\blog\content\dao" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.ContentApplication">
+    <configuration name="AuthApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="auth-center" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.blog.auth.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.blog.auth.AuthApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContentApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="blog-content" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.blog.content.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.blog.content.ContentApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="blog-gateway" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.blog.gateway.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.blog.gateway.GatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="user-center" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.blog.user.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.blog.user.UserApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.ContentApplication" />
+        <item itemvalue="Spring Boot.UserApplication" />
+        <item itemvalue="Spring Boot.GatewayApplication" />
+        <item itemvalue="Spring Boot.AuthApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -39,7 +159,294 @@
       <option name="presentableId" value="Default" />
       <updated>1654960799621</updated>
       <workItem from="1654960801371" duration="2000" />
+      <workItem from="1655127305930" duration="3116000" />
+      <workItem from="1655215119091" duration="1987000" />
+      <workItem from="1655289299516" duration="11410000" />
+      <workItem from="1655644556466" duration="2744000" />
+      <workItem from="1655734339702" duration="1128000" />
+      <workItem from="1655821941570" duration="1664000" />
+      <workItem from="1655908533294" duration="2381000" />
+      <workItem from="1655995253108" duration="694000" />
+      <workItem from="1656121281851" duration="1243000" />
+      <workItem from="1656167684658" duration="866000" />
+      <workItem from="1656231334572" duration="1273000" />
+      <workItem from="1656429548681" duration="1436000" />
+      <workItem from="1656850640546" duration="3109000" />
     </task>
+    <task id="LOCAL-00001" summary="22-06-12: 鉴权中心和用户中心设置完成，等待调试">
+      <created>1655019586684</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1655019586684</updated>
+    </task>
+    <task id="LOCAL-00002" summary="22-06-12: 鉴权中心配置基本完成，修改jwt，添加自定义信息 user_id">
+      <created>1655021863387</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1655021863387</updated>
+    </task>
+    <task id="LOCAL-00003" summary="22-06-12: 博客内容服务模块自测成功">
+      <created>1655040926172</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1655040926172</updated>
+    </task>
+    <task id="LOCAL-00004" summary="22-06-12: pom修改">
+      <created>1655045254045</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1655045254045</updated>
+    </task>
+    <task id="LOCAL-00005" summary="22-06-13: 博客文章增删改查接口完成">
+      <created>1655129678950</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1655129678951</updated>
+    </task>
+    <task id="LOCAL-00006" summary="22-06-14: 博客文章分类基础接口开发完成">
+      <created>1655215541867</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1655215541867</updated>
+    </task>
+    <task id="LOCAL-00007" summary="22-06-14: 添加mybatis-plus主键自增设置">
+      <created>1655217515371</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1655217515371</updated>
+    </task>
+    <task id="LOCAL-00008" summary="22-06-15: 添加文章标签接口，待测试">
+      <created>1655300722542</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1655300722542</updated>
+    </task>
+    <task id="LOCAL-00009" summary="22-06-19: 添加博客标签功能">
+      <created>1655646042947</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1655646042947</updated>
+    </task>
+    <task id="LOCAL-00010" summary="22-06-20: 博客添加文档目录接口">
+      <created>1655736968384</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1655736968384</updated>
+    </task>
+    <task id="LOCAL-00011" summary="22-06-21: 博客文档内容接口添加">
+      <created>1655822721025</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1655822721025</updated>
+    </task>
+    <task id="LOCAL-00012" summary="22-06-22: 博客内容模块基本接口开发完成">
+      <created>1655909872375</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1655909872375</updated>
+    </task>
+    <task id="LOCAL-00013" summary="22-06-23: 博客日记删除功能修改，解决日期不准确的问题">
+      <created>1655995860297</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1655995860297</updated>
+    </task>
+    <task id="LOCAL-00014" summary="22-06-25: 博客用户模块添加角色相关基本接口，添加用户登陆返回菜单权限类">
+      <created>1656121879978</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1656121879978</updated>
+    </task>
+    <task id="LOCAL-00015" summary="22-06-25: 修复无法使用refresh_token的bug，修复查询标签返回数据错误的bug">
+      <created>1656168006239</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1656168006239</updated>
+    </task>
+    <task id="LOCAL-00016" summary="22-06-28: 完善user模块">
+      <created>1656432830843</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1656432830843</updated>
+    </task>
+    <task id="LOCAL-00017" summary="22-07-03: 微服务部署修改打包方式">
+      <created>1656860834788</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1656860834788</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="22-06-12: 鉴权中心和用户中心设置完成，等待调试" />
+    <MESSAGE value="22-06-12: 鉴权中心配置基本完成，修改jwt，添加自定义信息 user_id" />
+    <MESSAGE value="22-06-12: 博客内容服务模块自测成功" />
+    <MESSAGE value="22-06-12: pom修改" />
+    <MESSAGE value="22-06-13: 博客文章增删改查接口完成" />
+    <MESSAGE value="22-06-14: 博客文章分类基础接口开发完成" />
+    <MESSAGE value="22-06-14: 添加mybatis-plus主键自增设置" />
+    <MESSAGE value="22-06-15: 添加文章标签接口，待测试" />
+    <MESSAGE value="22-06-19: 添加博客标签功能" />
+    <MESSAGE value="22-06-20: 博客添加文档目录接口" />
+    <MESSAGE value="22-06-21: 博客文档内容接口添加" />
+    <MESSAGE value="22-06-22: 博客内容模块基本接口开发完成" />
+    <MESSAGE value="22-06-23: 博客日记删除功能修改，解决日期不准确的问题" />
+    <MESSAGE value="22-06-25: 博客用户模块添加角色相关基本接口，添加用户登陆返回菜单权限类" />
+    <MESSAGE value="22-06-25: 修复无法使用refresh_token的bug，修复查询标签返回数据错误的bug" />
+    <MESSAGE value="22-06-28: 完善user模块" />
+    <MESSAGE value="22-07-03: 微服务部署修改打包方式" />
+    <option name="LAST_COMMIT_MESSAGE" value="22-07-03: 微服务部署修改打包方式" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="440" y="94" key="#Project_Structure" timestamp="1656429574407">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656429574407" />
+    <state x="703" y="320" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1655015174517">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="703" y="320" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655015174517" />
+    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1655299745057">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655299745057" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1655014454063">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655014454063" />
+    <state width="1877" height="306" key="GridCell.Tab.0.bottom" timestamp="1656860854380">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="306" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656860854380" />
+    <state width="1877" height="306" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1656860260100" />
+    <state width="1877" height="306" key="GridCell.Tab.0.center" timestamp="1656860854380">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="306" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656860854380" />
+    <state width="1877" height="306" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1656860260100" />
+    <state width="1877" height="306" key="GridCell.Tab.0.left" timestamp="1656860854380">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="306" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656860854380" />
+    <state width="1877" height="306" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1656860260100" />
+    <state width="1877" height="306" key="GridCell.Tab.0.right" timestamp="1656860854380">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="306" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656860854380" />
+    <state width="1877" height="306" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1656860260100" />
+    <state width="619" height="281" key="GridCell.Tab.1.bottom" timestamp="1655131611204">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="619" height="281" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611204" />
+    <state width="619" height="281" key="GridCell.Tab.1.center" timestamp="1655131611203">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="619" height="281" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611203" />
+    <state width="619" height="281" key="GridCell.Tab.1.left" timestamp="1655131611203">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="619" height="281" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611203" />
+    <state width="619" height="281" key="GridCell.Tab.1.right" timestamp="1655131611204">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="619" height="281" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611204" />
+    <state width="1506" height="231" key="GridCell.Tab.2.bottom" timestamp="1655131611194">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1506" height="231" key="GridCell.Tab.2.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611194" />
+    <state width="1506" height="231" key="GridCell.Tab.2.center" timestamp="1655131611194">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1506" height="231" key="GridCell.Tab.2.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611194" />
+    <state width="1506" height="231" key="GridCell.Tab.2.left" timestamp="1655131611194">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1506" height="231" key="GridCell.Tab.2.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611194" />
+    <state width="1506" height="231" key="GridCell.Tab.2.right" timestamp="1655131611194">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1506" height="231" key="GridCell.Tab.2.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611194" />
+    <state x="461" y="164" key="SettingsEditor" timestamp="1655043618193">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655043618193" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1656860842965">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656860842965" />
+    <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1655909876564" />
+    <state x="2673" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1655910424497">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="753" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655908547957" />
+    <state x="2673" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1655910424497" />
+    <state x="662" y="252" width="596" height="536" key="find.popup" timestamp="1655021344557">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="662" y="252" width="596" height="536" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655021344557" />
+    <state x="334" y="180" key="new project wizard" timestamp="1655038524255">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="334" y="180" key="new project wizard/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655038524255" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1655294668018">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655294668018" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/auth-center/src/main/java/com/blog/auth/service/impl/UserDetailsServiceImpl.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -1,7 +1,28 @@
-import { createRouter, createWebHistory} from 'vue-router';
-import routes from './router.config'
+import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router";
 
-export const router = createRouter({
-    history: createWebHistory(), // createWebHistory => 不带#号,需后端支持  createWebHashHistory带#号
+const routes: Array<RouteRecordRaw> = [
+    {
+        path: "/",
+        component: () => import("/src/pages/home/HomePage.vue"),
+    },
+    {
+        path: "/about",
+        component: () => import("/src/pages/home/About.vue"),
+    },
+    {
+        path: "/login",
+        component: () => import("/src/pages/LoginPage.vue"),
+    },
+    {
+        path: "/:pathMatch(.*)",
+        component: () => import("/src/pages/ErrorPage.vue"),
+    },
+
+]
+
+const router = createRouter( {
+    history: createWebHashHistory(),
     routes
-});
+})
+
+export default router

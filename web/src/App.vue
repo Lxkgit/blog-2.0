@@ -1,10 +1,5 @@
 <template>
-  <div>
-    test
-    <br/>
-    <a-button type="primary" danger>Primary</a-button><br/>
-    <a-button type="primary">Primary</a-button>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script setup lang="ts">
