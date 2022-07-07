@@ -14,6 +14,7 @@
         <module>blog-gateway</module>
         <module>user-center</module>
         <module>blog-content</module>
+        <module>file-center</module>
     </modules>
 
     <properties>

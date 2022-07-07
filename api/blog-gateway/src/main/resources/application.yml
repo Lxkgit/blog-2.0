@@ -39,10 +39,15 @@ spring:
           predicates:
             - Path=/user/**
 
-        - id: web-blog
+        - id: blog-content
           uri: lb://blog-content
           predicates:
-            - Path=/content/**
+        - Path=/content/**
+
+        - id: file-center
+          uri: lb://file-center
+          predicates:
+        - Path=/file/**
 
 logging:
   level:

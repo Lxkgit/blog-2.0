@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.content.dao.UploadLogDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.file.UploadLog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="file_name" property="fileName" jdbcType="VARCHAR"/>
+        <id column="file_type" property="fileType" jdbcType="VARCHAR"/>
+        <id column="upload_time" property="uploadTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id,file_name, file_type, upload_time
+    </sql>
+
+
+
+
+</mapper>
