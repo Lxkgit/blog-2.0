@@ -61,6 +61,12 @@
             <artifactId>blog-common</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <!--easyexcel-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>2.1.6</version>
+        </dependency>
     </dependencies>
 
 </project>
