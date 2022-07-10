@@ -6,7 +6,7 @@ import 'ant-design-vue/dist/antd.css'
 
 import router from './router'
 
-import store from "./store"
+import store from "./index"
 import './index.css'
 
 const app = createApp(App);
