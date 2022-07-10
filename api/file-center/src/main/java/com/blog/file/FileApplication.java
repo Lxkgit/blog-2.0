@@ -2,6 +2,7 @@ package com.blog.file;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @author: lxk
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @modified By:
  */
 
+@EnableFeignClients
 @SpringBootApplication
 public class FileApplication {
 

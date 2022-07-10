@@ -12,6 +12,6 @@ import java.io.IOException;
  */
 public interface UploadFileService {
 
-    void uploadFileList(MultipartFile[] files, String type) throws IOException;
+    void uploadFileList(MultipartFile[] files, String type, Integer userId) throws IOException;
 
 }

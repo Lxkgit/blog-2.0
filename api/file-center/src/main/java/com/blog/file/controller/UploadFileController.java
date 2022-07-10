@@ -4,19 +4,26 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.blog.common.entity.file.UserInfo;
+import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
+import com.blog.common.util.JwtUtil;
 import com.blog.file.service.UploadFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: lxk
@@ -34,10 +41,20 @@ public class UploadFileController {
 
     @PostMapping("/upload")
     public Result uploadFile(@RequestParam("file") MultipartFile[] files, String type) throws IOException {
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         if (files == null || files.length == 0) {
             return ResultFactory.buildFailResult("文件上传失败 ... ");
         }
-        fileUploadService.uploadFileList(files, type);
+        String token = request.getHeader("Authorization");
+        if (StringUtils.isEmpty(token)) {
+            token = request.getParameter("Authorization");
+        }
+        try {
+            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            fileUploadService.uploadFileList(files, type, blogUser.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

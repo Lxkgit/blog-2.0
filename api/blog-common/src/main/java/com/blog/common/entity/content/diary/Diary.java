@@ -2,6 +2,7 @@ package com.blog.common.entity.content.diary;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +16,7 @@ import java.util.Date;
  */
 
 @Data
+@TableName("blog_diary")
 public class Diary {
 
     @TableId(value = "id", type = IdType.AUTO)

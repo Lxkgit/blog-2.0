@@ -59,6 +59,18 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
+    public Map<String, Object> saveDiaryList(List<Diary> diaryList) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("upload", diaryList.size());
+        int save = 0;
+        for (Diary diary : diaryList){
+            save += diaryDAO.insert(diary);
+        }
+        map.put("save", save);
+        return map;
+    }
+
+    @Override
     public int updateDiary(Diary diary) {
         diary.setUpdateTime(new Date());
         return diaryDAO.updateDiary(diary);

@@ -23,6 +23,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -73,6 +74,10 @@ public class DiaryController {
         return ResultFactory.buildFailResult("日记保存失败 ... ");
     }
 
+    @PostMapping("/save/list")
+    public Result saveDiaryList(@RequestBody List<Diary> diaryList) {
+        return ResultFactory.buildSuccessResult(diaryService.saveDiaryList(diaryList));
+    }
     @PostMapping("/update")
     public Result updateDiary(@RequestBody Diary diary){
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
