@@ -1,7 +1,7 @@
 package com.blog.content.service.impl;
 
-import com.blog.common.entity.content.ArticleType;
-import com.blog.common.entity.content.vo.ArticleTypeVo;
+import com.blog.common.entity.content.article.ArticleType;
+import com.blog.common.entity.content.article.vo.ArticleTypeVo;
 import com.blog.content.dao.ArticleTypeDAO;
 import com.blog.content.service.ArticleTypeService;
 import org.springframework.beans.BeanUtils;

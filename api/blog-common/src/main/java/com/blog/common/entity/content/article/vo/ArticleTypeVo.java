@@ -1,6 +1,6 @@
-package com.blog.common.entity.content.vo;
+package com.blog.common.entity.content.article.vo;
 
-import com.blog.common.entity.content.ArticleType;
+import com.blog.common.entity.content.article.ArticleType;
 import lombok.Getter;
 import lombok.Setter;
 

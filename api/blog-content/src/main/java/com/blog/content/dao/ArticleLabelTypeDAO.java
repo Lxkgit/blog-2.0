@@ -1,9 +1,8 @@
 package com.blog.content.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.blog.common.entity.content.ArticleLabel;
-import com.blog.common.entity.content.ArticleLabelType;
-import com.blog.common.entity.content.vo.ArticleLabelTypeVo;
+import com.blog.common.entity.content.article.ArticleLabelType;
+import com.blog.common.entity.content.article.vo.ArticleLabelTypeVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

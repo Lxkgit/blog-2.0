@@ -1,7 +1,7 @@
 package com.blog.content.controller;
 
 import com.blog.common.constant.Constant;
-import com.blog.common.entity.content.ArticleLabelType;
+import com.blog.common.entity.content.article.ArticleLabelType;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;

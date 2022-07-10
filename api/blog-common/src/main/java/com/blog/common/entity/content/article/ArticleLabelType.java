@@ -1,4 +1,4 @@
-package com.blog.common.entity.content;
+package com.blog.common.entity.content.article;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

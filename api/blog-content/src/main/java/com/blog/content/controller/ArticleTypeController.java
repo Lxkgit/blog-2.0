@@ -1,6 +1,6 @@
 package com.blog.content.controller;
 
-import com.blog.common.entity.content.ArticleType;
+import com.blog.common.entity.content.article.ArticleType;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.content.service.ArticleTypeService;

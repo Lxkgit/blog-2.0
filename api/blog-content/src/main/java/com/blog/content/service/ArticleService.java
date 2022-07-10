@@ -1,8 +1,8 @@
 package com.blog.content.service;
 
 
-import com.blog.common.entity.content.Article;
-import com.blog.common.entity.content.vo.ArticleVo;
+import com.blog.common.entity.content.article.Article;
+import com.blog.common.entity.content.article.vo.ArticleVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.util.MyPage;
 

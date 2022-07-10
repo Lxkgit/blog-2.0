@@ -1,8 +1,8 @@
 package com.blog.content.controller;
 
 import com.blog.common.constant.Constant;
-import com.blog.common.entity.content.Article;
-import com.blog.common.entity.content.vo.ArticleVo;
+import com.blog.common.entity.content.article.Article;
+import com.blog.common.entity.content.article.vo.ArticleVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
@@ -17,9 +17,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 /**

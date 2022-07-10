@@ -1,14 +1,11 @@
 package com.blog.content.controller;
 
 import com.blog.common.constant.Constant;
-import com.blog.common.entity.content.ArticleLabel;
-import com.blog.common.entity.content.ArticleType;
-import com.blog.common.entity.content.vo.ArticleVo;
+import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.common.util.JwtUtil;
-import com.blog.common.util.MyPage;
 import com.blog.content.service.ArticleLabelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

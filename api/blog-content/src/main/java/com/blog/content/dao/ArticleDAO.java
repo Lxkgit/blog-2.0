@@ -2,8 +2,8 @@ package com.blog.content.dao;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.blog.common.entity.content.Article;
-import com.blog.common.entity.content.bo.ArticleBo;
+import com.blog.common.entity.content.article.Article;
+import com.blog.common.entity.content.article.bo.ArticleBo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

@@ -1,6 +1,6 @@
 package com.blog.content.service.impl;
 
-import com.blog.common.entity.content.ArticleLabel;
+import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.content.dao.ArticleLabelDAO;
 import com.blog.content.service.ArticleLabelService;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,10 @@
 package com.blog.content.service.impl;
 
-import com.blog.common.entity.content.Article;
-import com.blog.common.entity.content.ArticleLabel;
-import com.blog.common.entity.content.ArticleType;
-import com.blog.common.entity.content.bo.ArticleBo;
-import com.blog.common.entity.content.vo.ArticleVo;
+import com.blog.common.entity.content.article.Article;
+import com.blog.common.entity.content.article.ArticleLabel;
+import com.blog.common.entity.content.article.ArticleType;
+import com.blog.common.entity.content.article.bo.ArticleBo;
+import com.blog.common.entity.content.article.vo.ArticleVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;

@@ -1,7 +1,7 @@
 package com.blog.content.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.blog.common.entity.content.ArticleLabel;
+import com.blog.common.entity.content.article.ArticleLabel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

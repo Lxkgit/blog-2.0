@@ -1,8 +1,8 @@
 package com.blog.content.service.impl;
 
-import com.blog.common.entity.content.ArticleLabel;
-import com.blog.common.entity.content.ArticleLabelType;
-import com.blog.common.entity.content.vo.ArticleLabelTypeVo;
+import com.blog.common.entity.content.article.ArticleLabel;
+import com.blog.common.entity.content.article.ArticleLabelType;
+import com.blog.common.entity.content.article.vo.ArticleLabelTypeVo;
 import com.blog.content.dao.ArticleLabelDAO;
 import com.blog.content.dao.ArticleLabelTypeDAO;
 import com.blog.content.service.ArticleLabelTypeService;

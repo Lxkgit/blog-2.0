@@ -1,6 +1,6 @@
 package com.blog.content.service;
 
-import com.blog.common.entity.content.ArticleLabel;
+import com.blog.common.entity.content.article.ArticleLabel;
 
 import java.util.List;
 import java.util.Map;

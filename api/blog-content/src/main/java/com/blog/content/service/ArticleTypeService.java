@@ -1,7 +1,7 @@
 package com.blog.content.service;
 
-import com.blog.common.entity.content.ArticleType;
-import com.blog.common.entity.content.vo.ArticleTypeVo;
+import com.blog.common.entity.content.article.ArticleType;
+import com.blog.common.entity.content.article.vo.ArticleTypeVo;
 
 import java.util.List;
 import java.util.Map;
