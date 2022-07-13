@@ -51,11 +51,11 @@ public class UploadFileController {
         }
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
-            fileUploadService.uploadFileList(files, type, blogUser.getId());
+            return fileUploadService.uploadFileList(files, type, blogUser.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return ResultFactory.buildFailResult("文件上传失败 ... ");
     }
 
     //使用easyExcel导出

@@ -1,5 +1,6 @@
 package com.blog.file.service;
 
+import com.blog.common.result.Result;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,6 +13,6 @@ import java.io.IOException;
  */
 public interface UploadFileService {
 
-    void uploadFileList(MultipartFile[] files, String type, Integer userId) throws IOException;
+    Result uploadFileList(MultipartFile[] files, String type, Integer userId) throws IOException;
 
 }

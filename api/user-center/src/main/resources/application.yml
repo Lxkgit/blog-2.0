@@ -1,41 +1,4 @@
-server:
-  port: 9100
-  servlet:
-    context-path: /user
-
 spring:
-  application:
-    name: user-center
-  cloud:
-    nacos:
-      discovery:
-        server-addr: localhost:8848
-  redis:
-    database: 0
-    host: localhost
-    port: 6379
-    password: redis-960
-    jedis:
-      pool:
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blog_user?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true
-    username: root
-    password: root
-
-mybatis:
-  mapper-locations: classpath:/mapper/*.xml
-
-logging:
-  level:
-    com.alibaba.nacos.client.config.impl: WARN
-
-security:
-  oauth2:
-    resource:
-      id: user-center
-      user-info-uri: http://localhost:9200/auth/user-me
-      prefer-token-info: false
+  profiles:
+    active: dev # 开发环境
+#    active: pro # 生产环境

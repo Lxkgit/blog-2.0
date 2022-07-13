@@ -34,7 +34,7 @@ public class UploadFileServiceImpl implements UploadFileService {
     private ContentClient contentClient;
 
     @Override
-    public void uploadFileList(MultipartFile[] files, String type,Integer userId) throws IOException {
+    public Result uploadFileList(MultipartFile[] files, String type,Integer userId) throws IOException {
         List<Diary> diaryList = new ArrayList<>();
         Date date = new Date();
         for (MultipartFile file : files) {
@@ -58,8 +58,7 @@ public class UploadFileServiceImpl implements UploadFileService {
             br.close();
             diaryList.add(diary);
         }
-        Result result = contentClient.saveDiaryList(diaryList);
-        System.out.println(result);
+        return contentClient.saveDiaryList(diaryList);
     }
 
 }
