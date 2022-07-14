@@ -9,7 +9,7 @@ public interface DiaryService {
 
     Map<String, Object> selectDiaryByDate(String dateDay, String dateMonth, Integer userId);
     int saveDiary(Diary diary);
-    Map<String, Object> saveDiaryList(List<Diary> diaryList);
+    Map<String, List<Integer>> saveDiaryList(Map<Integer, Diary> map);
     int updateDiary(Diary diary);
     Map<String, Object> deleteDiaryByDate(String ids, Integer userId);
 }

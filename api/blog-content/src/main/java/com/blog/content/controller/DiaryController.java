@@ -24,6 +24,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -75,9 +76,10 @@ public class DiaryController {
     }
 
     @PostMapping("/save/list")
-    public Result saveDiaryList(@RequestBody List<Diary> diaryList) {
-        return ResultFactory.buildSuccessResult(diaryService.saveDiaryList(diaryList));
+    Result saveDiaryList(@RequestBody Map<Integer, Diary> map){
+        return ResultFactory.buildSuccessResult(diaryService.saveDiaryList(map));
     }
+
     @PostMapping("/update")
     public Result updateDiary(@RequestBody Diary diary){
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();

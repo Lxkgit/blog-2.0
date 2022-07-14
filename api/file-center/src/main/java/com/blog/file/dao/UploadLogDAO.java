@@ -1,6 +1,8 @@
 package com.blog.file.dao;
 
+import com.blog.common.entity.file.UploadLog;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author: lxk
@@ -8,6 +10,10 @@ import org.apache.ibatis.annotations.Mapper;
  * @description:
  * @modified By:
  */
+
 @Mapper
 public interface UploadLogDAO {
+    int saveFileUpload(UploadLog uploadLog);
+    int updateFileUploadState(@Param("id") Integer id, @Param("userId") Integer userId,
+                              @Param("uploadState") Integer uploadState, @Param("uploadMsg") String uploadMsg);
 }

@@ -1,19 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.blog.content.dao.UploadLogDAO">
+<mapper namespace="com.blog.file.dao.UploadLogDAO">
     <resultMap id="BaseResultMap" type="com.blog.common.entity.file.UploadLog">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
         <id column="file_name" property="fileName" jdbcType="VARCHAR"/>
         <id column="file_type" property="fileType" jdbcType="VARCHAR"/>
+        <id column="upload_state" property="uploadState" jdbcType="INTEGER"/>
+        <id column="upload_msg" property="uploadMsg" jdbcType="VARCHAR"/>
         <id column="upload_time" property="uploadTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id,file_name, file_type, upload_time
+        id, user_id,file_name, file_type, upload_state, upload_msg, upload_time
     </sql>
 
+    <insert id="saveFileUpload" parameterType="com.blog.common.entity.file.UploadLog">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into upload_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId !=null">
+                user_id,
+            </if>
+            <if test="fileName !=null and fileName !=''">
+                file_name,
+            </if>
+            <if test="fileType !=null and fileType !=''">
+                file_type,
+            </if>
+            <if test="uploadState !=null">
+                upload_state,
+            </if>
+            <if test="uploadMsg !=null and uploadMsg !=''">
+                upload_msg,
+            </if>
+            <if test="uploadTime !=null">
+                upload_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId !=null" >
+                #{userId},
+            </if>
+            <if test="fileName !=null and fileName!=''" >
+                #{fileName},
+            </if>
+            <if test="fileType !=null and fileType !=''" >
+                #{fileType},
+            </if>
+            <if test="uploadState !=null" >
+                #{uploadState},
+            </if>
+            <if test="uploadMsg !=null and uploadMsg !=''" >
+                #{uploadMsg},
+            </if>
+            <if test="uploadTime !=null" >
+                #{uploadTime},
+            </if>
+        </trim>
+    </insert>
 
-
+    <update id="updateFileUploadState" parameterType="com.blog.common.entity.file.UploadLog">
+        update upload_log
+        <set>
+            <if test="uploadState != null">
+                upload_state = #{uploadState},
+            </if>
+            <if test="uploadMsg !=null and uploadMsg !=''">
+                upload_msg = #{uploadMsg},
+            </if>
+        </set>
+        <where>
+            id = #{id} and user_id = #{userId}
+        </where>
+    </update>
 
 </mapper>

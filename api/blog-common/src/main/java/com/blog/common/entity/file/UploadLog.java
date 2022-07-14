@@ -20,5 +20,16 @@ public class UploadLog {
     private int userId;
     private String fileName;
     private String fileType;
+    private int uploadState;
+    private String uploadMsg;
     private Date uploadTime;
+
+    public UploadLog(int userId, String fileName, String fileType, int uploadState, String uploadMsg, Date uploadTime) {
+        this.userId = userId;
+        this.fileName = fileName;
+        this.fileType = fileType;
+        this.uploadState = uploadState;
+        this.uploadMsg = uploadMsg;
+        this.uploadTime = uploadTime;
+    }
 }

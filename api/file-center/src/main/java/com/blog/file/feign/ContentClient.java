@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: lxk
@@ -18,6 +19,6 @@ import java.util.List;
 public interface ContentClient {
 
     @PostMapping("/content/diary/save/list")
-    Result saveDiaryList(@RequestBody List<Diary> diaryList);
+    Result saveDiaryList(@RequestBody Map<Integer, Diary> map);
 
 }

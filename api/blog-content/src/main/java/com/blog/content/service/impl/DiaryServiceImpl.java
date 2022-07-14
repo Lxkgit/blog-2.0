@@ -1,6 +1,7 @@
 package com.blog.content.service.impl;
 
 import com.blog.common.entity.content.diary.Diary;
+import com.blog.common.util.DateUtil;
 import com.blog.content.dao.DiaryDAO;
 import com.blog.content.service.DiaryService;
 import org.springframework.stereotype.Service;
@@ -59,15 +60,34 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public Map<String, Object> saveDiaryList(List<Diary> diaryList) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("upload", diaryList.size());
-        int save = 0;
-        for (Diary diary : diaryList){
-            save += diaryDAO.insert(diary);
+    public Map<String, List<Integer>> saveDiaryList(Map<Integer, Diary> map) {
+        Map<String, List<Integer>> result = new HashMap<>();
+        List<Integer> saveList = new ArrayList<>();
+        List<Integer> updateList = new ArrayList<>();
+        List<Integer> failList = new ArrayList<>();
+        Set<Integer> keySet = map.keySet();
+        for (Integer key : keySet){
+            Diary diary = map.get(key);
+            List<Diary> diaries = diaryDAO.selectDiaryByDate(DateUtil.formatDate(diary.getDiaryDate()), diary.getUserId());
+            if (diaries.size()==0){
+                if (diaryDAO.insert(diary)==1) {
+                    saveList.add(key);
+                } else {
+                    failList.add(key);
+                }
+            } else {
+                diary.setId(diaries.get(0).getId());
+                if (diaryDAO.updateDiary(diary)==1){
+                    updateList.add(key);
+                } else {
+                    failList.add(key);
+                }
+            }
         }
-        map.put("save", save);
-        return map;
+        result.put("save", saveList);
+        result.put("update", updateList);
+        result.put("fail", failList);
+        return result;
     }
 
     @Override
