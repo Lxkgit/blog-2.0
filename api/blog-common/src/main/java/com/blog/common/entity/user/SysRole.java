@@ -2,6 +2,7 @@ package com.blog.common.entity.user;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.io.Serializable;
  */
 
 @Data
+@TableName("sys_role")
 public class SysRole implements Serializable {
 
     private static final long serialVersionUID = -2065620443741793238L;
