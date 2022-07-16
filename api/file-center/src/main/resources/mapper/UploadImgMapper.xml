@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.file.dao.UploadImgDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.file.UploadImg">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="img_name" property="imgName" jdbcType="VARCHAR"/>
+        <id column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
+        <id column="upload_time" property="uploadTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, img_name, img_url, upload_time
+    </sql>
+
+    <insert id="saveImgUrl" parameterType="com.blog.common.entity.file.UploadImg">
+        insert into upload_img
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId !=null">
+                user_id,
+            </if>
+            <if test="imgName !=null and imgName !=''">
+                img_name,
+            </if>
+            <if test="imgUrl !=null and imgUrl !=''">
+                img_url,
+            </if>
+            <if test="uploadTime !=null">
+                upload_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId !=null" >
+                #{userId},
+            </if>
+            <if test="imgName !=null and imgName!=''" >
+                #{imgName},
+            </if>
+            <if test="imgUrl !=null and imgUrl !=''" >
+                #{imgUrl},
+            </if>
+            <if test="uploadTime !=null" >
+                #{uploadTime},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

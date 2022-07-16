@@ -14,5 +14,6 @@ import java.io.IOException;
 public interface UploadFileService {
 
     Result uploadDiary(MultipartFile[] files, Integer year, Integer userId) throws IOException;
+    Result uploadImg(MultipartFile[] files, Integer userId);
 
 }

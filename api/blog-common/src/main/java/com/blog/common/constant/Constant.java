@@ -11,4 +11,5 @@ public class Constant {
     public static final String articleSaveFail = "文章保存失败";
     public static final String articleUpdateFail = "文章修改失败";
     public static final String JWTError = "JWT解析报错";
+    public static final String[] IMG_TYPE = {".jpg", ".jpeg", ".png"};
 }

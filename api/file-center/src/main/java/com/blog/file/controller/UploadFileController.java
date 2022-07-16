@@ -40,8 +40,8 @@ public class UploadFileController {
     private UploadFileService fileUploadService;
 
     @PostMapping("/upload")
-    public Result uploadFile(@RequestParam("file") MultipartFile[] files, Integer year, String type) throws IOException {
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+    public Result uploadFile(@RequestParam("file") MultipartFile[] files, String type, @RequestParam(required = false,defaultValue = "-1") Integer year,
+                             HttpServletRequest request) {
         if (files == null || files.length == 0) {
             return ResultFactory.buildFailResult("文件上传失败 ... ");
         }
@@ -52,7 +52,13 @@ public class UploadFileController {
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
             if (type.equals("diary")){
+                if (year==-1){
+                    return ResultFactory.buildFailResult("文件上传类型为type时year为必填字段 ... ");
+                }
                 return fileUploadService.uploadDiary(files, year, blogUser.getId());
+            }
+            if (type.equals("img")) {
+                return fileUploadService.uploadImg(files, blogUser.getId());
             }
         } catch (Exception e) {
             e.printStackTrace();

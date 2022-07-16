@@ -1,20 +1,24 @@
 package com.blog.file.service.impl;
 
+import com.blog.common.constant.Constant;
 import com.blog.common.entity.content.diary.Diary;
+import com.blog.common.entity.file.UploadImg;
 import com.blog.common.entity.file.UploadLog;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
+import com.blog.common.util.DateUtil;
+import com.blog.file.dao.UploadImgDAO;
 import com.blog.file.dao.UploadLogDAO;
 import com.blog.file.feign.ContentClient;
 import com.blog.file.service.UploadFileService;
+import org.apache.commons.lang.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -33,6 +37,15 @@ public class UploadFileServiceImpl implements UploadFileService {
 
     @Resource
     private ContentClient contentClient;
+
+    @Resource
+    private UploadImgDAO uploadImgDAO;
+
+    @Value("${file.system}")
+    private String system;
+
+    @Value("${file.path}")
+    private String path;
 
     @Override
     public Result uploadDiary(MultipartFile[] files, Integer year, Integer userId) throws IOException {
@@ -101,4 +114,60 @@ public class UploadFileServiceImpl implements UploadFileService {
         return ResultFactory.buildSuccessResult(uploadResult);
     }
 
+    @Override
+    public Result uploadImg(MultipartFile[] files, Integer userId) {
+        Date date = new Date();
+        InetAddress addr = null;
+        try {
+            addr = InetAddress.getLocalHost();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Map<String, String> result = new HashMap<>();
+        // 单图片限制大小为2M
+        int imgMaxSize = 1024*1024*2;
+        for (MultipartFile file : files) {
+            String fileName = file.getOriginalFilename();
+            if (fileName != null && !fileName.equals("")){
+                UploadLog uploadLog = new UploadLog(userId, file.getOriginalFilename(),"img", 0, "", date);
+                uploadLogDAO.saveFileUpload(uploadLog);
+                if (file.getSize() > imgMaxSize) {
+                    uploadLogDAO.updateFileUploadState(uploadLog.getId(), userId, 2, "图片大小超出 2M 大小限制");
+                    result.put(fileName, "图片大小超出 2M 大小限制");
+                } else {
+                    try {
+                        String fileType = fileName.substring(fileName.lastIndexOf("."));
+                        if (!Arrays.asList(Constant.IMG_TYPE).contains(fileType)){
+                            result.put(fileName, "文件格式不支持, 只能上传jpg,jpeg,png,image格式的图片");
+                        } else {
+                            File targetFile;
+                            String formatDate = DateUtil.formatDate(date);
+                            String newFileName = formatDate + "_" + RandomStringUtils.randomAlphabetic(5) + "_" + fileName;
+                            File file1 = new File(path);
+                            if (!file1.exists() && !file1.isDirectory()){
+                                file1.mkdirs();
+                            }
+                            targetFile = new File(file1, newFileName);
+                            file.transferTo(targetFile);
+                            //赋予权限
+                            if (system.equals("linux")){
+                                String command = "chmod 775 -R " + targetFile;
+                                Runtime runtime = Runtime.getRuntime();
+                                Process proc = runtime.exec(command);
+                            }
+                            assert addr != null;
+                            String url = addr.getHostAddress() + ":9527" + path + newFileName;
+                            result.put(fileName, url);
+                            UploadImg uploadImg = new UploadImg(userId, newFileName, url, date);
+                            uploadImgDAO.saveImgUrl(uploadImg);
+                            uploadLogDAO.updateFileUploadState(uploadLog.getId(), userId, 1, "图片上传成功");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        return ResultFactory.buildSuccessResult(result);
+    }
 }
