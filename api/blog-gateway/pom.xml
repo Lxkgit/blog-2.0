@@ -47,6 +47,7 @@
 
 
     <build>
+        <finalName>blog-gateway</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -65,6 +65,7 @@
 
 
     <build>
+        <finalName>blog-content</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
