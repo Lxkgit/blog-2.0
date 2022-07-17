@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>file-center</artifactId>
+    <artifactId>blog-file</artifactId>
 
     <dependencies>
         <dependency>
@@ -70,7 +70,7 @@
     </dependencies>
 
     <build>
-        <finalName>file-center</finalName>
+        <finalName>blog-file</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

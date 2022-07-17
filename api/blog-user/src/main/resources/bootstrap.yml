@@ -1,5 +1,5 @@
 server:
-  port: 9527
+  port: 9100
 
 spring:
   profiles:
@@ -7,7 +7,7 @@ spring:
   #    active: pro # 生产环境
 
   application:
-    name: blog-gateway
+    name: blog-user
   cloud:
     nacos:
       discovery:

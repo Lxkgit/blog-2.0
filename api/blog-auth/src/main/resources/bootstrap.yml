@@ -1,13 +1,13 @@
 server:
-  port: 9527
+  port: 9200
 
 spring:
   profiles:
     active: dev # 开发环境
-  #    active: pro # 生产环境
+#    active: pro # 生产环境
 
   application:
-    name: blog-gateway
+    name: blog-auth
   cloud:
     nacos:
       discovery:

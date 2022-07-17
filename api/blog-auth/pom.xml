@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>auth-center</artifactId>
+    <artifactId>blog-auth</artifactId>
 
     <dependencies>
         <dependency>
@@ -64,7 +64,7 @@
     </dependencies>
 
     <build>
-        <finalName>auth-center</finalName>
+        <finalName>blog-auth</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

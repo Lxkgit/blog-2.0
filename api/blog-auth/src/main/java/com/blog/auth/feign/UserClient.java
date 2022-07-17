@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @description:
  */
 
-@FeignClient("user-center")
+@FeignClient("blog-user")
 public interface UserClient {
 
     @GetMapping(value = "/user/user/login", params = "username")
