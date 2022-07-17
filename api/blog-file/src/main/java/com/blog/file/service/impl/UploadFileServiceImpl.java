@@ -15,9 +15,11 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import sun.net.www.content.image.png;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -46,6 +48,13 @@ public class UploadFileServiceImpl implements UploadFileService {
 
     @Value("${file.path}")
     private String path;
+
+    @Value("${file.urlPath}")
+    private String urlPath;
+
+    @Value("${file.serviceIp}")
+    private String serviceIp;
+
 
     @Override
     public Result uploadDiary(MultipartFile[] files, Integer year, Integer userId) throws IOException {
@@ -117,9 +126,10 @@ public class UploadFileServiceImpl implements UploadFileService {
     @Override
     public Result uploadImg(MultipartFile[] files, Integer userId) {
         Date date = new Date();
-        InetAddress addr = null;
+        String ip = null;
         try {
-            addr = InetAddress.getLocalHost();
+            ip = InetAddress.getLocalHost().getHostAddress();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -155,8 +165,12 @@ public class UploadFileServiceImpl implements UploadFileService {
                                 Runtime runtime = Runtime.getRuntime();
                                 Process proc = runtime.exec(command);
                             }
-                            assert addr != null;
-                            String url = addr.getHostAddress() + ":9527" + path + newFileName;
+                            String url = null;
+                            if (system.equals("linux")) {
+                                url = serviceIp + urlPath + newFileName;
+                            } else {
+                                url = path + newFileName;
+                            }
                             result.put(fileName, url);
                             UploadImg uploadImg = new UploadImg(userId, newFileName, url, date);
                             uploadImgDAO.saveImgUrl(uploadImg);
