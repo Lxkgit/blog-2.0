@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.gateway.dao.RequestLogDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.gateway.RequestLog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="url_path" property="urlPath" jdbcType="VARCHAR"/>
+        <id column="request_ip" property="requestIp" jdbcType="VARCHAR"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, url_path, request_ip, create_time
+    </sql>
+
+
+
+
+</mapper>

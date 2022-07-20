@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.gateway.dao.BlacklistIpDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.gateway.BlacklistIp">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="ip" property="ip" jdbcType="VARCHAR"/>
+        <id column="msg" property="msg" jdbcType="VARCHAR"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, ip, msg, create_time
+    </sql>
+
+    <select id="selectIpList" resultType="java.lang.String">
+        select ip
+        from blacklist_ip
+    </select>
+
+
+
+</mapper>

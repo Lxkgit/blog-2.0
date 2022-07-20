@@ -41,7 +41,16 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>gszero.blog</groupId>
+            <artifactId>blog-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 
     </dependencies>
 
