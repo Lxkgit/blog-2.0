@@ -3,12 +3,32 @@ import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router";
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
-        component: () => import("/src/pages/home/HomePage.vue"),
+        redirect: "/home",
     },
     {
-        path: "/about",
-        component: () => import("/src/pages/home/About.vue"),
+        path: "/home",
+        redirect: "/index",
+        component: () => import("/src/pages/home/HomePage.vue"),
+        children: [
+            {
+                path: "/index",
+                component: () => import("/src/components/home/index/HomeIndex.vue")
+            },
+            {
+                path: "/timeline",
+                component: () => import("/src/components/home/timeline/TimeLine.vue")
+            },
+            {
+                path: "/about",
+                component: () => import("/src/pages/home/About.vue"),
+            },
+        ]
     },
+    {
+        path: "/doc",
+        component: () => import("/src/components/home/doc/Doc.vue")
+    },
+    
     {
         path: "/login",
         component: () => import("/src/pages/LoginPage.vue"),
