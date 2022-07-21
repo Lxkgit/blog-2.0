@@ -7,6 +7,7 @@ import com.blog.common.result.ResultFactory;
 import com.blog.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/list")
+    @PreAuthorize("hasAnyAuthority('sys:user')")
     public Result selectUserList(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                  @RequestParam(value = "size", defaultValue = "0") Integer size) {
         if (page==0 || size==0){
@@ -53,5 +55,4 @@ public class UserController {
         }
         return ResultFactory.buildSuccessResult(userService.selectUserByPage(page, size));
     }
-
 }
