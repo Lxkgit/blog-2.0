@@ -1,19 +1,59 @@
 <template>
-    <div style=" height: 47px; text-align: center;">
-        <div style="display: inline-block; margin-right: 10px; margin-right: 20px;" v-for="item in list">{{ item.type }}
-        </div>
+    <div id="sub-menu" style=" display: flex; width: 100%;">
+        <a-menu v-model:selectedKeys="current" mode="horizontal"
+            style="width: 100%; border: 0; justify-content: center;">
+            <a-menu-item key="mail">
+                前端框架
+            </a-menu-item>
+            <a-sub-menu key="sub1">
+                <template #title>Java基础</template>
+                <a-menu-item key="List1">List</a-menu-item>
+                <a-menu-item key="Map1">Map</a-menu-item>
+                <a-menu-item key="多线程1">多线程</a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="sub2">
+                <template #title>Java基础</template>
+                <a-menu-item key="List2">List</a-menu-item>
+                <a-menu-item key="Map2">Map</a-menu-item>
+                <a-menu-item key="多线程2">多线程</a-menu-item>
+                <a-sub-menu key="sub2-2">
+                    <template #title>Java基础</template>
+                    <a-menu-item key="List-2">List</a-menu-item>
+                    <a-menu-item key="Map-2-2">Map</a-menu-item>
+                    <a-menu-item key="多线程-2-2    ">多线程</a-menu-item>
+                </a-sub-menu>
+            </a-sub-menu>
+            <a-sub-menu key="sub3">
+                <template #title>Java基础</template>
+                <a-menu-item key="List3">List</a-menu-item>
+                <a-menu-item key="Map3">Map</a-menu-item>
+                <a-menu-item key="多线程3">多线程</a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="sub4">
+                <template #title>Java基础</template>
+                <a-menu-item key="List4">List</a-menu-item>
+                <a-menu-item key="Map4">Map</a-menu-item>
+                <a-menu-item key="多线程4">多线程</a-menu-item>
+            </a-sub-menu>
+        </a-menu>
     </div>
-    <a-row justify="center">
+    <a-row justify="center" >
         <a-col :lg="12" :md="24" :sm="24" :xs="24">
             <a-list item-layout="vertical" :loading="initLoading" size="large" :data-source="listData">
-                <template #loadMore>
-                    <div v-if="!initLoading && !loading"
-                        :style="{ textAlign: 'center', marginTop: '12px', height: '32px', lineHeight: '32px' }">
-                        <a-button @click="onLoadMore">loading more</a-button>
-                    </div>
-                </template>
                 <template #renderItem="{ item }">
                     <a-list-item key="item.title">
+                        <a-list-item-meta>
+                            <template #avatar>
+                                <a-avatar :src="item.avatar" />
+                            </template>
+                            <template #title>
+                                <a :href="item.href">{{ item.title }}</a>
+                            </template>
+                        </a-list-item-meta>
+                        <a :href="item.href" style="color: #000000;">{{ sliceStr(item.content) }}</a>
+                        <div style="margin-top: 10px;">
+                            <a-tag v-for="tag in tags" :color="tag.color">{{ tag.tag }}</a-tag>
+                        </div>
                         <template #actions>
                             <span v-for="{ type, text } in actions" :key="type">
                                 <component :is="type" style="margin-right: 8px" />
@@ -24,15 +64,6 @@
                             <img width="272" alt="logo"
                                 src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />
                         </template>
-                        <a-list-item-meta :description="item.description">
-                            <template #title>
-                                <a :href="item.href">{{ item.title }}</a>
-                            </template>
-                            <template #avatar>
-                                <a-avatar :src="item.avatar" />
-                            </template>
-                        </a-list-item-meta>
-                        {{ item.content }}
                     </a-list-item>
                 </template>
             </a-list>
@@ -62,14 +93,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, nextTick, reactive } from 'vue';
-let count = 3;
-
+const current = ref<string[]>(['mail']);
+let count = 6;
 const initLoading = ref(true);
 const loading = ref(false);
-
 let listData: Record<string, string>[] = reactive([]);
-
 //JS睡眠sleep()
 const sleep = (numberMillis: number) => {
     var now = new Date();
@@ -82,6 +110,20 @@ const sleep = (numberMillis: number) => {
     }
 }
 
+const tags = [
+    {
+        color: 'pink',
+        tag: 'pink'
+    },
+    {
+        color: 'red',
+        tag: 'red'
+    },
+    {
+        color: 'blue',
+        tag: 'blue'
+    }
+];
 onMounted(() => {
     initLoading.value = false;
     for (let i = 0; i < count; i++) {
@@ -92,17 +134,82 @@ onMounted(() => {
             description:
                 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
             content:
-                'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+                'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
         });
     }
 
 });
 
+const sliceStr = computed(() => {
+    return function (val) {
+        let len = 200;
+        return val.length > len ? val.slice(0, len) + "..." : val
+    }
+})
+
+
+window.addEventListener("scroll", function () {
+    //页面被卷去的高度: window.scrollY 
+    //页面被卷去的高度: window.pageYOffset
+    //页面被卷去的高度: document.documentElement.scrollTop
+    // console.log("页面被卷去的高度:",window.scrollY,window.pageYOffset,document.documentElement.scrollTop);
+
+    // body页面的滚动条高度: document.body.scrollHeight
+    // 整个页面你的滚动条高度: document.documentElement.scrollHeight
+    // console.log(document.body.scrollHeight,document.documentElement.scrollHeight);
+
+    // 可视页面的高度: document.documentElement.clientHeight
+    // console.log(document.documentElement.clientHeight);
+
+    if (document.documentElement.clientHeight + window.scrollY >= document.documentElement.scrollHeight) {
+        console.log("触底了!!!!");
+        sleep(1000)
+        for (let i = 0; i < count; i++) {
+            listData.push({
+                href: 'https://www.antdv.com/',
+                title: `【洛谷】四方定理 - dfs解法 ${i}`,
+                avatar: 'https://joeschmoe.io/api/v1/random',
+                description:
+                    'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+                content:
+                    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+            });
+        }
+    }
+})
+
+window.onscroll = function () {
+    let topScroll = get_scrollTop_of_body();//滚动的距离,距离顶部的距离
+    let subMenu = document.getElementById("sub-menu");//获取到导航栏id
+    if (topScroll > 47) { //当滚动距离大于250px时执行下面的东西
+        subMenu.style.position = 'fixed';
+        subMenu.style.top = '0';
+        subMenu.style.left = '0';
+        subMenu.style.right = '0';
+        subMenu.style.zIndex = '100';
+        subMenu.style.borderBottom = '1px';
+    } else {
+        subMenu.style.position = 'static';
+    }
+}
+/*解决浏览器兼容问题*/
+function get_scrollTop_of_body() {
+    let scrollTop;
+    if (typeof window.pageYOffset != 'undefined') {//pageYOffset指的是滚动条顶部到网页顶部的距离 
+        scrollTop = window.pageYOffset;
+    } else if (typeof document.compatMode != 'undefined' && document.compatMode != 'BackCompat') {
+        scrollTop = document.documentElement.scrollTop;
+    } else if (typeof document.body != 'undefined') {
+        scrollTop = document.body.scrollTop;
+    }
+    return scrollTop;
+}
+
 const list = [
-    { "id": 1, "type": "a" },
-    { "id": 2, "type": "b" },
-    { "id": 3, "type": "c" },
-    { "id": 4, "type": "d" }
+    { "id": 1, "type": "前端框架" },
+    { "id": 2, "type": "Java基础" },
+    { "id": 3, "type": "shell命令" },
+    { "id": 4, "type": "centos安装配置" }
 ]
 
 const pagination = {
@@ -116,28 +223,6 @@ const actions: Record<string, string>[] = [
     { type: 'LikeOutlined', text: '156' },
     { type: 'MessageOutlined', text: '2' },
 ];
-
-const onLoadMore = () => {
-    loading.value = true;
-
-    sleep(1000)
-    for (let i = 0; i < count; i++) {
-        listData.push({
-            href: 'https://www.antdv.com/',
-            title: `ant design vue part ${i}`,
-            avatar: 'https://joeschmoe.io/api/v1/random',
-            description:
-                'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-            content:
-                'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-        });
-    }
-    loading.value = false;
-    nextTick(() => {
-        window.dispatchEvent(new Event('resize'));
-    });
-
-};
 
 
 </script>
