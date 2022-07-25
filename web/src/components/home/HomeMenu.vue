@@ -25,6 +25,12 @@
 					文档
 				</a>
 			</a-menu-item>
+			<a-menu-item key="nav" style="display: inline-block;">
+				<ie-outlined />
+				<a href="#/nav" rel="noopener noreferrer">
+					导航
+				</a>
+			</a-menu-item>
 		</div>
 		<div style="display: inline-block; float: right; margin-right: 8%;">
 			<a-menu-item key="login" style="display: inline-block;">
@@ -40,21 +46,11 @@
 		</div>
 	</a-menu>
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { HomeOutlined, CalendarOutlined, ContactsOutlined, FolderOutlined } from '@ant-design/icons-vue';
-export default defineComponent({
-	components: {
-		HomeOutlined,
-		CalendarOutlined,
-		ContactsOutlined,
-		FolderOutlined
-	},
-	setup() {
-		const current = ref<string[]>(['mail']);
-		return {
-			current,
-		};
-	},
-});
+<script setup lang="ts">
+import { ref } from 'vue';
+import { HomeOutlined, CalendarOutlined, ContactsOutlined, FolderOutlined, IeOutlined } from '@ant-design/icons-vue';
+
+const current = ref<string[]>(['home']);
+
+
 </script>
