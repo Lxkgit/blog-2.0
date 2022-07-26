@@ -1,11 +1,12 @@
-import { createStore } from "vuex";
+import { defineStore } from "pinia";
 
-export default createStore({
-    state: {
-        demo:'vuex'
+export const blogList = defineStore('blog', {
+    state:() => {
+        return{
+            name: 'asd',
+            title: 'asdasd'
+        }
     },
-    getters:{},
-    mutations: {},
-    actions: {},
-    modules: {}
-});
+    getters: {},
+    actions: {}
+})

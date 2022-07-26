@@ -1,7 +1,22 @@
-import axios from "src/axios/axios";
+import axios from "axios";
 
-axios.create({
-    baseURL:"localhost:9527"
+const service = axios.create({
+    baseURL: "/api"
 })
 
-export default axios
+//2. 请求拦截器
+service.interceptors.request.use(config => {
+    return config;
+}, error => {
+    return Promise.reject(error);
+});
+
+//3. 响应拦截器
+service.interceptors.response.use(response => {
+    //判断code码
+    return response.data;
+}, error => {
+    return Promise.reject(error);
+});
+
+export default service

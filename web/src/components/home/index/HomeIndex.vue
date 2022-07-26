@@ -37,7 +37,7 @@
             </a-sub-menu>
         </a-menu>
     </div>
-    <a-row justify="center" >
+    <a-row justify="center">
         <a-col :lg="12" :md="24" :sm="24" :xs="24">
             <a-list item-layout="vertical" :loading="initLoading" size="large" :data-source="listData">
                 <template #renderItem="{ item }">
@@ -47,10 +47,14 @@
                                 <a-avatar :src="item.avatar" />
                             </template>
                             <template #title>
-                                <a :href="item.href">{{ item.title }}</a>
+                                <a :href="item.href">{{ blog.name }}</a>
                             </template>
                         </a-list-item-meta>
-                        <a :href="item.href" style="color: #000000;">{{ sliceStr(item.content) }}</a>
+
+                        <a :href="item.href" style="color: #000000;">
+                            <h2 style="text-align: center;">{{ item.title }}</h2>
+                            {{ sliceStr(item.content) }}
+                        </a>
                         <div style="margin-top: 10px;">
                             <a-tag v-for="tag in tags" :color="tag.color">{{ tag.tag }}</a-tag>
                         </div>
@@ -92,12 +96,15 @@
     </a-row>
 </template>
 
+
 <script setup lang="ts">
+import { blogList } from '../../../store'
+const blog = blogList()
 const current = ref<string[]>(['mail']);
 let count = 6;
 const initLoading = ref(true);
 const loading = ref(false);
-let listData: Record<string, string>[] = reactive([]);
+let listData: Record<string, string | object>[] = reactive([]);
 //JS睡眠sleep()
 const sleep = (numberMillis: number) => {
     var now = new Date();
@@ -128,6 +135,7 @@ onMounted(() => {
     initLoading.value = false;
     for (let i = 0; i < count; i++) {
         listData.push({
+            user: { id: 1, name: 'gszero' },
             href: 'https://www.antdv.com/',
             title: `ant design vue part ${i}`,
             avatar: 'https://joeschmoe.io/api/v1/random',
@@ -141,7 +149,7 @@ onMounted(() => {
 });
 
 const sliceStr = computed(() => {
-    return function (val) {
+    return function (val: string) {
         let len = 200;
         return val.length > len ? val.slice(0, len) + "..." : val
     }
@@ -166,6 +174,7 @@ window.addEventListener("scroll", function () {
         sleep(1000)
         for (let i = 0; i < count; i++) {
             listData.push({
+                user: { id: 1, name: 'gszero' },
                 href: 'https://www.antdv.com/',
                 title: `【洛谷】四方定理 - dfs解法 ${i}`,
                 avatar: 'https://joeschmoe.io/api/v1/random',
@@ -181,7 +190,7 @@ window.addEventListener("scroll", function () {
 window.onscroll = function () {
     let topScroll = get_scrollTop_of_body();//滚动的距离,距离顶部的距离
     let subMenu = document.getElementById("sub-menu");//获取到导航栏id
-    if (topScroll > 47) { //当滚动距离大于250px时执行下面的东西
+    if (topScroll > 47) {
         subMenu.style.position = 'fixed';
         subMenu.style.top = '0';
         subMenu.style.left = '0';
