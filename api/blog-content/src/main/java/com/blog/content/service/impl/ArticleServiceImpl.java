@@ -11,8 +11,10 @@ import com.blog.common.util.MyPageUtils;
 import com.blog.content.dao.ArticleDAO;
 import com.blog.content.dao.ArticleLabelDAO;
 import com.blog.content.dao.ArticleTypeDAO;
+import com.blog.content.feign.UserClient;
 import com.blog.content.service.ArticleService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +28,9 @@ import java.util.*;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
+
+    @Resource
+    private UserClient userClient;
 
     @Resource
     private ArticleDAO articleDAO;
@@ -86,9 +91,18 @@ public class ArticleServiceImpl implements ArticleService {
         MyPage<ArticleVo> myPage = null;
         List<Article> articleList = articleDAO.selectArticleListByPage((page-1)*size, size, userId);
         List<ArticleVo> articleVoList = new ArrayList<>();
+        Map<Integer, BlogUser> userMap = new HashMap<>();
         for (Article article : articleList){
             ArticleVo articleVo = new ArticleVo();
             BeanUtils.copyProperties(article, articleVo);
+
+            if (userMap.containsKey(article.getUserId())) {
+                articleVo.setBlogUser(userMap.get(article.getUserId()));
+            } else {
+                BlogUser blogUser = userClient.selectUserById(article.getUserId());
+                userMap.put(article.getUserId(), blogUser);
+                articleVo.setBlogUser(blogUser);
+            }
 
             String[] types = article.getArticleType().split(",");
             List<ArticleType> articleTypeList = articleTypeDAO.selectArticleTypeByArray(types);

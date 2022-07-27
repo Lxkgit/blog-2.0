@@ -8,8 +8,8 @@
         <id column="nickname" property="nickname" jdbcType="VARCHAR"/>
         <id column="head_img" property="headImg" jdbcType="VARCHAR"/>
         <id column="email" property="email" jdbcType="VARCHAR"/>
-        <id column="create_time" property="createTime" jdbcType="DATE"/>
-        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <id column="enabled" property="enabled" jdbcType="BOOLEAN"/>
     </resultMap>
     <resultMap id="NoPasswordMap" type="com.blog.common.entity.user.BlogUser">
@@ -18,8 +18,8 @@
         <id column="nickname" property="nickname" jdbcType="VARCHAR"/>
         <id column="head_img" property="headImg" jdbcType="VARCHAR"/>
         <id column="email" property="email" jdbcType="VARCHAR"/>
-        <id column="create_time" property="createTime" jdbcType="DATE"/>
-        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <id column="enabled" property="enabled" jdbcType="BOOLEAN"/>
     </resultMap>
     <sql id="Base_Column_List">
@@ -28,6 +28,13 @@
     <sql id="No_Password_List">
         id, username, nickname, head_img, email, create_time, update_time, enabled
     </sql>
+
+    <select id="selectUserById" resultMap="NoPasswordMap">
+        select
+        <include refid="No_Password_List"/>
+        from sys_user
+        where id = #{id}
+    </select>
 
     <!--根据用户名查找用户信息-->
     <select id="selectUserByUsername" resultMap="BaseResultMap">

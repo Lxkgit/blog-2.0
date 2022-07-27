@@ -72,6 +72,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public BlogUser selectUserById(Integer userId) {
+        return sysUserDAO.selectUserById(userId);
+    }
+
+    @Override
     public String registerUser(BlogUser blogUser) {
         String username = blogUser.getUsername();
         if (StringUtils.isBlank(username)) {

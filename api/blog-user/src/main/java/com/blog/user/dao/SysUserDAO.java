@@ -15,6 +15,7 @@ import java.util.List;
 @Mapper
 public interface SysUserDAO {
 
+    BlogUser selectUserById(@Param("id") Integer id);
     BlogUser selectUserByUsername(@Param("username") String username);
     void insertUser(BlogUser blogUser);
     List<BlogUser> selectUserListByPage(@Param("startNum") Integer startNum, @Param("pageSize") Integer pageSize);

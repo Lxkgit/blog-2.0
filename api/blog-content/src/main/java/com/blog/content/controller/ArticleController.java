@@ -8,6 +8,7 @@ import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.common.util.JwtUtil;
 import com.blog.common.util.MyPage;
+import com.blog.content.feign.UserClient;
 import com.blog.content.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

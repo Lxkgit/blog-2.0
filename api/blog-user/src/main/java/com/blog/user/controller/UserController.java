@@ -35,6 +35,11 @@ public class UserController {
         return loginUser;
     }
 
+    @GetMapping(value = "/select/id")
+    public BlogUser selectUserById(@RequestParam(value = "userId") Integer userId){
+        return userService.selectUserById(userId);
+    }
+
     @PostMapping("/register")
     public Result registerUser(@RequestBody BlogUser blogUser){
         String msg = userService.registerUser(blogUser);

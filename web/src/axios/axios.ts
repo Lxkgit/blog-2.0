@@ -8,13 +8,13 @@ const service = axios.create({
 service.interceptors.request.use(config => {
     return config;
 }, error => {
-    return Promise.reject(error);
+    Promise.reject(error);
 });
 
 //3. 响应拦截器
 service.interceptors.response.use(response => {
     //判断code码
-    return response.data;
+    return response.data.result;
 }, error => {
     return Promise.reject(error);
 });
