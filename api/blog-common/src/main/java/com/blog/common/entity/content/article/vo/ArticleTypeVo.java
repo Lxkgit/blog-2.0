@@ -16,5 +16,5 @@ import java.util.List;
 @Setter
 public class ArticleTypeVo extends ArticleType {
 
-    private List<ArticleType> list;
+    private List<ArticleTypeVo> list;
 }

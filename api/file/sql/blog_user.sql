@@ -11,7 +11,7 @@
  Target Server Version : 50651
  File Encoding         : 65001
 
- Date: 17/07/2022 12:18:33
+ Date: 28/07/2022 22:49:24
 */
 
 SET NAMES utf8mb4;
@@ -36,17 +36,16 @@ CREATE TABLE `sys_permission`  (
 -- ----------------------------
 -- Records of sys_permission
 -- ----------------------------
+INSERT INTO `sys_permission` VALUES (1, 0, '系统管理', NULL, NULL, 'sys:manage', NULL, 0);
 INSERT INTO `sys_permission` VALUES (2, 0, '内容管理', NULL, NULL, 'sys:content', NULL, 0);
 INSERT INTO `sys_permission` VALUES (3, 0, '系统设置', NULL, NULL, 'sys:setting', NULL, 0);
-INSERT INTO `sys_permission` VALUES (50, 1, '角色管理', NULL, NULL, 'sys:role', NULL, 1);
-INSERT INTO `sys_permission` VALUES (51, 1, '用户管理', NULL, NULL, 'sys:user', NULL, 1);
-INSERT INTO `sys_permission` VALUES (52, 3, '全局设置', NULL, NULL, 'sys:setting:all', NULL, 1);
-INSERT INTO `sys_permission` VALUES (53, 3, '个人设置', NULL, NULL, 'sys:setting:user', NULL, 1);
-INSERT INTO `sys_permission` VALUES (100, 50, '添加角色', NULL, NULL, 'sys:role:insert', NULL, 2);
-INSERT INTO `sys_permission` VALUES (101, 50, '删除角色', NULL, NULL, 'sys:role:delete', NULL, 2);
-INSERT INTO `sys_permission` VALUES (102, 50, '修改角色', NULL, NULL, 'sys:role:update', '', 2);
-INSERT INTO `sys_permission` VALUES (103, 50, '修改角色权限', NULL, NULL, 'sys:role:permission:update', NULL, 2);
-
+INSERT INTO `sys_permission` VALUES (4, 1, '角色管理', NULL, NULL, 'sys:role', NULL, 1);
+INSERT INTO `sys_permission` VALUES (5, 1, '用户管理', NULL, NULL, 'sys:user', NULL, 1);
+INSERT INTO `sys_permission` VALUES (6, 3, '全局设置', NULL, NULL, 'sys:setting:all', NULL, 1);
+INSERT INTO `sys_permission` VALUES (7, 3, '个人设置', NULL, NULL, 'sys:setting:user', NULL, 1);
+INSERT INTO `sys_permission` VALUES (8, 4, '添加角色', NULL, NULL, 'sys:role:add', NULL, 2);
+INSERT INTO `sys_permission` VALUES (9, 4, '删除角色', NULL, NULL, 'sys:role:del', NULL, 2);
+INSERT INTO `sys_permission` VALUES (10, 5, '修改用户', NULL, NULL, 'sys:user:update', NULL, 2);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -81,15 +80,13 @@ CREATE TABLE `sys_role_permission`  (
 INSERT INTO `sys_role_permission` VALUES (1, 1);
 INSERT INTO `sys_role_permission` VALUES (1, 2);
 INSERT INTO `sys_role_permission` VALUES (1, 3);
-INSERT INTO `sys_role_permission` VALUES (1, 50);
-INSERT INTO `sys_role_permission` VALUES (1, 51);
-INSERT INTO `sys_role_permission` VALUES (1, 52);
-INSERT INTO `sys_role_permission` VALUES (1, 53);
-INSERT INTO `sys_role_permission` VALUES (1, 100);
-INSERT INTO `sys_role_permission` VALUES (1, 101);
-INSERT INTO `sys_role_permission` VALUES (1, 102);
-INSERT INTO `sys_role_permission` VALUES (1, 103);
-
+INSERT INTO `sys_role_permission` VALUES (1, 4);
+INSERT INTO `sys_role_permission` VALUES (1, 5);
+INSERT INTO `sys_role_permission` VALUES (1, 6);
+INSERT INTO `sys_role_permission` VALUES (1, 7);
+INSERT INTO `sys_role_permission` VALUES (1, 8);
+INSERT INTO `sys_role_permission` VALUES (1, 9);
+INSERT INTO `sys_role_permission` VALUES (1, 10);
 
 -- ----------------------------
 -- Table structure for sys_role_user

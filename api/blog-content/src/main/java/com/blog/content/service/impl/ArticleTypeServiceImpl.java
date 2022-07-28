@@ -34,9 +34,24 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
     public List<ArticleTypeVo> selectArticleTypeTree() {
         List<ArticleType> articleTypeList = articleTypeDAO.selectList(null);
         List<ArticleTypeVo> articleTypeVoList = new ArrayList<>();
-        BeanUtils.copyProperties(articleTypeList, articleTypeVoList);
-
-        // Todo
+        for (ArticleType articleType : articleTypeList) {
+            ArticleTypeVo articleTypeVo = new ArticleTypeVo();
+            BeanUtils.copyProperties(articleType, articleTypeVo);
+            articleTypeVoList.add(articleTypeVo);
+        }
+        for (ArticleTypeVo articleTypeVo : articleTypeVoList) {
+            if (articleTypeVo.getParentId() != 0){
+                articleTypeVoList.forEach(a -> {
+                    if(a.getId() == articleTypeVo.getParentId()){
+                        if (a.getList() == null) {
+                            a.setList(new ArrayList<>());
+                        }
+                        a.getList().add(articleTypeVo);
+                    }
+                });
+            }
+        }
+        articleTypeVoList.removeIf(articleTypeVo -> articleTypeVo.getParentId() != 0);
         return articleTypeVoList;
     }
 

@@ -12,8 +12,8 @@
         <id column="article_status" property="articleStatus" jdbcType="INTEGER"/>
         <id column="browse_count" property="browseCount" jdbcType="INTEGER"/>
         <id column="like_count" property="likeCount" jdbcType="INTEGER"/>
-        <id column="create_time" property="createTime" jdbcType="DATE"/>
-        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">

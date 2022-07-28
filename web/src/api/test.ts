@@ -1,10 +1,17 @@
 import service from "../axios/axios"
 
-export const getBlogList = () => {
+export const getBlogList = (page: number, size: number) => {
     return service({
         method: 'GET',
-        url: "/content/article/list/1/2"
+        url: "/content/article/list/" + page + "/" + size
 
+    })
+}
+
+export const getBlogType = () => {
+    return service({
+        method: 'GET',
+        url: "/content/article/type/tree"
     })
 }
 
