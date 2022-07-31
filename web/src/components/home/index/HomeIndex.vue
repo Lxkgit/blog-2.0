@@ -7,7 +7,7 @@
         </a-menu-item>
         <a-sub-menu v-else :key="-item.id" >
           <template #title>{{ item.typeName }}</template>
-          <span v-for="itemList in item.list">
+          <span v-for="itemList in item.list" :key="itemList.id">
             <a-menu-item v-if="itemList.list == null" :key="itemList.id">
               {{ itemList.typeName }}
             </a-menu-item>

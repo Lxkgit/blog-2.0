@@ -7,6 +7,6 @@
 
 <script setup lang="ts">
 import homeMenu from "../../components/home/homeMenu.vue"
-import homeBottom from "../../components/home/HomeBottom.vue" 
+import homeBottom from "../../components/home/HomeBottom.vue"
 
 </script>

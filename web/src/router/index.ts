@@ -25,6 +25,17 @@ const routes: Array<RouteRecordRaw> = [
         ]
     },
     {
+        path:"/adminPage",
+        redirect: "/admin",
+        component: () => import("/src/pages/admin/AdminPage.vue"),
+        children: [
+            {
+                path: "/admin",
+                component: () => import("/src/components/admin/index/AdminIndex.vue")
+            }
+        ]
+    },
+    {
         path: "/doc",
         component: () => import("/src/components/home/doc/Doc.vue")
     },
