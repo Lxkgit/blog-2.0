@@ -1,7 +1,25 @@
 <template>
   <div id="sub-menu" style="display: flex; width: 100%">
-    <a-menu v-model:selectedKeys="current" mode="horizontal" style="width: 100%; border: 0; justify-content: center">
-      <a-menu-item v-for="(item, idx) in blogType.data" :key="item.id"> {{ item.typeName }} </a-menu-item>
+    <a-menu v-model:selectedKeys="current" mode="horizontal" style="width: 100%; border: 0; justify-content: center"  @select="loadingBlogListByType">
+      <template v-for="item in blogType.data">
+        <a-menu-item v-if="item.list == null" :key="item.id">
+          {{ item.typeName }}
+        </a-menu-item>
+        <a-sub-menu v-else :key="-item.id" >
+          <template #title>{{ item.typeName }}</template>
+          <span v-for="itemList in item.list">
+            <a-menu-item v-if="itemList.list == null" :key="itemList.id">
+              {{ itemList.typeName }}
+            </a-menu-item>
+            <a-sub-menu v-else :key="-itemList.id">
+              <template #title>{{ itemList.typeName }}</template>
+              <a-menu-item v-for="i in itemList.list" :key="i.id">
+                {{ i.typeName }}
+              </a-menu-item>
+            </a-sub-menu>
+          </span>
+        </a-sub-menu>
+      </template>
     </a-menu>
   </div>
   <a-row justify="center">
@@ -86,9 +104,12 @@ onMounted(() => {
   });
   getBlogType().then((res: any) => {
     blogType.data = res
-    console.log(blogType)
   })
 });
+
+const loadingBlogListByType = () => {
+  console.log(current.value)
+}
 
 const sliceStr = computed(() => {
   return function (val: string) {
@@ -98,7 +119,7 @@ const sliceStr = computed(() => {
 });
 
 window.addEventListener("scroll", function () {
-  //页面被卷去的高度: window.scrollY
+  // 页面被卷去的高度: window.scrollY
   // 整个页面你的滚动条高度: document.documentElement.scrollHeight
   // 可视页面的高度: document.documentElement.clientHeight
   if (
