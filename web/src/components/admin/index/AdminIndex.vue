@@ -83,7 +83,7 @@ onMounted(() => {
                     "id": 51,
                     "parentId": 1,
                     "menuName": "用户管理",
-                    "menuIcon": "/src/assets/img/user.png",
+                    "menuIcon": "/src/assets/img/role.png",
                     "menuPath": "/admin/user",
                     "permission": "sys:user",
                     "component": null,
@@ -94,8 +94,8 @@ onMounted(() => {
                     "id": 50,
                     "parentId": 1,
                     "menuName": "角色管理",
-                    "menuIcon": "/src/assets/img/role.png",
-                    "menuPath": null,
+                    "menuIcon": "/src/assets/img/user.png",
+                    "menuPath": "/admin/role",
                     "permission": "sys:role",
                     "component": null,
                     "menuType": "1",
@@ -157,7 +157,30 @@ onMounted(() => {
             "permission": "sys:content",
             "component": null,
             "menuType": "0",
-            "list": null
+            "list": [
+                {
+                    "id": 60,
+                    "parentId": 2,
+                    "menuName": "文章管理",
+                    "menuIcon": "/src/assets/img/content.png",
+                    "menuPath": "/admin/article",
+                    "permission": "sys:article",
+                    "component": null,
+                    "menuType": "1",
+                    "list": null
+                },
+                {
+                    "id": 61,
+                    "parentId": 2,
+                    "menuName": "日记管理",
+                    "menuIcon": null,
+                    "menuPath": "/admin/diary",
+                    "permission": "sys:diary",
+                    "component": null,
+                    "menuType": "1",
+                    "list": null
+                }
+            ]
         },
         {
             "id": 3,
@@ -170,23 +193,23 @@ onMounted(() => {
             "menuType": "0",
             "list": [
                 {
-                    "id": 52,
+                    "id": 72,
                     "parentId": 3,
-                    "menuName": "全局设置",
-                    "menuIcon": "/src/assets/img/setting.png",
+                    "menuName": "个人设置",
+                    "menuIcon": null,
                     "menuPath": null,
-                    "permission": "sys:setting:all",
+                    "permission": "sys:setting:user",
                     "component": null,
                     "menuType": "1",
                     "list": null
                 },
                 {
-                    "id": 53,
+                    "id": 71,
                     "parentId": 3,
-                    "menuName": "个人设置",
-                    "menuIcon": "/src/assets/img/setting.png",
+                    "menuName": "全局设置",
+                    "menuIcon": null,
                     "menuPath": null,
-                    "permission": "sys:setting:user",
+                    "permission": "sys:setting:all",
                     "component": null,
                     "menuType": "1",
                     "list": null
@@ -194,11 +217,13 @@ onMounted(() => {
             ]
         }
     ]
+        
+        
+    
 })
 
 const btn = (path: string) => {
     emit('route-change', {path})
-
 }
 
 </script>
