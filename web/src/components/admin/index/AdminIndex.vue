@@ -16,7 +16,7 @@
     letter-spacing: 0;
     color: #313b46;">{{ menu.menuName }}</h3>
 
-                        <div v-for="(item, index) in menu.list" style="float: left; box-sizing: border-box;position: relative; width: 120px; height: 120px; border: 1px solid #f1f1f1; background: #fff;
+                        <div v-for="(item, index) in menu.list" :key="index" style="float: left; box-sizing: border-box;position: relative; width: 120px; height: 120px; border: 1px solid #f1f1f1; background: #fff;
                     cursor: pointer; font-size: 12px; color: #76797c; margin: 0 20px 20px 0;" :title="item.menuName"
                             @click="btn(item.menuPath)">
                             <div style="position: absolute;

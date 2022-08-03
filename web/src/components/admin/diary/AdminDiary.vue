@@ -22,9 +22,9 @@
                     </a-button>
                     <a-button @click="getnianyueri()" type="primary">回到今天</a-button>
                 </h1>
-                <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start;">
-                    <div style="width: 14%; min-width: 32px;  height: 8rem; border: #445160; border-color: #445160; cursor: pointer;" v-for="item in daylist"
-                        :key="item.timestamp" :style="item.month !== yue ? 'border-color: #fff0f0' : ''" @click="clickevent(item)">
+                <div style="width: 80%; display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start;">
+                    <div style="border-style: solid; border-color: #445160; border-width: 1px; width: 14%; min-width: 32px; height: 8rem;  cursor: pointer;" v-for="(item,idx) in daylist"
+                        :id="idx" :key="idx" :style="item.month !== yue ? 'border-color: #fff0f0' : ''" @click="clickevent(item,idx)">
                         <div style="width: 100%; height: 1.25rem; display: flex; justify-content: space-between; align-items: center; padding: 0.25rem;">
                             <span>{{ item.day }}</span>
                             <span v-if="item.day === xianzaitime.ri && item.month === xianzaitime.yue && item.year === xianzaitime.nian" style="color: aqua;">今天</span>
@@ -44,7 +44,7 @@ import { useRoute, useRouter } from "vue-router"
 
 const router = useRouter()
 const route = useRoute()
-const emit = defineEmits(["handleclick", "changemonth"])
+// const emit = defineEmits(["handleclick", "changemonth"])
 // 需要展示的所有日期列表
 const daylist = ref([])
 // 年月日数据暂存
@@ -64,7 +64,7 @@ const getnianyueri = (canshu = null) => {
     yue.value = shijian.value.getMonth() + 1
     ri.value = shijian.value.getDate()
     // 当前显示月份改变后，需要向父组件抛出，父组件可以根据月份更新日程
-    emit("changemonth", { year: nian.value, month: yue.value })
+    // emit("changemonth", { year: nian.value, month: yue.value })
     tianchong()
 }
 // 计算需要展示的第一个日期
@@ -114,9 +114,21 @@ const tianchong = () => {
         daylist.value.push(shuju)
     }
 }
+let preIdx: any;
 // 日期点击事件
-const clickevent = (item) => {
-    emit("handleclick", item)
+const clickevent = (item:any, idx:any) => {
+    let preDiv = document.getElementById(preIdx);
+    let curDiv = document.getElementById(idx); //获取到导航栏id
+    if (preDiv !== null) {
+        preDiv.style.borderColor = "#445160";
+        preDiv.style.backgroundColor = "#ffffff";
+    }
+    if (curDiv !== null) {
+        curDiv.style.borderColor = "#445160";
+        curDiv.style.backgroundColor = "#7FFFAA";
+    }
+    preIdx = idx;
+    // emit("handleclick", item)
     // 如果点击的日期不是当前月的，修改当前时间
     if (item.month !== yue.value) {
         getnianyueri(item.timestamp)
@@ -124,7 +136,6 @@ const clickevent = (item) => {
 }
 // 数字转汉字
 const hanziyue = computed(() => {
-    console.log(yue.value + "---")
     return numtozh(yue.value)
 })
 // 点击上个月或者下个月
