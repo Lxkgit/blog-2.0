@@ -48,7 +48,6 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
-import { HomeOutlined, CalendarOutlined, ContactsOutlined, FolderOutlined, IeOutlined } from '@ant-design/icons-vue';
 
 const current = ref<string[]>(['home']);
 

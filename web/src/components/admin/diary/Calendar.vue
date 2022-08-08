@@ -5,20 +5,20 @@
             <span style="font-size: 1.5rem; line-height: 2rem; line-height: 2.5rem; font-weight: 600;">{{ year + " " +
                     monthZh + "月"
             }}</span>
-            <a-button @click="updateMonth(-1)" round>
+            <el-button @click="updateMonth(-1)" round>
                 <span> {{ "<" }} </span>
                         <span> {{ "<" }} </span>
                                 <span>上个月</span>
-            </a-button>
-            <a-button @click="updateMonth(1)" round>
+            </el-button>
+            <el-button @click="updateMonth(1)" round>
                 <span>下个月</span>
                 <span>{{ ">" }}</span>
                 <span>{{ ">" }}</span>
-            </a-button>
-            <a-button @click="toToday()" type="primary">回到今天</a-button>
+            </el-button>
+            <el-button @click="toToday()" type="primary">回到今天</el-button>
         </h1>
         <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start;">
-            <div style="border-style: solid; border-color: #445160; border-width: 1px; width: 14%; min-width: 32px; height: 8rem;  cursor: pointer;"
+            <div style="border-style: solid; border-color: #445160; border-width: 1px; width: 14%; min-width: 32px; height: 122px;  cursor: pointer;"
                 v-for="(item, idx) in dayList" :id="idx" :key="idx"
                 :style="item.month !== month ? 'border-color: #fff0f0' : ''" @click="clickEvent(item, idx)">
                 <div
@@ -36,9 +36,9 @@
             </div>
         </div>
 
-        <a-modal v-model:visible="visible" title="Basic Modal" @ok="handleOk">
+        <el-modal v-model:visible="visible" title="Basic Modal" @ok="handleOk">
             {{ diary.diaryMd }}
-        </a-modal>
+        </el-modal>
     </div>
 </template>
 <script setup lang="ts">

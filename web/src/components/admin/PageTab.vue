@@ -3,7 +3,7 @@
     <div style="height: 100%;">
       <div style="height: 100%; width: 47px; background-color: #5B5B5B; text-align:center; line-height: 32px;">
         <router-link key="index" to="/admin" style="margin: 0 auto;">
-          <home-outlined />
+        
         </router-link>
       </div>
 
@@ -20,7 +20,7 @@
 import { onMounted, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { tagStore } from "../../store/adminTag"
-import { HomeOutlined } from '@ant-design/icons-vue';
+
 
 let store = tagStore();
 let tag: any

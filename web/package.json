@@ -8,9 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "ant-design-vue": "^2.2.8",
     "axios": "^0.27.2",
-    "dayjs": "^1.11.4",
+    "element-plus": "^2.2.12",
     "mavon-editor": "^2.10.4",
     "pinia": "^2.0.17",
     "vue": "^3.2.25",

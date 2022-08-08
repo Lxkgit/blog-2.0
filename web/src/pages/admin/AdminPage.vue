@@ -1,6 +1,6 @@
 <template>
     <adminMenu></adminMenu>
-    <a-divider style="height: 1px; background-color: #45494D; margin: 0;" />
+    
     <pageTab></pageTab>
     <router-view @route-change="onRouteChange" />
 </template>
