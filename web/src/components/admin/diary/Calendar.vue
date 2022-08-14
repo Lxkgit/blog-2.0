@@ -5,24 +5,24 @@
             <span style="font-size: 1.5rem; line-height: 2rem; line-height: 2.5rem; font-weight: 600;">{{ year + " " +
                     monthZh + "月"
             }}</span>
-            <el-button @click="updateMonth(-1)" round>
+            <el-button @click="updateMonth(-1)">
                 <span> {{ "<" }} </span>
                         <span> {{ "<" }} </span>
                                 <span>上个月</span>
             </el-button>
-            <el-button @click="updateMonth(1)" round>
+            <el-button @click="updateMonth(1)">
                 <span>下个月</span>
                 <span>{{ ">" }}</span>
                 <span>{{ ">" }}</span>
             </el-button>
-            <el-button @click="toToday()" type="primary">回到今天</el-button>
+            <el-button @click="toToday()">回到今天</el-button>
         </h1>
         <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start;">
             <div style="border-style: solid; border-color: #445160; border-width: 1px; width: 14%; min-width: 32px; height: 122px;  cursor: pointer;"
                 v-for="(item, idx) in dayList" :id="idx" :key="idx"
                 :style="item.month !== month ? 'border-color: #fff0f0' : ''" @click="clickEvent(item, idx)">
                 <div
-                    style="width: 100%; height: 1.25rem; display: flex; justify-content: space-between; align-items: center; padding: 0.25rem;">
+                    style="width: 97%; height: 1.25rem; display: flex; justify-content: space-between; align-items: center; padding: 0.25rem;">
                     <span>{{ item.day }}</span>
                     <span v-if="item.day === today.day && item.month === today.month && item.year === today.year"
                         style="color: aqua;">今天</span>
@@ -31,29 +31,42 @@
                 <div style="margin: 5px 10px">
                     <span v-if="item.diary !== null" style="font-size: 10px; background: #3dbb99; position: relative; z-index: 2; display: inline-block; width: auto; padding: 0 1px; font-style: normal;
                         font-weight: 700; border-radius: 4px; color: #fff; cursor: pointer;"
-                        @click="showModal(item.diary)"> 日记 </span>
+                        @click="showModal(item)"> 日记 </span>
                 </div>
             </div>
         </div>
 
-        <el-modal v-model:visible="visible" title="Basic Modal" @ok="handleOk">
-            {{ diary.diaryMd }}
-        </el-modal>
+
+        <el-dialog v-model="dialogVisible" title="日记" :close-on-click-modal="false" width="30%" :before-close="handleClose">
+            <span>{{diaryShow.data.diary.diaryMd}}</span>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="dialogVisible = false">Cancel</el-button>
+                    <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+                </span>
+            </template>
+        </el-dialog>
     </div>
 </template>
 <script setup lang="ts">
-import { computed, ref, defineEmits } from "vue";
+
+import { computed, ref, reactive, defineEmits } from "vue";
 import { useRoute, useRouter } from "vue-router"
 
-const visible = ref<boolean>(false);
-const showModal = (d: any) => {
-    visible.value = true;
-    diary.value = d
-};
-const handleOk = (e: MouseEvent) => {
-    console.log(e);
-    visible.value = false;
-};
+const dialogVisible = ref<boolean>(false);
+
+let diaryShow: any = reactive({ data: [] });
+ 
+const showModal = (item:any) =>{
+    diaryShow.data = item
+    dialogVisible.value=true
+    
+}
+
+const handleClose = (done: () => void) => {
+    dialogVisible.value=false
+}
+
 const router = useRouter()
 const route = useRoute()
 const emit = defineEmits(["handleClick", "changeMonth"])
@@ -179,7 +192,7 @@ const addDate = () => {
         let num: number = diaryList.length
         if (month.value === month_) {
             for (let j: number = 0; j < num; j++) {
-                if(diaryList[j].diaryDate === todayStr) {
+                if (diaryList[j].diaryDate === todayStr) {
                     date["diary"] = diaryList[j]
                 }
             }
