@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 100%; padding: 0.5rem;">
+    <div style="width: 100%;">
         <h1 style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;
                 margin-bottom: 0.5rem; padding-left: 0.75rem; padding-right: 0.75rem; height: 2.5rem;">
             <span style="font-size: 1.5rem; line-height: 2rem; line-height: 2.5rem; font-weight: 600;">{{ year + " " +
@@ -146,7 +146,7 @@ const startDay = () => {
 // 向列表填充数据
 const addDate = () => {
     const startTime = startDay()
-    console.log(startTime, "开始时间")
+    // console.log(startTime, "开始时间")
     for (let i = 0; i <= 41; i++) {
         let date: any = {}
         const timeStamp = startTime + i * 24 * 60 * 60 * 1000

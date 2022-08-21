@@ -8,7 +8,7 @@
         :class="{ 'active': item.active }" :to="item.path" @contextmenu.prevent.native="openMenu(item.path, index, $event)">
         {{ item.title }}
         <!--这里加prevent.stop是为了避免跳转路由-->
-        <i v-if="item.close" class="fa fa-close" style="margin-left: 5px;" @click.prevent.stop="closeTag(index)"> </i>
+        <i v-if="item.close" class="fa fa-close el-icon-close" style="margin-left: 5px;" @click.prevent.stop="closeTag(index)"> </i>
       </router-link>
     </div>
     <ul v-if="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
@@ -32,9 +32,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { adminStore } from "../../store/admin"
-import { useRoute, useRouter } from "vue-router";
+import { ref, watch } from "vue"
+import { adminStore } from "../../store/tag"
+import { useRoute, useRouter } from "vue-router"
 
 const route = useRoute()
 const router = useRouter()
@@ -63,7 +63,6 @@ const closeTag = (index?: any) => {
     store.delTag(index)
   }
 }
-
 
 // 打开菜单
 const openMenu = (path:any, index: any, e: any) => {
@@ -122,7 +121,8 @@ const refresh = () => {
   padding: 0 8px;
   font-size: 12px;
   margin-left: 5px;
-  margin-top: 4px;
+  margin-top: 6px;
+  text-decoration: none;
 }
 
 .tags_view_container .tags_view_wrapper .tags_view_item:first-of-type {
@@ -191,6 +191,25 @@ const refresh = () => {
 }
 
 .tags_view_wrapper .tags_view_item .el_icon_close:hover {
+  background-color: #b4bccc;
+  color: #fff;
+}
+
+.el-icon-close {
+  width: 16px;
+  height: 16px;
+  vertical-align: 2px;
+  border-radius: 50%;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transform-origin: 100% 50%;
+}
+.el-icon-close:before {
+  transform: scale(0.6);
+  display: inline-block;
+  vertical-align: -3px;
+}
+.el-icon-close:hover {
   background-color: #b4bccc;
   color: #fff;
 }

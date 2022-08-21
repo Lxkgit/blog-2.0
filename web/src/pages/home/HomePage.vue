@@ -1,12 +1,10 @@
 <template>
-    <homeMenu></homeMenu>
+    <HomeMenu></HomeMenu>
     <router-view></router-view>
     <!-- <TestPage></TestPage> -->
-    <homeBottom></homeBottom>
+    <HomeBottom></HomeBottom>
 </template>
 
 <script setup lang="ts">
-import homeMenu from "../../components/home/homeMenu.vue"
-import homeBottom from "../../components/home/HomeBottom.vue"
 
 </script>
