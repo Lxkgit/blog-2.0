@@ -17,11 +17,6 @@
 					<input type="text" placeholder="搜索文章类型" />
 					<i class="fa fa-search" aria-hidden="true"></i>
 				</div>
-				<div class='shop'>
-					<el-icon :size='20'>
-						<ShoppingCart />
-					</el-icon>
-				</div>
 				<div class='login'>
 					登录/注册
 				</div>
@@ -31,8 +26,7 @@
 </template>
 
 <script setup lang="ts">
-//element
-import { Search, ShoppingCart } from '@element-plus/icons-vue'
+
 </script>
 
 <style scoped>
@@ -142,7 +136,7 @@ header {
 }
 
 .header_r .login {
-	margin-left: 39px;
+	margin-left: 79px;
 	font-size: 16px;
 	cursor: pointer;
 }

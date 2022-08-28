@@ -312,9 +312,10 @@ public class DateUtil {
 
     @SuppressWarnings("unused")
     public static void main(String[] args) throws Exception {
-        Date date = new Date();
-        System.out.println(date);
-        System.out.println(formatDate(date));
+        String config = "{\"DetectRegion\":\"[{\\\"Point\\\":\\\"15,630\\\"},{\\\"Point\\\":\\\"7817,630\\\"},{\\\"Point\\\":\\\"7817,7649\\\"},{\\\"Point\\\":\\\"15,7649\\\"}]\",\"WorkClothesDescription\":[{\"AlarmRepeatTime\":0,\"AlarmTime\":60,\"Helmet\":{\"MultiColor\":[5],\"Weared\":1},\"Sensitivity\":5}]}";
+        config = config.replace("\\", "");
+        System.out.println(config);
+        System.out.println(config.replaceAll("\\{\"Point\":\"([0-9]+),([0-9]+)\"}","[$1,$2]"));
     }
 
 }

@@ -1,6 +1,6 @@
 <template>
     <HomeMenu></HomeMenu>
-    <router-view></router-view>
+    <router-view style="margin-top: 40px"></router-view>
     <!-- <TestPage></TestPage> -->
     <HomeBottom></HomeBottom>
 </template>
