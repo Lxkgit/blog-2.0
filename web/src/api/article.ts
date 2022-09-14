@@ -15,3 +15,10 @@ export const getBlogType = () => {
     })
 }
 
+export const getBlogById = (id: any) => {
+    return service({
+        method: 'GET',
+        url: "/content/article/id?id=" + id 
+    })
+}
+

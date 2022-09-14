@@ -16,6 +16,7 @@ public interface ArticleDAO extends BaseMapper<Article> {
 
     Integer selectArticleCount(@Param("userId") int userId);
     List<Article> selectArticleListByPage(@Param("startNum")int startNum, @Param("pageSize") int pageSize, @Param("userId") int userId);
+    Article selectArticleById(@Param("id")int id);
     Integer updateArticle(ArticleBo articleBo);
     Integer deleteArticle(ArticleBo articleBo);
 

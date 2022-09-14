@@ -8,74 +8,31 @@
         <div style="margin-top: 100px;">
             <el-row justify="center">
                 <el-col :lg="10" :md="16" :sm="16" :xs="16">
-
-                    <!-- <div id="blog-list" class="blog-list">
-                        <div id="blog-post" class="blog-post">
-                            <div v-for="(item, index) in articleList.data" :key="index" class="panel">
-                                <div class="post-meta wrapper-lg">
-                                    <h2 class="m-t-none index-post-title">
-                                        <router-link style="text-decoration: none;"
-                                            :to="{ path: '/article/articleDetail', query: { id: item.id } }">
-                                            {{  item.title }}
-                                        </router-link>
-                                    </h2>
-                                    <p class="summary text-muted">
-                                        {{  item.content_html }}
-                                    </p>
-                                    <div class="line b-b b-light" ></div>
-                                    <div class="text-muted">
-                                        <span>
-                                            <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;{{item.browseCount  }}次阅读
-                                        </span>
-                                        <span class="good">
-                                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>&nbsp;{{item.likeCount  }}人点赞
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <el-button style="display: flex; align-items: center; justify-content: center;">加载更多</el-button>
-                        </div>
-                    </div> -->
-                    <div v-for="item in articleList.data">
-                        <div style="border-style:solid; border-width:1px; margin-bottom: 15px;">
-                            <h3 style="margin: 10px 5px; font-size: 20px; overflow: hidden;">
-                                <a>{{ item.title }}</a>
-                            </h3>
-                            <el-row justify="center">
-                                <el-col :lg="19" :md="16" :sm="16" :xs="16">
-                                    <!-- <p v-html="item.contentHtml"></p>
-                                    <v-md-editor :model-value="item.contentMd" mode="preview"></v-md-editor> -->
-                                </el-col>
-                                <el-col :lg="5" :md="16" :sm="16" :xs="16" style="height: 80px">
-                                    <span>
-                                        <a>
-                                            <img src="" title="图片" />
-                                        </a>
-                                    </span>
-                                </el-col>
-                            </el-row>
-                            <div>
-                            </div>
-                            <div>
-                            </div>
-                            <div style="display: flex; align-items: center; margin: 10px;">
-                                <div style="display: flex; align-items: center;">
-                                    <img style="width: 32px; border-radius: 16px; " :src="item.blogUser.headImg" />
-                                    <div style="margin-left: 10px;">{{ item.blogUser.username }}</div>
-                                </div>
-                                <div >
-                                    <i style="margin-left: 10px;" class="fa fa-eye" aria-hidden="true"></i>&nbsp;{{item.browseCount  }}
-                                    <i style="margin-left: 10px;" class="fa fa-thumbs-o-up" aria-hidden="true">{{item.likeCount}}</i>
-                                    <i style="margin-left: 10px;" class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                                    <i style="margin-left: 10px;" class="fa fa-star-o" aria-hidden="true">收藏</i>
-                                    <i style="margin-left: 10px;" class="fa fa-clock-o" aria-hidden="true">{{item.createTime}}</i>
-                                </div>
-                            </div>
+                    <div v-for="item in articleList.data" :key="item.id" class="blogs" data-scroll-reveal="enter bottom over 1s">
+                        <h3 class="blogtitle">
+                            <router-link :to="{path:'/article/articleDetail', query: {id: item.id}}">{{item.title}}</router-link>
+                        </h3>
+                        <p class="blogtext">我是概况</p>
+                        <div class="bloginfo">
+                            <ul style="display:flex; align-items: center;">
+                                <li class="author" style="display:flex; align-items: center;">
+                                    <img style="width: 38px; border-radius: 19px;  margin-right: 10px;" :src="item.blogUser.headImg"/>
+                                    <a href="javascript:void(0);">{{item.blogUser.nickname}}</a>
+                                </li>
+                                <li class="lmname">
+                                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                    {{item.likeCount}}
+                                </li>
+                                <li class="createTime">
+                                    <i class="fa fa-clock-o iconfont" aria-hidden="true"></i>
+                                    {{item.createTime}}
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </el-col>
                 <el-col :lg="4" :md="0" :sm="0" :xs="0">
-                    <div>
+                    <div style="margin-left: 15px;">
                         右栏
                     </div>
                 </el-col>
@@ -109,7 +66,7 @@ onMounted(() => {
     getBlogList(1, 5).then((res: any) => {
 
         articleList.data = res.list;
-
+        console.log(res.list)
     });
 });
 
@@ -153,6 +110,21 @@ function get_scrollTop_of_body() {
 </script>
 
 <style scoped>
+
+a {text-decoration: none;}
+
+.blogs { overflow: hidden; margin-bottom: 20px; padding: 20px; background: #FFF; -webkit-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); -moz-box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .1); box-shadow: 0 2px 5px 0 rgba(146, 146, 146, .4); -webkit-transition: all 0.6s ease; -moz-transition: all 0.6s ease; -o-transition: all 0.6s ease; transition: all 0.6s ease; }
+.blogs .blogpic { float: right; width: 20%;  max-height: 170px; margin-right: 20px; display: block; overflow: hidden; }
+.blogs .blogpic img { width: 100%; height: auto; -webkit-transition: all 0.6s ease; -moz-transition: all 0.6s ease; -o-transition: all 0.6s ease; transition: all 0.6s ease; margin-bottom: 10px }
+.blogs .blogpic :hover img { transform: scale(1.1) }
+.blogs .blogtitle { margin: 0 0 10px 0; font-size: 20px; overflow: hidden; }
+.blogs .blogtitle a { color: #000; }
+.blogs .blogtitle a:hover { color: #337ab7; }
+.blogs .blogtext { font-size: 14px; color: #566573; overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 3; margin-top: 20px }
+.bloginfo { overflow: hidden; margin-top: 30px; display: flex; }
+.bloginfo ul li { float: left; font-size: 12px; padding: 0 0 0 20px; color: #748594; line-height: 1.5; display: inline-block; }
+.bloginfo ul li a { color: #748594; }
+.bloginfo ul li a:hover { color: #000 }
 .home_index {
     /* display: flex;
     align-items: center;

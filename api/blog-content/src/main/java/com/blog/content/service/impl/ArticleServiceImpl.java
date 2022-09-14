@@ -52,6 +52,22 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public ArticleVo selectArticleById(int articleId) {
+        Article article = articleDAO.selectArticleById(articleId);
+        ArticleVo articleVo = new ArticleVo();
+        BeanUtils.copyProperties(article, articleVo);
+        BlogUser blogUser = userClient.selectUserById(article.getUserId());
+        articleVo.setBlogUser(blogUser);
+        String[] types = article.getArticleType().split(",");
+        List<ArticleType> articleTypeList = articleTypeDAO.selectArticleTypeByArray(types);
+        articleVo.setArticleTypes(articleTypeList);
+        String[] labels = article.getArticleLabel().split(",");
+        List<ArticleLabel> articleLabelList = articleLabelDAO.selectArticleLabelByArray(labels);
+        articleVo.setArticleLabels(articleLabelList);
+        return articleVo;
+    }
+
+    @Override
     public int saveArticle(Article article){
         Date date = new Date();
         article.setCreateTime(date);

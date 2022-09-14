@@ -38,6 +38,12 @@
         limit #{startNum}, #{pageSize}
     </select>
 
+    <select id="selectArticleById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select <include refid="Base_Column_List"/>
+        from article
+        where id = #{id}
+    </select>
+
     <update id="updateArticle" parameterType="com.blog.common.entity.content.article.bo.ArticleBo">
         update article
         <set>

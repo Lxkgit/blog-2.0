@@ -2,6 +2,7 @@ package com.blog.content.controller;
 
 import com.blog.common.constant.Constant;
 import com.blog.common.entity.content.article.Article;
+import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.content.article.vo.ArticleVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
@@ -19,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -71,6 +73,11 @@ public class ArticleController {
             map.put("list", result);
             return ResultFactory.buildSuccessResult(map);
         }
+    }
+
+    @GetMapping("/id")
+    public Result selectArticleById(@RequestParam(value = "id") Integer articleId){
+        return ResultFactory.buildSuccessResult(articleService.selectArticleById(articleId));
     }
 
     @PostMapping("/save")

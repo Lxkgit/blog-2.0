@@ -56,7 +56,7 @@ footer {
 	align-items: center;
 	justify-content: center;
 	height: 100%;
-	margin: 10px 0;
+	margin: 10px 0 0;
 }
 
 .foot_c {

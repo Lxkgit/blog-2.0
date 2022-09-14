@@ -32,7 +32,7 @@ let article: any = reactive({
         id: 0,
         userId: 0,
         title: "",
-        contentMd: "-",
+        contentMd: "",
         contentHtml: "-",
         articleType: "",
         articleLabel: "",
