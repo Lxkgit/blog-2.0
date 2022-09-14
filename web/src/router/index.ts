@@ -23,6 +23,10 @@ const routes: Array<RouteRecordRaw> = [
                 path: "/about",
                 component: () => import("/src/pages/home/About.vue"),
             },
+            {
+                path: "/article/articleDetail",
+                component: () => import("/src/components/home/index/article/ArticleDetail.vue"),
+            }
         ]
     },
     {
