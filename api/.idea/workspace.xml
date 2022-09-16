@@ -16,7 +16,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="22-07-03: 微服务部署修改打包方式" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="22-09-09【功能修改】：添加单文章查询接口，修改界面" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,6 +32,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -51,6 +52,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
@@ -65,7 +67,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.3465909" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
@@ -78,6 +80,13 @@
       <recent name="F:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\content" />
       <recent name="F:\workspace\blog-2.0\api\blog-content\src\main\java\com\blog\content\dao" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\workspace\blog-2.0\api\blog-content\src\main\resources\mapper" />
+      <recent name="F:\workspace\blog-2.0\api\blog-content\src\main\java\com\blog\content\service\impl" />
+      <recent name="F:\workspace\blog-2.0\api\blog-content\src\main\java\com\blog\content\service" />
+      <recent name="F:\workspace\blog-2.0\api\blog-content\src\main\java\com\blog\content\dao" />
+      <recent name="F:\workspace\blog-2.0\api\blog-content\src\main\java\com\blog\content\controller" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="configurationTypes">
@@ -86,9 +95,22 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ContentApplication">
+  <component name="RunManager" selected="Remote.Unnamed">
+    <configuration name="Unnamed" type="Remote" nameIsGenerated="true">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" />
+      <option name="HOST" value="121.4.126.60" />
+      <option name="PORT" value="7091" />
+      <option name="AUTO_RESTART" value="false" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="7091" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <method v="2" />
+    </configuration>
     <configuration name="AuthApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="auth-center" />
+      <module name="blog-auth" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.blog.auth.*" />
@@ -113,6 +135,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="FileApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="blog-file" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.blog.file.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.blog.file.FileApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="blog-gateway" />
       <extension name="coverage">
@@ -127,7 +162,7 @@
       </method>
     </configuration>
     <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="user-center" />
+      <module name="blog-user" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.blog.user.*" />
@@ -139,11 +174,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Remote.Unnamed" />
+      <item itemvalue="Spring Boot.AuthApplication" />
+      <item itemvalue="Spring Boot.ContentApplication" />
+      <item itemvalue="Spring Boot.FileApplication" />
+      <item itemvalue="Spring Boot.GatewayApplication" />
+      <item itemvalue="Spring Boot.UserApplication" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.ContentApplication" />
         <item itemvalue="Spring Boot.UserApplication" />
         <item itemvalue="Spring Boot.GatewayApplication" />
+        <item itemvalue="Spring Boot.FileApplication" />
+        <item itemvalue="Spring Boot.ContentApplication" />
         <item itemvalue="Spring Boot.AuthApplication" />
       </list>
     </recent_temporary>
@@ -172,6 +216,41 @@
       <workItem from="1656231334572" duration="1273000" />
       <workItem from="1656429548681" duration="1436000" />
       <workItem from="1656850640546" duration="3109000" />
+      <workItem from="1657197452683" duration="4079000" />
+      <workItem from="1657329088904" duration="303000" />
+      <workItem from="1657428124326" duration="2210000" />
+      <workItem from="1657453792501" duration="242000" />
+      <workItem from="1657720311939" duration="3351000" />
+      <workItem from="1657802798326" duration="5118000" />
+      <workItem from="1657808341470" duration="4300000" />
+      <workItem from="1657886302641" duration="2831000" />
+      <workItem from="1657936649175" duration="1866000" />
+      <workItem from="1657956192167" duration="4992000" />
+      <workItem from="1658025620073" duration="10605000" />
+      <workItem from="1658071769286" duration="208000" />
+      <workItem from="1658072021914" duration="15000" />
+      <workItem from="1658327851358" duration="1880000" />
+      <workItem from="1658413963681" duration="1879000" />
+      <workItem from="1658931290374" duration="1644000" />
+      <workItem from="1659019572516" duration="1156000" />
+      <workItem from="1659252490035" duration="1902000" />
+      <workItem from="1659366468315" duration="204000" />
+      <workItem from="1659453963132" duration="586000" />
+      <workItem from="1659489579042" duration="1273000" />
+      <workItem from="1659624467083" duration="18000" />
+      <workItem from="1659833921188" duration="1079000" />
+      <workItem from="1659918107597" duration="25000" />
+      <workItem from="1660490977559" duration="36000" />
+      <workItem from="1661095898984" duration="917000" />
+      <workItem from="1661096855543" duration="100000" />
+      <workItem from="1661701140139" duration="50000" />
+      <workItem from="1661701241565" duration="305000" />
+      <workItem from="1663168215381" duration="681000" />
+      <workItem from="1663168941233" duration="207000" />
+      <workItem from="1663169305810" duration="198000" />
+      <workItem from="1663169524358" duration="254000" />
+      <workItem from="1663169819951" duration="302000" />
+      <workItem from="1663371869990" duration="414000" />
     </task>
     <task id="LOCAL-00001" summary="22-06-12: 鉴权中心和用户中心设置完成，等待调试">
       <created>1655019586684</created>
@@ -292,7 +371,147 @@
       <option name="project" value="LOCAL" />
       <updated>1656860834788</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="22-07-07: 新增文件中心处理文件上传下载，文档到日导出，暂时只实现文件上传">
+      <created>1657201337928</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1657201337928</updated>
+    </task>
+    <task id="LOCAL-00019" summary="22-07-09: 文件中心新增excel表格导出功能">
+      <created>1657329347078</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1657329347078</updated>
+    </task>
+    <task id="LOCAL-00020" summary="22-07-10【功能新增】： 新增日记导入功能，上传文件格式为txt格式">
+      <created>1657429075080</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1657429075080</updated>
+    </task>
+    <task id="LOCAL-00021" summary="22-07-10【代码优化】： 调整content模块entity位置">
+      <created>1657453966693</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1657453966693</updated>
+    </task>
+    <task id="LOCAL-00022" summary="22-07-10【功能新增】： 新增openfeign拦截器，各模块配置引入了nacos的config，实现统一配置">
+      <created>1657724039712</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1657724039712</updated>
+    </task>
+    <task id="LOCAL-00023" summary="22-07-13【功能新增】： 新增openfeign拦截器，各模块配置引入了nacos的config，实现统一配置">
+      <created>1657724215502</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1657724215502</updated>
+    </task>
+    <task id="LOCAL-00024" summary="22-07-14【功能新增】： 完善文件上传功能">
+      <created>1657808253588</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1657808253588</updated>
+    </task>
+    <task id="LOCAL-00025" summary="22-07-14【bug修复】：修复oauth2登陆报错问题">
+      <created>1657812717160</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1657812717160</updated>
+    </task>
+    <task id="LOCAL-00026" summary="22-07-16【功能新增】：新增图片上传功能">
+      <created>1657937049034</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1657937049034</updated>
+    </task>
+    <task id="LOCAL-00027" summary="22-07-16【功能新增】：修改打包名字">
+      <created>1657984992591</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1657984992591</updated>
+    </task>
+    <task id="LOCAL-00028" summary="22-07-17【功能修改】：统一模块名字,修改配置文件">
+      <created>1658032063641</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1658032063641</updated>
+    </task>
+    <task id="LOCAL-00029" summary="22-07-17【功能修改】：调整博客上传图片接口">
+      <created>1658071828731</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1658071828731</updated>
+    </task>
+    <task id="LOCAL-00030" summary="22-07-20【功能新增】：添加博客日志中心，记录请求用户ip地址，新增黑名单ip列表服务">
+      <created>1658329741256</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1658329741256</updated>
+    </task>
+    <task id="LOCAL-00031" summary="22-07-21【功能修改】：完善用户服务模块权限">
+      <created>1658415289575</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1658415289575</updated>
+    </task>
+    <task id="LOCAL-00032" summary="22-07-27【功能修改】：修改文章列表接口，前端页面调整">
+      <created>1658935474260</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1658935474261</updated>
+    </task>
+    <task id="LOCAL-00033" summary="22-07-28【功能修改】：修改文章类型接口，连接MySQL url修改，博客文章页面修改">
+      <created>1659020716994</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1659020716994</updated>
+    </task>
+    <task id="LOCAL-00034" summary="22-08-21【功能新增】：封装oauth2的返回数据&amp;前端页面修改">
+      <created>1661096939712</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1661096939712</updated>
+    </task>
+    <task id="LOCAL-00035" summary="22-08-28【功能修改】：界面日常调整，后端添加正则表达式笔记">
+      <created>1661701503382</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1661701503382</updated>
+    </task>
+    <task id="LOCAL-00036" summary="22-09-02【功能修改】：界面日常调整，新增文章界面">
+      <created>1663168409012</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1663168409012</updated>
+    </task>
+    <task id="LOCAL-00037" summary="22-09-09【功能修改】：添加单文章查询接口，修改界面">
+      <created>1663169474004</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1663169474005</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -323,128 +542,161 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="22-06-12: 鉴权中心和用户中心设置完成，等待调试" />
-    <MESSAGE value="22-06-12: 鉴权中心配置基本完成，修改jwt，添加自定义信息 user_id" />
-    <MESSAGE value="22-06-12: 博客内容服务模块自测成功" />
-    <MESSAGE value="22-06-12: pom修改" />
-    <MESSAGE value="22-06-13: 博客文章增删改查接口完成" />
-    <MESSAGE value="22-06-14: 博客文章分类基础接口开发完成" />
-    <MESSAGE value="22-06-14: 添加mybatis-plus主键自增设置" />
-    <MESSAGE value="22-06-15: 添加文章标签接口，待测试" />
-    <MESSAGE value="22-06-19: 添加博客标签功能" />
-    <MESSAGE value="22-06-20: 博客添加文档目录接口" />
-    <MESSAGE value="22-06-21: 博客文档内容接口添加" />
-    <MESSAGE value="22-06-22: 博客内容模块基本接口开发完成" />
-    <MESSAGE value="22-06-23: 博客日记删除功能修改，解决日期不准确的问题" />
-    <MESSAGE value="22-06-25: 博客用户模块添加角色相关基本接口，添加用户登陆返回菜单权限类" />
-    <MESSAGE value="22-06-25: 修复无法使用refresh_token的bug，修复查询标签返回数据错误的bug" />
     <MESSAGE value="22-06-28: 完善user模块" />
     <MESSAGE value="22-07-03: 微服务部署修改打包方式" />
-    <option name="LAST_COMMIT_MESSAGE" value="22-07-03: 微服务部署修改打包方式" />
+    <MESSAGE value="22-07-07: 新增文件中心处理文件上传下载，文档到日导出，暂时只实现文件上传" />
+    <MESSAGE value="22-07-09: 文件中心新增excel表格导出功能" />
+    <MESSAGE value="22-07-10【功能新增】： 新增日记导入功能，上传文件格式为txt格式" />
+    <MESSAGE value="22-07-10【代码优化】： 调整content模块entity位置" />
+    <MESSAGE value="22-07-10【功能新增】： 新增openfeign拦截器，各模块配置引入了nacos的config，实现统一配置" />
+    <MESSAGE value="22-07-13【功能新增】： 新增openfeign拦截器，各模块配置引入了nacos的config，实现统一配置" />
+    <MESSAGE value="22-07-14【功能新增】： 完善文件上传功能" />
+    <MESSAGE value="22-07-14【bug修复】：修复oauth2登陆报错问题" />
+    <MESSAGE value="22-07-16【功能新增】：新增图片上传功能" />
+    <MESSAGE value="22-07-16【功能新增】：修改打包名字" />
+    <MESSAGE value="22-07-17【功能修改】：统一模块名字,修改配置文件," />
+    <MESSAGE value="22-07-17【功能修改】：统一模块名字,修改配置文件" />
+    <MESSAGE value="22-07-17【功能修改】：调整博客上传图片接口" />
+    <MESSAGE value="22-07-20【功能新增】：添加博客日志中心，记录请求用户ip地址，新增黑名单ip列表服务" />
+    <MESSAGE value="22-07-21【功能修改】：完善用户服务模块权限" />
+    <MESSAGE value="22-07-25【功能修改】：修改文章列表接口，前端页面调整" />
+    <MESSAGE value="22-07-27【功能修改】：修改文章列表接口，前端页面调整" />
+    <MESSAGE value="22-07-28【功能修改】：修改文章类型接口，连接MySQL url修改，博客文章页面修改" />
+    <MESSAGE value="22-08-21【功能新增】：封装oauth2返回数据，修改界面" />
+    <MESSAGE value="22-08-21【功能新增】：封装oauth2的返回数据&amp;前端页面修改" />
+    <MESSAGE value="22-08-28【功能修改】：界面日常调整，后端添加正则表达式笔记" />
+    <MESSAGE value="22-09-02【功能修改】：界面日常调整，新增文章界面" />
+    <MESSAGE value="22-09-09【功能修改】：添加单文章查询接口，修改界面" />
+    <option name="LAST_COMMIT_MESSAGE" value="22-09-09【功能修改】：添加单文章查询接口，修改界面" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="440" y="94" key="#Project_Structure" timestamp="1656429574407">
+    <state x="564" y="228" width="875" height="562" key="#Notifications" timestamp="1663170115100">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656429574407" />
+    <state x="564" y="228" width="875" height="562" key="#Notifications/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1663170115100" />
+    <state x="440" y="94" key="#Project_Structure" timestamp="1657724130943">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1657724130943" />
+    <state x="414" y="175" width="1174" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1658040090187">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" width="1174" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1658040090187" />
     <state x="703" y="320" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1655015174517">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="703" y="320" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655015174517" />
-    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1655299745057">
+    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1657428433121">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655299745057" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1655014454063">
+    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1657428433121" />
+    <state x="527" y="443" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1657453859758">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655014454063" />
-    <state width="1877" height="306" key="GridCell.Tab.0.bottom" timestamp="1656860854380">
+    <state x="527" y="443" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1657453859758" />
+    <state width="534" height="466" key="DebuggerActiveHint" timestamp="1657811536280">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="306" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656860854380" />
-    <state width="1877" height="306" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1656860260100" />
-    <state width="1877" height="306" key="GridCell.Tab.0.center" timestamp="1656860854380">
+    <state width="534" height="466" key="DebuggerActiveHint/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1657811536280" />
+    <state x="695" y="214" key="FileChooserDialogImpl" timestamp="1659834057721">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="306" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656860854380" />
-    <state width="1877" height="306" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1656860260100" />
-    <state width="1877" height="306" key="GridCell.Tab.0.left" timestamp="1656860854380">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1658028538301" />
+    <state x="695" y="214" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834057721" />
+    <state width="1877" height="305" key="GridCell.Tab.0.bottom" timestamp="1660491014605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="306" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656860854380" />
-    <state width="1877" height="306" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1656860260100" />
-    <state width="1877" height="306" key="GridCell.Tab.0.right" timestamp="1656860854380">
+    <state width="1877" height="305" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1660491014605" />
+    <state width="1543" height="351" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108659" />
+    <state width="1877" height="305" key="GridCell.Tab.0.center" timestamp="1660491014605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="306" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656860854380" />
-    <state width="1877" height="306" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1656860260100" />
-    <state width="619" height="281" key="GridCell.Tab.1.bottom" timestamp="1655131611204">
+    <state width="1877" height="305" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1660491014605" />
+    <state width="1543" height="351" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108659" />
+    <state width="1877" height="305" key="GridCell.Tab.0.left" timestamp="1660491014605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="619" height="281" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611204" />
-    <state width="619" height="281" key="GridCell.Tab.1.center" timestamp="1655131611203">
+    <state width="1877" height="305" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1660491014605" />
+    <state width="1543" height="351" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108658" />
+    <state width="1877" height="305" key="GridCell.Tab.0.right" timestamp="1660491014605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="619" height="281" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611203" />
-    <state width="619" height="281" key="GridCell.Tab.1.left" timestamp="1655131611203">
+    <state width="1877" height="305" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1660491014605" />
+    <state width="1543" height="351" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108659" />
+    <state width="1543" height="351" key="GridCell.Tab.1.bottom" timestamp="1659834108661">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1543" height="390" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1659276224957" />
+    <state width="1543" height="351" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108660" />
+    <state width="1543" height="351" key="GridCell.Tab.1.center" timestamp="1659834108660">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1543" height="390" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1659276224956" />
+    <state width="1543" height="351" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108660" />
+    <state width="1543" height="351" key="GridCell.Tab.1.left" timestamp="1659834108660">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1543" height="390" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1659276224956" />
+    <state width="1543" height="351" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108660" />
+    <state width="1543" height="351" key="GridCell.Tab.1.right" timestamp="1659834108660">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1543" height="390" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1659276224956" />
+    <state width="1543" height="351" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108660" />
+    <state width="1526" height="376" key="GridCell.Tab.2.bottom" timestamp="1657812748556">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="619" height="281" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611203" />
-    <state width="619" height="281" key="GridCell.Tab.1.right" timestamp="1655131611204">
+    <state width="1526" height="376" key="GridCell.Tab.2.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1657812748556" />
+    <state width="1526" height="376" key="GridCell.Tab.2.center" timestamp="1657812748556">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="619" height="281" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611204" />
-    <state width="1506" height="231" key="GridCell.Tab.2.bottom" timestamp="1655131611194">
+    <state width="1526" height="376" key="GridCell.Tab.2.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1657812748556" />
+    <state width="1526" height="376" key="GridCell.Tab.2.left" timestamp="1657812748555">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1506" height="231" key="GridCell.Tab.2.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611194" />
-    <state width="1506" height="231" key="GridCell.Tab.2.center" timestamp="1655131611194">
+    <state width="1526" height="376" key="GridCell.Tab.2.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1657812748555" />
+    <state width="1526" height="376" key="GridCell.Tab.2.right" timestamp="1657812748556">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1506" height="231" key="GridCell.Tab.2.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611194" />
-    <state width="1506" height="231" key="GridCell.Tab.2.left" timestamp="1655131611194">
+    <state width="1526" height="376" key="GridCell.Tab.2.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1657812748556" />
+    <state x="712" y="221" key="RollbackChangesDialog" timestamp="1657724109035">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1506" height="231" key="GridCell.Tab.2.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611194" />
-    <state width="1506" height="231" key="GridCell.Tab.2.right" timestamp="1655131611194">
+    <state x="712" y="221" key="RollbackChangesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1657724109035" />
+    <state x="461" y="164" key="SettingsEditor" timestamp="1663372291174">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1506" height="231" key="GridCell.Tab.2.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655131611194" />
-    <state x="461" y="164" key="SettingsEditor" timestamp="1655043618193">
+    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1663372291174" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1663371887801">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655043618193" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1656860842965">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1656860842965" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1663371887801" />
     <state x="2472" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1655909876564" />
     <state x="2673" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1655910424497">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="753" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655908547957" />
     <state x="2673" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1655910424497" />
-    <state x="662" y="252" width="596" height="536" key="find.popup" timestamp="1655021344557">
+    <state x="662" y="252" width="596" height="536" key="find.popup" timestamp="1657812198489">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="662" y="252" width="596" height="536" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655021344557" />
-    <state x="334" y="180" key="new project wizard" timestamp="1655038524255">
+    <state x="662" y="252" width="596" height="536" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1657812198489" />
+    <state x="362" y="318" key="new project wizard" timestamp="1657197588553">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="334" y="180" key="new project wizard/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655038524255" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1655294668018">
+    <state x="362" y="318" key="new project wizard/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1657197588553" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1658329660557">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1655294668018" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1658329660557" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/auth-center/src/main/java/com/blog/auth/service/impl/UserDetailsServiceImpl.java</url>
-          <line>38</line>
-          <option name="timeStamp" value="5" />
+          <url>file://$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/auth/LoginUser.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
