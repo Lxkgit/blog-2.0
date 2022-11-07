@@ -17,6 +17,13 @@ export const saveArticle = (article) => {
     })
 }
 
+export const deleteArticleByIds = (ids) => {
+    return service({
+        method: 'DELETE',
+        url: "/content/article/delete?articleIds=" + ids,
+    })
+} 
+
 export const getBlogType = () => {
     return service({
         method: 'GET',

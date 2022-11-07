@@ -22,12 +22,13 @@
 
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { articleStore } from "../../../store/article";
 import { saveArticle } from '../../../api/article';
 
 const store = articleStore();
 const route = useRoute();
+const router = useRouter();
 
 let article: any = reactive({
     data: {
@@ -61,6 +62,7 @@ const useText = () => {
         title: article.data.title,
         contentMd: article.data.contentMd
     }).then(res=> {
+        router.go(-1)
         console.log(res)
     })
 }

@@ -24,6 +24,9 @@ service.interceptors.request.use(config => {
 
 //3. 响应拦截器
 service.interceptors.response.use(response => {
+    if(response.data.code === 401) {
+
+    }
     return response.data;
 }, error => {
     return Promise.reject(error);

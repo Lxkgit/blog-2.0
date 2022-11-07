@@ -5,7 +5,7 @@
         </div>
         <el-card style="margin: 18px 2%;width: 95%">
             <el-button type="primary" plain @click="editArticle">新增</el-button>
-            <el-button type="danger" plain @click="deleteArticle">删除</el-button>
+            <el-button type="danger" plain @click="deleteArticle(0)">删除</el-button>
             <el-table :data="articleList.data" stripe style="width: 100%" :max-height="tableHeight" @selection-change="selected">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
@@ -55,7 +55,7 @@
 import { computed } from '@vue/reactivity';
 import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { getBlogList, getBlogType } from "../../../api/article";
+import { getBlogList, getBlogType, deleteArticleByIds } from "../../../api/article";
 
 const router = useRouter()
 let page = ref<number>(1)
@@ -151,10 +151,22 @@ const editArticle = (article: any) => {
     })
 };
 
-const deleteArticle = () => {
-    if(ids.length !== 0) {
-        
+const deleteArticle = (id?:any) => {
+    console.log("id" + id)
+    if(id===0){
+        if(ids.length !== 0) {
+           deleteArticleByIds(ids.join()).then(res => {
+                console.log("delete: ", res)
+                getBlogListByPage(1)
+            })
+        }
+    } else {
+        deleteArticleByIds(id).then(res => {
+            console.log("delete: ", res)
+            getBlogListByPage(1)
+        })
     }
+    
 };
 
 </script>

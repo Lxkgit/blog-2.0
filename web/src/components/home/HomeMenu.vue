@@ -6,10 +6,15 @@
 					<img src="../../assets/logo.png" />
 				</h1>
 				<ul>
-					<li class='active'>首 页</li>
-					<li>归 档</li>
-					<li>文 档</li>
-					<li class='active'>导 航</li>
+					<li class='active'>
+						<router-link to="/index">首 页</router-link>
+					</li>
+					<li class='active'>
+						<router-link to="/doc">文 档</router-link>
+					</li>
+					<li class='active'>
+						<router-link to="/nav">导 航</router-link>
+					</li>
 				</ul>
 			</div>
 			<div class='header_r'>
@@ -18,7 +23,6 @@
 					<i class="fa fa-search" aria-hidden="true"></i>
 				</div>
 				<div class='login'>
-
 					<router-link to="/login" v-if="!isLogin">
 						登录
 					</router-link>
@@ -103,6 +107,10 @@ header {
 	cursor: pointer;
 }
 
+.header_l ul li a{
+	text-decoration: none;
+}
+
 .header_l ul li+li {
 	margin-left: 19px;
 	font-size: 16px;
@@ -110,7 +118,7 @@ header {
 
 .active {
 	position: relative;
-	color: #3585FF;
+	color: #3585FF!important;
 }
 
 .active:after {
@@ -121,7 +129,7 @@ header {
 	width: 140%;
 	margin-left: -20%;
 	height: 3px;
-	background-color: #3585FF;
+	background-color: #3585FF!important;
 }
 
 .header_r {

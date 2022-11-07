@@ -16,43 +16,8 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="22-09-17【功能修改】：取消idea隐藏文件">
-      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/TokenUtil.java" afterDir="false" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="22-11-07【功能修改】：修改前端接口调用方式，后端使用分页插件">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/article/vo/ArticleVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/article/vo/ArticleVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/diary/Diary.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/diary/Diary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/DateUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/DateUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/dao/ArticleDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/dao/ArticleDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/ArticleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/ArticleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/resources/mapper/ArticleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/resources/mapper/ArticleMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/resources/mapper/DiaryMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/resources/mapper/DiaryMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/UploadFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/UploadFileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/api/article.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/api/article.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/api/login.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/api/login.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/axios/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/axios/axios.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/MenuBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/MenuBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/PageTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/PageTab.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/article/AdminArticle.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/article/AdminArticle.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/article/Editor.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/article/Editor.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/diary/Calendar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/diary/Calendar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/role/AdminRole.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/role/AdminRole.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/user/AdminUser.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/user/AdminUser.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/home/HomeMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/home/HomeMenu.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/home/index/HomeIndex.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/home/index/HomeIndex.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/home/index/article/ArticleDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/home/index/article/ArticleDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/pages/LoginPage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/pages/LoginPage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/router/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/store/admin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/store/admin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/store/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/store/login.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/store/login.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/store/tag.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/store/tag.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -291,6 +256,7 @@
       <workItem from="1663508814214" duration="869000" />
       <workItem from="1663510940818" duration="3209000" />
       <workItem from="1667784458799" duration="2212000" />
+      <workItem from="1667789443487" duration="447000" />
     </task>
     <task id="LOCAL-00001" summary="22-06-12: 鉴权中心和用户中心设置完成，等待调试">
       <created>1655019586684</created>
@@ -558,7 +524,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663372455824</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="22-11-07【功能修改】：修改前端接口调用方式，后端使用分页插件">
+      <created>1667789787862</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1667789787862</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -589,7 +562,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="22-07-03: 微服务部署修改打包方式" />
     <MESSAGE value="22-07-07: 新增文件中心处理文件上传下载，文档到日导出，暂时只实现文件上传" />
     <MESSAGE value="22-07-09: 文件中心新增excel表格导出功能" />
     <MESSAGE value="22-07-10【功能新增】： 新增日记导入功能，上传文件格式为txt格式" />
@@ -614,7 +586,8 @@
     <MESSAGE value="22-09-02【功能修改】：界面日常调整，新增文章界面" />
     <MESSAGE value="22-09-09【功能修改】：添加单文章查询接口，修改界面" />
     <MESSAGE value="22-09-17【功能修改】：取消idea隐藏文件" />
-    <option name="LAST_COMMIT_MESSAGE" value="22-09-17【功能修改】：取消idea隐藏文件" />
+    <MESSAGE value="22-11-07【功能修改】：修改前端接口调用方式，后端使用分页插件" />
+    <option name="LAST_COMMIT_MESSAGE" value="22-11-07【功能修改】：修改前端接口调用方式，后端使用分页插件" />
   </component>
   <component name="WindowStateProjectService">
     <state x="564" y="228" width="875" height="562" key="#Notifications" timestamp="1667788409366">
@@ -669,10 +642,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1663372291174" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1663514323767">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1667789841729">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1663514323767" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1667789841729" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

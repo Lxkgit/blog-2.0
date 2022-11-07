@@ -16,12 +16,12 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("/src/components/home/index/HomeIndex.vue")
             },
             {
-                path: "/timeline",
-                component: () => import("/src/components/home/timeline/TimeLine.vue")
+                path: "/doc",
+                component: () => import("/src/pages/home/DocPage.vue"),
             },
             {
-                path: "/about",
-                component: () => import("/src/pages/home/About.vue"),
+                path: "/nav",
+                component: () => import("/src/pages/home/NavPage.vue"),
             },
             {
                 path: "/article/articleDetail",

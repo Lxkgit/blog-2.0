@@ -12,7 +12,7 @@
                         <h3 class="blogtitle">
                             <router-link :to="{path:'/article/articleDetail', query: {id: item.id}}">{{item.title}}</router-link>
                         </h3>
-                        <p class="blogtext">我是概况</p>
+                        <p class="blogtext">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{msg}}</p>
                         <div class="bloginfo">
                             <ul style="display:flex; align-items: center;">
                                 <li class="author" style="display:flex; align-items: center;">
@@ -33,7 +33,16 @@
                 </el-col>
                 <el-col :lg="4" :md="0" :sm="0" :xs="0">
                     <div style="margin-left: 15px;">
-                        右栏
+                        <el-card shadow="always" style="height: 200px;">
+                            <template #header>
+                                <div class="card-header">
+                                    <span>
+                                        公告栏
+                                    </span>
+                                </div>
+                            </template>
+                            <div>{{msg}}</div>
+                        </el-card>
                     </div>
                 </el-col>
             </el-row>
@@ -44,6 +53,7 @@
 </template>
 
 <script setup lang="ts">
+import { readFileSync } from 'fs';
 import { reactive, ref, onMounted } from 'vue';
 import { getBlogList, getBlogType } from "../../../api/article";
 
@@ -60,6 +70,8 @@ const typeList = reactive({
     ]
 });
 
+let msg = "今天没有公告今天没有公告今天没有公有公告今天没有公告今天没有公告今天没有公有公告今天没有公告今天没有公告今天没有公有公告今天没有公告"
+
 let articleList: any = reactive({ data: [] })
 
 onMounted(() => {
@@ -74,7 +86,16 @@ onMounted(() => {
     });
 });
 
-
+const showButton = () => {
+    
+    // const height = $refs.desc? this.$refs.desc.clientHeight : 0; //根据元素的clientheight来判断
+    //   if(height > 80){
+    //     showButton = true
+    //   }
+    //   else {
+    //     showButton = false
+    //   }
+}
 
 window.onscroll = function () {
     let topScroll = get_scrollTop_of_body(); //滚动的距离,距离顶部的距离
