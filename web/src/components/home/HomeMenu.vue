@@ -18,7 +18,13 @@
 					<i class="fa fa-search" aria-hidden="true"></i>
 				</div>
 				<div class='login'>
-					登录/注册
+
+					<router-link to="/login" v-if="!isLogin">
+						登录
+					</router-link>
+					<router-link to="/admin" v-else>
+						进入后台
+					</router-link>
 				</div>
 			</div>
 		</div>
@@ -26,6 +32,24 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { selectUserById } from '../../api/login';
+import { userLoginStore } from '../../store/login';
+
+const store = userLoginStore()
+let isLogin = ref(false);
+
+onMounted(() => {
+	let userId = store.token.user_id
+	if(userId !== 0) {
+		selectUserById(userId).then((res: any) => {
+			if(res.code === 200) {
+				isLogin.value = true;
+			}
+    	});
+	}
+});
+
 
 </script>
 
@@ -139,6 +163,10 @@ header {
 	margin-left: 79px;
 	font-size: 16px;
 	cursor: pointer;
+}
+
+.header_r .login a{
+	text-decoration: none;
 }
 </style>
 

@@ -34,11 +34,10 @@ export const adminStore = defineStore('tag', {
         },
         delTag(index: any) {
             if(this.tags[index].close){
-                if(this.tags[index].active === true) {
+                if(this.tags[index].active) {
                     this.tags.splice(index, 1)
                     this.tags[0].active = true
                     this.selectedTag = 0
-
                 } else {
                     this.tags.splice(index, 1)
                 }
@@ -56,10 +55,12 @@ export const adminStore = defineStore('tag', {
         delAllTags() {
             this.tags.splice(1, this.tags.length-1)
         },
-        delOtherTags() {
-            for(let i=1; i<this.tags.length; i++) {
-                if(!this.tags[i].active) {
+        delOtherTags() {        
+            for(let i=0; i<this.tags.length; i++) {
+                console.log(JSON.stringify(this.tags[i]))
+                if(!this.tags[i].active && this.tags[i].close) {
                     this.tags.splice(i, 1)
+                    i--
                 }
             }
         },

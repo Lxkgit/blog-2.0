@@ -97,16 +97,18 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const store = userLoginStore();
-    if (store.getUser && to.path.startsWith("/admin")) {
+    let token = store.getToken;
+    if (token.user_id !== 0 && to.path.startsWith("/admin")) {
         console.log("加载菜单中 ... ")
     }
-    if (store.getUser && to.path.startsWith("/login")) {
+    if (token.user_id !== 0 && to.path.startsWith("/login")) {
+        console.log("login - > admin")
         next({
             path: "/admin"
         })
     }
     if (to.matched.some(r => r.meta.requireAuth)) { // 判断该路由是否需要登录权限
-        if (store.getUser) {
+        if (token.user_id !== 0) {
             next()
         } else {
             next({
@@ -117,7 +119,7 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
-
+ 
 })
 
 // const initAdminMenu = (router, store) => {

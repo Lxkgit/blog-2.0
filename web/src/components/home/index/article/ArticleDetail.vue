@@ -19,7 +19,9 @@ let article: any = reactive({ data: {} })
 const route = useRoute();
 onMounted(() => {
     getBlogById(route.query.id).then((res: any) => {
-        article.data = res;
+        if(res.code===200) {
+            article.data = res.result;
+        }
     });
 });
 

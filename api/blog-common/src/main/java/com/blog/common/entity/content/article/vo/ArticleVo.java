@@ -16,9 +16,31 @@ import java.util.List;
 
 public class ArticleVo extends Article {
 
+    private Integer pageSize;
+
+    private Integer pageNum;
+
     private BlogUser blogUser;
+    
     private List<ArticleType> articleTypes;
+    
     private List<ArticleLabel> articleLabels;
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
 
     public BlogUser getBlogUser() {
         return blogUser;

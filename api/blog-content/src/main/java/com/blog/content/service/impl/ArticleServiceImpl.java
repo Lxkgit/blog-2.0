@@ -1,5 +1,6 @@
 package com.blog.content.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.blog.common.entity.content.article.Article;
 import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.content.article.ArticleType;
@@ -13,6 +14,9 @@ import com.blog.content.dao.ArticleLabelDAO;
 import com.blog.content.dao.ArticleTypeDAO;
 import com.blog.content.feign.UserClient;
 import com.blog.content.service.ArticleService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +29,7 @@ import java.util.*;
  * @date 2022/6/9 9:33
  * @description: 文章服务
  */
-
+@Slf4j
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
@@ -42,13 +46,13 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleLabelDAO articleLabelDAO;
 
     @Override
-    public MyPage<ArticleVo> selectArticleListByPage(int page, int size) {
-        return this.selectArticle(page, size, 0);
+    public MyPage<ArticleVo> selectArticleListByPage(ArticleVo articleVo) {
+        return this.selectArticle(articleVo);
     }
 
     @Override
-    public MyPage<ArticleVo> selectArticleListByPageAndUserId(int page, int size, int userId) {
-        return this.selectArticle(page, size, userId);
+    public MyPage<ArticleVo> selectArticleListByPageAndUserId(ArticleVo articleVo) {
+        return this.selectArticle(articleVo);
     }
 
     @Override
@@ -98,17 +102,16 @@ public class ArticleServiceImpl implements ArticleService {
     /**
      * 查询文章内部方法
      * userId = 0 时查询全部文章
-     * @param page 查询文章页数
-     * @param size 查询文章每页文章数
-     * @param userId 用户Id
+     * @param articleVoParam
      * @return
      */
-    private MyPage<ArticleVo> selectArticle(int page, int size, int userId){
+    private MyPage<ArticleVo> selectArticle(ArticleVo articleVoParam){
         MyPage<ArticleVo> myPage = null;
-        List<Article> articleList = articleDAO.selectArticleListByPage((page-1)*size, size, userId);
+        PageHelper.startPage(articleVoParam.getPageNum(), articleVoParam.getPageSize());
+        Page<Article> articlePage = (Page<Article>) articleDAO.selectArticleListByPage(articleVoParam);
         List<ArticleVo> articleVoList = new ArrayList<>();
         Map<Integer, BlogUser> userMap = new HashMap<>();
-        for (Article article : articleList){
+        for (Article article : articlePage){
             ArticleVo articleVo = new ArticleVo();
             BeanUtils.copyProperties(article, articleVo);
 
@@ -120,20 +123,23 @@ public class ArticleServiceImpl implements ArticleService {
                 articleVo.setBlogUser(blogUser);
             }
 
-            String[] types = article.getArticleType().split(",");
-            List<ArticleType> articleTypeList = articleTypeDAO.selectArticleTypeByArray(types);
-            articleVo.setArticleTypes(articleTypeList);
-
-            String[] labels = article.getArticleLabel().split(",");
-            List<ArticleLabel> articleLabelList = articleLabelDAO.selectArticleLabelByArray(labels);
-            articleVo.setArticleLabels(articleLabelList);
+            if (article.getArticleType() != null && !article.getArticleType().equals("")) {
+                String[] types = article.getArticleType().split(",");
+                List<ArticleType> articleTypeList = articleTypeDAO.selectArticleTypeByArray(types);
+                articleVo.setArticleTypes(articleTypeList);
+            }
+            if (article.getArticleLabel() != null && !article.getArticleLabel().equals("")) {
+                String[] labels = article.getArticleLabel().split(",");
+                List<ArticleLabel> articleLabelList = articleLabelDAO.selectArticleLabelByArray(labels);
+                articleVo.setArticleLabels(articleLabelList);
+            }
 
             articleVoList.add(articleVo);
         }
         try {
-            Integer count = articleDAO.selectArticleCount(userId);
-            myPage = MyPageUtils.pageUtil(articleVoList, page, size, count);
+            myPage = MyPageUtils.pageUtil(articleVoList, articlePage.getPageNum(), articlePage.getPageSize(), (int)articlePage.getTotal());
         } catch (Exception e){
+            log.info("分页查询文章报错, param:{}", JSON.toJSONString(articleVoParam));
             e.printStackTrace();
         }
         return myPage;

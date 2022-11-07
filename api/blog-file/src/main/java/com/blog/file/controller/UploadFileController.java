@@ -15,12 +15,18 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @Author: lxk
@@ -37,7 +43,7 @@ public class UploadFileController {
     private UploadFileService fileUploadService;
 
     @PostMapping("/upload")
-    public Result uploadFile(@RequestParam("file") MultipartFile[] files, String type, @RequestParam(required = false,defaultValue = "-1") Integer year,
+    public Result uploadFile(@RequestParam("file") MultipartFile[] files, String type, @RequestParam(required = false, defaultValue = "-1") Integer year,
                              HttpServletRequest request) {
         if (files == null || files.length == 0) {
             return ResultFactory.buildFailResult("文件上传失败 ... ");
@@ -48,8 +54,8 @@ public class UploadFileController {
         }
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
-            if (type.equals("diary")){
-                if (year==-1){
+            if (type.equals("diary")) {
+                if (year == -1) {
                     return ResultFactory.buildFailResult("文件上传类型为type时year为必填字段 ... ");
                 }
                 return fileUploadService.uploadDiary(files, year, blogUser.getId());
@@ -61,6 +67,73 @@ public class UploadFileController {
             e.printStackTrace();
         }
         return ResultFactory.buildFailResult("文件上传失败 ... ");
+    }
+
+    @GetMapping("/export")
+    public void exportImg(HttpServletResponse response) throws IOException {
+        List<String> strings = new ArrayList<>();
+        String str1 = "http://172.25.238.129:9876/65fbf56f-1930-11ed-b10f-d094663eb298/20220929/1/b66ee81d-3fa1-11ed-9910-d094663eb298.png";
+        String str2 = "http://172.25.238.129:9876/65fbf56f-1930-11ed-b10f-d094663eb298/20220929/1/b66ee81d-3fa1-11ed-9910-d094663eb298.png";
+        strings.add(str1);
+        strings.add(str2);
+        ZipOutputStream zipOutputStream = new ZipOutputStream(response.getOutputStream());
+        //设置返回响应头
+        response.reset();
+        // 自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("picture.zip", "UTF-8"));
+        try {
+            for (int i=0; i<strings.size(); i++) {
+                URL url = new URL(strings.get(i));
+                //打开链接
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                //设置请求方式为"GET"
+                conn.setRequestMethod("GET");
+                //超时响应时间为5秒
+                conn.setConnectTimeout(5 * 1000);
+                //通过输入流获取图片数据
+                InputStream inStream = conn.getInputStream();
+                //得到图片的二进制数据，以二进制封装得到数据，具有通用性
+                byte[] data = readInputStream(inStream);
+                //重点开始，创建压缩文件
+                ZipEntry zipEntry = new ZipEntry( i + ".png");
+                zipOutputStream.putNextEntry(zipEntry);
+                zipOutputStream.write(data);
+                inStream.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                zipOutputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 得到图片的二进制数据，以二进制封装得到数据，具有通用性
+     *
+     * @param inStream
+     * @return
+     * @throws Exception
+     */
+    private byte[] readInputStream(InputStream inStream) throws Exception {
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        //创建一个Buffer字符串
+        byte[] buffer = new byte[1024];
+        //每次读取的字符串长度，如果为-1，代表全部读取完毕
+        int len = 0;
+        //使用一个输入流从buffer里把数据读取出来
+        while ((len = inStream.read(buffer)) != -1) {
+            //用输出流往buffer里写入数据，中间参数代表从哪个位置开始读，len代表读取的长度
+            outStream.write(buffer, 0, len);
+        }
+        //关闭输入流
+        inStream.close();
+        //把outStream里的数据写入内存
+        return outStream.toByteArray();
     }
 
     //使用easyExcel导出

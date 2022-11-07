@@ -1,11 +1,16 @@
 package com.blog.common.util;
 
+import cn.hutool.json.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Author: lxk
@@ -312,10 +317,111 @@ public class DateUtil {
 
     @SuppressWarnings("unused")
     public static void main(String[] args) throws Exception {
-        String config = "{\"DetectRegion\":\"[{\\\"Point\\\":\\\"15,630\\\"},{\\\"Point\\\":\\\"7817,630\\\"},{\\\"Point\\\":\\\"7817,7649\\\"},{\\\"Point\\\":\\\"15,7649\\\"}]\",\"WorkClothesDescription\":[{\"AlarmRepeatTime\":0,\"AlarmTime\":60,\"Helmet\":{\"MultiColor\":[5],\"Weared\":1},\"Sensitivity\":5}]}";
-        config = config.replace("\\", "");
-        System.out.println(config);
-        System.out.println(config.replaceAll("\\{\"Point\":\"([0-9]+),([0-9]+)\"}","[$1,$2]"));
+//        String config = "{\"DetectRegion\":\"[{\\\"Point\\\":\\\"15,630\\\"},{\\\"Point\\\":\\\"7817,630\\\"},{\\\"Point\\\":\\\"7817,7649\\\"},{\\\"Point\\\":\\\"15,7649\\\"}]\",\"WorkClothesDescription\":[{\"AlarmRepeatTime\":0,\"AlarmTime\":60,\"Helmet\":{\"MultiColor\":[5],\"Weared\":1},\"Sensitivity\":5}]}";
+//        config = config.replace("\\", "");
+//        System.out.println(config);
+//        System.out.println(config.replaceAll("\\{\"Point\":\"([0-9]+),([0-9]+)\"}","[$1,$2]"));
+
+//        String str2 = "http://172.25.238.129:9876/65fbf56f-1930-11ed-b10f-d094663eb298/20220929/1/b66ee81d-3fa1-11ed-9910-d094663eb298.png";
+//        int x = str2.lastIndexOf(".");
+//        System.out.println(str2.substring(x));
+
+//        String messageStr = "\"LinkGroup\":[{\"CutoutPolicy\":0,\"Enable\":true,\"GroupID\":\"11\",\"GroupName\":\"大白\",\"Similarity\":67},{\"CutoutPolicy\":0,\"Enable\":true,\"GroupID\":\"12\",\"GroupName\":\"大白\",\"Similarity\":67}],";
+//        Pattern p = Pattern.compile("\"GroupID\":\"([0-9]+)\"");
+//        Matcher m = p.matcher(messageStr);
+//        if (m.find()) {
+//            System.out.println(m.group());
+//            System.out.println(m.group().substring(m.group().lastIndexOf(":")+2, m.group().length()-1));
+//        }
+
+//        Integer[][] integers = new Integer[][]{new Integer[]{0}};
+//        Integer[][] integers = new Integer[5][];
+//        integers[0] = new Integer[]{1};
+//        for (int i=0; i<integers.length; i++) {
+//            integers[i] = new Integer[]{1};
+//        }
+//        System.out.println(Arrays.deepToString(integers));
+
+        Calendar cal = Calendar.getInstance();
+        int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        System.out.println(w);
+
+//        int len = 5;
+//        Integer[][] integers = new Integer[len][];
+//        for (int i=0; i<len; i++) {
+//            integers[i] = new Integer[]{1};
+//        }
+//        System.out.println(Arrays.deepToString(integers));
+
+//        int len = 6;
+//        Integer[] s = new Integer[len];
+//        for (int k=0; k<len; k++) {
+//            s[k]=1;
+//        }
+//        System.out.println(Arrays.toString(s));
+
+//        Date date = new Date();
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        System.out.println(format.format(date));
+//        System.out.println(date);
+
+        Random random = new Random();
+        String s = random.nextInt(9999) + "";
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < 4-s.length(); i++) {
+            builder.append("0");
+        }
+        System.out.println(s + builder.toString());
+
+        System.out.println(cal.get(Calendar.YEAR));
+
+
+        System.out.println(cal.get(Calendar.HOUR_OF_DAY));
+        System.out.println(cal.get(Calendar.MINUTE));
+        System.out.println(cal.get(Calendar.SECOND));
+
+
+        Calendar calendar = Calendar.getInstance();
+        Date date = new Date();
+        calendar.setTime(date);
+        int month = calendar.get(Calendar.MONTH)+1; //获取月（月份从0开始）
+        int dayMonth = calendar.get(Calendar.DAY_OF_MONTH);//获取日（月中的某一天）
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int min = calendar.get(Calendar.MINUTE);
+        int sec = calendar.get(Calendar.SECOND);
+        String strMonth;
+        String strDay;
+        String strHour;
+        String strMin;
+        String strSec;
+        if (month < 10) {
+            strMonth = "0" + month;
+        } else {
+            strMonth = String.valueOf(month);
+        }
+        if (dayMonth < 10) {
+            strDay = "0" + dayMonth;
+        } else {
+            strDay = String.valueOf(dayMonth);
+        }
+        if (hour < 10) {
+            strHour = "0" + hour;
+        } else {
+            strHour = String.valueOf(hour);
+        }
+        if (min < 10) {
+            strMin = "0" + min;
+        } else {
+            strMin = String.valueOf(min);
+        }
+        if (sec < 10) {
+            strSec = "0" + sec;
+        } else {
+            strSec = String.valueOf(sec);
+        }
+
+        System.out.println((calendar.get(Calendar.YEAR) % 100 + strMonth + strDay + strHour + strMin + strSec));
+//        return calendar.get(Calendar.YEAR)%100 + strMonth + strDay + strHour + strMin + strSec;
     }
 
 }

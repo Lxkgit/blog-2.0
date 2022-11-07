@@ -1,31 +1,8 @@
-// import { createApp } from 'vue'
-// import App from './App.vue'
-// import 'font-awesome/css/font-awesome.css';
-// import router from './router'
-// import { createPinia } from 'pinia'
-
-// import VueMarkdownEditor from '@kangc/v-md-editor';
-// import '@kangc/v-md-editor/lib/style/base-editor.css';
-// import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
-// import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
-// import Prism from 'prismjs';
-
-// VueMarkdownEditor.use(vuepressTheme, {
-//   Prism,
-// });
-
-
-// const app = createApp(App);
-// app.use(VueMarkdownEditor)
-// app.use(router)
-// app.use(createPinia())
-// app.mount('#app')
-
 import { createApp } from 'vue'
 import App from './App.vue'
 import 'font-awesome/css/font-awesome.css';
 import router from './router'
-import { createPinia } from 'pinia'
+import store from './store'
 
 // main.js
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
@@ -61,6 +38,16 @@ import 'codemirror/addon/scroll/simplescrollbars.css';
 // style
 import 'codemirror/lib/codemirror.css';
 
+// import VueMarkdownEditor from '@kangc/v-md-editor';
+// import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
+// import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
+
+// import VMdPreviewHtml from '@kangc/v-md-editor/lib/preview-html';
+// import createCopyCodePreview from '@kangc/v-md-editor/lib/plugins/copy-code/preview';
+
+// VueMarkdownEditor.use(createCopyCodePlugin());
+// VMdPreviewHtml.use(createCopyCodePreview());
+
 VMdEditor.Codemirror = Codemirror;
 VMdEditor.use(githubTheme, {
   Hljs: hljs,
@@ -71,8 +58,10 @@ VMdPreview.use(githubTheme, {
 });
 
 const app = createApp(App);
+app.use(store)
 app.use(router)
 app.use(VMdEditor)
 app.use(VMdPreview)
-app.use(createPinia())
+// app.use(VueMarkdownEditor)
+// app.use(VMdPreviewHtml)
 app.mount('#app')

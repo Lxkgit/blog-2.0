@@ -24,18 +24,27 @@
     <select id="selectArticleCount" resultType="java.lang.Integer">
         select count(*)
         from article
-        <if test="userId != 0 ">
-            where user_id = #{userId}
-        </if>
+        <where>
+            <if test="userId != 0 ">
+                AND user_id = #{userId}
+            </if>
+            <if test="title != null and title != ''">
+                AND title like CONCAT(CONCAT('%',#{title}),'%')
+            </if>
+        </where>
     </select>
 
-    <select id="selectArticleListByPage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectArticleListByPage" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from article
-        <if test="userId != 0 ">
-            where user_id = #{userId}
-        </if>
-        limit #{startNum}, #{pageSize}
+        <where>
+            <if test="userId != 0 ">
+                AND user_id = #{userId}
+            </if>
+            <if test="title != null and title != ''">
+                AND title like CONCAT(CONCAT('%',#{title}),'%')
+            </if>
+        </where>
     </select>
 
     <select id="selectArticleById" resultMap="BaseResultMap" parameterType="java.lang.Integer">

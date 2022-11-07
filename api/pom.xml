@@ -38,6 +38,7 @@
         <lombok.version>1.18.22</lombok.version>
         <jwt.version>0.9.0</jwt.version>
         <hutool.version>5.8.3</hutool.version>
+        <pagehelper.version>1.2.12</pagehelper.version>
     </properties>
 
     <dependencyManagement>
@@ -119,6 +120,12 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
+            </dependency>
+            <!-- pagehelper -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>

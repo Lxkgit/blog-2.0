@@ -33,7 +33,7 @@
 import { reactive } from 'vue';
 import type { FormRules } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router';
-import { userLoginApi } from '../api/login';
+import { userLoginApi, selectUserById } from '../api/login';
 import { userLoginStore } from '../store/login'
 
 const route = useRoute();
@@ -55,18 +55,25 @@ const rules = reactive<FormRules>({
 const login = () => {
     const date = new Date();
     userLoginApi(loginForm.username, loginForm.password).then((res: any) => {
-        localStorage.setItem('user', JSON.stringify(res))
-        localStorage.setItem("access_token", JSON.stringify({
-            expires: date.valueOf() + 12 * 3600 * 1000,
-            data: res.access_token
-        }));
-        store.user = res
-        let redirect = decodeURIComponent(route.query.redirect || '/');
-        console.log("redirect: " + redirect)
-        router.push({
-            path: redirect
-        })
-        window.location.reload()
+        
+        if(res.code === 200) {
+            store.setToken(res.result)
+            router.go(-1)
+        }
+        
+
+        // localStorage.setItem('user', JSON.stringify(res))
+        // localStorage.setItem("access_token", JSON.stringify({
+        //     expires: date.valueOf() + 12 * 3600 * 1000,
+        //     data: res.access_token
+        // }));
+        // store.user = res
+        // let redirect = decodeURIComponent(route.query.redirect || '/');
+        // console.log("redirect: " + redirect)
+        // router.push({
+        //     path: redirect
+        // })
+        // window.location.reload()
     });
 }
 </script>

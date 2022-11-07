@@ -57,7 +57,7 @@ const closeTag = (index?: any) => {
     store.delTag(store.selectedTag)
     router.push("/admin")
   } else {
-    if(store.tags[index].active === true){
+    if(store.tags[index].active){
       router.push("/admin")
     }
     store.delTag(index)

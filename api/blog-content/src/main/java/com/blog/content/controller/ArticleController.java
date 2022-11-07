@@ -37,12 +37,15 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    @GetMapping("/list/{page}/{size}")
-    public Result selectArticleByPage(@PathVariable("page") int page,@PathVariable("size") int size,
-                                      @RequestParam(required = false, value = "userId", defaultValue = "0") Integer userId) {
+    @GetMapping("/list")
+    public Result selectArticleByPage(ArticleVo articleVo) {
+        Integer userId = articleVo.getUserId();
+        Integer page = articleVo.getPageNum();
+        Integer size = articleVo.getPageSize();
+        
         if (userId == 0){
             log.info("分页查询全部文章， page: {},  size: {}", page, size);
-            return ResultFactory.buildSuccessResult(articleService.selectArticleListByPage(page, size));
+            return ResultFactory.buildSuccessResult(articleService.selectArticleListByPage(articleVo));
         } else {
             // 标记文章列表是否属于当前用户
             boolean isOwner = false;
@@ -53,8 +56,8 @@ public class ArticleController {
             if (StringUtils.isEmpty(token)) {
                 token = request.getParameter("Authorization");
             }
-            MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(page, size, userId);
-            if (!token.isEmpty()){
+            MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
+            if (token != null && !token.isEmpty()){
                 try {
                     BlogUser blogUser = JwtUtil.getUserInfo(token);
                     if (blogUser.getId().equals(userId)) {

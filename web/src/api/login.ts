@@ -6,3 +6,10 @@ export const userLoginApi = (username: string, password: string) => {
         url: "/auth/oauth/token?grant_type=password&client_id=system&client_secret=system&username=" + username + "&password=" + password 
     })
 }
+
+export const selectUserById = (userId) => {
+    return service({
+        method: 'GET',
+        url: "/user/user/select/user/id?userId=" + userId
+    })
+}

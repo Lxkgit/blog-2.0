@@ -4,13 +4,14 @@
             <span>文章管理</span>
         </div>
         <el-card style="margin: 18px 2%;width: 95%">
-            <el-button @click="editArticle">写文章</el-button>
-            <el-table :data="articleList.data" stripe style="width: 100%" :max-height="tableHeight">
+            <el-button type="primary" plain @click="editArticle">新增</el-button>
+            <el-button type="danger" plain @click="deleteArticle">删除</el-button>
+            <el-table :data="articleList.data" stripe style="width: 100%" :max-height="tableHeight" @selection-change="selected">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
                 <el-table-column prop="title" label="标题" fit>
                 </el-table-column>
-                <el-table-column label="文章分类" width="200">
+                <el-table-column label="文章分类" width="300">
                     <template #default="scope">
                         <el-tag style="margin-right: 2px; margin-bottom: 2px;" v-for="item in scope.row.articleTypes">
                             {{ item.typeName }}
@@ -68,17 +69,21 @@ let labelList: any = reactive({
     ]
 });
 
+let ids = new Array();
 
 let tableHeight = computed(() => {
     return window.innerHeight - 310
 });
 
 onMounted(() => {
-    getBlogList(page.value, size.value).then((res: any) => {
-
-        articleList.data = res.list;
-        total.value = res.total;
-
+    getBlogList({
+        pageNum: page.value,
+        pageSize: size.value,
+    }).then((res: any) => {
+        if(res.code === 200) {
+            articleList.data = res.result.list;
+            total.value = res.result.total;
+        }
     });
 });
 
@@ -104,8 +109,14 @@ const deleteBlog = (id: number) => {
 };
 
 const getBlogListByPage = (page: any) => {
-    getBlogList(page, size.value).then((res: any) => {
-        articleList.data = res.list;
+    getBlogList({
+        pageNum: page,
+        pageSize: size.value,
+    }).then((res: any) => {
+        if (res.code === 200) {
+            articleList.data = res.result.list;
+        }
+        
     })
 };
 
@@ -120,6 +131,13 @@ const updateBlog = (article: any) => {
     // )
 };
 
+const selected = (val: any) => {
+    ids.splice(0, ids.length)
+    for(let i=0; i<val.length; i++) {
+        ids.unshift(val[i].id)
+    }
+}
+
 const deleteRow = (index: number) => {
     articleList.data.splice(index, 1)
 };
@@ -133,8 +151,10 @@ const editArticle = (article: any) => {
     })
 };
 
-const deleteArticle = (id: number) => {
-
+const deleteArticle = () => {
+    if(ids.length !== 0) {
+        
+    }
 };
 
 </script>

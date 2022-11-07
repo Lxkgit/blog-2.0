@@ -12,6 +12,7 @@
             </el-input>
         </el-row>
         <el-row style="height: calc(100vh - 90px);">
+            <!-- <v-md-editor v-model="article.data.contentMd" height="100%" @save="useText" @copy-code-success="handleCopyCodeSuccess"></v-md-editor> -->
             <v-md-editor v-model="article.data.contentMd" height="100%" @save="useText"></v-md-editor>
         </el-row>
 
@@ -23,6 +24,7 @@
 import { reactive, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { articleStore } from "../../../store/article";
+import { saveArticle } from '../../../api/article';
 
 const store = articleStore();
 const route = useRoute();
@@ -52,7 +54,19 @@ onMounted(() => {
 });
 
 const useText = () => {
-    console.log("article: " + JSON.stringify(article))
+    console.log("article: " + JSON.stringify(article.data))
+    console.log(article.data)
+    saveArticle({
+        userId: 1,
+        title: article.data.title,
+        contentMd: article.data.contentMd
+    }).then(res=> {
+        console.log(res)
+    })
+}
+
+const handleCopyCodeSuccess = (code: any) => {
+    console.log(code);
 }
 
 </script>

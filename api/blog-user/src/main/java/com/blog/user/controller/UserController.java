@@ -40,6 +40,11 @@ public class UserController {
         return userService.selectUserById(userId);
     }
 
+    @GetMapping(value = "/select/user/id")
+    public Result selectUserMsgById(@RequestParam(value = "userId") Integer userId){
+        return ResultFactory.buildSuccessResult(userService.selectUserById(userId));
+    }
+
     @PostMapping("/register")
     public Result registerUser(@RequestBody BlogUser blogUser){
         String msg = userService.registerUser(blogUser);

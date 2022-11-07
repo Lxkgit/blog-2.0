@@ -63,10 +63,14 @@ const typeList = reactive({
 let articleList: any = reactive({ data: [] })
 
 onMounted(() => {
-    getBlogList(1, 5).then((res: any) => {
-
-        articleList.data = res.list;
-        console.log(res.list)
+    getBlogList({
+        pageNum: 1,
+        pageSize: 5,
+    }).then((res: any) => {
+        if(res.code==200) {
+            articleList.data = res.result.list;
+        }
+        
     });
 });
 

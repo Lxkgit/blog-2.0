@@ -50,8 +50,10 @@
 </template>
 <script setup lang="ts">
 
-import { computed, ref, reactive, defineEmits } from "vue";
+import { getSystemErrorMap } from "util";
+import { computed, ref, reactive, defineEmits, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router"
+import { getDiaryList } from "./../../../api/article"
 
 const dialogVisible = ref<boolean>(false);
 
@@ -78,40 +80,30 @@ const year = ref(0)
 const month = ref(0)
 const day = ref(0)
 const diary: any = ref("")
-let diaryList: any = [
-    {
-        "id": 41,
-        "userId": 1,
-        "diaryMd": "这个是7-13的日记测试 我再次修改",
-        "diaryDate": "2022-07-12",
-        "createTime": "2022-07-14 09:12:29",
-        "updateTime": "2022-07-15 01:13:39"
-    },
-    {
-        "id": 42,
-        "userId": 1,
-        "diaryMd": "这个是7-14",
-        "diaryDate": "2022-07-13",
-        "createTime": "2022-07-14 09:12:29",
-        "updateTime": "2022-07-14 09:16:31"
-    },
-    {
-        "id": 43,
-        "userId": 1,
-        "diaryMd": "这个是7-14 现在是7-15的日记",
-        "diaryDate": "2022-07-14",
-        "createTime": "2022-07-15 01:13:39",
-        "updateTime": "2022-07-15 01:13:39"
-    },
-    {
-        "id": 44,
-        "userId": 1,
-        "diaryMd": "7-16",
-        "diaryDate": "2022-09-01",
-        "createTime": "2022-08-04 06:07:37",
-        "updateTime": "2022-08-04 06:07:40"
-    }
-]
+let diaryList: any = []
+
+onMounted(() => {
+    const nowDate = new Date(time.value);
+    let year = nowDate.getFullYear();
+    let month = nowDate.getMonth();
+    let date = year + "-" + (month+1)
+    getDiary(date)
+});
+
+const getDiary = (date: string) => {
+    console.log("-------------")
+    console.log(date)
+    
+    getDiaryList(date).then((res: any) => {
+        if(res.code === 200) {
+            diaryList = res.result.diary
+        }
+    });
+    console.log(diaryList)
+    console.log("-------------")
+} 
+
+
 
 const toToday = (now?: number) => {
     // 置空日期列表
@@ -189,6 +181,8 @@ const addDate = () => {
         }
 
         let todayStr: string = year_ + "-" + monthStr + "-" + dayStr
+
+        
         let num: number = diaryList.length
         if (month.value === month_) {
             for (let j: number = 0; j < num; j++) {
@@ -238,6 +232,14 @@ const updateMonth = (num: any) => {
         newMonth = 1
     }
     const time_ = new Date(Date.parse(year.value + "/" + newMonth + "/" + day.value)).getTime()
+    
+    let dateStr;
+    if(newMonth<10) {
+        dateStr = year.value + "-0" + newMonth
+    } else{
+        dateStr = year.value + "-" + newMonth
+    }
+    getDiary(dateStr)
     toToday(time_)
 }
 

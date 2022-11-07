@@ -26,7 +26,10 @@ let adminMenus: any = reactive({ data: [] })
 
 onMounted(() => {
     getMenuApi().then((res: any) => {
-        adminMenus.data = res
+        if(res.code === 200) {
+            adminMenus.data = res.result
+        }
+        
     })
 });
 
