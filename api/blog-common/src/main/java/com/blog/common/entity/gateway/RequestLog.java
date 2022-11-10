@@ -18,8 +18,8 @@ import java.util.Date;
 public class RequestLog {
 
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
-    private int userId;
+    private Integer id;
+    private Integer userId;
     private String urlPath;
     private String requestIp;
     private Date createTime;

@@ -18,9 +18,9 @@ import java.util.Date;
 public class BlacklistIp {
 
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
+    private Integer id;
     private String ip;
-    private int userId;
+    private Integer userId;
     private String msg;
     private Date createTime;
 
