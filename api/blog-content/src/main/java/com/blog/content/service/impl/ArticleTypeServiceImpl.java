@@ -1,5 +1,6 @@
 package com.blog.content.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.entity.content.article.ArticleType;
 import com.blog.common.entity.content.article.vo.ArticleTypeVo;
 import com.blog.content.dao.ArticleTypeDAO;
@@ -26,10 +27,19 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
     private ArticleTypeDAO articleTypeDAO;
 
     @Override
+    public List<ArticleType> selectArticleTypeByParentId(String parentId) {
+        return articleTypeDAO.selectArticleTypeByParentId(parentId);
+    }
+
+    @Override
     public List<ArticleType> selectArticleTypeList() {
         return articleTypeDAO.selectList(null);
     }
 
+    /**
+     * 获取完整的树接口
+     * @return
+     */
     @Override
     public List<ArticleTypeVo> selectArticleTypeTree() {
         List<ArticleType> articleTypeList = articleTypeDAO.selectList(null);
@@ -37,16 +47,18 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
         for (ArticleType articleType : articleTypeList) {
             ArticleTypeVo articleTypeVo = new ArticleTypeVo();
             BeanUtils.copyProperties(articleType, articleTypeVo);
+            articleTypeVo.setValue(String.valueOf(articleType.getId()));
+            articleTypeVo.setLabel(articleType.getTypeName());
             articleTypeVoList.add(articleTypeVo);
         }
         for (ArticleTypeVo articleTypeVo : articleTypeVoList) {
             if (articleTypeVo.getParentId() != 0){
                 articleTypeVoList.forEach(a -> {
                     if(a.getId() == articleTypeVo.getParentId()){
-                        if (a.getList() == null) {
-                            a.setList(new ArrayList<>());
+                        if (a.getChildren() == null) {
+                            a.setChildren(new ArrayList<>());
                         }
-                        a.getList().add(articleTypeVo);
+                        a.getChildren().add(articleTypeVo);
                     }
                 });
             }
@@ -62,7 +74,18 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 
     @Override
     public int updateArticleType(ArticleType articleType) {
-        return articleTypeDAO.updateArticleType(articleType);
+        int result = articleTypeDAO.updateArticleType(articleType);
+//        if (result == 1) {
+//            List<ArticleType> articleTypeList = articleTypeDAO.selectList(null);
+//            for (ArticleType type : articleTypeList) {
+//                articleTypeList.forEach(articleType1 -> {
+//                    if (articleType1.getParentId() == type.getId()) {
+//
+//                    }
+//                });
+//            }
+//        }
+        return result;
     }
 
     @Override

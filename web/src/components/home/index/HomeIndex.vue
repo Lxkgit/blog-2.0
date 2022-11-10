@@ -8,7 +8,7 @@
         <div style="margin-top: 100px;">
             <el-row justify="center">
                 <el-col :lg="10" :md="16" :sm="16" :xs="16">
-                    <div v-for="item in articleList.data" :key="item.id" class="blogs" data-scroll-reveal="enter bottom over 1s">
+                    <div v-for="item in articleList" :key="item.id" class="blogs" data-scroll-reveal="enter bottom over 1s">
                         <h3 class="blogtitle">
                             <router-link :to="{path:'/article/articleDetail', query: {id: item.id}}">{{item.title}}</router-link>
                         </h3>
@@ -29,6 +29,9 @@
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <el-button type="text" @click="addArticle" :loading="loading">加载更多</el-button>
                     </div>
                 </el-col>
                 <el-col :lg="4" :md="0" :sm="0" :xs="0">
@@ -55,7 +58,7 @@
 <script setup lang="ts">
 import { readFileSync } from 'fs';
 import { reactive, ref, onMounted } from 'vue';
-import { getBlogList, getBlogType } from "../../../api/article";
+import { getBlogList } from "../../../api/article";
 
 const typeList = reactive({
     data: [
@@ -69,10 +72,10 @@ const typeList = reactive({
 
     ]
 });
-
+let loading = false;
 let msg = "今天没有公告今天没有公告今天没有公有公告今天没有公告今天没有公告今天没有公有公告今天没有公告今天没有公告今天没有公有公告今天没有公告"
-
-let articleList: any = reactive({ data: [] })
+let page = 1;
+let articleList: any = reactive([])
 
 onMounted(() => {
     getBlogList({
@@ -80,21 +83,27 @@ onMounted(() => {
         pageSize: 5,
     }).then((res: any) => {
         if(res.code==200) {
-            articleList.data = res.result.list;
+            articleList.push(...res.result.list)
         }
-        
     });
 });
 
+const addArticle = () => {
+    loading = true;
+    page = page + 1
+    getBlogList({
+        pageNum: page,
+        pageSize: 5,
+    }).then((res: any) => {
+        if(res.code==200) {
+            articleList.push(...res.result.list)
+        }
+    });
+    loading = false;
+} 
+
 const showButton = () => {
     
-    // const height = $refs.desc? this.$refs.desc.clientHeight : 0; //根据元素的clientheight来判断
-    //   if(height > 80){
-    //     showButton = true
-    //   }
-    //   else {
-    //     showButton = false
-    //   }
 }
 
 window.onscroll = function () {

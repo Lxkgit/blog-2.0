@@ -21,4 +21,6 @@ public class ArticleType {
     private String typeName;
 
     private int num;
+
+    private int node;
 }

@@ -14,6 +14,11 @@ import java.util.Map;
  */
 public interface ArticleTypeService {
 
+    /**
+     * 根据传入的父节点id获取子节点
+     * @return
+     */
+    List<ArticleType> selectArticleTypeByParentId(String parentId);
     List<ArticleType> selectArticleTypeList();
     List<ArticleTypeVo> selectArticleTypeTree();
     int saveArticleType(ArticleType articleType);

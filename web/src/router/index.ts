@@ -99,7 +99,7 @@ router.beforeEach((to, from, next) => {
     const store = userLoginStore();
     let token = store.getToken;
     if (token.user_id !== 0 && to.path.startsWith("/admin")) {
-        console.log("加载菜单中 ... ")
+        // console.log("加载菜单中 ... ")
     }
     if (token.user_id !== 0 && to.path.startsWith("/login")) {
         console.log("login - > admin")

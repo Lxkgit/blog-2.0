@@ -71,6 +71,9 @@
             <if test="articleLabel !=null and articleLabel !=''">
                 article_label = #{articleLabel},
             </if>
+            <if test="articleStatus !=null">
+                article_status = #{articleStatus},
+            </if>
             <if test="updateTime !=null">
                 update_time = #{updateTime},
             </if>

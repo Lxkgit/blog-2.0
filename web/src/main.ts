@@ -38,30 +38,25 @@ import 'codemirror/addon/scroll/simplescrollbars.css';
 // style
 import 'codemirror/lib/codemirror.css';
 
-// import VueMarkdownEditor from '@kangc/v-md-editor';
-// import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
-// import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
-
-// import VMdPreviewHtml from '@kangc/v-md-editor/lib/preview-html';
-// import createCopyCodePreview from '@kangc/v-md-editor/lib/plugins/copy-code/preview';
-
-// VueMarkdownEditor.use(createCopyCodePlugin());
-// VMdPreviewHtml.use(createCopyCodePreview());
+import VueMarkdownEditor from '@kangc/v-md-editor';
+import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index';
+import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
 
 VMdEditor.Codemirror = Codemirror;
-VMdEditor.use(githubTheme, {
-  Hljs: hljs,
-});
+VMdEditor.use(githubTheme, {Hljs: hljs,});
+VMdEditor.use(createLineNumbertPlugin());
+VMdEditor.use(createTodoListPlugin());
 
-VMdPreview.use(githubTheme, {
-  Hljs: hljs,
-});
+
+VMdPreview.use(githubTheme, {Hljs: hljs,});
+VMdPreview.use(createLineNumbertPlugin());
+VMdPreview.use(createTodoListPlugin());
+
 
 const app = createApp(App);
 app.use(store)
 app.use(router)
 app.use(VMdEditor)
 app.use(VMdPreview)
-// app.use(VueMarkdownEditor)
-// app.use(VMdPreviewHtml)
 app.mount('#app')

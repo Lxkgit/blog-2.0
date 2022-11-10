@@ -27,6 +27,11 @@ public class ArticleTypeController {
         return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeList());
     }
 
+    @GetMapping("/node")
+    public Result selectArticleTypeListByParentId(@RequestParam(value = "parentId") String parentId) {
+        return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeByParentId(parentId));
+    }
+
     @GetMapping("/tree")
     public Result selectArticleTypeTree(){
         return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeTree());

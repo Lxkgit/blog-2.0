@@ -2,7 +2,9 @@
   <div id="tags_view_container" class="tags_view_container">
     <div class="tags_view_wrapper">
       <div style="float: left; width: 57px; box-sizing: border-box; line-height: 38px; text-align: center; ">
-        <i class="fa fa-home" aria-hidden="true"></i>
+        <router-link to="/index">
+          <i class="fa fa-home" aria-hidden="true"></i>
+        </router-link>
       </div>
       <router-link v-for="(item, index) in store.tags" :key="index" ref="tag" tag="span" class="tags_view_item"
         :class="{ 'active': item.active }" :to="item.path" @contextmenu.prevent.native="openMenu(item.path, index, $event)">

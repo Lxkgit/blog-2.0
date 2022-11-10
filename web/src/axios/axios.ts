@@ -24,11 +24,11 @@ service.interceptors.request.use(config => {
 
 //3. 响应拦截器
 service.interceptors.response.use(response => {
-    if(response.data.code === 401) {
-
-    }
     return response.data;
 }, error => {
+    if(error.response.status === 401) {
+        localStorage.removeItem("blog")
+    }
     return Promise.reject(error);
 });
 

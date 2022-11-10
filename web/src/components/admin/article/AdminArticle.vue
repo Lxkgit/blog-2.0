@@ -4,7 +4,7 @@
             <span>文章管理</span>
         </div>
         <el-card style="margin: 18px 2%;width: 95%">
-            <el-button type="primary" plain @click="editArticle">新增</el-button>
+            <el-button type="primary" plain @click="editArticle()">新增</el-button>
             <el-button type="danger" plain @click="deleteArticle(0)">删除</el-button>
             <el-table :data="articleList.data" stripe style="width: 100%" :max-height="tableHeight" @selection-change="selected">
                 <el-table-column type="selection" width="55">
@@ -26,10 +26,14 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-
-                <el-table-column prop="createTime" label="发布日期" width="170">
+                <el-table-column label="文章状态" width="80">
+                    <template #default="scope">
+                        {{ articleStatus(scope.row.articleStatus)}}
+                    </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" width="110">
+                <el-table-column prop="createTime" label="发布日期" width="162">
+                </el-table-column>
+                <el-table-column fixed="right" label="操作" width="90">
                     <template #default="scope">
                         <el-button @click.native.prevent="editArticle(scope.row)" size="small" text>
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -52,12 +56,16 @@
 </template>
 
 <script setup lang="ts">
+import mixin from "../../../mixins/article"
 import { computed } from '@vue/reactivity';
 import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { getBlogList, getBlogType, deleteArticleByIds } from "../../../api/article";
+import { articleStore } from "../../../store/article";
+import { getBlogList, deleteArticleByIds } from "../../../api/article";
 
+let { articleStatus } = mixin();
 const router = useRouter()
+const store = articleStore();
 let page = ref<number>(1)
 let size = ref<number>(14)
 let total = ref<number>(0)
@@ -76,59 +84,27 @@ let tableHeight = computed(() => {
 });
 
 onMounted(() => {
-    getBlogList({
-        pageNum: page.value,
-        pageSize: size.value,
-    }).then((res: any) => {
-        if(res.code === 200) {
-            articleList.data = res.result.list;
-            total.value = res.result.total;
-        }
-    });
+    getBlogListFun(1)
 });
 
-
-const filterTag = (value: string, row: any) => {
-    return row.articleLabels.some((item: any) => { return item.labelName === value })
-}
-
-const editBlog = () => {
-    // this.$router.push(
-    //   {
-    //     name: 'Editor'
-    //   }
-    // )
-};
-
-const deleteBlog = (id: number) => {
-    // this.$store.dispatch('article/deleteBlog', id).then(resp => {
-    //   if (resp && resp.code === 200){
-    //     this.getBlogList({ currentPage: 1, pageSize: 10 })
-    //   }
-    // })
-};
-
-const getBlogListByPage = (page: any) => {
+const getBlogListFun = (page: any) => {
     getBlogList({
         pageNum: page,
         pageSize: size.value,
     }).then((res: any) => {
         if (res.code === 200) {
             articleList.data = res.result.list;
+            total.value = res.result.total;
         }
-        
     })
-};
+}
 
-const updateBlog = (article: any) => {
-    // this.$router.push(
-    //   {
-    //     name: 'Editor',
-    //     params: {
-    //       article: article
-    //     }
-    //   }
-    // )
+const filterTag = (value: string, row: any) => {
+    return row.articleLabels.some((item: any) => { return item.labelName === value })
+}
+
+const getBlogListByPage = (page: any) => {
+    getBlogListFun(page)
 };
 
 const selected = (val: any) => {
@@ -138,16 +114,10 @@ const selected = (val: any) => {
     }
 }
 
-const deleteRow = (index: number) => {
-    articleList.data.splice(index, 1)
-};
-
-const editArticle = (article: any) => {
+const editArticle = (article?: any) => {
+    store.setArticle(article);
     router.push({
         name: "editor",
-        params: {
-            article: JSON.stringify(article)
-        }
     })
 };
 

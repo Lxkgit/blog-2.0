@@ -5,7 +5,6 @@ export const getBlogList = (param) => {
         method: 'GET',
         url: "/content/article/list",
         params: param
-
     })
 }
 
@@ -17,6 +16,14 @@ export const saveArticle = (article) => {
     })
 }
 
+export const updateArticle = (article) => {
+    return service({
+        method: 'POST',
+        url: "/content/article/update",
+        data: article
+    })
+}
+
 export const deleteArticleByIds = (ids) => {
     return service({
         method: 'DELETE',
@@ -24,7 +31,7 @@ export const deleteArticleByIds = (ids) => {
     })
 } 
 
-export const getBlogType = () => {
+export const getArticleType = () => {
     return service({
         method: 'GET',
         url: "/content/article/type/tree"

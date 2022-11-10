@@ -6,11 +6,24 @@
         <id column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <id column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <id column="num" property="num" jdbcType="INTEGER"/>
+        <id column="node" property="node" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, parent_id, type_name, num
+        id, parent_id, type_name, num, node
     </sql>
+
+    <select id="selectArticleTypeById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from article_type
+        where id = #{id}
+    </select>
+
+    <select id="selectArticleTypeByParentId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from article_type
+        where parent_id = #{parentId}
+    </select>
 
     <select id="selectArticleTypeByArray" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
@@ -35,6 +48,14 @@
             id = #{id}
         </where>
     </update>
+
+    <!--将所有数据都设置为节点-->
+    <update id="updateArticleTypeNode" >
+        UPDATE article_type set node = 0;
+    </update>
+
+
+
     <delete id="deleteArticleTypeByIds">
         delete from article_type
         where id in

@@ -82,10 +82,21 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public int updateArticle(BlogUser blogUser, Article article) {
         ArticleBo articleBo = new ArticleBo();
+        article.setArticleType(updateArticleType(article.getArticleType()));
         BeanUtils.copyProperties(article, articleBo);
         articleBo.setUpdateUserId(blogUser.getId());
         articleBo.setUpdateTime(new Date());
         return articleDAO.updateArticle(articleBo);
+    }
+
+    private String updateArticleType(String articleType) {
+        StringBuilder type = new StringBuilder(articleType);
+        ArticleType type1 = articleTypeDAO.selectArticleTypeById(Integer.parseInt(articleType));
+        while (type1.getParentId() != 0) {
+            type.append(",").append(type1.getParentId());
+            type1 = articleTypeDAO.selectArticleTypeById(type1.getParentId());
+        }
+        return type.reverse().toString();
     }
 
     @Override

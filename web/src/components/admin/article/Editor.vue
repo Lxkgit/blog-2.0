@@ -8,15 +8,20 @@
             </el-breadcrumb>
         </el-row>
         <el-row>
-            <el-input v-model="article.data.title" style="margin: 10px 0;font-size: 18px;" placeholder="请输入标题">
-            </el-input>
+            <div style="display: flex; justify-content: space-between; align-items: center; height: 50px; margin-left: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>文章标题:</span>
+                    <el-input v-model="article.data.title" style="margin-left:12px; font-size: 18px; width: 500px;" placeholder="请输入标题"/>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 20px;">
+                    <span>文章分类:</span>
+                    <el-tree-select style="margin-left:12px; font-size: 18px; width: 280px;" v-model="type" :data="data" check-strictly :render-after-expand="false" @change="selectType"/>
+                </div>
+            </div>
         </el-row>
         <el-row style="height: calc(100vh - 90px);">
-            <!-- <v-md-editor v-model="article.data.contentMd" height="100%" @save="useText" @copy-code-success="handleCopyCodeSuccess"></v-md-editor> -->
             <v-md-editor v-model="article.data.contentMd" height="100%" @save="useText"></v-md-editor>
         </el-row>
-
-
     </div>
 </template>
 
@@ -24,12 +29,12 @@
 import { reactive, ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { articleStore } from "../../../store/article";
-import { saveArticle } from '../../../api/article';
+import { saveArticle, updateArticle, getArticleType } from '../../../api/article';
 
 const store = articleStore();
 const route = useRoute();
 const router = useRouter();
-
+let type = ref("");
 let article: any = reactive({
     data: {
         id: 0,
@@ -47,72 +52,67 @@ let article: any = reactive({
     }
 })
 
+const selectType = (value:any) => {
+    type.value = value
+}
+ 
+let data:any = ref()
 
 onMounted(() => {
-    if (route.params.article) {
-        article.data = JSON.parse(route.params.article)
+    console.log("article: ", store.getArticle)
+    if(store.getArticle !== undefined) {
+        article.data = store.getArticle
+        console.log("data: ", article.data)
+        if (article.data !== null) {
+            let articleType = article.data.articleType;
+            type.value = articleType.substr(-1)    
+        }
     }
+    articleType();
 });
 
-const useText = () => {
-    console.log("article: " + JSON.stringify(article.data))
-    console.log(article.data)
-    saveArticle({
-        userId: 1,
-        title: article.data.title,
-        contentMd: article.data.contentMd
-    }).then(res=> {
-        router.go(-1)
-        console.log(res)
+const articleType = () => {
+    getArticleType().then((res: any) => {
+        if(res.code === 200) {
+            data.value = res.result
+        }
     })
 }
 
-const handleCopyCodeSuccess = (code: any) => {
-    console.log(code);
+const useText = () => {
+    if (article.data.id !== 0) {
+        updateArticle({
+            id: article.data.id,
+            userId: 1,
+            title: article.data.title,
+            contentMd: article.data.contentMd,
+            articleType: type.value,
+            articleLabel: "",
+            articleStatus: 1,
+            browseCount: 0,
+            likeCount: 0
+        }).then((res:any) => {
+            if(res.code === 200) {
+                router.go(-1)
+            }
+        })
+    } else {
+        saveArticle({
+            id: article.data.id,
+            userId: 1,
+            title: article.data.title,
+            contentMd: article.data.contentMd,
+            articleType: type.value,
+            articleLabel: "",
+            articleStatus: 1,
+            browseCount: 0,
+            likeCount: 0
+        }).then((res:any) => {
+            if(res.code === 200) {
+                router.go(-1)
+            }
+        })
+    }
 }
 
 </script>
-
-<style scoped>
-/*设置card的边距为0，同时设置分割线的间距*/
-.option-card .el-card__header {
-    padding: 0 !important;
-}
-
-.option-card .el-divider--horizontal {
-    margin: 10px 0 !important;
-}
-
-/*消除多选*/
-.el-radio-group .el-radio {
-    margin-right: 14px !important;
-}
-</style>
-
-<style scoped>
-.el-tag+.el-tag {
-    margin-top: 10px;
-    margin-left: 10px;
-
-}
-
-.button-new-tag {
-    margin-top: 10px;
-    margin-left: 10px;
-    height: 32px;
-    line-height: 30px;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.input-new-tag {
-    margin-top: 10px;
-    width: 370px;
-    margin-left: 10px;
-    vertical-align: bottom;
-}
-
-.infinite-list li:hover {
-    color: rgba(0, 1, 0, 0.5);
-}
-</style>

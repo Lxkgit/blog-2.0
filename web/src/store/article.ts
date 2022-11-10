@@ -1,29 +1,19 @@
 import { defineStore } from "pinia";
 
 
-export const articleStore = defineStore('tag', {
-    
+export const articleStore = defineStore({
+    id: "article",
     state: () => ({
-        article: {
-            id: 0,
-            userId:0,
-            title:"",
-            contentMd:"-",
-            contentHtml:"-",
-            articleType:"",
-            articleLabel:"",
-            articleStatus:1,
-            browseCount:0,
-            likeCount:0,
-            createTime:"",
-            updateTime:""
-        }
+        article: {}
     }),
-    getters: {},
+    getters: {
+        getArticle() {
+            return this.article;
+        }
+    },
     actions: {
-       setArticle(value: string|string[]) {
-            article = JSON.parse(value)
-            console.log(" ++ " + this.article)
+       setArticle(article) {
+            this.article = article
        }
     }
 })
