@@ -11,7 +11,7 @@
  Target Server Version : 50651
  File Encoding         : 65001
 
- Date: 28/07/2022 22:49:16
+ Date: 12/11/2022 10:55:10
 */
 
 SET NAMES utf8mb4;
@@ -35,16 +35,16 @@ CREATE TABLE `article`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '文章创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '文章最近更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of article
 -- ----------------------------
-INSERT INTO `article` VALUES (1, 1, '【洛谷】P1586-四方定理--动态规划解法', '当我们使用vue开发时经常会遇到当vue实例已经创建好了，有时候需要再次给数据赋值时，并不能在视图中改变\r\n\r\n在vue文档中写着如果在实例创建之后添加新的属性到实例上，它不会触发视图更新\r\n\r\n因此比如我们修改一个数组其中的一个值，或者添加一条数据时，不管用。\r\n\r\n方法一：Vue.set() 方法（this.$set（））\r\nVue.set( target, key, value ) 中有三个参数\r\ntarget：要更改的数据源(可以是对象或者数组)\r\nkey：要更改的具体数据 如果是数组 就是索引值\r\nvalue ：重新赋的值\r\n\r\nthis.$set(this.student,\"age\", 24)\r\n方法二：$forceUpdate\r\n\r\n**对于深层的，最好用set方法，这样vue就可以知道发生了变化，同时vue也不建议直接修改length，可以给一个空数组来置空。用 forceUpdate 了，因为你修改了数据，但是页面层没有变动，说明数据本身是被修改了，但是vue没有监听到而已，用$forceUpdate就相当于按照最新数据给渲染一下。', '-', '1,2,3', '1', 1, 0, 0, '2022-06-09 11:18:30', '2022-06-09 11:18:34');
-INSERT INTO `article` VALUES (2, 1, '【洛谷】P2330-繁忙的都市--（并查集、kruskal、prim解法）', '-', '-', '1,2', '1', 1, 0, 0, '2022-06-09 11:18:30', '2022-06-09 11:18:34');
-INSERT INTO `article` VALUES (3, 2, '【洛谷】P2330-繁忙的都市--（并查集、kruskal、prim解法）', '-', '-', '1,2', '1', 1, 0, 0, '2022-06-09 11:18:30', '2022-06-09 11:18:34');
-INSERT INTO `article` VALUES (4, 1, '777', '777', '777', '1,2', '1', 1, 7, 7, NULL, '2022-06-25 14:52:35');
-INSERT INTO `article` VALUES (7, 2, '999', '999', '999', '1,2', '1', 1, 7, 7, '2022-06-13 17:43:24', '2022-06-13 18:48:18');
+INSERT INTO `article` VALUES (3, 1, '【洛谷】P2330-繁忙的都市--（并查集、kruskal、prim解法）-3', '# 题目描述\n\n四方定理是众所周知的：任意一个正整数n，可以分解为不超过四个整数的平方和。例如：25=1^2^+2^2^+2^2^+4^2^ ，当然还有其他的分解方案，25=3^2^+4^2^和25=5^2^ 。给定的正整数n，编程统计它能分解的方案总数。注意: 25=3^2^+4^2^和25=4^2^+3^2^ 视为一种方案。\n\n# 输入格式\n\n第一行为正整数t(t≤100)，接下来t行，每行一个正整数n(n≤32768)。\n\n# 输出格式\n对于每个正整数n，输出方案总数。\n\n# 解析\n\n\n\n```c++\n#include <bits/stdc++.h>\n\nusing namespace std;\n\nint n,k;\nint arr[181];\nint dp[32769][5];\n\nvoid plan(){\n    dp[0][0] = 1;\n    for(int i=0; i<181; i++){\n        arr[i] = i*i;\n    }\n    for(int i=1;i<181; i++){\n        for(int j=arr[i]; j<32769; j++){\n            for(int num=1; num <=4; num++){\n                dp[j][num] += dp[j-arr[i]][num-1];\n            }\n        }\n    }\n}\n\nint main(){\n    plan();\n    scanf(\"%d\", &n);\n    while(n--){\n        scanf(\"%d\", &k);\n        printf(\"%d\\n\", dp[k][1]+dp[k][2]+dp[k][3]+dp[k][4]);\n    }\n}\n```\n', '-', '1,2,3', '1', 1, 0, 0, '2022-06-09 11:18:30', '2022-11-10 17:26:52');
+INSERT INTO `article` VALUES (38, 1, '123123', '1231231', NULL, '1', '', 1, 0, 0, '2022-11-10 14:03:42', '2022-11-10 14:03:42');
+INSERT INTO `article` VALUES (39, 1, '123123', '123123', NULL, '1', '', 1, 0, 0, '2022-11-10 14:27:49', '2022-11-10 14:27:49');
+INSERT INTO `article` VALUES (40, 1, '23123', 'asdasd123123', NULL, '1', '', 1, 0, 0, '2022-11-10 14:56:11', '2022-11-10 14:56:11');
+INSERT INTO `article` VALUES (41, 1, 'asdasd', 'asdasd', NULL, '3', '', 1, 0, 0, '2022-11-10 23:16:48', '2022-11-10 23:16:48');
 
 -- ----------------------------
 -- Table structure for article_label
@@ -94,16 +94,21 @@ CREATE TABLE `article_type`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) UNSIGNED NULL DEFAULT NULL COMMENT '文章分类上级 根分级为0',
   `type_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '分类名称',
-  `num` tinyint(4) NULL DEFAULT NULL COMMENT '文章数量',
+  `num` int(11) NULL DEFAULT NULL COMMENT '文章数量',
+  `node` tinyint(2) NULL DEFAULT NULL COMMENT '是否有子节点 （0：无 1：有）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of article_type
 -- ----------------------------
-INSERT INTO `article_type` VALUES (1, 0, '算法', 2);
-INSERT INTO `article_type` VALUES (2, 1, '洛谷', 2);
-INSERT INTO `article_type` VALUES (3, 2, '排序', 1);
+INSERT INTO `article_type` VALUES (1, 0, '算法', 2, 1);
+INSERT INTO `article_type` VALUES (2, 1, '洛谷', 2, 1);
+INSERT INTO `article_type` VALUES (3, 2, '排序', 1, 1);
+INSERT INTO `article_type` VALUES (4, 0, 'Java', 0, 1);
+INSERT INTO `article_type` VALUES (5, 4, '多线程', 0, 1);
+INSERT INTO `article_type` VALUES (6, 4, '定时任务', 0, 1);
+INSERT INTO `article_type` VALUES (7, 6, '自旋锁', 0, 1);
 
 -- ----------------------------
 -- Table structure for blog_diary
@@ -117,14 +122,15 @@ CREATE TABLE `blog_diary`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最近更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of blog_diary
 -- ----------------------------
 INSERT INTO `blog_diary` VALUES (41, 1, '这个是7-13的日记测试 我再次修改', '2022-07-13', '2022-07-14 17:12:29', '2022-07-15 09:13:39');
 INSERT INTO `blog_diary` VALUES (42, 1, '这个是7-14', '2022-07-14', '2022-07-14 17:12:29', '2022-07-14 17:16:31');
-INSERT INTO `blog_diary` VALUES (43, 1, '这个是7-14 现在是7-15的日记', '2022-07-15', '2022-07-15 09:13:39', '2022-07-15 09:13:39');
+INSERT INTO `blog_diary` VALUES (43, 1, '11-04日期', '2022-11-04', '2022-07-15 09:13:39', '2022-07-15 09:13:39');
+INSERT INTO `blog_diary` VALUES (44, 1, '11-05日期', '2022-11-05', '2022-08-04 14:07:37', '2022-08-04 14:07:40');
 
 -- ----------------------------
 -- Table structure for doc_catalog

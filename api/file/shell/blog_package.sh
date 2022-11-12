@@ -1,34 +1,10 @@
 #! /bin/bash
-# 脚本安装博客
-# 文件下载服务器ip
-serviceIp="http://121.4.68.246/file"
+# 压缩包安装博客
+
 # MySQL登陆密码
 mysqlPassword="root"
 # redis登陆密码
 redisPassword="redis-960"
-
-# 组件下载原地址
-# jdkUrl="https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz"
-# nginxUrl="http://nginx.org/download/nginx-1.20.2.tar.gz"
-# redisUrl="https://download.redis.io/releases/redis-6.2.5.tar.gz"
-# tomcatUrl="http://archive.apache.org/dist/tomcat/tomcat-9/v9.0.63/bin/apache-tomcat-9.0.63.tar.gz"
-# nacosUrl="https://github.com/alibaba/nacos/releases/download/2.1.0/nacos-server-2.1.0.tar.gz"
-# boostUrl="https://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz"
-# cmakeUrl="https://cmake.org/files/v3.22/cmake-3.22.1.tar.gz"
-# mysqlBuildUrl="https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.37.tar.gz"
-
-# 组件下载地址
-jdkUrl="${serviceIp}/package/jdk-17_linux-x64_bin.tar.gz"
-nginxUrl="${serviceIp}/package/nginx-1.20.2.tar.gz"
-redisUrl="${serviceIp}/package/redis-6.2.5.tar.gz"
-tomcatUrl="${serviceIp}/package/apache-tomcat-9.0.63.tar.gz"
-nacosUrl="${serviceIp}/package/nacos-server-2.1.0.tar.gz"
-boostUrl="${serviceIp}/package/boost_1_59_0.tar.gz"
-cmakeUrl="${serviceIp}/package/cmake-3.22.1.tar.gz"
-mysqlBuildUrl="${serviceIp}/package/mysql-5.7.37.tar.gz"
-
-# 配置文件
-nginxConfig="${serviceIp}/config/nginx.conf"
 
 # jar包名字
 blogAuthJar="blog-auth"
@@ -37,26 +13,13 @@ blogGatewayJar="blog-gateway"
 blogUserJar="blog-user"
 blogFileJar="blog-file"
 
-# 微服务jar包下载地址
-blogAuthJarUrl="${serviceIp}/jar/${blogAuthJar}.jar"
-blogContentJarUrl="${serviceIp}/jar/${blogContentJar}.jar"
-blogGatewayJarUrl="${serviceIp}/jar/${blogGatewayJar}.jar"
-blogUserJarUrl="${serviceIp}/jar/${blogUserJar}.jar"
-blogFileJarUrl="${serviceIp}/jar/${blogFileJar}.jar"
-
 # 数据库名字
 blogAuthSql="blog_auth"
 blogContentSql="blog_content"
 blogUserSql="blog_user"
 blogFileSql="blog_file"
+blogGatewaySql="blog_gateway"
 nacosSql="nacos"
-
-# 数据库下载文件
-blogAuthSqlUrl="${serviceIp}/sql/${blogAuthSql}.sql"
-blogContentSqlUrl="${serviceIp}/sql/${blogContentSql}.sql"
-blogUserSqlUrl="${serviceIp}/sql/${blogUserSql}.sql"
-blogFileSqlUrl="${serviceIp}/sql/${blogFileSql}.sql"
-nacosConfigSqlUrl="${serviceIp}/sql/${nacosSql}.sql"
 
 createDir() {
 	cd /opt
@@ -75,19 +38,20 @@ createDir() {
 
 util(){
 	echo "服务器环境所需依赖..."
+	# 压缩解压工具
+	yum install -y unzip zip
+	yum install -y zlib zlib-devel
 	yum -y install lrzsz
-    yum -y install php-devel php-pear httpd-devel
-    yum -y install libaio
-    yum -y install perl
-    yum -y install net-tools
+  yum -y install php-devel php-pear httpd-devel
+  yum -y install libaio
+  yum -y install perl
+  yum -y install net-tools
 	yum -y install gcc gcc-c++ make glibc automake autoconf libtool  libssl-dev openssl openssl-devel
 	yum -y install tree
 }
 
 jdk() {
-	cd /opt/package
-	echo "正在下载jdk ... "
-	wget $jdkUrl
+	cd /opt/package/soft
 	echo "jdk下载完成,正在解压中..."
 	tar -zxvf jdk-17_linux-x64_bin.tar.gz -C /opt
 	cd /opt
@@ -103,13 +67,7 @@ jdk() {
 }
 
 nginx(){
-	cd /opt/package
-	echo "正在安装zlib..."
-	yum install -y zlib zlib-devel
-	echo "正在安装openssl..."
-	yum install -y openssl openssl-devel
-	echo "正在下载nginx安装包 nginx版本为1.20.2 ..."
-	wget $nginxUrl
+	cd /opt/package/soft
 	echo "nginx安装包下载完成,正在解压中 ..."
 	tar -zxvf nginx-1.20.2.tar.gz -C /opt
 	echo "编译安装nginx中..."
@@ -121,24 +79,19 @@ nginx(){
 }
 
 tomcat() {
-	cd /opt/package
-	echo "正在下载tomcat安装包..."
-	wget $tomcatUrl
+	cd /opt/package/soft
 	echo "tomcat安装包下载完成,正在解压..."
 	tar -zxvf apache-tomcat-9.0.63.tar.gz -C /opt
 }
 
 nacos() {
-	cd /opt/package
-	wget $nacosUrl
+	cd /opt/package/soft
 	tar -zxvf nacos-server-2.1.0.tar.gz -C /opt
 	echo "nacos 解压完成 ... "
 }
 
 redis() {
-	cd /opt/package
-	echo "正在下载redis..."
-	wget $redisUrl
+	cd /opt/package/soft
 
 	echo "redis下载完成，正在解压..."
 	tar -zxvf redis-6.2.5.tar.gz -C /opt
@@ -174,17 +127,15 @@ buildMysql() {
 		rpm -e --nodeps $del
 	done
 	
-	cd /opt/package
-	wget $boostUrl
-	wget $cmakeUrl
-	wget $mysqlBuildUrl
+	cd /opt/package/soft
 	echo "cmake 开始安装 ... "
 	tar -zxvf cmake-3.22.1.tar.gz -C /opt
 	cd /opt/cmake-3.22.1
 	./bootstrap
 	gmake
 	gmake install
-	cd /opt/package
+
+	cd /opt/package/soft
 	echo "boost 开始安装 ... "
 	tar -zxvf boost_1_59_0.tar.gz -C  /opt
 	cd /opt
@@ -195,7 +146,8 @@ buildMysql() {
 	useradd mysql
 	useradd mysql -s /sbin/nologin -M -g mysql
 	id mysql
-	cd /opt/package
+
+	cd /opt/package/soft
 	echo "mysql 开始安装 ... "
 	tar -zxvf mysql-5.7.37.tar.gz -C /opt
 	cd /opt/mysql-5.7.37
@@ -270,7 +222,7 @@ firewall(){
 nginxConf() {
 	cd /usr/local/nginx/conf
 	mv nginx.conf nginx.conf.bk
-	wget $nginxConfig
+	mv /opt/package/conf/nginx.conf /usr/local/nginx/conf
 }
 
 nacosConf() {
@@ -285,12 +237,7 @@ nacosConf() {
 
 importSql(){
 	cd /opt/sql
-	wget $blogAuthSqlUrl
-	wget $blogContentSqlUrl
-	wget $blogUserSqlUrl
-	wget $blogFileSqlUrl
-	wget $nacosConfigSqlUrl
-	
+	mv /opt/package/sql/* /opt/sql
 	mysql -uroot -p${mysqlPassword} <<EOF
 drop database if exists ${nacosSql};
 CREATE DATABASE  ${nacosSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -312,9 +259,15 @@ drop database if exists ${blogFileSql};
 CREATE DATABASE  ${blogFileSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 use ${blogFileSql};
 source /opt/sql/${blogFileSql}.sql;
+drop database if exists ${blogGatewaySql};
+CREATE DATABASE  ${blogGatewaySql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+use ${blogGatewaySql};
+source /opt/sql/${blogGatewaySql}.sql;
 exit
 EOF
 }
+
+
 
 serviceStart(){
 	echo "启动nigix ... "
@@ -334,23 +287,23 @@ blogJar() {
 
 	sleep 5m
 	cd /opt/blog/blog-auth
-	wget $blogAuthJarUrl
+	mv /opt/package/jar/${blogAuthJar}.jar /opt/blog/blog-auth
 	mkdir bin
-	
+
 	cd /opt/blog/blog-content
-	wget $blogContentJarUrl
+	mv /opt/package/jar/${blogContentJar}.jar /opt/blog/blog-auth
 	mkdir bin
-		
+
 	cd /opt/blog/blog-gateway
-	wget $blogGatewayJarUrl
+	mv /opt/package/jar/${blogGatewayJar}.jar /opt/blog/blog-auth
 	mkdir bin
-	
+
 	cd /opt/blog/blog-user
-	wget $blogUserJarUrl
+	mv /opt/package/jar/${blogUserJar}.jar /opt/blog/blog-auth
 	mkdir bin
 
 	cd /opt/blog/blog-file
-	wget $blogFileJarUrl
+	mv /opt/package/jar/${blogFileJar}.jar /opt/blog/blog-auth
 	mkdir bin
 }
 
@@ -450,39 +403,64 @@ kill -9 \${PID}
 EOF
 	./start.sh
 }
-echo "正在创建服务器目录 ... "
-createDir
-echo "开始安装服务器所需依赖 ... "
-util
-echo "开始安装jdk ... "
-jdk
-echo "开始安装nginx ... "
-nginx
-echo "开始安装tomcat ... "
-tomcat
-echo "开始安装nacos ... "
-nacos
-echo "配置nacos中 ... "
-nacosConf
-echo "配置nginx中 ... "
-nginxConf
-echo "开始安装redis ... "
-redis
-echo "开始安装MySQL ... "
-buildMysql
-echo "加载防火墙端口 ... "
-firewall
-echo "正在导入sql文件 ... "
-importSql
-echo "服务启动中 ... "
-serviceStart
-echo "博客服务启动中 ... "
-blogJar
-blogShell
 
+
+
+main() {
+  cd $(dirname $0);
+  if [ ! -f "blog.zip" ]; then
+      echo "博客压缩包文件不存在，退出安装程序"
+      exit
+  fi
+  echo "开始安装服务器所需依赖工具 ... "
+  util
+  echo "正在创建服务器目录 ... "
+  createDir
+
+  cd $(dirname $0);
+  mv blog.zip /opt/package/blog.zip
+  cd /opt/package
+  unzip blog.zip
+
+  echo "开始安装jdk ... "
+  jdk
+  echo "开始安装nginx ... "
+  nginx
+  echo "开始安装tomcat ... "
+  tomcat
+  echo "开始安装nacos ... "
+  nacos
+  echo "配置nacos中 ... "
+  nacosConf
+  echo "配置nginx中 ... "
+  nginxConf
+  echo "开始安装redis ... "
+  redis
+  echo "开始安装MySQL ... "
+  buildMysql
+  echo "加载防火墙端口 ... "
+  firewall
+  echo "正在导入sql文件 ... "
+  importSql
+  echo "服务启动中 ... "
+  serviceStart
+  echo "博客服务启动中 ... "
+  blogJar
+  blogShell
+}
+
+# 开始执行函数
+main
 
 # 脚本执行方法
-# nohup sh blog.sh >my.log 2>&1 &
+# nohup sh blog_package.sh >my.log 2>&1 &
 
 # java -jar --add-opens java.base/java.lang=ALL-UNNAMED user-center-1.0-SNAPSHOT.jar
 
+# 压缩包blog.zip目录
+# blog.zip
+# - soft    # 存放软件工具安装包
+# - jar     # 存放博客jar包
+# - sql     # 存放博客sql和nacos的sql文件
+# - conf    # 存放需要替换的配置文件
+# - web     # 存放前端包

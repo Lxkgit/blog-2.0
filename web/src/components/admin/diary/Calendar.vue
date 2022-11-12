@@ -91,16 +91,16 @@ onMounted(() => {
 });
 
 const getDiary = (date: string) => {
-    console.log("-------------")
-    console.log(date)
+    // console.log("-------------")
+    // console.log(date)
     
     getDiaryList(date).then((res: any) => {
         if(res.code === 200) {
             diaryList = res.result.diary
         }
     });
-    console.log(diaryList)
-    console.log("-------------")
+    // console.log(diaryList)
+    // console.log("-------------")
 } 
 
 

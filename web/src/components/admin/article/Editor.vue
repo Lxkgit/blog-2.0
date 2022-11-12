@@ -2,7 +2,7 @@
     <div>
         <el-row style="margin: 18px 0px 0px 18px ">
             <el-breadcrumb separator-class="el-icon-arrow-right">
-                <el-breadcrumb-item :to="{ path: '/admin' }">管理中心</el-breadcrumb-item>
+                <el-breadcrumb-item>管理中心</el-breadcrumb-item>
                 <el-breadcrumb-item :to="{ path: '/admin/article' }">文章管理</el-breadcrumb-item>
                 <el-breadcrumb-item>编辑器</el-breadcrumb-item>
             </el-breadcrumb>
@@ -59,7 +59,6 @@ const selectType = (value:any) => {
 let data:any = ref()
 
 onMounted(() => {
-    console.log("article: ", store.getArticle)
     if(store.getArticle !== undefined) {
         article.data = store.getArticle
         console.log("data: ", article.data)

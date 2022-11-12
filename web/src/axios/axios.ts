@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useRouter } from 'vue-router';
 import { t } from "vxe-table";
+import router from "../router";
 import { userLoginStore } from '../store/login' 
 
 
@@ -28,6 +29,8 @@ service.interceptors.response.use(response => {
 }, error => {
     if(error.response.status === 401) {
         localStorage.removeItem("blog")
+        const router = useRouter();
+        router.push("/login")
     }
     return Promise.reject(error);
 });

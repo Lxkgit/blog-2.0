@@ -44,6 +44,7 @@ export const adminStore = defineStore('tag', {
             }
         },
         activeTag(path:any) {
+            console.log("path:  ", path)
             this.tags.map(item => (item.active = false));
             for(let i=0; i<this.tags.length; i++) {
                 if(this.tags[i].path === path) {
