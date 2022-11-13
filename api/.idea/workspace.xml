@@ -16,15 +16,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="22-11-07【功能修改】：修改id字段类型">
-      <change afterPath="$PROJECT_DIR$/file/shell/blog_package.sh" afterDir="false" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="22-11-12【功能修改】：修改博客部署脚本，新增压缩包安装脚本">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/shell/blog.sh" beforeDir="false" afterPath="$PROJECT_DIR$/file/shell/blog.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/axios/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/axios/axios.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/PageTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/PageTab.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/article/Editor.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/article/Editor.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/diary/Calendar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/diary/Calendar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/store/tag.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/store/tag.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file/shell/blog_package.sh" beforeDir="false" afterPath="$PROJECT_DIR$/file/shell/blog_package.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -268,7 +262,8 @@
       <workItem from="1668092479629" duration="52000" />
       <workItem from="1668092618244" duration="25000" />
       <workItem from="1668092745533" duration="872000" />
-      <workItem from="1668221349367" duration="596000" />
+      <workItem from="1668221349367" duration="1549000" />
+      <workItem from="1668223545302" duration="786000" />
     </task>
     <task id="LOCAL-00001" summary="22-06-12: 鉴权中心和用户中心设置完成，等待调试">
       <created>1655019586684</created>
@@ -571,7 +566,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668093496068</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="22-11-12【功能修改】：修改博客部署脚本，新增压缩包安装脚本">
+      <created>1668222367600</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1668222367600</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -602,7 +604,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="22-07-10【代码优化】： 调整content模块entity位置" />
     <MESSAGE value="22-07-10【功能新增】： 新增openfeign拦截器，各模块配置引入了nacos的config，实现统一配置" />
     <MESSAGE value="22-07-13【功能新增】： 新增openfeign拦截器，各模块配置引入了nacos的config，实现统一配置" />
     <MESSAGE value="22-07-14【功能新增】： 完善文件上传功能" />
@@ -627,7 +628,8 @@
     <MESSAGE value="22-11-07【功能修改】：前端界面新增" />
     <MESSAGE value="22-11-10【功能修改】：完善博客文章相关功能" />
     <MESSAGE value="22-11-07【功能修改】：修改id字段类型" />
-    <option name="LAST_COMMIT_MESSAGE" value="22-11-07【功能修改】：修改id字段类型" />
+    <MESSAGE value="22-11-12【功能修改】：修改博客部署脚本，新增压缩包安装脚本" />
+    <option name="LAST_COMMIT_MESSAGE" value="22-11-12【功能修改】：修改博客部署脚本，新增压缩包安装脚本" />
   </component>
   <component name="WindowStateProjectService">
     <state x="564" y="228" width="875" height="562" key="#Notifications" timestamp="1667788409366">
@@ -638,25 +640,25 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="695" y="214" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834057721" />
-    <state width="1543" height="350" key="GridCell.Tab.0.bottom" timestamp="1668093635567">
+    <state width="1877" height="305" key="GridCell.Tab.0.bottom" timestamp="1668222931750">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1543" height="350" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668093635567" />
+    <state width="1877" height="305" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668222931750" />
     <state width="1543" height="351" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108659" />
-    <state width="1543" height="350" key="GridCell.Tab.0.center" timestamp="1668093635566">
+    <state width="1877" height="305" key="GridCell.Tab.0.center" timestamp="1668222931749">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1543" height="350" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668093635566" />
+    <state width="1877" height="305" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668222931749" />
     <state width="1543" height="351" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108659" />
-    <state width="1543" height="350" key="GridCell.Tab.0.left" timestamp="1668093635566">
+    <state width="1877" height="305" key="GridCell.Tab.0.left" timestamp="1668222931749">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1543" height="350" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668093635566" />
+    <state width="1877" height="305" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668222931749" />
     <state width="1543" height="351" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108658" />
-    <state width="1543" height="350" key="GridCell.Tab.0.right" timestamp="1668093635566">
+    <state width="1877" height="305" key="GridCell.Tab.0.right" timestamp="1668222931749">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1543" height="350" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668093635566" />
+    <state width="1877" height="305" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668222931749" />
     <state width="1543" height="351" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108659" />
     <state width="1543" height="350" key="GridCell.Tab.1.bottom" timestamp="1668093635567">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -682,10 +684,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1663372291174" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1668093616418">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1668222375440">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668093616418" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668222375440" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

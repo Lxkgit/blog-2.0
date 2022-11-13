@@ -23,10 +23,6 @@ nacosSql="nacos"
 
 createDir() {
 	cd /opt
-	# 组件安装包目录
-	mkdir package
-	# sql文件存放目录
-	mkdir sql
 	# 博客文件服务器目录
 	mkdir -p /opt/file/{img,video}
 	# 博客微服务目录
@@ -236,33 +232,32 @@ nacosConf() {
 }
 
 importSql(){
-	cd /opt/sql
-	mv /opt/package/sql/* /opt/sql
+	cd /opt/package/sql
 	mysql -uroot -p${mysqlPassword} <<EOF
 drop database if exists ${nacosSql};
 CREATE DATABASE  ${nacosSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 use ${nacosSql};
-source /opt/sql/${nacosSql}.sql;
+source /opt/package/sql/${nacosSql}.sql;
 drop database if exists ${blogAuthSql};
 CREATE DATABASE  ${blogAuthSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 use ${blogAuthSql};
-source /opt/sql/${blogAuthSql}.sql;
+source /opt/package/sql/${blogAuthSql}.sql;
 drop database if exists ${blogContentSql};
 CREATE DATABASE  ${blogContentSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 use ${blogContentSql};
-source /opt/sql/${blogContentSql}.sql;
+source /opt/package/sql/${blogContentSql}.sql;
 drop database if exists ${blogUserSql};
 CREATE DATABASE  ${blogUserSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 use ${blogUserSql};
-source /opt/sql/${blogUserSql}.sql;
+source /opt/package/sql/${blogUserSql}.sql;
 drop database if exists ${blogFileSql};
 CREATE DATABASE  ${blogFileSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 use ${blogFileSql};
-source /opt/sql/${blogFileSql}.sql;
+source /opt/package/sql/${blogFileSql}.sql;
 drop database if exists ${blogGatewaySql};
 CREATE DATABASE  ${blogGatewaySql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 use ${blogGatewaySql};
-source /opt/sql/${blogGatewaySql}.sql;
+source /opt/package/sql/${blogGatewaySql}.sql;
 exit
 EOF
 }
@@ -291,19 +286,19 @@ blogJar() {
 	mkdir bin
 
 	cd /opt/blog/blog-content
-	mv /opt/package/jar/${blogContentJar}.jar /opt/blog/blog-auth
+	mv /opt/package/jar/${blogContentJar}.jar /opt/blog/blog-content
 	mkdir bin
 
 	cd /opt/blog/blog-gateway
-	mv /opt/package/jar/${blogGatewayJar}.jar /opt/blog/blog-auth
+	mv /opt/package/jar/${blogGatewayJar}.jar /opt/blog/blog-gateway
 	mkdir bin
 
 	cd /opt/blog/blog-user
-	mv /opt/package/jar/${blogUserJar}.jar /opt/blog/blog-auth
+	mv /opt/package/jar/${blogUserJar}.jar /opt/blog/blog-user
 	mkdir bin
 
 	cd /opt/blog/blog-file
-	mv /opt/package/jar/${blogFileJar}.jar /opt/blog/blog-auth
+	mv /opt/package/jar/${blogFileJar}.jar /opt/blog/blog-file
 	mkdir bin
 }
 
@@ -407,18 +402,19 @@ EOF
 
 
 main() {
-  cd $(dirname $0);
+  $(cd `dirname $0`;pwd)
   if [ ! -f "blog.zip" ]; then
       echo "博客压缩包文件不存在，退出安装程序"
       exit
   fi
+  mkdir /opt/package
+  mv blog.zip /opt/package/blog.zip
+  
   echo "开始安装服务器所需依赖工具 ... "
   util
   echo "正在创建服务器目录 ... "
   createDir
-
-  cd $(dirname $0);
-  mv blog.zip /opt/package/blog.zip
+  
   cd /opt/package
   unzip blog.zip
 
@@ -453,7 +449,10 @@ main() {
 main
 
 # 脚本执行方法
+# chmod 777 blog_package.sh
 # nohup sh blog_package.sh >my.log 2>&1 &
+
+
 
 # java -jar --add-opens java.base/java.lang=ALL-UNNAMED user-center-1.0-SNAPSHOT.jar
 
