@@ -20,12 +20,12 @@ import { onMounted } from 'vue';
 
 let store = adminStore();
 
-onMounted(() => {
-  // 页面刷新时及时保存tag信息
-  window.addEventListener('beforeunload', () => store.saveTags())
-  // 恢复状态
-  store.restoreTags()
-});
+// onMounted(() => {
+//   // 页面刷新时及时保存tag信息
+//   window.addEventListener('beforeunload', () => store.saveTags())
+//   // 恢复状态
+//   store.restoreTags()
+// });
 
 </script>
 

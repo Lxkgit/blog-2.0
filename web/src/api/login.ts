@@ -7,7 +7,7 @@ export const userLoginApi = (username: string, password: string) => {
     })
 }
 
-export const selectUserById = (userId) => {
+export const selectUserById = (userId: any) => {
     return service({
         method: 'GET',
         url: "/user/user/select/user/id?userId=" + userId

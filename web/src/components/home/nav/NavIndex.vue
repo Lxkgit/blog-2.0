@@ -1,13 +1,13 @@
-<!--个人导航页面-->
+
 <template>
-    <div class="nav-box" style="margin-bottom: 20px">
-        <!--顶部背景图-->
+<!--     <div class="nav-box" style="margin-bottom: 20px">
+        
         <div class="m-background" :style="`background-image: url(${navPageWallpaper.value});`">
             <div class="m-background-mask"> </div>
         </div>
-        <!--  搜索部分  -->
+        
         <SearchBox class="nav-search"></SearchBox>
-        <!-- 导航部分-->
+        
         <div class="m-cover">
             <div class="m-inner">
                 <ul class="m-shortcut-panel clearfix">
@@ -20,10 +20,10 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
-<script setup>
+<script setup lang="ts">
 import SearchBox from './components/SearchBox.vue'
 
 
@@ -59,7 +59,7 @@ li {
 
 }
 
-/*背景模糊图*/
+
 .m-background-mask {
     height: 90px;
     left: 0;
@@ -67,7 +67,7 @@ li {
     bottom: 0;
     position: absolute;
     background: linear-gradient(to top, white, rgba(255, 255, 255, 0.5) 10%, rgba(255, 255, 255, 0));
-    /* transition: background 0.3s; */
+    
 }
 
 .nav-search {
@@ -76,7 +76,7 @@ li {
     margin-right: auto;
 }
 
-/*搜索区*/
+
 .m-cover {
     min-height: 160px;
     font-size: 12px;
@@ -97,7 +97,7 @@ li {
 
 }
 
-/*顶部网址选择区*/
+
 .m-shortcut-panel {
     margin-left: auto;
     margin-right: auto;

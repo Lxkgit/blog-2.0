@@ -1,6 +1,6 @@
 import service from "../axios/axios"
 
-export const getBlogList = (param) => {
+export const getBlogList = (param: any) => {
     return service({
         method: 'GET',
         url: "/content/article/list",
@@ -8,7 +8,7 @@ export const getBlogList = (param) => {
     })
 }
 
-export const saveArticle = (article) => {
+export const saveArticle = (article: any) => {
     return service({
         method: 'POST',
         url: "/content/article/save",
@@ -16,7 +16,7 @@ export const saveArticle = (article) => {
     })
 }
 
-export const updateArticle = (article) => {
+export const updateArticle = (article: any) => {
     return service({
         method: 'POST',
         url: "/content/article/update",
@@ -24,7 +24,7 @@ export const updateArticle = (article) => {
     })
 }
 
-export const deleteArticleByIds = (ids) => {
+export const deleteArticleByIds = (ids: any) => {
     return service({
         method: 'DELETE',
         url: "/content/article/delete?articleIds=" + ids,
@@ -45,7 +45,7 @@ export const getBlogById = (id: any) => {
     })
 }
 
-export const getDiaryList = (month) => {
+export const getDiaryList = (month: any) => {
     return service({
         method: 'GET',
         url: "/content/diary/select?dateMonth=" + month,

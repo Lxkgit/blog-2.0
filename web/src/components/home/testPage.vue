@@ -1,7 +1,6 @@
-<template>
+<!-- <template>
   <div class="upload">
-   <!-- 上传按钮，由于我上传的是ppt文件，所以accept属性的值是“.ppt”，可根据自己的需求自行设置-->
-   <!-- a-upload 组件的属性可以自行查看ant design官网的详细说明-->
+
     <a-upload
     accept=".txt"  
     :show-upload-list="false"
@@ -11,7 +10,7 @@
         上传PPT
       </a-button>
     </a-upload>
-    <!-- 显示上传进度-->
+
     <a-progress :percent="filepercent" id="uploadpercent"/>
   </div>
 </template>
@@ -63,4 +62,4 @@ export default defineComponent({
 })
 </script>
 
-
+ -->

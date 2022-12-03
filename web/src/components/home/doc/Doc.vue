@@ -1,5 +1,5 @@
 <template>
-    <div class="window-container">
+<!--     <div class="window-container">
         <div class="window-body">
             <div class="sidebar">
                 <div class="sidebar-header">
@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </template>
 
 <script setup lang="ts">
@@ -309,4 +309,4 @@ const filterNode = (value: any, data: { label: string | any[]; }) => {
 .window-body .workspace .article .article-head .tools>.item :hover {
     color: #7e888b;
 }
-</style>
+</style> -->

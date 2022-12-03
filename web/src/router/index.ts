@@ -69,7 +69,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "editor",
         path: "/admin/article/editor",
         component: () => import("/src/components/admin/article/Editor.vue"),
-        requireAuth: true,
+        // requireAuth: true,
     },
     {
         path: "/doc",

@@ -7,12 +7,12 @@ export const articleStore = defineStore({
         article: {}
     }),
     getters: {
-        getArticle() {
+        getArticle(): any {
             return this.article;
         }
     },
     actions: {
-       setArticle(article) {
+       setArticle(article: any) {
             this.article = article
        }
     }

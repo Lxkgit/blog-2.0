@@ -22,13 +22,13 @@ export const userLoginStore = defineStore({
         //     this.user = JSON.stringify(localStorage.getItem("user"));
         //     return localStorage.getItem("user") === null ? '' : JSON.parse(localStorage.getItem("user"));
         // }
-        getToken() {
+        getToken():any {
             return this.token;
         }
         
     },
     actions: {
-        setToken(token) {
+        setToken(token: any) {
             this.token = token
         }
     },

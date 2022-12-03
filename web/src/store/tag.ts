@@ -18,6 +18,7 @@ export const adminStore = defineStore('tag', {
     getters: {},
     actions: {
         addTag(name: any,path: any) {
+            console.log("addTag name{}, path{}", name, path)
             this.tags.map(item => (item.active = false))
             let flag = false
             for(let i=0; i<this.tags.length; i++) {
@@ -66,12 +67,17 @@ export const adminStore = defineStore('tag', {
             }
         },
         saveTags() {
+            console.log("save tag")
             sessionStorage.setItem('tags', JSON.stringify(this.tags))
         },
+        
         restoreTags() {
-            if (JSON.parse(sessionStorage.getItem('tags')) != null) {
-                this.tags = JSON.parse(sessionStorage.getItem('tags'))
+            console.log("load tag")
+            const tagsJSON: any = sessionStorage.getItem('tags')
+            if (tagsJSON != null) {
+                this.tags = tagsJSON
             }
+            
         }
     }
 })

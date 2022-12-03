@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="site_list">
     <div v-for="(item, index) in navigations" :key="index" class="cate-item">
       <div class="title">
@@ -143,4 +143,4 @@ const navigations = [
   display: block;
   line-height: 30px;
 }
-</style>
+</style> -->

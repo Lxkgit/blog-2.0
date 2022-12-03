@@ -4,10 +4,7 @@ import 'font-awesome/css/font-awesome.css';
 import router from './router'
 import store from './store'
 
-// main.js
-import VMdPreview from '@kangc/v-md-editor/lib/preview';
-import '@kangc/v-md-editor/lib/style/preview.css';
-
+// 编辑组件
 import VMdEditor from '@kangc/v-md-editor/lib/codemirror-editor';
 import '@kangc/v-md-editor/lib/style/codemirror-editor.css';
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
@@ -38,21 +35,17 @@ import 'codemirror/addon/scroll/simplescrollbars.css';
 // style
 import 'codemirror/lib/codemirror.css';
 
-import VueMarkdownEditor from '@kangc/v-md-editor';
-import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
-import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index';
-import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
+// 页面展示组件
+import VMdPreview from '@kangc/v-md-editor/lib/preview';
+import '@kangc/v-md-editor/lib/style/preview.css';
 
 VMdEditor.Codemirror = Codemirror;
-VMdEditor.use(githubTheme, {Hljs: hljs,});
-VMdEditor.use(createLineNumbertPlugin());
-VMdEditor.use(createTodoListPlugin());
-
-
-VMdPreview.use(githubTheme, {Hljs: hljs,});
-VMdPreview.use(createLineNumbertPlugin());
-VMdPreview.use(createTodoListPlugin());
-
+VMdPreview.use(githubTheme, {
+  Hljs: hljs,
+});
+VMdEditor.use(githubTheme, {
+  Hljs: hljs,
+});
 
 const app = createApp(App);
 app.use(store)

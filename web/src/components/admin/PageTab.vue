@@ -49,7 +49,6 @@ let path:any = route.path
 
 // 监听路由变化，激活对应标签
 watch(() => route.path,() => {
-  console.log("--- ---", route.path)
   store.activeTag(route.path)
 })
 

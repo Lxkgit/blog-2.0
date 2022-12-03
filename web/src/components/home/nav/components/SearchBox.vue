@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="m-inner m-layout" style="height: 100%;">
     <div class="wd-search clearfix" role="search">
       <div class="logo">
@@ -423,4 +423,4 @@ export default {
   fill: currentColor;
   overflow: hidden;
 }
-</style>
+</style> -->
