@@ -19,7 +19,7 @@
         </h1>
         <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: flex-start;">
             <div style="border-style: solid; border-color: #445160; border-width: 1px; width: 14%; min-width: 32px; height: 122px;  cursor: pointer;"
-                v-for="(item, idx) in dayList" :id="idx" :key="idx"
+                v-for="(item, idx) in dayList" :id="idx+''" :key="idx"
                 :style="item.month !== month ? 'border-color: #fff0f0' : ''" @click="clickEvent(item, idx)">
                 <div
                     style="width: 97%; height: 1.25rem; display: flex; justify-content: space-between; align-items: center; padding: 0.25rem;">

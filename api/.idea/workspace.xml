@@ -262,6 +262,7 @@
       <workItem from="1668221349367" duration="1549000" />
       <workItem from="1668223545302" duration="786000" />
       <workItem from="1668351878879" duration="268000" />
+      <workItem from="1670041874739" duration="299000" />
     </task>
     <task id="LOCAL-00001" summary="22-06-12: 鉴权中心和用户中心设置完成，等待调试">
       <created>1655019586684</created>
@@ -578,7 +579,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668352014894</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="22-12-03【功能修改】：解决前端打包问题">
+      <created>1670041988238</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1670041988238</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -609,7 +617,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="22-07-13【功能新增】： 新增openfeign拦截器，各模块配置引入了nacos的config，实现统一配置" />
     <MESSAGE value="22-07-14【功能新增】： 完善文件上传功能" />
     <MESSAGE value="22-07-14【bug修复】：修复oauth2登陆报错问题" />
     <MESSAGE value="22-07-16【功能新增】：新增图片上传功能" />
@@ -634,65 +641,54 @@
     <MESSAGE value="22-11-07【功能修改】：修改id字段类型" />
     <MESSAGE value="22-11-12【功能修改】：修改博客部署脚本，新增压缩包安装脚本" />
     <MESSAGE value="22-11-13【功能修改】：博客安装包部署脚本修改完成" />
-    <option name="LAST_COMMIT_MESSAGE" value="22-11-13【功能修改】：博客安装包部署脚本修改完成" />
+    <MESSAGE value="22-12-03【功能修改】：解决前端打包问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="22-12-03【功能修改】：解决前端打包问题" />
   </component>
   <component name="WindowStateProjectService">
     <state x="564" y="228" width="875" height="562" key="#Notifications" timestamp="1667788409366">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="564" y="228" width="875" height="562" key="#Notifications/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1667788409366" />
-    <state x="695" y="214" key="FileChooserDialogImpl" timestamp="1659834057721">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="695" y="214" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834057721" />
     <state width="1877" height="305" key="GridCell.Tab.0.bottom" timestamp="1668352147315">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="305" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668352147315" />
-    <state width="1543" height="351" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108659" />
     <state width="1877" height="305" key="GridCell.Tab.0.center" timestamp="1668352147315">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="305" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668352147315" />
-    <state width="1543" height="351" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108659" />
     <state width="1877" height="305" key="GridCell.Tab.0.left" timestamp="1668352147315">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="305" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668352147315" />
-    <state width="1543" height="351" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108658" />
     <state width="1877" height="305" key="GridCell.Tab.0.right" timestamp="1668352147315">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="305" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668352147315" />
-    <state width="1543" height="351" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108659" />
     <state width="1543" height="350" key="GridCell.Tab.1.bottom" timestamp="1668093635567">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1543" height="350" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668093635567" />
-    <state width="1543" height="351" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108660" />
     <state width="1543" height="350" key="GridCell.Tab.1.center" timestamp="1668093635567">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1543" height="350" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668093635567" />
-    <state width="1543" height="351" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108660" />
     <state width="1543" height="350" key="GridCell.Tab.1.left" timestamp="1668093635567">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1543" height="350" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668093635567" />
-    <state width="1543" height="351" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108660" />
     <state width="1543" height="350" key="GridCell.Tab.1.right" timestamp="1668093635567">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1543" height="350" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668093635567" />
-    <state width="1543" height="351" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1659834108660" />
     <state x="461" y="164" key="SettingsEditor" timestamp="1663372291174">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1663372291174" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1668352114227">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1670041993047">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1668352114227" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1670041993047" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
