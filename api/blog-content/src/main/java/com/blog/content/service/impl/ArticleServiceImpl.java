@@ -76,6 +76,7 @@ public class ArticleServiceImpl implements ArticleService {
         Date date = new Date();
         article.setCreateTime(date);
         article.setUpdateTime(date);
+        article.setArticleType(updateArticleType(article.getArticleType()));
         return articleDAO.insert(article);
     }
 

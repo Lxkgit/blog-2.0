@@ -6,14 +6,14 @@
 					<img src="../../assets/logo.png" />
 				</h1>
 				<ul>
-					<li class='active'>
-						<router-link to="/index">首 页</router-link>
+					<li :class="{'active': activePath==='index'}">
+						<router-link to="/index" @click="addClass('index')">首 页</router-link>
 					</li>
-					<li class='active'>
-						<router-link to="/doc">文 档</router-link>
+					<li :class="{'active': activePath==='doc'}">
+						<router-link to="/doc" @click="addClass('doc')">文 档</router-link>
 					</li>
-					<li class='active'>
-						<router-link to="/nav">导 航</router-link>
+					<li :class="{'active': activePath==='nav'}">
+						<router-link to="/nav" @click="addClass('nav')">导 航</router-link>
 					</li>
 				</ul>
 			</div>
@@ -42,6 +42,7 @@ import { userLoginStore } from '../../store/login';
 
 const store = userLoginStore()
 let isLogin = ref(false);
+let activePath = ref("index")
 
 onMounted(() => {
 	let userId = store.token.user_id
@@ -53,6 +54,10 @@ onMounted(() => {
     	});
 	}
 });
+
+const addClass = (path: string) => {
+    activePath.value = path
+}
 
 
 </script>

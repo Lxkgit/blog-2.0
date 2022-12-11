@@ -15,5 +15,15 @@ export const articleStore = defineStore({
        setArticle(article: any) {
             this.article = article
        }
+    },
+    persist: {
+        enabled: true,
+        strategies: [
+            {
+                key: 'article',
+                storage: localStorage,
+                paths: ['article']
+            }
+        ]
     }
 })

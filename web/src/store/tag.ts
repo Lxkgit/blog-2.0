@@ -79,5 +79,15 @@ export const adminStore = defineStore('tag', {
             }
             
         }
+    },
+    persist: {
+        enabled: true,
+        strategies: [
+            {
+                key: 'tags',
+                storage: localStorage,
+                paths: ['tags']
+            }
+        ]
     }
 })

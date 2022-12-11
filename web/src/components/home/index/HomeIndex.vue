@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; align-items: center;">
-                        <el-button type="text" @click="addArticle" :loading="loading">加载更多</el-button>
+                        <el-button link @click="addArticle" :loading="loading">加载更多</el-button>
                     </div>
                 </el-col>
                 <el-col :lg="4" :md="0" :sm="0" :xs="0">

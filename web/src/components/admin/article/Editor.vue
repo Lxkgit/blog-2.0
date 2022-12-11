@@ -17,12 +17,38 @@
                     <span>文章分类:</span>
                     <el-tree-select style="margin-left:12px; font-size: 18px; width: 280px;" v-model="type" :data="data" check-strictly :render-after-expand="false" @change="selectType"/>
                 </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 20px;">
+                    <el-button text @click="dialogFormVisible = true">
+                         选择文章标签
+                    </el-button>
+                </div>
             </div>
         </el-row>
         <el-row style="height: calc(100vh - 90px);">
             <v-md-editor v-model="article.data.contentMd" height="100%" @save="useText"></v-md-editor>
         </el-row>
     </div>
+    <el-dialog v-model="dialogFormVisible" title="Shipping address">
+    <el-form :model="form">
+      <el-form-item label="Promotion name" :label-width="formLabelWidth">
+        <el-input v-model="form.name" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="Zones" :label-width="formLabelWidth">
+        <el-select v-model="form.region" placeholder="Please select a zone">
+          <el-option label="Zone No.1" value="shanghai" />
+          <el-option label="Zone No.2" value="beijing" />
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">
+          Confirm
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
@@ -34,6 +60,18 @@ import { saveArticle, updateArticle, getArticleType } from '../../../api/article
 const store = articleStore();
 const route = useRoute();
 const router = useRouter();
+const dialogFormVisible = ref(false)
+const formLabelWidth = '100px'
+const form = reactive({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
+})
 let type = ref("");
 let article: any = reactive({
     data: {
@@ -59,9 +97,8 @@ const selectType = (value:any) => {
 let data:any = ref()
 
 onMounted(() => {
-    if(store.getArticle !== undefined) {
+    if(store.getArticle !== 'null') {
         article.data = store.getArticle
-        console.log("data: ", article.data)
         if (article.data !== null) {
             let articleType = article.data.articleType;
             type.value = articleType.substr(-1)    

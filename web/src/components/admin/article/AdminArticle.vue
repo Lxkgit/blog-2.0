@@ -4,9 +4,9 @@
             <span>文章管理</span>
         </div>
         <el-card style="margin: 18px 2%;width: 95%">
-            <el-button type="primary" plain @click="editArticle()">新增</el-button>
+            <el-button type="primary" plain @click="editArticle('null')">新增</el-button>
             <el-button type="danger" plain @click="deleteArticle(0)">删除</el-button>
-            <el-table :data="articleList.data" stripe style="width: 100%" :max-height="tableHeight" @selection-change="selected">
+            <el-table :data="articleList.data" stripe style="width: 100%" height="642" @selection-change="selected">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
                 <el-table-column prop="title" label="标题" fit>
@@ -28,7 +28,9 @@
                 </el-table-column>
                 <el-table-column label="文章状态" width="80">
                     <template #default="scope">
-                        {{ articleStatus(scope.row.articleStatus)}}
+                        <el-tag v-if="(scope.row.articleStatus==0)" class="ml-2" type="info">{{ articleStatus(scope.row.articleStatus)}}</el-tag>
+                        <el-tag v-if="(scope.row.articleStatus==1)" class="ml-2" type="success">{{ articleStatus(scope.row.articleStatus)}}</el-tag>
+                        <el-tag v-if="(scope.row.articleStatus==2)" class="ml-2">{{ articleStatus(scope.row.articleStatus)}}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column prop="createTime" label="发布日期" width="162">
@@ -57,7 +59,6 @@
 
 <script setup lang="ts">
 import mixin from "../../../mixins/article"
-import { computed } from '@vue/reactivity';
 import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { articleStore } from "../../../store/article";
@@ -78,10 +79,6 @@ let labelList: any = reactive({
 });
 
 let ids = new Array();
-
-let tableHeight = computed(() => {
-    return window.innerHeight - 310
-});
 
 onMounted(() => {
     getBlogListFun(1)

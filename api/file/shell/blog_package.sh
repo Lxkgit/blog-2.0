@@ -177,6 +177,9 @@ buildMysql() {
 	echo "max_connect_errors = 10"  >> /etc/my.cnf
 	echo "log_error = /opt/mysql/logs/mysql_5_7_37.err"  >> /etc/my.cnf
 	echo "log_bin = /opt/mysql/binlog/mysql-bin"  >> /etc/my.cnf
+	echo "[mysqldump]"  >> /etc/my.cnf
+	echo "user=root"  >> /etc/my.cnf
+	echo "password=${mysqlPassword}"  >> /etc/my.cnf
 	
 	chown  -R  mysql:mysql  /opt/mysql/
 	chown mysql:mysql  /etc/my.cnf
@@ -219,6 +222,12 @@ nginxConf() {
 	cd /usr/local/nginx/conf
 	mv nginx.conf nginx.conf.bk
 	mv /opt/package/conf/nginx.conf /usr/local/nginx/conf
+	# 配置配置前端项目包
+	cd /usr/local/nginx/html
+	rm -rf *
+	mv /opt/package/web/dist/assets/ /usr/local/nginx/html
+	mv /opt/package/web/dist/favicon.ico /usr/local/nginx/html
+	mv /opt/package/web/dist/index.html /usr/local/nginx/html
 }
 
 nacosConf() {

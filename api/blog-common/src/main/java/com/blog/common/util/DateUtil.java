@@ -342,9 +342,9 @@ public class DateUtil {
 //        }
 //        System.out.println(Arrays.deepToString(integers));
 
-        Calendar cal = Calendar.getInstance();
-        int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
-        System.out.println(w);
+//        Calendar cal = Calendar.getInstance();
+//        int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
+//        System.out.println(w);
 
 //        int len = 5;
 //        Integer[][] integers = new Integer[len][];
@@ -365,63 +365,107 @@ public class DateUtil {
 //        System.out.println(format.format(date));
 //        System.out.println(date);
 
-        Random random = new Random();
-        String s = random.nextInt(9999) + "";
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < 4-s.length(); i++) {
-            builder.append("0");
-        }
-        System.out.println(s + builder.toString());
+//        Random random = new Random();
+//        String s = random.nextInt(9999) + "";
+//        StringBuilder builder = new StringBuilder();
+//        for (int i = 0; i < 4-s.length(); i++) {
+//            builder.append("0");
+//        }
+//        System.out.println(s + builder.toString());
+//
+//        System.out.println(cal.get(Calendar.YEAR));
+//
+//
+//        System.out.println(cal.get(Calendar.HOUR_OF_DAY));
+//        System.out.println(cal.get(Calendar.MINUTE));
+//        System.out.println(cal.get(Calendar.SECOND));
+//
+//
+//        Calendar calendar = Calendar.getInstance();
+//        Date date = new Date();
+//        calendar.setTime(date);
+//        int month = calendar.get(Calendar.MONTH)+1; //获取月（月份从0开始）
+//        int dayMonth = calendar.get(Calendar.DAY_OF_MONTH);//获取日（月中的某一天）
+//        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+//        int min = calendar.get(Calendar.MINUTE);
+//        int sec = calendar.get(Calendar.SECOND);
+//        String strMonth;
+//        String strDay;
+//        String strHour;
+//        String strMin;
+//        String strSec;
+//        if (month < 10) {
+//            strMonth = "0" + month;
+//        } else {
+//            strMonth = String.valueOf(month);
+//        }
+//        if (dayMonth < 10) {
+//            strDay = "0" + dayMonth;
+//        } else {
+//            strDay = String.valueOf(dayMonth);
+//        }
+//        if (hour < 10) {
+//            strHour = "0" + hour;
+//        } else {
+//            strHour = String.valueOf(hour);
+//        }
+//        if (min < 10) {
+//            strMin = "0" + min;
+//        } else {
+//            strMin = String.valueOf(min);
+//        }
+//        if (sec < 10) {
+//            strSec = "0" + sec;
+//        } else {
+//            strSec = String.valueOf(sec);
+//        }
+//
+//        System.out.println((calendar.get(Calendar.YEAR) % 100 + strMonth + strDay + strHour + strMin + strSec));
 
-        System.out.println(cal.get(Calendar.YEAR));
-
-
-        System.out.println(cal.get(Calendar.HOUR_OF_DAY));
-        System.out.println(cal.get(Calendar.MINUTE));
-        System.out.println(cal.get(Calendar.SECOND));
-
-
-        Calendar calendar = Calendar.getInstance();
-        Date date = new Date();
-        calendar.setTime(date);
-        int month = calendar.get(Calendar.MONTH)+1; //获取月（月份从0开始）
-        int dayMonth = calendar.get(Calendar.DAY_OF_MONTH);//获取日（月中的某一天）
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int min = calendar.get(Calendar.MINUTE);
-        int sec = calendar.get(Calendar.SECOND);
-        String strMonth;
-        String strDay;
-        String strHour;
-        String strMin;
-        String strSec;
-        if (month < 10) {
-            strMonth = "0" + month;
-        } else {
-            strMonth = String.valueOf(month);
+        String messageStr = "{\"info\":{\"devicecode\":\"1000083\",\"channelnum\":0,\"recordImg\":\"http://192.168.3.2:9876/3856a5e1-6270-11ed-92bd-0894efc5061e/20221202/1/8be865d2-720c-11ed-9b22-0894efc5061e.png\",\"swipetime\":1669963332,\"cardno\":\"3857047613\",\"openresult\":1,\"opentype\":61},\"method\":\"card.record\",\"result\":false,\"success\":false}";
+        Pattern p = Pattern.compile("\"cardno\":\"([0-9]+)\"");
+        Matcher m = p.matcher(messageStr);
+        if (m.find()) {
+            if (m.group().substring(m.group().lastIndexOf(":")+2, m.group().length()-1).length()==10) {
+                String cardNo = updateCardNo(m.group().substring(m.group().lastIndexOf(":")+2, m.group().length()-1));
+                messageStr = messageStr.replaceAll("\"cardno\":\"([0-9]+)\"", "\"cardno\":\""+ cardNo +"\"");
+                System.out.println(cardNo);
+                System.out.println(messageStr);
+            }
         }
-        if (dayMonth < 10) {
-            strDay = "0" + dayMonth;
-        } else {
-            strDay = String.valueOf(dayMonth);
-        }
-        if (hour < 10) {
-            strHour = "0" + hour;
-        } else {
-            strHour = String.valueOf(hour);
-        }
-        if (min < 10) {
-            strMin = "0" + min;
-        } else {
-            strMin = String.valueOf(min);
-        }
-        if (sec < 10) {
-            strSec = "0" + sec;
-        } else {
-            strSec = String.valueOf(sec);
-        }
+    }
 
-        System.out.println((calendar.get(Calendar.YEAR) % 100 + strMonth + strDay + strHour + strMin + strSec));
-//        return calendar.get(Calendar.YEAR)%100 + strMonth + strDay + strHour + strMin + strSec;
+    /**
+     * 卡号转换 获取海康返回的十位十进制卡号 3857047613
+     * 实际十六进制卡号 E5E5E03D
+     * 转换后的卡号 3DE0E5E5 （定长8位）
+     * 返回卡号不为十位不做处理
+     * @param cardNo
+     * @return
+     */
+    private static String updateCardNo(String cardNo) {
+        if (cardNo.length() == 10) {
+            String oldCard = Long.toHexString(Long.parseLong(cardNo));
+            while (oldCard.length()<8) {
+                oldCard = "0" + oldCard;
+            }
+            char[] chars = oldCard.toCharArray();
+            char ch;
+            ch=chars[0];
+            chars[0] = chars[6];
+            chars[6] = ch;
+            ch=chars[1];
+            chars[1] = chars[7];
+            chars[7] = ch;
+            ch=chars[2];
+            chars[2]=chars[4];
+            chars[4]=ch;
+            ch=chars[3];
+            chars[3]=chars[5];
+            chars[5]=ch;
+            return (new String(chars)).toUpperCase();
+        }
+        return cardNo;
     }
 
 }
