@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { reactive, onMounted } from "vue";
 import { adminStore } from "../../store/tag"
-import { getMenuApi } from "../../api/menuApi";
+import { menuApi } from "../../api/menuApi";
 
 const store = adminStore()
 
@@ -25,7 +25,7 @@ const handleOpen = (key: string, keyPath: string[]) => {
 let adminMenus: any = reactive({ data: [] })
 
 onMounted(() => {
-    getMenuApi().then((res: any) => {
+    menuApi().then((res: any) => {
         if(res.code === 200) {
             adminMenus.data = res.result
         }

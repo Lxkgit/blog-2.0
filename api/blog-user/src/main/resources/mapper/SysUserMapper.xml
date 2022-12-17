@@ -10,7 +10,7 @@
         <id column="email" property="email" jdbcType="VARCHAR"/>
         <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
-        <id column="enabled" property="enabled" jdbcType="BOOLEAN"/>
+        <id column="status" property="status" jdbcType="INTEGER"/>
     </resultMap>
     <resultMap id="NoPasswordMap" type="com.blog.common.entity.user.BlogUser">
         <id column="id" property="id" jdbcType="INTEGER"/>
@@ -20,13 +20,13 @@
         <id column="email" property="email" jdbcType="VARCHAR"/>
         <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
-        <id column="enabled" property="enabled" jdbcType="BOOLEAN"/>
+        <id column="status" property="status" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, username, password, nickname, head_img, email, create_time, update_time, enabled
+        id, username, password, nickname, head_img, email, create_time, update_time, status
     </sql>
     <sql id="No_Password_List">
-        id, username, nickname, head_img, email, create_time, update_time, enabled
+        id, username, nickname, head_img, email, create_time, update_time, status
     </sql>
 
     <select id="selectUserById" resultMap="NoPasswordMap">
@@ -45,10 +45,9 @@
     </select>
 
     <!--分页查找用户-->
-    <select id="selectUserListByPage" resultMap="NoPasswordMap" parameterType="java.lang.Integer">
+    <select id="selectUserList" resultMap="NoPasswordMap" parameterType="java.lang.Integer">
         select <include refid="No_Password_List"/>
         from sys_user
-        limit #{startNum}, #{pageSize}
     </select>
 
     <select id="selectUserCount" resultType="java.lang.Integer">

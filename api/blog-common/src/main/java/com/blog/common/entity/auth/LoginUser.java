@@ -26,6 +26,9 @@ import java.util.Set;
 public class LoginUser extends BlogUser implements UserDetails {
 
     private static final long serialVersionUID = -5650242260144561959L;
+
+    private Boolean enable;
+
     private Set<SysRole> sysRoles;
 
     private Set<String> permissions;
@@ -70,6 +73,7 @@ public class LoginUser extends BlogUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return getEnabled();
+        setEnable(getStatus() == 1);
+        return getEnable();
     }
 }

@@ -8,11 +8,10 @@ import { userLoginStore } from '../store/login'
 const service = axios.create({
     baseURL: "/api",
 })
-
+const router = useRouter();
 //2. 请求拦截器
 service.interceptors.request.use(config => {
     const date = new Date();
-    const router = useRouter();
     const store = userLoginStore();
     let token = store.token.access_token;
     if(token) {
@@ -29,7 +28,6 @@ service.interceptors.response.use(response => {
 }, error => {
     if(error.response.status === 401) {
         localStorage.removeItem("blog")
-        const router = useRouter();
         router.push("/login")
     }
     return Promise.reject(error);

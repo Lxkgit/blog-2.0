@@ -24,10 +24,9 @@ public class RoleController {
     @Autowired
     private SysRoleService sysRoleService;
 
-    @GetMapping("/select")
+    @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('sys:role')")
-    public Result selectDiaryByDate(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                    @RequestParam(value = "size", defaultValue = "0") Integer size){
+    public Result selectDiaryByDate(@RequestParam(value = "page") Integer page, @RequestParam(value = "size") Integer size){
         if (page==0 || size==0){
             return ResultFactory.buildFailResult("请输入正确的查询页 ... ");
         }

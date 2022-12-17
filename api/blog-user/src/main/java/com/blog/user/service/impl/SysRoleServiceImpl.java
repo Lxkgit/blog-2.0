@@ -7,6 +7,9 @@ import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
 import com.blog.user.dao.SysRoleDAO;
 import com.blog.user.service.SysRoleService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +25,7 @@ import java.util.Set;
  */
 
 
+@Slf4j
 @Service
 public class SysRoleServiceImpl implements SysRoleService {
 
@@ -36,13 +40,12 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public MyPage<SysRole> selectRoleByPage(int page, int size) {
         MyPage<SysRole> myPage = null;
-        List<SysRole> roleList = sysRoleDAO.selectRoleListByPage((page-1)*size, size);
-
+        PageHelper.startPage(page, size);
+        Page<SysRole> rolePageList = (Page<SysRole>) sysRoleDAO.selectRoleList();
         try {
-            int count = sysRoleDAO.selectRoleCount();
-            myPage = MyPageUtils.pageUtil(roleList, page, size, count);
+            myPage = MyPageUtils.pageUtil(rolePageList, rolePageList.getPageNum(), rolePageList.getPageSize(), (int) rolePageList.getTotal());
         } catch (Exception e){
-            e.printStackTrace();
+            log.info("分页查询角色接口报错: {}", e.getMessage());
         }
         return myPage;
     }

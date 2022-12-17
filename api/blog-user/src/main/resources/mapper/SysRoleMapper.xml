@@ -5,15 +5,17 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <id column="role_code" property="roleCode" jdbcType="VARCHAR"/>
         <id column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, role_code, role_name
+        id, role_code, role_name, create_time, update_time
     </sql>
 
     <!--根据用户名查找用户信息-->
     <select id="selectRoleByUserId" resultMap="BaseResultMap">
-        SELECT r.*
+        SELECT <include refid="Base_Column_List"/>
         FROM `sys_role` r LEFT JOIN sys_role_user ru on r.id = ru.role_id
         where ru.user_id = #{userId};
     </select>
@@ -23,10 +25,9 @@
         from sys_role
     </select>
 
-    <select id="selectRoleListByPage" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectRoleList" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select <include refid="Base_Column_List"/>
         from sys_role
-        limit #{startNum}, #{pageSize}
     </select>
 
     <update id="updateRole" parameterType="com.blog.common.entity.user.SysRole">

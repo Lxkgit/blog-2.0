@@ -17,6 +17,8 @@ import java.util.List;
 public class SysPermissionVo extends SysPermission implements Comparable<SysPermissionVo>{
 
     List<SysPermissionVo> list;
+    List<SysPermissionVo> children;
+    String label;
 
     @Override
     public int compareTo(SysPermissionVo o) {

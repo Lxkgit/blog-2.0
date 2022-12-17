@@ -31,6 +31,12 @@
             <if test="title != null and title != ''">
                 AND title like CONCAT(CONCAT('%',#{title}),'%')
             </if>
+            <if test="articleLabel != null and articleLabel != ''">
+                AND
+                <foreach item="label" collection="articleLabelList" open="(" separator="or" close=")">
+                    article_label like CONCAT(CONCAT('%',#{label}),'%')
+                </foreach>
+            </if>
         </where>
     </select>
 
@@ -43,6 +49,12 @@
             </if>
             <if test="title != null and title != ''">
                 AND title like CONCAT(CONCAT('%',#{title}),'%')
+            </if>
+            <if test="articleLabel != null and articleLabel != ''">
+                AND
+                <foreach item="label" collection="articleLabelList" open="(" separator="or" close=")">
+                    article_label like CONCAT(CONCAT('%',#{label}),'%')
+                </foreach>
             </if>
         </where>
     </select>

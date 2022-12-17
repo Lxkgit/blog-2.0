@@ -1,5 +1,4 @@
 <template>
-    <!-- <div class="nav" :style="`background-image: url(${loginPageWallpaper.value});`"> -->
     <div class="nav">
         <div class="login-block">
             <div class="login">
@@ -17,8 +16,7 @@
                     <el-checkbox class="login_remember" v-model="loginForm.checked" label-position="left"><span
                             style="color: #505458;">记住密码</span></el-checkbox>
                     <el-form-item style="width: 100%">
-                        <el-button type="primary" style="width: 40%;background: #505458;border: none"
-                            v-on:click="login">登录</el-button>
+                        <el-button type="primary" style="width: 40%;background: #505458;border: none" v-on:click="login">登录</el-button>
                         <router-link to="/register">
                             <el-button type="primary" style="width: 40%;background: #505458;border: none">注册</el-button>
                         </router-link>
@@ -53,27 +51,11 @@ const rules = reactive<FormRules>({
 })
 
 const login = () => {
-    const date = new Date();
     userLoginApi(loginForm.username, loginForm.password).then((res: any) => {
-        
         if(res.code === 200) {
             store.setToken(res.result)
-            router.go(-1)
+            router.push("/admin")
         }
-        
-
-        // localStorage.setItem('user', JSON.stringify(res))
-        // localStorage.setItem("access_token", JSON.stringify({
-        //     expires: date.valueOf() + 12 * 3600 * 1000,
-        //     data: res.access_token
-        // }));
-        // store.user = res
-        // let redirect = decodeURIComponent(route.query.redirect || '/');
-        // console.log("redirect: " + redirect)
-        // router.push({
-        //     path: redirect
-        // })
-        // window.location.reload()
     });
 }
 </script>

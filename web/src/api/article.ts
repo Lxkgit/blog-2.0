@@ -1,6 +1,7 @@
 import service from "../axios/axios"
 
-export const getBlogList = (param: any) => {
+// 文章相关接口
+export const getArticleList = (param: any) => {
     return service({
         method: 'GET',
         url: "/content/article/list",
@@ -31,6 +32,14 @@ export const deleteArticleByIds = (ids: any) => {
     })
 } 
 
+export const getArticleById = (id: any) => {
+    return service({
+        method: 'GET',
+        url: "/content/article/id?id=" + id 
+    })
+}
+
+// 文章分类相关接口
 export const getArticleType = () => {
     return service({
         method: 'GET',
@@ -38,13 +47,15 @@ export const getArticleType = () => {
     })
 }
 
-export const getBlogById = (id: any) => {
+// 文章标签相关接口
+export const getArticleLabel = () => {
     return service({
         method: 'GET',
-        url: "/content/article/id?id=" + id 
+        url: "/content/article/label/list"
     })
 }
 
+//  日记相关接口
 export const getDiaryList = (month: any) => {
     return service({
         method: 'GET',

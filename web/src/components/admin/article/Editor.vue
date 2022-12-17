@@ -15,64 +15,37 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 20px;">
                     <span>文章分类:</span>
-                    <el-tree-select style="margin-left:12px; font-size: 18px; width: 280px;" v-model="type" :data="data" check-strictly :render-after-expand="false" @change="selectType"/>
+                    <el-tree-select style="margin-left:12px; font-size: 18px; width: 280px;" v-model="type" :data="typeList" check-strictly :render-after-expand="false" @change="selectType"/>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-left: 20px;">
-                    <el-button text @click="dialogFormVisible = true">
-                         选择文章标签
-                    </el-button>
+                    <el-popover placement="bottom" title="文章标签" trigger="click" :width="360">
+                        <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-for="label in labelList" :key="label.id" class="mx-1" @Click="addLabel(label)">{{ label.labelName }}</el-tag>        
+                        <template #reference>
+                            <el-button>文章标签:</el-button>
+                        </template>    
+                    </el-popover>
                 </div>
+                <el-tag style="margin-left: 10px;" v-for="label in labels" :key="label.id" class="mx-1" closable @close="deleteLabel(label.id)">{{ label.labelName }}</el-tag>
             </div>
         </el-row>
         <el-row style="height: calc(100vh - 90px);">
             <v-md-editor v-model="article.data.contentMd" height="100%" @save="useText"></v-md-editor>
         </el-row>
     </div>
-    <el-dialog v-model="dialogFormVisible" title="Shipping address">
-    <el-form :model="form">
-      <el-form-item label="Promotion name" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="Zones" :label-width="formLabelWidth">
-        <el-select v-model="form.region" placeholder="Please select a zone">
-          <el-option label="Zone No.1" value="shanghai" />
-          <el-option label="Zone No.2" value="beijing" />
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">
-          Confirm
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { articleStore } from "../../../store/article";
-import { saveArticle, updateArticle, getArticleType } from '../../../api/article';
+import { saveArticle, updateArticle, getArticleType, getArticleLabel } from '../../../api/article';
 
 const store = articleStore();
-const route = useRoute();
 const router = useRouter();
-const dialogFormVisible = ref(false)
-const formLabelWidth = '100px'
-const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
-})
 let type = ref("");
+let labels: any = ref([]);
+let typeList:any = ref();
+let labelList: any = ref([]);
 let article: any = reactive({
     data: {
         id: 0,
@@ -93,29 +66,68 @@ let article: any = reactive({
 const selectType = (value:any) => {
     type.value = value
 }
- 
-let data:any = ref()
+
+const addLabel = (label:any) => {
+    let flag = false
+    for(let i=0; i<labels.value.length; i++) {
+        if(labels.value[i].id === label.id) {
+            labels.value.splice(i, 1)
+            flag = true
+        }
+    }
+    if (!flag) {
+        labels.value.push(label)
+    }
+}
+
+const deleteLabel = (id:any) => {
+    for (let i=0; i<labels.value.length; i++) {
+        if (labels.value[i].id === id) {
+            labels.value.splice(i, 1)
+        }
+    }
+}
 
 onMounted(() => {
+    articleType();
+    articleLabel();
     if(store.getArticle !== 'null') {
         article.data = store.getArticle
         if (article.data !== null) {
             let articleType = article.data.articleType;
-            type.value = articleType.substr(-1)    
+            type.value = articleType.substr(-1);
+            if (article.data.articleLabels !== null) {
+                labels.value = article.data.articleLabels;
+            }
         }
     }
-    articleType();
 });
 
 const articleType = () => {
     getArticleType().then((res: any) => {
         if(res.code === 200) {
-            data.value = res.result
+            typeList.value = res.result
+        }
+    })
+}
+
+const articleLabel = () => {
+    getArticleLabel().then((res: any) => {
+        if(res.code === 200) {
+            labelList.value = res.result
         }
     })
 }
 
 const useText = () => {
+    let labelId = "";
+    for(let i=0; i<labels.value.length; i++) {
+        if(i===0) {
+            labelId = labels.value[i].id;
+        } else {
+            labelId = labelId + "," + labels.value[i].id;
+        }
+    }
     if (article.data.id !== 0) {
         updateArticle({
             id: article.data.id,
@@ -123,7 +135,7 @@ const useText = () => {
             title: article.data.title,
             contentMd: article.data.contentMd,
             articleType: type.value,
-            articleLabel: "",
+            articleLabel: labelId,
             articleStatus: 1,
             browseCount: 0,
             likeCount: 0
@@ -139,7 +151,7 @@ const useText = () => {
             title: article.data.title,
             contentMd: article.data.contentMd,
             articleType: type.value,
-            articleLabel: "",
+            articleLabel: labelId,
             articleStatus: 1,
             browseCount: 0,
             likeCount: 0

@@ -1,6 +1,7 @@
 package com.blog.user.service.impl;
 
 import com.blog.common.entity.auth.LoginUser;
+import com.blog.common.entity.content.article.Article;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.entity.user.SysPermission;
 import com.blog.common.entity.user.SysRole;
@@ -10,6 +11,8 @@ import com.blog.user.dao.SysUserDAO;
 import com.blog.user.service.SysPermissionService;
 import com.blog.user.service.SysRoleService;
 import com.blog.user.service.UserService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +93,7 @@ public class UserServiceImpl implements UserService {
             return "用户名已存在";
         }
         blogUser.setPassword(passwordEncoder.encode(blogUser.getPassword()));
-        blogUser.setEnabled(true);
+        blogUser.setStatus(1);
         blogUser.setCreateTime(new Date());
         blogUser.setUpdateTime(blogUser.getCreateTime());
         sysUserDAO.insertUser(blogUser);
@@ -105,10 +108,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public MyPage<BlogUser> selectUserByPage(int page, int size) {
         MyPage<BlogUser> myPage = null;
-        List<BlogUser> userList = sysUserDAO.selectUserListByPage((page-1)*size, size);
+        PageHelper.startPage(page, size);
+        Page<BlogUser> userPage = (Page<BlogUser>) sysUserDAO.selectUserList();
         try {
-            int count = sysUserDAO.selectUserCount();
-            myPage = MyPageUtils.pageUtil(userList, page, size, count);
+//            int count = sysUserDAO.selectUserCount();
+            myPage = MyPageUtils.pageUtil(userPage, userPage.getPageNum(), userPage.getPageSize(), (int) userPage.getTotal());
         } catch (Exception e){
             e.printStackTrace();
         }

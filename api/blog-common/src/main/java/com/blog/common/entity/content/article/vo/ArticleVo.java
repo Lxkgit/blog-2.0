@@ -21,7 +21,11 @@ public class ArticleVo extends Article {
     private Integer pageNum;
 
     private BlogUser blogUser;
-    
+
+    private List<String> articleLabelList;
+
+    private List<String> articleTypeList;
+
     private List<ArticleType> articleTypes;
     
     private List<ArticleLabel> articleLabels;
@@ -64,5 +68,21 @@ public class ArticleVo extends Article {
 
     public void setArticleLabels(List<ArticleLabel> articleLabels) {
         this.articleLabels = articleLabels;
+    }
+
+    public List<String> getArticleTypeList() {
+        return articleTypeList;
+    }
+
+    public void setArticleTypeList(List<String> articleTypeList) {
+        this.articleTypeList = articleTypeList;
+    }
+
+    public List<String> getArticleLabelList() {
+        return articleLabelList;
+    }
+
+    public void setArticleLabelList(List<String> articleLabelList) {
+        this.articleLabelList = articleLabelList;
     }
 }

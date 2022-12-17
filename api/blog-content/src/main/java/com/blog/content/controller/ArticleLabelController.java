@@ -28,7 +28,7 @@ import java.util.Objects;
 
 @Slf4j
 @RestController
-@RequestMapping("/label")
+@RequestMapping("/article/label")
 public class ArticleLabelController {
 
 

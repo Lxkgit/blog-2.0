@@ -19,6 +19,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -42,7 +43,9 @@ public class ArticleController {
         Integer userId = articleVo.getUserId();
         Integer page = articleVo.getPageNum();
         Integer size = articleVo.getPageSize();
-        
+        if (articleVo.getArticleLabel()!=null && !articleVo.getArticleLabel().equals("")) {
+            articleVo.setArticleLabelList(Arrays.asList(articleVo.getArticleLabel().split(",")));
+        }
         if (userId == 0){
             log.info("分页查询全部文章， page: {},  size: {}", page, size);
             return ResultFactory.buildSuccessResult(articleService.selectArticleListByPage(articleVo));

@@ -18,8 +18,7 @@
                         </el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="文章标签" width="180" :filters="labelList.data" :filter-method="filterTag"
-                    filter-placement="bottom-end">
+                <el-table-column label="文章标签" width="180">
                     <template #default="scope">
                         <el-tag style="margin-right: 2px; margin-bottom: 2px;" v-for="item in scope.row.articleLabels">
                             {{ item.labelName }}
@@ -49,7 +48,7 @@
             </el-table>
             <div style="margin: 20px 0 50px 0">
                 <el-pagination background style="float:right;" layout="total, prev, pager, next, jumper"
-                    @current-change="getBlogListByPage" :page-size="size" :total="total">
+                    @current-change="getArticleListByPage" :page-size="size" :total="total">
                 </el-pagination>
             </div>
         </el-card>
@@ -62,7 +61,7 @@ import mixin from "../../../mixins/article"
 import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { articleStore } from "../../../store/article";
-import { getBlogList, deleteArticleByIds } from "../../../api/article";
+import { getArticleList, deleteArticleByIds, getArticleLabel } from "../../../api/article";
 
 let { articleStatus } = mixin();
 const router = useRouter()
@@ -71,21 +70,29 @@ let page = ref<number>(1)
 let size = ref<number>(14)
 let total = ref<number>(0)
 let articleList: any = reactive({ data: [] });
-let labelList: any = reactive({
-    data: [
-        { text: "算法", value: "算法" },
-        { text: "算法1", value: "算法1" }
-    ]
-});
+let labelList: any = ref([]);
 
 let ids = new Array();
 
 onMounted(() => {
-    getBlogListFun(1)
+    getArticleListFun(1)
+    articleLabel();
 });
 
-const getBlogListFun = (page: any) => {
-    getBlogList({
+const articleLabel = () => {
+    getArticleLabel().then((res: any) => {
+        if(res.code === 200) {
+            labelList.value = res.result
+            for(let i=0; i<labelList.value.length; i++) {
+                labelList.value[i].text = labelList.value[i].labelName
+                labelList.value[i].value = labelList.value[i].id
+            }
+        }
+    })
+}
+
+const getArticleListFun = (page: any) => {
+    getArticleList({
         pageNum: page,
         pageSize: size.value,
     }).then((res: any) => {
@@ -96,12 +103,8 @@ const getBlogListFun = (page: any) => {
     })
 }
 
-const filterTag = (value: string, row: any) => {
-    return row.articleLabels.some((item: any) => { return item.labelName === value })
-}
-
-const getBlogListByPage = (page: any) => {
-    getBlogListFun(page)
+const getArticleListByPage = (page: any) => {
+    getArticleListFun(page)
 };
 
 const selected = (val: any) => {
@@ -124,13 +127,13 @@ const deleteArticle = (id?:any) => {
         if(ids.length !== 0) {
            deleteArticleByIds(ids.join()).then(res => {
                 console.log("delete: ", res)
-                getBlogListByPage(1)
+                getArticleListByPage(1)
             })
         }
     } else {
         deleteArticleByIds(id).then(res => {
             console.log("delete: ", res)
-            getBlogListByPage(1)
+            getArticleListByPage(1)
         })
     }
     

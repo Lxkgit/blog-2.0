@@ -13,12 +13,12 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { getBlogById } from "../../../../api/article";
+import { getArticleById } from "../../../../api/article";
 
 let article: any = reactive({ data: {} })
 const route = useRoute();
 onMounted(() => {
-    getBlogById(route.query.id).then((res: any) => {
+    getArticleById(route.query.id).then((res: any) => {
         if(res.code===200) {
             article.data = res.result;
         }

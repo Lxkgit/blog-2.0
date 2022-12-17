@@ -50,6 +50,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
         for (SysPermission sysPermission : sysPermissionSet) {
             SysPermissionVo sysPermissionVo = new SysPermissionVo();
             BeanUtils.copyProperties(sysPermission, sysPermissionVo);
+            sysPermissionVo.setLabel(sysPermission.getMenuName());
             sysPermissionList.add(sysPermissionVo);
         }
 
@@ -61,6 +62,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
                             permissionVo.setList(new ArrayList<>());
                         }
                         permissionVo.getList().add(sysPermissionVo);
+                        permissionVo.setChildren(permissionVo.getList());
                         break;
                     }
                 }

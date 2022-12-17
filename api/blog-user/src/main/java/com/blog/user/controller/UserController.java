@@ -31,7 +31,6 @@ public class UserController {
         if (loginUser == null){
             throw new UsernameNotFoundException(username);
         }
-        loginUser.setEnabled(true);
         return loginUser;
     }
 
@@ -58,8 +57,7 @@ public class UserController {
 
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('sys:user')")
-    public Result selectUserList(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                 @RequestParam(value = "size", defaultValue = "0") Integer size) {
+    public Result selectUserList(@RequestParam(value = "page") Integer page, @RequestParam(value = "size") Integer size) {
         if (page==0 || size==0){
             return ResultFactory.buildFailResult("请输入正确的查询页 ... ");
         }

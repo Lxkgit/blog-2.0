@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import { readFileSync } from 'fs';
 import { reactive, ref, onMounted } from 'vue';
-import { getBlogList } from "../../../api/article";
+import { getArticleList } from "../../../api/article";
 
 const typeList = reactive({
     data: [
@@ -78,7 +78,7 @@ let page = 1;
 let articleList: any = reactive([])
 
 onMounted(() => {
-    getBlogList({
+    getArticleList({
         pageNum: 1,
         pageSize: 5,
     }).then((res: any) => {
@@ -91,7 +91,7 @@ onMounted(() => {
 const addArticle = () => {
     loading = true;
     page = page + 1
-    getBlogList({
+    getArticleList({
         pageNum: page,
         pageSize: 5,
     }).then((res: any) => {
