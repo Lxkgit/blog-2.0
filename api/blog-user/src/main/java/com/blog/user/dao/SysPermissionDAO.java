@@ -8,5 +8,7 @@ import java.util.Set;
 
 @Mapper
 public interface SysPermissionDAO {
-    Set<SysPermission> selectPermissionByRoleIds(@Param("roleIds") Set<Integer> roleIds);
+
+    Set<SysPermission> selectPermissionByRoleIds(@Param("roleIds") Set<Integer> roleIds, @Param("menuType") Integer menuType);
+    SysPermission selectPermissionById(@Param("id") Integer id);
 }

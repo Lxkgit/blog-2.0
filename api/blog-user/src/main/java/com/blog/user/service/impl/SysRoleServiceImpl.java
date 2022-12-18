@@ -1,10 +1,12 @@
 package com.blog.user.service.impl;
 
 
+import com.blog.common.entity.user.SysPermission;
 import com.blog.common.entity.user.SysRole;
 import com.blog.common.entity.user.vo.SysRoleVo;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
+import com.blog.user.dao.SysPermissionDAO;
 import com.blog.user.dao.SysRoleDAO;
 import com.blog.user.service.SysRoleService;
 import com.github.pagehelper.Page;
@@ -13,10 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author: lxk
@@ -31,6 +30,9 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Resource
     private SysRoleDAO sysRoleDAO;
+
+    @Resource
+    private SysPermissionDAO sysPermissionDAO;
 
     @Override
     public Set<SysRole> selectRoleByUserId(Integer userId) {
@@ -61,10 +63,10 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
-    public Map<String, Object> selectRolePermission(Integer roleId) {
+    public Map<String, Object> selectRolePermission(Integer roleId, Integer menuType) {
         Map<String, Object> map = new HashMap<>();
         map.put("roleId", roleId);
-        List<Integer> perIds = sysRoleDAO.selectRolePermission(roleId);
+        List<Integer> perIds = sysRoleDAO.selectRolePermission(roleId, menuType);
         map.put("perIds", perIds);
         return map;
     }
@@ -86,8 +88,17 @@ public class SysRoleServiceImpl implements SysRoleService {
         int del = sysRoleDAO.deleteRolePermission(sysRoleVo.getId());
         map.put("delete", del);
         List<Integer> perIds = sysRoleVo.getPerIds();
+        Set<Integer> perIdSet = new HashSet<>();
+        for (Integer id : perIds) {
+            perIdSet.add(id);
+            SysPermission sysPermission = sysPermissionDAO.selectPermissionById(id);
+            while (sysPermission.getParentId() != 0) {
+                sysPermission = sysPermissionDAO.selectPermissionById(sysPermission.getParentId());
+                perIdSet.add(sysPermission.getId());
+            }
+        }
         if (perIds.size()>0){
-            int save = sysRoleDAO.saveRolePermission(sysRoleVo.getId(), perIds);
+            int save = sysRoleDAO.saveRolePermission(sysRoleVo.getId(), perIdSet);
             map.put("save", save);
         }
         return map;

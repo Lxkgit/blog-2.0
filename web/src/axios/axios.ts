@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from 'vue-router';
 import { userLoginStore } from '../store/login' 
-
+import { ElMessage } from 'element-plus'
 
 const service = axios.create({
     baseURL: "/api",
@@ -26,7 +26,16 @@ service.interceptors.response.use(response => {
 }, error => {
     if(error.response.status === 401) {
         localStorage.removeItem("blog")
-        router.push("/login")
+        router.push("/index")
+        window.location.reload()
+    } else if(error.response.status === 403) {
+        ElMessage({
+            message: 'this is a message.',
+            grouping: true,
+            type: 'success',
+          })
+        console.log("403 ---- ")
+        
     }
     return Promise.reject(error);
 });

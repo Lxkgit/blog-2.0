@@ -19,13 +19,13 @@ import { menuApi } from "../../api/menuApi";
 const store = adminStore()
 
 const handleOpen = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
+    // console.log(key, keyPath)
 }
 
 let adminMenus: any = reactive({ data: [] })
 
 onMounted(() => {
-    menuApi().then((res: any) => {
+    menuApi(1).then((res: any) => {
         if(res.code === 200) {
             adminMenus.data = res.result
         }

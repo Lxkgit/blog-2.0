@@ -7,7 +7,7 @@
         </router-link>
       </div>
       <router-link v-for="(item, index) in store.tags" :key="index" ref="tag" tag="span" class="tags_view_item"
-        :class="{ 'active': item.active }" :to="item.path" @contextmenu.prevent.native="openMenu(item.path, index, $event)">
+        :class="{ 'active': item.active }" :to="item.path" @contextmenu.prevent="openMenu(item.path, index, $event)">
         {{ item.title }}
         <!--这里加prevent.stop是为了避免跳转路由-->
         <i v-if="item.close" class="fa fa-close el-icon-close" style="margin-left: 5px;" @click.prevent.stop="closeTag(index)"> </i>

@@ -6,7 +6,7 @@
     <el-card style="margin: 18px 2%;width: 95%">
       <el-button type="primary" plain @click="">注册</el-button>
       <el-button type="danger" plain @click="">注销</el-button>
-      <el-table :data="userList.data" stripe style="width: 100%" height="642">
+      <el-table :data="userList.data" stripe style="width: 100%" height="630">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column prop="username" label="用户名" width="150" />
@@ -33,10 +33,10 @@
         <el-table-column prop="createTime" label="创建日期" width="162" />
         <el-table-column fixed="right" label="操作" width="90">
           <template #default="scope">
-            <el-button @click.native.prevent="" size="small" text>
+            <el-button @click.prevent="" size="small" text>
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             </el-button>
-            <el-button style="margin-left: 0;" @click.native.prevent="" size="small" text>
+            <el-button style="margin-left: 0;" @click.prevent="" size="small" text>
               <i class="fa fa-trash" aria-hidden="true"></i>
             </el-button>
           </template>

@@ -6,7 +6,7 @@
         <el-card style="margin: 18px 2%;width: 95%">
             <el-button type="primary" plain @click="editArticle('null')">新增</el-button>
             <el-button type="danger" plain @click="deleteArticle(0)">删除</el-button>
-            <el-table :data="articleList.data" stripe style="width: 100%" height="642" @selection-change="selected">
+            <el-table :data="articleList.data" stripe style="width: 100%" height="630" @selection-change="selected">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
                 <el-table-column prop="title" label="标题" fit>

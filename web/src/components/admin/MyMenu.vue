@@ -38,7 +38,7 @@ defineProps( {
 
 const gotoSite = (item: any) => {
     // 跳转路由
-    console.log("item: " + JSON.stringify(item))
+    // console.log("item: " + JSON.stringify(item))
     router.push(item.menuPath)
     store.addTag(item.menuName, item.menuPath)
     store.selectedTag = store.tags.length

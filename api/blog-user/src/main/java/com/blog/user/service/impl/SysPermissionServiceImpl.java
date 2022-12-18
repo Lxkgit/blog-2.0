@@ -33,14 +33,14 @@ public class SysPermissionServiceImpl implements SysPermissionService {
     private SysRoleService sysRoleService;
 
     @Override
-    public Set<SysPermission> selectPermissionByRoleIds(Set<Integer> roleIds) {
-        return sysPermissionDAO.selectPermissionByRoleIds(roleIds);
+    public Set<SysPermission> selectPermissionByRoleIds(Set<Integer> roleIds, Integer menuType) {
+        return sysPermissionDAO.selectPermissionByRoleIds(roleIds, menuType);
     }
 
     @Override
-    public List<SysPermissionVo> selectPermissionListByUserId(Integer userId) {
+    public List<SysPermissionVo> selectPermissionListByUserId(Integer userId, Integer menuType) {
         Set<SysRole> sysRoles = sysRoleService.selectRoleByUserId(userId);
-        Set<SysPermission> sysPermissionSet = sysPermissionDAO.selectPermissionByRoleIds(sysRoles.stream().map(SysRole::getId).collect(Collectors.toSet()));
+        Set<SysPermission> sysPermissionSet = sysPermissionDAO.selectPermissionByRoleIds(sysRoles.stream().map(SysRole::getId).collect(Collectors.toSet()), menuType);
         List<SysPermissionVo> sysPermissionList = new ArrayList<>();
         setPermissionTree(sysPermissionSet, sysPermissionList);
         return sysPermissionList;
@@ -62,6 +62,7 @@ public class SysPermissionServiceImpl implements SysPermissionService {
                             permissionVo.setList(new ArrayList<>());
                         }
                         permissionVo.getList().add(sysPermissionVo);
+                        Collections.sort(permissionVo.getList());
                         permissionVo.setChildren(permissionVo.getList());
                         break;
                     }

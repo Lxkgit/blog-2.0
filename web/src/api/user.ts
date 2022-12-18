@@ -16,9 +16,17 @@ export const roleListApi = (page: any, size: any) => {
     })
 }
 
-export const selectRolePerListApi = (roleId: any) => {
+export const selectRolePerListApi = (roleId: any, menuType: any) => {
     return service({
         method: 'GET',
-        url: "/user/role//permission/select?roleId=" + roleId
+        url: "/user/role/permission/select?roleId=" + roleId + "&menuType=" + menuType
+    })
+}
+
+export const updateRolePerApi = (rolePer: any) => {
+    return service({
+        method: 'POST',
+        url: "/user/role/permission/update",
+        data: rolePer
     })
 }

@@ -13,6 +13,6 @@ import java.util.Set;
  */
 
 public interface SysPermissionService {
-    Set<SysPermission> selectPermissionByRoleIds(Set<Integer> roleIds);
-    List<SysPermissionVo> selectPermissionListByUserId(Integer userId);
+    Set<SysPermission> selectPermissionByRoleIds(Set<Integer> roleIds, Integer menuType);
+    List<SysPermissionVo> selectPermissionListByUserId(Integer userId, Integer menuType);
 }

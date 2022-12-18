@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 本机
+ Source Server         : 本机MySQL
  Source Server Type    : MySQL
- Source Server Version : 50651
+ Source Server Version : 50721
  Source Host           : localhost:3306
  Source Schema         : blog_user
 
  Target Server Type    : MySQL
- Target Server Version : 50651
+ Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 12/11/2022 10:55:29
+ Date: 17/12/2022 19:22:58
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `sys_permission`  (
   `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `menu_type` int(5) NULL DEFAULT NULL COMMENT '类型 0:目录 1:菜单 2:按钮',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限标识表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 106 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限标识表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -45,10 +45,12 @@ INSERT INTO `sys_permission` VALUES (60, 2, '文章管理', '', '/admin/article'
 INSERT INTO `sys_permission` VALUES (61, 2, '日记管理', NULL, '/admin/diary', 'sys:diary', NULL, 1);
 INSERT INTO `sys_permission` VALUES (71, 3, '全局设置', NULL, NULL, 'sys:setting:all', NULL, 1);
 INSERT INTO `sys_permission` VALUES (72, 3, '个人设置', NULL, NULL, 'sys:setting:user', NULL, 1);
-INSERT INTO `sys_permission` VALUES (100, 50, '添加角色', NULL, NULL, 'sys:role:insert', NULL, 2);
-INSERT INTO `sys_permission` VALUES (101, 50, '删除角色', NULL, NULL, 'sys:role:delete', NULL, 2);
-INSERT INTO `sys_permission` VALUES (102, 50, '修改角色', NULL, NULL, 'sys:role:update', '', 2);
-INSERT INTO `sys_permission` VALUES (103, 50, '修改角色权限', NULL, NULL, 'sys:role:permission:update', NULL, 2);
+INSERT INTO `sys_permission` VALUES (100, 50, '角色列表', NULL, NULL, 'sys:role:select', NULL, 2);
+INSERT INTO `sys_permission` VALUES (101, 50, '添加角色', NULL, NULL, 'sys:role:insert', NULL, 2);
+INSERT INTO `sys_permission` VALUES (102, 50, '删除角色', NULL, NULL, 'sys:role:delete', NULL, 2);
+INSERT INTO `sys_permission` VALUES (103, 50, '修改角色', NULL, NULL, 'sys:role:update', '', 2);
+INSERT INTO `sys_permission` VALUES (104, 50, '查看角色权限', NULL, NULL, 'sys:role:permission:select', NULL, 2);
+INSERT INTO `sys_permission` VALUES (105, 50, '修改角色权限', NULL, NULL, 'sys:role:permission:update', NULL, 2);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -56,16 +58,18 @@ INSERT INTO `sys_permission` VALUES (103, 50, '修改角色权限', NULL, NULL, 
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `role_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `role_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `role_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色编码',
+  `role_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
 -- ----------------------------
-INSERT INTO `sys_role` VALUES (1, 'ADMIN', '超级管理员');
-INSERT INTO `sys_role` VALUES (2, 'USER', '普通用户');
+INSERT INTO `sys_role` VALUES (1, 'ADMIN', '超级管理员', '2022-12-16 15:23:24', '2022-12-16 15:23:27');
+INSERT INTO `sys_role` VALUES (2, 'USER', '普通用户', '2022-12-16 15:23:29', '2022-12-16 15:23:30');
 
 -- ----------------------------
 -- Table structure for sys_role_permission
@@ -75,7 +79,7 @@ CREATE TABLE `sys_role_permission`  (
   `role_id` int(11) NOT NULL COMMENT '角色id',
   `permission_id` int(11) NOT NULL COMMENT '权限id',
   PRIMARY KEY (`role_id`, `permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限关系表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限关系表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_permission
@@ -93,6 +97,16 @@ INSERT INTO `sys_role_permission` VALUES (1, 100);
 INSERT INTO `sys_role_permission` VALUES (1, 101);
 INSERT INTO `sys_role_permission` VALUES (1, 102);
 INSERT INTO `sys_role_permission` VALUES (1, 103);
+INSERT INTO `sys_role_permission` VALUES (1, 104);
+INSERT INTO `sys_role_permission` VALUES (1, 105);
+INSERT INTO `sys_role_permission` VALUES (2, 1);
+INSERT INTO `sys_role_permission` VALUES (2, 50);
+INSERT INTO `sys_role_permission` VALUES (2, 100);
+INSERT INTO `sys_role_permission` VALUES (2, 101);
+INSERT INTO `sys_role_permission` VALUES (2, 102);
+INSERT INTO `sys_role_permission` VALUES (2, 103);
+INSERT INTO `sys_role_permission` VALUES (2, 104);
+INSERT INTO `sys_role_permission` VALUES (2, 105);
 
 -- ----------------------------
 -- Table structure for sys_role_user
@@ -102,7 +116,7 @@ CREATE TABLE `sys_role_user`  (
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `role_id` int(11) NOT NULL COMMENT '角色id',
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色用户关系表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色用户关系表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_user
@@ -121,17 +135,27 @@ CREATE TABLE `sys_user`  (
   `nickname` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '昵称',
   `head_img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像url',
   `email` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '手机号',
-  `enabled` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态（1有效,0无效）',
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态（1有效,0无效）',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   `update_time` datetime(0) NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'gszero', '$2a$10$xGoFa7bqOTurkUvy9roreeON0j/CvXysaXauswXf5RHol/pMCSuGy', 'GSZero', 'https://pics4.baidu.com/feed/e1fe9925bc315c601f150ed14cfc941b485477e5.jpeg', NULL, 1, '2022-06-07 00:00:00', '2022-06-07 02:02:03');
-INSERT INTO `sys_user` VALUES (2, 'admin', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, NULL, 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (1, 'gszero', '$2a$10$xGoFa7bqOTurkUvy9roreeON0j/CvXysaXauswXf5RHol/pMCSuGy', 'GSZero', '', '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 02:02:03');
+INSERT INTO `sys_user` VALUES (2, 'admin', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (3, 'a的', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (4, 'a都', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (5, 'a1', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (6, '12', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (7, 'a3', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (8, 'aa', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (9, 'asd', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (10, 'zxc', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (11, 'asdacx', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (12, 'asdas', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管', NULL, '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
 
 SET FOREIGN_KEY_CHECKS = 1;

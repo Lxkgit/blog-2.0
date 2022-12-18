@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 本机
+ Source Server         : 本机MySQL
  Source Server Type    : MySQL
- Source Server Version : 50651
+ Source Server Version : 50721
  Source Host           : localhost:3306
  Source Schema         : blog_content
 
  Target Server Type    : MySQL
- Target Server Version : 50651
+ Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 12/11/2022 10:55:10
+ Date: 16/12/2022 20:15:15
 */
 
 SET NAMES utf8mb4;
@@ -35,16 +35,32 @@ CREATE TABLE `article`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '文章创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '文章最近更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of article
 -- ----------------------------
-INSERT INTO `article` VALUES (3, 1, '【洛谷】P2330-繁忙的都市--（并查集、kruskal、prim解法）-3', '# 题目描述\n\n四方定理是众所周知的：任意一个正整数n，可以分解为不超过四个整数的平方和。例如：25=1^2^+2^2^+2^2^+4^2^ ，当然还有其他的分解方案，25=3^2^+4^2^和25=5^2^ 。给定的正整数n，编程统计它能分解的方案总数。注意: 25=3^2^+4^2^和25=4^2^+3^2^ 视为一种方案。\n\n# 输入格式\n\n第一行为正整数t(t≤100)，接下来t行，每行一个正整数n(n≤32768)。\n\n# 输出格式\n对于每个正整数n，输出方案总数。\n\n# 解析\n\n\n\n```c++\n#include <bits/stdc++.h>\n\nusing namespace std;\n\nint n,k;\nint arr[181];\nint dp[32769][5];\n\nvoid plan(){\n    dp[0][0] = 1;\n    for(int i=0; i<181; i++){\n        arr[i] = i*i;\n    }\n    for(int i=1;i<181; i++){\n        for(int j=arr[i]; j<32769; j++){\n            for(int num=1; num <=4; num++){\n                dp[j][num] += dp[j-arr[i]][num-1];\n            }\n        }\n    }\n}\n\nint main(){\n    plan();\n    scanf(\"%d\", &n);\n    while(n--){\n        scanf(\"%d\", &k);\n        printf(\"%d\\n\", dp[k][1]+dp[k][2]+dp[k][3]+dp[k][4]);\n    }\n}\n```\n', '-', '1,2,3', '1', 1, 0, 0, '2022-06-09 11:18:30', '2022-11-10 17:26:52');
-INSERT INTO `article` VALUES (38, 1, '123123', '1231231', NULL, '1', '', 1, 0, 0, '2022-11-10 14:03:42', '2022-11-10 14:03:42');
-INSERT INTO `article` VALUES (39, 1, '123123', '123123', NULL, '1', '', 1, 0, 0, '2022-11-10 14:27:49', '2022-11-10 14:27:49');
-INSERT INTO `article` VALUES (40, 1, '23123', 'asdasd123123', NULL, '1', '', 1, 0, 0, '2022-11-10 14:56:11', '2022-11-10 14:56:11');
-INSERT INTO `article` VALUES (41, 1, 'asdasd', 'asdasd', NULL, '3', '', 1, 0, 0, '2022-11-10 23:16:48', '2022-11-10 23:16:48');
+INSERT INTO `article` VALUES (3, 1, '【洛谷】P2330-繁忙的都市--（并查集、kruskal、prim解法）-3', '# 题目描述\n\n四方定理是众所周知的：任意一个正整数n，可以分解为不超过四个整数的平方和。例如：25=1^2^+2^2^+2^2^+4^2^ ，当然还有其他的分解方案，25=3^2^+4^2^和25=5^2^ 。给定的正整数n，编程统计它能分解的方案总数。注意: 25=3^2^+4^2^和25=4^2^+3^2^ 视为一种方案。\n\n# 输入格式\n\n第一行为正整数t(t≤100)，接下来t行，每行一个正整数n(n≤32768)。\n\n# 输出格式\n对于每个正整数n，输出方案总数。\n\n# 解析\n\n\n\n```c++\n#include <bits/stdc++.h>\n\nusing namespace std;\n\nint n,k;\nint arr[181];\nint dp[32769][5];\n\nvoid plan(){\n    dp[0][0] = 1;\n    for(int i=0; i<181; i++){\n        arr[i] = i*i;\n    }\n    for(int i=1;i<181; i++){\n        for(int j=arr[i]; j<32769; j++){\n            for(int num=1; num <=4; num++){\n                dp[j][num] += dp[j-arr[i]][num-1];\n            }\n        }\n    }\n}\n\nint main(){\n    plan();\n    scanf(\"%d\", &n);\n    while(n--){\n        scanf(\"%d\", &k);\n        printf(\"%d\\n\", dp[k][1]+dp[k][2]+dp[k][3]+dp[k][4]);\n    }\n}\n```\n', '-', '1,2,3', '1,2', 1, 0, 0, '2022-06-09 11:18:30', '2022-12-13 14:13:27');
+INSERT INTO `article` VALUES (38, 1, '123123', '1231231123', NULL, '1', '3', 1, 0, 0, '2022-11-10 14:03:42', '2022-12-13 14:13:22');
+INSERT INTO `article` VALUES (39, 1, '123123', '123123', NULL, '1', '2,3', 0, 0, 0, '2022-11-10 14:27:49', '2022-12-13 15:32:18');
+INSERT INTO `article` VALUES (40, 1, '23123', 'asdasd123123', NULL, '1', '', 0, 0, 0, '2022-11-10 14:56:11', '2022-11-10 14:56:11');
+INSERT INTO `article` VALUES (41, 1, '1231231', '123123\n···\n···\n```\nasdasdasdasd\n```', NULL, '4,5', '', 0, 0, 0, '2022-12-01 19:02:37', '2022-12-01 19:02:51');
+INSERT INTO `article` VALUES (42, 1, '阿斯顿', '啊实打实的', NULL, '1', '', 1, 0, 0, '2022-12-08 17:00:04', '2022-12-08 17:00:04');
+INSERT INTO `article` VALUES (43, 1, '请问饿', '安卓四点', NULL, '4', '', 1, 0, 0, '2022-12-08 17:00:11', '2022-12-08 17:00:11');
+INSERT INTO `article` VALUES (45, 1, '权威渠道真实的', '按照现场我去饿·啊实打实的', NULL, '1,2,3', '', 2, 0, 0, '2022-12-08 17:00:28', '2022-12-08 17:05:44');
+INSERT INTO `article` VALUES (46, 1, '阿斯顿23', '真是的自行车', NULL, '1,2', '', 2, 0, 0, '2022-12-08 17:00:47', '2022-12-08 17:05:37');
+INSERT INTO `article` VALUES (47, 1, '啊实打实的1111', '市中心擦撒大苏打', NULL, '1,2,3', '', 1, 0, 0, '2022-12-08 17:06:56', '2022-12-08 17:06:56');
+INSERT INTO `article` VALUES (48, 1, '123123', '123123123', NULL, '1,2', '', 1, 0, 0, '2022-12-08 19:37:55', '2022-12-08 19:37:55');
+INSERT INTO `article` VALUES (51, 1, '仔细擦拭的', '阿斯顿自行车', NULL, '4', '', 2, 0, 0, '2022-12-08 17:00:18', '2022-12-08 17:00:18');
+INSERT INTO `article` VALUES (52, 1, '权威渠道真实的', '按照现场我去饿·啊实打实的', NULL, '1,2,3', '', 2, 0, 0, '2022-12-08 17:00:28', '2022-12-08 17:05:44');
+INSERT INTO `article` VALUES (53, 1, '阿斯顿23', '真是的自行车', NULL, '1,2', '', 2, 0, 0, '2022-12-08 17:00:47', '2022-12-08 17:05:37');
+INSERT INTO `article` VALUES (54, 1, '啊实打实的1111', '市中心擦撒大苏打', NULL, '1,2,3', '2,1,3', 1, 0, 0, '2022-12-08 17:06:56', '2022-12-13 15:36:09');
+INSERT INTO `article` VALUES (55, 1, '123123', '123123123', NULL, '1,2', '', 1, 0, 0, '2022-12-08 19:37:55', '2022-12-08 19:37:55');
+INSERT INTO `article` VALUES (56, 1, '123', '123', NULL, '1', '1', 1, 0, 0, '2022-12-13 14:00:58', '2022-12-13 15:36:15');
+INSERT INTO `article` VALUES (57, 1, '12312', '123123', NULL, '1', '', 1, 0, 0, '2022-12-13 14:01:24', '2022-12-13 14:01:24');
+INSERT INTO `article` VALUES (58, 1, '123', '123', NULL, '1', '', 1, 0, 0, '2022-12-13 14:01:49', '2022-12-13 14:01:49');
+INSERT INTO `article` VALUES (59, 1, '123', '1231', NULL, '1', '', 1, 0, 0, '2022-12-13 14:04:22', '2022-12-13 14:04:22');
+INSERT INTO `article` VALUES (60, 1, '123', '123', NULL, '1', '', 1, 0, 0, '2022-12-13 14:07:54', '2022-12-13 14:07:54');
 
 -- ----------------------------
 -- Table structure for article_label
@@ -57,7 +73,7 @@ CREATE TABLE `article_label`  (
   `label_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标签名称',
   `article_num` tinyint(4) NULL DEFAULT NULL COMMENT '文章数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of article_label
@@ -77,7 +93,7 @@ CREATE TABLE `article_label_type`  (
   `type_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文章标签分类名称',
   `label_num` tinyint(4) NULL DEFAULT NULL COMMENT '标签数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of article_label_type
@@ -97,7 +113,7 @@ CREATE TABLE `article_type`  (
   `num` int(11) NULL DEFAULT NULL COMMENT '文章数量',
   `node` tinyint(2) NULL DEFAULT NULL COMMENT '是否有子节点 （0：无 1：有）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of article_type
@@ -122,7 +138,7 @@ CREATE TABLE `blog_diary`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最近更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_diary
@@ -143,7 +159,7 @@ CREATE TABLE `doc_catalog`  (
   `doc_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文档名字',
   `doc_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文档类型（catalog：目录页 content：内容页）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of doc_catalog
@@ -167,7 +183,7 @@ CREATE TABLE `doc_content`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '文档创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '文档最近修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of doc_content

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -32,7 +33,7 @@ public class MenuController {
     private SysPermissionService sysPermissionService;
 
     @GetMapping("/list")
-    public Result getSysMenuList(){
+    public Result getSysMenuList(@RequestParam(value = "type") Integer menuType){
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String token = request.getHeader("Authorization");
         if (StringUtils.isEmpty(token)) {
@@ -40,7 +41,7 @@ public class MenuController {
         }
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
-            return ResultFactory.buildSuccessResult(sysPermissionService.selectPermissionListByUserId(blogUser.getId()));
+            return ResultFactory.buildSuccessResult(sysPermissionService.selectPermissionListByUserId(blogUser.getId(), menuType));
         } catch (Exception e) {
             log.warn("" + e);
         }

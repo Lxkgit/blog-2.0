@@ -25,8 +25,8 @@ public class RoleController {
     private SysRoleService sysRoleService;
 
     @GetMapping("/list")
-    @PreAuthorize("hasAnyAuthority('sys:role')")
-    public Result selectDiaryByDate(@RequestParam(value = "page") Integer page, @RequestParam(value = "size") Integer size){
+    @PreAuthorize("hasAnyAuthority('sys:role:select')")
+    public Result selectRoleByPage(@RequestParam(value = "page") Integer page, @RequestParam(value = "size") Integer size){
         if (page==0 || size==0){
             return ResultFactory.buildFailResult("请输入正确的查询页 ... ");
         }
@@ -35,26 +35,26 @@ public class RoleController {
 
     @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('sys:role:insert')")
-    public Result saveDiary(@RequestBody SysRole sysRole){
+    public Result saveRole(@RequestBody SysRole sysRole){
         return ResultFactory.buildSuccessResult(sysRoleService.saveRole(sysRole));
     }
 
     @PostMapping("/update")
     @PreAuthorize("hasAnyAuthority('sys:role:update')")
-    public Result updateDiary(@RequestBody SysRole sysRole){
+    public Result updateRole(@RequestBody SysRole sysRole){
         return ResultFactory.buildSuccessResult(sysRoleService.updateRole(sysRole));
     }
 
     @DeleteMapping("/delete")
     @PreAuthorize("hasAnyAuthority('sys:role:delete')")
-    public Result deleteDiaryByDate(@RequestParam(value = "ids") String ids){
+    public Result deleteRoleByIds(@RequestParam(value = "ids") String ids){
         return ResultFactory.buildSuccessResult(sysRoleService.deleteRoleByIds(ids));
     }
 
     @GetMapping("/permission/select")
-    @PreAuthorize("hasAnyAuthority('sys:role')")
-    public Result selectRolePermission(@RequestParam(value = "roleId") Integer roleId) {
-        return ResultFactory.buildSuccessResult(sysRoleService.selectRolePermission(roleId));
+    @PreAuthorize("hasAnyAuthority('sys:role:permission:select')")
+    public Result selectRolePermission(@RequestParam(value = "roleId") Integer roleId, @RequestParam(value = "menuType") Integer menuType) {
+        return ResultFactory.buildSuccessResult(sysRoleService.selectRolePermission(roleId, menuType));
 
     }
 

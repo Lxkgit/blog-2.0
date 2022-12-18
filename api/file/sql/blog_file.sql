@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 本机
+ Source Server         : 本机MySQL
  Source Server Type    : MySQL
- Source Server Version : 50651
+ Source Server Version : 50721
  Source Host           : localhost:3306
  Source Schema         : blog_file
 
  Target Server Type    : MySQL
- Target Server Version : 50651
+ Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 12/11/2022 10:55:16
+ Date: 16/12/2022 20:15:21
 */
 
 SET NAMES utf8mb4;
@@ -28,7 +28,7 @@ CREATE TABLE `upload_img`  (
   `img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片链接',
   `upload_time` datetime(0) NULL DEFAULT NULL COMMENT '图片上传时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of upload_img
@@ -52,7 +52,7 @@ CREATE TABLE `upload_log`  (
   `upload_msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `upload_time` datetime(0) NULL DEFAULT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of upload_log

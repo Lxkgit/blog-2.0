@@ -1,7 +1,6 @@
 package com.blog.user.service.impl;
 
 import com.blog.common.entity.auth.LoginUser;
-import com.blog.common.entity.content.article.Article;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.entity.user.SysPermission;
 import com.blog.common.entity.user.SysRole;
@@ -22,7 +21,6 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -59,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
             if (!CollectionUtils.isEmpty(sysRoles)) {
                 Set<Integer> roleIds = sysRoles.parallelStream().map(SysRole::getId).collect(Collectors.toSet());
-                Set<SysPermission> sysPermissions = sysPermissionService.selectPermissionByRoleIds(roleIds);
+                Set<SysPermission> sysPermissions = sysPermissionService.selectPermissionByRoleIds(roleIds, 3);
                 if (!CollectionUtils.isEmpty(sysPermissions)) {
                     Set<String> permissions = sysPermissions.parallelStream().map(SysPermission::getPermission)
                             .collect(Collectors.toSet());

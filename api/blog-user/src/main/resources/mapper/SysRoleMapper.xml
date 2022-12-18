@@ -54,9 +54,10 @@
     </delete>
 
     <select id="selectRolePermission" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        select permission_id
-        from sys_role_permission
-        where role_id = #{id}
+        select rp.permission_id
+        from sys_role_permission rp
+        left join sys_permission sp on sp.id = rp.permission_id
+        where rp.role_id = #{id} and sp.menu_type = #{menuType}
     </select>
 
     <insert id="deleteRolePermission">

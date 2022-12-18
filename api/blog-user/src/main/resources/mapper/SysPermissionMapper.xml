@@ -25,6 +25,13 @@
                  separator="," close=")">
             #{item}
         </foreach>
+        and menu_type &lt;= #{menuType}
+    </select>
+
+    <select id="selectPermissionById" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from sys_permission
+        where id = #{id}
     </select>
 
 </mapper>
