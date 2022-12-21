@@ -100,7 +100,7 @@ public class ArticleController {
                 article.setUserId(blogUser.getId());
                 int result = articleService.saveArticle(article);
                 if (result == 1){
-                    return ResultFactory.buildSuccessResult();
+                    return ResultFactory.buildSuccessResult(article.getId());
                 }
             } catch (Exception e){
                 log.warn(Constant.JWTError, e);

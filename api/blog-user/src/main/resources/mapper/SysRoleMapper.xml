@@ -60,10 +60,10 @@
         where rp.role_id = #{id} and sp.menu_type = #{menuType}
     </select>
 
-    <insert id="deleteRolePermission">
+    <delete id="deleteRolePermission">
         delete from sys_role_permission
         where role_id = #{id}
-    </insert>
+    </delete>
 
     <insert id="saveRolePermission">
         insert into sys_role_permission

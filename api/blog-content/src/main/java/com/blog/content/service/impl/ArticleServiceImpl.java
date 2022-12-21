@@ -76,14 +76,18 @@ public class ArticleServiceImpl implements ArticleService {
         Date date = new Date();
         article.setCreateTime(date);
         article.setUpdateTime(date);
-        article.setArticleType(updateArticleType(article.getArticleType()));
-        return articleDAO.insert(article);
+        if (article.getArticleType() != null && !article.getArticleType().equals("")) {
+            article.setArticleType(updateArticleType(article.getArticleType()));
+        }
+        return articleDAO.insertArticle(article);
     }
 
     @Override
     public int updateArticle(BlogUser blogUser, Article article) {
         ArticleBo articleBo = new ArticleBo();
-        article.setArticleType(updateArticleType(article.getArticleType()));
+        if (article.getArticleType() != null && !article.getArticleType().equals("")) {
+            article.setArticleType(updateArticleType(article.getArticleType()));
+        }
         BeanUtils.copyProperties(article, articleBo);
         articleBo.setUpdateUserId(blogUser.getId());
         articleBo.setUpdateTime(new Date());

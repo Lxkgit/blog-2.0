@@ -8,6 +8,14 @@ export const userListApi = (page: any, size: any) => {
     })
 }
 
+export const updateUserApi = (userDate: any) => {
+    return service({
+        method: 'POST',
+        url: "/user/user/permission/update",
+        data: userDate
+    })
+}
+
 // 角色列表接口
 export const roleListApi = (page: any, size: any) => {
     return service({

@@ -32,7 +32,7 @@
                         <el-tag v-if="(scope.row.articleStatus==2)" class="ml-2">{{ articleStatus(scope.row.articleStatus)}}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column prop="createTime" label="发布日期" width="162">
+                <el-table-column prop="updateTime" label="最近更新" width="162">
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="90">
                     <template #default="scope">

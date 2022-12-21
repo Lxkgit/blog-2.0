@@ -13,10 +13,11 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface ArticleDAO extends BaseMapper<Article> {
+public interface ArticleDAO {
 
     Integer selectArticleCount(ArticleVo articleVo);
     List<Article> selectArticleListByPage(ArticleVo articleVo);
+    Integer insertArticle(Article article);
     Article selectArticleById(@Param("id")int id);
     Integer updateArticle(ArticleBo articleBo);
     Integer deleteArticle(ArticleBo articleBo);

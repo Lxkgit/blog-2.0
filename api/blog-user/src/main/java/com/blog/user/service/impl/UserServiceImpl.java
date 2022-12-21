@@ -4,6 +4,7 @@ import com.blog.common.entity.auth.LoginUser;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.entity.user.SysPermission;
 import com.blog.common.entity.user.SysRole;
+import com.blog.common.entity.user.vo.SysUserVo;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
 import com.blog.user.dao.SysUserDAO;
@@ -104,16 +105,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public MyPage<BlogUser> selectUserByPage(int page, int size) {
-        MyPage<BlogUser> myPage = null;
+    public MyPage<SysUserVo> selectUserByPage(int page, int size) {
+        MyPage<SysUserVo> myPage = null;
         PageHelper.startPage(page, size);
         Page<BlogUser> userPage = (Page<BlogUser>) sysUserDAO.selectUserList();
+        Page<SysUserVo> userVoPage = new Page<>();
+        for (BlogUser user : userPage) {
+            SysUserVo sysUserVo = new SysUserVo();
+            BeanUtils.copyProperties(user, sysUserVo);
+            Set<SysRole> sysRoles = sysRoleService.selectRoleByUserId(user.getId());
+            sysUserVo.setSysRole(sysRoles);
+            sysUserVo.setRoleIds(sysRoles.parallelStream().map(SysRole::getId).collect(Collectors.toList()));
+            userVoPage.add(sysUserVo);
+        }
         try {
-//            int count = sysUserDAO.selectUserCount();
-            myPage = MyPageUtils.pageUtil(userPage, userPage.getPageNum(), userPage.getPageSize(), (int) userPage.getTotal());
+            myPage = MyPageUtils.pageUtil(userVoPage, userVoPage.getPageNum(), userVoPage.getPageSize(), (int) userVoPage.getTotal());
         } catch (Exception e){
             e.printStackTrace();
         }
         return myPage;
+    }
+
+    @Override
+    public void updateUser(SysUserVo sysUserVo, Integer perFlag) {
+        sysUserDAO.updateUser(sysUserVo);
+        if (perFlag == 1) {
+            sysUserDAO.deleteUserRole(sysUserVo.getId());
+            sysUserDAO.insertUserRole(sysUserVo.getRoleIds(), sysUserVo.getId());
+        }
     }
 }

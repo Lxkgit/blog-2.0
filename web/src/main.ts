@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import 'font-awesome/css/font-awesome.css';
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 import router from './router'
 import store from './store'
 
@@ -50,6 +52,7 @@ VMdEditor.use(githubTheme, {
 const app = createApp(App);
 app.use(store)
 app.use(router)
+app.use(ElementPlus)
 app.use(VMdEditor)
 app.use(VMdPreview)
 app.mount('#app')

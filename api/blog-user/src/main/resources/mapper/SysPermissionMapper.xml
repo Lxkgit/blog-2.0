@@ -28,6 +28,12 @@
         and menu_type &lt;= #{menuType}
     </select>
 
+    <select id="selectPermissionList" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from sys_permission
+        WHERE menu_type &lt;= #{menuType}
+    </select>
+
     <select id="selectPermissionById" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from sys_permission

@@ -112,5 +112,35 @@
         </trim>
     </insert>
 
+    <update id="updateUser" parameterType="com.blog.common.entity.user.vo.SysUserVo">
+        update sys_user
+        <set>
+            <if test="nickname !=null and nickname !=''">
+                nickname = #{nickname},
+            </if>
+            <if test="headImg !=null and headImg !=''">
+                head_img = #{headImg},
+            </if>
+            <if test="email !=null and email !=''">
+                email = #{email},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
 
+    <insert id="insertUserRole">
+        insert into sys_role_user
+        (user_id, role_id)
+        VALUES
+        <foreach collection ="roleIds" item="roleId" separator =",">
+            (#{userId}, #{roleId})
+        </foreach >
+    </insert>
+
+    <delete id="deleteUserRole">
+        delete from sys_role_user
+        where user_id = #{userId}
+    </delete>
 </mapper>

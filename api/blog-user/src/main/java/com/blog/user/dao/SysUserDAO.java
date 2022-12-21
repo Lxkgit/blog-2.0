@@ -1,6 +1,7 @@
 package com.blog.user.dao;
 
 import com.blog.common.entity.user.BlogUser;
+import com.blog.common.entity.user.vo.SysUserVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,4 +21,7 @@ public interface SysUserDAO {
     void insertUser(BlogUser blogUser);
     List<BlogUser> selectUserList();
     int selectUserCount();
+    void updateUser(SysUserVo sysUserVo);
+    void deleteUserRole(@Param("userId") Integer userId);
+    void insertUserRole(@Param("roleIds") List<Integer> roleIds,@Param("userId") Integer userId);
 }

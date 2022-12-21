@@ -16,35 +16,35 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="22-12-17【bug修复】：修复前端打包问题">
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="22-12-18【功能新增】：博客角色管理页面完成70%">
+      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/user/vo/SysUserVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/config/WebMvcConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../web/src/utils/upload.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/dao/ArticleDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/dao/ArticleDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/resources/mapper/ArticleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/resources/mapper/ArticleMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/dao/SysPermissionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/dao/SysPermissionDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/dao/SysRoleDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/dao/SysRoleDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/dao/SysUserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/dao/SysUserDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/SysPermissionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/SysPermissionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/SysRoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/SysRoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/impl/SysPermissionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/impl/SysPermissionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/impl/SysRoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/impl/SysRoleServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/service/impl/UserServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-user/src/main/resources/mapper/SysPermissionMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/resources/mapper/SysPermissionMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-user/src/main/resources/mapper/SysRoleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/resources/mapper/SysRoleMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_auth.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/blog_auth.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_content.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/blog_content.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_file.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/blog_file.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_gateway.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/blog_gateway.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/blog_user.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-user/src/main/resources/mapper/SysUserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/resources/mapper/SysUserMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../web/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/src/api/menuApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/api/menuApi.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/src/api/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/api/user.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/src/axios/axios.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/axios/axios.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/MenuBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/MenuBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/MyMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/MyMenu.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/PageTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/PageTab.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/src/components/admin/article/AdminArticle.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/article/AdminArticle.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/components/admin/article/Editor.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/article/Editor.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/src/components/admin/role/AdminRole.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/role/AdminRole.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web/src/components/admin/user/AdminUser.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/components/admin/user/AdminUser.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../web/src/store/tag.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/store/tag.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../web/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../web/src/main.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -296,14 +296,8 @@
       <workItem from="1670410951425" duration="1837000" />
       <workItem from="1670761532201" duration="3544000" />
       <workItem from="1671244552598" duration="1509000" />
-      <workItem from="1671355876395" duration="3017000" />
-    </task>
-    <task id="LOCAL-00002" summary="22-06-12: 鉴权中心配置基本完成，修改jwt，添加自定义信息 user_id">
-      <created>1655021863387</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1655021863387</updated>
+      <workItem from="1671355876395" duration="3648000" />
+      <workItem from="1671633486820" duration="1722000" />
     </task>
     <task id="LOCAL-00003" summary="22-06-12: 博客内容服务模块自测成功">
       <created>1655040926172</created>
@@ -641,7 +635,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671245962504</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="22-12-18【功能新增】：博客角色管理页面完成70%">
+      <created>1671378392037</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1671378392038</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -672,7 +673,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="22-07-17【功能修改】：统一模块名字,修改配置文件," />
     <MESSAGE value="22-07-17【功能修改】：统一模块名字,修改配置文件" />
     <MESSAGE value="22-07-17【功能修改】：调整博客上传图片接口" />
     <MESSAGE value="22-07-20【功能新增】：添加博客日志中心，记录请求用户ip地址，新增黑名单ip列表服务" />
@@ -697,61 +697,62 @@
     <MESSAGE value="22-12-11【功能修改】：博客一键部署脚本完成，博客第一版本正式部署" />
     <MESSAGE value="22-12-17【功能修改】：前端界面功能完善，博客接口优化" />
     <MESSAGE value="22-12-17【bug修复】：修复前端打包问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="22-12-17【bug修复】：修复前端打包问题" />
+    <MESSAGE value="22-12-18【功能新增】：博客角色管理页面完成70%" />
+    <option name="LAST_COMMIT_MESSAGE" value="22-12-18【功能新增】：博客角色管理页面完成70%" />
   </component>
   <component name="WindowStateProjectService">
     <state x="564" y="228" width="875" height="562" key="#Notifications" timestamp="1667788409366">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="564" y="228" width="875" height="562" key="#Notifications/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1667788409366" />
-    <state width="1877" height="274" key="GridCell.Tab.0.bottom" timestamp="1671378183806">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="274" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671378183806" />
-    <state width="1543" height="511" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671357858991" />
-    <state width="1877" height="274" key="GridCell.Tab.0.center" timestamp="1671378183806">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="274" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671378183806" />
-    <state width="1543" height="511" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671357858991" />
-    <state width="1877" height="274" key="GridCell.Tab.0.left" timestamp="1671378183805">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="274" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671378183805" />
-    <state width="1543" height="511" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671357858991" />
-    <state width="1877" height="274" key="GridCell.Tab.0.right" timestamp="1671378183806">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="274" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671378183806" />
-    <state width="1543" height="511" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671357858991" />
-    <state width="1543" height="511" key="GridCell.Tab.1.bottom" timestamp="1671357858992">
+    <state width="1877" height="274" key="GridCell.Tab.0.bottom" timestamp="1671634695514">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1543" height="511" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671356269177" />
+    <state width="1543" height="511" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671634092899" />
+    <state width="1877" height="274" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671634695514" />
+    <state width="1877" height="274" key="GridCell.Tab.0.center" timestamp="1671634695514">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1543" height="511" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671634092899" />
+    <state width="1877" height="274" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671634695514" />
+    <state width="1877" height="274" key="GridCell.Tab.0.left" timestamp="1671634695514">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1543" height="511" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671634092899" />
+    <state width="1877" height="274" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671634695514" />
+    <state width="1877" height="274" key="GridCell.Tab.0.right" timestamp="1671634695514">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1543" height="511" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671634092899" />
+    <state width="1877" height="274" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671634695514" />
+    <state width="1543" height="511" key="GridCell.Tab.1.bottom" timestamp="1671634092899">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1543" height="511" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671634092899" />
     <state width="1543" height="511" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671357858992" />
-    <state width="1543" height="511" key="GridCell.Tab.1.center" timestamp="1671357858992">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="1543" height="511" key="GridCell.Tab.1.center" timestamp="1671634092899">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1543" height="511" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671356269177" />
+    <state width="1543" height="511" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671634092899" />
     <state width="1543" height="511" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671357858992" />
-    <state width="1543" height="511" key="GridCell.Tab.1.left" timestamp="1671357858992">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="1543" height="511" key="GridCell.Tab.1.left" timestamp="1671634092899">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1543" height="511" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671356269177" />
+    <state width="1543" height="511" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671634092899" />
     <state width="1543" height="511" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671357858992" />
-    <state width="1543" height="511" key="GridCell.Tab.1.right" timestamp="1671357858992">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="1543" height="511" key="GridCell.Tab.1.right" timestamp="1671634092899">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1543" height="511" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671356269177" />
+    <state width="1543" height="511" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671634092899" />
     <state width="1543" height="511" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671357858992" />
     <state x="461" y="164" key="SettingsEditor" timestamp="1663372291174">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1663372291174" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1671245967175">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1671378424914">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671245967175" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1671378424914" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

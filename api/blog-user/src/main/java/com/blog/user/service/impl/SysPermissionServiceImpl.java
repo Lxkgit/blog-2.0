@@ -46,6 +46,14 @@ public class SysPermissionServiceImpl implements SysPermissionService {
         return sysPermissionList;
     }
 
+    @Override
+    public List<SysPermissionVo> selectPermissionList(Integer menuType) {
+        Set<SysPermission> sysPermissionSet = sysPermissionDAO.selectPermissionList(menuType);
+        List<SysPermissionVo> sysPermissionList = new ArrayList<>();
+        setPermissionTree(sysPermissionSet, sysPermissionList);
+        return sysPermissionList;
+    }
+
     private void setPermissionTree(Set<SysPermission> sysPermissionSet, List<SysPermissionVo> sysPermissionList){
         for (SysPermission sysPermission : sysPermissionSet) {
             SysPermissionVo sysPermissionVo = new SysPermissionVo();

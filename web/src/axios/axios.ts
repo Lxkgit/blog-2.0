@@ -30,12 +30,10 @@ service.interceptors.response.use(response => {
         window.location.reload()
     } else if(error.response.status === 403) {
         ElMessage({
-            message: 'this is a message.',
+            message: '无权限访问',
             grouping: true,
-            type: 'success',
-          })
-        console.log("403 ---- ")
-        
+            type: 'error',
+          })    
     }
     return Promise.reject(error);
 });
