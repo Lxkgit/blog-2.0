@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="site_list">
     <div v-for="(item, index) in navigations" :key="index" class="cate-item">
       <div class="title">
@@ -10,7 +10,7 @@
           <div v-for="(item2, index2) in item.child" :key="index2" class="section-item">
             <div class="link">
               <a :href="item2.url" target="_blank" :title="item2.name">
-                <div class="link-ico"><img :src="'https://favicon.link/v2/ico.php?url=' + item2.url" alt
+                <div class="link-ico"><img :src="'https://favicon.link/v2/ico.php?url=' + item2.url"
                     :title="item2.name"></div>
                 <span class="title">{{ item2.name }}</span>
               </a>
@@ -22,7 +22,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 const navigations = [
   {
@@ -143,4 +143,4 @@ const navigations = [
   display: block;
   line-height: 30px;
 }
-</style> -->
+</style>

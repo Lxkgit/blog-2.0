@@ -1,13 +1,9 @@
-
 <template>
-<!--     <div class="nav-box" style="margin-bottom: 20px">
-        
-        <div class="m-background" :style="`background-image: url(${navPageWallpaper.value});`">
+    <div class="nav-box" style="margin-bottom: 20px">
+        <div class="m-background">
             <div class="m-background-mask"> </div>
         </div>
-        
         <SearchBox class="nav-search"></SearchBox>
-        
         <div class="m-cover">
             <div class="m-inner">
                 <ul class="m-shortcut-panel clearfix">
@@ -20,18 +16,15 @@
                 </ul>
             </div>
         </div>
-    </div> -->
+    </div>
 </template>
 
 <script setup lang="ts">
-import SearchBox from './components/SearchBox.vue'
-
-
 
 // 顶部的图标
 const topWeb = [
-    { name: '哔哩哔哩', img: '/static/images/nav/web/bilibili.jpg', url: 'https://www.bilibili.com/' },
-    { name: 'Steam', img: '/static/images/nav/web/steam.jpg', url: 'https://store.steampowered.com/' },
+    { name: '哔哩哔哩', img: '/src/assets/images/nav/bilibili.png', url: 'https://www.bilibili.com/' },
+    { name: 'Steam', img: '/src/assets/images/nav/steam.jpg', url: 'https://store.steampowered.com/' },
     { name: 'zzzFun', img: 'http://www.zzzfun.com/favicon.ico', url: 'http://www.zzzfun.com/' }
 ]
 
