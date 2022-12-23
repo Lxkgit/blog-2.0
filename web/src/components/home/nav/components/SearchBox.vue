@@ -3,12 +3,12 @@
     <div class="wd-search clearfix" role="search">
       <div class="logo">
         <div class="search-logo">
-          <img class="img web" :src="topSearch.data.img" :title="topSearch.data.name" @click="toggleShow">
+          <img class="img web" :src="getImageUrl(topSearch.data.img)" :title="topSearch.data.name" @click="toggleShow">
         </div>
         <div v-for="(item, index) in nowChoose" v-show="show" :key="index" :title="item.name" class="logo-list"
           @click="changeSearch(item)">
           <div class="img-box">
-            <img class="logo-img" :src="item.img">
+            <img class="logo-img" :src="getImageUrl(item.img)">
           </div>
         </div>
       </div>
@@ -51,61 +51,65 @@
 import { ref, reactive } from 'vue';
 
 const web = [
-  { name: '百度搜索', img: '/src/assets/images/nav/baidu.png', url: 'https://www.baidu.com/s?wd=%s', tip: '请输入关键词进行搜索' },
-  { name: '谷歌搜索', img: '/src/assets/images/nav/google.png', url: 'https://www.google.com.hk/search?q=%s', tip: '请输入关键词进行搜索' },
-  { name: 'bing搜索', img: '/src/assets/images/nav/bing.png', url: 'https://www.bing.com/search?q=%s', tip: '请输入关键词进行搜索' },
-  { name: '搜狗搜索', img: '/src/assets/images/nav/sogou.png', url: 'https://www.sogou.com/web?query=%s', tip: '请输入关键词进行搜索' },
-  { name: '360搜索', img: '/src/assets/images/nav/360.png', url: 'https://www.so.com/s?q=%s', tip: '请输入关键词进行搜索' }
+  { name: '百度搜索', img: 'baidu.png', url: 'https://www.baidu.com/s?wd=%s', tip: '请输入关键词进行搜索' },
+  { name: '谷歌搜索', img: 'google.png', url: 'https://www.google.com.hk/search?q=%s', tip: '请输入关键词进行搜索' },
+  { name: 'bing搜索', img: 'bing.png', url: 'https://www.bing.com/search?q=%s', tip: '请输入关键词进行搜索' },
+  { name: '搜狗搜索', img: 'sogou.png', url: 'https://www.sogou.com/web?query=%s', tip: '请输入关键词进行搜索' },
+  { name: '360搜索', img: '360.png', url: 'https://www.so.com/s?q=%s', tip: '请输入关键词进行搜索' }
 ];
 // 视频搜索引擎
 const video = [
-  { name: '哔哩哔哩', img: '/src/assets/images/nav/bilibili.png', url: 'https://search.bilibili.com/all?keyword=%s', tip: '请输入关键词进行搜索' },
-  { name: 'AcFun', img: '/src/assets/images/nav/acfun.png', url: 'https://www.acfun.cn/search?keyword=%s', tip: '请输入关键词进行搜索' },
-  { name: 'YouTub', img: '/src/assets/images/nav/youtub.png', url: 'https://www.youtube.com/results?search_query=%s', tip: '请输入关键词进行搜索' },
+  { name: '哔哩哔哩', img: 'bilibili.png', url: 'https://search.bilibili.com/all?keyword=%s', tip: '请输入关键词进行搜索' },
+  { name: 'AcFun', img: 'acfun.png', url: 'https://www.acfun.cn/search?keyword=%s', tip: '请输入关键词进行搜索' },
+  { name: 'YouTub', img: 'youtub.png', url: 'https://www.youtube.com/results?search_query=%s', tip: '请输入关键词进行搜索' },
 ]
 // 社区
 const community = [
-  { name: 'CSDN', img: '/src/assets/images/nav/csdn.png', url: 'https://so.csdn.net/so/search/s.do?q=%s', tip: '请输入关键词进行搜索' },
-  { name: '游侠网', img: '/src/assets/images/nav/youxia.png', url: 'https://so.ali213.net/s/c?keyword=%s', tip: '请输入关键词进行搜索' },
-  { name: '知乎', img: '/src/assets/images/nav/zhihu.png', url: 'https://www.zhihu.com/search?q=%s', tip: '请输入关键词进行搜索' },
-  { name: '掘金', img: '/src/assets/images/nav/juejin.png', url: 'https://juejin.im/search?query=%s&type=all', tip: '请输入关键词进行搜索' },
-  { name: '思否', img: '/src/assets/images/nav/sifou.png', url: 'https://segmentfault.com/search?q=%s', tip: '请输入关键词进行搜索' }
+  { name: 'CSDN', img: 'csdn.png', url: 'https://so.csdn.net/so/search/s.do?q=%s', tip: '请输入关键词进行搜索' },
+  { name: '游侠网', img: 'youxia.png', url: 'https://so.ali213.net/s/c?keyword=%s', tip: '请输入关键词进行搜索' },
+  { name: '知乎', img: 'zhihu.png', url: 'https://www.zhihu.com/search?q=%s', tip: '请输入关键词进行搜索' },
+  { name: '掘金', img: 'juejin.png', url: 'https://juejin.im/search?query=%s&type=all', tip: '请输入关键词进行搜索' },
+  { name: '思否', img: 'sifou.png', url: 'https://segmentfault.com/search?q=%s', tip: '请输入关键词进行搜索' }
 ]
 // 图片
 const image = [
-  { name: '百度图片', img: '/src/assets/images/nav/baiduimg.png', url: 'https://image.baidu.com/search/index?tn=baiduimage&word=%s', tip: '请输入关键词进行搜索' },
-  { name: '谷歌图片', img: '/src/assets/images/nav/google.png', url: 'https://www.google.com.hk/search?q=%s&tbm=isch', tip: '请输入关键词进行搜索' },
-  { name: 'Pixiv', img: '/src/assets/images/nav/pixiv.svg', url: 'https://www.pixiv.net/tags/%s/artworks', tip: '请输入关键词进行搜索' },
-  { name: '花瓣', img: '/src/assets/images/nav/huaban.png', url: 'https://huaban.com/search/?q=%s', tip: '请输入关键词进行搜索' },
-  { name: 'Flickr', img: '/src/assets/images/nav/flickr.png', url: 'https://www.flickr.com/search/?text=%s', tip: '请输入关键词进行搜索' },
-  { name: 'Picsearch', img: '/src/assets/images/nav/picsearch.png', url: 'https://cn.picsearch.com/index.cgi?q=%s', tip: '请输入关键词进行搜索' }
+  { name: '百度图片', img: 'baiduimg.png', url: 'https://image.baidu.com/search/index?tn=baiduimage&word=%s', tip: '请输入关键词进行搜索' },
+  { name: '谷歌图片', img: 'google.png', url: 'https://www.google.com.hk/search?q=%s&tbm=isch', tip: '请输入关键词进行搜索' },
+  { name: 'Pixiv', img: 'pixiv.svg', url: 'https://www.pixiv.net/tags/%s/artworks', tip: '请输入关键词进行搜索' },
+  { name: '花瓣', img: 'huaban.png', url: 'https://huaban.com/search/?q=%s', tip: '请输入关键词进行搜索' },
+  { name: 'Flickr', img: 'flickr.png', url: 'https://www.flickr.com/search/?text=%s', tip: '请输入关键词进行搜索' },
+  { name: 'Picsearch', img: 'picsearch.png', url: 'https://cn.picsearch.com/index.cgi?q=%s', tip: '请输入关键词进行搜索' }
 ]
 // 音乐
 const music = [
-  { name: 'QQ音乐', img: '/src/assets/images/nav/qqmusic.png', url: 'https://y.qq.com/portal/search.html?w=%s', tip: '请输入关键词进行搜索' },
-  { name: '网易云音乐', img: '/src/assets/images/nav/music126.png', url: 'https://music.163.com/#/search/m/?s=%s', tip: '请输入关键词进行搜索' },
-  { name: '酷狗音乐', img: '/src/assets/images/nav/kugou.png', url: 'https://www.kugou.com/yy/html/search.html?searchKeyWord=%s', tip: '请输入关键词进行搜索' },
-  { name: '酷我音乐', img: '/src/assets/images/nav/kuwo.png', url: 'http://www.kuwo.cn/search/list?key=%s', tip: '请输入关键词进行搜索' }
+  { name: 'QQ音乐', img: 'qqmusic.png', url: 'https://y.qq.com/portal/search.html?w=%s', tip: '请输入关键词进行搜索' },
+  { name: '网易云音乐', img: 'music126.png', url: 'https://music.163.com/#/search/m/?s=%s', tip: '请输入关键词进行搜索' },
+  { name: '酷狗音乐', img: 'kugou.png', url: 'https://www.kugou.com/yy/html/search.html?searchKeyWord=%s', tip: '请输入关键词进行搜索' },
+  { name: '酷我音乐', img: 'kuwo.png', url: 'http://www.kuwo.cn/search/list?key=%s', tip: '请输入关键词进行搜索' }
 ]
 // 翻译
 const translate = [
-  { name: '有道翻译', img: '/src/assets/images/nav/youdao.png', url: 'https://dict.youdao.com/search?q=%s', tip: '请输入中文,翻译结果为英文' },
-  { name: '百度翻译', img: '/src/assets/images/nav/baidutranslate.png', url: 'https://fanyi.baidu.com/#zh/en/%s', tip: '请输入中文,翻译结果为英文' },
-  { name: '谷歌翻译', img: '/src/assets/images/nav/google.png', url: 'https://translate.google.cn/#view=home&op=translate&sl=zh-CN&tl=en&text=%s', tip: '请输入中文,翻译结果为英文' }
+  { name: '有道翻译', img: 'youdao.png', url: 'https://dict.youdao.com/search?q=%s', tip: '请输入中文,翻译结果为英文' },
+  { name: '百度翻译', img: 'baidutranslate.png', url: 'https://fanyi.baidu.com/#zh/en/%s', tip: '请输入中文,翻译结果为英文' },
+  { name: '谷歌翻译', img: 'google.png', url: 'https://translate.google.cn/#view=home&op=translate&sl=zh-CN&tl=en&text=%s', tip: '请输入中文,翻译结果为英文' }
 ]
 
 let now = ref("web");
-let nowChoose = web;
+let nowChoose = ref(web);
 let show = ref(false);
 let topSearch = reactive({
   data: {
     name: '百度搜索',
-    img: '/src/assets/images/nav/baidu.png',
+    img: 'baidu.png',
     url: 'https://www.baidu.com/s?wd=%s',
     tip: '输入你想搜索的网页'
   }
 });
 let searchText = ref();
+
+const getImageUrl = (name: string) => {
+  return new URL(`../../../../assets/images/nav/${name}`, import.meta.url).href
+}
 
 const changeItem = (item: any) => { // 切换搜索内容
   show.value = false
@@ -113,27 +117,28 @@ const changeItem = (item: any) => { // 切换搜索内容
   // 切换不同的搜索内容
   switch (item) {
     case 'web':
-      nowChoose = web
+      nowChoose.value = web
       topSearch.data = web[0]
       break
     case 'video':
-      nowChoose = video
+      console.log("video")
+      nowChoose.value = video
       topSearch.data = video[0]
       break
     case 'community':
-      nowChoose = community
+      nowChoose.value = community
       topSearch.data = community[0]
       break
     case 'img':
-      nowChoose = image
+      nowChoose.value = image
       topSearch.data = image[0]
       break
     case 'music':
-      nowChoose = music
+      nowChoose.value = music
       topSearch.data = music[0]
       break
     case 'translate':
-      nowChoose = translate
+      nowChoose.value = translate
       topSearch.data = translate[0]
       break
   }
