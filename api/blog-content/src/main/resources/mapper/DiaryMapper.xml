@@ -21,6 +21,53 @@
         and user_id = #{userId}
     </select>
 
+    <select id="selectDiaryList" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from blog_diary
+        order by diary_date desc
+    </select>
+
+    <insert id="insertDiary" parameterType="com.blog.common.entity.content.diary.Diary">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into blog_diary
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="diaryMd != null" >
+                diary_md,
+            </if>
+            <if test="diaryDate != null" >
+                diary_date,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId},
+            </if>
+            <if test="diaryMd != null" >
+                #{diaryMd},
+            </if>
+            <if test="diaryDate != null" >
+                #{diaryDate},
+            </if>
+            <if test="createTime != null" >
+                #{createTime},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
     <update id="updateDiary" parameterType="com.blog.common.entity.content.diary.Diary">
         update blog_diary
         <set>

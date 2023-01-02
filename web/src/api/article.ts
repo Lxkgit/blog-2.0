@@ -56,10 +56,33 @@ export const getArticleLabel = () => {
 }
 
 //  日记相关接口
-export const getDiaryList = (month: any) => {
+export const getDiaryList = (param: any) => {
     return service({
         method: 'GET',
-        url: "/content/diary/select?dateMonth=" + month,
+        url: "/content/diary/list",
+        params: param
     })
 }
 
+export const saveDiary = (diary: any) => {
+    return service({
+        method: 'POST',
+        url: "/content/diary/save",
+        data: diary
+    })
+}
+
+export const updateDiary = (diary: any) => {
+    return service({
+        method: 'POST',
+        url: "/content/diary/update",
+        data: diary
+    })
+}
+
+export const deleteDiaryByIds = (ids: any) => {
+    return service({
+        method: 'DELETE',
+        url: "/content/diary/delete?ids=" + ids,
+    })
+} 

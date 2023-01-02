@@ -9,6 +9,8 @@ import java.util.List;
 public interface DiaryDAO extends BaseMapper<Diary> {
 
     List<Diary> selectDiaryByDate(@Param("date") String date, @Param("userId") Integer userId);
+    List<Diary> selectDiaryList();
     int updateDiary(Diary diary);
+    int insertDiary(Diary diary);
     int deleteDiaryByIds(@Param("ids") String[] ids, @Param("userId") Integer userId);
 }

@@ -16,14 +16,14 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import("/src/components/home/index/HomeIndex.vue")
             },
             {
-                path: "/doc",
-                component: () => import("/src/pages/home/DocPage.vue"),
-            },
-            {
                 path: "/article/articleDetail",
                 component: () => import("/src/components/home/index/article/ArticleDetail.vue"),
             }
         ]
+    },
+    {
+        path: "/doc",
+        component: () => import("/src/pages/home/DocPage.vue"),
     },
     {
         path: "/nav",

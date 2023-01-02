@@ -1,13 +1,19 @@
 <template>
-<!--     <div class="window-container">
+    <div class="window-container">
         <div class="window-body">
             <div class="sidebar">
                 <div class="sidebar-header">
-                    <a href="#/index" data-no-pjax="true" class="title"><i class="fa fa-wa fa-home fa-lg"></i>个人文档系统</a>
+                    <a href="#/index" data-no-pjax="true" class="title"><i
+                            class="fa fa-wa fa-home fa-lg"></i>&nbsp;个人文档系统</a>
                     <div class="search-form">
                         <div class="ui small fluid icon input">
-                            <input v-model="filterText" type="text" placeholder="请输入搜索关键词...">
-                            <font-awesome-icon icon="search" />
+                            <input v-model="filterText" type="text" placeholder="请输入搜索关键词..."
+                                style="width: 90%; height: 100%; display: block; border: 1px solid #ddd; border-radius: 5px; line-height: 100%; font-size: 15px; text-indent: 0px; transition: 0.3s all;">
+                            <button style="border: none; border-radius: 5px; width: 25px;">
+                                <i class="fa fa-search" style="opacity: 0.5;"
+                                    aria-hidden="true"></i>
+                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -27,17 +33,18 @@
                         <h1>{{ docContent.title }}</h1>
                     </div>
                     <div class="content-div">
-                        <div class="article-body markdown-body" v-html="docContent.content_html"></div>
+                        <div class="article-body markdown-body">
+                            <v-md-preview :text="docContent.contentMd"></v-md-preview>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import Catalog from '/src/cpmponents/home/doc/components/Catalog.vue'
 
 let key = ref("")
 let filterText = ref("")
@@ -45,7 +52,7 @@ let check = reactive([])
 let docCatalogList = reactive([])
 let docContent = reactive({
     title: "123123",
-    content_html: "asdasdasdasd"
+    contentMd: "asdasdasdasd"
 })
 let defaultProps = reactive([
     {
@@ -116,8 +123,6 @@ const filterNode = (value: any, data: { label: string | any[]; }) => {
 </script>
 
 <style scoped>
-.window-container {}
-
 .window-body {
     display: contents;
 }
@@ -142,8 +147,6 @@ const filterNode = (value: any, data: { label: string | any[]; }) => {
 .sidebar-header {
     position: relative;
     flex: none;
-
-
 }
 
 .title {
@@ -158,8 +161,6 @@ const filterNode = (value: any, data: { label: string | any[]; }) => {
     white-space: nowrap;
     font-weight: 700;
     font-size: 16px;
-
-
 }
 
 .title-icon {
@@ -176,8 +177,6 @@ const filterNode = (value: any, data: { label: string | any[]; }) => {
     flex: auto;
     overflow: hidden;
     position: relative;
-
-
 }
 
 .catalog-body {
@@ -193,20 +192,13 @@ const filterNode = (value: any, data: { label: string | any[]; }) => {
     float: right;
     width: calc(100% - 280px);
     margin-left: 10px;
-    color: #fff;
-
-
-
+    /* color: #000; */
 }
-
-.article {}
 
 .article-head {
     padding: 30px 20px;
     height: 50px;
     display: flex;
-
-
 }
 
 .tools {
@@ -218,8 +210,6 @@ const filterNode = (value: any, data: { label: string | any[]; }) => {
 
 .content-div {
     display: flex;
-
-
 }
 
 .article-body {
@@ -309,4 +299,4 @@ const filterNode = (value: any, data: { label: string | any[]; }) => {
 .window-body .workspace .article .article-head .tools>.item :hover {
     color: #7e888b;
 }
-</style> -->
+</style>

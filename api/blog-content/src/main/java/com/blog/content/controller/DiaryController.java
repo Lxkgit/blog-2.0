@@ -9,6 +9,7 @@ package com.blog.content.controller;
 
 import com.blog.common.constant.Constant;
 import com.blog.common.entity.content.diary.Diary;
+import com.blog.common.entity.content.diary.vo.DiaryVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
@@ -41,9 +42,8 @@ public class DiaryController {
     @Autowired
     private DiaryService diaryService;
 
-    @GetMapping("/select")
-    public Result selectDiaryByDate(@RequestParam(required = false, value = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") String date,
-                                    @RequestParam(required = false, value = "dateMonth") @DateTimeFormat(pattern = "yyyy-MM") String dateMonth){
+    @GetMapping("/list")
+    public Result selectDiaryByDate(DiaryVo diaryVo){
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String token = request.getHeader("Authorization");
         if (StringUtils.isEmpty(token)) {
@@ -51,7 +51,7 @@ public class DiaryController {
         }
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
-            return ResultFactory.buildSuccessResult(diaryService.selectDiaryByDate(date, dateMonth, blogUser.getId()));
+            return ResultFactory.buildSuccessResult(diaryService.selectDiaryByDate(diaryVo, blogUser.getId()));
         } catch (Exception e){
             log.warn(Constant.JWTError, e);
         }

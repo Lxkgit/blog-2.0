@@ -27,9 +27,15 @@
                 </el-table-column>
                 <el-table-column label="文章状态" width="80">
                     <template #default="scope">
-                        <el-tag v-if="(scope.row.articleStatus==0)" class="ml-2" type="info">{{ articleStatus(scope.row.articleStatus)}}</el-tag>
-                        <el-tag v-if="(scope.row.articleStatus==1)" class="ml-2" type="success">{{ articleStatus(scope.row.articleStatus)}}</el-tag>
-                        <el-tag v-if="(scope.row.articleStatus==2)" class="ml-2">{{ articleStatus(scope.row.articleStatus)}}</el-tag>
+                        <el-tag v-if="(scope.row.articleStatus == 0)" class="ml-2" type="info">{{
+        articleStatus(scope.row.articleStatus)
+}}</el-tag>
+                        <el-tag v-if="(scope.row.articleStatus == 1)" class="ml-2" type="success">{{
+        articleStatus(scope.row.articleStatus)
+}}</el-tag>
+                        <el-tag v-if="(scope.row.articleStatus == 2)" class="ml-2">{{
+        articleStatus(scope.row.articleStatus)
+}}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column prop="updateTime" label="最近更新" width="162">
@@ -81,9 +87,9 @@ onMounted(() => {
 
 const articleLabel = () => {
     getArticleLabel().then((res: any) => {
-        if(res.code === 200) {
+        if (res.code === 200) {
             labelList.value = res.result
-            for(let i=0; i<labelList.value.length; i++) {
+            for (let i = 0; i < labelList.value.length; i++) {
                 labelList.value[i].text = labelList.value[i].labelName
                 labelList.value[i].value = labelList.value[i].id
             }
@@ -109,7 +115,7 @@ const getArticleListByPage = (page: any) => {
 
 const selected = (val: any) => {
     ids.splice(0, ids.length)
-    for(let i=0; i<val.length; i++) {
+    for (let i = 0; i < val.length; i++) {
         ids.unshift(val[i].id)
     }
 }
@@ -121,13 +127,13 @@ const editArticle = (article?: any) => {
     })
 };
 
-const deleteArticle = (id?:any) => {
-    console.log("id" + id)
-    if(id===0){
-        if(ids.length !== 0) {
-           deleteArticleByIds(ids.join()).then(res => {
-                console.log("delete: ", res)
-                getArticleListByPage(1)
+const deleteArticle = (id?: any) => {
+    if (id === 0) {
+        if (ids.length !== 0) {
+            deleteArticleByIds(ids.join()).then((res: any) => {
+                if (res.code === 200) {
+                    getArticleListByPage(1)
+                }
             })
         }
     } else {
@@ -136,7 +142,6 @@ const deleteArticle = (id?:any) => {
             getArticleListByPage(1)
         })
     }
-    
 };
 
 </script>

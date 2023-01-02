@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div v-show="list !=null && list.length!==0" id="article-index" :style="'top:'+top+';left:'+left">
     <div id="article-index-move">
       文章目录
@@ -219,4 +219,4 @@ export default {
     margin-left: 5px;
     color: #848484;
   }
-</style> -->
+</style>

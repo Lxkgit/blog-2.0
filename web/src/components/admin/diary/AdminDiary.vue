@@ -3,22 +3,279 @@
     <div class="title_style">
       <span>日记管理</span>
     </div>
-    <div style="height: 100%; background: #fff; padding: 10px;">
-      <calendar @handleClick="showTime" @changeMonth="getData"></calendar>
-    </div>
+    <el-card style="margin: 18px 2%;width: 95%">
+      <el-button type="primary" plain @click="newDiaryFun">新增</el-button>
+      <el-popover :visible="deleteBtnVisible" placement="top" :width="160">
+        <p>删除所选日记？</p>
+        <div style="text-align: right; margin: 0">
+          <el-button size="small" text @click="deleteBtnVisible = false">取消</el-button>
+          <el-button size="small" type="primary" @click="deleteDiaryFun(0)">删除</el-button>
+        </div>
+        <template #reference>
+          <el-button type="danger" @click="deleteBtnVisible = true" plain>删除</el-button>
+        </template>
+      </el-popover>
+      <el-button type="info" plain @click="">导入</el-button>
+      <el-table :data="diaryList.data" stripe style="width: 100%" height="630" @selection-change="selected">
+        <el-table-column type="selection" width="55">
+        </el-table-column>
+        <el-table-column prop="diaryDate" label="日期" fit>
+        </el-table-column>
+        <el-table-column prop="createTime" label="创建时间" fit>
+        </el-table-column>
+        <el-table-column prop="updateTime" label="最近更新" fit>
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" width="110">
+          <template #default="scope">
+            <el-button style="margin: 0; padding: 8px;" @click="showDiaryFun(scope.row)" size="small" text>
+              <i class="fa fa-eye" aria-hidden="true"></i>
+            </el-button>
+            <el-button style="margin: 0; padding: 8px;" @click="updateDiaryFun(scope.row)" size="small" text>
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            </el-button>
+            <el-button style="margin: 0; padding: 8px;" @click="deleteDiaryFun(scope.row.id)" size="small" text>
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="margin: 20px 0 50px 0">
+        <el-pagination background style="float:right;" layout="total, prev, pager, next, jumper"
+          @current-change="getDiaryListFun" :page-size="size" :total="total">
+        </el-pagination>
+      </div>
+      <el-dialog v-model="saveAndUpdateDiaryDialog" title="新增日记" :close-on-click-modal="false"
+        :close-on-press-escape="false">
+        <div>
+          <div style="margin-bottom: 10px;">
+            <span>日期：</span>
+            <el-date-picker v-model="diary.data.diaryDate" type="date" placeholder="选择日期" value-format="YYYY-MM-DD" />
+            <span style="font-size: 14px; line-height: 1;">
+              <span> 最近保存时间：</span>
+              <span v-if="saveTime !== ''">{{ saveTime }}</span>
+              <span v-else>未保存</span>
+            </span>
+          </div>
+          <v-md-editor v-model="diary.data.diaryMd" height="500px" @save="saveDiaryFun"
+            @change="changeDiaryFun"></v-md-editor>
+        </div>
+      </el-dialog>
+      <el-dialog v-model="showDiaryDialog" title="查看日记">
+        <div>
+          <el-date-picker v-model="showDiary.diaryDate" type="date" value-format="YYYY-MM-DD" disabled />
+          <div
+            style="height: 400px; overflow: auto;  margin-top: 10px; margin-bottom: 10px; border-width: 1px; border-style: solid;">
+            <v-md-preview :text="showDiary.diaryMd"></v-md-preview>
+          </div>
+          <span>创建日期：{{ showDiary.createTime }}</span>
+          &nbsp;&nbsp;
+          <span>最近更新：{{ showDiary.updateTime }}</span>
+        </div>
+      </el-dialog>
+    </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ElMessage } from 'element-plus';
+import { onMounted, ref, reactive } from 'vue';
+import { getDiaryList, saveDiary, updateDiary, deleteDiaryByIds } from "../../../api/article"
 
-const getData = (date: any) => {
-  // console.log(date);
-};
+let ids = new Array();
+let size = ref<number>(14)
+let total = ref<number>(0)
+let diaryList: any = reactive({ data: [] });
+let saveTime = ref("");
+let diary: any = reactive({ data: { id: 0 } });
+let showDiary: any = ref([]);
+let deleteBtnVisible = ref(false)
+let saveAndUpdateDiaryDialog = ref(false)
+let showDiaryDialog = ref(false)
+let time: number = 0;
+let saveFlag: boolean = false;
 
-const showTime = (item: any) => {
-  // console.log(item);
-};
+onMounted(() => {
+  getDiaryListFun(1);
+  time = window.setInterval(() => {
+    saveFlag = true;
+  }, 60000)
+});
+
+const getDiaryListFun = (page: any) => {
+  getDiaryList({
+    pageNum: page,
+    pageSize: size.value,
+  }).then((res: any) => {
+    if (res.code === 200) {
+      diaryList.data = res.result.diary.list
+      total.value = res.result.diary.total
+    }
+  })
+}
+
+const selected = (val: any) => {
+  ids.splice(0, ids.length)
+  for (let i = 0; i < val.length; i++) {
+    ids.unshift(val[i].id)
+  }
+}
+
+const showDiaryFun = (diary: any) => {
+  showDiary = [];
+  showDiary = diary;
+  showDiaryDialog.value = true;
+}
+
+const newDiaryFun = () => {
+  saveTime.value = ""
+  diary.data = { id: 0 }
+  diary.data.diaryDate = getNowDate()
+  saveAndUpdateDiaryDialog.value = true;
+}
+
+const updateDiaryFun = (param: any) => {
+  saveTime.value = ""
+  diary.data = param;
+  saveAndUpdateDiaryDialog.value = true;
+}
+
+const saveDiaryFun = () => {
+  console.log(JSON.stringify(diary))
+  if (diary.data.id !== 0) {
+    updateDiary({
+      id: diary.data.id,
+      diaryMd: diary.data.diaryMd,
+      diaryDate: diary.data.diaryDate
+    }).then((res: any) => {
+      if (res.code === 200) {
+        ElMessage({
+          message: '日记修改成功',
+          type: 'success',
+        })
+        getDiaryListFun(1)
+        saveAndUpdateDiaryDialog.value = false;
+      }
+    })
+  } else {
+    saveDiary({
+      diaryMd: diary.data.diaryMd,
+      diaryDate: diary.data.diaryDate
+    }).then((res: any) => {
+      if (res.code === 200) {
+        ElMessage({
+          message: '日记保存成功',
+          type: 'success',
+        })
+        getDiaryListFun(1)
+        saveAndUpdateDiaryDialog.value = false;
+      }
+    })
+  }
+}
+
+const deleteDiaryFun = (id?: any) => {
+  deleteBtnVisible.value = false;
+  if (id === 0) {
+    if (ids.length !== 0) {
+      deleteDiaryByIds(ids.join()).then((res: any) => {
+        if (res.code === 200) {
+          ElMessage({
+            message: '日记删除成功',
+            type: 'success',
+          })
+          getDiaryListFun(1)
+        }
+      })
+    }
+  } else {
+    deleteDiaryByIds(id).then((res: any) => {
+      if (res.code === 200) {
+        ElMessage({
+          message: '日记删除成功',
+          type: 'success',
+        })
+        getDiaryListFun(1)
+      }
+    })
+  }
+}
+
+const changeDiaryFun = () => {
+  if (saveFlag === true) {
+    saveFlag = false
+    if (diary.data.id !== 0) {
+      updateDiary({
+        id: diary.data.id,
+        diaryMd: diary.data.diaryMd,
+        diaryDate: diary.data.diaryDate
+      }).then((res: any) => {
+        if (res.code === 200) {
+          saveTime.value = getNowTime();
+          getDiaryListFun(1)
+        }
+      })
+    } else {
+      saveDiary({
+        diaryMd: diary.data.diaryMd,
+        diaryDate: diary.data.diaryDate
+      }).then((res: any) => {
+        if (res.code === 200) {
+          saveTime.value = getNowTime();
+          diary.data.id = res.result;
+          getDiaryListFun(1)
+        }
+      })
+    }
+  }
+}
+
+const getNowDate = () => {
+  let data = new Date();
+  let year = data.getFullYear();
+  let month = data.getMonth();
+  let day = data.getDate();
+  let monthStr: any = "";
+  let dayStr: any = "";
+  month = month + 1;
+  if (month < 10) {
+    monthStr = "0" + month;
+  } else {
+    monthStr = month;
+  }
+  if (day < 10) {
+    dayStr = "0" + day;
+  } else {
+    dayStr = day;
+  }
+  return year + "-" + monthStr + "-" + dayStr;
+}
+
+const getNowTime = () => {
+  let data = new Date();
+  let hours = data.getHours();
+  let min = data.getMinutes();
+  let second = data.getSeconds();
+  let hoursStr: any = "";
+  let minStr: any = "";
+  let secondStr: any = "";
+  if (hours < 10) {
+    hoursStr = "0" + hours;
+  } else {
+    hoursStr = hours;
+  }
+  if (min < 10) {
+    minStr = "0" + min;
+  } else {
+    minStr = min;
+  }
+  if (second < 10) {
+    secondStr = "0" + second;
+  } else {
+    secondStr = second;
+  }
+  return hoursStr + ":" + minStr + ":" + secondStr;
+}
+
 </script>
 <style scoped>
 .title_style {
