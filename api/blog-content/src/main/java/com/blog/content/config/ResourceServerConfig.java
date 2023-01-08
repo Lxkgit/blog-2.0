@@ -25,6 +25,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             "/article/id",
             "/article/type/tree",
             "/article/type/node",
+            "/usp/**"
     };
 
     @Override

@@ -272,13 +272,7 @@
       <workItem from="1671722288069" duration="1861000" />
       <workItem from="1671801963808" duration="282000" />
       <workItem from="1672665313189" duration="1740000" />
-    </task>
-    <task id="LOCAL-00008" summary="22-06-15: 添加文章标签接口，待测试">
-      <created>1655300722542</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1655300722542</updated>
+      <workItem from="1673188844278" duration="335000" />
     </task>
     <task id="LOCAL-00009" summary="22-06-19: 添加博客标签功能">
       <created>1655646042947</created>
@@ -616,7 +610,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672667463307</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="23-01-08【功能新增】：新增文档功能">
+      <created>1673189097133</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1673189097133</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -647,7 +648,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="22-07-27【功能修改】：修改文章列表接口，前端页面调整" />
     <MESSAGE value="22-07-28【功能修改】：修改文章类型接口，连接MySQL url修改，博客文章页面修改" />
     <MESSAGE value="22-08-21【功能新增】：封装oauth2返回数据，修改界面" />
     <MESSAGE value="22-08-21【功能新增】：封装oauth2的返回数据&amp;前端页面修改" />
@@ -672,32 +672,33 @@
     <MESSAGE value="22-12-22【功能修改】：用户数据库更新" />
     <MESSAGE value="22-12-23【bug修复】：导航页面图片展示bug修复" />
     <MESSAGE value="23-01-02【功能新增】：新增日记功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="23-01-02【功能新增】：新增日记功能" />
+    <MESSAGE value="23-01-08【功能新增】：新增文档功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="23-01-08【功能新增】：新增文档功能" />
   </component>
   <component name="WindowStateProjectService">
     <state x="564" y="228" width="875" height="562" key="#Notifications" timestamp="1667788409366">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="564" y="228" width="875" height="562" key="#Notifications/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1667788409366" />
-    <state width="1877" height="274" key="GridCell.Tab.0.bottom" timestamp="1672667570536">
+    <state width="1877" height="306" key="GridCell.Tab.0.bottom" timestamp="1673189187063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="274" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1672667570536" />
+    <state width="1877" height="306" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1673189187063" />
     <state width="1543" height="511" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671722570185" />
-    <state width="1877" height="274" key="GridCell.Tab.0.center" timestamp="1672667570536">
+    <state width="1877" height="306" key="GridCell.Tab.0.center" timestamp="1673189187063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="274" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1672667570536" />
+    <state width="1877" height="306" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1673189187063" />
     <state width="1543" height="511" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671722570185" />
-    <state width="1877" height="274" key="GridCell.Tab.0.left" timestamp="1672667570536">
+    <state width="1877" height="306" key="GridCell.Tab.0.left" timestamp="1673189187062">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="274" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1672667570536" />
+    <state width="1877" height="306" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1673189187062" />
     <state width="1543" height="511" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671722570185" />
-    <state width="1877" height="274" key="GridCell.Tab.0.right" timestamp="1672667570536">
+    <state width="1877" height="306" key="GridCell.Tab.0.right" timestamp="1673189187063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="274" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1672667570536" />
+    <state width="1877" height="306" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1673189187063" />
     <state width="1543" height="511" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671722570185" />
     <state width="1543" height="350" key="GridCell.Tab.1.bottom" timestamp="1672667570532">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -719,10 +720,10 @@
     </state>
     <state width="1543" height="350" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1672667570532" />
     <state width="1543" height="511" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1671722570186" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1672667470861">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1673189177565">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1672667470861" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1673189177565" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
