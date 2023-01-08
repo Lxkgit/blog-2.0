@@ -16,7 +16,13 @@ import java.util.List;
 @Setter
 public class DocCatalogVo extends DocCatalog implements Comparable<DocCatalog>{
 
-    List<DocCatalogVo> list;
+    private Integer pageSize;
+
+    private Integer pageNum;
+
+    private List<DocCatalogVo> list;
+
+    private boolean hasChildren;
 
     @Override
     public int compareTo(DocCatalog o) {

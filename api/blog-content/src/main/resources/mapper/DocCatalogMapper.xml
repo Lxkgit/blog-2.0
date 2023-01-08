@@ -30,7 +30,18 @@
     <select id="selectDocCatalogList" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from doc_catalog
+        where parent_id = 0
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
     </select>
+
+    <select id="selectListByParentId" resultMap="DocCatalogVo">
+        select <include refid="Base_Column_List"/>
+        from doc_catalog
+        where parent_id = #{parentId}
+    </select>
+
 
     <select id="selectDocCatalogTree" resultMap="DocCatalogVo">
         select <include refid="Base_Column_List"/>

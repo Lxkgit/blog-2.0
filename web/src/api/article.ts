@@ -86,3 +86,20 @@ export const deleteDiaryByIds = (ids: any) => {
         url: "/content/diary/delete?ids=" + ids,
     })
 } 
+
+// 文档接口
+export const getDocCatalogList = (param: any) => {
+    return service({
+        method: 'GET',
+        url: "/content/doc/catalog/list",
+        params: param
+    })
+}
+
+export const getDocCatalogListById = (param: any) => {
+    return service({
+        method: 'GET',
+        url: "/content/doc/catalog/id",
+        params: param
+    })
+}

@@ -98,7 +98,7 @@ onMounted(() => {
 
     time = window.setInterval(() => {
         saveFlag = true;
-    }, 50000)
+    }, 30000)
 });
 
 onBeforeUnmount(() => {

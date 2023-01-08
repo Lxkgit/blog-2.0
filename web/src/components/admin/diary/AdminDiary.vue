@@ -98,7 +98,7 @@ onMounted(() => {
   getDiaryListFun(1);
   time = window.setInterval(() => {
     saveFlag = true;
-  }, 60000)
+  }, 30000)
 });
 
 const getDiaryListFun = (page: any) => {

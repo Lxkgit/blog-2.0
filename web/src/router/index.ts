@@ -40,28 +40,26 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/admin",
                 component: () => import("/src/components/admin/index/AdminIndex.vue"),
-
             },
             {
                 path: "/admin/user",
                 component: () => import("/src/components/admin/user/AdminUser.vue"),
-
             },
             {
                 path: "/admin/role",
                 component: () => import("/src/components/admin/role/AdminRole.vue"),
-
             },
             {
                 path: "/admin/article",
                 component: () => import("/src/components/admin/article/AdminArticle.vue"),
-
             },
-
             {
                 path: "/admin/diary",
                 component: () => import("/src/components/admin/diary/AdminDiary.vue"),
-
+            },
+            {
+                path: "/admin/doc",
+                component: () => import("/src/components/admin/doc/AdminDoc.vue"),
             }
         ]
     },

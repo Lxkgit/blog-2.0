@@ -3,6 +3,7 @@ package com.blog.content.controller;
 import com.blog.common.constant.Constant;
 import com.blog.common.entity.content.doc.DocCatalog;
 import com.blog.common.entity.content.doc.DocContent;
+import com.blog.common.entity.content.doc.vo.DocCatalogVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
@@ -17,7 +18,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -38,8 +38,13 @@ public class DocController {
     private DocContentService docContentService;
 
     @GetMapping("/list")
-    public Result getDocCatalogList() {
-        return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogList());
+    public Result selectDocCatalogByPage(DocCatalogVo docCatalogVo) {
+        return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogListByPage(docCatalogVo));
+    }
+
+    @GetMapping("/id")
+    public Result selectDocCatalogByParentId(@RequestParam(value = "id") Integer parentId) {
+        return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogListById(parentId));
     }
 
     @GetMapping("/select/content")
