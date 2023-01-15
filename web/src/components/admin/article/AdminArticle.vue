@@ -27,15 +27,15 @@
                 </el-table-column>
                 <el-table-column label="文章状态" width="80">
                     <template #default="scope">
-                        <el-tag v-if="(scope.row.articleStatus == 0)" class="ml-2" type="info">{{
-        articleStatus(scope.row.articleStatus)
-}}</el-tag>
-                        <el-tag v-if="(scope.row.articleStatus == 1)" class="ml-2" type="success">{{
-        articleStatus(scope.row.articleStatus)
-}}</el-tag>
-                        <el-tag v-if="(scope.row.articleStatus == 2)" class="ml-2">{{
-        articleStatus(scope.row.articleStatus)
-}}</el-tag>
+                        <el-tag v-if="(scope.row.articleStatus == 0)" class="ml-2" type="info">
+                            {{ articleStatus(scope.row.articleStatus) }}
+                        </el-tag>
+                        <el-tag v-if="(scope.row.articleStatus == 1)" class="ml-2" type="success">
+                            {{ articleStatus(scope.row.articleStatus) }}
+                        </el-tag>
+                        <el-tag v-if="(scope.row.articleStatus == 2)" class="ml-2">
+                            {{ articleStatus(scope.row.articleStatus) }}
+                        </el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column prop="updateTime" label="最近更新" width="162">
@@ -101,10 +101,11 @@ const getArticleListFun = (page: any) => {
     getArticleList({
         pageNum: page,
         pageSize: size.value,
+        type: "admin"
     }).then((res: any) => {
         if (res.code === 200) {
-            articleList.data = res.result.list;
-            total.value = res.result.total;
+            articleList.data = res.result.list.list;
+            total.value = res.result.list.total;
         }
     })
 }

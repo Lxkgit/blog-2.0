@@ -20,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author: lxk
@@ -43,7 +40,7 @@ public class DocCatalogServiceImpl implements DocCatalogService {
 
 
     @Override
-    public MyPage<DocCatalogVo> selectDocCatalogListByPage(DocCatalogVo docCatalogVoParam) {
+    public MyPage<DocCatalogVo> selectDocCatalogList(DocCatalogVo docCatalogVoParam) {
         MyPage<DocCatalogVo> myPage = null;
         PageHelper.startPage(docCatalogVoParam.getPageNum(), docCatalogVoParam.getPageSize());
         Page<DocCatalog> docCatalogPage = (Page<DocCatalog>) docCatalogDAO.selectDocCatalogList(docCatalogVoParam);
@@ -65,16 +62,18 @@ public class DocCatalogServiceImpl implements DocCatalogService {
     }
 
     @Override
-    public List<DocCatalogVo> selectDocCatalogListById(Integer id) {
-        List<DocCatalogVo> docCatalogVoList = docCatalogDAO.selectListByParentId(id);
+    public List<DocCatalogVo> selectDocCatalogListById(DocCatalogVo docCatalogVoParam) {
+        List<DocCatalogVo> docCatalogVoList = docCatalogDAO.selectListByParentId(docCatalogVoParam);
         docCatalogVoList.forEach(docCatalogVo -> {
+            docCatalogVo.setValue(docCatalogVo.getId());
+            docCatalogVo.setLeaf(!docCatalogVo.getDocType().equals("catalog"));
             docCatalogVo.setHasChildren(docCatalogVo.getDocType().equals("catalog"));
         });
         return docCatalogVoList;
     }
 
     @Override
-    public List<DocCatalogVo> selectDocCatalogTree(Integer treeNode, Integer userId) {
+    public List<DocCatalogVo> selectDocCatalogList(Integer treeNode, Integer userId) {
         return docCatalogDAO.selectDocCatalogTree(treeNode, userId);
     }
 
@@ -83,7 +82,8 @@ public class DocCatalogServiceImpl implements DocCatalogService {
         Map<String, Object> map = new HashMap<>();
         DocContent docContent = new DocContent();
         docContent.setUserId(docCatalog.getUserId());
-
+        docCatalog.setCreateTime(new Date());
+        docCatalog.setUpdateTime(new Date());
         docCatalog.setDocType(docCatalog.getDocType().toLowerCase());
         if (docCatalog.getDocType().equals(DocType.CATALOG.getDocType()) || docCatalog.getDocType().equals(DocType.CONTENT.getDocType())) {
             int catalogFlag = docCatalogDAO.insert(docCatalog);

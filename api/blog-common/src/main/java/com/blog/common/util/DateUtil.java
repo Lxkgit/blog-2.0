@@ -1,5 +1,6 @@
 package com.blog.common.util;
 
+import cn.hutool.core.date.DateTime;
 import cn.hutool.json.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 
@@ -422,17 +423,38 @@ public class DateUtil {
 //
 //        System.out.println((calendar.get(Calendar.YEAR) % 100 + strMonth + strDay + strHour + strMin + strSec));
 
-        String messageStr = "{\"info\":{\"devicecode\":\"1000083\",\"channelnum\":0,\"recordImg\":\"http://192.168.3.2:9876/3856a5e1-6270-11ed-92bd-0894efc5061e/20221202/1/8be865d2-720c-11ed-9b22-0894efc5061e.png\",\"swipetime\":1669963332,\"cardno\":\"3857047613\",\"openresult\":1,\"opentype\":61},\"method\":\"card.record\",\"result\":false,\"success\":false}";
-        Pattern p = Pattern.compile("\"cardno\":\"([0-9]+)\"");
-        Matcher m = p.matcher(messageStr);
-        if (m.find()) {
-            if (m.group().substring(m.group().lastIndexOf(":")+2, m.group().length()-1).length()==10) {
-                String cardNo = updateCardNo(m.group().substring(m.group().lastIndexOf(":")+2, m.group().length()-1));
-                messageStr = messageStr.replaceAll("\"cardno\":\"([0-9]+)\"", "\"cardno\":\""+ cardNo +"\"");
-                System.out.println(cardNo);
-                System.out.println(messageStr);
-            }
-        }
+//        String messageStr = "{\"info\":{\"devicecode\":\"1000083\",\"channelnum\":0,\"recordImg\":\"http://192.168.3.2:9876/3856a5e1-6270-11ed-92bd-0894efc5061e/20221202/1/8be865d2-720c-11ed-9b22-0894efc5061e.png\",\"swipetime\":1669963332,\"cardno\":\"3857047613\",\"openresult\":1,\"opentype\":61},\"method\":\"card.record\",\"result\":false,\"success\":false}";
+//        Pattern p = Pattern.compile("\"cardno\":\"([0-9]+)\"");
+//        Matcher m = p.matcher(messageStr);
+//        if (m.find()) {
+//            if (m.group().substring(m.group().lastIndexOf(":")+2, m.group().length()-1).length()==10) {
+//                String cardNo = updateCardNo(m.group().substring(m.group().lastIndexOf(":")+2, m.group().length()-1));
+//                messageStr = messageStr.replaceAll("\"cardno\":\"([0-9]+)\"", "\"cardno\":\""+ cardNo +"\"");
+//                System.out.println(cardNo);
+//                System.out.println(messageStr);
+//            }
+//        }
+
+//        // 时间戳转时间
+//        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String format = sdf1.format(System.currentTimeMillis());
+//        System.out.println("format: " + format + "l: " + System.currentTimeMillis());
+
+        // 时间戳转时间
+        String strDate = "1673332343000";
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long l = new Long(strDate);
+        System.out.println("l: " + l);
+        Date date = new Date(l);
+        System.out.println("date: " + date);
+        System.out.println("date: " + sdf2.format(date));
+
+//        // 时间转时间戳
+//        SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date date = sdf3.parse("2023-01-10 14:19:42");
+//        long ts = date.getTime();
+//        System.out.println("long: " + ts);
+
     }
 
     /**

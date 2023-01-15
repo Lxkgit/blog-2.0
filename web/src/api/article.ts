@@ -103,3 +103,11 @@ export const getDocCatalogListById = (param: any) => {
         params: param
     })
 }
+
+export const createCatalog = (catalog: any) => {
+    return service({
+        method: 'POST',
+        url: "/content/doc/catalog/save",
+        data: catalog
+    })
+}

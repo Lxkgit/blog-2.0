@@ -12,6 +12,7 @@ import com.blog.content.service.DocCatalogService;
 import com.blog.content.service.DocContentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -38,13 +39,26 @@ public class DocController {
     private DocContentService docContentService;
 
     @GetMapping("/list")
-    public Result selectDocCatalogByPage(DocCatalogVo docCatalogVo) {
-        return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogListByPage(docCatalogVo));
+    public Result selectDocCatalogList(@RequestHeader HttpHeaders headers, DocCatalogVo docCatalogVo) {
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        docCatalogVo.setUserId(blogUser.getId());
+        return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogList(docCatalogVo));
     }
 
+//    @GetMapping("/tree")
+//    public Result selectDocCatalogTree(@RequestHeader HttpHeaders headers, DocCatalogVo docCatalogVo) {
+//
+//    }
+
     @GetMapping("/id")
-    public Result selectDocCatalogByParentId(@RequestParam(value = "id") Integer parentId) {
-        return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogListById(parentId));
+    public Result selectDocCatalogByParentId(@RequestHeader HttpHeaders headers, DocCatalogVo docCatalogVo) {
+        if(docCatalogVo.getType() == 0) {
+            String token = String.valueOf(headers.get("Authorization"));
+            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            docCatalogVo.setUserId(blogUser.getId());
+        }
+        return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogListById(docCatalogVo));
     }
 
     @GetMapping("/select/content")
@@ -53,23 +67,19 @@ public class DocController {
     }
 
     @PostMapping("/save")
-    public Result saveDocCatalog(@RequestBody DocCatalog catalog){
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
+    public Result saveDocCatalog(@RequestHeader HttpHeaders headers, @RequestBody DocCatalog catalog) {
+        String token = String.valueOf(headers.get("Authorization"));
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
             catalog.setUserId(blogUser.getId());
-        } catch (Exception e){
+        } catch (Exception e) {
             log.warn(Constant.JWTError, e);
         }
         return ResultFactory.buildSuccessResult(docCatalogService.saveDoc(catalog));
     }
 
     @PostMapping("/save/content")
-    public Result saveDocContent(@RequestBody DocContent docContent){
+    public Result saveDocContent(@RequestBody DocContent docContent) {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String token = request.getHeader("Authorization");
         if (StringUtils.isEmpty(token)) {
@@ -78,11 +88,11 @@ public class DocController {
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
             docContent.setUserId(blogUser.getId());
-        } catch (Exception e){
+        } catch (Exception e) {
             log.warn(Constant.JWTError, e);
         }
         int flag = docContentService.updateDocContent(docContent);
-        if (flag == 1){
+        if (flag == 1) {
             return ResultFactory.buildSuccessResult("文档报错成功 ... ");
         } else {
             return ResultFactory.buildFailResult("文档保存失败 ... ");
@@ -91,7 +101,7 @@ public class DocController {
     }
 
     @PostMapping("/update")
-    public Result updateDocCatalog(@RequestBody DocCatalog catalog){
+    public Result updateDocCatalog(@RequestBody DocCatalog catalog) {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String token = request.getHeader("Authorization");
         if (StringUtils.isEmpty(token)) {
@@ -101,7 +111,7 @@ public class DocController {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
             catalog.setUserId(blogUser.getId());
             return ResultFactory.buildSuccessResult(docCatalogService.updateDocCatalog(catalog));
-        } catch (Exception e){
+        } catch (Exception e) {
             log.warn(Constant.JWTError, e);
         }
         return ResultFactory.buildFailResult("修改失败 ... ");

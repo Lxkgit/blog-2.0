@@ -8,8 +8,8 @@
         <id column="doc_content_md" property="docContentMd" jdbcType="VARCHAR"/>
         <id column="browse_count" property="browseCount" jdbcType="INTEGER"/>
         <id column="like_count" property="likeCount" jdbcType="INTEGER"/>
-        <id column="create_time" property="createTime" jdbcType="DATE"/>
-        <id column="update_time" property="updateTime" jdbcType="DATE"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -17,7 +17,8 @@
     </sql>
 
     <select id="selectDocContentByCatalogId" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from doc_content
         where catalog_id = #{id}
     </select>
@@ -38,15 +39,15 @@
     </update>
 
     <delete id="deleteDocContentById">
-    delete from doc_content
-    where id = #{id}
-    and user_id = #{userId};
-</delete>
+        delete from doc_content
+        where id = #{id}
+        and user_id = #{userId};
+    </delete>
 
     <delete id="deleteDocContentByCatalogId">
-    delete from doc_content
-    where catalog_id = #{catalogId}
-    and user_id = #{userId};
-</delete>
+        delete from doc_content
+        where catalog_id = #{catalogId}
+        and user_id = #{userId};
+    </delete>
 
 </mapper>

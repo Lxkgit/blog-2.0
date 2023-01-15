@@ -22,6 +22,8 @@ public class ArticleVo extends Article {
 
     private BlogUser blogUser;
 
+    private String type;
+
     private List<String> articleLabelList;
 
     private List<String> articleTypeList;
@@ -84,5 +86,13 @@ public class ArticleVo extends Article {
 
     public void setArticleLabelList(List<String> articleLabelList) {
         this.articleLabelList = articleLabelList;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

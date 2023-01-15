@@ -40,18 +40,51 @@ public class ArticleController {
 
     @GetMapping("/list")
     public Result selectArticleByPage(ArticleVo articleVo) {
-        Integer userId = articleVo.getUserId();
-        Integer page = articleVo.getPageNum();
-        Integer size = articleVo.getPageSize();
-        if (articleVo.getArticleLabel()!=null && !articleVo.getArticleLabel().equals("")) {
-            articleVo.setArticleLabelList(Arrays.asList(articleVo.getArticleLabel().split(",")));
-        }
-        if (userId == 0){
-            log.info("分页查询全部文章， page: {},  size: {}", page, size);
-            return ResultFactory.buildSuccessResult(articleService.selectArticleListByPage(articleVo));
-        } else {
-            // 标记文章列表是否属于当前用户
-            boolean isOwner = false;
+
+        if (articleVo.getType() != null && articleVo.getType().equals("home")) {
+            Integer userId = articleVo.getUserId();
+            Integer page = articleVo.getPageNum();
+            Integer size = articleVo.getPageSize();
+            if (articleVo.getArticleLabel()!=null && !articleVo.getArticleLabel().equals("")) {
+                articleVo.setArticleLabelList(Arrays.asList(articleVo.getArticleLabel().split(",")));
+            }
+            if (userId == 0){
+                log.info("分页查询全部文章， page: {},  size: {}", page, size);
+                MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("list", result);
+                return ResultFactory.buildSuccessResult(map);
+            } else {
+                // 标记文章列表是否属于当前用户
+                boolean isOwner = false;
+                HashMap<String, Object> map = new HashMap<>();
+                // 获取用户请求头，从请求头中获取token
+                HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+                String token = request.getHeader("Authorization");
+                if (StringUtils.isEmpty(token)) {
+                    token = request.getParameter("Authorization");
+                }
+                MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
+                if (token != null && !token.isEmpty()){
+                    try {
+                        BlogUser blogUser = JwtUtil.getUserInfo(token);
+                        if (blogUser.getId().equals(userId)) {
+                            isOwner = true;
+                        }
+                        log.info("用户: {} 分页查询用户id为: {} 的全部文章， page: {},  size: {}", blogUser.getUsername(), userId, page, size);
+                        map.put("isOwner", isOwner);
+                        map.put("list", result);
+                        return ResultFactory.buildSuccessResult(map);
+                    } catch (Exception e){
+                        log.warn(Constant.JWTError, e);
+                    }
+                }
+                log.info("分页查询用户id为: {} 全部文章， page: {},  size: {}", userId, page, size);
+                map.put("isOwner", isOwner);
+                map.put("list", result);
+                return ResultFactory.buildSuccessResult(map);
+            }
+        } else if(articleVo.getType() != null && articleVo.getType().equals("admin")) {
             HashMap<String, Object> map = new HashMap<>();
             // 获取用户请求头，从请求头中获取token
             HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
@@ -59,25 +92,13 @@ public class ArticleController {
             if (StringUtils.isEmpty(token)) {
                 token = request.getParameter("Authorization");
             }
+            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            articleVo.setUserId(blogUser.getId());
             MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
-            if (token != null && !token.isEmpty()){
-                try {
-                    BlogUser blogUser = JwtUtil.getUserInfo(token);
-                    if (blogUser.getId().equals(userId)) {
-                        isOwner = true;
-                    }
-                    log.info("用户: {} 分页查询用户id为: {} 的全部文章， page: {},  size: {}", blogUser.getUsername(), userId, page, size);
-                    map.put("isOwner", isOwner);
-                    map.put("list", result);
-                    return ResultFactory.buildSuccessResult(map);
-                } catch (Exception e){
-                    log.warn(Constant.JWTError, e);
-                }
-            }
-            log.info("分页查询用户id为: {} 全部文章， page: {},  size: {}", userId, page, size);
-            map.put("isOwner", isOwner);
             map.put("list", result);
             return ResultFactory.buildSuccessResult(map);
+        } else {
+            return ResultFactory.buildSuccessResult("文章查询类型错误");
         }
     }
 

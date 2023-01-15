@@ -4,6 +4,7 @@
             <span>文档管理</span>
         </div>
         <el-card style="margin: 18px 2%;width: 95%; height: 780px;">
+            <el-button type="success" plain @click="createCatalogOrDocFun">创建</el-button>
             <el-button type="danger" plain @click="">删除</el-button>
             <el-table :data="docList.data" lazy :load="load" row-key="id"
                 :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" stripe style="width: 100%"
@@ -13,12 +14,23 @@
                 <el-table-column prop="docName" label="文档名称" fit>
                 </el-table-column>
                 <el-table-column prop="docType" label="文档类型" width="162">
+                    <template #default="scope">
+                        <el-tag v-if="(scope.row.docType == 'catalog')" class="ml-2" type="info">
+                            {{ docType(scope.row.docType) }}
+                        </el-tag>
+                        <el-tag v-if="(scope.row.docType == 'content')" class="ml-2" type="success">
+                            {{ docType(scope.row.docType) }}
+                        </el-tag>
+                    </template>
                 </el-table-column>
                 <el-table-column prop="updateTime" label="最近更新" width="162">
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="90">
                     <template #default="scope">
-                        <el-button @click="" size="small" text>
+                        <el-button v-if="scope.row.docType === 'catalog'" @click="editCatalogFun(scope.row)" size="small" text>
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </el-button>
+                        <el-button v-else @click="editContentFun(scope.row)" size="small" text>
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </el-button>
                         <el-button style="margin-left: 0;" @click="" size="small" text>
@@ -32,30 +44,97 @@
                     @current-change="" :page-size="size" :total="total">
                 </el-pagination>
             </div>
+            <el-dialog v-model="showUpdateDocDialog" title="修改文档" width="460">
+                <div>
+                    <el-form :model="updateForm" label-width="120px">
+                        <el-form-item label="文档名称：">
+                            <el-input v-model="updateForm.docName" style="width: 214px;" />
+                        </el-form-item>
+                        <el-form-item label="文档类型：">
+                            <el-select v-model="updateForm.docType" placeholder="修改文档分类">
+                                <el-option label="目录" value="catalog" />
+                                <el-option label="文章" value="content" />
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="文档结构：">
+                            <el-tree-select v-model="updateForm.parentId"
+                                :props="{ label: 'docName', children: 'list', isLeaf: 'isLeaf' }" lazy :load="loadTree"
+                                :cache-data="updateForm.parentId" check-strictly />
+                        </el-form-item>
+                        <el-form-item  label="创建时间：">
+                            <el-date-picker v-model="updateForm.createTime" disabled type="datetime" />
+                        </el-form-item>
+                        <el-form-item label="修改时间：">
+                            <el-date-picker v-model="updateForm.updateTime" disabled type="datetime" />
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="updateCatalogFun">保存</el-button>
+                            <el-button @click="showUpdateDocDialog = false">取消</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </el-dialog>
+            <el-dialog v-model="showInsertDocDialog" title="创建文档" width="460">
+                <div>
+                    <el-form :model="createForm" label-width="120px">
+                        <el-form-item label="文档名称：">
+                            <el-input v-model="createForm.docName" style="width: 214px;" />
+                        </el-form-item>
+                        <el-form-item label="文档类型：">
+                            <el-select v-model="createForm.docType" placeholder="选择文档分类">
+                                <el-option label="目录" value="catalog" />
+                                <el-option label="文章" value="content" />
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="文档结构：">
+                            <el-tree-select v-model="createForm.parentId"
+                                :props="{ label: 'docName', children: 'list', isLeaf: 'isLeaf' }" lazy :load="loadTree"
+                                check-strictly />
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="createCatalogFun">创建</el-button>
+                            <el-button @click="showInsertDocDialog = false">取消</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </el-dialog>
         </el-card>
     </div>
 </template>
 
 <script setup lang="ts">
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
-import type {
-    AllowDropType,
-    NodeDropType,
-} from 'element-plus/es/components/tree/src/tree.type'
-import { getDocCatalogList, getDocCatalogListById } from "../../../api/article"
+import { getDocCatalogList, getDocCatalogListById, createCatalog } from "../../../api/article"
 import { ref, reactive, onMounted } from 'vue';
+import mixin from "../../../mixins/doc"
+
+let { docType } = mixin();
 
 let ids = new Array();
 let text = ref("");
 let docList: any = reactive({ data: [] });
 let size = ref(14);
 let total = ref(0);
+let showUpdateDocDialog = ref(false);
+let showInsertDocDialog = ref(false);
 
+let createForm = reactive({
+    parentId: '',
+    docName: '',
+    docType: ''
+})
+
+let updateForm: any = reactive({
+    id: 0,
+    userId: 0,
+    parentId: 0,
+    docName: "",
+    docType: "",
+    createTime: "",
+    updateTime: "",
+})
 
 onMounted(() => {
     getDocCatalogListFun(1)
-
 });
 
 const getDocCatalogListFun = (page: any) => {
@@ -72,29 +151,32 @@ const getDocCatalogListFun = (page: any) => {
 }
 
 const load = (row: any, treeNode: any, resolve: (date: any) => void) => {
-    console.log("row:", JSON.stringify(row))
-    console.log("row:", JSON.stringify(treeNode))
     getDocCatalogListById({
-        id: row.id
-    }).then((res: any)=> {
-        console.log(res.result)
-        resolve(
-            res.result
-        // {
-        //     id: 31,
-        //     docName: 'wangxiaohu',
-        //     docType: 'No. 189, Grove St, Los Angeles',
-        // },
-        // {
-        //     id: 32,
-        //     docName: 'wangxiaohu',
-        //     docType: 'No. 189, Grove St, Los Angeles',
-        // },
-    )
-
+        type: 0,
+        parentId: row.id
+    }).then((res: any) => {
+        resolve(res.result)
     })
+}
 
-    
+const loadTree = (node: any, resolve: (date: any) => void) => {
+    if (node.level === 0) {
+        getDocCatalogListById({
+            type: 0,
+            parentId: 0,
+            docType: "catalog"
+        }).then((res: any) => {
+            resolve(res.result)
+        })
+    } else {
+        getDocCatalogListById({
+            type: 0,
+            parentId: node.data.id,
+            docType: "catalog"
+        }).then((res: any) => {
+            resolve(res.result)
+        })
+    }
 }
 
 const selected = (val: any) => {
@@ -104,41 +186,37 @@ const selected = (val: any) => {
     }
 }
 
-const handleDragStart = (node: Node, ev: DragEvents) => {
-    console.log('drag start', node)
+const editCatalogFun = (row: any) => {
+    showUpdateDocDialog.value = true
+    updateForm = []
+    updateForm = row
 }
-const handleDragEnter = (
-    draggingNode: Node,
-    dropNode: Node,
-    ev: DragEvents
-) => {
-    console.log('tree drag enter:', dropNode.label)
+
+const updateCatalogFun = () => {
+    showUpdateDocDialog.value = false
 }
-const handleDragLeave = (
-    draggingNode: Node,
-    dropNode: Node,
-    ev: DragEvents
-) => {
-    console.log('tree drag leave:', dropNode.label)
+
+const createCatalogOrDocFun = () => {
+    showInsertDocDialog.value = true
 }
-const handleDragOver = (draggingNode: Node, dropNode: Node, ev: DragEvents) => {
-    console.log('tree drag over:', dropNode.label)
+
+// 创建文档方法
+const createCatalogFun = () => {
+    createCatalog({
+        parentId: createForm.parentId === "" ? 0 : createForm.parentId,
+        docName: createForm.docName,
+        docType: createForm.docType
+    }).then((res: any) => {
+        if(res.code === 200) {
+            getDocCatalogListFun(1)
+        }
+    })
+
+    showInsertDocDialog.value = false
 }
-const handleDragEnd = (
-    draggingNode: Node,
-    dropNode: Node,
-    dropType: NodeDropType,
-    ev: DragEvents
-) => {
-    console.log('tree drag end:', dropNode && dropNode.label, dropType)
-}
-const handleDrop = (
-    draggingNode: Node,
-    dropNode: Node,
-    dropType: NodeDropType,
-    ev: DragEvents
-) => {
-    console.log('tree drop:', dropNode.label, dropType)
+
+const editContentFun = (row: any) => {
+    
 }
 
 </script>

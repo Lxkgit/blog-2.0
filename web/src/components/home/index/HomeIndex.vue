@@ -73,7 +73,7 @@ const typeList = reactive({
     ]
 });
 let loading = false;
-let msg = "今天没有公告今天没有公告今天没有公有公告今天没有公告今天没有公告今天没有公有公告今天没有公告今天没有公告今天没有公有公告今天没有公告"
+let msg = "今天没有公今天没有公有公告今天没有公告"
 let page = 1;
 let articleList: any = reactive([])
 
@@ -81,9 +81,10 @@ onMounted(() => {
     getArticleList({
         pageNum: 1,
         pageSize: 5,
+        type: "home"
     }).then((res: any) => {
         if(res.code==200) {
-            articleList.push(...res.result.list)
+            articleList.push(...res.result.list.list)
         }
     });
 });

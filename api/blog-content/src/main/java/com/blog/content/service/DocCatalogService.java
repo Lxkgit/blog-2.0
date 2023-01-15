@@ -10,9 +10,9 @@ import java.util.Map;
 
 public interface DocCatalogService {
 
-    MyPage<DocCatalogVo>  selectDocCatalogListByPage(DocCatalogVo docCatalogVo);
-    List<DocCatalogVo>  selectDocCatalogListById(Integer id);
-    List<DocCatalogVo> selectDocCatalogTree(Integer treeNode, Integer userId);
+    MyPage<DocCatalogVo> selectDocCatalogList(DocCatalogVo docCatalogVo);
+    List<DocCatalogVo>  selectDocCatalogListById(DocCatalogVo docCatalogVo);
+    List<DocCatalogVo> selectDocCatalogList(Integer treeNode, Integer userId);
     Map<String, Object> saveDoc(DocCatalog docCatalog);
     Map<String, Object> updateDocCatalog(DocCatalog docCatalog);
     Map<String, Object> deleteDocCatalogByIds(String ids, Integer userId);
