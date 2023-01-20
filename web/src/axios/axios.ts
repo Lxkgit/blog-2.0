@@ -26,8 +26,7 @@ service.interceptors.response.use(response => {
 }, error => {
     if(error.response.status === 401) {
         localStorage.removeItem("blog")
-        router.push("/index")
-        window.location.reload()
+        localStorage.removeItem("tags")
     } else if(error.response.status === 403) {
         ElMessage({
             message: '无权限访问',

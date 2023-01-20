@@ -62,12 +62,16 @@ public class ArticleServiceImpl implements ArticleService {
         BeanUtils.copyProperties(article, articleVo);
         BlogUser blogUser = userClient.selectUserById(article.getUserId());
         articleVo.setBlogUser(blogUser);
-        String[] types = article.getArticleType().split(",");
-        List<ArticleType> articleTypeList = articleTypeDAO.selectArticleTypeByArray(types);
-        articleVo.setArticleTypes(articleTypeList);
-        String[] labels = article.getArticleLabel().split(",");
-        List<ArticleLabel> articleLabelList = articleLabelDAO.selectArticleLabelByArray(labels);
-        articleVo.setArticleLabels(articleLabelList);
+        if (article.getArticleType() != null && !article.getArticleType().equals("")) {
+            String[] types = article.getArticleType().split(",");
+            List<ArticleType> articleTypeList = articleTypeDAO.selectArticleTypeByArray(types);
+            articleVo.setArticleTypes(articleTypeList);
+        }
+        if (article.getArticleLabel() != null && !article.getArticleLabel().equals("")) {
+            String[] labels = article.getArticleLabel().split(",");
+            List<ArticleLabel> articleLabelList = articleLabelDAO.selectArticleLabelByArray(labels);
+            articleVo.setArticleLabels(articleLabelList);
+        }
         return articleVo;
     }
 

@@ -35,12 +35,12 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue"
-import { adminStore } from "../../store/tag"
+import { tagsStore } from "../../store/tag"
 import { useRoute, useRouter } from "vue-router"
 
 const route = useRoute()
 const router = useRouter()
-const store = adminStore()
+const store = tagsStore()
 
 let visible = ref(false)
 let top = ref(0)

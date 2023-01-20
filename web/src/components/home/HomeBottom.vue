@@ -4,13 +4,9 @@
 			
 			<div class="foot_c">
 				<ul>
-					<li>关于我们</li>
-					<li>|</li>
-					<li>联系我们</li>
+					<li>关于我</li>
 					<li>|</li>
 					<li>意见反馈</li>
-					<li>|</li>
-					<li>版权声明</li>
 				</ul>
 				<p>
 				博客已稳定运行<span v-html='runTimeString'></span><span class="timeJump">(●'◡'●)ﾉ♥</span>

@@ -49,14 +49,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private RedisAuthorizationCodeServices redisAuthorizationCodeServices;
 
-    @Value("${access_token.add-userinfo:false}")
+    @Value("${access_token.add-userInfo}")
     private boolean addUserInfo;
 
     /**
      * jwt签名key，可随意指定<br>
      * 如配置文件里不设置的话，冒号后面的是默认值
      */
-    @Value("${access_token.jwt-signing-key:douzijiagou}")
+    @Value("${access_token.jwt-signing-key}")
     private String signingKey;
 
     @Override

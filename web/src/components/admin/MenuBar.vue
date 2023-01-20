@@ -13,10 +13,10 @@
 
 <script setup lang="ts">
 import { reactive, onMounted } from "vue";
-import { adminStore } from "../../store/tag"
+import { tagsStore } from "../../store/tag"
 import { menuApi } from "../../api/menuApi";
 
-const store = adminStore()
+const store = tagsStore()
 
 const handleOpen = (key: string, keyPath: string[]) => {
     // console.log(key, keyPath)

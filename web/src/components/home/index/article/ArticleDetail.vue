@@ -1,7 +1,7 @@
 <template>
 
     <el-row justify="center">
-        <el-col :lg="15">
+        <el-col :lg="15" style="min-height: 782px;">
             <h2 style="padding: 16px 32px;">{{article.data.title}}</h2>
             <v-md-preview :text="article.data.contentMd"></v-md-preview>
         </el-col>

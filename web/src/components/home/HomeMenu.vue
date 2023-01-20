@@ -26,7 +26,7 @@
 					<router-link to="/login" v-if="!isLogin">
 						登录
 					</router-link>
-					<router-link to="/admin" v-else>
+					<router-link to="/admin" @click="tags.activeTag('/admin')" v-else>
 						进入后台
 					</router-link>
 				</div>
@@ -39,19 +39,23 @@
 import { onMounted, ref } from 'vue';
 import { selectUserById } from '../../api/login';
 import { userLoginStore } from '../../store/login';
+import { tagsStore } from "../../store/tag"
 
 const store = userLoginStore()
+const tags = tagsStore();
 let isLogin = ref(false);
 let activePath = ref("index")
 
 onMounted(() => {
 	let userId = store.token.user_id
-	if(userId !== 0) {
+	if(userId !== 0 && userId !== undefined) {
 		selectUserById(userId).then((res: any) => {
 			if(res.code === 200) {
 				isLogin.value = true;
 			}
     	});
+	} else {
+		isLogin.value = false;
 	}
 });
 

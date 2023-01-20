@@ -42,7 +42,11 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import type { FormInstance } from 'element-plus'
+import { useRouter } from 'vue-router';
+import { userLoginStore } from "../../store/login"
 
+const userStore = userLoginStore();
+const router = useRouter();
 let visible = ref(false); // 显示个人信息设置
 let showForget = ref(false); // 显示修改密码弹框
 
@@ -106,7 +110,20 @@ const submitForm = (formEl: FormInstance | undefined) => {
 }
 
 const logout = () => {
-
+    localStorage.removeItem("blog")
+    localStorage.removeItem("tags")
+    userStore.setToken({
+        access_token: "",
+        expires_in: 0,
+        jti: "",
+        refresh_token: "",
+        scope: "",
+        token_type: "",
+        user_id: 0
+    })
+    router.replace({
+        path: "/index"
+    })
 }
 </script>
 

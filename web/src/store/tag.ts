@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 
 
-export const adminStore = defineStore('tag', {
+export const tagsStore = defineStore('tag', {
     
     state: () => ({
         tags: [

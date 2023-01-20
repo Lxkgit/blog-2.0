@@ -95,9 +95,10 @@ const addArticle = () => {
     getArticleList({
         pageNum: page,
         pageSize: 5,
+        type: "home"
     }).then((res: any) => {
         if(res.code==200) {
-            articleList.push(...res.result.list)
+            articleList.push(...res.result.list.list)
         }
     });
     loading = false;

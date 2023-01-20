@@ -24,9 +24,9 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { adminStore } from "../../store/tag"
+import { tagsStore } from "../../store/tag"
 
-const store = adminStore()
+const store = tagsStore()
 const router = useRouter()
 
 
@@ -38,7 +38,6 @@ defineProps( {
 
 const gotoSite = (item: any) => {
     // 跳转路由
-    // console.log("item: " + JSON.stringify(item))
     router.push(item.menuPath)
     store.addTag(item.menuName, item.menuPath)
     store.selectedTag = store.tags.length

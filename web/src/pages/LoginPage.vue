@@ -4,7 +4,7 @@
             <div class="login">
                 <el-form :model="loginForm" :rules="rules" class="login-container" label-position="left"
                     label-width="0px" v-loading="loginForm.loading">
-                    <div style="text-align: center;margin-bottom: 5px;">我的个人小站</div>
+                    <div style="text-align: center;margin-bottom: 5px;">登录</div>
                     <el-form-item prop="username">
                         <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号">
                         </el-input>
@@ -13,13 +13,18 @@
                         <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码">
                         </el-input>
                     </el-form-item>
-                    <el-checkbox class="login_remember" v-model="loginForm.checked" label-position="left"><span
-                            style="color: #505458;">记住密码</span></el-checkbox>
-                    <el-form-item style="width: 100%">
-                        <el-button type="primary" style="width: 40%;background: #505458;border: none" v-on:click="login">登录</el-button>
-                        <router-link to="/register">
-                            <el-button type="primary" style="width: 40%;background: #505458;border: none">注册</el-button>
-                        </router-link>
+                    <el-checkbox class="login_remember" v-model="loginForm.checked" label-position="left"><span style="color: #505458;">记住密码</span></el-checkbox>
+                    <el-form-item style="width: 100%; display: flex; width: 100%; justify-content: space-around;">
+                       <div style="width: 40%; display: flex; justify-content: center;" >
+                            <el-button type="primary" v-on:click="login">登录</el-button>
+                        </div>
+                        <div style="width: 20%; display: flex; justify-content: center;">
+                            <router-link to="/register" style="text-decoration: none;">
+                                <el-button type="primary">
+                                    注册
+                                </el-button>
+                            </router-link>
+                        </div> 
                     </el-form-item>
                 </el-form>
             </div>
@@ -38,6 +43,7 @@ const route = useRoute();
 const router = useRouter();
 const store = userLoginStore();
 
+
 const loginForm = reactive({
     username: '',
     password: '',
@@ -52,7 +58,7 @@ const rules = reactive<FormRules>({
 
 const login = () => {
     userLoginApi(loginForm.username, loginForm.password).then((res: any) => {
-        if(res.code === 200) {
+        if (res.code === 200) {
             store.setToken(res.result)
             router.push("/admin")
         }

@@ -15,9 +15,9 @@
 </template>
 
 <script setup lang="ts">
-import { adminStore } from "../../store/tag"
+import { tagsStore } from "../../store/tag"
 
-let store = adminStore();
+let store = tagsStore();
 
 </script>
 

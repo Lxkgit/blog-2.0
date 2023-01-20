@@ -89,7 +89,7 @@
                         <el-form-item label="文档结构：">
                             <el-tree-select v-model="createForm.parentId"
                                 :props="{ label: 'docName', children: 'list', isLeaf: 'isLeaf' }" lazy :load="loadTree"
-                                check-strictly />
+                                check-strictly clearable />
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="createCatalogFun">创建</el-button>
