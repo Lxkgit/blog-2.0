@@ -102,10 +102,10 @@ public class ArticleServiceImpl implements ArticleService {
         StringBuilder type = new StringBuilder(articleType);
         ArticleType type1 = articleTypeDAO.selectArticleTypeById(Integer.parseInt(articleType));
         while (type1.getParentId() != 0) {
-            type.append(",").append(type1.getParentId());
+            type.insert(0, type1.getParentId() + ",");
             type1 = articleTypeDAO.selectArticleTypeById(type1.getParentId());
         }
-        return type.reverse().toString();
+        return type.toString();
     }
 
     @Override

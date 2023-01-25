@@ -3,7 +3,7 @@
         <div class="title_style">
             <span>文档管理</span>
         </div>
-        <el-card style="margin: 18px 2%;width: 95%; height: 780px;">
+        <el-card style="margin: 18px 2%;width: 95%;">
             <el-button type="success" plain @click="createCatalogOrDocFun">创建</el-button>
             <el-button type="danger" plain @click="">删除</el-button>
             <el-table :data="docList.data" lazy :load="load" row-key="id"
@@ -44,7 +44,7 @@
                     @current-change="" :page-size="size" :total="total">
                 </el-pagination>
             </div>
-            <el-dialog v-model="showUpdateDocDialog" title="修改文档" width="460">
+            <el-dialog v-model="showUpdateDocDialog" title="修改文档" width="460px">
                 <div>
                     <el-form :model="updateForm" label-width="120px">
                         <el-form-item label="文档名称：">
@@ -74,7 +74,7 @@
                     </el-form>
                 </div>
             </el-dialog>
-            <el-dialog v-model="showInsertDocDialog" title="创建文档" width="460">
+            <el-dialog v-model="showInsertDocDialog" title="创建文档" width="460px">
                 <div>
                     <el-form :model="createForm" label-width="120px">
                         <el-form-item label="文档名称：">
@@ -211,7 +211,6 @@ const createCatalogFun = () => {
             getDocCatalogListFun(1)
         }
     })
-
     showInsertDocDialog.value = false
 }
 

@@ -9,7 +9,7 @@
                 <ul class="m-shortcut-panel clearfix">
                     <li v-for="(item, index) in topWeb" :key="index" class="item">
                         <a target="_blank" :href="item.url">
-                            <img :alt="item.name" :title="item.name" :src="item.img" width="54" height="54">
+                            <img :alt="item.name" :title="item.name" :src="getImageUrl(item)" width="54" height="54">
                             <div class="title"><span>{{ item.name }}</span></div>
                         </a>
                     </li>
@@ -23,10 +23,18 @@
 
 // 顶部的图标
 const topWeb = [
-    { name: '哔哩哔哩', img: '/src/assets/images/nav/bilibili.png', url: 'https://www.bilibili.com/' },
-    { name: 'Steam', img: '/src/assets/images/nav/steam.jpg', url: 'https://store.steampowered.com/' },
-    { name: 'zzzFun', img: 'http://www.zzzfun.com/favicon.ico', url: 'http://www.zzzfun.com/' }
+    { name: '哔哩哔哩', img: 'bilibili.png', url: 'https://www.bilibili.com/', type: 1 },
+    { name: 'Steam', img: 'steam.jpg', url: 'https://store.steampowered.com/', type: 1 },
+    { name: 'zzzFun', img: 'http://www.zzzfun.com/favicon.ico', url: 'http://www.zzzfun.com/', type: 0 }
 ]
+
+const getImageUrl = (item: any) => {
+    if(item.type === 1) {
+        return new URL(`../../../assets/images/nav/${item.img}`, import.meta.url).href
+    } else { 
+        return item.img
+    }
+}
 
 </script>
 
