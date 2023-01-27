@@ -88,13 +88,14 @@ onMounted(() => {
     if (store.getArticle !== 'null') {
         article.data = store.getArticle
         if (article.data !== null && article.data.articleType !== null) {
-            let articleType = article.data.articleType;
-            type.value = articleType.substr(-1);
+            let articleTypeArr = article.data.articleType.split(',');
+            console.log(articleTypeArr)
+            type.value = articleTypeArr[articleTypeArr.length-1]
             if (article.data.articleLabels !== null) {
                 labels.value = article.data.articleLabels;
             }
         }
-    };
+    }
 
     time = window.setInterval(() => {
         saveFlag = true;

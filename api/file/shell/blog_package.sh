@@ -177,7 +177,7 @@ buildMysql() {
 	echo "max_connect_errors = 10"  >> /etc/my.cnf
 	echo "log_error = /opt/mysql/logs/mysql_5_7_37.err"  >> /etc/my.cnf
 	echo "log_bin = /opt/mysql/binlog/mysql-bin"  >> /etc/my.cnf
-	echo "max_allowed_packet = 20M"  >> /etc/my.cnf
+	echo "max_allowed_packet = 20480"  >> /etc/my.cnf
 	echo "[mysqldump]"  >> /etc/my.cnf
 	echo "user=root"  >> /etc/my.cnf
 	echo "password=${mysqlPassword}"  >> /etc/my.cnf

@@ -59,7 +59,7 @@ const web = [
 ];
 // 视频搜索引擎
 const video = [
-  { name: '哔哩哔哩', img: 'bilibili.png', url: 'https://search.bilibili.com/all?keyword=%s', tip: '请输入关键词进行搜索' },
+  { name: '哔哩哔哩', img: 'bilibiliicon.png', url: 'https://search.bilibili.com/all?keyword=%s', tip: '请输入关键词进行搜索' },
   { name: 'AcFun', img: 'acfun.png', url: 'https://www.acfun.cn/search?keyword=%s', tip: '请输入关键词进行搜索' },
   { name: 'YouTub', img: 'youtub.png', url: 'https://www.youtube.com/results?search_query=%s', tip: '请输入关键词进行搜索' },
 ]
