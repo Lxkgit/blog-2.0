@@ -124,7 +124,7 @@ public class UploadFileServiceImpl implements UploadFileService {
     }
 
     @Override
-    public Result uploadImg(MultipartFile[] files, Integer userId) {
+    public Result uploadImg(MultipartFile[] files, Integer userId, String type) {
         Date date = new Date();
         String ip = null;
         try {
@@ -150,10 +150,14 @@ public class UploadFileServiceImpl implements UploadFileService {
                         if (!Arrays.asList(Constant.IMG_TYPE).contains(fileType)){
                             result.put(fileName, "文件格式不支持, 只能上传jpg,jpeg,png,image格式的图片");
                         } else {
+                            String imgPath = "";
+                            if (type.equals("article")) {
+                                imgPath = "/article";
+                            }
                             File targetFile;
                             String formatDate = DateUtil.formatDate(date);
                             String newFileName = formatDate + "_" + RandomStringUtils.randomAlphabetic(5) + "_" + fileName;
-                            File file1 = new File(path);
+                            File file1 = new File(path + imgPath);
                             if (!file1.exists() && !file1.isDirectory()){
                                 file1.mkdirs();
                             }
@@ -167,11 +171,11 @@ public class UploadFileServiceImpl implements UploadFileService {
                             }
                             String url = null;
                             if (system.equals("linux")) {
-                                url = serviceIp + urlPath + newFileName;
+                                url = "http://" + serviceIp + urlPath + imgPath + "/" + newFileName;
                             } else {
-                                url = path + newFileName;
+                                url = path + imgPath +"/"+ newFileName;
                             }
-                            result.put(fileName, url);
+                            result.put("img", url);
                             UploadImg uploadImg = new UploadImg(userId, newFileName, url, date);
                             uploadImgDAO.saveImgUrl(uploadImg);
                             uploadLogDAO.updateFileUploadState(uploadLog.getId(), userId, 1, "图片上传成功");

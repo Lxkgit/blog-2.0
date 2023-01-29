@@ -177,7 +177,7 @@ buildMysql() {
 	echo "max_connect_errors = 10"  >> /etc/my.cnf
 	echo "log_error = /opt/mysql/logs/mysql_5_7_37.err"  >> /etc/my.cnf
 	echo "log_bin = /opt/mysql/binlog/mysql-bin"  >> /etc/my.cnf
-	echo "max_allowed_packet = 20480"  >> /etc/my.cnf
+	echo "max_allowed_packet = 10M"  >> /etc/my.cnf
 	echo "[mysqldump]"  >> /etc/my.cnf
 	echo "user=root"  >> /etc/my.cnf
 	echo "password=${mysqlPassword}"  >> /etc/my.cnf
@@ -473,3 +473,17 @@ main
 # - sql     # 存放博客sql和nacos的sql文件
 # - conf    # 存放需要替换的配置文件
 # - web     # 存放前端包
+
+# 备份数据
+# cd /opt/file
+# zip -r file.zip ./*
+# sz file.zip
+
+# 恢复备份数据
+# cd /opt/file
+# rm -rf *
+# rz
+# unzip file.zip
+
+# DEBUG
+# java -Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=y -jar test.jar

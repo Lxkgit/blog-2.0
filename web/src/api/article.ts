@@ -1,3 +1,4 @@
+import { config } from "process"
 import service from "../axios/axios"
 
 // 文章相关接口
@@ -36,6 +37,15 @@ export const getArticleById = (id: any) => {
     return service({
         method: 'GET',
         url: "/content/article/id?id=" + id 
+    })
+}
+
+// 上传图片接口
+export const upload = (params: any) => {
+    return service({
+        method: 'POST',
+        url: "/file/files/upload",
+        data: params
     })
 }
 

@@ -4,6 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.blog.common.entity.file.UserInfo;
+import com.blog.common.entity.file.vo.UploadVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
@@ -43,9 +44,8 @@ public class UploadFileController {
     private UploadFileService fileUploadService;
 
     @PostMapping("/upload")
-    public Result uploadFile(@RequestParam("file") MultipartFile[] files, String type, @RequestParam(required = false, defaultValue = "-1") Integer year,
-                             HttpServletRequest request) {
-        if (files == null || files.length == 0) {
+    public Result uploadFile(UploadVo uploadVo, HttpServletRequest request) {
+        if (uploadVo.getFiles() == null || uploadVo.getFiles().length == 0) {
             return ResultFactory.buildFailResult("文件上传失败 ... ");
         }
         String token = request.getHeader("Authorization");
@@ -54,14 +54,14 @@ public class UploadFileController {
         }
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
-            if (type.equals("diary")) {
-                if (year == -1) {
+            if (uploadVo.getType().equals("diary")) {
+                if (uploadVo.getYear() == -1) {
                     return ResultFactory.buildFailResult("文件上传类型为type时year为必填字段 ... ");
                 }
-                return fileUploadService.uploadDiary(files, year, blogUser.getId());
+                return fileUploadService.uploadDiary(uploadVo.getFiles(), uploadVo.getYear(), blogUser.getId());
             }
-            if (type.equals("img")) {
-                return fileUploadService.uploadImg(files, blogUser.getId());
+            if (uploadVo.getType().equals("img")) {
+                return fileUploadService.uploadImg(uploadVo.getFiles(), blogUser.getId(), uploadVo.getImgType());
             }
         } catch (Exception e) {
             e.printStackTrace();
