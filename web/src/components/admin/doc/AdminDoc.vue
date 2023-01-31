@@ -27,13 +27,14 @@
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="90">
                     <template #default="scope">
-                        <el-button v-if="scope.row.docType === 'catalog'" @click="editCatalogFun(scope.row)" size="small" text>
+                        <el-button v-if="scope.row.docType === 'catalog'" @click="editCatalogFun(scope.row)"
+                            size="small" text>
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </el-button>
-                        <el-button v-else @click="editContentFun(scope.row)" size="small" text>
+                        <el-button v-else @click="editContentFun(scope.row.id)" size="small" text>
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </el-button>
-                        <el-button style="margin-left: 0;" @click="" size="small" text>
+                        <el-button style="margin-left: 0;" @click="deleteDocFun(scope.row.id)" size="small" text>
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </el-button>
                     </template>
@@ -61,7 +62,7 @@
                                 :props="{ label: 'docName', children: 'list', isLeaf: 'isLeaf' }" lazy :load="loadTree"
                                 :cache-data="updateForm.parentId" check-strictly />
                         </el-form-item>
-                        <el-form-item  label="创建时间：">
+                        <el-form-item label="创建时间：">
                             <el-date-picker v-model="updateForm.createTime" disabled type="datetime" />
                         </el-form-item>
                         <el-form-item label="修改时间：">
@@ -103,19 +104,23 @@
 </template>
 
 <script setup lang="ts">
-import { getDocCatalogList, getDocCatalogListById, createCatalog } from "../../../api/article"
+import { ElMessage } from 'element-plus';
+import { getDocCatalogList, getDocCatalogListById, createCatalog, deleteDocByIds } from "../../../api/article"
 import { ref, reactive, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { docStore } from "../../../store/doc";
 import mixin from "../../../mixins/doc"
 
 let { docType } = mixin();
 
 let ids = new Array();
-let text = ref("");
 let docList: any = reactive({ data: [] });
 let size = ref(14);
 let total = ref(0);
 let showUpdateDocDialog = ref(false);
 let showInsertDocDialog = ref(false);
+const router = useRouter()
+const store = docStore();
 
 let createForm = reactive({
     parentId: '',
@@ -141,8 +146,10 @@ const getDocCatalogListFun = (page: any) => {
     getDocCatalogList({
         pageNum: page,
         pageSize: 14,
+        selectType: "admin",
     }).then((res: any) => {
         if (res.code === 200) {
+
             docList.data = res.result.list
             size.value = res.result.size
             total.value = res.result.total
@@ -207,15 +214,46 @@ const createCatalogFun = () => {
         docName: createForm.docName,
         docType: createForm.docType
     }).then((res: any) => {
-        if(res.code === 200) {
-            getDocCatalogListFun(1)
+        if (res.code === 200) {
+            ElMessage({
+                message: '文档创建成功',
+                type: 'success',
+            })
+            createForm.docName = ""
+            createForm.docType = ""
+            createForm.parentId = ""
+            window.location.reload()
         }
     })
     showInsertDocDialog.value = false
+
 }
 
-const editContentFun = (row: any) => {
-    
+const editContentFun = (docContentId?: any) => {
+    store.setDocId(docContentId);
+    router.push({
+        name: "docEditor",
+    })
+}
+
+const deleteDocFun = (ids: any) => {
+    deleteDocByIds(ids).then((res: any) => {
+        if (res.code === 200) {
+            if (res.result.success !== res.result.delete) {
+                ElMessage({
+                    message: res.result.msg,
+                    type: 'error',
+                })
+            } else {
+                ElMessage({
+                    message: '文档删除成功',
+                    type: 'success',
+                })
+                window.location.reload()
+            }
+        }
+    })
+
 }
 
 </script>

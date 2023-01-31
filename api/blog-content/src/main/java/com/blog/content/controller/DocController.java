@@ -40,16 +40,17 @@ public class DocController {
 
     @GetMapping("/list")
     public Result selectDocCatalogList(@RequestHeader HttpHeaders headers, DocCatalogVo docCatalogVo) {
-        String token = String.valueOf(headers.get("Authorization"));
-        BlogUser blogUser = JwtUtil.getUserInfo(token);
-        docCatalogVo.setUserId(blogUser.getId());
+        if (docCatalogVo.getSelectType().equals("admin")) {
+            String token = String.valueOf(headers.get("Authorization"));
+            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            docCatalogVo.setUserId(blogUser.getId());
+        } else if (docCatalogVo.getSelectType().equals("home")) {
+            if (docCatalogVo.getUserId() != null) {
+                docCatalogVo.setUserId(0);
+            }
+        }
         return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogList(docCatalogVo));
     }
-
-//    @GetMapping("/tree")
-//    public Result selectDocCatalogTree(@RequestHeader HttpHeaders headers, DocCatalogVo docCatalogVo) {
-//
-//    }
 
     @GetMapping("/id")
     public Result selectDocCatalogByParentId(@RequestHeader HttpHeaders headers, DocCatalogVo docCatalogVo) {
@@ -59,11 +60,6 @@ public class DocController {
             docCatalogVo.setUserId(blogUser.getId());
         }
         return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogListById(docCatalogVo));
-    }
-
-    @GetMapping("/select/content")
-    public Result getDocContent(@RequestParam(value = "id") Integer id) {
-        return ResultFactory.buildSuccessResult(docContentService.selectDocContentByCatalogId(id));
     }
 
     @PostMapping("/save")
@@ -76,28 +72,6 @@ public class DocController {
             log.warn(Constant.JWTError, e);
         }
         return ResultFactory.buildSuccessResult(docCatalogService.saveDoc(catalog));
-    }
-
-    @PostMapping("/save/content")
-    public Result saveDocContent(@RequestBody DocContent docContent) {
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
-        try {
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
-            docContent.setUserId(blogUser.getId());
-        } catch (Exception e) {
-            log.warn(Constant.JWTError, e);
-        }
-        int flag = docContentService.updateDocContent(docContent);
-        if (flag == 1) {
-            return ResultFactory.buildSuccessResult("文档报错成功 ... ");
-        } else {
-            return ResultFactory.buildFailResult("文档保存失败 ... ");
-        }
-
     }
 
     @PostMapping("/update")
@@ -115,7 +89,33 @@ public class DocController {
             log.warn(Constant.JWTError, e);
         }
         return ResultFactory.buildFailResult("修改失败 ... ");
-
     }
+
+    @DeleteMapping("/delete")
+    public Result deleteDoc(@RequestHeader HttpHeaders headers, @RequestParam(value = "ids") String ids) {
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        return ResultFactory.buildSuccessResult(docCatalogService.deleteDocCatalogByIds(ids, blogUser.getId()));
+    }
+
+    @GetMapping("/select/content")
+    public Result getDocContent(@RequestParam(value = "id") Integer id) {
+        return ResultFactory.buildSuccessResult(docContentService.selectDocContentByCatalogId(id));
+    }
+
+    @PostMapping("/update/content")
+    public Result updateDocContent(@RequestHeader HttpHeaders headers, @RequestBody DocContent docContent) {
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        docContent.setUserId(blogUser.getId());
+        int flag = docContentService.updateDocContent(docContent);
+        if (flag == 1) {
+            return ResultFactory.buildSuccessResult("文档修改成功 ... ");
+        } else {
+            return ResultFactory.buildFailResult("文档保存失败 ... ");
+        }
+    }
+
+
 
 }

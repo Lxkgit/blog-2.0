@@ -51,8 +51,10 @@ public class DocContentServiceImpl implements DocContentService {
     }
 
     @Override
-    public int deleteDocContentById(Integer id, Integer userId) {
-        return docContentDAO.deleteDocContentById(id, userId);
+    public int deleteDocContentById(String ids, Integer userId) {
+        String[] idArr = ids.split(",");
+
+        return docContentDAO.deleteDocContentByCatalogIds(idArr, userId);
     }
 
     @Override

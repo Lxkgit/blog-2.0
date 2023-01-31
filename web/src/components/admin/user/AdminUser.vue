@@ -64,7 +64,7 @@
         <el-form-item label="头像：" label-width="100">
           <el-avatar v-if="imageUrl != ''" :src="imageUrl" style="margin-right: 10px;" />
           <el-avatar v-else :src="userDate.data.headImg" style="margin-right: 10px;" />
-          <el-upload :action="uploadUrl" :headers="header" :show-file-list="false" :data="uploadData"
+          <el-upload :action="uploadUrl" :headers="header" :show-file-list="false" :data="uploadData" name="files"
             :on-success="imgUploadFun" :before-upload="beforeUploadFun">
             <i class="fa fa-picture-o" aria-hidden="true">
               点击上传

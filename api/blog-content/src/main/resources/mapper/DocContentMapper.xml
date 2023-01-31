@@ -38,9 +38,12 @@
         </where>
     </update>
 
-    <delete id="deleteDocContentById">
+    <delete id="deleteDocContentByIds">
         delete from doc_content
-        where id = #{id}
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
         and user_id = #{userId};
     </delete>
 

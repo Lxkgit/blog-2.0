@@ -38,3 +38,11 @@ export const updateRolePerApi = (rolePer: any) => {
         data: rolePer
     })
 }
+
+// 查询开通文档功能用户
+export const selectDocUserListApi = () => {
+    return service({
+        method: 'GET',
+        url: "/user/user/doc/user"
+    })
+}

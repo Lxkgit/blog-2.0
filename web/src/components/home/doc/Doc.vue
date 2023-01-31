@@ -3,15 +3,27 @@
         <div class="window-body">
             <div class="sidebar">
                 <div class="sidebar-header">
-                    <a href="#/index" data-no-pjax="true" class="title"><i
-                            class="fa fa-wa fa-home fa-lg"></i>&nbsp;个人文档系统</a>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd;">
+                        <div>
+                            <a href="#/index" data-no-pjax="true" class="title">
+                                <i class="fa fa-wa fa-home fa-lg"></i>&nbsp;个人文档系统
+                            </a>
+                        </div>
+                        <div style="margin-right: 10px;">
+                            <el-select v-model="docFiliter.filterUser" collapse-tags placeholder="选择用户文档"
+                                @change="selectUserDoc" style="width: 130px">
+                                <el-option v-for="item in userList.data" :key="item.id" :label="item.username"
+                                    :value="item.id" />
+                            </el-select>
+                        </div>
+                    </div>
                     <div class="search-form">
                         <div class="ui small fluid icon input">
-                            <input v-model="filterText" type="text" placeholder="请输入搜索关键词..."
+                            <input v-model="docFiliter.filterText" type="text" placeholder="请输入搜索关键词..."
                                 style="width: 90%; height: 100%; display: block; border: 1px solid #ddd; border-radius: 5px; line-height: 100%; font-size: 15px; text-indent: 0px; transition: 0.3s all;">
                             <button style="border: none; border-radius: 5px; width: 25px;">
-                                <i class="fa fa-search" style="opacity: 0.5;"
-                                    aria-hidden="true"></i>
+                                <i class="fa fa-search" style="opacity: 0.5;" aria-hidden="true"></i>
                             </button>
 
                         </div>
@@ -19,10 +31,9 @@
                 </div>
                 <div class="sidebar-body">
                     <div class="catalog-body">
-                        <el-tree id="tree" ref="tree" :data="docCatalogList" :props="defaultProps"
-                            :default-expanded-keys="key" :default-checked-keys="check" :highlight-current="true"
-                            :default-expand-all="true" :expand-on-click-node="false" :filter-node-method="filterNode"
-                            @node-click="click" />
+                        <el-tree ref="treeRef" :props="{ label: 'docName', children: 'list', isLeaf: 'leaf' }"
+                            node-key="id" @node-click="loadDoc" lazy :load="loadTree" check-strictly clearable
+                            :filter-node-method="filterNode" />
                     </div>
                 </div>
             </div>
@@ -44,81 +55,97 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted, watch } from 'vue';
+import { getDocCatalogListById, selectDocContent } from "../../../api/article"
+import { selectDocUserListApi } from "../../../api/user"
+import { ElTree } from 'element-plus'
 
-let key = ref("")
-let filterText = ref("")
-let check = reactive([])
-let docCatalogList = reactive([])
-let docContent = reactive({
-    title: "123123",
-    contentMd: "asdasdasdasd"
+const treeRef = ref<InstanceType<typeof ElTree>>()
+let userList: any = reactive({
+    data: [
+        {
+            id: 0,
+            username: "全部"
+        }
+    ]
+});
+
+interface DocFiliter {
+    filterText: string
+    filterUser: number
+}
+
+let docFiliter: DocFiliter = reactive({
+    filterText: "",
+    filterUser: 0
 })
-let defaultProps = reactive([
-    {
-        children: 'children',
-        label: 'title'
+
+watch(docFiliter, (val) => {
+    treeRef.value!.filter(val)
+})
+
+onMounted(() => {
+    selectDocUserListApi().then((res: any) => {
+        if (res.code === 200) {
+            userList.data.push(...res.result.list)
+        }
+    })
+})
+
+let docContent = reactive({
+    title: "请选择文档",
+    contentMd: ""
+})
+
+const loadTree = (node: any, resolve: (date: any) => void) => {
+    if (node.level === 0) {
+        getDocCatalogListById({
+            type: 1,
+            parentId: 1,
+        }).then((res: any) => {
+            resolve(res.result)
+        })
+    } else {
+        getDocCatalogListById({
+            type: 1,
+            parentId: node.data.id,
+        }).then((res: any) => {
+            resolve(res.result)
+        })
     }
-])
-const click = () => {
-
 }
 
-const filterNode = (value: any, data: { label: string | any[]; }) => {
-    if (!value) { return true }
-    return data.label.includes(value)
+const loadDoc = (data: any) => {
+    if (data.docType === "content") {
+        selectDocContent(data.id).then((res: any) => {
+            if (res.code === 200) {
+                docContent.title = data.docName
+                if (res.result.docContentMd === null) {
+                    docContent.contentMd = ""
+                } else {
+                    docContent.contentMd = res.result.docContentMd
+                }
+            }
+        })
+    }
 }
 
+const selectUserDoc = (val: any) => {
+    docFiliter.filterUser = val
+}
 
-
-    // data() {
-    //     return {
-    //         data: [],
-    //         filterText: '',
-    //         key: [],
-    //         check: [],
-    //         defaultProps: {
-    //             children: 'children',
-    //             label: 'title'
-    //         }
-    //     }
-    // },
-    // computed: {
-    //     // 把getter混入到computed对象中,我们可以直接调用vex里面的内容即可
-    //     ...mapGetters('doc', ['docCatalogList']),
-    //     ...mapGetters('doc', ['docContent'])
-    // },
-    // watch: {
-    //     filterText(val) {
-    //         this.$refs.tree.filter(val)
-    //     }
-    // },
-    // async mounted() {
-    //     this.selectDocList()
-    //     const link = document.createElement('link')
-    //     link.type = 'text/css'
-    //     link.rel = 'stylesheet'
-    //     link.href = 'https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css'
-    //     // link.href = 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.9.0/github-markdown.min.css'
-    //     document.head.appendChild(link)
-
-    // },
-    // methods: {
-    //     selectDocList() {
-    //         this.$store.dispatch('doc/selectDocList')
-    //     },
-
-    //     // 过滤子节点
-    //     filterNode(value, data) {
-    //         if (!value) { return true }
-    //         return data.label.includes(value)
-    //     },
-
-    //     click(choose) {
-
-    //         this.$store.dispatch('doc/selectDocContentById', choose.value)
-    //     },
-
+const filterNode = (value: DocFiliter, data: any) => {
+    if (value.filterUser === 0) {
+        if (data.docName.includes(value.filterText)) {
+            return true
+        }
+    } else {
+        if (data.docName.includes(value.filterText) && data.userId === value.filterUser) {
+            return true
+        }
+    }
+    return false
+}
 
 </script>
 
@@ -152,7 +179,6 @@ const filterNode = (value: any, data: { label: string | any[]; }) => {
 .title {
     text-decoration: none;
     padding: 0 12px;
-    border-bottom: 1px solid #ddd;
     line-height: 55px;
     color: inherit;
     display: block;
@@ -180,9 +206,11 @@ const filterNode = (value: any, data: { label: string | any[]; }) => {
 }
 
 .catalog-body {
-    padding: 12px 0;
+    padding-top: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
     overflow-y: scroll;
-    height: 95%;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }

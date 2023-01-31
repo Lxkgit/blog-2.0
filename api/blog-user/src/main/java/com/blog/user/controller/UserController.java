@@ -86,4 +86,10 @@ public class UserController {
         userService.updateUser(sysUserVo, 1);
         return ResultFactory.buildSuccessResult();
     }
+
+    @GetMapping("/doc/user")
+    public Result selectDocUserList() {
+        return ResultFactory.buildSuccessResult(userService.selectUserByPage(1, 50));
+    }
+
 }

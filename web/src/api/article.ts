@@ -121,3 +121,33 @@ export const createCatalog = (catalog: any) => {
         data: catalog
     })
 }
+
+export const selectDocContent = (id: any) => {
+    return service({
+        method: 'GET',
+        url: "/content/doc/catalog/select/content?id=" + id,
+    })
+}
+
+export const saveDocContent = (content: any) => {
+    return service({
+        method: 'POST',
+        url: "/content/doc/catalog/save/content",
+        data: content
+    })
+}
+
+export const updateDocContent = (content: any) => {
+    return service({
+        method: 'POST',
+        url: "/content/doc/catalog/update/content",
+        data: content
+    })
+}
+
+export const deleteDocByIds = (ids: any) => {
+    return service({
+        method: 'DELETE',
+        url: "/content/doc/catalog/delete?ids=" + ids,
+    })
+} 

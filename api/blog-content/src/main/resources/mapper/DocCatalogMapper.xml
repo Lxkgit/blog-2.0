@@ -34,8 +34,8 @@
     <select id="selectDocCatalogList" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from doc_catalog
-        where parent_id = 0
-        <if test="userId != null">
+        where parent_id = 1
+        <if test="userId != null and userId != 0">
             and user_id = #{userId}
         </if>
     </select>
@@ -47,7 +47,7 @@
         <if test="docType != null ">
             and doc_type = #{docType}
         </if>
-        <if test="userId != 0 ">
+        <if test="userId != null and userId != 0">
             and user_id = #{userId}
         </if>
     </select>

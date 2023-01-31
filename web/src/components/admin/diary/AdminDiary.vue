@@ -15,7 +15,8 @@
           <el-button type="danger" @click="deleteBtnVisible = true" plain>删除</el-button>
         </template>
       </el-popover>
-      <el-button type="info" plain @click="">导入</el-button>
+      <el-button type="info" plain @click="uploadDiaryDialog = true">导入</el-button>
+
       <el-table :data="diaryList.data" stripe style="width: 100%" height="630" @selection-change="selected">
         <el-table-column type="selection" width="55">
         </el-table-column>
@@ -72,6 +73,33 @@
           <span>最近更新：{{ showDiary.updateTime }}</span>
         </div>
       </el-dialog>
+      <el-dialog v-model="uploadDiaryDialog" title="导入日记" width="460px">
+        <div>
+
+          <el-form :model="createForm" label-width="120px">
+            
+
+              <el-form-item label="日记日期">
+                <div class="block">
+                  <el-date-picker v-model="createForm.year" type="year" placeholder="Pick a year" />
+                </div>
+              </el-form-item>
+
+              <el-form-item label="上传日记">
+                <el-upload :action="uploadUrl" :headers="header" :show-file-list="false" :data="uploadData"
+                  style="display: inline; margin-left: 12px;" :on-success="zipUploadFun"
+                  :before-upload="beforeUploadFun">
+                  <el-button type="primary">上传日记</el-button>
+                </el-upload>
+              </el-form-item>
+
+              <el-form-item>
+                <el-button type="primary" @click="uploadDiaryFun">创建</el-button>
+                <el-button @click="uploadDiaryDialog = false">取消</el-button>
+              </el-form-item>
+          </el-form>
+        </div>
+      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -80,6 +108,8 @@
 import { ElMessage } from 'element-plus';
 import { onMounted, ref, reactive } from 'vue';
 import { getDiaryList, saveDiary, updateDiary, deleteDiaryByIds } from "../../../api/article"
+import { uploadUrl, header } from "../../../utils/upload"
+import type { UploadProps } from 'element-plus'
 
 let ids = new Array();
 let size = ref<number>(14)
@@ -93,6 +123,10 @@ let saveAndUpdateDiaryDialog = ref(false)
 let showDiaryDialog = ref(false)
 let time: number = 0;
 let saveFlag: boolean = false;
+let uploadDiaryDialog = ref(false);
+let createForm = reactive({
+  year: ""
+})
 
 onMounted(() => {
   getDiaryListFun(1);
@@ -227,6 +261,29 @@ const changeDiaryFun = () => {
       })
     }
   }
+}
+
+let uploadData: Record<string, any> = {
+  type: "zip"
+};
+
+const zipUploadFun = (res: any) => {
+  // imageUrl.value = res.result[`${imageName.value}`]
+  // console.log(imageUrl.value)
+}
+
+const beforeUploadFun: UploadProps['beforeUpload'] = (rawFile) => {
+  console.log("rawFile.name: " + rawFile.name)
+  console.log("rawFile.type: " + rawFile.type)
+  if (rawFile.type !== 'application/zip') {
+    ElMessage.error('文件格式错误, 仅支持zip压缩包')
+    return false
+  }
+  return true
+}
+
+const uploadDiaryFun = () => {
+
 }
 
 const getNowDate = () => {

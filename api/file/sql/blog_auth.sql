@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 本机MySQL
+ Source Server         : 121.4.126.60
  Source Server Type    : MySQL
- Source Server Version : 50721
- Source Host           : localhost:3306
+ Source Server Version : 50737
+ Source Host           : 121.4.126.60:3306
  Source Schema         : blog_auth
 
  Target Server Type    : MySQL
- Target Server Version : 50721
+ Target Server Version : 50737
  File Encoding         : 65001
 
- Date: 30/12/2022 20:21:44
+ Date: 27/01/2023 17:48:14
 */
 
 SET NAMES utf8mb4;
@@ -30,7 +30,11 @@ CREATE TABLE `oauth_access_token`  (
   `authentication` blob NULL,
   `refresh_token` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`authentication_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of oauth_access_token
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for oauth_client_details
@@ -49,7 +53,7 @@ CREATE TABLE `oauth_client_details`  (
   `additional_information` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `autoapprove` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`client_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of oauth_client_details
@@ -67,7 +71,11 @@ CREATE TABLE `oauth_client_token`  (
   `user_name` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `client_id` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`authentication_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of oauth_client_token
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for oauth_code
@@ -76,7 +84,11 @@ DROP TABLE IF EXISTS `oauth_code`;
 CREATE TABLE `oauth_code`  (
   `code` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `authentication` blob NULL
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of oauth_code
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for oauth_refresh_token
@@ -86,6 +98,10 @@ CREATE TABLE `oauth_refresh_token`  (
   `token_id` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `token` blob NULL,
   `authentication` blob NULL
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of oauth_refresh_token
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;

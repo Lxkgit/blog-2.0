@@ -31,6 +31,8 @@ public class DocCatalogVo extends DocCatalog implements Comparable<DocCatalog>{
     // 查询标志 0:只查询当前用户数据 1：查询全部数据
     private Integer type;
 
+    private String selectType;
+
     @Override
     public int compareTo(DocCatalog o) {
         return this.getId() - o.getId();

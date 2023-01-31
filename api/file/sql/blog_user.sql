@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 本机MySQL
+ Source Server         : 121.4.126.60
  Source Server Type    : MySQL
- Source Server Version : 50721
- Source Host           : localhost:3306
+ Source Server Version : 50737
+ Source Host           : 121.4.126.60:3306
  Source Schema         : blog_user
 
  Target Server Type    : MySQL
- Target Server Version : 50721
+ Target Server Version : 50737
  File Encoding         : 65001
 
- Date: 30/12/2022 20:21:02
+ Date: 27/01/2023 17:48:54
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `sys_permission`  (
   `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `menu_type` int(5) NULL DEFAULT NULL COMMENT '类型 0:目录 1:菜单 2:按钮',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 110 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限标识表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 109 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限标识表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -43,6 +43,7 @@ INSERT INTO `sys_permission` VALUES (50, 1, '角色管理', '', '/admin/role', '
 INSERT INTO `sys_permission` VALUES (51, 1, '用户管理', '', '/admin/user', 'sys:user', '', 1);
 INSERT INTO `sys_permission` VALUES (60, 2, '文章管理', '', '/admin/article', 'sys:article', '', 1);
 INSERT INTO `sys_permission` VALUES (61, 2, '日记管理', NULL, '/admin/diary', 'sys:diary', '', 1);
+INSERT INTO `sys_permission` VALUES (62, 2, '文档管理', NULL, '/admin/doc', 'sys:doc', NULL, 1);
 INSERT INTO `sys_permission` VALUES (71, 3, '全局设置', NULL, NULL, 'sys:setting:all', '', 1);
 INSERT INTO `sys_permission` VALUES (72, 3, '个人设置', NULL, NULL, 'sys:setting:user', '', 1);
 INSERT INTO `sys_permission` VALUES (100, 50, '角色列表', NULL, NULL, 'sys:role:select', '', 2);
@@ -66,7 +67,7 @@ CREATE TABLE `sys_role`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role
@@ -83,11 +84,12 @@ CREATE TABLE `sys_role_permission`  (
   `role_id` int(11) NOT NULL COMMENT '角色id',
   `permission_id` int(11) NOT NULL COMMENT '权限id',
   PRIMARY KEY (`role_id`, `permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_permission
 -- ----------------------------
+INSERT INTO `sys_role_permission` VALUES (1, 0);
 INSERT INTO `sys_role_permission` VALUES (1, 1);
 INSERT INTO `sys_role_permission` VALUES (1, 2);
 INSERT INTO `sys_role_permission` VALUES (1, 3);
@@ -95,6 +97,7 @@ INSERT INTO `sys_role_permission` VALUES (1, 50);
 INSERT INTO `sys_role_permission` VALUES (1, 51);
 INSERT INTO `sys_role_permission` VALUES (1, 60);
 INSERT INTO `sys_role_permission` VALUES (1, 61);
+INSERT INTO `sys_role_permission` VALUES (1, 62);
 INSERT INTO `sys_role_permission` VALUES (1, 71);
 INSERT INTO `sys_role_permission` VALUES (1, 72);
 INSERT INTO `sys_role_permission` VALUES (1, 100);
@@ -133,7 +136,7 @@ CREATE TABLE `sys_role_user`  (
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `role_id` int(11) NOT NULL COMMENT '角色id',
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色用户关系表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色用户关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_user
@@ -159,7 +162,7 @@ CREATE TABLE `sys_user`  (
   `update_time` datetime(0) NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user

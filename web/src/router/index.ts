@@ -64,10 +64,15 @@ const routes: Array<RouteRecordRaw> = [
         ]
     },
     {
-        name: "editor",
+        name: "articleEditor",
         path: "/admin/article/editor",
         component: () => import("/src/components/admin/article/Editor.vue"),
         // requireAuth: true,
+    },
+    {
+        name: "docEditor",
+        path: "/admin/doc/editor",
+        component: () => import("/src/components/admin/doc/DocEditor.vue"),
     },
     {
         path: "/doc",

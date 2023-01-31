@@ -14,6 +14,6 @@ public interface DocContentDAO extends BaseMapper<DocContent> {
 
     DocContent selectDocContentByCatalogId(@Param("id") Integer id);
     int updateDocContent(DocContent docContent);
-    int deleteDocContentById(@Param("id") Integer id, @Param("userId") Integer userId);
+    int deleteDocContentByCatalogIds(@Param("ids") String[] ids, @Param("userId") Integer userId);
     int deleteDocContentByCatalogId(@Param("catalogId") Integer parentId, @Param("userId") Integer userId);
 }

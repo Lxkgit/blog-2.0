@@ -124,7 +124,7 @@ const selected = (val: any) => {
 const editArticle = (article?: any) => {
     store.setArticle(article);
     router.push({
-        name: "editor",
+        name: "articleEditor",
     })
 };
 
@@ -139,7 +139,6 @@ const deleteArticle = (id?: any) => {
         }
     } else {
         deleteArticleByIds(id).then(res => {
-            console.log("delete: ", res)
             getArticleListByPage(1)
         })
     }

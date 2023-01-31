@@ -63,6 +63,9 @@ public class DocCatalogServiceImpl implements DocCatalogService {
 
     @Override
     public List<DocCatalogVo> selectDocCatalogListById(DocCatalogVo docCatalogVoParam) {
+        if (docCatalogVoParam.getParentId() == 0) {
+            docCatalogVoParam.setUserId(0);
+        }
         List<DocCatalogVo> docCatalogVoList = docCatalogDAO.selectListByParentId(docCatalogVoParam);
         docCatalogVoList.forEach(docCatalogVo -> {
             docCatalogVo.setValue(docCatalogVo.getId());
