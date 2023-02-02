@@ -2,7 +2,7 @@
 # 压缩包安装博客
 
 # MySQL登陆密码
-mysqlPassword="root"
+mysqlPassword="MySql@Admin123*."
 # redis登陆密码
 redisPassword="redis-960"
 

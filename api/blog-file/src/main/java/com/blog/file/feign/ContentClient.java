@@ -19,6 +19,6 @@ import java.util.Map;
 public interface ContentClient {
 
     @PostMapping("/content/diary/save/list")
-    Result saveDiaryList(@RequestBody Map<Integer, Diary> map);
+    Map<String, List<String>> saveDiaryList(@RequestBody Map<String, Diary> map);
 
 }

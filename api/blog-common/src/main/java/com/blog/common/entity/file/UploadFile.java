@@ -13,19 +13,23 @@ import java.util.Date;
  */
 
 @Data
-public class UploadImg {
+public class UploadFile {
 
     @TableId(value = "id", type = IdType.AUTO)
     private int id;
     private int userId;
-    private String imgName;
-    private String imgUrl;
+    private String fileName;
+    private String fileUrl;
     private Date uploadTime;
+    private String fileType;
+    private String filePath;
 
-    public UploadImg(int userId, String imgName, String imgUrl, Date uploadTime) {
+    public UploadFile(int userId, String fileName, String fileUrl, Date uploadTime, String fileType, String filePath) {
         this.userId = userId;
-        this.imgName = imgName;
-        this.imgUrl = imgUrl;
+        this.fileName = fileName;
+        this.fileUrl = fileUrl;
         this.uploadTime = uploadTime;
+        this.fileType = fileType;
+        this.filePath = filePath;
     }
 }

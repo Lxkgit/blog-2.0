@@ -63,40 +63,37 @@
       </el-dialog>
       <el-dialog v-model="showDiaryDialog" title="查看日记">
         <div>
-          <el-date-picker v-model="showDiary.diaryDate" type="date" value-format="YYYY-MM-DD" disabled />
+          <el-date-picker v-model="showDiary.data.diaryDate" type="date" value-format="YYYY-MM-DD" disabled />
           <div
             style="height: 400px; overflow: auto;  margin-top: 10px; margin-bottom: 10px; border-width: 1px; border-style: solid;">
-            <v-md-preview :text="showDiary.diaryMd"></v-md-preview>
+            <v-md-preview :text="showDiary.data.diaryMd"></v-md-preview>
           </div>
-          <span>创建日期：{{ showDiary.createTime }}</span>
+          <span>创建日期：{{ showDiary.data.createTime }}</span>
           &nbsp;&nbsp;
-          <span>最近更新：{{ showDiary.updateTime }}</span>
+          <span>最近更新：{{ showDiary.data.updateTime }}</span>
         </div>
       </el-dialog>
       <el-dialog v-model="uploadDiaryDialog" title="导入日记" width="460px">
         <div>
 
-          <el-form :model="createForm" label-width="120px">
-            
-
-              <el-form-item label="日记日期">
-                <div class="block">
-                  <el-date-picker v-model="createForm.year" type="year" placeholder="Pick a year" />
-                </div>
-              </el-form-item>
-
-              <el-form-item label="上传日记">
-                <el-upload :action="uploadUrl" :headers="header" :show-file-list="false" :data="uploadData"
-                  style="display: inline; margin-left: 12px;" :on-success="zipUploadFun"
-                  :before-upload="beforeUploadFun">
-                  <el-button type="primary">上传日记</el-button>
-                </el-upload>
-              </el-form-item>
-
-              <el-form-item>
-                <el-button type="primary" @click="uploadDiaryFun">创建</el-button>
-                <el-button @click="uploadDiaryDialog = false">取消</el-button>
-              </el-form-item>
+          <el-form :model="importDiaryForm" label-width="120px">
+            <el-form-item label="日记日期">
+              <div class="block">
+                <el-date-picker v-model="importDiaryForm.year" type="year" placeholder="Pick a year"
+                  value-format="YYYY" />
+              </div>
+            </el-form-item>
+            <el-form-item label="上传日记">
+              <el-upload :action="uploadUrl" :headers="header" :show-file-list="false" :data="uploadData"
+                style="display: inline; margin-left: 12px;" :on-success="zipUploadFun" name="files"
+                :before-upload="beforeUploadFun">
+                <el-button type="primary">上传日记</el-button>
+              </el-upload>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="importDiaryFun">创建</el-button>
+              <el-button @click="uploadDiaryDialog = false">取消</el-button>
+            </el-form-item>
           </el-form>
         </div>
       </el-dialog>
@@ -107,7 +104,7 @@
 <script setup lang="ts">
 import { ElMessage } from 'element-plus';
 import { onMounted, ref, reactive } from 'vue';
-import { getDiaryList, saveDiary, updateDiary, deleteDiaryByIds } from "../../../api/article"
+import { getDiaryList, saveDiary, updateDiary, deleteDiaryByIds, importDiary } from "../../../api/article"
 import { uploadUrl, header } from "../../../utils/upload"
 import type { UploadProps } from 'element-plus'
 
@@ -117,15 +114,16 @@ let total = ref<number>(0)
 let diaryList: any = reactive({ data: [] });
 let saveTime = ref("");
 let diary: any = reactive({ data: { id: 0 } });
-let showDiary: any = ref([]);
+let showDiary: any = reactive({ data: [] });
 let deleteBtnVisible = ref(false)
 let saveAndUpdateDiaryDialog = ref(false)
 let showDiaryDialog = ref(false)
 let time: number = 0;
 let saveFlag: boolean = false;
 let uploadDiaryDialog = ref(false);
-let createForm = reactive({
-  year: ""
+let importDiaryForm = reactive({
+  year: 0,
+  filePath: ""
 })
 
 onMounted(() => {
@@ -155,8 +153,8 @@ const selected = (val: any) => {
 }
 
 const showDiaryFun = (diary: any) => {
-  showDiary = [];
-  showDiary = diary;
+  // showDiary = [];
+  showDiary.data = diary;
   showDiaryDialog.value = true;
 }
 
@@ -264,25 +262,62 @@ const changeDiaryFun = () => {
 }
 
 let uploadData: Record<string, any> = {
-  type: "zip"
+  type: "file",
+  fileType: "diary"
 };
 
 const zipUploadFun = (res: any) => {
-  // imageUrl.value = res.result[`${imageName.value}`]
-  // console.log(imageUrl.value)
+  importDiaryForm.filePath = res.result.filePath
+  ElMessage({
+    message: '文件上传成功',
+    type: 'success',
+  })
 }
 
 const beforeUploadFun: UploadProps['beforeUpload'] = (rawFile) => {
-  console.log("rawFile.name: " + rawFile.name)
-  console.log("rawFile.type: " + rawFile.type)
-  if (rawFile.type !== 'application/zip') {
-    ElMessage.error('文件格式错误, 仅支持zip压缩包')
-    return false
+  console.log("rawFile.type: "+ rawFile.type)
+  if (rawFile.type === 'application/zip' || rawFile.type === "application/x-zip-compressed" || rawFile.type === "application/x-zip") {
+    return true
   }
-  return true
+  ElMessage.error('文件格式错误, 仅支持zip压缩包')
+  return false
 }
 
-const uploadDiaryFun = () => {
+const importDiaryFun = () => {
+  console.log(JSON.stringify(importDiaryForm))
+  if (importDiaryForm.year === 0) {
+    ElMessage({
+      message: '请选择日记年份',
+      type: 'info',
+    })
+  } else if (importDiaryForm.filePath === "") {
+    ElMessage({
+      message: '请选择上传日记压缩包文件',
+      type: 'info',
+    })
+  } else {
+    importDiary({
+      year: importDiaryForm.year,
+      filePath: importDiaryForm.filePath
+    }).then((res: any) => {
+      if (res.code === 200) {
+        ElMessage({
+          message: '日记导入成功',
+          type: 'success',
+        })
+      } else {
+        ElMessage({
+          message: '日记导入失败',
+          type: 'error',
+        })
+      }
+      getDiaryListFun(1);
+      importDiaryForm.year = 0
+      importDiaryForm.filePath = ""
+      uploadDiaryDialog.value = false
+    })
+  }
+
 
 }
 

@@ -97,6 +97,14 @@ export const deleteDiaryByIds = (ids: any) => {
     })
 } 
 
+export const importDiary = (param: any) => {
+    return service({
+        method: 'POST',
+        url: "/file/files/diary/import",
+        data: param
+    })
+}
+
 // 文档接口
 export const getDocCatalogList = (param: any) => {
     return service({

@@ -81,13 +81,13 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public Map<String, List<Integer>> saveDiaryList(Map<Integer, Diary> map) {
-        Map<String, List<Integer>> result = new HashMap<>();
-        List<Integer> saveList = new ArrayList<>();
-        List<Integer> updateList = new ArrayList<>();
-        List<Integer> failList = new ArrayList<>();
-        Set<Integer> keySet = map.keySet();
-        for (Integer key : keySet) {
+    public Map<String, List<String>> saveDiaryList(Map<String, Diary> map) {
+        Map<String, List<String>> result = new HashMap<>();
+        List<String> saveList = new ArrayList<>();
+        List<String> updateList = new ArrayList<>();
+        List<String> failList = new ArrayList<>();
+        Set<String> keySet = map.keySet();
+        for (String key : keySet) {
             Diary diary = map.get(key);
             List<Diary> diaries = diaryDAO.selectDiaryByDate(DateUtil.formatDate(diary.getDiaryDate()), diary.getUserId());
             if (diaries.size() == 0) {

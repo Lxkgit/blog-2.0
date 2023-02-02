@@ -3,7 +3,11 @@ package com.blog.common.util;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.json.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.blog.common.entity.file.vo.ImportDiaryVo;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.*;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -12,6 +16,8 @@ import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * @Author: lxk
@@ -19,6 +25,7 @@ import java.util.regex.Pattern;
  * @description: 日期处理工具类
  */
 
+@Slf4j
 public class DateUtil {
 
 
@@ -38,17 +45,18 @@ public class DateUtil {
 
     /**
      * 字符串转成日期、时间格式
+     *
      * @param dateString 日期字符串
-     * @param pattern 格式化类型，默认为yyyy-MM-dd，其它使用DateUtils.xxx
+     * @param pattern    格式化类型，默认为yyyy-MM-dd，其它使用DateUtils.xxx
      * @return
      * @throws ParseException
      */
     public static Date parse(String dateString, String pattern) throws ParseException {
-        if(StringUtils.isBlank(dateString)){
+        if (StringUtils.isBlank(dateString)) {
             return null;
-        }else{
+        } else {
             dateString = dateString.trim();
-            if(StringUtils.isBlank(pattern)){
+            if (StringUtils.isBlank(pattern)) {
                 pattern = DATE;
             }
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -58,32 +66,34 @@ public class DateUtil {
 
     /**
      * 字符串转成日期（yyyy-MM-dd）格式
+     *
      * @param dateString 日期字符串
      * @return Date
      * @throws ParseException
      */
-    public static Date parseDate(String dateString) throws ParseException{
+    public static Date parseDate(String dateString) throws ParseException {
         return parse(dateString, null);
     }
 
     /**
      * 字符串转成时间（yyyy-MM-dd HH:mm:ss）格式
+     *
      * @param dateString 日期字符串
      * @return
      * @throws ParseException
      */
-    public static Date parseDateTime(String dateString) throws ParseException{
-        if(StringUtils.isBlank(dateString)){
+    public static Date parseDateTime(String dateString) throws ParseException {
+        if (StringUtils.isBlank(dateString)) {
             return null;
-        }else{
+        } else {
             dateString = dateString.trim();
-            if(dateString.length() == DATE_TIME_HOURS.length()){
+            if (dateString.length() == DATE_TIME_HOURS.length()) {
                 return parse(dateString, DATE_TIME_HOURS);
-            }else if(dateString.length() == DATE_TIME_MINUTES.length()){
+            } else if (dateString.length() == DATE_TIME_MINUTES.length()) {
                 return parse(dateString, DATE_TIME_MINUTES);
-            }else if(dateString.length() == DATE_TIME_MILLION.length()){
+            } else if (dateString.length() == DATE_TIME_MILLION.length()) {
                 return parse(dateString, DATE_TIME_MILLION);
-            }else{
+            } else {
                 return parse(dateString, DATE_TIME);
             }
         }
@@ -91,15 +101,16 @@ public class DateUtil {
 
     /**
      * 时间转字符串
-     * @param date 时间
+     *
+     * @param date    时间
      * @param pattern 格式化类型，默认为yyyy-MM-dd HH:mm:ss，其它使用DateUtils.xxx
      * @return
      */
-    public static String format(Date date, String pattern){
-        if(date == null){
+    public static String format(Date date, String pattern) {
+        if (date == null) {
             return "";
-        }else{
-            if(StringUtils.isBlank(pattern)){
+        } else {
+            if (StringUtils.isBlank(pattern)) {
                 pattern = DATE_TIME;
             }
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -109,41 +120,44 @@ public class DateUtil {
 
     /**
      * 时间转日期字符串（yyyy-MM-dd）
+     *
      * @param date 时间
      * @return
      */
-    public static String formatDate(Date date){
+    public static String formatDate(Date date) {
         return format(date, DATE);
     }
 
     /**
      * 时间转日期字符串（yyyy-MM-dd HH:mm:ss）
+     *
      * @param date 时间
      * @return
      */
-    public static String formatDateTime(Date date){
+    public static String formatDateTime(Date date) {
         return format(date, null);
     }
 
     /**
      * 将日期格式转换成时间（yyyy-MM-dd HH:mm:ss）格式
+     *
      * @param dateString 日期字符串
      * @return
      */
-    public static String dateToDateTime(String dateString){
-        if(StringUtils.isBlank(dateString)){
+    public static String dateToDateTime(String dateString) {
+        if (StringUtils.isBlank(dateString)) {
             return "";
-        }else{
+        } else {
             dateString = dateString.trim();
-            if(dateString.length() == DATE.length()){
+            if (dateString.length() == DATE.length()) {
                 return dateString + ZERO_TIME;
-            }else if(dateString.length() == DATE_TIME_HOURS.length()){
+            } else if (dateString.length() == DATE_TIME_HOURS.length()) {
                 return dateString + ZERO_TIME_WITHOUT_HOURS;
-            }else if(dateString.length() == DATE_TIME_MINUTES.length()){
+            } else if (dateString.length() == DATE_TIME_MINUTES.length()) {
                 return dateString + ZERO_TIME_WITHOUT_MINUTES;
-            }else if(dateString.length() == DATE_TIME_MILLION.length()){
+            } else if (dateString.length() == DATE_TIME_MILLION.length()) {
                 return dateString.substring(0, DATE_TIME.length());
-            }else{
+            } else {
                 return dateString;
             }
         }
@@ -151,13 +165,14 @@ public class DateUtil {
 
     /**
      * 将日期格式转换成时间（时分秒毫秒）格式
+     *
      * @param dateString 日期字符串
      * @return
      */
-    public static String dateToDateTimeMillion(String dateString){
-        if(StringUtils.isBlank(dateString)){
+    public static String dateToDateTimeMillion(String dateString) {
+        if (StringUtils.isBlank(dateString)) {
             return "";
-        }else{
+        } else {
             dateString = dateString.trim();
             return dateString + ZERO_TIME_MILLION;
         }
@@ -166,17 +181,18 @@ public class DateUtil {
 
     /**
      * 将时间字（yyyy-MM-dd HH:mm:ss）符串转换成日期（yyyy-MM-dd）格式
+     *
      * @param dateTimeString 时间字符串
      * @return String
      */
-    public static String dateTimeToDate(String dateTimeString){
-        if(StringUtils.isBlank(dateTimeString)){
+    public static String dateTimeToDate(String dateTimeString) {
+        if (StringUtils.isBlank(dateTimeString)) {
             return "";
-        }else{
+        } else {
             dateTimeString = dateTimeString.trim();
-            if(dateTimeString.length() >= DATE.length()){
+            if (dateTimeString.length() >= DATE.length()) {
                 return dateTimeString.substring(0, DATE.length());
-            }else{
+            } else {
                 return dateTimeString;
             }
         }
@@ -184,69 +200,76 @@ public class DateUtil {
 
     /**
      * 将时间（yyyy-MM-dd HH:mm:ss）转换成日期（yyyy-MM-dd）
+     *
      * @param dateTime 时间
      * @return Date
      * @throws ParseException
      */
-    public static Date dateTimeToDate(Date dateTime) throws ParseException{
-        if(dateTime == null){
+    public static Date dateTimeToDate(Date dateTime) throws ParseException {
+        if (dateTime == null) {
             return null;
-        }else{
+        } else {
             return parseDate(formatDate(dateTime));
         }
     }
 
     /**
      * 获取当前时间（yyyy-MM-dd HH:mm:ss）
+     *
      * @return Date
      */
-    public static Date now(){
+    public static Date now() {
         return new Date();
     }
 
     /**
      * 获取当前时间（yyyy-MM-dd HH:mm:ss）
+     *
      * @return Date
      */
-    public static Date dateTime(){
+    public static Date dateTime() {
         return new Date();
     }
 
     /**
      * 获取当前时间（yyyy-MM-dd HH:mm:ss）
+     *
      * @return Date
      */
-    public static Date getDateTime(){
+    public static Date getDateTime() {
         return dateTime();
     }
 
     /**
      * 获取当前日期（yyyy-MM-dd）
+     *
      * @return Date
      * @throws ParseException
      */
-    public static Date date() throws ParseException{
+    public static Date date() throws ParseException {
         return dateTimeToDate(new Date());
     }
 
     /**
      * 获取当前日期（yyyy-MM-dd）
+     *
      * @return Date
      * @throws ParseException
      */
-    public static Date getDate() throws ParseException{
+    public static Date getDate() throws ParseException {
         return date();
     }
 
     /**
      * 日期加减天数
+     *
      * @param date 日期，为空时默认当前时间，包括时分秒
      * @param days 加减的天数
      * @return
      * @throws ParseException
      */
-    public static Date dateAdd(Date date, int days) throws ParseException{
-        if(date == null){
+    public static Date dateAdd(Date date, int days) throws ParseException {
+        if (date == null) {
             date = new Date();
         }
         Calendar cal = Calendar.getInstance();
@@ -257,13 +280,14 @@ public class DateUtil {
 
     /**
      * 日期加减多少月
-     * @param date 日期，为空时默认当前时间，包括时分秒
+     *
+     * @param date   日期，为空时默认当前时间，包括时分秒
      * @param months 加减的月数
      * @return
      * @throws ParseException
      */
-    public static Date monthAdd(Date date, int months) throws ParseException{
-        if(date == null){
+    public static Date monthAdd(Date date, int months) throws ParseException {
+        if (date == null) {
             date = new Date();
         }
         Calendar cal = Calendar.getInstance();
@@ -276,12 +300,13 @@ public class DateUtil {
     /**
      * 时间比较
      * <p>如果date大于compareDate返回1，小于返回-1，相等返回0</p>
+     *
      * @param date
      * @param compareDate
      * @return
      * @throws ParseException
      */
-    public static int dateCompare(Date date, Date compareDate) throws ParseException{
+    public static int dateCompare(Date date, Date compareDate) throws ParseException {
         Calendar cal = Calendar.getInstance();
         Calendar compareCal = Calendar.getInstance();
         cal.setTime(date);
@@ -292,27 +317,44 @@ public class DateUtil {
 
     /**
      * 获取两个日期相差的天数，不包含今天
+     *
      * @param startDate
      * @param endDate
      * @return
      * @throws ParseException
      */
-    public static int dateBetween(Date startDate, Date endDate) throws ParseException{
+    public static int dateBetween(Date startDate, Date endDate) throws ParseException {
         Date dateStart = parse(format(startDate, DATE), DATE);
         Date dateEnd = parse(format(endDate, DATE), DATE);
-        return (int)((dateEnd.getTime() - dateStart.getTime()) / 1000/60/60/24);
+        return (int) ((dateEnd.getTime() - dateStart.getTime()) / 1000 / 60 / 60 / 24);
     }
 
 
     /**
      * 获取两个日期相差的天数，包含今天
+     *
      * @param startDate
      * @param endDate
      * @return
      * @throws ParseException
      */
-    public static int dateBetweenIncludeToday(Date startDate, Date endDate) throws ParseException{
+    public static int dateBetweenIncludeToday(Date startDate, Date endDate) throws ParseException {
         return dateBetween(startDate, endDate) + 1;
+    }
+
+    /**
+     * 时间戳转时间
+     * @param timeStamp long
+     * @return yyyy-MM-dd HH:mm:ss (字符串)
+     */
+    public static Date timeStampToDateTime(long timeStamp) {
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            return parseDateTime(sdf1.format(timeStamp));
+        } catch (Exception e) {
+            log.error("日期格式转换错误，返回当前时间 " + e.getMessage(), e);
+        }
+        return new Date();
     }
 
 
@@ -440,14 +482,14 @@ public class DateUtil {
 //        String format = sdf1.format(System.currentTimeMillis());
 //        System.out.println("format: " + format + "l: " + System.currentTimeMillis());
 
-        // 时间戳转时间
-        String strDate = "1673332343000";
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        long l = new Long(strDate);
-        System.out.println("l: " + l);
-        Date date = new Date(l);
-        System.out.println("date: " + date);
-        System.out.println("date: " + sdf2.format(date));
+//        // 时间戳转时间
+//        String strDate = "1673332343000";
+//        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        long l = new Long(strDate);
+//        System.out.println("l: " + l);
+//        Date date = new Date(l);
+//        System.out.println("date: " + date);
+//        System.out.println("date: " + sdf2.format(date));
 
 //        // 时间转时间戳
 //        SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -455,6 +497,10 @@ public class DateUtil {
 //        long ts = date.getTime();
 //        System.out.println("long: " + ts);
 
+//        Date date = new Date();
+//        String formatDate = DateUtil.formatDateTime(date).replaceFirst(" ","_");
+//        System.out.println(formatDate + "---");
+//        System.out.println(formatDate.length());
     }
 
     /**
@@ -462,29 +508,30 @@ public class DateUtil {
      * 实际十六进制卡号 E5E5E03D
      * 转换后的卡号 3DE0E5E5 （定长8位）
      * 返回卡号不为十位不做处理
+     *
      * @param cardNo
      * @return
      */
     private static String updateCardNo(String cardNo) {
         if (cardNo.length() == 10) {
             String oldCard = Long.toHexString(Long.parseLong(cardNo));
-            while (oldCard.length()<8) {
+            while (oldCard.length() < 8) {
                 oldCard = "0" + oldCard;
             }
             char[] chars = oldCard.toCharArray();
             char ch;
-            ch=chars[0];
+            ch = chars[0];
             chars[0] = chars[6];
             chars[6] = ch;
-            ch=chars[1];
+            ch = chars[1];
             chars[1] = chars[7];
             chars[7] = ch;
-            ch=chars[2];
-            chars[2]=chars[4];
-            chars[4]=ch;
-            ch=chars[3];
-            chars[3]=chars[5];
-            chars[5]=ch;
+            ch = chars[2];
+            chars[2] = chars[4];
+            chars[4] = ch;
+            ch = chars[3];
+            chars[3] = chars[5];
+            chars[5] = ch;
             return (new String(chars)).toUpperCase();
         }
         return cardNo;

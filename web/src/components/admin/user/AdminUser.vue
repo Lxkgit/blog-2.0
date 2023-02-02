@@ -20,20 +20,20 @@
         </el-table-column>
         <el-table-column prop="nickname" label="昵称" width="150" />
         <el-table-column prop="email" label="邮箱地址" width="180" />
-        <el-table-column prop="sysRole" label="角色" width="240" >
+        <el-table-column prop="sysRole" label="角色" width="240">
           <template #default="scope">
             <el-tag v-for="role in scope.row.sysRole" style="margin-right: 2px; margin-bottom: 2px;">
-                {{ role.roleName }}
+              {{ role.roleName }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="status" label="账号状态" width="100">
           <template #default="scope">
             <el-tag v-if="(scope.row.status === 1)" class="ml-2" type="success">{{
-                userStatus(scope.row.status)
+              userStatus(scope.row.status)
             }}</el-tag>
             <el-tag v-else class="ml-2" type="info">{{
-                userStatus(scope.row.status)
+              userStatus(scope.row.status)
             }}</el-tag>
           </template>
         </el-table-column>
@@ -84,10 +84,10 @@
         </el-form-item>
         <el-form-item label="账号状态：" label-width="100">
           <el-tag v-if="(userDate.data.status === 1)" class="ml-2" type="success">{{
-              userStatus(userDate.data.status)
+            userStatus(userDate.data.status)
           }}</el-tag>
           <el-tag v-else class="ml-2" type="info">{{
-              userStatus(userDate.data.status)
+            userStatus(userDate.data.status)
           }}</el-tag>
         </el-form-item>
         <el-form-item label="最近登录" label-width="100">
@@ -133,7 +133,8 @@ let imageName = ref('')
 let imageUrl = ref('')
 
 let uploadData: Record<string, any> = {
-  type: "img"
+  type: "img",
+  fileType: "head"
 };
 
 const beforeUploadFun: UploadProps['beforeUpload'] = (rawFile) => {
@@ -185,7 +186,11 @@ const loadUserData = (data: any) => {
 }
 
 const imgUploadFun = (res: any) => {
-  imageUrl.value = res.result[`${imageName.value}`]
+  imageUrl.value = res.result.fileUrl
+  ElMessage({
+    message: '用户头像上传成功',
+    type: 'success',
+  })
   console.log(imageUrl.value)
 }
 

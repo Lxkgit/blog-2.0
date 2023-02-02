@@ -62,7 +62,7 @@
         </trim>
     </insert>
 
-    <update id="updateFileUploadState" parameterType="com.blog.common.entity.file.UploadLog">
+    <update id="updateFileUpload" parameterType="com.blog.common.entity.file.UploadLog">
         update upload_log
         <set>
             <if test="uploadState != null">

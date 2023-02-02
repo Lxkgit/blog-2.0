@@ -16,6 +16,6 @@ public class UploadVo {
 
         MultipartFile[] files;
         String type;
-        String imgType;
+        String fileType;
         Integer year;
 }

@@ -3,7 +3,7 @@
 # 文件下载服务器ip
 serviceIp="http://121.4.68.246/file"
 # MySQL登陆密码
-mysqlPassword="root"
+mysqlPassword="MySql@Admin123*."
 # redis登陆密码
 redisPassword="redis-960"
 
@@ -229,6 +229,10 @@ buildMysql() {
 	echo "max_connect_errors = 10"  >> /etc/my.cnf
 	echo "log_error = /opt/mysql/logs/mysql_5_7_37.err"  >> /etc/my.cnf
 	echo "log_bin = /opt/mysql/binlog/mysql-bin"  >> /etc/my.cnf
+	echo "max_allowed_packet = 10M"  >> /etc/my.cnf
+	echo "[mysqldump]"  >> /etc/my.cnf
+	echo "user=root"  >> /etc/my.cnf
+	echo "password=${mysqlPassword}"  >> /etc/my.cnf
 	
 	chown  -R  mysql:mysql  /opt/mysql/
 	chown mysql:mysql  /etc/my.cnf

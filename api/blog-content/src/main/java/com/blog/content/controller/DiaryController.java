@@ -75,11 +75,6 @@ public class DiaryController {
         return ResultFactory.buildFailResult("日记保存失败 ... ");
     }
 
-    @PostMapping("/save/list")
-    Result saveDiaryList(@RequestBody Map<Integer, Diary> map){
-        return ResultFactory.buildSuccessResult(diaryService.saveDiaryList(map));
-    }
-
     @PostMapping("/update")
     public Result updateDiary(@RequestBody Diary diary){
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
@@ -111,5 +106,15 @@ public class DiaryController {
             log.warn(Constant.JWTError, e);
         }
         return ResultFactory.buildFailResult("日记删除失败 ... ");
+    }
+
+    /**
+     * 内部日记上传接口
+     * @param map
+     * @return
+     */
+    @PostMapping("/save/list")
+    Map<String, List<String>> saveDiaryList(@RequestBody Map<String, Diary> map){
+        return diaryService.saveDiaryList(map);
     }
 }

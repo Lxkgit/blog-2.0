@@ -14,6 +14,5 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UploadLogDAO {
     int saveFileUpload(UploadLog uploadLog);
-    int updateFileUploadState(@Param("id") Integer id, @Param("userId") Integer userId,
-                              @Param("uploadState") Integer uploadState, @Param("uploadMsg") String uploadMsg);
+    int updateFileUpload(UploadLog uploadLog);
 }

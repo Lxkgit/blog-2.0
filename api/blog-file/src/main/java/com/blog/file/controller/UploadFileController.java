@@ -4,14 +4,17 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.blog.common.entity.file.UserInfo;
+import com.blog.common.entity.file.vo.ImportDiaryVo;
 import com.blog.common.entity.file.vo.UploadVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.common.util.JwtUtil;
+import com.blog.file.service.ImportService;
 import com.blog.file.service.UploadFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,6 +46,9 @@ public class UploadFileController {
     @Autowired
     private UploadFileService fileUploadService;
 
+    @Autowired
+    private ImportService importService;
+
     @PostMapping("/upload")
     public Result uploadFile(UploadVo uploadVo, HttpServletRequest request) {
         if (uploadVo.getFiles() == null || uploadVo.getFiles().length == 0) {
@@ -54,19 +60,28 @@ public class UploadFileController {
         }
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
-            if (uploadVo.getType().equals("diary")) {
-                if (uploadVo.getYear() == -1) {
-                    return ResultFactory.buildFailResult("文件上传类型为type时year为必填字段 ... ");
-                }
-                return fileUploadService.uploadDiary(uploadVo.getFiles(), uploadVo.getYear(), blogUser.getId());
+            if (uploadVo.getType().equals("file")) {
+                return fileUploadService.uploadFile(uploadVo.getFiles(), blogUser.getId(), uploadVo.getFileType());
             }
             if (uploadVo.getType().equals("img")) {
-                return fileUploadService.uploadImg(uploadVo.getFiles(), blogUser.getId(), uploadVo.getImgType());
+                return fileUploadService.uploadImg(uploadVo.getFiles(), blogUser.getId(), uploadVo.getFileType());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return ResultFactory.buildFailResult("文件上传失败 ... ");
+    }
+
+    @PostMapping("/diary/import")
+    public Result importDiary(@RequestHeader HttpHeaders headers,@RequestBody ImportDiaryVo importDiaryVo) {
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        importDiaryVo.setUserId(blogUser.getId());
+        if (importService.importDiary(importDiaryVo)){
+            return ResultFactory.buildSuccessResult();
+        } else {
+            return ResultFactory.buildFailResult("部分日记上传失败");
+        }
     }
 
     @GetMapping("/export")

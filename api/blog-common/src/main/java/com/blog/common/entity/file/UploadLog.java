@@ -32,4 +32,11 @@ public class UploadLog {
         this.uploadMsg = uploadMsg;
         this.uploadTime = uploadTime;
     }
+
+    public UploadLog(int id, int userId, int uploadState, String uploadMsg) {
+        this.id = id;
+        this.userId = userId;
+        this.uploadState = uploadState;
+        this.uploadMsg = uploadMsg;
+    }
 }
