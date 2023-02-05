@@ -76,7 +76,7 @@
         </el-form-item>
         <el-form-item label="角色：" label-width="100">
           <el-select v-model="userDate.data.roleIds" multiple collapse-tags placeholder="选择角色" style="width: 230px;">
-            <el-option v-for="role in roleList.data" :label="role.label" :value="role.id" />
+            <el-option v-for="role in roleList.data" :key="role.id" :label="role.label" :value="role.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="邮箱：" label-width="100">

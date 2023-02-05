@@ -487,3 +487,6 @@ main
 
 # DEBUG
 # java -Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=y -jar test.jar
+
+# MySQL单次上传数据量查看
+# show VARIABLES like '%max_allowed_packet%';

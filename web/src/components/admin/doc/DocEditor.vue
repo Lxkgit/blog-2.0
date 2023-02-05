@@ -79,7 +79,7 @@ const uploadImageFun = (event: any, insertImage: any, files: any) => {
     const formData = new FormData();
     formData.append("files", files[i]);
     formData.append("type", "img");
-    formData.append("imgType", "doc");
+    formData.append("fileType", "doc");
     upload(
       formData
     ).then((res: any) => {

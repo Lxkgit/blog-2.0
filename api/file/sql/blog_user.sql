@@ -11,7 +11,7 @@
  Target Server Version : 50651
  File Encoding         : 65001
 
- Date: 02/02/2023 21:37:28
+ Date: 02/02/2023 22:24:48
 */
 
 SET NAMES utf8mb4;
@@ -166,5 +166,6 @@ CREATE TABLE `sys_user`  (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'gszero', '$2a$10$xGoFa7bqOTurkUvy9roreeON0j/CvXysaXauswXf5RHol/pMCSuGy', 'GSZero', 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg', '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 02:02:03');
+INSERT INTO `sys_user` VALUES (2, 'admin', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管3', 'D:/img/2022-12-20_fisSb_Snipaste_2022-12-19_11-38-40.jpg', '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
 
 SET FOREIGN_KEY_CHECKS = 1;
