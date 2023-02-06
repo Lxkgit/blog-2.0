@@ -90,7 +90,7 @@ public class UploadFileServiceImpl implements UploadFileService {
                     }
                     String url;
                     if (system.equals("linux")) {
-                        url = "http://" + hostIp + urlPath + typePath + imgPath + "/" + newFileName;
+                        url = "http://" + serviceIp + urlPath + typePath + imgPath + "/" + newFileName;
                     } else {
                         url = urlPath + typePath + imgPath + "/" + newFileName;
                     }
@@ -163,7 +163,8 @@ public class UploadFileServiceImpl implements UploadFileService {
                             }
                             String url;
                             if (system.equals("linux")) {
-                                url = "http://" + hostIp + urlPath + typePath + imgPath + "/" + newFileName;
+                                url = "http://" + serviceIp + urlPath + typePath + imgPath + "/" + newFileName;
+                                log.info("serviceIp: {}, url: {}", serviceIp, url);
                             } else {
                                 url = urlPath + typePath + imgPath + "/" + newFileName;
                             }
