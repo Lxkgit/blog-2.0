@@ -30,7 +30,6 @@ import { useRouter } from "vue-router";
 import { docStore } from "../../../store/doc";
 import {
   selectDocContent,
-  saveDocContent,
   updateDocContent,
   upload,
 } from "../../../api/article";
@@ -89,7 +88,7 @@ const uploadImageFun = (event: any, insertImage: any, files: any) => {
           type: 'success',
         })
         insertImage({
-          url: res.result.img,
+          url: res.result.fileUrl,
           desc: files[i].name,
         });
       }

@@ -75,13 +75,9 @@ public class DocController {
     }
 
     @PostMapping("/update")
-    public Result updateDocCatalog(@RequestBody DocCatalog catalog) {
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
+    public Result updateDocCatalog(@RequestHeader HttpHeaders headers, @RequestBody DocCatalog catalog) {
         try {
+            String token = String.valueOf(headers.get("Authorization"));
             BlogUser blogUser = JwtUtil.getUserInfo(token);
             catalog.setUserId(blogUser.getId());
             return ResultFactory.buildSuccessResult(docCatalogService.updateDocCatalog(catalog));

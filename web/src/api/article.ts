@@ -130,6 +130,14 @@ export const createCatalog = (catalog: any) => {
     })
 }
 
+export const updateCatalog = (catalog: any) => {
+    return service({
+        method: 'POST',
+        url: "/content/doc/catalog/update",
+        data: catalog
+    })
+}
+
 export const selectDocContent = (id: any) => {
     return service({
         method: 'GET',

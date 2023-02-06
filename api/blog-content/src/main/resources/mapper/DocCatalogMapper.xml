@@ -7,6 +7,7 @@
         <id column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <id column="doc_name" property="docName" jdbcType="VARCHAR"/>
         <id column="doc_type" property="docType" jdbcType="VARCHAR"/>
+        <id column="sort" property="sort" jdbcType="INTEGER"/>
         <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -22,7 +23,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id, parent_id, doc_name, doc_type, create_time, update_time
+        id, user_id, parent_id, doc_name, doc_type, sort, create_time, update_time
     </sql>
 
     <select id="selectCountByParentId" resultType="java.lang.Integer">
@@ -80,6 +81,9 @@
             <if test="docType !=null and docType !=''">
                 doc_type,
             </if>
+            <if test="sort !=null">
+                sort,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId !=null">
@@ -93,6 +97,9 @@
             </if>
             <if test="docType !=null and docType !=''">
                 #{doc_type,jdbcType=VARCHAR},
+            </if>
+            <if test="sort !=null">
+                #{sort,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -108,6 +115,9 @@
             </if>
             <if test="parentId !=null and parentId !=''">
                 parent_id = #{parentId},
+            </if>
+            <if test="sort !=null">
+                sort = #{sort},
             </if>
         </set>
         <where>

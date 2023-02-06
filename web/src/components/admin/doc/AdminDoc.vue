@@ -62,6 +62,9 @@
                                 :props="{ label: 'docName', children: 'list', isLeaf: 'isLeaf' }" lazy :load="loadTree"
                                 :cache-data="updateForm.parentId" check-strictly />
                         </el-form-item>
+                        <el-form-item label="文档排序：">
+                            <el-input v-model="updateForm.sort" style="width: 214px;" />
+                        </el-form-item>
                         <el-form-item label="创建时间：">
                             <el-date-picker v-model="updateForm.createTime" disabled type="datetime" />
                         </el-form-item>
@@ -77,7 +80,7 @@
             </el-dialog>
             <el-dialog v-model="showInsertDocDialog" title="创建文档" width="460px">
                 <div>
-                    <el-form :model="createForm" label-width="120px">
+                    <el-form :model="createForm" label-width="120px" :rules="createFormRules">
                         <el-form-item label="文档名称：">
                             <el-input v-model="createForm.docName" style="width: 214px;" />
                         </el-form-item>
@@ -92,6 +95,10 @@
                                 :props="{ label: 'docName', children: 'list', isLeaf: 'isLeaf' }" lazy :load="loadTree"
                                 check-strictly clearable />
                         </el-form-item>
+                        <el-form-item label="文档排序：" prop="sort">
+                            <el-input v-model="createForm.sort" style="width: 214px;"
+                                placeholder="1-3000优先级下降，文章+100" />
+                        </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="createCatalogFun">创建</el-button>
                             <el-button @click="showInsertDocDialog = false">取消</el-button>
@@ -105,8 +112,9 @@
 
 <script setup lang="ts">
 import { ElMessage } from 'element-plus';
-import { getDocCatalogList, getDocCatalogListById, createCatalog, deleteDocByIds } from "../../../api/article"
+import { getDocCatalogList, getDocCatalogListById, createCatalog, updateCatalog, deleteDocByIds } from "../../../api/article"
 import { ref, reactive, onMounted } from 'vue';
+import type { FormInstance, FormRules } from 'element-plus'
 import { useRouter } from 'vue-router';
 import { docStore } from "../../../store/doc";
 import mixin from "../../../mixins/doc"
@@ -125,7 +133,16 @@ const store = docStore();
 let createForm = reactive({
     parentId: '',
     docName: '',
-    docType: ''
+    docType: '',
+    sort: null,
+})
+
+const createFormRules = reactive<FormRules>({
+    // sort: [
+    //     { required: true, message: '排序值不为空'},
+    //     { type: 'number', message: 'sort必须为数字值'},
+    //     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/, message: '取值范围是1-3000', trigger: 'blur' },
+    // ],
 })
 
 let updateForm: any = reactive({
@@ -134,6 +151,7 @@ let updateForm: any = reactive({
     parentId: 0,
     docName: "",
     docType: "",
+    sort: 0,
     createTime: "",
     updateTime: "",
 })
@@ -201,6 +219,21 @@ const editCatalogFun = (row: any) => {
 
 const updateCatalogFun = () => {
     showUpdateDocDialog.value = false
+    updateCatalog({
+        id: updateForm.id,
+        docName: updateForm.docName,
+        docType: updateForm.docType,
+        parentId: updateForm.parentId,
+        sort: updateForm.sort
+    }).then((res: any) => {
+        if (res.code === 200) {
+            ElMessage({
+                message: '文档修改成功',
+                type: 'success',
+            })
+            window.location.reload()
+        }
+    })
 }
 
 const createCatalogOrDocFun = () => {
@@ -212,7 +245,8 @@ const createCatalogFun = () => {
     createCatalog({
         parentId: createForm.parentId === "" ? 0 : createForm.parentId,
         docName: createForm.docName,
-        docType: createForm.docType
+        docType: createForm.docType,
+        sort: createForm.sort
     }).then((res: any) => {
         if (res.code === 200) {
             ElMessage({

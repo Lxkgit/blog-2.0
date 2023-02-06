@@ -54,6 +54,7 @@ public class DocCatalogServiceImpl implements DocCatalogService {
             docCatalogVoList.add(docCatalogVo);
         }
         try {
+            Collections.sort(docCatalogVoList);
             myPage = MyPageUtils.pageUtil(docCatalogVoList, docCatalogPage.getPageNum(), docCatalogPage.getPageSize(), (int) docCatalogPage.getTotal());
         } catch (Exception e) {
             log.info("分页查询文档目录报错, param:{}", JSON.toJSONString(docCatalogVoParam), e);
@@ -72,6 +73,7 @@ public class DocCatalogServiceImpl implements DocCatalogService {
             docCatalogVo.setLeaf(!docCatalogVo.getDocType().equals("catalog"));
             docCatalogVo.setHasChildren(docCatalogVo.getDocType().equals("catalog"));
         });
+        Collections.sort(docCatalogVoList);
         return docCatalogVoList;
     }
 

@@ -228,7 +228,7 @@ const uploadImageFun = (event: any, insertImage: any, files: any) => {
       if (res.code === 200) {
         console.log( JSON.stringify(res) + "++")
         insertImage({
-          url: res.result.img,
+          url: res.result.fileUrl,
           desc: files[i].name,
         });
       }
