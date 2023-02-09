@@ -16,9 +16,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-02-05【bug修复】：修复前端图片上传为使用url的bug，新增文档排序功能">
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-02-06【bug修复】：修复图片上传服务器返回ip错误问题">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/UploadFileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/UploadFileServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -306,14 +306,8 @@
       <workItem from="1675567480131" duration="1497000" />
       <workItem from="1675569039851" duration="1546000" />
       <workItem from="1675574223202" duration="1059000" />
-      <workItem from="1675690153605" duration="2458000" />
-    </task>
-    <task id="LOCAL-00019" summary="22-07-09: 文件中心新增excel表格导出功能">
-      <created>1657329347078</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1657329347078</updated>
+      <workItem from="1675690153605" duration="2539000" />
+      <workItem from="1675943556496" duration="41000" />
     </task>
     <task id="LOCAL-00020" summary="22-07-10【功能新增】： 新增日记导入功能，上传文件格式为txt格式">
       <created>1657429075080</created>
@@ -651,7 +645,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675690659001</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="23-02-06【bug修复】：修复图片上传服务器返回ip错误问题">
+      <created>1675693150645</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1675693150646</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -682,7 +683,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="22-11-07【功能修改】：修改id字段类型" />
     <MESSAGE value="22-11-12【功能修改】：修改博客部署脚本，新增压缩包安装脚本" />
     <MESSAGE value="22-11-13【功能修改】：博客安装包部署脚本修改完成" />
     <MESSAGE value="22-12-03【功能修改】：解决前端打包问题" />
@@ -707,35 +707,36 @@
     <MESSAGE value="23-02-05【功能新增】：修复文档、文章图片上传bug" />
     <MESSAGE value="23-02-05【bug修复】：修复文档、文章图片上传bug" />
     <MESSAGE value="23-02-05【bug修复】：修复前端图片上传为使用url的bug，新增文档排序功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="23-02-05【bug修复】：修复前端图片上传为使用url的bug，新增文档排序功能" />
+    <MESSAGE value="23-02-06【bug修复】：修复图片上传服务器返回ip错误问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="23-02-06【bug修复】：修复图片上传服务器返回ip错误问题" />
   </component>
   <component name="WindowStateProjectService">
     <state x="564" y="228" width="875" height="562" key="#Notifications" timestamp="1667788409366">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="564" y="228" width="875" height="562" key="#Notifications/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1667788409366" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1675692020960">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1675693175987">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1675692020960" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1675693175987" />
     <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1675691749296" />
     <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1674827590656" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1675692020960">
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1675693175987">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1675692020960" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1675693175987" />
     <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1675691749296" />
     <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1674827590656" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1675692020960">
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1675693175987">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1675692020960" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1675693175987" />
     <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1675691749296" />
     <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1674827590656" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1675692020960">
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1675693175987">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1675692020960" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1675693175987" />
     <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1675691749296" />
     <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1674827590656" />
     <state width="1603" height="329" key="GridCell.Tab.1.bottom" timestamp="1675569000370">
@@ -790,10 +791,10 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2381" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1675690442438" />
-    <state x="2315" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1675690666803">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1675693156572">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1675570632792" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1675693156572" />
     <state x="2315" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1675690666803" />
     <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1674624375042" />
   </component>
