@@ -12,6 +12,7 @@ import com.blog.common.result.ResultFactory;
 import com.blog.common.util.JwtUtil;
 import com.blog.file.service.ImportService;
 import com.blog.file.service.UploadFileService;
+import com.netflix.ribbon.proxy.annotation.Http;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -50,14 +51,11 @@ public class UploadFileController {
     private ImportService importService;
 
     @PostMapping("/upload")
-    public Result uploadFile(UploadVo uploadVo, HttpServletRequest request) {
+    public Result uploadFile(@RequestHeader HttpHeaders headers, UploadVo uploadVo) {
         if (uploadVo.getFiles() == null || uploadVo.getFiles().length == 0) {
             return ResultFactory.buildFailResult("文件上传失败 ... ");
         }
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
+        String token = String.valueOf(headers.get("Authorization"));
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
             if (uploadVo.getType().equals("file")) {

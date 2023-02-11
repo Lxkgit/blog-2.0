@@ -10,6 +10,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 /**
  * @Author: lxk
@@ -21,11 +23,18 @@ import javax.servlet.http.HttpServletRequest;
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+    private static final String[] permitUrl = {
+            "/gitee/**",
+    };
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.requestMatcher(new OAuth2RequestedMatcher()).authorizeRequests()
-                .antMatchers(PermitUrl.permitAllUrl()).permitAll() // 放开权限的url
-                .anyRequest().authenticated();
+        http.csrf().disable().exceptionHandling()
+                .authenticationEntryPoint(
+                        (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                .and().authorizeRequests()
+                .antMatchers(PermitUrl.permitAllUrl(permitUrl)).permitAll() // 放开权限的url
+                .anyRequest().authenticated().and().httpBasic();
     }
 
     /**

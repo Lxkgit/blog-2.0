@@ -27,8 +27,15 @@
                         </div> 
                     </el-form-item>
                 </el-form>
+                <el-button> 
+                    <a href="https://gitee.com/oauth/authorize?client_id=b56892ea476c32e017d279841a6422bd1dce3c5d87985588c206075f8e55e0a4&redirect_uri=https://127.0.0.1:9527/auth/gitee/callback&response_type=code&state=1">Gitee登录</a>
+                </el-button>
+                <!-- <el-button> 
+                    <a href="https://gitee.com/oauth/authorize?client_id=b56892ea476c32e017d279841a6422bd1dce3c5d87985588c206075f8e55e0a4&redirect_uri=https://127.0.0.1:9527/auth/gitee/callback&response_type=code&state=1">Gitee登录</a>
+                </el-button> -->
             </div>
         </div>
+        <!-- lxkwxkfpt@* -->
     </div>
 </template>
 

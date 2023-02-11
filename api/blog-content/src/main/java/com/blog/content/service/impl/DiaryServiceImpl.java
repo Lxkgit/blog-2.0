@@ -40,7 +40,7 @@ public class DiaryServiceImpl implements DiaryService {
         String dateMonth = diaryVo.getDateMonth();
         if (diaryVo.getPageNum() != null && diaryVo.getPageSize() != null) {
             PageHelper.startPage(diaryVo.getPageNum(), diaryVo.getPageSize());
-            Page<Diary> articlePage = (Page<Diary>) diaryDAO.selectDiaryList();
+            Page<Diary> articlePage = (Page<Diary>) diaryDAO.selectDiaryList(userId);
             try {
                 myPage = MyPageUtils.pageUtil(articlePage, articlePage.getPageNum(), articlePage.getPageSize(), (int) articlePage.getTotal());
             } catch (Exception e) {

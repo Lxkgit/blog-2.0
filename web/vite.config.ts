@@ -4,7 +4,10 @@ import path from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import fs from 'fs'
+import os from 'os'
 
+const homedir = os.homedir()
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -22,11 +25,15 @@ export default defineConfig({
   server:{
 		proxy:{
 			'/api':{
-          target: 'http://127.0.0.1:9527',	//实际请求地址
+          target: 'https://127.0.0.1:9527',	//实际请求地址
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
+          secure: false,
+          rewrite: (path) => path.replace(/^\/api/, ''),
       }
-		}
+		},
+    https: {
+      // cert: fs.readFileSync(path.resolve(`./keystore.p12`))
+    }
 	},
   resolve: {
     alias: {

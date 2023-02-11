@@ -24,6 +24,9 @@
     <select id="selectDiaryList" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from blog_diary
+        <where>
+            user_id = #{userId}
+        </where>
         order by diary_date desc
     </select>
 
