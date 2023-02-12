@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 本机MySQL
+ Source Server         : 本机
  Source Server Type    : MySQL
- Source Server Version : 50721
+ Source Server Version : 50651
  Source Host           : localhost:3306
  Source Schema         : nacos
 
  Target Server Type    : MySQL
- Target Server Version : 50721
+ Target Server Version : 50651
  File Encoding         : 65001
 
- Date: 10/02/2023 17:31:54
+ Date: 12/02/2023 17:09:33
 */
 
 SET NAMES utf8mb4;
@@ -27,8 +27,8 @@ CREATE TABLE `config_info`  (
   `group_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `content` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'content',
   `md5` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'md5',
-  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   `src_user` text CHARACTER SET utf8 COLLATE utf8_bin NULL COMMENT 'source user',
   `src_ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'source ip',
   `app_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -41,12 +41,12 @@ CREATE TABLE `config_info`  (
   `encrypted_data_key` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '秘钥',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_configinfo_datagrouptenant`(`data_id`, `group_id`, `tenant_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_info' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_info' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of config_info
 -- ----------------------------
-INSERT INTO `config_info` VALUES (26, 'blog-auth-dev.yaml', 'DEFAULT_GROUP', 'server:\n  port: 9200\n  servlet:\n    context-path: /auth\n  ssl:\n    # enabled: true  #开启ssl验证\n    enabled: false  #开启ssl验证\n    key-store: classpath:keystore.p12 #证书文件位置\n    key-store-password: gszero  #上面的密钥口令\n    key-store-type: PKCS12   #storetype 上面的类型\n    key-alias: tomcat    #tomcat上面的alias  别名\n\nspring:\n  application:\n    name: blog-auth\n  cloud:\n    nacos:\n      discovery:\n        server-addr: localhost:8848\n  redis:\n    database: 0\n    host: localhost\n    port: 6379\n    password: redis-960\n    jedis:\n      pool:\n        max-active: 8\n        max-idle: 8\n        min-idle: 0\n  datasource:\n    driver-class-name: com.mysql.jdbc.Driver\n    url: jdbc:mysql://localhost:3306/blog_auth?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8\n    username: root\n    password: root\nlogging:\n  level:\n    com.alibaba.nacos.client.config.impl: WARN\n\naccess_token:\n  jwt-signing-key: gszero\n  add-userInfo: false\n\noauth:\n  gitee:\n    clientId: b56892ea476c32e017d279841a6422bd1dce3c5d87985588c206075f8e55e0a4\n    clientSecret: 761846f04570945c1add7dba4dc9e3512238b3ce9ed3ca5449dad9a2b32d563a\n    callbackUrl: https://127.0.0.1:9527/auth/gitee/callback', '81a54acfe09459b24463b5f3219a3690', '2022-07-17 03:39:42', '2023-02-10 08:00:56', 'nacos', '0:0:0:0:0:0:0:1', '', 'dev', '', '', '', 'yaml', '', '');
+INSERT INTO `config_info` VALUES (26, 'blog-auth-dev.yaml', 'DEFAULT_GROUP', 'server:\n  port: 9200\n  servlet:\n    context-path: /auth\n  ssl:\n    # enabled: true  #开启ssl验证\n    enabled: false  #开启ssl验证\n    key-store: classpath:keystore.p12 #证书文件位置\n    key-store-password: gszero  #上面的密钥口令\n    key-store-type: PKCS12   #storetype 上面的类型\n    key-alias: tomcat    #tomcat上面的alias  别名\n\nspring:\n  application:\n    name: blog-auth\n  cloud:\n    nacos:\n      discovery:\n        server-addr: localhost:8848\n  redis:\n    database: 0\n    host: localhost\n    port: 6379\n    password: redis-960\n    jedis:\n      pool:\n        max-active: 8\n        max-idle: 8\n        min-idle: 0\n  datasource:\n    driver-class-name: com.mysql.jdbc.Driver\n    url: jdbc:mysql://localhost:3306/blog_auth?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8\n    username: root\n    password: root\nlogging:\n  level:\n    com.alibaba.nacos.client.config.impl: WARN\n\naccess_token:\n  jwt-signing-key: gszero\n  add-userInfo: false\n\noauth:\n  gitee:\n    clientId: b56892ea476c32e017d279841a6422bd1dce3c5d87985588c206075f8e55e0a4\n    clientSecret: 761846f04570945c1add7dba4dc9e3512238b3ce9ed3ca5449dad9a2b32d563a\n    redirect_uri: https://localhost:3000/#/index \n    callbackUrl: https://127.0.0.1:9527/auth/gitee/callback', 'ad911d6f83575cb232e91a6aed94e562', '2022-07-17 03:39:42', '2023-02-11 03:43:47', 'nacos', '0:0:0:0:0:0:0:1', '', 'dev', '', '', '', 'yaml', '', '');
 INSERT INTO `config_info` VALUES (27, 'blog-content-dev.yaml', 'DEFAULT_GROUP', 'server:\n  port: 10100\n  servlet:\n    context-path: /content\n\n  ssl:\n    # enabled: true  #开启ssl验证\n    enabled: false  #开启ssl验证\n    key-store: classpath:keystore.p12 #证书文件位置\n    key-store-password: gszero  #上面的密钥口令\n    key-store-type: PKCS12   #storetype 上面的类型\n    key-alias: tomcat    #tomcat上面的alias  别名\n\nspring:\n  application:\n    name: blog-content\n  cloud:\n    nacos:\n      discovery:\n        server-addr: localhost:8848\n  redis:\n    database: 0\n    host: localhost\n    port: 6379\n    password: redis-960\n    jedis:\n      pool:\n        max-active: 8\n        max-idle: 8\n        min-idle: 0\n  datasource:\n    driver-class-name: com.mysql.jdbc.Driver\n    url: jdbc:mysql://localhost:3306/blog_content?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8\n    username: root\n    password: root\n\nmybatis:\n  mapper-locations: classpath:/mapper/*.xml\n\nlogging:\n  level:\n    com.alibaba.nacos.client.config.impl: WARN\n\nsecurity:\n  oauth2:\n    resource:\n      id: blog-content\n      user-info-uri: http://localhost:9200/auth/user-me\n      prefer-token-info: false\n', '65dff858a0ac92c6c40ce7b2d892eb7f', '2022-07-17 03:40:08', '2023-02-10 07:39:27', 'nacos', '0:0:0:0:0:0:0:1', '', 'dev', '', '', '', 'yaml', '', '');
 INSERT INTO `config_info` VALUES (28, 'blog-user-dev.yaml', 'DEFAULT_GROUP', 'server:\n  port: 9100\n  servlet:\n    context-path: /user\n  ssl:\n    # enabled: true  #开启ssl验证\n    enabled: false  #开启ssl验证\n    key-store: classpath:keystore.p12 #证书文件位置\n    key-store-password: gszero  #上面的密钥口令\n    key-store-type: PKCS12   #storetype 上面的类型\n    key-alias: tomcat    #tomcat上面的alias  别名\n\nspring:\n  application:\n    name: blog-user\n  cloud:\n    nacos:\n      discovery:\n        server-addr: localhost:8848\n  redis:\n    database: 0\n    host: localhost\n    port: 6379\n    password: redis-960\n    jedis:\n      pool:\n        max-active: 8\n        max-idle: 8\n        min-idle: 0\n  datasource:\n    driver-class-name: com.mysql.jdbc.Driver\n    url: jdbc:mysql://localhost:3306/blog_user?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8\n    username: root\n    password: root\n\nmybatis:\n  mapper-locations: classpath:/mapper/*.xml\n\nlogging:\n  level:\n    com.alibaba.nacos.client.config.impl: WARN\n\nsecurity:\n  oauth2:\n    resource:\n      id: blog-user\n      user-info-uri: http://localhost:9200/auth/user-me\n      prefer-token-info: false\n\n', 'f22c7dfc5a3bfe644bd7728f2c5465ea', '2022-07-17 03:40:23', '2023-02-10 07:39:15', 'nacos', '0:0:0:0:0:0:0:1', '', 'dev', '', '', '', 'yaml', '', '');
 INSERT INTO `config_info` VALUES (29, 'blog-file-dev.yaml', 'DEFAULT_GROUP', 'server:\n  port: 10200\n  servlet:\n    context-path: /file\n  ssl:\n    # enabled: true  #开启ssl验证\n    enabled: false  #开启ssl验证\n    key-store: classpath:keystore.p12 #证书文件位置\n    key-store-password: gszero  #上面的密钥口令\n    key-store-type: PKCS12   #storetype 上面的类型\n    key-alias: tomcat    #tomcat上面的alias  别名\n\nspring:\n  application:\n    name: blog-file\n  cloud:\n    nacos:\n      discovery:\n        server-addr: localhost:8848\n  redis:\n    database: 0\n    host: localhost\n    port: 6379\n    password: redis-960\n    jedis:\n      pool:\n        max-active: 8\n        max-idle: 8\n        min-idle: 0\n  datasource:\n    driver-class-name: com.mysql.jdbc.Driver\n    url: jdbc:mysql://localhost:3306/blog_file?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8\n    username: root\n    password: root\n\nmybatis:\n  mapper-locations: classpath:/mapper/*.xml\n\nlogging:\n  level:\n    com.alibaba.nacos.client.config.impl: WARN\n\nsecurity:\n  oauth2:\n    resource:\n      id: blog-file\n      user-info-uri: http://localhost:9200/auth/user-me\n      prefer-token-info: false\n\nfile:\n  system: win\n  path: D:/file\n  urlPath: D:/file\n  serviceIp: localhost\n', '966f9978d19c2d7fb6165a5071d07a14', '2022-07-17 03:40:41', '2023-02-10 07:39:00', 'nacos', '0:0:0:0:0:0:0:1', '', 'dev', '', '', '', 'yaml', '', '');
@@ -72,7 +72,11 @@ CREATE TABLE `config_info_aggr`  (
   `tenant_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT '租户字段',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_configinfoaggr_datagrouptenantdatum`(`data_id`, `group_id`, `tenant_id`, `datum_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '增加租户字段' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '增加租户字段' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of config_info_aggr
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for config_info_beta
@@ -86,15 +90,19 @@ CREATE TABLE `config_info_beta`  (
   `content` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'content',
   `beta_ips` varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'betaIps',
   `md5` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'md5',
-  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   `src_user` text CHARACTER SET utf8 COLLATE utf8_bin NULL COMMENT 'source user',
   `src_ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'source ip',
   `tenant_id` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '' COMMENT '租户字段',
   `encrypted_data_key` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '秘钥',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_configinfobeta_datagrouptenant`(`data_id`, `group_id`, `tenant_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_info_beta' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_info_beta' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of config_info_beta
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for config_info_tag
@@ -109,13 +117,17 @@ CREATE TABLE `config_info_tag`  (
   `app_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'app_name',
   `content` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'content',
   `md5` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'md5',
-  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   `src_user` text CHARACTER SET utf8 COLLATE utf8_bin NULL COMMENT 'source user',
   `src_ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'source ip',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_configinfotag_datagrouptenanttag`(`data_id`, `group_id`, `tenant_id`, `tag_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_info_tag' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_info_tag' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of config_info_tag
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for config_tags_relation
@@ -132,7 +144,11 @@ CREATE TABLE `config_tags_relation`  (
   PRIMARY KEY (`nid`) USING BTREE,
   UNIQUE INDEX `uk_configtagrelation_configidtag`(`id`, `tag_name`, `tag_type`) USING BTREE,
   INDEX `idx_tenant_id`(`tenant_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_tag_relation' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'config_tag_relation' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of config_tags_relation
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for group_capacity
@@ -147,11 +163,15 @@ CREATE TABLE `group_capacity`  (
   `max_aggr_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '聚合子配置最大个数，，0表示使用默认值',
   `max_aggr_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '单个聚合数据的子配置大小上限，单位为字节，0表示使用默认值',
   `max_history_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '最大变更历史数量',
-  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_group_id`(`group_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '集群、各Group容量信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '集群、各Group容量信息表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of group_capacity
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for his_config_info
@@ -165,8 +185,8 @@ CREATE TABLE `his_config_info`  (
   `app_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT 'app_name',
   `content` longtext CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `md5` varchar(32) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
   `src_user` text CHARACTER SET utf8 COLLATE utf8_bin NULL,
   `src_ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `op_type` char(10) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
@@ -176,7 +196,7 @@ CREATE TABLE `his_config_info`  (
   INDEX `idx_gmt_create`(`gmt_create`) USING BTREE,
   INDEX `idx_gmt_modified`(`gmt_modified`) USING BTREE,
   INDEX `idx_did`(`data_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '多租户改造' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '多租户改造' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of his_config_info
@@ -218,6 +238,9 @@ INSERT INTO `his_config_info` VALUES (28, 34, 'blog-user-dev.yaml', 'DEFAULT_GRO
 INSERT INTO `his_config_info` VALUES (27, 35, 'blog-content-dev.yaml', 'DEFAULT_GROUP', '', 'server:\n  port: 10100\n  servlet:\n    context-path: /content\n\n  ssl:\n    enabled: true  #开启ssl验证\n    # enabled: false  #开启ssl验证\n    key-store: classpath:keystore.p12 #证书文件位置\n    key-store-password: gszero  #上面的密钥口令\n    key-store-type: PKCS12   #storetype 上面的类型\n    key-alias: tomcat    #tomcat上面的alias  别名\n\nspring:\n  application:\n    name: blog-content\n  cloud:\n    nacos:\n      discovery:\n        server-addr: localhost:8848\n  redis:\n    database: 0\n    host: localhost\n    port: 6379\n    password: redis-960\n    jedis:\n      pool:\n        max-active: 8\n        max-idle: 8\n        min-idle: 0\n  datasource:\n    driver-class-name: com.mysql.jdbc.Driver\n    url: jdbc:mysql://localhost:3306/blog_content?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8\n    username: root\n    password: root\n\nmybatis:\n  mapper-locations: classpath:/mapper/*.xml\n\nlogging:\n  level:\n    com.alibaba.nacos.client.config.impl: WARN\n\nsecurity:\n  oauth2:\n    resource:\n      id: blog-content\n      user-info-uri: http://localhost:9200/auth/user-me\n      prefer-token-info: false\n', 'f939f5b228ee041717a2dca8c40c4781', '2023-02-10 15:39:26', '2023-02-10 07:39:27', 'nacos', '0:0:0:0:0:0:0:1', 'U', 'dev', '');
 INSERT INTO `his_config_info` VALUES (26, 36, 'blog-auth-dev.yaml', 'DEFAULT_GROUP', '', 'server:\n  port: 9200\n  servlet:\n    context-path: /auth\n  ssl:\n    enabled: true  #开启ssl验证\n    key-store: classpath:keystore.p12 #证书文件位置\n    key-store-password: gszero  #上面的密钥口令\n    key-store-type: PKCS12   #storetype 上面的类型\n    key-alias: tomcat    #tomcat上面的alias  别名\n\nspring:\n  application:\n    name: blog-auth\n  cloud:\n    nacos:\n      discovery:\n        server-addr: localhost:8848\n  redis:\n    database: 0\n    host: localhost\n    port: 6379\n    password: redis-960\n    jedis:\n      pool:\n        max-active: 8\n        max-idle: 8\n        min-idle: 0\n  datasource:\n    driver-class-name: com.mysql.jdbc.Driver\n    url: jdbc:mysql://localhost:3306/blog_auth?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8\n    username: root\n    password: root\nlogging:\n  level:\n    com.alibaba.nacos.client.config.impl: WARN\n\naccess_token:\n  jwt-signing-key: gszero\n  add-userInfo: false\n\noauth:\n  gitee:\n    clientId: b56892ea476c32e017d279841a6422bd1dce3c5d87985588c206075f8e55e0a4\n    clientSecret: 761846f04570945c1add7dba4dc9e3512238b3ce9ed3ca5449dad9a2b32d563a\n    callbackUrl: http://127.0.0.1:9527/auth/gitee/callback', '47caabd26e3d88be546c94d3ffac4102', '2023-02-10 15:39:38', '2023-02-10 07:39:38', 'nacos', '0:0:0:0:0:0:0:1', 'U', 'dev', '');
 INSERT INTO `his_config_info` VALUES (26, 37, 'blog-auth-dev.yaml', 'DEFAULT_GROUP', '', 'server:\n  port: 9200\n  servlet:\n    context-path: /auth\n  ssl:\n    # enabled: true  #开启ssl验证\n    enabled: false  #开启ssl验证\n    key-store: classpath:keystore.p12 #证书文件位置\n    key-store-password: gszero  #上面的密钥口令\n    key-store-type: PKCS12   #storetype 上面的类型\n    key-alias: tomcat    #tomcat上面的alias  别名\n\nspring:\n  application:\n    name: blog-auth\n  cloud:\n    nacos:\n      discovery:\n        server-addr: localhost:8848\n  redis:\n    database: 0\n    host: localhost\n    port: 6379\n    password: redis-960\n    jedis:\n      pool:\n        max-active: 8\n        max-idle: 8\n        min-idle: 0\n  datasource:\n    driver-class-name: com.mysql.jdbc.Driver\n    url: jdbc:mysql://localhost:3306/blog_auth?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8\n    username: root\n    password: root\nlogging:\n  level:\n    com.alibaba.nacos.client.config.impl: WARN\n\naccess_token:\n  jwt-signing-key: gszero\n  add-userInfo: false\n\noauth:\n  gitee:\n    clientId: b56892ea476c32e017d279841a6422bd1dce3c5d87985588c206075f8e55e0a4\n    clientSecret: 761846f04570945c1add7dba4dc9e3512238b3ce9ed3ca5449dad9a2b32d563a\n    callbackUrl: http://127.0.0.1:9527/auth/gitee/callback', '851fd24f058eca6aee2ecb33b18c13ad', '2023-02-10 16:00:56', '2023-02-10 08:00:56', 'nacos', '0:0:0:0:0:0:0:1', 'U', 'dev', '');
+INSERT INTO `his_config_info` VALUES (26, 38, 'blog-auth-dev.yaml', 'DEFAULT_GROUP', '', 'server:\n  port: 9200\n  servlet:\n    context-path: /auth\n  ssl:\n    # enabled: true  #开启ssl验证\n    enabled: false  #开启ssl验证\n    key-store: classpath:keystore.p12 #证书文件位置\n    key-store-password: gszero  #上面的密钥口令\n    key-store-type: PKCS12   #storetype 上面的类型\n    key-alias: tomcat    #tomcat上面的alias  别名\n\nspring:\n  application:\n    name: blog-auth\n  cloud:\n    nacos:\n      discovery:\n        server-addr: localhost:8848\n  redis:\n    database: 0\n    host: localhost\n    port: 6379\n    password: redis-960\n    jedis:\n      pool:\n        max-active: 8\n        max-idle: 8\n        min-idle: 0\n  datasource:\n    driver-class-name: com.mysql.jdbc.Driver\n    url: jdbc:mysql://localhost:3306/blog_auth?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8\n    username: root\n    password: root\nlogging:\n  level:\n    com.alibaba.nacos.client.config.impl: WARN\n\naccess_token:\n  jwt-signing-key: gszero\n  add-userInfo: false\n\noauth:\n  gitee:\n    clientId: b56892ea476c32e017d279841a6422bd1dce3c5d87985588c206075f8e55e0a4\n    clientSecret: 761846f04570945c1add7dba4dc9e3512238b3ce9ed3ca5449dad9a2b32d563a\n    callbackUrl: https://127.0.0.1:9527/auth/gitee/callback', '81a54acfe09459b24463b5f3219a3690', '2023-02-11 11:40:40', '2023-02-11 03:40:40', 'nacos', '0:0:0:0:0:0:0:1', 'U', 'dev', '');
+INSERT INTO `his_config_info` VALUES (26, 39, 'blog-auth-dev.yaml', 'DEFAULT_GROUP', '', 'server:\n  port: 9200\n  servlet:\n    context-path: /auth\n  ssl:\n    # enabled: true  #开启ssl验证\n    enabled: false  #开启ssl验证\n    key-store: classpath:keystore.p12 #证书文件位置\n    key-store-password: gszero  #上面的密钥口令\n    key-store-type: PKCS12   #storetype 上面的类型\n    key-alias: tomcat    #tomcat上面的alias  别名\n\nspring:\n  application:\n    name: blog-auth\n  cloud:\n    nacos:\n      discovery:\n        server-addr: localhost:8848\n  redis:\n    database: 0\n    host: localhost\n    port: 6379\n    password: redis-960\n    jedis:\n      pool:\n        max-active: 8\n        max-idle: 8\n        min-idle: 0\n  datasource:\n    driver-class-name: com.mysql.jdbc.Driver\n    url: jdbc:mysql://localhost:3306/blog_auth?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8\n    username: root\n    password: root\nlogging:\n  level:\n    com.alibaba.nacos.client.config.impl: WARN\n\naccess_token:\n  jwt-signing-key: gszero\n  add-userInfo: false\n\noauth:\n  gitee:\n    clientId: b56892ea476c32e017d279841a6422bd1dce3c5d87985588c206075f8e55e0a4\n    clientSecret: 761846f04570945c1add7dba4dc9e3512238b3ce9ed3ca5449dad9a2b32d563a\n    callbackUrl: https://localhost:3000/#/index', 'a1cb2b0f26559cf7cffd69990ff38bb9', '2023-02-11 11:42:55', '2023-02-11 03:42:55', 'nacos', '0:0:0:0:0:0:0:1', 'U', 'dev', '');
+INSERT INTO `his_config_info` VALUES (26, 40, 'blog-auth-dev.yaml', 'DEFAULT_GROUP', '', 'server:\n  port: 9200\n  servlet:\n    context-path: /auth\n  ssl:\n    # enabled: true  #开启ssl验证\n    enabled: false  #开启ssl验证\n    key-store: classpath:keystore.p12 #证书文件位置\n    key-store-password: gszero  #上面的密钥口令\n    key-store-type: PKCS12   #storetype 上面的类型\n    key-alias: tomcat    #tomcat上面的alias  别名\n\nspring:\n  application:\n    name: blog-auth\n  cloud:\n    nacos:\n      discovery:\n        server-addr: localhost:8848\n  redis:\n    database: 0\n    host: localhost\n    port: 6379\n    password: redis-960\n    jedis:\n      pool:\n        max-active: 8\n        max-idle: 8\n        min-idle: 0\n  datasource:\n    driver-class-name: com.mysql.jdbc.Driver\n    url: jdbc:mysql://localhost:3306/blog_auth?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8\n    username: root\n    password: root\nlogging:\n  level:\n    com.alibaba.nacos.client.config.impl: WARN\n\naccess_token:\n  jwt-signing-key: gszero\n  add-userInfo: false\n\noauth:\n  gitee:\n    clientId: b56892ea476c32e017d279841a6422bd1dce3c5d87985588c206075f8e55e0a4\n    clientSecret: 761846f04570945c1add7dba4dc9e3512238b3ce9ed3ca5449dad9a2b32d563a\n    redirect_uri: https://localhost:3000/#/index \n    callbackUrl: https://localhost:3000/#/index', '3f9b9e8056467ebe55ddcb95d939ce95', '2023-02-11 11:43:47', '2023-02-11 03:43:47', 'nacos', '0:0:0:0:0:0:0:1', 'U', 'dev', '');
 
 -- ----------------------------
 -- Table structure for permissions
@@ -228,7 +251,11 @@ CREATE TABLE `permissions`  (
   `resource` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `action` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   UNIQUE INDEX `uk_role_permission`(`role`, `resource`, `action`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of permissions
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for roles
@@ -238,7 +265,7 @@ CREATE TABLE `roles`  (
   `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `role` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   UNIQUE INDEX `idx_user_role`(`username`, `role`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of roles
@@ -258,11 +285,15 @@ CREATE TABLE `tenant_capacity`  (
   `max_aggr_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '聚合子配置最大个数',
   `max_aggr_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '单个聚合数据的子配置大小上限，单位为字节，0表示使用默认值',
   `max_history_count` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '最大变更历史数量',
-  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `gmt_create` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `gmt_modified` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_tenant_id`(`tenant_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '租户容量信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '租户容量信息表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of tenant_capacity
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for tenant_info
@@ -280,7 +311,7 @@ CREATE TABLE `tenant_info`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_tenant_info_kptenantid`(`kp`, `tenant_id`) USING BTREE,
   INDEX `idx_tenant_id`(`tenant_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'tenant_info' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = 'tenant_info' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tenant_info
@@ -297,7 +328,7 @@ CREATE TABLE `users`  (
   `password` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`username`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of users
