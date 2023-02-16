@@ -1,0 +1,144 @@
+@import "src/assets/style/element-ui.scss";
+@import "src/assets/style/transition.scss";
+@import "src/assets/style/hover.scss";
+// @import "src/assets/style/theme/element-dark.scss";
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-width: 1200px;
+  //filter:progid:DXImageTransform.Microsoft.BasicImage(graysale=1);
+  //-webkit-filter: grayscale(100%);
+}
+
+body, ol, ul, li, h1, h2, h3, p, form {
+  margin: 0;
+  padding: 0;
+}
+
+// 切换页面加载进度条样式
+#nprogress .bar {
+  background: var(--el-color-primary) !important;
+  height: 3px !important;
+  border-radius: 3px;
+}
+
+// 文本禁止选中
+.no-choose {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+// 页面主体布局
+.page {
+  padding-top: 15px;
+  padding-bottom: 20px;
+  width: 1200px;
+  margin: 0 auto;
+  min-height: calc(100vh - 170px);
+
+  article {
+    display: inline-block;
+    width: 900px;
+    margin-right: 20px;
+  }
+
+  aside {
+    display: inline-block;
+    width: 280px;
+    float: right;
+  }
+}
+
+// 最后一个分割线不显示
+ul {
+  li:last-child {
+    .el-divider--horizontal {
+      display: none !important;
+    }
+  }
+}
+
+// 卡片标题
+.card-title {
+  color: var(--el-color-primary);
+  font-size: 25px;
+}
+
+// 标签云卡片适配
+.tag-box {
+  .el-card__body {
+    padding: 10px 0
+  }
+}
+
+// 您的位置面包屑
+.current-position {
+  background-color: var(--el-bg-color-overlay);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+
+  span:nth-child(1) {
+    color: var(--el-text-color-regular);
+  }
+}
+
+// 标签
+.tag {
+  border-radius: 5px;
+  color: white;
+  font-size: 10px;
+  padding: 5px;
+}
+
+// 鼠标经过变为手形
+.pointer {
+  cursor: pointer
+}
+
+// 富文本编辑器暗黑模式适配
+.w-e-text-container {
+  background-color: var(--el-bg-color-overlay) !important;
+}
+
+.w-e-toolbar {
+  background-color: var(--el-border-color-extra-light) !important;
+  //z-index: 0 !important;
+}
+
+.w-e-toolbar .w-e-menu:hover {
+  background-color: var(--el-color-primary-light-9) !important;
+}
+.w-e-panel-container {
+  background-color: var(--el-bg-color) !important;
+}
+.w-e-panel-container .w-e-active{
+  background-color: var(--el-color-primary) !important;
+}
+
+// markdown暗黑模式适配
+.github-markdown-body {
+  table thead tr {
+    background-color: var(--el-bg-color) !important;
+  }
+
+  table tbody tr {
+    background-color: var(--el-bg-color-overlay) !important;
+  }
+
+  table tbody tr:nth-child(2n) {
+    background-color: var(--el-bg-color) !important;
+  }
+  div[class*=v-md-pre-wrapper-] {
+    background-color: var(--el-bg-color-page) !important;
+  }
+  div[class*=v-md-pre-wrapper-].line-numbers-mode:after{
+    background-color: var(--el-border-color) !important;
+  }
+  div[class*=v-md-pre-wrapper-] .hljs-params{
+    color: red;
+  }
+}

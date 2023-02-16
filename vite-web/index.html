@@ -1,13 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + Vue + TS</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+    <!-- <title>崔亮的博客-专注devops自动化运维，传播优秀it运维技术文章</title> -->
+    <!--谷歌验证-->
+    <!-- <meta name="google-site-verification" content="GtNO79LEUpHXJTZULN42OgdLYvzWzs04O_l_waRDqhE" /> -->
+    <!--百度验证-->
+    <!-- <meta name="baidu_union_verify" content="a71a141c96ca5e0419dc2f7f5161dae6"> -->
+    <meta name="keywords"
+          content="运维开发,自动化运维,k8s,docker,vue,python,prometheus,devops,linux,云计算,虚拟化">
+    <meta name="description"
+          content="崔亮的个人博客，致力于分享运维开发等技术经验，由系统运维、脚本编程、devops等分类组成，涵盖了docker、k8s、vue、python、DevOps、linux、prometheus、自动化运维、云计算、虚拟化等内容。">
+    <style>
+        #Loading {
+            height: 9em;
+            left: 50%;
+            margin: -7.5em;
+            padding: 3em;
+            position: absolute;
+            top: 50%;
+            width: 9em;
+            transform: rotateX(45deg) rotateZ(45deg);
+            transform-style: preserve-3d;
+        }
+        .cube,
+        .cube:after,
+        .cube:before {
+            content: '';
+            float: left;
+            height: 3em;
+            position: absolute;
+            width: 3em;
+        }
+
+        /* Top */
+        .cube {
+            background-color: #05afd1;
+            position: relative;
+            transform: translateZ(3em);
+            transform-style: preserve-3d;
+            transition: .25s;
+            box-shadow: 13em 13em 1.5em rgba(0, 0, 0, 0.1);
+            animation: anim 1s infinite;
+        }
+
+        .cube:after {
+            background-color: #049dbc;
+            transform: rotateX(-90deg) translateY(3em);
+            transform-origin: 100% 100%;
+        }
+
+        .cube:before {
+            background-color: #048ca7;
+            transform: rotateY(90deg) translateX(3em);
+            transform-origin: 100% 0;
+        }
+
+        .cube:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .cube:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .cube:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .cube:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .cube:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .cube:nth-child(6) {
+            animation-delay: 0.3s;
+        }
+
+        .cube:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        .cube:nth-child(8) {
+            animation-delay: 0.4s;
+        }
+
+        .cube:nth-child(9) {
+            animation-delay: 0.45s;
+        }
+
+        @keyframes anim {
+            50% {
+                transform: translateZ(0.5em);
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="Loading">
+    <div class='cube'></div>
+    <div class='cube'></div>
+    <div class='cube'></div>
+    <div class='cube'></div>
+    <div class='cube'></div>
+    <div class='cube'></div>
+    <div class='cube'></div>
+    <div class='cube'></div>
+    <div class='cube'></div>
+</div>
+<div id="app"></div>
+<script type="module" src="/src/main.ts"></script>
+<script>
+	var _hmt = _hmt || [];
+	(function () {
+		var hm = document.createElement("script");
+		// hm.src = "https://hm.baidu.com/hm.js?5abb8d046dd1dd0d2ff4094f445b3079";
+		// var s = document.getElementsByTagName("script")[0];
+		// s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+<script>
+	if (document.body.clientWidth <= 1200) {
+		let url = window.location.href
+		location.href = url.replace(/www.cuiliangblog.cn/, "m.cuiliangblog.cn")
+	}
+</script>
+<script>
+    const is_dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+	if (is_dark) {
+		document.bgColor = '#202023';
+	} else {
+		document.bgColor = '#ffffff';
+	}
+</script>
+</body>
 </html>

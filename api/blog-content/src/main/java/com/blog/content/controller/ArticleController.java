@@ -52,7 +52,7 @@ public class ArticleController {
                 log.info("分页查询全部文章， page: {},  size: {}", page, size);
                 MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
                 HashMap<String, Object> map = new HashMap<>();
-                map.put("list", result);
+                map.put("article", result);
                 return ResultFactory.buildSuccessResult(map);
             } else {
                 // 标记文章列表是否属于当前用户
@@ -73,7 +73,7 @@ public class ArticleController {
                         }
                         log.info("用户: {} 分页查询用户id为: {} 的全部文章， page: {},  size: {}", blogUser.getUsername(), userId, page, size);
                         map.put("isOwner", isOwner);
-                        map.put("list", result);
+                        map.put("article", result);
                         return ResultFactory.buildSuccessResult(map);
                     } catch (Exception e){
                         log.warn(Constant.JWTError, e);
@@ -81,7 +81,7 @@ public class ArticleController {
                 }
                 log.info("分页查询用户id为: {} 全部文章， page: {},  size: {}", userId, page, size);
                 map.put("isOwner", isOwner);
-                map.put("list", result);
+                map.put("article", result);
                 return ResultFactory.buildSuccessResult(map);
             }
         } else if(articleVo.getType() != null && articleVo.getType().equals("admin")) {
@@ -95,7 +95,7 @@ public class ArticleController {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
             articleVo.setUserId(blogUser.getId());
             MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
-            map.put("list", result);
+            map.put("article", result);
             return ResultFactory.buildSuccessResult(map);
         } else {
             return ResultFactory.buildSuccessResult("文章查询类型错误");

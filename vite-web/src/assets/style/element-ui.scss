@@ -1,0 +1,86 @@
+// 图片加载错误提示
+.el-image__error {
+  background-color: var(--el-bg-color-overlay)!important;
+}
+
+// 图片圆角
+.el-image {
+  img {
+    border-radius: 8px;
+    transition: all 0.8s;
+  }
+}
+
+.cover, .recommend {
+  img:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+}
+
+// 分割线提示文件
+.el-divider__text {
+  color: var(--el-text-color-regular) !important;
+}
+
+// 卡片内容最小高度
+.el-card__body {
+  min-height: 140px;
+}
+// 导航栏悬浮下拉颜色
+.el-menu--horizontal>.el-sub-menu .el-sub-menu__title:hover{
+  background-color: var(--el-bg-color-overlay)!important;
+}
+// 下拉菜单颜色
+.el-dropdown-menu{
+  background-color:var(--el-bg-color-overlay)!important;
+}
+// 导航菜单下边框颜色
+.el-menu{
+  --el-menu-border-color:var(--el-border-color)!important;
+}
+// 主要按钮主题色
+.el-button--primary{
+  --el-button-background-color:var(--el-color-primary)!important;
+  --el-button-border-color:var(--el-color-primary)!important;
+}
+// 描述表格表头
+.el-descriptions__label{
+  background-color:var(--el-bg-color)!important;
+}
+// 描述表格内容
+.el-descriptions__content{
+  background-color: var(--el-bg-color-overlay)!important;
+}
+// 远程搜索框
+.el-input-group__append, .el-input-group__prepend{
+  border: 1px solid var(--el-border-color)!important;
+}
+// 远程搜索框下拉选择
+.el-autocomplete__popper.el-popper[role=tooltip]{
+  background-color: var(--el-bg-color)!important;
+}
+// 加载中背景图片
+.el-loading-mask{
+  background-color: var(--el-bg-color-overlay)!important;
+}
+// 时间选择器
+.el-date-picker{
+  background-color: var(--el-bg-color)!important;;
+}
+// 步骤条
+.el-steps--simple{
+  background-color: var(--el-bg-color)!important;;
+}
+// 下拉菜单样式
+.el-dropdown-menu__item:focus, .el-dropdown-menu__item:not(.is-disabled):hover{
+  color:var(--el-color-primary)!important;
+}
+// el-collapse折叠菜单背景色
+.el-collapse{
+  background-color: var(--el-bg-color-overlay)!important;
+}
+// input输入框高度
+.el-input{
+  height: 40px;
+}

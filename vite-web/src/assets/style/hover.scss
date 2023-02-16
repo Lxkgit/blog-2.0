@@ -1,0 +1,73 @@
+.article-item-hover,
+.article-title-hover,
+.article-abstract-hover,
+.article-tag-hover,
+.card-hover,
+.ranking-hover,
+.detail-active-hover,
+.detail-context-hover {
+  transition: all 0.5s;
+}
+
+// 文章列表
+.article-item-hover:hover {
+  box-shadow: 0 0 10px 5px rgb(48 55 66 / 10%);
+  transform: translate(0, -5px);
+  transition-delay: 0s !important;
+}
+
+//文章标题
+.article-title-hover:hover {
+  color: var(--el-color-primary) !important;
+  cursor: pointer;
+}
+
+//文章摘要
+.article-abstract-hover:hover {
+  color: var(--el-text-color-regular) !important;
+  cursor: pointer;
+}
+
+//文章标签
+.article-tag-hover:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--el-text-color-primary) !important;
+}
+
+//推荐阅读
+.recommend-hover:hover {
+  cursor: pointer;
+}
+
+//卡片
+.card-hover:hover {
+  box-shadow: 0 0 10px 5px rgb(48 55 66 / 10%);
+  transform: translate(0, -5px);
+  transition-delay: 0s !important;
+}
+
+//阅读排行
+.ranking-hover:hover {
+  color: var(--el-color-primary) !important;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+// 文章内容页动作按钮
+.detail-action-hover:hover {
+  opacity: 1 !important;
+
+  .anticon {
+    color: var(--el-text-color-primary)!important;
+  }
+}
+
+// 文章内容-上下篇
+.detail-context-hover:hover {
+  background-color: var(--el-color-primary);
+  border-radius: 5px;
+  color: var(--el-bg-color-overlay);
+  cursor: pointer;
+}
