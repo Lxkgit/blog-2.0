@@ -9,7 +9,7 @@
             <el-breadcrumb separator=">">
               <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
               <el-breadcrumb-item>文章分类</el-breadcrumb-item>
-              <el-breadcrumb-item>{{ categoryName }}</el-breadcrumb-item>
+              <el-breadcrumb-item v-for="item in articleType.date"> {{ item.typeName }} </el-breadcrumb-item>
             </el-breadcrumb>
           </span>
         </div>
@@ -26,7 +26,7 @@
               </li>
             </ul>
             <div class="paging">
-              <Pagination :total="parseInt(article.count)" @changePage="changePage"></Pagination>
+              <Pagination :total="parseInt(article.total)" @changePage="changePage"></Pagination>
             </div>
           </el-card>
         </div>
@@ -49,64 +49,46 @@ import BackTop from "@/components/common/BackTop.vue"
 import Pagination from "@/components/common/Pagination.vue"
 import { onActivated, onMounted, reactive, ref } from "vue";
 import { onBeforeRouteUpdate, useRouter } from "vue-router";
-// import {getArticle, getCategoryName} from "@/api/blog";
 import { systemStore } from "@/store/system";
+import { getArticleList, getArticleTypeById } from "@/api/content";
 
 const store = systemStore()
 const router = useRouter()
 // 当前文章分类id
 const categoryID = ref()
 // 文章分类名
-const categoryName = ref('Java')
+const articleType:any = reactive({ date: [] })
 
 // 获取文章分类名称
-async function categoryNameData(categoryID: any) {
-  // let data = await getCategoryName(categoryID)
-  // console.log(data)
-  // categoryName.value = data.name
+async function articleTypeData(categoryID: any) {
+  getArticleTypeById(categoryID).then((res: any) => {
+    if (res.code === 200) {
+      articleType.date = res.result
+    }
+  })
+
 }
 
 // 文章列表
-const article = reactive({
-  list: [
-    {
-      id: 1,
-      title: "test title - 1",
-      abstract: "这个是第一篇示例文章的简介 ... ,这个简介需要很长，需要很长，需要很长，需要很长，需要很长，需要很长，",
-      created_time: "2021-02-06 14:37:54",
-      view: "10",
-      like: "10",
-      collect: "10",
-      comment: "10",
-      cover: "https://img2.baidu.com/it/u=2241198009,1203637343&fm=253&fmt=auto",
-    },
-    {
-      id: 2,
-      title: "test title - 2",
-      abstract: "这个是第er篇示例文章的简介 ... ",
-      created_time: "2023-02-06 14:37:54",
-      view: "20",
-      like: "20",
-      collect: "20",
-      comment: "20",
-      cover: "https://img2.baidu.com/it/u=2241198009,1203637343&fm=253&fmt=auto",
-    }
-  ],
-  count: '',
+const article: any = reactive({
+  list: [],
+  total: '',
 })
 
 // 获取文章数据
 async function articleData(page: any, size: any, categoryID: any) {
   const params = {
-    page: page,
-    size: size,
-    ordering: '-created_time',
-    category: categoryID
+    pageNum: page,
+    pageSize: size,
+    articleType: categoryID
   }
-  // let data = await getArticle(params)
-  // article.list = data.results
-  // article.count = data.count
-  console.log(article.list, article.count)
+  getArticleList(params).then((res: any) => {
+    if (res.code === 200) {
+      console.log(JSON.stringify(res) + " --- ")
+      article.list = res.result.list
+      article.total = res.result.total
+    }
+  })
 }
 
 // 分页-页面跳转
@@ -119,12 +101,12 @@ const changePage = (pageSize: any, pageNumber: any) => {
 
 onMounted(() => {
   categoryID.value = router.currentRoute.value.params.id
-  categoryNameData(categoryID.value)
+  articleTypeData(categoryID.value)
   articleData(1, 10, categoryID.value)
 })
 onBeforeRouteUpdate(async (to) => {
   categoryID.value = to.params.id
-  await categoryNameData(categoryID.value)
+  await articleTypeData(categoryID.value)
   await articleData(1, 10, categoryID.value)
 });
 onActivated(() => {

@@ -30,6 +30,7 @@ import javascript from 'highlight.js/lib/languages/javascript';
 import css from 'highlight.js/lib/languages/css';
 import scss from 'highlight.js/lib/languages/scss';
 import xml from 'highlight.js/lib/languages/xml';
+import java from 'highlight.js/lib/languages/java'
 import {ElMessage} from "element-plus";
 import {nextTick, onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
 
@@ -103,14 +104,14 @@ async function getTitle() {
     indent: hTags.indexOf(el.tagName),
     height: el.offsetTop,
   }));
-  // console.log(titleList.value)
-  store.commit('setOutline', titleList.value)
+  store.setOutline(titleList.value)
 }
 
 // 监听markdown内容发生变化
 watch(
     () => props.text,
     (value) => {
+      console.log("value: +++++++++++    " + value)
       if (value) {
         getTitle()
       }

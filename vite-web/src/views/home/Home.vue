@@ -97,12 +97,11 @@ const article: any = reactive({
     count: 0,
 })
 // 是否还有更多需要加载
-//   const noMore = computed(() => article.list.length < article.count);
+  const noMore = computed(() => article.list.length < article.count);
 // 文章请求参数
 const article_params = {
     pageNum: 1,
     pageSize: 5,
-    type: 'home',
 }
 // 是否可以执行加载中动画
 const loading = ref(false)
@@ -121,8 +120,8 @@ const svg = `
 const load = () => {
     console.log("加载下一页了")
     getArticleList(article_params).then((res: any) => {
-        article.list.push(...res.result.article.list)
-        article.count = res.result.article.total
+        article.list.push(...res.result.list)
+        article.count = res.result.total
         loading.value = false
         article_params.pageNum = article_params.pageNum + 1
     })
@@ -134,16 +133,16 @@ const scrollHandle = () => {
     const scrollTop = document.body.scrollTop || document.documentElement.scrollTop
     const clientHeight = document.documentElement.clientHeight
     const distance = scrollHeight - scrollTop - clientHeight
-    // if (distance <= 400 && noMore.value) {
-    //   console.log("满足加载下一页了")
-    //   if (!loading.value) {
-    //     console.log("执行加载下一页")
-    //     loading.value = true;
-    //     setTimeout(() => {
-    //       load()
-    //     }, 300);
-    //   }
-    // }
+    if (distance <= 400 && noMore.value) {
+      console.log("满足加载下一页了")
+      if (!loading.value) {
+        console.log("执行加载下一页")
+        loading.value = true;
+        setTimeout(() => {
+          load()
+        }, 300);
+      }
+    }
 }
 onMounted(() => {
     CarouselData()

@@ -19,6 +19,7 @@ public interface ArticleTypeService {
      * @return
      */
     List<ArticleType> selectArticleTypeByParentId(String parentId);
+    List<ArticleType> selectArticleTypeById(Integer id);
     List<ArticleType> selectArticleTypeList();
     List<ArticleTypeVo> selectArticleTypeTree();
     int saveArticleType(ArticleType articleType);

@@ -128,6 +128,12 @@ public class ArticleServiceImpl implements ArticleService {
     private MyPage<ArticleVo> selectArticle(ArticleVo articleVoParam){
         MyPage<ArticleVo> myPage = null;
         PageHelper.startPage(articleVoParam.getPageNum(), articleVoParam.getPageSize());
+        if (articleVoParam.getArticleType() != null) {
+            articleVoParam.setArticleTypeList(Arrays.asList(articleVoParam.getArticleType().split(",")));
+        }
+        if (articleVoParam.getArticleLabel() != null) {
+            articleVoParam.setArticleLabelList(Arrays.asList(articleVoParam.getArticleLabel().split(",")));
+        }
         Page<Article> articlePage = (Page<Article>) articleDAO.selectArticleListByPage(articleVoParam);
         List<ArticleVo> articleVoList = new ArrayList<>();
         Map<Integer, BlogUser> userMap = new HashMap<>();
@@ -153,7 +159,6 @@ public class ArticleServiceImpl implements ArticleService {
                 List<ArticleLabel> articleLabelList = articleLabelDAO.selectArticleLabelByArray(labels);
                 articleVo.setArticleLabels(articleLabelList);
             }
-
             articleVoList.add(articleVo);
         }
         try {

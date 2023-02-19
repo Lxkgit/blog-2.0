@@ -9,10 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author: lxk
@@ -29,6 +26,18 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
     @Override
     public List<ArticleType> selectArticleTypeByParentId(String parentId) {
         return articleTypeDAO.selectArticleTypeByParentId(parentId);
+    }
+
+    @Override
+    public List<ArticleType> selectArticleTypeById(Integer id) {
+        List<ArticleType> articleTypeList = new ArrayList<>();
+        ArticleType articleType = articleTypeDAO.selectArticleTypeById(id);
+        articleTypeList.add(articleType);
+        if (articleType.getParentId() != 0) {
+            articleTypeList.add(articleTypeDAO.selectArticleTypeById(articleType.getParentId()));
+        }
+        Collections.sort(articleTypeList);
+        return articleTypeList;
     }
 
     @Override

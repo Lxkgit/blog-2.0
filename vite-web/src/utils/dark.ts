@@ -10,9 +10,7 @@ function dark() {
   const use_dark = useDark()
   const toggleDark = useToggle(use_dark)
   const setDark = (value) => {
-    console.log("value:" + value + "use_dark.value:" + use_dark.value)
     if (value !== use_dark.value) {
-      console.log("开始切换深色模式")
       toggleDark()
     }
     store.setDark(value)

@@ -32,6 +32,11 @@ public class ArticleTypeController {
         return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeByParentId(parentId));
     }
 
+    @GetMapping("/id")
+    public Result selectArticleTypeById(@RequestParam(value = "id") Integer id) {
+        return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeById(id));
+    }
+
     @GetMapping("/tree")
     public Result selectArticleTypeTree(){
         return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeTree());

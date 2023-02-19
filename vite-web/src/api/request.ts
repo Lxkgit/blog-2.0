@@ -7,7 +7,7 @@ export function request(config) {
   const token = store.userLocal.token || store.userSession.token
   // 创建axios的实例
   const instance = axios.create({
-    baseURL: "https://127.0.0.1:9527",
+    baseURL: "/api",
     timeout: 50000
   })
   // 请求拦截器配置

@@ -24,10 +24,8 @@ const locale = zhCn
 const includeList = ref([])
 const router = useRouter()
 watch(() => router, (newValue) => {
-  console.log(newValue.currentRoute.value.meta)
   if (newValue.currentRoute.value.meta.keepAlive && includeList.value.indexOf(newValue.currentRoute.value.name) === -1) {
     includeList.value.push(newValue.currentRoute.value.name);
-    console.log("缓存的view", includeList.value);
   }
 }, { deep: true })
 onMounted(() => {
@@ -37,7 +35,6 @@ onMounted(() => {
   } else {
     setDark(store.isDark)
   }
-  console.log("app判断是否为dark:", is_dark)
   if (document.body.clientWidth <= 1200) {
     ElMessageBox.alert('检测到您使用移动设备访问，点击确定后跳转至移动版网站', {
       confirmButtonText: '确定',

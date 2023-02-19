@@ -34,7 +34,7 @@ const props = defineProps({
   },
 })
 // 文章标题列表
-const titleList = computed(() => store.outline)
+const titleList: any = computed(() => store.outline)
 // 大纲是否显示
 const outlineShow = computed(() => store.outlineShow)
 // markdown-当前高亮的标题

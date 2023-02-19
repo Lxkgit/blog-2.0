@@ -56,6 +56,12 @@
                     article_label like CONCAT(CONCAT('%',#{label}),'%')
                 </foreach>
             </if>
+            <if test="articleType != null and articleType != ''">
+                AND
+                <foreach item="type" collection="articleTypeList" open="(" separator="or" close=")">
+                    article_type like CONCAT(CONCAT('%',#{type}),'%')
+                </foreach>
+            </if>
         </where>
         order by update_time desc
     </select>

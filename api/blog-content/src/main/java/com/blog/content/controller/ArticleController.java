@@ -13,6 +13,7 @@ import com.blog.content.feign.UserClient;
 import com.blog.content.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -39,91 +40,45 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping("/list")
-    public Result selectArticleByPage(ArticleVo articleVo) {
-
-        if (articleVo.getType() != null && articleVo.getType().equals("home")) {
-            Integer userId = articleVo.getUserId();
-            Integer page = articleVo.getPageNum();
-            Integer size = articleVo.getPageSize();
-            if (articleVo.getArticleLabel()!=null && !articleVo.getArticleLabel().equals("")) {
-                articleVo.setArticleLabelList(Arrays.asList(articleVo.getArticleLabel().split(",")));
-            }
-            if (userId == 0){
-                log.info("分页查询全部文章， page: {},  size: {}", page, size);
-                MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("article", result);
-                return ResultFactory.buildSuccessResult(map);
-            } else {
-                // 标记文章列表是否属于当前用户
-                boolean isOwner = false;
-                HashMap<String, Object> map = new HashMap<>();
-                // 获取用户请求头，从请求头中获取token
-                HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-                String token = request.getHeader("Authorization");
-                if (StringUtils.isEmpty(token)) {
-                    token = request.getParameter("Authorization");
+    public Result selectArticleByPage(@RequestHeader HttpHeaders headers, ArticleVo articleVo) {
+        BlogUser blogUser;
+        try {
+            String token = String.valueOf(headers.get("Authorization"));
+            if (token != null && !token.equals("") && !token.equals("null")) {
+                blogUser = JwtUtil.getUserInfo(token);
+                if (articleVo.getType() != null && articleVo.getType().equals("admin")) {
+                    articleVo.setUserId(blogUser.getId());
                 }
-                MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
-                if (token != null && !token.isEmpty()){
-                    try {
-                        BlogUser blogUser = JwtUtil.getUserInfo(token);
-                        if (blogUser.getId().equals(userId)) {
-                            isOwner = true;
-                        }
-                        log.info("用户: {} 分页查询用户id为: {} 的全部文章， page: {},  size: {}", blogUser.getUsername(), userId, page, size);
-                        map.put("isOwner", isOwner);
-                        map.put("article", result);
-                        return ResultFactory.buildSuccessResult(map);
-                    } catch (Exception e){
-                        log.warn(Constant.JWTError, e);
-                    }
-                }
-                log.info("分页查询用户id为: {} 全部文章， page: {},  size: {}", userId, page, size);
-                map.put("isOwner", isOwner);
-                map.put("article", result);
-                return ResultFactory.buildSuccessResult(map);
             }
-        } else if(articleVo.getType() != null && articleVo.getType().equals("admin")) {
-            HashMap<String, Object> map = new HashMap<>();
-            // 获取用户请求头，从请求头中获取token
-            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-            String token = request.getHeader("Authorization");
-            if (StringUtils.isEmpty(token)) {
-                token = request.getParameter("Authorization");
-            }
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
-            articleVo.setUserId(blogUser.getId());
-            MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
-            map.put("article", result);
-            return ResultFactory.buildSuccessResult(map);
-        } else {
-            return ResultFactory.buildSuccessResult("文章查询类型错误");
+        } catch (Exception e) {
+            log.warn(Constant.JWTError, e);
         }
+        MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
+        return ResultFactory.buildSuccessResult(result);
     }
 
     @GetMapping("/id")
-    public Result selectArticleById(@RequestParam(value = "id") Integer articleId){
+    public Result selectArticleById(@RequestParam(value = "id") Integer articleId) {
         return ResultFactory.buildSuccessResult(articleService.selectArticleById(articleId));
     }
 
     @PostMapping("/save")
-    public Result saveArticle(@RequestBody Article article){
+    public Result saveArticle(@RequestBody Article article) {
         // 获取用户请求头，从请求头中获取token
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String token = request.getHeader("Authorization");
         if (StringUtils.isEmpty(token)) {
             token = request.getParameter("Authorization");
         }
-        if (!token.isEmpty()){
+        if (!token.isEmpty()) {
             try {
                 BlogUser blogUser = JwtUtil.getUserInfo(token);
                 article.setUserId(blogUser.getId());
                 int result = articleService.saveArticle(article);
-                if (result == 1){
+                if (result == 1) {
                     return ResultFactory.buildSuccessResult(article.getId());
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 log.warn(Constant.JWTError, e);
             }
         }
@@ -131,21 +86,21 @@ public class ArticleController {
     }
 
     @PostMapping("/update")
-    public Result updateArticle(@RequestBody ArticleVo articleVo){
+    public Result updateArticle(@RequestBody ArticleVo articleVo) {
         // 获取用户请求头，从请求头中获取token
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String token = request.getHeader("Authorization");
         if (StringUtils.isEmpty(token)) {
             token = request.getParameter("Authorization");
         }
-        if (!token.isEmpty()){
+        if (!token.isEmpty()) {
             try {
                 BlogUser blogUser = JwtUtil.getUserInfo(token);
                 int code = articleService.updateArticle(blogUser, articleVo);
-                if (code == 1){
+                if (code == 1) {
                     return ResultFactory.buildSuccessResult();
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 log.warn(Constant.JWTError, e);
             }
         }
@@ -153,18 +108,18 @@ public class ArticleController {
     }
 
     @DeleteMapping("/delete")
-    public Result deleteArticle(@RequestParam(value = "articleIds") String articleIds){
+    public Result deleteArticle(@RequestParam(value = "articleIds") String articleIds) {
         // 获取用户请求头，从请求头中获取token
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String token = request.getHeader("Authorization");
         if (StringUtils.isEmpty(token)) {
             token = request.getParameter("Authorization");
         }
-        if (!token.isEmpty()){
+        if (!token.isEmpty()) {
             try {
                 BlogUser blogUser = JwtUtil.getUserInfo(token);
                 return ResultFactory.buildSuccessResult(articleService.deleteArticle(blogUser, articleIds));
-            } catch (Exception e){
+            } catch (Exception e) {
                 log.warn(Constant.JWTError, e);
             }
         }

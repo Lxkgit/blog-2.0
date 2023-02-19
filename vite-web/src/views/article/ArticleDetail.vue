@@ -12,34 +12,38 @@
             <span>
               <el-breadcrumb separator=">">
                 <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item><a @click="toCategory(articleData.category_id)">
-                    {{ articleData.typeName }}</a></el-breadcrumb-item>
+                <el-breadcrumb-item v-for="item in articleData.data.articleTypes">
+                  <a @click="toCategory(item.id)">
+                    {{ item.typeName }}
+                  </a>
+                </el-breadcrumb-item>
                 <el-breadcrumb-item>文章正文</el-breadcrumb-item>
               </el-breadcrumb>
             </span>
           </div>
           <div class="main detail-card">
-            <div v-if="JSON.stringify(articleData) === '{}'">
+            <div v-if="JSON.stringify(articleData.data) === '{}'">
               <el-skeleton :rows="20" animated />
             </div>
             <div v-else>
-              <h1>{{ articleData.title }}</h1>
+              <h1>{{ articleData.data.title }}</h1>
               <div class="info">
-                <span>
-                  <MyIcon type="icon-category" />{{ articleData.category }}
+                <span class="type">
+                  <MyIcon type="icon-category" />
+                  <span v-for="item in articleData.data.articleTypes">{{ item.typeName }}</span>
                 </span>
                 <span>
                   <MyIcon type="icon-tag" />
-                  <span v-for="(tag, index) in articleData.tags" :key="index">{{ tag.name }}</span>
+                  <span v-for="(label, index) in articleData.data.articleLabels" :key="index">{{ label.labelName }}</span>
                 </span>
                 <span>
-                  <MyIcon type="icon-time" />{{ timeFull(articleData.created_time) }}
+                  <MyIcon type="icon-time" />{{ timeFull(articleData.data.createTime) }}
                 </span>
                 <span>
-                  <MyIcon type="icon-view" />{{ articleData.view }}
+                  <MyIcon type="icon-view" />{{ articleData.data.browseCount }}
                 </span>
                 <span>
-                  <MyIcon type="icon-like" />{{ articleData.like }}
+                  <MyIcon type="icon-like" />{{ articleData.data.likeCount }}
                 </span>
                 <span>
                   <MyIcon type="icon-collect" />{{ articleData.collect }}
@@ -48,7 +52,7 @@
                   <MyIcon type="icon-comment" />{{ articleData.comment }}
                 </span>
               </div>
-              <MarkDown :text="articleData.body"></MarkDown>
+              <MarkDown :text="articleData.data.contentMd"></MarkDown>
             </div>
             <div class="context">
               <span :class="context.last ? 'detail-context-hover' : ''" @click="toDetail(context.last.id)">
@@ -60,14 +64,15 @@
               </span>
               <span>
                 <p>文章分类：
-                  <span class="tag article-tag-hover" :style="'background-color: ' + tagColor(articleData.category_id)">
-                    {{ articleData.category }}
+                  <span v-for="item in articleData.data.articleTypes" class="tag article-tag-hover"
+                    :style="'background-color: ' + tagColor(item.id)">
+                    {{ item.typeName }}
                   </span>
                 </p>
                 <p>文章标签：
-                  <span v-for="item in articleData.tags" class="tag article-tag-hover"
+                  <span v-for="item in articleData.data.articleLabels" class="tag article-tag-hover"
                     :style="'background-color: ' + tagColor(item.id)">
-                    {{ item.name }}
+                    {{ item.labelName }}
                   </span>
                 </p>
               </span>
@@ -144,18 +149,6 @@ import color from "@/utils/color";
 import user from "@/utils/user";
 import { systemStore } from "@/store/system";
 import { getArticleById } from "@/api/content"
-// import {getSiteConfig} from "@/api/management";
-// import {getArticleDetail, getContextArticle, getGuessLike, patchArticleDetail} from "@/api/blog";
-// import {getImgProxy} from "@/api/public";
-// import {
-//   deleteArticleComment,
-//   getArticleComment,
-//   getArticleHistory,
-//   postArticleComment, postArticleHistory,
-//   postReplyArticleComment,
-//   patchArticleComment, putArticleHistory
-// } from "@/api/record";
-// import {getUserinfoId} from "@/api/account";
 
 const store = systemStore()
 let { MyIcon } = icon()
@@ -181,7 +174,7 @@ let {
   logo,
   photo,
   showLogin,
-  clickSend
+  // clickSend
 } = comment(articleID, getArticleData, loginPopupRef, messageEditor)
 // 调用动作菜单模块
 let { likeClick, isCollect, getArticleHistoryData, collectClick, postArticleHistoryData } = action(articleID, articleData)
@@ -198,9 +191,9 @@ onMounted(async () => {
   articleID.value = router.currentRoute.value.params.id
   await getArticleData(articleID.value)
   loading.close()
-  await getContextData(articleID.value)
-  await getGuessLikeData(articleID.value)
-  await postArticleHistoryData(articleID.value)
+  // await getContextData(articleID.value)
+  // await getGuessLikeData(articleID.value)
+  // await postArticleHistoryData(articleID.value)
   window.addEventListener('scroll', scroll())
 })
 
@@ -216,18 +209,18 @@ onBeforeRouteUpdate(async (to) => {
     background: 'rgba(255, 255, 255,0.3)',
   })
   window.scrollTo({ top: 0 })
-  console.log(to + "--")
+  // console.log(to + "--")
   store.setOutline("")
-  for (let key in context) {
-    delete context[key];
-  }
+  // for (let key in context) {
+  //   delete context[key];
+  // }
   await getArticleData(to.params.id)
   loading.close()
-  await getContextData(to.params.id)
-  await getGuessLikeData(to.params.id)
-  await getArticleCommentData(to.params.id)
-  await getArticleHistoryData()
-  await postArticleHistoryData(to.params.id)
+  // await getContextData(to.params.id)
+  // await getGuessLikeData(to.params.id)
+  // await getArticleCommentData(to.params.id)
+  // await getArticleHistoryData()
+  // await postArticleHistoryData(to.params.id)
 });
 
 // 公共模块
@@ -263,7 +256,7 @@ function article() {
   // 当前文章分类id
   const activeMenu = ref()
   // 文章详情数据
-  let articleData: any = reactive({})
+  let articleData: any = reactive({ data: {} })
   // 文章上下篇
   const context = reactive({})
   // 猜你喜欢
@@ -272,8 +265,7 @@ function article() {
   // 获取文章详情
   async function getArticleData(DetailID: any) {
     const detail_data: any = await getArticleById(DetailID)
-    console.log(JSON.stringify(detail_data) + "@@@")
-    articleData = detail_data.result
+    articleData.data = detail_data.result
     // for (let i in detail_data) {
     //   if (i === 'body') {
     //     // 图片防盗链处理
@@ -323,6 +315,7 @@ function markdown() {
     if (heading) {
       heading.scrollIntoView({ behavior: "smooth", block: "start" })
     }
+
   }
   // markdown-页面滚动高度
   const scrollTop = ref()
@@ -332,7 +325,7 @@ function markdown() {
     return () => {
       clearTimeout(timeOut)   // 频繁操作，一直清空先前的定时器
       timeOut = setTimeout(() => {  // 只执行最后一次事件
-        scrollTop.value = window.pageYOffset
+        scrollTop.value = window.scrollY
       }, 500)
     }
   }
@@ -605,6 +598,12 @@ function action(articleID: any, articleData: any) {
           padding: 5px 0px;
           margin: 10px 30px;
           border-radius: 20px;
+
+          .type {
+            span:nth-child(3) {
+              margin-left: 10px;
+            }
+          }
 
           >span {
             margin: 0 2%;

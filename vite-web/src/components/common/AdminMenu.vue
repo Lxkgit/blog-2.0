@@ -141,7 +141,6 @@ async function siteConfigData() {
   // let data = await getSiteConfig()
   // siteConfig.logo = data.logo
   // siteConfig.name = data.name
-  // console.log(siteConfig)
 }
 
 //导航菜单-文章分类

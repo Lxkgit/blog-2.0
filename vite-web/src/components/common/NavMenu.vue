@@ -7,7 +7,7 @@
         <span class="no-choose">{{ siteConfig.name }}</span>
       </span>
       <span class="middle">
-        <el-menu :default-active="menuIndex" :ellipsis="false" mode="horizontal">
+        <el-menu :default-active="menuIndex" mode="horizontal">
           <el-menu-item index="1" @click="router.push('/')">
             <MyIcon type="icon-home" />
             <span class="menu-title">首页</span>
@@ -17,9 +17,20 @@
               <MyIcon type="icon-article" />
               <span class="menu-title">文章</span>
             </template>
-            <el-menu-item v-for="category in categoryList" :key="category.id" :index="'2-' + category.id"
-              @click="toCategory(category.id)">{{ category.name }}</el-menu-item>
+            <div v-for="articleType in articleTypeList">
+              <el-menu-item v-if="articleType.children === null" :key="articleType.id" :index="'2-' + articleType.id"
+                @click="toCategory(articleType.id)">
+                {{ articleType.typeName }}
+              </el-menu-item>
+
+              <el-sub-menu v-else :index="'2-' + articleType.id" v-for="item in articleType.children">
+                <template #title>{{ articleType.typeName }}</template>
+                <el-menu-item :index="'2-' + articleType.id + '-' + item.id" :key="item.id"
+                  @click.native="toCategory(item.id)">{{ item.typeName }}</el-menu-item>
+              </el-sub-menu>
+            </div>
           </el-sub-menu>
+
           <el-sub-menu index="3">
             <template #title>
               <MyIcon type="icon-note" />
@@ -141,6 +152,7 @@ import dark from "@/utils/dark";
 import color from "@/utils/color"
 import theme from "@/utils/theme"
 import navigation from "@/utils/navigation";
+import { getArticleTypeTree } from "@/api/content"
 
 const store = systemStore()
 let { isDark, setDark } = dark()
@@ -174,25 +186,20 @@ async function siteConfigData() {
 }
 
 //导航菜单-文章分类
-const categoryList = ref([
-  {
-    id: 1,
-    name: "java"
-  },
-  {
-    id: 2,
-    name: "Spring"
-  },
-])
+const articleTypeList: any = ref([])
 
 async function categoryData() {
-  // categoryList.value = await getCategory()
-  // console.log(categoryList.value)
+  getArticleTypeTree().then((res: any) => {
+    if (res.code === 200) {
+      articleTypeList.value = res.result
+    }
+  })
 }
 
 //导航菜单-跳转文章列表
-const toCategory = (categoryId: any) => {
-  router.push({ path: `/category/${categoryId}` })
+const toCategory = (articleTypeId: any) => {
+  console.log("click" + articleTypeId)
+  router.push({ path: `/category/${articleTypeId}` })
 }
 //导航菜单-笔记分类
 const noteList = ref([
@@ -272,7 +279,7 @@ const isDarkSwitch = ref(false)
 // // 设置-切换是否设置暗黑模式
 const setDarkMode = () => {
   console.log("菜单栏执行切换事件", isDarkSwitch.value)
-  
+
   setDark(isDarkSwitch.value)
 }
 // 设置-侧边菜单显示是否折叠
@@ -297,6 +304,7 @@ const navChange = (value: any) => {
   console.log(value)
   setNavigation(value)
 }
+
 onMounted(() => {
   asideMenuFold.value = store.asideMenuFold
   siteConfigData()
@@ -375,7 +383,8 @@ header {
 
     }
 
-    .search, .setting {
+    .search,
+    .setting {
       font-size: 25px;
       color: var(--el-text-color-regular);
       margin-left: 35px;

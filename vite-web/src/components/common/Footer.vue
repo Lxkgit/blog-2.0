@@ -2,9 +2,9 @@
   <div class="fixed">
     <footer>
       <el-breadcrumb separator="|">
-        <el-breadcrumb-item>{{ footerData.copyright }}</el-breadcrumb-item>
+        <!-- <el-breadcrumb-item>{{ footerData.copyright }}</el-breadcrumb-item>
         <el-breadcrumb-item><a :href="footerData.icp_url">{{ footerData.icp_num }}</a></el-breadcrumb-item>
-        <el-breadcrumb-item><a :href="footerData.police_url">{{ footerData.police_num }}</a></el-breadcrumb-item>
+        <el-breadcrumb-item><a :href="footerData.police_url">{{ footerData.police_num }}</a></el-breadcrumb-item> -->
         <el-breadcrumb-item :to="{ path: '/link' }">友情链接</el-breadcrumb-item>
         <el-breadcrumb-item><a :href="footerData.sitemap">网站地图</a></el-breadcrumb-item>
         <!-- <el-breadcrumb-item>Powered By Django REST Framework + Vue</el-breadcrumb-item> -->
@@ -39,15 +39,15 @@ const footerData = reactive({
 
 async function siteConfigData() {
   // let data = await getSiteConfig()
-  let data: any
-  console.log(data)
-  footerData.copyright = data.copyright
-  footerData.icp_num = data.icp_num
-  footerData.icp_url = data.icp_url
-  footerData.police_num = data.police_num
-  footerData.police_url = data.police_url
-  footerData.sitemap = data.sitemap
-  console.log(footerData)
+  // let data: any
+  // console.log(data)
+  // footerData.copyright = data.copyright
+  // footerData.icp_num = data.icp_num
+  // footerData.icp_url = data.icp_url
+  // footerData.police_num = data.police_num
+  // footerData.police_url = data.police_url
+  // footerData.sitemap = data.sitemap
+  // console.log(footerData)
 }
 
 onMounted(() => {

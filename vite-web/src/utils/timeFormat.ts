@@ -20,7 +20,6 @@ function timeFormat() {
 	}
 	// 显示全部时间
 	const timeFull = (valueTime) => {
-		console.log(dayjs(valueTime).format('YYYY-MM-DD HH:mm:ss') + "***************")
 		return dayjs(valueTime).format('YYYY-MM-DD HH:mm:ss')
 	}
 	// 时间_用于文件名

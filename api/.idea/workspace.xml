@@ -16,73 +16,29 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-02-12【功能新增】：新增vite-web学习前端，修改数据库文件">
-      <change afterPath="$PROJECT_DIR$/../vite-web/.env.development" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/components.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/api/api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/api/content.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/api/request.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/assets/style/css-vars.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/assets/style/element-ui.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/assets/style/hover-min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/assets/style/hover.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/assets/style/index.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/assets/style/normalize.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/assets/style/transition.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/AdminMenu.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/ArticleItem.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/Aside.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/BackTop.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/Comments.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/Editor.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/Footer.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/Loading.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/MyMenu.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/NavMenu.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/PageTab.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/Pagination.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/common/TagCloud.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/detail/Action.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/detail/MarkDown.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/detail/Outline.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/personal/AsideMenu.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/verify/VerifyCodeBtn.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/verify/VerifyImgBtn.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/verify/dragVerify.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/verify/dragVerifyImg.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/verify/dragVerifyImgChip.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/components/verify/dragVerifyImgRotate.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/plugins/ElementPlus.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/router/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/store/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/store/system.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/store/tag.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/utils/color.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/utils/dark.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/utils/icon.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/utils/navigation.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/utils/theme.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/utils/timeFormat.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/utils/user.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/views/404.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/views/article/ArticleDetail.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/views/article/Category.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/views/home/Home.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/views/note/Catalog.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/views/note/SectionDetail.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/views/personal/LoginRegister.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/views/personal/MyIndex.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/views/personal/Personal.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../vite-web/src/views/public/Classify.vue" afterDir="false" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-02-16【功能新增】：博客更新2.1版本，修改前端页面，后端接口不兼容2.0版本博客">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/article/ArticleType.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/article/ArticleType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/config/ResourceServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/config/ResourceServerConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleTypeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleTypeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/ArticleTypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/ArticleTypeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleTypeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleTypeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/resources/mapper/ArticleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/resources/mapper/ArticleMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vite-web/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/src/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/api/content.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/api/content.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/api/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/api/request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/common/AdminMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/common/AdminMenu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/common/Footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/common/Footer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/common/NavMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/common/NavMenu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/detail/MarkDown.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/detail/MarkDown.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/detail/Outline.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/detail/Outline.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/utils/dark.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/utils/dark.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/utils/timeFormat.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/utils/timeFormat.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/article/ArticleDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/article/ArticleDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/article/Category.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/article/Category.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/home/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/home/Home.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../vite-web/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/vite.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -101,7 +57,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="master" />
+        <entry key="$PROJECT_DIR$/.." value="blog-2.1" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -384,14 +340,8 @@
       <workItem from="1676183443497" duration="1210000" />
       <workItem from="1676192276123" duration="2496000" />
       <workItem from="1676470563144" duration="27000" />
-      <workItem from="1676542916494" duration="319000" />
-    </task>
-    <task id="LOCAL-00023" summary="22-07-13【功能新增】： 新增openfeign拦截器，各模块配置引入了nacos的config，实现统一配置">
-      <created>1657724215502</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1657724215502</updated>
+      <workItem from="1676542916494" duration="771000" />
+      <workItem from="1676795545714" duration="810000" />
     </task>
     <task id="LOCAL-00024" summary="22-07-14【功能新增】： 完善文件上传功能">
       <created>1657808253588</created>
@@ -729,7 +679,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676195823792</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="23-02-16【功能新增】：博客更新2.1版本，修改前端页面，后端接口不兼容2.0版本博客">
+      <created>1676543481414</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1676543481415</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -760,7 +717,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="22-12-05【bug修复】：前端打包成功" />
     <MESSAGE value="22-12-11【功能修改】：博客一键部署脚本完成，博客第一版本正式部署" />
     <MESSAGE value="22-12-17【功能修改】：前端界面功能完善，博客接口优化" />
     <MESSAGE value="22-12-17【bug修复】：修复前端打包问题" />
@@ -785,7 +741,8 @@
     <MESSAGE value="23-02-09【功能新增】：新增nuxt3项目，移除原有vue文件" />
     <MESSAGE value="23-02-11【功能新增】：网站改造为https，新增gitee登陆" />
     <MESSAGE value="23-02-12【功能新增】：新增vite-web学习前端，修改数据库文件" />
-    <option name="LAST_COMMIT_MESSAGE" value="23-02-12【功能新增】：新增vite-web学习前端，修改数据库文件" />
+    <MESSAGE value="23-02-16【功能新增】：博客更新2.1版本，修改前端页面，后端接口不兼容2.0版本博客" />
+    <option name="LAST_COMMIT_MESSAGE" value="23-02-16【功能新增】：博客更新2.1版本，修改前端页面，后端接口不兼容2.0版本博客" />
   </component>
   <component name="WindowStateProjectService">
     <state width="1877" height="217" key="GridCell.Tab.0.bottom" timestamp="1676195931158">
@@ -864,18 +821,19 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="779" y="221" key="RollbackChangesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1676195246268" />
-    <state x="2381" y="164" key="SettingsEditor" timestamp="1675690442438">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="461" y="164" key="SettingsEditor" timestamp="1676795763866">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1676795763866" />
     <state x="2381" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1675690442438" />
     <state x="731" y="432" key="VCS.ChangelistChooser" timestamp="1676195455353">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="731" y="432" key="VCS.ChangelistChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1676195455353" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1676542972397">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1676543544877">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1676542972397" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1676543544877" />
     <state x="2315" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1675690666803" />
     <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1674624375042" />
     <state x="758" y="419" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1676195363070">

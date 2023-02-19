@@ -26,6 +26,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             "/article/type/tree",
             "/article/type/node",
             "/doc/catalog/list",
+            "/article/type/id",
             "/usp/**"
     };
 
