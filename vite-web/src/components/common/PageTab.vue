@@ -10,7 +10,7 @@
           :class="{ 'active': item.active }" :to="item.path" @contextmenu.prevent="openMenu(item.path, index, $event)">
           {{ item.title }}
           <!--这里加prevent.stop是为了避免跳转路由-->
-          <i v-if="item.close" class="fa fa-close el-icon-close" style="margin-left: 5px;"
+          <i v-if="item.close" style="margin-left: 5px;"
             @click.prevent.stop="closeTag(index)"> </i>
         </router-link>
       </div>
@@ -47,13 +47,13 @@ const router = useRouter()
 const store = tagsStore()
 let { MyIcon } = icon()
 let visible = ref(false)
-let top = ref(0)
-let left = ref(0)
-let path: any = route.path
+let top = ref(100)
+let left = ref(100)
+// let path: any = route.path
 
 // 监听路由变化，激活对应标签
 watch(() => route.path, () => {
-  console.log("path: " + route.path)
+  console.log("PageTab path: " + route.path)
   store.activeTag(route.path)
 })
 
@@ -76,7 +76,7 @@ const openMenu = (path: any, index: any, e: any) => {
   store.activeTag(path)
   visible.value = true;
   left.value = e.clientX
-  top.value = e.clientY-50
+  top.value = e.clientY
 
 }
 // 关闭菜单
@@ -131,13 +131,13 @@ const refresh = () => {
   text-decoration: none;
 }
 
-.tags_view_container .tags_view_wrapper .tags_view_item:first-of-type {
-  margin-left: 15px;
-}
+// .tags_view_container .tags_view_wrapper .tags_view_item:first-of-type {
+//   margin-left: 15px;
+// }
 
-.tags_view_container .tags_view_wrapper .tags_view_item:last-of-type {
-  margin-right: 15px;
-}
+// .tags_view_container .tags_view_wrapper .tags_view_item:last-of-type {
+//   margin-right: 15px;
+// }
 
 .tags_view_container .tags_view_wrapper .tags_view_item.active {
   background-color: #42b983;

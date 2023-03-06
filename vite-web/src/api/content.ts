@@ -12,13 +12,13 @@ export const getArticleById = (id: any) => {
   return api.get(uri)
 }
 
-// 获取文章分类数接口
+// 获取文章分类树接口
 export const getArticleTypeTree = () => {
   const uri = "/content/article/type/tree"
   return api.get(uri)
 }
 
-// 获取文章分类数接口
+// 通过id获取文章分类树接口
 export const getArticleTypeById = (id: any) => {
   const uri = "/content/article/type/id?id=" + id
   return api.get(uri)

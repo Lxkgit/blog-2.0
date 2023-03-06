@@ -21,8 +21,6 @@ import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/
 import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
 import hljs from 'highlight.js/lib/core';
 import python from 'highlight.js/lib/languages/python';
-import bash from 'highlight.js/lib/languages/bash';
-import dockerfile from 'highlight.js/lib/languages/dockerfile';
 import json from 'highlight.js/lib/languages/json';
 import yaml from 'highlight.js/lib/languages/yaml';
 import sql from 'highlight.js/lib/languages/sql';
@@ -36,8 +34,6 @@ import {nextTick, onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
 
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('python', python);
-hljs.registerLanguage('bash', bash);
-hljs.registerLanguage('dockerfile', dockerfile);
 hljs.registerLanguage('yaml', yaml);
 hljs.registerLanguage('sql', sql);
 hljs.registerLanguage('javascript', javascript);

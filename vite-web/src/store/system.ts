@@ -7,7 +7,7 @@ export const systemStore = defineStore('system', {
     // markdown目录是否显示
     outlineShow: true,
     // 登录后跳转页
-    nextPath: '/personal/myIndex',
+    nextPath: '/admin',
     // 是否保持登录
     keepLogin: false,
     // 保持登录用户信息(localStorage)
@@ -24,7 +24,8 @@ export const systemStore = defineStore('system', {
     menuIndex: "1",
     // 是否开启深色模式
     isDark: false,
-    
+    // 用户是否登录
+    isLogin: false,
     
     sideBar: false,
   }),
@@ -95,6 +96,23 @@ export const systemStore = defineStore('system', {
         storage: localStorage,
         paths: ['navigation']
       },
+      {
+        key: 'keepLogin',
+        storage: localStorage,
+        paths: ['keepLogin']
+      },
+      {
+        key: 'userLocal',
+        storage: localStorage,
+        paths: ['userLocal']
+      },
+      {
+        key: 'userSession',
+        storage: sessionStorage,
+        paths: ['userSession']
+      },
+
+
       
     ]
   }

@@ -37,7 +37,6 @@
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="router.push('/personal')">个人中心</el-dropdown-item>
                 <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -101,13 +100,9 @@ import { ElMessageBox, ElMessage } from 'element-plus'
 import { computed, onMounted, reactive, ref } from "vue";
 import icon from '@/utils/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-
-// import {getCategory, getNote} from "@/api/blog";
-// import {getSiteConfig} from "@/api/management";
 import { useRouter } from "vue-router";
-import user from "@/utils/user";
-// import {getUserinfoId} from "@/api/account";
 import { systemStore } from "@/store/system";
+import user from "@/utils/user";
 import dark from "@/utils/dark";
 import color from "@/utils/color"
 import theme from "@/utils/theme"
@@ -210,11 +205,11 @@ const logout = () => {
     .then(() => {
       ElMessage({
         type: 'success',
-        message: '账号已成功退出，即将跳转至登录页',
+        message: '账号已成功退出',
       })
       localStorage.clear()
       sessionStorage.clear()
-      router.replace('/loginRegister')
+      router.replace('/')
     })
     .catch(() => {
       console.log("算了，没退出")

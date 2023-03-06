@@ -80,7 +80,7 @@
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="router.push('/personal')">个人中心</el-dropdown-item>
+                <el-dropdown-item @click="selfPage">个人中心</el-dropdown-item>
                 <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -139,7 +139,7 @@
 
 <script setup lang="ts">
 import { ElMessageBox, ElMessage } from 'element-plus'
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref, onActivated } from "vue";
 import icon from '@/utils/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 // import {getCategory, getNote} from "@/api/blog";
@@ -148,6 +148,7 @@ import { useRouter } from "vue-router";
 import user from "@/utils/user";
 // import {getUserinfoId} from "@/api/account";
 import { systemStore } from "@/store/system";
+import { tagsStore } from "@/store/tag"
 import dark from "@/utils/dark";
 import color from "@/utils/color"
 import theme from "@/utils/theme"
@@ -155,6 +156,7 @@ import navigation from "@/utils/navigation";
 import { getArticleTypeTree } from "@/api/content"
 
 const store = systemStore()
+const tagStore = tagsStore()
 let { isDark, setDark } = dark()
 let { setTheme } = theme()
 let { navigationList, setNavigation, navigationType } = navigation()
@@ -218,6 +220,11 @@ async function NoteData() {
   // console.log(noteList.value)
 }
 
+const selfPage = () => {
+  tagStore.activeTag("/admin/index")
+  router.push('/admin/index')
+}
+
 // 跳转至登录页
 const toLogin = () => {
   router.push({ path: '/loginRegister', query: { component: 'Login' } })
@@ -247,11 +254,11 @@ const logout = () => {
     .then(() => {
       ElMessage({
         type: 'success',
-        message: '账号已成功退出，即将跳转至登录页',
+        message: '账号已成功退出',
       })
       localStorage.clear()
       sessionStorage.clear()
-      router.replace('/loginRegister')
+      router.replace('/')
     })
     .catch(() => {
       console.log("算了，没退出")
@@ -304,6 +311,11 @@ const navChange = (value: any) => {
   console.log(value)
   setNavigation(value)
 }
+
+onActivated(()=>{
+  console.log("NavMenu onActivated")
+
+})
 
 onMounted(() => {
   asideMenuFold.value = store.asideMenuFold

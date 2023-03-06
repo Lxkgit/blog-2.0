@@ -9,14 +9,8 @@ export const tagsStore = defineStore('tag', {
                 active: true,  // 是否激活
                 title: '个人中心', // 任务栏标题
                 close: false,  // 是否可以关闭
-                path: '/personal/myIndex' // 当前标签的路径
+                path: '/admin/index' // 当前标签的路径
             },
-            {
-                active: false,  // 是否激活
-                title: '用户管理', // 任务栏标题
-                close: false,  // 是否可以关闭
-                path: '/personal/12' // 当前标签的路径
-            }
         ],
         sideBar: false,
         selectedTag: 0,
@@ -87,7 +81,7 @@ export const tagsStore = defineStore('tag', {
         strategies: [
             {
                 key: 'tags',
-                storage: localStorage,
+                storage: sessionStorage,
                 paths: ['tags']
             }
         ]

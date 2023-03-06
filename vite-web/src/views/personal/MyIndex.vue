@@ -50,35 +50,35 @@
           <el-col :span="8">
             <div class="number-count-card article-card">
               <img src="/src/assets/images/read.png" alt="" />
-              <p class="count-card-title">浏览文章数</p>
+              <p class="count-card-title">文章数</p>
               <p class="count-card-number">1{{ dataCount.article_history }}</p>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="number-count-card article-card">
               <img src="/src/assets/images/collection.png" alt="" />
-              <p class="count-card-title">收藏文章数</p>
+              <p class="count-card-title">文档数</p>
               <p class="count-card-number">1{{ dataCount.article_collect }}</p>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="number-count-card article-card">
               <img src="/src/assets/images/comments.png" alt="" />
-              <p class="count-card-title">评论文章数</p>
+              <p class="count-card-title">日记数</p>
               <p class="count-card-number">1{{ dataCount.article_comment }}</p>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="number-count-card section-card">
               <img src="/src/assets/images/read.png" alt="" />
-              <p class="count-card-title">浏览笔记数</p>
+              <p class="count-card-title">浏览文章数</p>
               <p class="count-card-number">2{{ dataCount.section_history }}</p>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="number-count-card section-card">
               <img src="/src/assets/images/collection.png" alt="" />
-              <p class="count-card-title">收藏笔记数</p>
+              <p class="count-card-title">浏览笔记数</p>
               <p class="count-card-number">3{{ dataCount.section_collect }}</p>
             </div>
           </el-col>
@@ -111,7 +111,7 @@
       </el-card>
     </el-col>
   </el-row>
-  <el-row :gutter="10">
+  <!-- <el-row :gutter="10">
     <el-col :span="8">
       <el-card shadow="hover">
         <template #header>
@@ -128,7 +128,7 @@
         <div id="time" :style="{ 'min-height': '300px' }"></div>
       </el-card>
     </el-col>
-  </el-row>
+  </el-row> -->
 </template>
 
 <script setup name="MyIndex" lang="ts">

@@ -86,21 +86,21 @@
               <span @click="otherLogin('QQ')" class="pointer">
                 <MyIcon type="icon-qq-logo" />
               </span>
-              <span @click="otherLogin('PAY')" class="pointer">
+              <!-- <span @click="otherLogin('PAY')" class="pointer">
                 <MyIcon type="icon-alipay-logo" />
-              </span>
-              <span @click="otherLogin('BAIDU')" class="pointer">
+              </span> -->
+              <!-- <span @click="otherLogin('BAIDU')" class="pointer">
                 <MyIcon type="icon-baidu-logo" />
-              </span>
-              <span @click="otherLogin('WEIBO')" class="pointer">
+              </span> -->
+              <!-- <span @click="otherLogin('WEIBO')" class="pointer">
                 <MyIcon type="icon-weibo-logo" />
-              </span>
+              </span> -->
               <span @click="otherLogin('GITHUB')" class="pointer">
                 <MyIcon type="icon-github-logo" />
               </span>
-              <span @click="otherLogin('MICROSOFT')" class="pointer">
+              <!-- <span @click="otherLogin('MICROSOFT')" class="pointer">
                 <MyIcon type="icon-microsoft-logo" />
-              </span>
+              </span> -->
             </div>
           </div>
         </div>
@@ -129,7 +129,7 @@
 
 <script setup name="LoginRegister" lang="ts">
 import icon from '@/utils/icon'
-import { onBeforeMount, onMounted, reactive, ref } from "vue";
+import { onBeforeMount, onMounted, reactive, ref, onActivated } from "vue";
 import { useRouter } from "vue-router";
 import VerifyImgBtn from "@/components/verify/VerifyImgBtn.vue";
 import VerifyCodeBtn from "@/components/verify/VerifyCodeBtn.vue"
@@ -138,6 +138,7 @@ import { systemStore } from "@/store/system";
 // import { getBgiUrl } from "@/api/public";
 // import { getOAuthID, getRegister, postCode, postLogin, postRegister } from "@/api/account";
 // import { getSiteConfig } from "@/api/management";
+import { userLoginApi } from "@/api/auth"
 
 const store = systemStore()
 const router = useRouter();
@@ -148,43 +149,48 @@ let { switchLogin, switchRegister, bgiURL, component, sitename } = publicFn()
 let { loginForm, loginRules, remember, isPassing, verifyPass, btnType, otherLogin } = loginFn()
 // 引入注册模块
 let { registerForm, registerRules, codeBtnDisabled, registerPass } = registerFn()
+onActivated(()=>{
+
+})
 // 登录表单对象
-const loginRef = ref(null)
+const loginRef: any = ref(null)
 // 登录表单提交事件
 const loginSubmit = () => {
-  // loginRef.value.validate((valid: any) => {
-  //   if (valid && isPassing.value) {
-  //     postLogin(loginForm).then((response: any) => {
-  //       console.log(response)
-  //       ElMessage({
-  //         message: '登录成功！',
-  //         type: 'success',
-  //       })
-  //       if (remember.value) {
-  //         console.log('记住了')
-  //         store.commit('setKeepLogin', true)
-  //         store.commit('setUserLocal', response)
-  //       } else {
-  //         console.log('记不住')
-  //         store.commit('setKeepLogin', false)
-  //         store.commit('setUserSession', response)
-  //       }
-  //       router.push(store.state.nextPath)
-  //     }).catch(response => {
-  //       //发生错误时执行的代码
-  //       console.log(response)
-  //       ElMessage.error('账号或密码错误！')
-  //       loginForm.username = ''
-  //       loginForm.password = ''
-  //       isPassing.value = false
-  //     });
-  //   } else {
-  //     console.log("滑块验证了吗")
-  //     btnType.value = 'danger'
-  //     ElMessage.error('请检查表单内容后再登录')
-  //     return false
-  //   }
-  // })
+  if (loginRef.value !== null) {
+    loginRef.value.validate((valid: any) => {
+      if (valid && isPassing.value) {
+        userLoginApi(loginForm.username, loginForm.password).then((res: any) => {
+          console.log(res)
+          ElMessage({
+            message: '登录成功！',
+            type: 'success',
+          })
+          if (remember.value) {
+            console.log('记住了')
+            store.setKeepLogin(true)
+            store.setUserLocal(res.result)
+          } else {
+            console.log('记不住')
+            store.setKeepLogin(false)
+            store.setUserSession(res.result)
+          }
+          router.push("/admin")
+        }).catch(res => {
+          //发生错误时执行的代码
+          console.log(res)
+          ElMessage.error('账号或密码错误！')
+          loginForm.username = ''
+          loginForm.password = ''
+          isPassing.value = false
+        });
+      } else {
+        console.log("滑块验证了吗")
+        btnType.value = 'danger'
+        ElMessage.error('请检查表单内容后再登录')
+        return false
+      }
+    })
+  }
 }
 // 注册表单对象
 const registerRef = ref(null)

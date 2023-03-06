@@ -1,31 +1,60 @@
 // 是否登录判断
 
-import {computed, onMounted, ref} from "vue";
-import store from "@/store/index";
+import { computed, onMounted, ref, onActivated } from "vue";
+import { systemStore } from "@/store/system"
+
 
 function user() {
-	const isLogin = ref(true)
-	const keepLogin = computed(() => store.state.login.keepLogin)
+	const store = systemStore()
+	const isLogin = ref(false)
 	const userId = ref()
 	const userToken = ref()
 	const userName = ref()
+	onActivated(() => {
+		// 获取用户基本信息
+		console.log("user.ts onActivated")
+		if (store.keepLogin === true) {
+			if (JSON.stringify(store.userLocal) === '{}') {
+				isLogin.value = false
+			} else {
+				isLogin.value = true
+				userId.value = store.userLocal.user_id
+				userToken.value = store.userLocal.access_token
+				userName.value = store.userLocal.user_id
+			}
+		} else {
+			if (JSON.stringify(store.userSession) === '{}') {
+				isLogin.value = false
+			} else {
+				isLogin.value = true
+				userId.value = store.userSession.user_id
+				userToken.value = store.userSession.access_token
+				userName.value = store.userSession.user_id
+			}
+		}
+	})
 	onMounted(() => {
 		// 获取用户基本信息
-		// if (keepLogin === true) {
-		// 	userId.value = store.state.userLocal.userid
-		// 	userToken.value = store.state.userLocal.token
-		// 	userName.value = store.state.userLocal.username
-		// } else {
-		// 	if (JSON.stringify(store.state.userSession) === '{}') {
-		// 		isLogin.value = false
-		// 	} else {
-		// 		isLogin.value = true
-		// 		userId.value = store.state.userSession.userid
-		// 		userToken.value = store.state.userSession.token
-		// 		userName.value = store.state.userSession.username
-		// 	}
-		// }
-		// console.log("userToken.value", userToken.value)
+		console.log("user.ts onMounted")
+		if (store.keepLogin === true) {
+			if (JSON.stringify(store.userLocal) === '{}') {
+				isLogin.value = false
+			} else {
+				isLogin.value = true
+				userId.value = store.userLocal.user_id
+				userToken.value = store.userLocal.access_token
+				userName.value = store.userLocal.user_id
+			}
+		} else {
+			if (JSON.stringify(store.userSession) === '{}') {
+				isLogin.value = false
+			} else {
+				isLogin.value = true
+				userId.value = store.userSession.user_id
+				userToken.value = store.userSession.access_token
+				userName.value = store.userSession.user_id
+			}
+		}
 	})
 	return {
 		isLogin, userId, userToken, userName

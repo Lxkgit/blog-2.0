@@ -158,25 +158,19 @@ const router = createRouter({
             }
         },
         {
-            path: '/personal',
-            name: 'Personal',
+            path: '/admin',
+            name: 'AdminIndex',
             component: () => import('@/views/personal/Personal.vue'),
             children: [
                 {
                     path: "",
-                    redirect: "/personal/myIndex",
+                    redirect: "/admin/index",
                     isAuth: true,
                     keepAlive: false,
                 },
                 {
-                    path: "statistics",
-                    redirect: "/personal/myIndex",
-                    isAuth: true,
-                    keepAlive: false,
-                },
-                {
-                    path: 'myIndex',
-                    name: 'MyIndex',
+                    path: 'index',
+                    name: 'AdminIndex',
                     component: () => import('@/views/personal/MyIndex.vue'),
                     meta: {
                         title: '个人中心',
@@ -185,89 +179,68 @@ const router = createRouter({
                     },
                 },
                 {
-                    path: 'myInfo',
-                    name: 'MyInfo',
-                    component: () => import('@/views/personal/MyInfo.vue'),
+                    path: 'article',
+                    name: 'Article',
+                    component: () => import('@/views/admin/article/AdminArticle.vue'),
                     meta: {
-                        title: '修改信息',
+                        title: '文章管理',
                         keepAlive: false,
-                        isAuth: true
+                        isAuth: true,
                     },
                 },
                 {
-                    path: 'changePassword',
-                    name: 'ChangePassword',
-                    component: () => import('@/views/personal/ChangePassword.vue'),
+                    path: 'article/editor',
+                    name: 'ArticleEditor',
+                    component: () => import('@/views/admin/article/ArticleEditor.vue'),
                     meta: {
-                        title: '修改密码',
+                        title: '文章编辑',
                         keepAlive: false,
-                        isAuth: true
+                        isAuth: true,
                     },
                 },
                 {
-                    path: 'changeEmail',
-                    name: 'ChangeEmail',
-                    component: () => import('@/views/personal/ChangeEmail.vue'),
+                    path: 'role',
+                    name: 'Role',
+                    component: () => import('@/views/admin/role/AdminRole.vue'),
                     meta: {
-                        title: '更换邮箱',
+                        title: '角色管理',
                         keepAlive: false,
-                        isAuth: true
+                        isAuth: true,
                     },
                 },
                 {
-                    path: 'changePhone',
-                    name: 'ChangePhone',
-                    component: () => import('@/views/personal/ChangePhone.vue'),
+                    path: 'user',
+                    name: 'User',
+                    component: () => import('@/views/admin/user/AdminUser.vue'),
                     meta: {
-                        title: '更换手机',
+                        title: '用户管理',
                         keepAlive: false,
-                        isAuth: true
-                    }
+                        isAuth: true,
+                    },
                 },
                 {
-                    path: 'myHistory',
-                    name: 'MyHistory',
-                    component: () => import('@/views/personal/MyHistory.vue'),
+                    path: 'diary',
+                    name: 'Diary',
+                    component: () => import('@/views/admin/diary/AdminDiary.vue'),
                     meta: {
-                        title: '浏览记录',
+                        title: '日记管理',
                         keepAlive: false,
-                        isAuth: true
-                    }
+                        isAuth: true,
+                    },
                 },
                 {
-                    path: 'myCollect',
-                    name: 'MyCollect',
-                    component: () => import('@/views/personal/MyCollect.vue'),
+                    path: 'doc',
+                    name: 'Doc',
+                    component: () => import('@/views/admin/doc/AdminDoc.vue'),
                     meta: {
-                        title: '我的收藏',
+                        title: '笔记管理',
                         keepAlive: false,
-                        isAuth: true
-                    }
+                        isAuth: true,
+                    },
                 },
-                {
-                    path: 'myComments',
-                    name: 'MyComments',
-                    component: () => import('@/views/personal/MyComments.vue'),
-                    meta: {
-                        title: '我的评论',
-                        keepAlive: false,
-                        isAuth: true
-                    }
-                }
+               
             ]
         },
-        {
-            path: '/test',
-            name: 'Test',
-            component: () => import('@/views/Test.vue'),
-            meta: {
-                title: '测试页',
-                keepAlive: false,
-                isAuth: false
-            }
-        },
-        {path: '/test1', component: () => import('@/views/Test1.vue')},
-        {path: '/test2', component: () => import('@/views/Test2.vue')},
         {
             path: '/404',
             name: '404',
