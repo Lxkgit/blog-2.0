@@ -13,7 +13,7 @@
       <span class="right">
         <el-tooltip class="item" effect="dark" content="设置" placement="bottom">
           <span class="setting hvr-grow" @click="drawer = true">
-            <MyIcon type="icon-setting" />
+            <MyIcon type="icon-shezhi-xianxing" />
           </span>
         </el-tooltip>
         <el-tooltip class="item" effect="dark" content="搜索" placement="bottom">

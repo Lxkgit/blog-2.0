@@ -57,8 +57,9 @@
               <span v-else>未保存</span>
             </span>
           </div>
-          <v-md-editor v-model="diary.data.diaryMd" height="500px" @save="saveDiaryFun"
-            @change="changeDiaryFun"></v-md-editor>
+          <DiaryEditor></DiaryEditor>
+          <!-- <v-md-editor v-model="diary.data.diaryMd" height="500px" @save="saveDiaryFun"
+            @change="changeDiaryFun"></v-md-editor> -->
         </div>
       </el-dialog>
       <el-dialog v-model="showDiaryDialog" title="查看日记">
@@ -105,8 +106,9 @@
 import { ElMessage } from 'element-plus';
 import { onMounted, ref, reactive } from 'vue';
 // import { getDiaryList, saveDiary, updateDiary, deleteDiaryByIds, importDiary } from "../../../api/article"
-// import { uploadUrl, header } from "../../../utils/upload"
+import { uploadUrl, header } from "@/utils/upload"
 import type { UploadProps } from 'element-plus'
+import DiaryEditor from "@/views/admin/diary/DiaryEditor.vue"
 
 let ids = new Array();
 let size = ref<number>(14)

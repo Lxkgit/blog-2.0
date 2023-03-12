@@ -73,92 +73,22 @@
         <TagCloud></TagCloud>
       </div>
     </el-card>
-    <!-- <el-card class="card-hover">
-      <template #header>
-        <span class="card-title no-choose">👦 关于博主</span>
-      </template>
-      <div class="info">
-        <div class="no-choose">
-          <MyIcon type="icon-position" />
-          {{ info.position }}
-        </div>
-        <div class="no-choose">
-          <MyIcon type="icon-company" />
-          {{ info.company }}
-        </div>
-        <div class="no-choose">
-          <MyIcon type="icon-location" />
-          {{ info.location }}
-        </div>
-        <div>
-          <MyIcon type="icon-email" />
-          {{ info.email }}
-        </div>
-        <div class="contact">
-          <span>
-            <el-popover placement="top-start" :width="235" trigger="hover">
-              <div>
-                <el-image style="width: 210px; height: 210px" :src="info.qq_img" :fit="'fill'"></el-image>
-              </div>
-              <template #reference>
-                <MyIcon type="icon-qq" />
-              </template>
-            </el-popover>
-          </span>
-          <span>
-            <el-popover placement="top-start" :width="235" trigger="hover">
-              <div>
-                <el-image style="width: 210px; height: 210px" :src="info.wechat_img" :fit="'fill'"></el-image>
-              </div>
-              <template #reference>
-                <MyIcon type="icon-wechat" />
-              </template>
-            </el-popover>
-          </span>
-          <span>
-            <el-popover placement="top-start" :width="235" trigger="hover">
-              <div>
-                <el-image style="width: 210px; height: 210px" :src="info.vx_public_img" :fit="'fill'"></el-image>
-              </div>
-              <template #reference>
-                <MyIcon type="icon-vx-public" />
-              </template>
-            </el-popover>
-          </span>
-          <el-tooltip effect="dark" content="RSS订阅" placement="top">
-            <span><a :href="info.rss" target="_blank">
-                <MyIcon type="icon-rss" />
-              </a></span>
-          </el-tooltip>
-          <el-tooltip effect="dark" content="GitHub仓库" placement="top">
-            <span><a :href="info.github" target="_blank">
-                <MyIcon type="icon-github-logo" />
-              </a></span>
-          </el-tooltip>
-          <el-tooltip effect="dark" content="码云仓库" placement="top">
-            <span><a :href="info.gitee" target="_blank">
-                <MyIcon type="icon-gitee" />
-              </a></span>
-          </el-tooltip>
-        </div>
-      </div>
-    </el-card> -->
     <el-card class="card-hover">
       <template #header>
         <span class="card-title no-choose">📊 网站统计</span>
       </template>
       <div class="statistics">
         <div>
-          <MyIcon type="icon-uptime" />
+          <MyIcon type="icon-yunhangshijian" />
           运行时间：<span v-html='runTimeString'></span>
 
         </div>
         <div>
-          <MyIcon type="icon-pv" />
+          <MyIcon type="icon-fangwenliang" />
           总访问量：{{ statistics.pv }}次
         </div>
         <div>
-          <MyIcon type="icon-uv" />
+          <MyIcon type="icon-fangwenrenshu" />
           访问人数：{{ statistics.uv }}次
         </div>
         <div>
@@ -166,23 +96,23 @@
           访问IP数：{{ statistics.ip }}个
         </div>
         <div>
-          <MyIcon type="icon-article" />
+          <MyIcon type="icon-icon-article" />
           文章篇数：{{ statistics.article }}篇
         </div>
         <div>
-          <MyIcon type="icon-section" />
+          <MyIcon type="icon-book" />
           笔记篇数：{{ statistics.section }}篇
         </div>
         <div>
-          <MyIcon type="icon-category" />
+          <MyIcon type="icon-wenzhangfenlei" />
           文章分类数：{{ statistics.category }}个
         </div>
         <div>
-          <MyIcon type="icon-tag" />
+          <MyIcon type="icon-biaoqian1" />
           文章标签数：{{ statistics.tag }}个
         </div>
         <div>
-          <MyIcon type="icon-note" />
+          <MyIcon type="icon-wenzhangfenlei1" />
           笔记分类数：{{ statistics.note }}个
         </div>
       </div>

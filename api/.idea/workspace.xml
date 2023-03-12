@@ -318,13 +318,7 @@
       <workItem from="1676470563144" duration="27000" />
       <workItem from="1676542916494" duration="771000" />
       <workItem from="1676795545714" duration="2175000" />
-    </task>
-    <task id="LOCAL-00025" summary="22-07-14【bug修复】：修复oauth2登陆报错问题">
-      <created>1657812717160</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1657812717160</updated>
+      <workItem from="1678074534770" duration="812000" />
     </task>
     <task id="LOCAL-00026" summary="22-07-16【功能新增】：新增图片上传功能">
       <created>1657937049034</created>
@@ -662,7 +656,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676798191016</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="23-03-06【功能新增】：新增博客后端管理页面">
+      <created>1678074660364</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1678074660365</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -693,7 +694,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="22-12-17【功能修改】：前端界面功能完善，博客接口优化" />
     <MESSAGE value="22-12-17【bug修复】：修复前端打包问题" />
     <MESSAGE value="22-12-18【功能新增】：博客角色管理页面完成70%" />
     <MESSAGE value="22-12-21【功能新增】：博客用户管理页面完成，文章自动保存完成" />
@@ -718,7 +718,8 @@
     <MESSAGE value="23-02-12【功能新增】：新增vite-web学习前端，修改数据库文件" />
     <MESSAGE value="23-02-16【功能新增】：博客更新2.1版本，修改前端页面，后端接口不兼容2.0版本博客" />
     <MESSAGE value="23-02-19【功能新增】：文章展示功能完成" />
-    <option name="LAST_COMMIT_MESSAGE" value="23-02-19【功能新增】：文章展示功能完成" />
+    <MESSAGE value="23-03-06【功能新增】：新增博客后端管理页面" />
+    <option name="LAST_COMMIT_MESSAGE" value="23-03-06【功能新增】：新增博客后端管理页面" />
   </component>
   <component name="WindowStateProjectService">
     <state width="1603" height="313" key="GridCell.Tab.0.bottom" timestamp="1676818352931">
@@ -806,10 +807,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="731" y="432" key="VCS.ChangelistChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1676195455353" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1676798197041">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1678074668709">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1676798197041" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1678074668709" />
     <state x="2315" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1675690666803" />
     <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1674624375042" />
     <state x="758" y="419" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1676195363070">

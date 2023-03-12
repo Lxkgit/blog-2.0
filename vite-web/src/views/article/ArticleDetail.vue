@@ -4,7 +4,6 @@
       <NavMenu></NavMenu>
       <div class="detail-page">
         <div class="detail-left">
-          <!--        这是左边部分-->
         </div>
         <div class="detail-center">
           <div class="current-position">

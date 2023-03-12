@@ -5,7 +5,6 @@
       <PageTab></PageTab>
     </el-header>
     <el-container>
-      <!-- <el-aside :width="store.sideBar === true ? '65px' : '200px'"> -->
       <el-aside width="store.sideBar === true ? '65px' : '200px'">
         <AsideMenu></AsideMenu>
       </el-aside>

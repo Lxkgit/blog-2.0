@@ -12,13 +12,13 @@
         <el-table-column prop="roleName" label="角色名称" />
         <el-table-column prop="updateTime" label="近期修改" />
         <el-table-column prop="createTime" label="创建日期" width="162" />
-        <el-table-column fixed="right" label="操作" width="138">
+        <el-table-column fixed="right" label="操作" width="100">
           <template #default="scope">
             <el-button style="margin-left: 0" @click.prevent="loadMenuData(scope.row.id, 2)" size="small" text>
-              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <MyIcon type="icon-edit"/>
             </el-button>
             <el-button style="margin-left: 0" @click.prevent="" size="small" text>
-              <i class="fa fa-trash" aria-hidden="true"></i>
+              <MyIcon type="icon-shanchu"/>
             </el-button>
           </template>
         </el-table-column>
@@ -51,8 +51,10 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from 'element-plus'
-import { roleListApi, createRoleApi } from "@/api/user"
+import { roleListApi, createRoleApi, updateRoleApi, deleteRoleApi, selectRolePerListApi, updateRolePerApi, allMenuApi } from "@/api/user"
+import icon from '@/utils/icon'
 
+let { MyIcon } = icon()
 let page = ref<number>(1);
 let size = ref<number>(14);
 let total = ref<number>(0);
@@ -91,43 +93,43 @@ const getRoleList = (page: any) => {
 };
 
 const getMenuApi = (menuType: any) => {
-  // allMenuApi(menuType).then((res: any) => {
-  //   if (res.code === 200) {
-  //     menuList.data = res.result;
-  //     menuList.data.list = "";
-  //   }
-  // });
+  allMenuApi(menuType).then((res: any) => {
+    if (res.code === 200) {
+      menuList.data = res.result;
+      menuList.data.list = "";
+    }
+  });
 };
 
 const selectRolePerListFun = (roleId: any, menuType: any) => {
-  // selectRolePerListApi(roleId, menuType).then((res: any) => {
-  //   if (res.code === 200) {
-  //     roleMenu.value = res.result.perIds;
-  //     rolePer.value = res.result.perIds;
-  //   }
-  // });
+  selectRolePerListApi(roleId, menuType).then((res: any) => {
+    if (res.code === 200) {
+      roleMenu.value = res.result.perIds;
+      rolePer.value = res.result.perIds;
+    }
+  });
 };
 
 const updateRolePerFun = () => {
-  // dialogVisible.value = false;
-  // if (roleId.value === 1) {
-  //   ElMessage({
-  //     message: '超级管理员权限无法修改',
-  //     type: 'error',
-  //   })
-  // } else {
-  //   updateRolePerApi({
-  //     id: roleId.value,
-  //     perIds: rolePer.value,
-  //   }).then((res: any) => {
-  //     if (res.code === 200) {
-  //       ElMessage({
-  //         message: '角色权限修改成功',
-  //         type: 'success',
-  //       })
-  //     }
-  //   });
-  // }
+  dialogVisible.value = false;
+  if (roleId.value === 1) {
+    ElMessage({
+      message: '超级管理员权限无法修改',
+      type: 'error',
+    })
+  } else {
+    updateRolePerApi({
+      id: roleId.value,
+      perIds: rolePer.value,
+    }).then((res: any) => {
+      if (res.code === 200) {
+        ElMessage({
+          message: '角色权限修改成功',
+          type: 'success',
+        })
+      }
+    });
+  }
 };
 
 const handleCheckChange = (data: any, checked: any) => {

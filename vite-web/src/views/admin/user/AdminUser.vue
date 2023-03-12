@@ -39,13 +39,13 @@
         </el-table-column>
         <el-table-column prop="updateTime" label="最近登录" />
         <el-table-column prop="createTime" label="创建日期" width="162" />
-        <el-table-column fixed="right" label="操作" width="90">
+        <el-table-column fixed="right" label="操作" width="100">
           <template #default="scope">
             <el-button @click.prevent="loadUserData(scope.row)" size="small" text>
-              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <MyIcon type="icon-edit"/>
             </el-button>
             <el-button style="margin-left: 0;" @click.prevent="" size="small" text>
-              <i class="fa fa-trash" aria-hidden="true"></i>
+              <MyIcon type="icon-shanchu"/>
             </el-button>
           </template>
         </el-table-column>
@@ -110,14 +110,17 @@
 </template>
 
 <script setup lang="ts">
-// import mixin from "../../../mixins/user"
+import mixin from "@/mixins/user"
 import { ref, reactive, onMounted } from 'vue';
-
+import { userListApi } from "@/api/user"
 import type { UploadProps } from 'element-plus'
 import { ElMessage } from 'element-plus'
-// import { uploadUrl, header } from "../../../utils/upload"
+import { uploadUrl, header } from "@/utils/upload"
+import icon from '@/utils/icon'
 
-// let { userStatus } = mixin();
+let { MyIcon } = icon()
+
+let { userStatus } = mixin();
 let page = ref<number>(1)
 let size = ref<number>(10)
 let total = ref<number>(0)
@@ -155,12 +158,12 @@ const getUserListByPage = (page: any) => {
 };
 
 const getUserList = (page: any) => {
-  // userListApi(page, size.value).then((res: any) => {
-  //   if (res.code === 200) {
-  //     userList.data = res.result.list;
-  //     total.value = res.result.total;
-  //   }
-  // })
+  userListApi(page, size.value).then((res: any) => {
+    if (res.code === 200) {
+      userList.data = res.result.list;
+      total.value = res.result.total;
+    }
+  })
 }
 
 const getRoleList = () => {

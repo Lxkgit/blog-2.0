@@ -9,12 +9,12 @@
       <span class="middle">
         <el-menu :default-active="menuIndex" mode="horizontal">
           <el-menu-item index="1" @click="router.push('/')">
-            <MyIcon type="icon-home" />
+            <MyIcon type="icon-home3" />
             <span class="menu-title">首页</span>
           </el-menu-item>
           <el-sub-menu index="2">
             <template #title>
-              <MyIcon type="icon-article" />
+              <MyIcon type="icon-icon-article" />
               <span class="menu-title">文章</span>
             </template>
             <div v-for="articleType in articleTypeList">
@@ -26,29 +26,29 @@
               <el-sub-menu v-else :index="'2-' + articleType.id" v-for="item in articleType.children">
                 <template #title>{{ articleType.typeName }}</template>
                 <el-menu-item :index="'2-' + articleType.id + '-' + item.id" :key="item.id"
-                  @click.native="toCategory(item.id)">{{ item.typeName }}</el-menu-item>
+                  @click="toCategory(item.id)">{{ item.typeName }}</el-menu-item>
               </el-sub-menu>
             </div>
           </el-sub-menu>
 
           <el-sub-menu index="3">
             <template #title>
-              <MyIcon type="icon-note" />
+              <MyIcon type="icon-book" />
               <span class="menu-title">笔记</span>
             </template>
             <el-menu-item v-for="note in noteList" :key="note.id" :index="'3-' + note.id"
               @click="router.push(`/catalog/${note.id}`)">{{ note.name }}</el-menu-item>
           </el-sub-menu>
           <el-menu-item index="4" @click="router.push('/classify')">
-            <MyIcon type="icon-classify" />
+            <MyIcon type="icon-shijianzhou" />
             <span class="menu-title">归档</span>
           </el-menu-item>
           <el-menu-item index="5" @click="router.push('/message')">
-            <MyIcon type="icon-message" />
+            <MyIcon type="icon-liuyan" />
             <span class="menu-title">留言板</span>
           </el-menu-item>
           <el-menu-item index="6" @click="router.push('/about')">
-            <MyIcon type="icon-about" />
+            <MyIcon type="icon-about1" />
             <span class="menu-title">关于</span>
           </el-menu-item>
         </el-menu>
@@ -56,7 +56,7 @@
       <span class="right">
         <el-tooltip class="item" effect="dark" content="设置" placement="bottom">
           <span class="setting hvr-grow" @click="drawer = true">
-            <MyIcon type="icon-setting" />
+            <MyIcon type="icon-shezhi-xianxing" />
           </span>
         </el-tooltip>
         <el-tooltip class="item" effect="dark" content="搜索" placement="bottom">
@@ -153,7 +153,7 @@ import dark from "@/utils/dark";
 import color from "@/utils/color"
 import theme from "@/utils/theme"
 import navigation from "@/utils/navigation";
-import { getArticleTypeTree } from "@/api/content"
+import { getArticleTypeTreeApi } from "@/api/content"
 
 const store = systemStore()
 const tagStore = tagsStore()
@@ -191,7 +191,7 @@ async function siteConfigData() {
 const articleTypeList: any = ref([])
 
 async function categoryData() {
-  getArticleTypeTree().then((res: any) => {
+  getArticleTypeTreeApi().then((res: any) => {
     if (res.code === 200) {
       articleTypeList.value = res.result
     }

@@ -1,19 +1,19 @@
 <template>
   <div style="height: calc(100vh - 138px);" :class="{ 'side_bar_open': store.sideBar }">
     <div @click="store.sideBar = !store.sideBar" style="height: 40px; display: flex;
-    align-items: center; padding-left: 10px; border-right: solid 1px var(--el-menu-border-color); border-bottom: solid 1px var(--el-menu-border-color); background-color: var(--el-menu-bg-color);
+    align-items: center; padding-left: 25px; border-right: solid 1px var(--el-menu-border-color); border-bottom: solid 1px var(--el-menu-border-color); background-color: var(--el-menu-bg-color);
     border-top: solid 1px var(--el-menu-border-color);">
       <el-icon v-if="store.sideBar === true">
-        开
+        <MyIcon type="icon-indent" />
       </el-icon>
       <el-icon v-else>
-        关
+        <MyIcon type="icon-outdent" />
       </el-icon>
     </div>
     <el-menu :collapse="store.sideBar" :collapse-transition="true" width="60px" class="el-menu-vertical-demo">
       <el-menu-item index="/admin/index" @click="router.push('/admin/index')">
         <el-icon>
-          <icon-user />
+          <MyIcon type="icon-custom-user" />
         </el-icon>
         <span class="menu-icon-text">个人中心</span>
       </el-menu-item>
@@ -24,9 +24,6 @@
 
 <script setup lang="ts">
 import MyMenu from "@/components/common/MyMenu.vue"
-
-
-import { User as IconUser, Tickets, Operation } from '@element-plus/icons-vue'
 import { computed, onMounted, reactive, ref } from "vue";
 import user from "@/utils/user";
 import { useRouter } from "vue-router";

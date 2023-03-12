@@ -13,7 +13,8 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+//@ts-nocheck
 import {onMounted, ref} from "vue";
 import color from "@/utils/color";
 // import {getTag} from "@/api/blog";

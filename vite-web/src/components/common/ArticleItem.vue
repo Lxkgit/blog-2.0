@@ -11,19 +11,19 @@
           article.articleTypes[0].typeName
         }}</span>
         <span>
-          <MyIcon type="icon-time" />{{ timeAgo(article.createTime) }}
+          <MyIcon type="icon-4TIME" />{{ timeAgo(article.createTime) }}
         </span>
         <span>
-          <MyIcon type="icon-view" />{{ article.browseCount }}
+          <MyIcon type="icon-eye1" />{{ article.browseCount }}
         </span>
         <span>
           <MyIcon type="icon-like" />{{ article.likeCount }}
         </span>
-        <span>
+        <!-- <span>
           <MyIcon type="icon-collect" />{{ article.collect }}
-        </span>
+        </span> -->
         <span>
-          <MyIcon type="icon-comment" />{{ article.comment }}
+          <MyIcon type="icon-review" />1{{ article.comment }}
         </span>
       </div>
     </span>

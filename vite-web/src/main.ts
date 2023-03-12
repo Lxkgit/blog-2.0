@@ -14,6 +14,14 @@ import '@/assets/style/css-vars.css'
 import "@/assets/style/normalize.css"
 import "@/assets/style/hover-min.css"
 
+// router.beforeEach((to, from, next) => {
+// 	if(to.matched.some((auth) => auth.meta.isAuth)) {
+		
+// 	} else {
+// 		next()
+// 	}
+// })
+
 const app = createApp(App)
 //绑定事件总线
 app.config.globalProperties.$bus = new mitt();

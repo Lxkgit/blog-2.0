@@ -4,14 +4,16 @@
     <header id="tags_view_container" class="tags_view_container">
       <div class="tags_view_wrapper">
         <span style="float: left; width: 57px; box-sizing: border-box; line-height: 38px; text-align: center;">
-          <MyIcon type="icon-home" @click="router.push('/')"/>
+          <MyIcon type="icon-home3" @click="router.push('/')"/>
         </span>
         <router-link v-for="(item, index) in store.tags" :key="index" ref="tag" tag="span" class="tags_view_item"
           :class="{ 'active': item.active }" :to="item.path" @contextmenu.prevent="openMenu(item.path, index, $event)">
           {{ item.title }}
           <!--这里加prevent.stop是为了避免跳转路由-->
-          <i v-if="item.close" style="margin-left: 5px;"
-            @click.prevent.stop="closeTag(index)"> </i>
+          <i v-if="item.close"
+            @click.prevent.stop="closeTag(index)"> 
+            <MyIcon  style="width: 16px; height:16px" type="icon-close"/>
+          </i>
         </router-link>
       </div>
       <ul v-if="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
@@ -62,10 +64,10 @@ const closeTag = (index?: any) => {
   visible.value = false
   if(index === undefined) {
     store.delTag(store.selectedTag)
-    router.push("/personal/myIndex")
+    router.push("/admin/index")
   } else {
     if(store.tags[index].active){
-      router.push("/personal/myIndex")
+      router.push("/admin/index")
     }
     store.delTag(index)
   }
@@ -91,7 +93,7 @@ const closeOther = () => {
 
 const closeAll = () => {
   visible.value = false
-  router.push("/admin")
+  router.push("/admin/index")
   store.delAllTags()
 }
 
@@ -126,9 +128,14 @@ const refresh = () => {
   border: 1px solid #d8dce5;
   color: #495060;
   background: #fff;
-  padding: 0 8px;
+  padding: 0 6px;
   font-size: 12px;
   text-decoration: none;
+}
+
+.tags_view_container .tags_view_wrapper .tags_view_item i:hover{
+  background-color: #949790;
+  border-radius: 50%;
 }
 
 // .tags_view_container .tags_view_wrapper .tags_view_item:first-of-type {

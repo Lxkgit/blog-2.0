@@ -63,7 +63,7 @@ import Footer from "@/components/common/Footer.vue"
 import BackTop from "@/components/common/BackTop.vue"
 import { computed, onActivated, onMounted, onUnmounted, reactive, ref } from "vue";
 //   import {getCarousel} from "@/api/management";
-import { getArticleList } from "@/api/content";
+import { getArticleListApi } from "@/api/content";
 import { systemStore } from "@/store/system";
 
 const store = systemStore()
@@ -119,7 +119,7 @@ const svg = `
 // 加载下一页
 const load = () => {
     console.log("加载下一页了")
-    getArticleList(article_params).then((res: any) => {
+    getArticleListApi(article_params).then((res: any) => {
         article.list.push(...res.result.list)
         article.count = res.result.total
         loading.value = false
