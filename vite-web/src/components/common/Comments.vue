@@ -1,4 +1,4 @@
-<!--评论回复组件-->
+<!-- 评论回复组件 -->
 <template>
   <ol class="comments" v-for="(item,index) in commentsList" :key="index">
     <li>
@@ -117,7 +117,7 @@ const replyForm = reactive({
   father: ''
 })
 // 点击留言评论回复事件
-const replyMessage = (father) => {
+const replyMessage = (father: any) => {
   console.log(father)
   textareaShow.value = true
   replyForm.father = father

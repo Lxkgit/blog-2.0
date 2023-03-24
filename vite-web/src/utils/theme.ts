@@ -9,7 +9,7 @@ function theme() {
   // 当前默认主题色
   const themeValue = computed(() => store.theme)
   // 切换主题色
-  const setTheme = (value) => {
+  const setTheme = (value: any) => {
     store.setTheme(value)
     console.log("执行切换主题色事件：", themeValue.value)
     const el = ref(null)

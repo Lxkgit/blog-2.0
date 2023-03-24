@@ -50,7 +50,7 @@ import Pagination from "@/components/common/Pagination.vue"
 import { onActivated, onMounted, reactive, ref } from "vue";
 import { onBeforeRouteUpdate, useRouter } from "vue-router";
 import { systemStore } from "@/store/system";
-import { getArticleList, getArticleTypeById } from "@/api/content";
+import { getArticleListApi, getArticleTypeByIdApi } from "@/api/content";
 
 const store = systemStore()
 const router = useRouter()
@@ -61,7 +61,7 @@ const articleType:any = reactive({ date: [] })
 
 // 获取文章分类名称
 async function articleTypeData(categoryID: any) {
-  getArticleTypeById(categoryID).then((res: any) => {
+  getArticleTypeByIdApi(categoryID).then((res: any) => {
     if (res.code === 200) {
       articleType.date = res.result
     }
@@ -82,7 +82,7 @@ async function articleData(page: any, size: any, categoryID: any) {
     pageSize: size,
     articleType: categoryID
   }
-  getArticleList(params).then((res: any) => {
+  getArticleListApi(params).then((res: any) => {
     if (res.code === 200) {
       console.log(JSON.stringify(res) + " --- ")
       article.list = res.result.list

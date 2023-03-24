@@ -43,14 +43,14 @@
             <MyIcon type="icon-shijianzhou" />
             <span class="menu-title">归档</span>
           </el-menu-item>
-          <el-menu-item index="5" @click="router.push('/message')">
+          <!-- <el-menu-item index="5" @click="router.push('/message')">
             <MyIcon type="icon-liuyan" />
             <span class="menu-title">留言板</span>
           </el-menu-item>
           <el-menu-item index="6" @click="router.push('/about')">
             <MyIcon type="icon-about1" />
             <span class="menu-title">关于</span>
-          </el-menu-item>
+          </el-menu-item> -->
         </el-menu>
       </span>
       <span class="right">

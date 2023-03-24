@@ -411,7 +411,7 @@ function registerFn() {
     password2: ''
   })
   // 用户名验证
-  const checkUsername = (rule, value, callback) => {
+  const checkUsername = (rule: any, value: any, callback: any) => {
     console.log(value)
     if (!value) {
       return callback(new Error('请输入用户名'))
@@ -438,7 +438,7 @@ function registerFn() {
       return callback(new Error('请输入邮箱号/手机号'))
     }
     setTimeout(() => {
-      getRegister(NaN, value).then((response) => {
+      getRegister(NaN, value).then((response: any) => {
         console.log(response)
         console.log("联系方式可以使用")
         codeBtnDisabled.value = false
@@ -455,7 +455,7 @@ function registerFn() {
     }, 500)
   }
   // 用户密码验证
-  const checkPassword1 = (rule, value, callback) => {
+  const checkPassword1 = (rule: any, value: any, callback: any) => {
     if (!value) {
       return callback(new Error('请输入密码'))
     }
@@ -472,7 +472,7 @@ function registerFn() {
     }, 500)
   }
   // 用户确认密码验证
-  const checkPassword2 = (rule, value, callback) => {
+  const checkPassword2 = (rule: any, value: any, callback: any) => {
     if (!value) {
       return callback(new Error('请再次输入密码'))
     }

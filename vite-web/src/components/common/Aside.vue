@@ -135,7 +135,7 @@ let { MyIcon } = icon()
 let { timeFull } = timeFormat()
 const router = useRouter()
 //推荐阅读文章列表
-const recommend = ref([])
+const recommend: any = ref([])
 
 async function recommendData() {
   const params = {
@@ -149,18 +149,18 @@ async function recommendData() {
 }
 
 // 排行列表-全部种类
-const ranking = ref([
+const ranking: any = ref([
   { name: '阅读排行', value: '-view' },
   { name: '点赞排行', value: '-like' },
   { name: '收藏排行', value: '-collect' },
   { name: '评论排行', value: '-comment' },
 ])
 // 排行列表-当前种类
-const isRanking = ref('阅读排行')
+const isRanking: any = ref('阅读排行')
 // 排行列表-文章排行
-const articleRanking = ref([])
+const articleRanking: any = ref([])
 // 排列列表-加载状态
-const rankingLoading = ref(false)
+const rankingLoading: any = ref(false)
 // 排行列表-切换种类
 const handleCommand = (index: any) => {
   rankingLoading.value = true
@@ -176,7 +176,7 @@ const handleCommand = (index: any) => {
   // })
 };
 // 排行列表-是否下拉状态
-const isDropdown = ref(false)
+const isDropdown: any = ref(false)
 
 // 排行列表-下拉事件
 const dropdownChange = (value: any) => {

@@ -29,7 +29,7 @@ function color() {
 		"#c0392b",
 	])
 	// 设置标签颜色
-	const tagColor = (id) => {
+	const tagColor = (id: any) => {
 		if (id > tagList.value.length) {
 			// id 超过颜色组
 			return tagList.value[id % 10]

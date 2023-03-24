@@ -9,7 +9,7 @@ function dark() {
   const isDark = computed(() => store.isDark)
   const use_dark = useDark()
   const toggleDark = useToggle(use_dark)
-  const setDark = (value) => {
+  const setDark = (value: any) => {
     if (value !== use_dark.value) {
       toggleDark()
     }

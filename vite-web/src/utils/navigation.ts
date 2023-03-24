@@ -15,7 +15,7 @@ function navigation() {
 	// 导航栏样式
 	const navigationType = ref('show')
 	// 切换导航栏模式
-	const setNavigation = (value) => {
+	const setNavigation = (value: any) => {
     store.setNavigation(value)
 		// console.log("执行切换导航栏样式事件：", navigationMode.value)
 		if (value === 'auto') {
@@ -33,7 +33,7 @@ function navigation() {
 	//上次滚动位置
 	const lastTop = ref(0)
 	//防抖处理
-	const debounce = (fn, wait) => {
+	const debounce = (fn: any, wait: any) => {
 		let timer = null
 		return function () {
 			if (timer !== null) {

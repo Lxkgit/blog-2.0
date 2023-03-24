@@ -34,7 +34,7 @@ export const systemStore = defineStore('system', {
   },
   actions: {
     // 设置markdown目录内容
-    setOutline(value) {
+    setOutline(value: any) {
       this.outline = value
     },
     // 设置markdown是否显示
@@ -42,39 +42,39 @@ export const systemStore = defineStore('system', {
       this.outlineShow = !this.outlineShow
     },
     // 设置登录后跳转的地址
-    setNextPath(path) {
+    setNextPath(path: any) {
       this.nextPath = path
     },
     // 是否保持登录
-    setKeepLogin(value) {
+    setKeepLogin(value: any) {
       this.keepLogin = value
     },
     // 用户信息（保持登录）
-    setUserLocal(value) {
+    setUserLocal(value: any) {
       this.userLocal = value
     },
     // 用户信息（临时存储）
-    setUserSession(value) {
+    setUserSession(value: any) {
       this.userSession = value
     },
     // 个人中心导航栏是否折叠
-    setAsideMenuFold(value) {
+    setAsideMenuFold(value: any) {
       this.asideMenuFold = value
     },
     // 设置主题色
-    setTheme(value) {
+    setTheme(value: any) {
       this.theme = value
     },
     // 设置导航栏模式
-    setNavigation(value) {
+    setNavigation(value: any) {
       this.navigation = value
     },
     // 设置导航栏当前激活的菜单id
-    setMenuIndex(value) {
+    setMenuIndex(value: any) {
       this.menuIndex = value
     },
     // 设置深色模式
-    setDark(value) {
+    setDark(value: any) {
       this.isDark = value
     }
   },

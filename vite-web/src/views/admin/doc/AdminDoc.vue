@@ -117,9 +117,9 @@ import { ref, reactive, onMounted } from 'vue';
 import type { FormInstance, FormRules } from 'element-plus'
 import { useRouter } from 'vue-router';
 // import { docStore } from "../../../store/doc";
-// import mixin from "../../../mixins/doc"
+import mixin from "@/mixins/doc"
 
-// let { docType } = mixin();
+let { docType } = mixin();
 
 let ids = new Array();
 let docList: any = reactive({ data: [] });

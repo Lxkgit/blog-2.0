@@ -18,51 +18,11 @@ const router = createRouter({
             }
         },
         {
-            path: '/search',
-            name: 'Search',
-            component: () => import('@/views/public/Search.vue'),
-            meta: {
-                title: '搜索',
-                keepAlive: false,
-                isAuth: false
-            }
-        },
-        {
-            path: '/link',
-            name: 'Link',
-            component: () => import('@/views/public/Link.vue'),
-            meta: {
-                title: '友情链接',
-                keepAlive: true,
-                isAuth: false
-            }
-        },
-        {
-            path: '/applyLink',
-            name: 'ApplyLink',
-            component: () => import('@/views/public/ApplyLink.vue'),
-            meta: {
-                title: '申请友链',
-                keepAlive: true,
-                isAuth: false
-            },
-        },
-        {
             path: '/category/:id',
             name: 'Category',
             component: () => import('@/views/article/Category.vue'),
             meta: {
                 title: '文章分类',
-                keepAlive: true,
-                isAuth: false
-            }
-        },
-        {
-            path: '/tag/:id',
-            name: 'Tag',
-            component: () => import('@/views/article/Tag.vue'),
-            meta: {
-                title: '标签',
                 keepAlive: true,
                 isAuth: false
             }
@@ -108,26 +68,6 @@ const router = createRouter({
             }
         },
         {
-            path: '/message',
-            name: 'Message',
-            component: () => import('@/views/public/Message.vue'),
-            meta: {
-                title: '留言板',
-                keepAlive: false,
-                isAuth: false
-            }
-        },
-        {
-            path: '/about',
-            name: 'About',
-            component: () => import('@/views/public/About.vue'),
-            meta: {
-                title: '关于',
-                keepAlive: true,
-                isAuth: false
-            }
-        },
-        {
             path: '/loginRegister',
             name: 'LoginRegister',
             component: () => import('@/views/personal/LoginRegister.vue'),
@@ -137,26 +77,16 @@ const router = createRouter({
                 isAuth: false
             }
         },
-        {
-            path: '/OAuth/:platform',
-            name: 'OAuth',
-            component: () => import('@/views/personal/OAuth.vue'),
-            meta: {
-                title: '第三方登录授权页',
-                keepAlive: false,
-                isAuth: false
-            }
-        },
-        {
-            path: '/setPassword',
-            name: 'SetPassword',
-            component: () => import('@/views/personal/SetPassword.vue'),
-            meta: {
-                title: '重置密码',
-                keepAlive: false,
-                isAuth: false
-            }
-        },
+        // {
+        //     path: '/setPassword',
+        //     name: 'SetPassword',
+        //     component: () => import('@/views/personal/SetPassword.vue'),
+        //     meta: {
+        //         title: '重置密码',
+        //         keepAlive: false,
+        //         isAuth: false
+        //     }
+        // },
         {
             path: '/admin',
             name: 'AdminIndex',

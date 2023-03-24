@@ -146,7 +146,7 @@ const store = systemStore()
 let { userId } = user();
 let { isDark } = dark()
 // 用户信息
-const userInfo = reactive({})
+const userInfo: any = reactive({})
 
 // 获取用户信息
 async function getUserinfo() {
@@ -154,7 +154,7 @@ async function getUserinfo() {
 }
 
 // 数据概览
-const dataCount = reactive({})
+const dataCount: any = reactive({})
 
 // 获取数据概览数据
 async function statisticsData() {

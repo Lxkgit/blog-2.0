@@ -147,7 +147,7 @@ import icon from "@/utils/icon";
 import color from "@/utils/color";
 import user from "@/utils/user";
 import { systemStore } from "@/store/system";
-import { getArticleById } from "@/api/content"
+import { getArticleByIdApi } from "@/api/content"
 
 const store = systemStore()
 let { MyIcon } = icon()
@@ -263,7 +263,7 @@ function article() {
 
   // 获取文章详情
   async function getArticleData(DetailID: any) {
-    const detail_data: any = await getArticleById(DetailID)
+    const detail_data: any = await getArticleByIdApi(DetailID)
     articleData.data = detail_data.result
     // for (let i in detail_data) {
     //   if (i === 'body') {
