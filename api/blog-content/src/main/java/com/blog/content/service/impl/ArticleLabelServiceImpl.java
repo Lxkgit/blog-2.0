@@ -2,10 +2,12 @@ package com.blog.content.service.impl;
 
 import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.content.dao.ArticleLabelDAO;
+import com.blog.content.dao.ArticleLabelTypeDAO;
 import com.blog.content.service.ArticleLabelService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,31 +25,40 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
     @Resource
     private ArticleLabelDAO articleLabelDAO;
 
+    @Resource
+    private ArticleLabelTypeDAO articleLabelTypeDAO;
+
     @Override
-    public List<ArticleLabel> selectArticleLabelList(Integer userId) {
-        return articleLabelDAO.selectArticleLabel(userId);
+    public List<ArticleLabel> selectArticleLabelList(Integer labelType) {
+        return articleLabelDAO.selectArticleLabelList(labelType);
     }
 
     @Override
-    public int saveArticleLabel(ArticleLabel articleLabel) {
-        return articleLabelDAO.insert(articleLabel);
+    public void saveArticleLabel(ArticleLabel articleLabel) {
+        articleLabel.setArticleNum(0);
+        articleLabel.setCreateTime(new Date());
+        articleLabel.setUpdateTime(new Date());
+        articleLabelDAO.insert(articleLabel);
+        articleLabelTypeDAO.updateArticleLabelTypeLabelNumAdd(articleLabel.getLabelType());
     }
 
     @Override
     public int updateArticleLabel(ArticleLabel articleLabel) {
+        ArticleLabel oldLabel = articleLabelDAO.selectById(articleLabel.getId());
+        articleLabelTypeDAO.updateArticleLabelTypeLabelNumSubtract(oldLabel.getLabelType());
+        articleLabelTypeDAO.updateArticleLabelTypeLabelNumAdd(articleLabel.getLabelType());
         return articleLabelDAO.updateArticleLabel(articleLabel);
     }
 
     @Override
-    public Map<String, Object> deleteArticleLabelByIds(String labelIds, Integer userId) {
-        Map<String, Object> map = new HashMap<>();
+    public Integer deleteArticleLabelByIds(String labelIds, Integer userId) {
         String[] ids = labelIds.split(",");
-        int success = articleLabelDAO.deleteArticleLabelByIds(ids, userId);
-        map.put("delete", ids.length);
-        map.put("success", success);
-        if (ids.length != success) {
-            map.put("msg", "请确认要删除的标签是否被其它文章使用.. ");
+        for (String id : ids) {
+            ArticleLabel articleLabel = articleLabelDAO.selectById(id);
+            if (articleLabelDAO.deleteArticleLabelByIds(new String[]{id}, userId) == 1) {
+                articleLabelTypeDAO.updateArticleLabelTypeLabelNumSubtract(articleLabel.getLabelType());
+            }
         }
-        return map;
+        return 0;
     }
 }

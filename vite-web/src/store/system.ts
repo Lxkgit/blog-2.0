@@ -11,9 +11,15 @@ export const systemStore = defineStore('system', {
     // 是否保持登录
     keepLogin: false,
     // 保持登录用户信息(localStorage)
-    userLocal: {},
+    userLocal: {
+      user_id: "",
+      access_token: ""
+    },
     // 临时登录用户信息(sessionStorage)
-    userSession: {},
+    userSession: {
+      user_id: "",
+      access_token: ""
+    },
     // 个人中心导航栏是否折叠
     asideMenuFold: false,
     // 默认主题色

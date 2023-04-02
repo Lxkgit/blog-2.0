@@ -174,7 +174,7 @@ const loginSubmit = () => {
             store.setKeepLogin(false)
             store.setUserSession(res.result)
           }
-          router.push("/admin")
+          router.push("/admin/index")
         }).catch(res => {
           //发生错误时执行的代码
           console.log(res)
@@ -277,7 +277,7 @@ function publicFn() {
 }
 
 // 登录模块
-function loginFn() {
+function loginFn() :any {
   // 登录表单
   const loginForm = reactive({
     username: '',
@@ -308,93 +308,93 @@ function loginFn() {
     isPassing.value = true
   }
   // 第三方登录
-  const otherLogin = (kind) => {
-    ElMessage('正在跳转至第三方平台，请稍候……')
-    console.log(kind)
-    let domain = window.location.protocol + "//" + window.location.host
-    if (kind === 'WEIBO') {
-      getOAuthID(kind).then((response) => {
-        console.log(response)
-        let url = 'https://api.weibo.com/oauth2/authorize?client_id=' + response.clientId +
-          '&response_type=code&redirect_uri=' + domain + '/OAuth/' + kind
-        console.log(url)
-        window.location.href = url;
-      }).catch(response => {
-        //发生错误时执行的代码
-        console.log(response)
-        ElMessage.error('获取第三方登录ID失败！')
-      });
-    }
-    if (kind === 'QQ') {
-      getOAuthID(kind).then((response) => {
-        console.log(response)
-        let url = 'https://graph.qq.com/oauth2.0/authorize?client_id=' + response.clientId +
-          '&response_type=code&redirect_uri=' + domain + '/OAuth/' + kind + '&state=' +
-          Math.random().toString(36).slice(-6)
-        console.log(url)
-        window.location.href = url;
-      }).catch(response => {
-        //发生错误时执行的代码
-        console.log(response)
-        ElMessage.error('获取第三方登录ID失败！')
-      });
-    }
-    if (kind === 'PAY') {
-      getOAuthID(kind).then((response) => {
-        console.log(response)
-        let url = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=' + response.clientId +
-          '&scope=auth_user&redirect_uri=' + encodeURIComponent(domain + '/OAuth/' + kind) +
-          '&state=' + Math.random().toString(36).slice(-6)
-        console.log(url)
-        window.location.href = url;
-      }).catch(response => {
-        //发生错误时执行的代码
-        console.log(response)
-        ElMessage.error('获取第三方登录ID失败！')
-      });
-    }
-    if (kind === 'GITHUB') {
-      getOAuthID(kind).then((response) => {
-        console.log(response)
-        let url = 'https://github.com/login/oauth/authorize?client_id=' + response.clientId +
-          '&scope=user&redirect_uri=' + domain + '/OAuth/' + kind + '&state=' +
-          Math.random().toString(36).slice(-6)
-        console.log(url)
-        window.location.href = url;
-      }).catch(response => {
-        //发生错误时执行的代码
-        console.log(response)
-        ElMessage.error('获取第三方登录ID失败！')
-      });
-    }
-    if (kind === 'BAIDU') {
-      getOAuthID(kind).then((response) => {
-        console.log(response)
-        let url = 'https://openapi.baidu.com/oauth/2.0/authorize?client_id=' + response.clientId +
-          '&redirect_uri=' + domain + '/OAuth/' + kind + '&response_type=code&state=' +
-          Math.random().toString(36).slice(-6)
-        console.log(url)
-        window.location.href = url;
-      }).catch(response => {
-        //发生错误时执行的代码
-        console.log(response)
-        ElMessage.error('获取第三方登录ID失败！')
-      });
-    }
-    if (kind === 'MICROSOFT') {
-      getOAuthID(kind).then((response) => {
-        console.log(response)
-        let url = 'https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize?client_id=' + response.clientId +
-          '&response_type=code&redirect_uri=' + domain + '/OAuth/' + kind +
-          '&response_mode=query&scope=offline_access user.read&state=' + Math.random().toString(36).slice(-6)
-        console.log(url)
-        window.location.href = url;
-      }).catch(response => {
-        //发生错误时执行的代码
-        console.log(response)
-        ElMessage.error('获取第三方登录ID失败！')
-      });
-    }
+  const otherLogin = (kind: any) => {
+    // ElMessage('正在跳转至第三方平台，请稍候……')
+    // console.log(kind)
+    // let domain = window.location.protocol + "//" + window.location.host
+    // if (kind === 'WEIBO') {
+    //   getOAuthID(kind).then((response) => {
+    //     console.log(response)
+    //     let url = 'https://api.weibo.com/oauth2/authorize?client_id=' + response.clientId +
+    //       '&response_type=code&redirect_uri=' + domain + '/OAuth/' + kind
+    //     console.log(url)
+    //     window.location.href = url;
+    //   }).catch(response => {
+    //     //发生错误时执行的代码
+    //     console.log(response)
+    //     ElMessage.error('获取第三方登录ID失败！')
+    //   });
+    // }
+    // if (kind === 'QQ') {
+    //   getOAuthID(kind).then((response) => {
+    //     console.log(response)
+    //     let url = 'https://graph.qq.com/oauth2.0/authorize?client_id=' + response.clientId +
+    //       '&response_type=code&redirect_uri=' + domain + '/OAuth/' + kind + '&state=' +
+    //       Math.random().toString(36).slice(-6)
+    //     console.log(url)
+    //     window.location.href = url;
+    //   }).catch(response => {
+    //     //发生错误时执行的代码
+    //     console.log(response)
+    //     ElMessage.error('获取第三方登录ID失败！')
+    //   });
+    // }
+    // if (kind === 'PAY') {
+    //   getOAuthID(kind).then((response) => {
+    //     console.log(response)
+    //     let url = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=' + response.clientId +
+    //       '&scope=auth_user&redirect_uri=' + encodeURIComponent(domain + '/OAuth/' + kind) +
+    //       '&state=' + Math.random().toString(36).slice(-6)
+    //     console.log(url)
+    //     window.location.href = url;
+    //   }).catch(response => {
+    //     //发生错误时执行的代码
+    //     console.log(response)
+    //     ElMessage.error('获取第三方登录ID失败！')
+    //   });
+    // }
+    // if (kind === 'GITHUB') {
+    //   getOAuthID(kind).then((response) => {
+    //     console.log(response)
+    //     let url = 'https://github.com/login/oauth/authorize?client_id=' + response.clientId +
+    //       '&scope=user&redirect_uri=' + domain + '/OAuth/' + kind + '&state=' +
+    //       Math.random().toString(36).slice(-6)
+    //     console.log(url)
+    //     window.location.href = url;
+    //   }).catch(response => {
+    //     //发生错误时执行的代码
+    //     console.log(response)
+    //     ElMessage.error('获取第三方登录ID失败！')
+    //   });
+    // }
+    // if (kind === 'BAIDU') {
+    //   getOAuthID(kind).then((response) => {
+    //     console.log(response)
+    //     let url = 'https://openapi.baidu.com/oauth/2.0/authorize?client_id=' + response.clientId +
+    //       '&redirect_uri=' + domain + '/OAuth/' + kind + '&response_type=code&state=' +
+    //       Math.random().toString(36).slice(-6)
+    //     console.log(url)
+    //     window.location.href = url;
+    //   }).catch(response => {
+    //     //发生错误时执行的代码
+    //     console.log(response)
+    //     ElMessage.error('获取第三方登录ID失败！')
+    //   });
+    // }
+    // if (kind === 'MICROSOFT') {
+    //   getOAuthID(kind).then((response) => {
+    //     console.log(response)
+    //     let url = 'https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize?client_id=' + response.clientId +
+    //       '&response_type=code&redirect_uri=' + domain + '/OAuth/' + kind +
+    //       '&response_mode=query&scope=offline_access user.read&state=' + Math.random().toString(36).slice(-6)
+    //     console.log(url)
+    //     window.location.href = url;
+    //   }).catch(response => {
+    //     //发生错误时执行的代码
+    //     console.log(response)
+    //     ElMessage.error('获取第三方登录ID失败！')
+    //   });
+    // }
   }
   return { loginForm, remember, isPassing, verifyPass, btnType, otherLogin, loginRules }
 }
@@ -417,41 +417,41 @@ function registerFn() {
       return callback(new Error('请输入用户名'))
     }
     setTimeout(() => {
-      getRegister(value, NaN).then((response) => {
-        console.log(response)
-        console.log("用户名可以使用")
-        callback()
-      }).catch(response => {
-        //发生错误时执行的代码
-        console.log(response)
-        ElMessage({
-          message: '用户名已存在，请更换用户名或找回密码',
-          type: 'warning',
-        })
-        callback(new Error('用户名已存在'))
-      });
+      // getRegister(value, NaN).then((response) => {
+      //   console.log(response)
+      //   console.log("用户名可以使用")
+      //   callback()
+      // }).catch(response => {
+      //   //发生错误时执行的代码
+      //   console.log(response)
+      //   ElMessage({
+      //     message: '用户名已存在，请更换用户名或找回密码',
+      //     type: 'warning',
+      //   })
+      //   callback(new Error('用户名已存在'))
+      // });
     }, 500)
   }
   // 联系方式验证
-  const checkContact = (rule, value, callback) => {
+  const checkContact = (rule: any, value: any, callback: any) => {
     if (!value) {
       return callback(new Error('请输入邮箱号/手机号'))
     }
     setTimeout(() => {
-      getRegister(NaN, value).then((response: any) => {
-        console.log(response)
-        console.log("联系方式可以使用")
-        codeBtnDisabled.value = false
-        callback()
-      }).catch(response => {
-        //发生错误时执行的代码
-        console.log(response)
-        ElMessage({
-          message: response.msg + ',请更换联系方式',
-          type: 'warning',
-        })
-        callback(new Error(response.msg))
-      });
+      // getRegister(NaN, value).then((response: any) => {
+      //   console.log(response)
+      //   console.log("联系方式可以使用")
+      //   codeBtnDisabled.value = false
+      //   callback()
+      // }).catch(response => {
+      //   //发生错误时执行的代码
+      //   console.log(response)
+      //   ElMessage({
+      //     message: response.msg + ',请更换联系方式',
+      //     type: 'warning',
+      //   })
+      //   callback(new Error(response.msg))
+      // });
     }, 500)
   }
   // 用户密码验证
@@ -509,19 +509,19 @@ function registerFn() {
   const codeBtnDisabled = ref(true)
   // 获取注册验证码通过事件
   const registerPass = () => {
-    console.log("通过验证了,开始获取验证码")
-    codeForm.contact = registerForm.contact
-    postCode(codeForm).then((response) => {
-      console.log(response)
-      ElMessage({
-        message: '验证码发送成功！',
-        type: 'success',
-      })
-    }).catch(response => {
-      //发生错误时执行的代码
-      console.log(response)
-      ElMessage.error(response.msg)
-    });
+    // console.log("通过验证了,开始获取验证码")
+    // codeForm.contact = registerForm.contact
+    // postCode(codeForm).then((response) => {
+    //   console.log(response)
+    //   ElMessage({
+    //     message: '验证码发送成功！',
+    //     type: 'success',
+    //   })
+    // }).catch(response => {
+    //   //发生错误时执行的代码
+    //   console.log(response)
+    //   ElMessage.error(response.msg)
+    // });
   }
   return { registerForm, codeBtnDisabled, registerRules, registerPass }
 }

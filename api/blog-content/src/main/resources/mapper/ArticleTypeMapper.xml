@@ -7,10 +7,13 @@
         <id column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <id column="num" property="num" jdbcType="INTEGER"/>
         <id column="node" property="node" jdbcType="INTEGER"/>
+        <id column="create_user" property="createUser" jdbcType="INTEGER"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, parent_id, type_name, num, node
+        id, parent_id, type_name, num, node, create_user, create_time, update_time
     </sql>
 
     <select id="selectArticleTypeById" resultMap="BaseResultMap">

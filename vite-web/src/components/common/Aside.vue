@@ -203,7 +203,7 @@ async function infoData() {
 }
 
 // 网站数据统计
-let statistics = reactive({
+let statistics: any = reactive({
   uptime: "2023-01-12 14:37:54"
 })
 

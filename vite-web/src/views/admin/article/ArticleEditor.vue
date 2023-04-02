@@ -69,7 +69,7 @@ import { useRouter } from "vue-router";
 import { systemStore } from "@/store/system";
 import { contentStore } from "@/store/content"
 import { ElImageViewer } from 'element-plus'
-import { saveArticleApi, updateArticleApi, getArticleTypeTreeApi, getArticleLabelApi } from "@/api/content"
+import { saveArticleApi, updateArticleApi, getArticleTypeTreeApi, getArticleLabelListApi } from "@/api/content"
 import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
@@ -183,7 +183,7 @@ const articleType = () => {
 };
 
 const articleLabel = () => {
-  getArticleLabelApi().then((res: any) => {
+  getArticleLabelListApi(0).then((res: any) => {
     if (res.code === 200) {
       labelList.value = res.result;
     }

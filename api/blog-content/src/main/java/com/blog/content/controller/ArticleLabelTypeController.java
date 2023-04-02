@@ -9,6 +9,7 @@ import com.blog.common.util.JwtUtil;
 import com.blog.content.service.ArticleLabelTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -32,36 +33,27 @@ public class ArticleLabelTypeController {
     private ArticleLabelTypeService articleLabelTypeService;
 
     @GetMapping("/list")
-    public Result getArticleLabelTypeList(@RequestParam(required = false, value = "type") String type, @RequestParam(required = false, value = "id", defaultValue = "0") Integer id){
-        return ResultFactory.buildSuccessResult(articleLabelTypeService.getArticleLabelTypeList(type, id));
+    public Result getArticleLabelTypeList() {
+        return ResultFactory.buildSuccessResult(articleLabelTypeService.getArticleLabelTypeList());
     }
 
     @PostMapping("/save")
-    public Result saveArticleLabelType(@RequestBody ArticleLabelType articleLabelType){
-        // 获取用户请求头，从请求头中获取token
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
+    public Result saveArticleLabelType(@RequestHeader HttpHeaders headers, @RequestBody ArticleLabelType articleLabelType) {
+
+        String token = String.valueOf(headers.get("Authorization"));
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
             articleLabelType.setUserId(blogUser.getId());
-            int flag = articleLabelTypeService.saveArticleLabelType(articleLabelType);
-            if (flag == 1){
-                return ResultFactory.buildSuccessResult();
-            } else {
-                return ResultFactory.buildFailResult("标签分类保存失败 ... ");
-            }
-
-        } catch (Exception e){
+            articleLabelTypeService.saveArticleLabelType(articleLabelType);
+            return ResultFactory.buildSuccessResult("标签分类保存成功 ... ");
+        } catch (Exception e) {
             log.warn(Constant.JWTError, e);
         }
-        return ResultFactory.buildFailResult("...");
+        return ResultFactory.buildFailResult("标签分类保存失败 ... ");
     }
 
     @PostMapping("/update")
-    public Result updateArticleLabelType(@RequestBody ArticleLabelType articleLabelType){
+    public Result updateArticleLabelType(@RequestBody ArticleLabelType articleLabelType) {
         int flag = articleLabelTypeService.updateArticleLabelType(articleLabelType);
         if (flag == 1) {
             return ResultFactory.buildSuccessResult("标签分类修改成功 ... ");

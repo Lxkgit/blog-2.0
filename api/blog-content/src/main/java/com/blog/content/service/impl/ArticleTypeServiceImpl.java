@@ -3,7 +3,9 @@ package com.blog.content.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.entity.content.article.ArticleType;
 import com.blog.common.entity.content.article.vo.ArticleTypeVo;
+import com.blog.common.entity.user.BlogUser;
 import com.blog.content.dao.ArticleTypeDAO;
+import com.blog.content.feign.UserClient;
 import com.blog.content.service.ArticleTypeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 
     @Resource
     private ArticleTypeDAO articleTypeDAO;
+
+    @Resource
+    private UserClient userClient;
 
     @Override
     public List<ArticleType> selectArticleTypeByParentId(String parentId) {
@@ -51,10 +56,17 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
      */
     @Override
     public List<ArticleTypeVo> selectArticleTypeTree() {
+        Map<Integer, BlogUser> blogUserMap = new HashMap<>();
         List<ArticleType> articleTypeList = articleTypeDAO.selectList(null);
         List<ArticleTypeVo> articleTypeVoList = new ArrayList<>();
         for (ArticleType articleType : articleTypeList) {
             ArticleTypeVo articleTypeVo = new ArticleTypeVo();
+            BlogUser blogUser = blogUserMap.get(articleType.getCreateUser());
+            if (blogUser == null) {
+                blogUser = userClient.selectUserById(articleType.getCreateUser());
+                blogUserMap.put(articleType.getCreateUser(), blogUser);
+            }
+            articleTypeVo.setBlogUser(blogUser);
             BeanUtils.copyProperties(articleType, articleTypeVo);
             articleTypeVo.setValue(String.valueOf(articleType.getId()));
             articleTypeVo.setLabel(articleType.getTypeName());
@@ -78,11 +90,14 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 
     @Override
     public int saveArticleType(ArticleType articleType) {
+        articleType.setCreateTime(new Date());
+        articleType.setUpdateTime(new Date());
         return articleTypeDAO.insert(articleType);
     }
 
     @Override
     public int updateArticleType(ArticleType articleType) {
+        articleType.setUpdateTime(new Date());
         int result = articleTypeDAO.updateArticleType(articleType);
 //        if (result == 1) {
 //            List<ArticleType> articleTypeList = articleTypeDAO.selectList(null);

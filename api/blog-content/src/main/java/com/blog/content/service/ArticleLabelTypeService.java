@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public interface ArticleLabelTypeService {
 
-    List<ArticleLabelTypeVo> getArticleLabelTypeList(String type, Integer id);
+    List<ArticleLabelTypeVo> getArticleLabelTypeList();
     int saveArticleLabelType(ArticleLabelType articleLabelType);
     int updateArticleLabelType(ArticleLabelType articleLabelType);
     Map<String, Object> deleteArticleLabelTypeByIds(String ids);

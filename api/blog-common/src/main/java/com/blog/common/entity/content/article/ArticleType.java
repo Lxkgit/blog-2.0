@@ -3,9 +3,12 @@ package com.blog.common.entity.content.article;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.blog.common.entity.content.doc.DocCatalog;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.text.Collator;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -27,6 +30,16 @@ public class ArticleType implements Comparable<ArticleType> {
     private int num;
 
     private int node;
+
+    private int createUser;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
 
     @Override
     public int compareTo(ArticleType articleType) {

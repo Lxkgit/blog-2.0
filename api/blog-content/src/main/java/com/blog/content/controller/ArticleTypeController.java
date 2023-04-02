@@ -1,11 +1,15 @@
 package com.blog.content.controller;
 
+import com.blog.common.constant.Constant;
 import com.blog.common.entity.content.article.ArticleType;
+import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
+import com.blog.common.util.JwtUtil;
 import com.blog.content.service.ArticleTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -23,7 +27,7 @@ public class ArticleTypeController {
     private ArticleTypeService articleTypeService;
 
     @GetMapping("/list")
-    public Result selectArticleTypeList(){
+    public Result selectArticleTypeList() {
         return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeList());
     }
 
@@ -38,30 +42,46 @@ public class ArticleTypeController {
     }
 
     @GetMapping("/tree")
-    public Result selectArticleTypeTree(){
+    public Result selectArticleTypeTree() {
         return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeTree());
     }
 
     @PostMapping("/save")
-    public Result saveArticleType(@RequestBody ArticleType articleType){
-        int flag = articleTypeService.saveArticleType(articleType);
-        if (flag == 1) {
+    public Result saveArticleType(@RequestHeader HttpHeaders headers, @RequestBody ArticleType articleType) {
+        String token = String.valueOf(headers.get("Authorization"));
+        try {
+            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            articleType.setCreateUser(blogUser.getId());
+            articleTypeService.saveArticleType(articleType);
             return ResultFactory.buildSuccessResult("文章分类保存成功");
+        } catch (Exception e) {
+            log.warn(Constant.JWTError, e);
         }
         return ResultFactory.buildSuccessResult("文章分类保存失败");
     }
 
     @PostMapping("/update")
-    public Result updateArticleType(@RequestBody ArticleType articleType){
-        int flag = articleTypeService.updateArticleType(articleType);
-        if (flag == 1){
-            return ResultFactory.buildSuccessResult("文章分类修改成功");
+    public Result updateArticleType(@RequestHeader HttpHeaders headers, @RequestBody ArticleType articleType) {
+
+        String token = String.valueOf(headers.get("Authorization"));
+        try {
+            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            articleType.setCreateUser(blogUser.getId());
+            articleTypeService.updateArticleType(articleType);
+            int flag = articleTypeService.updateArticleType(articleType);
+            if (flag == 1) {
+                return ResultFactory.buildSuccessResult("文章分类修改成功");
+            }
+            return ResultFactory.buildSuccessResult("文章分类修改失败，请确认改分类下文章数目是否为0");
+
+        } catch (Exception e) {
+            log.warn(Constant.JWTError, e);
         }
-        return ResultFactory.buildSuccessResult("文章分类修改失败，请确认改分类下文章数目是否为0");
+        return ResultFactory.buildFailResult("文章分类修改失败");
     }
 
     @DeleteMapping("/delete")
-    public Result deleteArticleType(@RequestParam(value = "articleTypeId") String articleTypeId){
+    public Result deleteArticleType(@RequestParam(value = "articleTypeId") String articleTypeId) {
         return ResultFactory.buildSuccessResult(articleTypeService.deleteArticleTypeById(articleTypeId));
     }
 }

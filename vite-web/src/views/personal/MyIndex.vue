@@ -212,7 +212,7 @@ const setColor = () => {
 async function trend() {
   const query = {chart: 'trend', user: userId.value}
   // const chartData = await getUserEcharts(query)
-  const chartData = [{article_view:1,article_collect:1,article_comment:1, section_view:1, section_collect:1, section_comment:1}]
+  const chartData: any = [{article_view:1,article_collect:1,article_comment:1, section_view:1, section_collect:1, section_comment:1}]
   console.log("trend", chartData)
   const date = []
   const article_view = []
@@ -230,11 +230,11 @@ async function trend() {
     section_collect.push(chartData[i].section_collect)
     section_comment.push(chartData[i].section_comment)
   }
-  let myChart;
+  let myChart: any;
   if (isDark.value) {
-    myChart = echarts.init(document.getElementById("trend"), 'dark');
+    myChart = echarts.init(document.getElementById("trend") as HTMLElement, 'dark');
   } else {
-    myChart = echarts.init(document.getElementById("trend"));
+    myChart = echarts.init(document.getElementById("trend") as HTMLElement);
   }
   // 绘制图表
   myChart.setOption({
@@ -350,9 +350,9 @@ async function article() {
   // console.log("article", chartData)
   let myChart: any;
   if (isDark.value) {
-    myChart = echarts.init(document.getElementById("article"), 'dark');
+    myChart = echarts.init(document.getElementById("article") as HTMLElement, 'dark');
   } else {
-    myChart = echarts.init(document.getElementById("article"));
+    myChart = echarts.init(document.getElementById("article") as HTMLElement);
   }
   // 绘制图表
   myChart.setOption({

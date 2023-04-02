@@ -14,7 +14,8 @@ function user() {
 		// 获取用户基本信息
 		console.log("user.ts onActivated")
 		if (store.keepLogin === true) {
-			if (JSON.stringify(store.userLocal) === '{}') {
+			console.log("userLocal: " + JSON.stringify(store.userLocal))
+			if (JSON.stringify(store.userLocal) === '{"user_id":"","access_token":""}') {
 				isLogin.value = false
 			} else {
 				isLogin.value = true
@@ -23,7 +24,8 @@ function user() {
 				userName.value = store.userLocal.user_id
 			}
 		} else {
-			if (JSON.stringify(store.userSession) === '{}') {
+			console.log("userSession: " + JSON.stringify(store.userSession))
+			if (JSON.stringify(store.userSession) === '{"user_id":"","access_token":""}') {
 				isLogin.value = false
 			} else {
 				isLogin.value = true

@@ -1,56 +1,55 @@
 <!-- 评论回复组件 -->
 <template>
-  <ol class="comments" v-for="(item,index) in commentsList" :key="index">
+  <ol class="comments" v-for="(item, index) in commentsList" :key="index">
     <li>
       <span><el-avatar :src="item.photo" :size="50"></el-avatar></span>
       <span>
         <div>
           <p>
-            <span v-if="item.username==='admin'" class="admin">博主</span>
+            <span v-if="item.username === 'admin'" class="admin">博主</span>
             <span v-else class="username">{{ item.username }}</span>
             <span class="time-ago">{{ timeAgo(item.time) }}</span>
           </p>
           <p class="content" v-html=item.content></p>
           <p class="action">
             <span>
-              <span v-if="isLike(item.id)===true" class="no-choose">
-                <MyIcon class="icon" type="icon-like-solid"/>赞 {{ item.like }}
+              <span v-if="isLike(item.id) === true" class="no-choose">
+                <MyIcon class="icon" type="icon-like-solid" />赞 {{ item.like }}
               </span>
-              <span v-else @click="likeMessage(item.id,item.like)">
-                <MyIcon class="icon" type="icon-like"/>赞 {{ item.like }}
+              <span v-else @click="likeMessage(item.id, item.like)">
+                <MyIcon class="icon" type="icon-like" />赞 {{ item.like }}
               </span>
             </span>
             <span>
-              <span v-if="isReply(item.user)===true" @click="replyMessage(item.id)">
-                <MyIcon type="icon-comment"/>回复
+              <span v-if="isReply(item.user) === true" @click="replyMessage(item.id)">
+                <MyIcon type="icon-comment" />回复
               </span>
-              <span v-else class="no-choose"><MyIcon type="icon-comment"/>回复</span>
+              <span v-else class="no-choose">
+                <MyIcon type="icon-comment" />回复
+              </span>
             </span>
             <span>
-              <span v-if="isDelete(item.user)===true">
-                <el-popconfirm
-                    title="确定要删除吗？"
-                    @confirm="delMessage(item.id)"
-                >
-                <template #reference>
-                  <span><MyIcon type="icon-delete"/>删除</span>
-                </template>
+              <span v-if="isDelete(item.user) === true">
+                <el-popconfirm title="确定要删除吗？" @confirm="delMessage(item.id)">
+                  <template #reference>
+                    <span>
+                      <MyIcon type="icon-delete" />删除
+                    </span>
+                  </template>
                 </el-popconfirm>
               </span>
-              <span v-else class="no-choose"><MyIcon type="icon-delete"/>删除</span></span>
+              <span v-else class="no-choose">
+                <MyIcon type="icon-delete" />删除
+              </span></span>
           </p>
         </div>
       </span>
     </li>
-    <div class="reply" v-if="item.child.length!==0">
+    <div class="reply" v-if="item.child.length !== 0">
       <Comments :commentsList="item.child"></Comments>
     </div>
   </ol>
-  <el-dialog
-      v-model="textareaShow"
-      title="回复留言"
-      width="50%"
-  >
+  <el-dialog v-model="textareaShow" title="回复留言" width="50%">
     <Editor ref="replyEditor"></Editor>
     <template #footer>
       <span class="dialog-footer">
@@ -62,31 +61,34 @@
 </template>
 
 <script setup lang="ts">
-import {reactive, ref, getCurrentInstance} from "vue";
+//@ts-nocheck
+import { reactive, ref, getCurrentInstance } from "vue";
 import timeFormat from "@/utils/timeFormat";
 import icon from "@/utils/icon";
 import user from "@/utils/user";
-import {ElMessage} from "element-plus";
+import { ElMessage } from "element-plus";
 
-let {MyIcon} = icon()
+let { MyIcon } = icon()
 const props = defineProps({
   // 评论回复列表
   commentsList: {
     type: Array,
     required: true,
-    default: []
+    default: [] 
   },
 })
 const emit = defineEmits(['likeMessage', 'delMessage', 'replySend'])
 // 事件总线
 const internalInstance = getCurrentInstance();
-const $bus = internalInstance.appContext.config.globalProperties.$bus;
+
+const $bus = internalInstance===null? null : internalInstance.appContext.config.globalProperties.$bus;
+
 // 引入用户信息模块
-let {userId, isLogin} = user();
+let { userId, isLogin } = user();
 // 时间显示几天前
-let {timeAgo} = timeFormat()
+let { timeAgo } = timeFormat()
 // 已点赞列表
-const likeList = ref([])
+const likeList: any = ref([])
 // 判断是否已点赞
 const isLike = (messageId: any) => {
   for (let i = 0; i < likeList.value.length; i++) {
@@ -97,7 +99,7 @@ const isLike = (messageId: any) => {
   return false;
 }
 // 留言评论点赞
-const likeMessage = (messageId, likeMessage) => {
+const likeMessage = (messageId: any, likeMessage: any) => {
   console.log("留言点赞了啊")
   likeList.value.push(messageId)
   const value = {
@@ -109,7 +111,7 @@ const likeMessage = (messageId, likeMessage) => {
 // 回复输入框默认状态
 const textareaShow = ref(false)
 // 回复编辑器对象
-const replyEditor = ref(null)
+const replyEditor: any = ref(null)
 // 回复输入框内容
 const replyForm = reactive({
   content: '',
@@ -139,7 +141,7 @@ const replySend = () => {
   }
 }
 // 判断是否可回复留言
-const isReply = (userID) => {
+const isReply = (userID: any) => {
   if (isLogin.value === true && userId.value !== userID) {
     return true
   } else {
@@ -147,7 +149,7 @@ const isReply = (userID) => {
   }
 }
 // 判断评论留言能否删除
-const isDelete = (userID) => {
+const isDelete = (userID: any) => {
   if (isLogin.value === false || userID !== userId.value) {
     return false
   } else {
@@ -155,7 +157,7 @@ const isDelete = (userID) => {
   }
 }
 // 评论留言删除
-const delMessage = (messageId) => {
+const delMessage = (messageId: any) => {
   console.log(messageId)
   $bus.emit("delMessage", messageId);
 }
@@ -196,19 +198,26 @@ ol {
         }
 
         .admin {
-          color: var(--el-color-primary); /*设置文字颜色*/
-          font-weight: bolder; /*设置字体粗细*/
-          -webkit-animation: flicker 2s infinite; /*设置动画*/
+          color: var(--el-color-primary);
+          /*设置文字颜色*/
+          font-weight: bolder;
+          /*设置字体粗细*/
+          -webkit-animation: flicker 2s infinite;
+          /*设置动画*/
           margin-right: 30px;
         }
 
-        @-webkit-keyframes flicker { /*创建admin呼吸效果动画*/
+        @-webkit-keyframes flicker {
+
+          /*创建admin呼吸效果动画*/
           0% {
             opacity: 1;
           }
+
           50% {
             opacity: 0.5;
           }
+
           100% {
             opacity: 1;
           }
@@ -223,7 +232,7 @@ ol {
         }
 
         .action {
-          > span {
+          >span {
             margin-right: 80px;
             cursor: pointer;
             font-size: 12px;
@@ -256,13 +265,12 @@ ol {
   .reply {
     margin-left: 40px;
 
-    span > div {
+    span>div {
       background-color: var(--el-border-color) !important;
     }
 
-    span > div::before {
+    span>div::before {
       border-right: 9px solid var(--el-border-color) !important;
     }
   }
-}
-</style>
+}</style>

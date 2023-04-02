@@ -113,6 +113,7 @@ import timeFormat from "@/utils/timeFormat";
 import icon from "@/utils/icon";
 import { systemStore } from "@/store/system";
 import user from "@/utils/user";
+import { assert } from "console";
 // import { getImgProxy } from "@/api/public";
 // import { getSectionDetail, getContextSection, getCatalogueList, patchSectionDetail } from "@/api/blog";
 // import { getSiteConfig } from "@/api/management";
@@ -161,7 +162,7 @@ let {
   photo,
   showLogin,
   clickSend
-} = comment(sectionID, loginPopupRef, messageEditor)
+} = comment(sectionID)
 // 调用动作菜单模块
 let { likeClick, isCollect, collectClick, getSectionHistoryData, postSectionHistoryData } = action(sectionID, sectionData)
 onMounted(async () => {
@@ -176,7 +177,7 @@ onMounted(async () => {
   sectionID.value = router.currentRoute.value.params.id
   await getSectionData(sectionID.value)
   loading.close()
-  await catalogueData(sectionData.note_id)
+  await catalogueData()
   await findCatalogId(sectionID.value)
   await contextData(sectionID.value)
   await postSectionHistoryData(sectionID.value)
@@ -202,7 +203,7 @@ onBeforeRouteUpdate(async (to) => {
   await getSectionData(to.params.id)
   loading.close()
   await contextData(to.params.id)
-  await getSectionCommentData(to.params.id)
+  await getSectionCommentData()
   await getSectionHistoryData()
   await postSectionHistoryData(to.params.id)
 });
@@ -304,7 +305,7 @@ function section() {
     }
   )
   // 笔记上下篇
-  const context = reactive({})
+  const context: any = reactive({})
 
   // 获取笔记详情
   async function getSectionData(DetailID: any) {
@@ -358,7 +359,7 @@ function markdown() {
   const scrollTop = ref()
   // markdown-页面滚动
   const scroll = () => {
-    let timeOut = null; // 初始化空定时器
+    let timeOut: any = null; // 初始化空定时器
     return () => {
       clearTimeout(timeOut)   // 频繁操作，一直清空先前的定时器
       timeOut = setTimeout(() => {  // 只执行最后一次事件
@@ -370,10 +371,12 @@ function markdown() {
 }
 
 // 评论回复点赞模块
-function comment(sectionID) {
+function comment(sectionID: any) {
   // 事件总线
   const internalInstance = getCurrentInstance();  //当前组件实例
-  const $bus = internalInstance.appContext.config.globalProperties.$bus;
+  
+  const $bus = internalInstance===null? null : internalInstance.appContext.config.globalProperties.$bus;
+  
   // logo
   const logo = ref()
   // 用户头像
@@ -506,38 +509,38 @@ function comment(sectionID) {
 }
 
 // 动作菜单模块
-function action(sectionID, sectionData) {
+function action(sectionID: any, sectionData: any) {
   // 引入用户信息模块
   let { userId, isLogin } = user();
   // 笔记点赞事件
   const likeClick = () => {
     console.log("爹收到点赞事件了")
-    const params = { 'like': sectionData.like + 1 }
-    patchSectionDetail(sectionID.value, params).then((response) => {
-      console.log(response)
-      ElMessage({
-        message: '笔记点赞成功！',
-        type: 'success',
-      })
-      sectionData.like = params.like
-    }).catch(response => {
-      //发生错误时执行的代码
-      console.log(response)
-      ElMessage.error(response.msg)
-    });
+    // const params = { 'like': sectionData.like + 1 }
+    // patchSectionDetail(sectionID.value, params).then((response) => {
+    //   console.log(response)
+    //   ElMessage({
+    //     message: '笔记点赞成功！',
+    //     type: 'success',
+    //   })
+    //   sectionData.like = params.like
+    // }).catch(response => {
+    //   //发生错误时执行的代码
+    //   console.log(response)
+    //   ElMessage.error(response.msg)
+    // });
   }
   // 笔记收藏状态
   const isCollect = ref(false)
 
   // 获取笔记浏览记录（是否已收藏）
   async function getSectionHistoryData() {
-    await nextTick()
-    if (isLogin.value === true) {
-      let res = await getSectionHistory(sectionID.value, userId.value)
-      console.log(res)
-      isCollect.value = res.is_collect
-      console.log(isCollect.value)
-    }
+    // await nextTick()
+    // if (isLogin.value === true) {
+    //   let res = await getSectionHistory(sectionID.value, userId.value)
+    //   console.log(res)
+    //   isCollect.value = res.is_collect
+    //   console.log(isCollect.value)
+    // }
   }
 
   // 添加/取消收藏表单
@@ -547,35 +550,35 @@ function action(sectionID, sectionData) {
   })
   // 子组件添加/取消收藏事件
   const collectClick = () => {
-    if (isLogin.value === true) {
-      console.log("当前收藏状态是", isCollect.value)
-      isCollect.value = !isCollect.value
-      CollectForm.user = userId.value
-      CollectForm.is_collect = isCollect.value
-      CollectForm['section_id'] = sectionID
-      putSectionHistory(CollectForm).then((response) => {
-        console.log(response)
-        if (response.is_collect === true) {
-          ElMessage({
-            message: '已添加收藏！',
-            type: 'success',
-          })
-        } else {
-          ElMessage({
-            message: '已取消收藏！',
-            type: 'success',
-          })
-        }
-      }).catch(response => {
-        //发生错误时执行的代码
-        console.log(response)
-        ElMessage.error(response.msg)
-      });
-    } else {
-      console.log("先登录")
-      store.commit('setNextPath', router.currentRoute.value.fullPath)
-      loginPopupRef.value.showPopup()
-    }
+    // if (isLogin.value === true) {
+    //   console.log("当前收藏状态是", isCollect.value)
+    //   isCollect.value = !isCollect.value
+    //   CollectForm.user = userId.value
+    //   CollectForm.is_collect = isCollect.value
+    //   CollectForm['section_id'] = sectionID
+    //   putSectionHistory(CollectForm).then((response) => {
+    //     console.log(response)
+    //     if (response.is_collect === true) {
+    //       ElMessage({
+    //         message: '已添加收藏！',
+    //         type: 'success',
+    //       })
+    //     } else {
+    //       ElMessage({
+    //         message: '已取消收藏！',
+    //         type: 'success',
+    //       })
+    //     }
+    //   }).catch(response => {
+    //     //发生错误时执行的代码
+    //     console.log(response)
+    //     ElMessage.error(response.msg)
+    //   });
+    // } else {
+    //   console.log("先登录")
+    //   store.commit('setNextPath', router.currentRoute.value.fullPath)
+    //   loginPopupRef.value.showPopup()
+    // }
   }
   // 添加笔记浏览记录表单
   const sectionHistoryForm = reactive({
@@ -584,14 +587,14 @@ function action(sectionID, sectionData) {
   })
 
   // 添加笔记浏览记录
-  async function postSectionHistoryData(section_id) {
-    if (isLogin.value === true) {
-      sectionHistoryForm.section_id = section_id
-      sectionHistoryForm.user = userId.value
-      console.log(sectionHistoryForm)
-      let res = await postSectionHistory(sectionHistoryForm)
-      console.log(res)
-    }
+  async function postSectionHistoryData(section_id :any) {
+    // if (isLogin.value === true) {
+    //   sectionHistoryForm.section_id = section_id
+    //   sectionHistoryForm.user = userId.value
+    //   console.log(sectionHistoryForm)
+    //   let res = await postSectionHistory(sectionHistoryForm)
+    //   console.log(res)
+    // }
   }
 
   onMounted(() => {

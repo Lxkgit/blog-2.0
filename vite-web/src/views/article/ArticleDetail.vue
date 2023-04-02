@@ -173,8 +173,8 @@ let {
   logo,
   photo,
   showLogin,
-  // clickSend
-} = comment(articleID, getArticleData, loginPopupRef, messageEditor)
+  clickSend
+} = comment(articleID)
 // 调用动作菜单模块
 let { likeClick, isCollect, getArticleHistoryData, collectClick, postArticleHistoryData } = action(articleID, articleData)
 
@@ -257,9 +257,9 @@ function article() {
   // 文章详情数据
   let articleData: any = reactive({ data: {} })
   // 文章上下篇
-  const context = reactive({})
+  const context: any = reactive({})
   // 猜你喜欢
-  const recommendList = ref([])
+  const recommendList: any = ref([])
 
   // 获取文章详情
   async function getArticleData(DetailID: any) {
@@ -376,34 +376,34 @@ function comment(articleID: any) {
     // loginPopupRef.value.showPopup()
   }
   // 点击发表评论事件
-  // const clickSend = () => {
-  //   messageEditor.value.syncHTML()
-  //   messageForm.content = messageEditor.value.content
-  //   console.log(messageForm.content)
-  //   if (messageForm.content) {
-  //     messageForm.user = userId.value
-  //     messageForm['article_id'] = articleID.value
-  //     console.log(messageForm)
-  //     postArticleComment(messageForm).then((response) => {
-  //       console.log(response)
-  //       ElMessage({
-  //         message: '评论成功！',
-  //         type: 'success',
-  //       })
-  //       messageForm.content = ''
-  //       messageEditor.value.clear()
-  //       getArticleCommentData()
-  //     }).catch(response => {
-  //       //发生错误时执行的代码
-  //       console.log(response)
-  //       for (let i in response) {
-  //         ElMessage.error(i + response[i][0])
-  //       }
-  //     });
-  //   } else {
-  //     ElMessage('请输入评论内容')
-  //   }
-  // }
+  const clickSend = () => {
+    // messageEditor.value.syncHTML()
+    // messageForm.content = messageEditor.value.content
+    // console.log(messageForm.content)
+    // if (messageForm.content) {
+    //   messageForm.user = userId.value
+    //   messageForm['article_id'] = articleID.value
+    //   console.log(messageForm)
+    //   postArticleComment(messageForm).then((response) => {
+    //     console.log(response)
+    //     ElMessage({
+    //       message: '评论成功！',
+    //       type: 'success',
+    //     })
+    //     messageForm.content = ''
+    //     messageEditor.value.clear()
+    //     getArticleCommentData()
+    //   }).catch(response => {
+    //     //发生错误时执行的代码
+    //     console.log(response)
+    //     for (let i in response) {
+    //       ElMessage.error(i + response[i][0])
+    //     }
+    //   });
+    // } else {
+    //   ElMessage('请输入评论内容')
+    // }
+  }
   // 评论点赞事件
   // if (!$bus.all.get("likeMessage")) $bus.on("likeMessage", value => {
   //   const params = { 'like': value.like }
@@ -465,8 +465,7 @@ function comment(articleID: any) {
     }
   })
   return {
-    commentsList, getArticleCommentData, logo, photo, messageForm, showLogin
-    // , clickSend
+    commentsList, getArticleCommentData, logo, photo, messageForm, showLogin, clickSend
   }
 }
 

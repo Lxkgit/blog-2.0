@@ -3,7 +3,7 @@ import { ElMessage } from 'element-plus'
 import { systemStore } from "@/store/system"
 import router from '@/router'
 
-export function request(config) {
+export function request(config: any) {
   const store = systemStore()
   const token = store.userLocal.access_token || store.userSession.access_token
   // 创建axios的实例
@@ -19,7 +19,8 @@ export function request(config) {
     return config
   }, error => {
     console.log(error)
-    return Promise.error(error)
+    // return Promise.error(error)
+    return Promise.reject(new Error(error))
   })
   // 响应拦截器配置
   instance.interceptors.response.use(response => {

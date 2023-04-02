@@ -49,13 +49,25 @@ export const updateUserApi = (userDate: any) => {
   return api.post(uri, userDate)
 }
 
-// 获取全部菜单
+/**
+ * 获取全部菜单
+ * menuType = 1 获取到目录
+ * menuType = 2 获取到操作
+ * @param menuType 
+ * @returns 
+ */
 export const allMenuApi = (menuType: any) => {
   const uri = "/user/menu/all/list?type=" + menuType
   return api.get(uri)
 }
 
-// 获取用户菜单
+/**
+ * 获取用户菜单
+ * menuType = 1 获取到目录
+ * menuType = 2 获取到操作
+ * @param menuType 
+ * @returns 
+ */
 export const userMenuApi = (menuType: any) => {
   const uri = "/user/menu/list?type=" + menuType
   return api.get(uri)

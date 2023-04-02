@@ -23,10 +23,10 @@
                 {{ articleType.typeName }}
               </el-menu-item>
 
-              <el-sub-menu v-else :index="'2-' + articleType.id" v-for="item in articleType.children">
+              <el-sub-menu v-else :index="'2-' + articleType.id">
                 <template #title>{{ articleType.typeName }}</template>
-                <el-menu-item :index="'2-' + articleType.id + '-' + item.id" :key="item.id"
-                  @click="toCategory(item.id)">{{ item.typeName }}</el-menu-item>
+                <el-menu-item :index="'2-' + articleType.id + '-' + item.id" :key="item.id" @click="toCategory(item.id)"
+                  v-for="item in articleType.children">{{ item.typeName }}</el-menu-item>
               </el-sub-menu>
             </div>
           </el-sub-menu>
@@ -194,6 +194,7 @@ async function categoryData() {
   getArticleTypeTreeApi().then((res: any) => {
     if (res.code === 200) {
       articleTypeList.value = res.result
+      console.log(res)
     }
   })
 }
@@ -312,12 +313,15 @@ const navChange = (value: any) => {
   setNavigation(value)
 }
 
-onActivated(()=>{
+onActivated(() => {
   console.log("NavMenu onActivated")
 
 })
 
 onMounted(() => {
+
+  console.log("isLogin: " + JSON.stringify(isLogin))
+
   asideMenuFold.value = store.asideMenuFold
   siteConfigData()
   categoryData()

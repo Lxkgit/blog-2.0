@@ -8,7 +8,7 @@ import java.util.Map;
 public interface ArticleLabelService {
 
     List<ArticleLabel> selectArticleLabelList(Integer userId);
-    int saveArticleLabel(ArticleLabel articleLabel);
+    void saveArticleLabel(ArticleLabel articleLabel);
     int updateArticleLabel(ArticleLabel articleLabel);
-    Map<String, Object> deleteArticleLabelByIds(String ids, Integer userId);
+    Integer deleteArticleLabelByIds(String ids, Integer userId);
 }

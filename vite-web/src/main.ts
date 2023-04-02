@@ -24,7 +24,7 @@ import "@/assets/style/hover-min.css"
 
 const app = createApp(App)
 //绑定事件总线
-app.config.globalProperties.$bus = new mitt();
+app.config.globalProperties.$bus = new (mitt as any);
 app.use(router)
 app.use(store)
 app.use(ElementPlus)

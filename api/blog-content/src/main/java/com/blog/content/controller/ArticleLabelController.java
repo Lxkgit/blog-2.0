@@ -9,6 +9,7 @@ import com.blog.common.util.JwtUtil;
 import com.blog.content.service.ArticleLabelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -36,63 +37,22 @@ public class ArticleLabelController {
     private ArticleLabelService articleLabelService;
 
     @GetMapping("/list")
-    public Result selectArticleLabelList(@RequestParam(required = false, value = "userId", defaultValue = "0") Integer userId){
-
-        if (userId == 0){
-            return ResultFactory.buildSuccessResult(articleLabelService.selectArticleLabelList(userId));
-        } else {
-            // 标记标签列表是否属于当前用户
-            boolean isOwner = false;
-            HashMap<String, Object> map = new HashMap<>();
-            // 获取用户请求头，从请求头中获取token
-            HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-            String token = request.getHeader("Authorization");
-            if (StringUtils.isEmpty(token)) {
-                token = request.getParameter("Authorization");
-            }
-            List<ArticleLabel> result = articleLabelService.selectArticleLabelList(userId);
-            if (!token.isEmpty()) {
-                try {
-                    BlogUser blogUser = JwtUtil.getUserInfo(token);
-                    if (blogUser.getId().equals(userId)) {
-                        isOwner = true;
-                    }
-                    map.put("isOwner", isOwner);
-                    map.put("list", result);
-                    return ResultFactory.buildSuccessResult(map);
-                } catch (Exception e) {
-                    log.warn(Constant.JWTError, e);
-                }
-            }
-            map.put("isOwner", isOwner);
-            map.put("list", result);
-            return ResultFactory.buildSuccessResult(map);
-        }
+    public Result selectArticleLabelList(@RequestParam(value = "labelType") Integer labelType){
+        return ResultFactory.buildSuccessResult(articleLabelService.selectArticleLabelList(labelType));
     }
 
     @PostMapping("/save")
-    public Result saveArticleLabel(@RequestBody ArticleLabel articleLabel) {
-
-        // 获取用户请求头，从请求头中获取token
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
+    public Result saveArticleLabel(@RequestHeader HttpHeaders headers, @RequestBody ArticleLabel articleLabel) {
+        String token = String.valueOf(headers.get("Authorization"));
+        try {
+            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            articleLabel.setUserId(blogUser.getId());
+            articleLabelService.saveArticleLabel(articleLabel);
+            return ResultFactory.buildSuccessResult("文章标签保存成功");
+        } catch (Exception e) {
+            log.warn(Constant.JWTError, e);
         }
-        if (!token.isEmpty()) {
-            try {
-                BlogUser blogUser = JwtUtil.getUserInfo(token);
-                articleLabel.setUserId(blogUser.getId());
-                int flag = articleLabelService.saveArticleLabel(articleLabel);
-                if (flag == 1) {
-                    return ResultFactory.buildSuccessResult("文章标签保存成功");
-                }
-                return ResultFactory.buildSuccessResult("文章标签保存失败");
-            } catch (Exception e) {
-                log.warn(Constant.JWTError, e);
-            }
-        }
-        return ResultFactory.buildFailResult("应该用不到 ... ");
+        return ResultFactory.buildSuccessResult("文章标签保存失败");
     }
 
     @PostMapping("/update")
@@ -105,23 +65,16 @@ public class ArticleLabelController {
     }
 
     @DeleteMapping("/delete")
-    public Result deleteArticleLabelByIds(@RequestParam(value = "ids") String ids) {
+    public Result deleteArticleLabelByIds(@RequestHeader HttpHeaders headers, @RequestParam(value = "ids") String ids) {
 
-        // 获取用户请求头，从请求头中获取token
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
+        String token = String.valueOf(headers.get("Authorization"));
+        try {
+            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            return ResultFactory.buildSuccessResult(articleLabelService.deleteArticleLabelByIds(ids, blogUser.getId()));
+        } catch (Exception e) {
+            log.warn(Constant.JWTError, e);
         }
-        if (!token.isEmpty()) {
-            try {
-                BlogUser blogUser = JwtUtil.getUserInfo(token);
-                return ResultFactory.buildSuccessResult(articleLabelService.deleteArticleLabelByIds(ids, blogUser.getId()));
-            } catch (Exception e) {
-                log.warn(Constant.JWTError, e);
-            }
-        }
-        return ResultFactory.buildFailResult("应该用不到 ... ");
+        return ResultFactory.buildSuccessResult("文章标签删除失败");
     }
 
 

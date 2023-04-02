@@ -93,12 +93,6 @@ const router = createRouter({
             component: () => import('@/views/personal/Personal.vue'),
             children: [
                 {
-                    path: "",
-                    redirect: "/admin/index",
-                    isAuth: true,
-                    keepAlive: false,
-                },
-                {
                     path: 'index',
                     name: 'AdminIndex',
                     component: () => import('@/views/personal/MyIndex.vue'),
@@ -125,6 +119,26 @@ const router = createRouter({
                     component: () => import('@/views/admin/article/ArticleEditor.vue'),
                     meta: {
                         title: '文章编辑',
+                        keepAlive: false,
+                        isAuth: true,
+                    },
+                },
+                {
+                    path: 'article/type',
+                    name: 'articleType',
+                    component: () => import('@/views/admin/article/type/AdminArticleType.vue'),
+                    meta: {
+                        title: ' 文章分类',
+                        keepAlive: false,
+                        isAuth: true,
+                    },
+                },
+                {
+                    path: 'article/label',
+                    name: 'articleLabel',
+                    component: () => import('@/views/admin/article/label/AdminArticleLabel.vue'),
+                    meta: {
+                        title: ' 文章标签',
                         keepAlive: false,
                         isAuth: true,
                     },
@@ -194,11 +208,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const store = systemStore()
     Nprogress.start()
-    if (to.path) {
-        if (window._hmt) {
-            window._hmt.push()
-        }
-    }
+    // if (to.path) {
+    //     if (window._hmt) {
+    //         window._hmt.push()
+    //     }
+    // }
     next()
 })
 

@@ -2,6 +2,7 @@ package com.blog.common.entity.content.article.vo;
 
 import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.content.article.ArticleLabelType;
+import com.blog.common.entity.user.BlogUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,5 +18,11 @@ import java.util.List;
 @Setter
 public class ArticleLabelTypeVo extends ArticleLabelType {
 
-    List<ArticleLabel> labelList;
+    private Integer value;
+
+    private String label;
+
+    private List<ArticleLabelVo> labelList;
+
+    private BlogUser blogUser;
 }

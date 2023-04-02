@@ -6,37 +6,36 @@
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
         <id column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <id column="label_num" property="labelNum" jdbcType="INTEGER"/>
-    </resultMap>
-
-    <resultMap id="ArticleLabelTypeVo" type="com.blog.common.entity.content.article.vo.ArticleLabelTypeVo">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <id column="user_id" property="userId" jdbcType="INTEGER"/>
-        <id column="type_name" property="typeName" jdbcType="VARCHAR"/>
-        <id column="label_num" property="labelNum" jdbcType="INTEGER"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id, type_name, label_num
+        id, user_id, type_name, label_num, create_time, update_time
     </sql>
 
-    <select id="selectArticleLabelTypeList" resultMap="ArticleLabelTypeVo">
-        select <include refid="Base_Column_List"/>
+    <select id="selectArticleLabelTypeList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
         from article_label_type
-        <if test="id != 0 ">
-            where id = #{id}
-        </if>
     </select>
 
     <update id="updateArticleLabelType" parameterType="com.blog.common.entity.content.article.ArticleLabelType">
         update article_label_type
         <set>
-            <if test="typeName !=null and typeName !=''">
-                type_name = #{typeName},
-            </if>
+            type_name = #{typeName},
         </set>
         <where>
             id = #{id} and label_num = 0;
         </where>
+    </update>
+
+    <update id="updateArticleLabelTypeLabelNumAdd" parameterType="java.lang.Integer">
+        update article_label_type set label_num = label_num + 1 where id = #{id}
+    </update>
+
+    <update id="updateArticleLabelTypeLabelNumSubtract" parameterType="java.lang.Integer">
+        update article_label_type set label_num = label_num - 1 where id = #{id}
     </update>
 
     <delete id="deleteArticleLabelTypeByIds">

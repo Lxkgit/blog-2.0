@@ -1,6 +1,7 @@
 package com.blog.common.entity.content.article.vo;
 
 import com.blog.common.entity.content.article.ArticleType;
+import com.blog.common.entity.user.BlogUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +20,8 @@ public class ArticleTypeVo extends ArticleType {
     private String value;
 
     private String label;
+
+    private BlogUser blogUser;
 
     private List<ArticleTypeVo> children;
 }

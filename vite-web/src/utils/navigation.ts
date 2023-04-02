@@ -34,7 +34,7 @@ function navigation() {
 	const lastTop = ref(0)
 	//防抖处理
 	const debounce = (fn: any, wait: any) => {
-		let timer = null
+		let timer: any = null
 		return function () {
 			if (timer !== null) {
 				clearTimeout(timer)

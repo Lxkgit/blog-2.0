@@ -35,6 +35,7 @@
 </template>
 <script setup lang="ts">
 // 图片滑块组件(拼图)
+//@ts-nocheck
 import dragVerifyImgChip from "@/components/verify/dragVerifyImgChip.vue";
 import {onMounted, reactive, ref} from "vue";
 import verify1 from '@/assets/verify/verify-1.jpg'

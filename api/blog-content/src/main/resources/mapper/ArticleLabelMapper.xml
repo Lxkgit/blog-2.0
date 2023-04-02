@@ -7,11 +7,22 @@
         <id column="label_type" property="labelType" jdbcType="INTEGER"/>
         <id column="label_name" property="labelName" jdbcType="VARCHAR"/>
         <id column="article_num" property="articleNum" jdbcType="INTEGER"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id,label_type, label_name, article_num
+        id, user_id,label_type, label_name, article_num, create_time, update_time
     </sql>
+
+    <!--根据标签分类查询标签，标签分类为0查询全部标签-->
+    <select id="selectArticleLabelList" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from article_label
+        <if test="labelType != 0 ">
+            where label_type = #{labelType}
+        </if>
+    </select>
 
     <select id="selectArticleLabelByArray" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
@@ -20,14 +31,6 @@
         <foreach item="label" collection="array" open="(" separator="," close=")">
             #{label}
         </foreach>
-    </select>
-
-    <select id="selectArticleLabel" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
-        from article_label
-        <if test="userId != 0 ">
-            where user_id = #{userId}
-        </if>
     </select>
 
     <select id="selectArticleLabelByLabelType" resultMap="BaseResultMap">
@@ -57,7 +60,7 @@
         <foreach item="id" collection="ids" open="(" separator="," close=")">
             #{id}
         </foreach>
-        and num = 0 and user_id = #{userId};
+        and article_num = 0 and user_id = #{userId};
     </delete>
 
 
