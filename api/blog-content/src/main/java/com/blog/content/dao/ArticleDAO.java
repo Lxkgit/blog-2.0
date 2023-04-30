@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface ArticleDAO {
+public interface ArticleDAO extends BaseMapper<Article> {
 
     Integer selectArticleCount(ArticleVo articleVo);
     List<Article> selectArticleListByPage(ArticleVo articleVo);

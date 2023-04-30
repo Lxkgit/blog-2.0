@@ -43,6 +43,16 @@ export const tagsStore = defineStore('tag', {
                 }
             }
         },
+        delTagByPath(path: any){
+            for(let i=0; i< this.tags.length; i++) {
+                console.log(JSON.stringify(this.tags[i]))
+                if(this.tags[i].path === path){
+                    if(this.tags[i].close) {
+                        this.tags.splice(i, 1)
+                    }
+                }
+            }
+        },
         activeTag(path: any) {
             this.tags.map(item => (item.active = false));
             for (let i = 0; i < this.tags.length; i++) {

@@ -29,13 +29,13 @@
         <el-table-column fixed="right" label="操作" width="110">
           <template #default="scope">
             <el-button style="margin: 0; padding: 8px;" @click="showDiaryFun(scope.row)" size="small" text>
-              <i class="fa fa-eye" aria-hidden="true"></i>
+              <MyIcon type="icon-eye1" />
             </el-button>
             <el-button style="margin: 0; padding: 8px;" @click="updateDiaryFun(scope.row)" size="small" text>
-              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <MyIcon type="icon-edit" />
             </el-button>
             <el-button style="margin: 0; padding: 8px;" @click="deleteDiaryFun(scope.row.id)" size="small" text>
-              <i class="fa fa-trash" aria-hidden="true"></i>
+              <MyIcon type="icon-shanchu" />
             </el-button>
           </template>
         </el-table-column>
@@ -50,24 +50,23 @@
         <div>
           <div style="margin-bottom: 10px;">
             <span>日期：</span>
-            <el-date-picker v-model="diary.data.diaryDate" type="date" placeholder="选择日期" value-format="YYYY-MM-DD" />
+            <el-date-picker v-model="showDiary.data.diaryDate" type="date" placeholder="选择日期" value-format="YYYY-MM-DD" />
             <span style="font-size: 14px; line-height: 1;">
               <span> 最近保存时间：</span>
               <span v-if="saveTime !== ''">{{ saveTime }}</span>
               <span v-else>未保存</span>
             </span>
           </div>
-          <DiaryEditor></DiaryEditor>
-          <!-- <v-md-editor v-model="diary.data.diaryMd" height="500px" @save="saveDiaryFun"
-            @change="changeDiaryFun"></v-md-editor> -->
+          <v-md-editor v-model="showDiary.data.diaryMd" height="550px" @save="useText" :disabled-menus="[]"
+              @change="changeText" @upload-image="uploadImageFun"></v-md-editor>
         </div>
       </el-dialog>
       <el-dialog v-model="showDiaryDialog" title="查看日记">
         <div>
           <el-date-picker v-model="showDiary.data.diaryDate" type="date" value-format="YYYY-MM-DD" disabled />
           <div
-            style="height: 400px; overflow: auto;  margin-top: 10px; margin-bottom: 10px; border-width: 1px; border-style: solid;">
-            <v-md-preview :text="showDiary.data.diaryMd"></v-md-preview>
+            style="height: 400px; overflow: auto;  margin-top: 10px; margin-bottom: 10px; border-width: 1px; border-style: solid; border-color: beige;">
+            <MarkDown :text="showDiary.data.diaryMd"></MarkDown>
           </div>
           <span>创建日期：{{ showDiary.data.createTime }}</span>
           &nbsp;&nbsp;
@@ -103,13 +102,46 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus';
-import { onMounted, ref, reactive } from 'vue';
-// import { getDiaryList, saveDiary, updateDiary, deleteDiaryByIds, importDiary } from "../../../api/article"
+//@ts-nocheck
+import { onMounted, ref, reactive, onBeforeUnmount } from 'vue';
 import { uploadUrl, header } from "@/utils/upload"
-import type { UploadProps } from 'element-plus'
-import DiaryEditor from "@/views/admin/diary/DiaryEditor.vue"
+import { UploadProps, ElMessage } from 'element-plus'
+import { getDiaryListApi, saveDiaryApi, updateDiaryApi, deleteDiaryByIdsApi } from "@/api/content"
+import MarkDown from "@/components/detail/MarkDown.vue"
 
+import icon from '@/utils/icon'
+import { useRouter } from "vue-router";
+import { systemStore } from "@/store/system";
+import { contentStore } from "@/store/content"
+import VMdEditor from '@kangc/v-md-editor';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
+import hljs from 'highlight.js/lib/core';
+import python from 'highlight.js/lib/languages/python';
+import json from 'highlight.js/lib/languages/json';
+import yaml from 'highlight.js/lib/languages/yaml';
+import sql from 'highlight.js/lib/languages/sql';
+import javascript from 'highlight.js/lib/languages/javascript';
+import css from 'highlight.js/lib/languages/css';
+import scss from 'highlight.js/lib/languages/scss';
+import xml from 'highlight.js/lib/languages/xml';
+import java from 'highlight.js/lib/languages/java'
+
+hljs.registerLanguage('json', json);
+hljs.registerLanguage('python', python);
+hljs.registerLanguage('yaml', yaml);
+hljs.registerLanguage('sql', sql);
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('scss', scss);
+hljs.registerLanguage('css', css);
+hljs.registerLanguage('xml', xml);
+hljs.registerLanguage('java', java);
+VMdEditor.use(githubTheme, {
+  Hljs: hljs,
+});
+
+let { MyIcon } = icon()
 let ids = new Array();
 let size = ref<number>(14)
 let total = ref<number>(0)
@@ -135,16 +167,20 @@ onMounted(() => {
   }, 30000)
 });
 
+onBeforeUnmount(() => {
+window.clearInterval(time);
+});
+
 const getDiaryListFun = (page: any) => {
-  // getDiaryList({
-  //   pageNum: page,
-  //   pageSize: size.value,
-  // }).then((res: any) => {
-  //   if (res.code === 200) {
-  //     diaryList.data = res.result.diary.list
-  //     total.value = res.result.diary.total
-  //   }
-  // })
+  getDiaryListApi({
+    pageNum: page,
+    pageSize: size.value,
+  }).then((res: any) => {
+    if (res.code === 200) {
+      diaryList.data = res.result.diary.list
+      total.value = res.result.diary.total
+    }
+  })
 }
 
 const selected = (val: any) => {
@@ -155,8 +191,9 @@ const selected = (val: any) => {
 }
 
 const showDiaryFun = (diary: any) => {
-  // showDiary = [];
+  showDiary.data = {};
   showDiary.data = diary;
+  console.log("showDiary:" + JSON.stringify(showDiary) + "  diary: " + JSON.stringify(diary))
   showDiaryDialog.value = true;
 }
 
@@ -169,43 +206,12 @@ const newDiaryFun = () => {
 
 const updateDiaryFun = (param: any) => {
   saveTime.value = ""
-  diary.data = param;
+  showDiary.data = {}
+  showDiary.data = param;
   saveAndUpdateDiaryDialog.value = true;
 }
 
-const saveDiaryFun = () => {
-  // console.log(JSON.stringify(diary))
-  // if (diary.data.id !== 0) {
-  //   updateDiary({
-  //     id: diary.data.id,
-  //     diaryMd: diary.data.diaryMd,
-  //     diaryDate: diary.data.diaryDate
-  //   }).then((res: any) => {
-  //     if (res.code === 200) {
-  //       ElMessage({
-  //         message: '日记修改成功',
-  //         type: 'success',
-  //       })
-  //       getDiaryListFun(1)
-  //       saveAndUpdateDiaryDialog.value = false;
-  //     }
-  //   })
-  // } else {
-  //   saveDiary({
-  //     diaryMd: diary.data.diaryMd,
-  //     diaryDate: diary.data.diaryDate
-  //   }).then((res: any) => {
-  //     if (res.code === 200) {
-  //       ElMessage({
-  //         message: '日记保存成功',
-  //         type: 'success',
-  //       })
-  //       getDiaryListFun(1)
-  //       saveAndUpdateDiaryDialog.value = false;
-  //     }
-  //   })
-  // }
-}
+
 
 const deleteDiaryFun = (id?: any) => {
   // deleteBtnVisible.value = false;
@@ -277,7 +283,7 @@ const zipUploadFun = (res: any) => {
 }
 
 const beforeUploadFun: UploadProps['beforeUpload'] = (rawFile) => {
-  console.log("rawFile.type: "+ rawFile.type)
+  console.log("rawFile.type: " + rawFile.type)
   if (rawFile.type === 'application/zip' || rawFile.type === "application/x-zip-compressed" || rawFile.type === "application/x-zip") {
     return true
   }
@@ -344,6 +350,104 @@ const getNowDate = () => {
   return year + "-" + monthStr + "-" + dayStr;
 }
 
+const uploadImageFun = (event: any, insertImage: any, files: any) => {
+  // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
+  // console.log("file" + files);
+  // for (let i in files) {
+  //   const formData = new FormData();
+  //   formData.append("files", files[i]);
+  //   formData.append("type", "img");
+  //   formData.append("fileType", "article");
+  //   upload(
+  //     formData
+  //   ).then((res: any) => {
+  //     if (res.code === 200) {
+  //       console.log( JSON.stringify(res) + "++")
+  //       insertImage({
+  //         url: res.result.fileUrl,
+  //         desc: files[i].name,
+  //       });
+  //     }
+  //     // 此处只做示例
+  //   });
+  // }
+};
+
+/**
+ * 手动保存日记方法
+ */
+const useText = () => {
+  if (diary.data.id !== 0) {
+    updateDiaryApi({
+      id: showDiary.data.id,
+      diaryMd: showDiary.data.diaryMd,
+      diaryDate: showDiary.data.diaryDate
+    }).then((res: any) => {
+      if (res.code === 200) {
+        ElMessage({
+          message: '日记修改成功',
+          type: 'success',
+        })
+        getDiaryListFun(1)
+        saveAndUpdateDiaryDialog.value = false;
+      }
+    })
+  } else {
+    saveDiaryApi({
+      diaryMd: showDiary.data.diaryMd,
+      diaryDate: showDiary.data.diaryDate
+    }).then((res: any) => {
+      if (res.code === 200) {
+        ElMessage({
+          message: '日记保存成功',
+          type: 'success',
+        })
+        getDiaryListFun(1)
+        saveAndUpdateDiaryDialog.value = false;
+      }
+    })
+  }
+};
+
+/**
+ * 自动保存日记方法
+ */
+const changeText = () => {
+  if (saveFlag === true) {
+    saveFlag = false;
+    if (diary.data.id !== 0) {
+      updateDiaryApi({
+        id: showDiary.data.id,
+        diaryMd: showDiary.data.diaryMd,
+        diaryDate: showDiary.data.diaryDate
+      }).then((res: any) => {
+        if (res.code === 200) {
+          ElMessage({
+            message: '日记修改成功',
+            type: 'success',
+          })
+          getDiaryListFun(1)
+          saveAndUpdateDiaryDialog.value = false;
+        }
+      })
+    } else {
+      saveDiaryApi({
+        diaryMd: showDiary.data.diaryMd,
+        diaryDate: showDiary.data.diaryDate
+      }).then((res: any) => {
+        if (res.code === 200) {
+          ElMessage({
+            message: '日记保存成功',
+            type: 'success',
+          })
+          getDiaryListFun(1)
+          saveAndUpdateDiaryDialog.value = false;
+        }
+      })
+    }
+  }
+};
+
 const getNowTime = () => {
   let data = new Date();
   let hours = data.getHours();
@@ -368,7 +472,7 @@ const getNowTime = () => {
     secondStr = second;
   }
   return hoursStr + ":" + minStr + ":" + secondStr;
-}
+};
 
 </script>
 <style scoped>

@@ -7,9 +7,13 @@
         <span>
           {{ article.blogUser.nickname }}
         </span>
-        <span class="tag article-tag-hover" :style="'background-color: ' + tagColor(article.articleTypes[0].id)">{{
-          article.articleTypes[0].typeName
-        }}</span>
+        <span v-if="article.articleTypes !== null" class="tag article-tag-hover"
+          :style="'background-color: ' + tagColor(article.articleTypes[0].id)">
+          {{ article.articleTypes[0].typeName }}
+        </span>
+        <span v-else class="tag article-tag-hover" :style="'background-color: ' + tagColor(1)">
+          草稿
+        </span>
         <span>
           <MyIcon type="icon-4TIME" />{{ timeAgo(article.createTime) }}
         </span>
@@ -29,7 +33,8 @@
     </span>
     <span class="cover" @click="toDetail(article.id)">
       <!-- <el-image :src="article.cover" style="width: 270px; height: 180px" :fit="'fill'" lazy> -->
-      <el-image src="https://img2.baidu.com/it/u=2241198009,1203637343&fm=253&fmt=auto" style="width: 270px; height: 180px" :fit="'fill'" lazy>
+      <el-image src="https://img2.baidu.com/it/u=2241198009,1203637343&fm=253&fmt=auto"
+        style="width: 270px; height: 180px" :fit="'fill'" lazy>
         <template #placeholder>
           <Loading type="image"></Loading>
         </template>

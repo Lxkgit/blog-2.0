@@ -1,5 +1,6 @@
 import api from "@/api/api"
 
+// --------------文章接口-------------
 // 获取文章列表
 export const getArticleListApi = (params: any) => {
   const uri = "/content/article/list"
@@ -129,3 +130,40 @@ export const deleteArticleLabelByIdsApi = (ids: any) => {
   const uri = "/content/article/label/delete?ids=" + ids
   return api.delete(uri)
 }
+
+// --------------日记-------------
+/**
+ * 分页查询日记接口
+ * @param params 
+ * @returns 
+ */
+export const getDiaryListApi = (params: any) => {
+  const uri = "/content/diary/list"
+  return api.get(uri, params)
+}
+
+/**
+ * 保存日记接口
+ * @param diary 
+ * @returns 
+ */
+export const saveDiaryApi = (diary: any) => {
+  const uri = "/content/diary/save"
+  return api.post(uri, diary)
+}
+
+/**
+ * 修改日记接口
+ * @param diary 
+ * @returns 
+ */
+export const updateDiaryApi = (diary: any) => {
+  const uri = "/content/diary/update"
+  return api.post(uri, diary)
+}
+
+// 根据id删除文章
+export const deleteDiaryByIdsApi = (ids: any) => {
+  const uri = "/content/diary/delete?ids=" + ids
+  return api.delete(uri)
+} 

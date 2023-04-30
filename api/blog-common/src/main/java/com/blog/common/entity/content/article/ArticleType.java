@@ -2,6 +2,7 @@ package com.blog.common.entity.content.article;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.blog.common.entity.content.doc.DocCatalog;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -18,6 +19,7 @@ import java.util.Locale;
  */
 
 @Data
+@TableName("article_type")
 public class ArticleType implements Comparable<ArticleType> {
 
     @TableId(value = "id", type = IdType.AUTO)

@@ -68,6 +68,7 @@ import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { systemStore } from "@/store/system";
 import { contentStore } from "@/store/content"
+import { tagsStore } from "@/store/tag"
 import { ElImageViewer } from 'element-plus'
 import { saveArticleApi, updateArticleApi, getArticleTypeTreeApi, getArticleLabelListApi } from "@/api/content"
 import VMdEditor from '@kangc/v-md-editor';
@@ -98,7 +99,7 @@ VMdEditor.use(githubTheme, {
   Hljs: hljs,
 });
 
-
+const tagStore = tagsStore()
 const cStore = contentStore()
 const router = useRouter();
 let type = ref("");
@@ -234,6 +235,7 @@ const useText = () => {
       likeCount: 0,
     }).then((res: any) => {
       if (res.code === 200) {
+        tagStore.delTagByPath("/admin/article/editor")
         router.go(-1);
       }
     });
@@ -248,6 +250,7 @@ const useText = () => {
       likeCount: 0,
     }).then((res: any) => {
       if (res.code === 200) {
+        tagStore.delTagByPath("/admin/article/editor")
         router.go(-1);
       }
     });

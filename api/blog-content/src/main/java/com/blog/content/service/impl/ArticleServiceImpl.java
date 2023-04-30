@@ -83,7 +83,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (article.getArticleType() != null && !article.getArticleType().equals("")) {
             article.setArticleType(updateArticleType(article.getArticleType()));
         }
-        return articleDAO.insertArticle(article);
+        return articleDAO.insert(article);
     }
 
     @Override
