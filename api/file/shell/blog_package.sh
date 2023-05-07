@@ -409,6 +409,11 @@ EOF
 	./start.sh
 }
 
+updateImg() {
+  rm -rf /opt/file/*
+  mv /opt/package/file.zip /opt/file
+  unzip -d /opt/file/ /opt/file/file.zip
+}
 
 
 main() {
@@ -453,6 +458,8 @@ main() {
   echo "博客服务启动中 ... "
   blogJar
   blogShell
+  echo "恢复博客备份图片 ... "
+  updateImg
 }
 
 # 开始执行函数

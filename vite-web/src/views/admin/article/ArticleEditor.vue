@@ -71,6 +71,7 @@ import { contentStore } from "@/store/content"
 import { tagsStore } from "@/store/tag"
 import { ElImageViewer } from 'element-plus'
 import { saveArticleApi, updateArticleApi, getArticleTypeTreeApi, getArticleLabelListApi } from "@/api/content"
+import { upload } from "@/api/file" 
 import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
@@ -193,25 +194,23 @@ const articleLabel = () => {
 
 const uploadImageFun = (event: any, insertImage: any, files: any) => {
   // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
-  // console.log("file" + files);
-  // for (let i in files) {
-  //   const formData = new FormData();
-  //   formData.append("files", files[i]);
-  //   formData.append("type", "img");
-  //   formData.append("fileType", "article");
-  //   upload(
-  //     formData
-  //   ).then((res: any) => {
-  //     if (res.code === 200) {
-  //       console.log( JSON.stringify(res) + "++")
-  //       insertImage({
-  //         url: res.result.fileUrl,
-  //         desc: files[i].name,
-  //       });
-  //     }
-  //     // 此处只做示例
-  //   });
-  // }
+  console.log("file" + files);
+  for (let i in files) {
+    const formData = new FormData();
+    formData.append("files", files[i]);
+    formData.append("type", "img");
+    formData.append("fileType", "article");
+    upload(
+      formData
+    ).then((res: any) => {
+      if (res.code === 200) {
+        insertImage({
+          url: res.result.fileUrl,
+          desc: files[i].name,
+        });
+      }
+    });
+  }
 };
 
 const useText = () => {
