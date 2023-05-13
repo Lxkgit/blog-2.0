@@ -16,12 +16,18 @@ import java.util.Date;
 public class UploadLog {
 
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
-    private int userId;
+    private Integer id;
+
+    private Integer userId;
+
     private String fileName;
+
     private String fileType;
-    private int uploadState;
+
+    private Integer uploadState;
+
     private String uploadMsg;
+
     private Date uploadTime;
 
     public UploadLog(int userId, String fileName, String fileType, int uploadState, String uploadMsg, Date uploadTime) {

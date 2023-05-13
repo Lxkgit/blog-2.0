@@ -109,7 +109,7 @@ public class ImportServiceImpl implements ImportService {
                 }
                 log.info("日记名称： {}", DateUtil.dateToDateTime(diaryDate) );
                 UploadLog uploadLog = new UploadLog(userId, DateUtil.dateToDateTime(diaryDate), "diary", uploadState, uploadStr, new Date());
-                uploadLogDAO.saveFileUpload(uploadLog);
+                uploadLogDAO.insert(uploadLog);
             }
         }
         return flag;

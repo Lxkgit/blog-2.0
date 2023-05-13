@@ -1,10 +1,8 @@
 package com.blog.file.config;
 
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * @Author: lxk
@@ -23,11 +21,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
         String pathAbsolute;
         if (!win) {
             pathPatterns = "/package/**";
-            pathAbsolute = "file:/opt/package//";
+            pathAbsolute = "file:/opt/package/";
         } else {
-            pathPatterns = "/img/**";
-            pathAbsolute = "D:\\img\\";
+            pathPatterns = "/files/**";
+            pathAbsolute = "file:D:/files/";
         }
-        registry.addResourceHandler(pathPatterns).addResourceLocations(pathAbsolute);
+        registry.addResourceHandler(pathPatterns)
+                .addResourceLocations(pathAbsolute);
     }
 }

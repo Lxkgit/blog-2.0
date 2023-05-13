@@ -16,15 +16,21 @@ import java.util.Date;
 public class UploadFile {
 
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
-    private int userId;
+    private Integer id;
+
+    private Integer userId;
+
     private String fileName;
+
     private String fileUrl;
+
     private Date uploadTime;
+
     private String fileType;
+
     private String filePath;
 
-    public UploadFile(int userId, String fileName, String fileUrl, Date uploadTime, String fileType, String filePath) {
+    public UploadFile(Integer userId, String fileName, String fileUrl, Date uploadTime, String fileType, String filePath) {
         this.userId = userId;
         this.fileName = fileName;
         this.fileUrl = fileUrl;

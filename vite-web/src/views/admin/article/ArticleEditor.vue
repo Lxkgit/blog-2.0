@@ -55,8 +55,11 @@
         height="100%"
         @save="useText"
         :disabled-menus="[]"
+        left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code file | save"
+        :toolbar="toolbar"
         @change="changeText"
         @upload-image="uploadImageFun"
+        
       ></v-md-editor>
     </el-row>
   </div>
@@ -66,12 +69,11 @@
 //@ts-nocheck
 import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
-import { systemStore } from "@/store/system";
 import { contentStore } from "@/store/content"
 import { tagsStore } from "@/store/tag"
-import { ElImageViewer } from 'element-plus'
 import { saveArticleApi, updateArticleApi, getArticleTypeTreeApi, getArticleLabelListApi } from "@/api/content"
 import { upload } from "@/api/file" 
+import icon from '@/utils/icon'
 import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
@@ -100,6 +102,7 @@ VMdEditor.use(githubTheme, {
   Hljs: hljs,
 });
 
+let { MyIcon } = icon()
 const tagStore = tagsStore()
 const cStore = contentStore()
 const router = useRouter();
@@ -151,6 +154,16 @@ onBeforeUnmount(() => {
   window.clearInterval(time);
 });
 
+// let toolbar = {
+//   file: {
+//     icon: `<MyIcon type="icon-shanchu"/>`,
+//     title: "上传文件",
+//     action(editor) {
+        
+//     }
+//   }
+// }
+
 const selectType = (value: any) => {
   type.value = value;
 };
@@ -198,8 +211,8 @@ const uploadImageFun = (event: any, insertImage: any, files: any) => {
   for (let i in files) {
     const formData = new FormData();
     formData.append("files", files[i]);
-    formData.append("type", "img");
-    formData.append("fileType", "article");
+    formData.append("fileTypeCode", 1);
+    formData.append("filePathCode", 1);
     upload(
       formData
     ).then((res: any) => {

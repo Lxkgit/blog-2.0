@@ -14,8 +14,20 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class UploadVo {
 
+        /**
+         * 上传文件数据
+         */
         MultipartFile[] files;
-        String type;
-        String fileType;
+
+        /**
+         * 文件类型编码
+         */
+        Integer fileTypeCode;
+
+        /**
+         * 文件存放路径编码
+         */
+        Integer filePathCode;
+
         Integer year;
 }

@@ -1,5 +1,6 @@
 package com.blog.file.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blog.common.entity.file.UploadLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +13,6 @@ import org.apache.ibatis.annotations.Param;
  */
 
 @Mapper
-public interface UploadLogDAO {
-    int saveFileUpload(UploadLog uploadLog);
-    int updateFileUpload(UploadLog uploadLog);
+public interface UploadLogDAO extends BaseMapper<UploadLog> {
+
 }

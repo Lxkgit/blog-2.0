@@ -38,6 +38,16 @@ const router = createRouter({
             }
         },
         {
+            path: '/document',
+            name: 'Document',
+            component: () => import('@/views/note/Document.vue'),
+            meta: {
+                title: '文档列表',
+                keepAlive: false,
+                isAuth: false
+            }
+        },
+        {
             path: '/catalog/:id',
             name: 'Catalog',
             component: () => import('@/views/note/Catalog.vue'),

@@ -11,9 +11,8 @@ import java.io.IOException;
  * @description:
  * @modified By:
  */
-public interface UploadFileService {
+public interface FileService {
 
-    Result uploadFile(MultipartFile[] files, Integer userId, String type);
-    Result uploadImg(MultipartFile[] files, Integer userId, String type);
+    Result upload(MultipartFile[] files, Integer userId, String filePath);
 
 }

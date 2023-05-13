@@ -31,14 +31,19 @@
             </div>
           </el-sub-menu>
 
-          <el-sub-menu index="3">
+          <el-menu-item index="3" @click="router.push('/document')">
+            <MyIcon type="icon-book" />
+            <span class="menu-title">文档</span>
+          </el-menu-item>
+
+          <!-- <el-sub-menu index="3">
             <template #title>
               <MyIcon type="icon-book" />
               <span class="menu-title">笔记</span>
             </template>
             <el-menu-item v-for="note in noteList" :key="note.id" :index="'3-' + note.id"
               @click="router.push(`/catalog/${note.id}`)">{{ note.name }}</el-menu-item>
-          </el-sub-menu>
+          </el-sub-menu> -->
           <el-menu-item index="4" @click="router.push('/classify')">
             <MyIcon type="icon-shijianzhou" />
             <span class="menu-title">归档</span>
