@@ -35,14 +35,19 @@ public class DocCatalogVo extends DocCatalog implements Comparable<DocCatalog>{
 
     private String selectType;
 
+    /**
+     * 目录查询下限
+     */
+    private Integer typeLowerLimit;
+
+    /**
+     * 目录查询上限
+     */
+    private Integer typeUpperLimit;
+
     @Override
     public int compareTo(DocCatalog o) {
-        if (this.getSort().equals(o.getSort())) {
-            Collator compare = Collator.getInstance(Locale.ENGLISH);
-            return compare.compare(this.getDocName(), o.getDocName());
-        } else {
-            return this.getSort() - o.getSort();
-        }
+        return o.getId() - this.getId();
         //所有比较最底层的逻辑都是发生两两比较逻辑的,返回比较结果
         //只关心结果结果三种:
         //正数:   this.age - o.age    >

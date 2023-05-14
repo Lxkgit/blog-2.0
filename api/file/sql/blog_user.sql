@@ -11,7 +11,7 @@
  Target Server Version : 50651
  File Encoding         : 65001
 
- Date: 12/02/2023 17:09:19
+ Date: 14/05/2023 21:44:48
 */
 
 SET NAMES utf8mb4;
@@ -51,6 +51,10 @@ INSERT INTO `sys_permission` VALUES (101, 50, '添加角色', NULL, NULL, 'sys:r
 INSERT INTO `sys_permission` VALUES (102, 50, '删除角色', NULL, NULL, 'sys:role:delete', '', 2);
 INSERT INTO `sys_permission` VALUES (103, 50, '修改角色', NULL, NULL, 'sys:role:update', '', 2);
 INSERT INTO `sys_permission` VALUES (104, 50, '查看角色权限', NULL, NULL, 'sys:role:permission:select', '', 2);
+INSERT INTO `sys_permission` VALUES (105, 50, '修改角色权限', NULL, NULL, 'sys:role:permission:update', '', 2);
+INSERT INTO `sys_permission` VALUES (106, 51, '用户列表', NULL, NULL, 'sys:user:list', '', 2);
+INSERT INTO `sys_permission` VALUES (107, 51, '注销用户', NULL, NULL, 'sys:user:delete', '', 2);
+INSERT INTO `sys_permission` VALUES (108, 51, '修改用户角色', NULL, NULL, 'sys:user:update', '', 2);
 
 -- ----------------------------
 -- Table structure for sys_role

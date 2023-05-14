@@ -167,3 +167,24 @@ export const deleteDiaryByIdsApi = (ids: any) => {
   const uri = "/content/diary/delete?ids=" + ids
   return api.delete(uri)
 } 
+
+// --------------文档-------------
+/**
+ * 获取用户文档接口
+ * @param userId 
+ * @returns 
+ */
+export const getDocCatalogTreeApi = (param: any) => {
+  const uri = "/content/doc/catalog/tree"
+  return api.get(uri, param)
+}
+
+/**
+ * 获取文档目录接口
+ * @param userId
+ * @returns 
+ */
+export const getCatalogForDocApi = (parentId: any) => {
+  const uri = "/content/doc/catalog/detail?parentId=" + parentId
+  return api.get(uri)
+}

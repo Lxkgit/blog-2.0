@@ -12,6 +12,7 @@
             <MyIcon type="icon-home3" />
             <span class="menu-title">首页</span>
           </el-menu-item>
+
           <el-sub-menu index="2">
             <template #title>
               <MyIcon type="icon-icon-article" />
@@ -22,7 +23,6 @@
                 @click="toCategory(articleType.id)">
                 {{ articleType.typeName }}
               </el-menu-item>
-
               <el-sub-menu v-else :index="'2-' + articleType.id">
                 <template #title>{{ articleType.typeName }}</template>
                 <el-menu-item :index="'2-' + articleType.id + '-' + item.id" :key="item.id" @click="toCategory(item.id)"

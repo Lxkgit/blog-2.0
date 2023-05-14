@@ -3,19 +3,37 @@
     <section class="detail">
       <NavMenu></NavMenu>
       <div class="detail-page">
-        <div :class="'detail-left animate__animated animate__' + (catalogShow === true ? 'fadeIn' : 'fadeOut')">
-          <el-tree v-if="catalogShow" accordion :data="catalogList" @node-click="handleNodeClick"
-            :default-expanded-keys="expanded" node-key="id" :highlight-current="true" :current-node-key="current"
-            ref="treeRef"></el-tree>
+        <div
+          :class="
+            'detail-left animate__animated animate__' +
+            (catalogShow === true ? 'fadeIn' : 'fadeOut')
+          "
+        >
+          <el-tree
+            v-if="catalogShow"
+            accordion
+            :data="catalogList"
+            @node-click="handleNodeClick"
+            :default-expanded-keys="expanded"
+            node-key="id"
+            :highlight-current="true"
+            :current-node-key="current"
+            ref="treeRef"
+          ></el-tree>
         </div>
         <div class="detail-center">
           <div class="current-position">
             <span>您的位置：</span>
             <span>
               <el-breadcrumb separator=">">
-                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item><a @click="toNote(sectionData.note_id)">
-                    {{ sectionData.note }}</a></el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/' }"
+                  >首页</el-breadcrumb-item
+                >
+                <el-breadcrumb-item
+                  ><a @click="toNote(sectionData.note_id)">
+                    {{ sectionData.note }}</a
+                  ></el-breadcrumb-item
+                >
                 <el-breadcrumb-item>笔记正文</el-breadcrumb-item>
               </el-breadcrumb>
             </span>
@@ -31,14 +49,12 @@
                   <MyIcon type="icon-category" />{{ sectionData.note }}
                 </span>
                 <span>
-                  <MyIcon type="icon-time" />{{ timeFull(sectionData.created_time) }}
+                  <MyIcon type="icon-time" />{{
+                    timeFull(sectionData.created_time)
+                  }}
                 </span>
-                <span>
-                  <MyIcon type="icon-view" />{{ sectionData.view }}
-                </span>
-                <span>
-                  <MyIcon type="icon-like" />{{ sectionData.like }}
-                </span>
+                <span> <MyIcon type="icon-view" />{{ sectionData.view }} </span>
+                <span> <MyIcon type="icon-like" />{{ sectionData.like }} </span>
                 <span>
                   <MyIcon type="icon-collect" />{{ sectionData.collect }}
                 </span>
@@ -49,14 +65,20 @@
               <MarkDown :text="sectionData.body"></MarkDown>
             </div>
             <div class="context">
-              <span :class="context.last ? 'detail-context-hover' : ''" @click="toDetail(context.last.id)">
+              <span
+                :class="context.last ? 'detail-context-hover' : ''"
+                @click="toDetail(context.last.id)"
+              >
                 <p>
                   <MyIcon type="icon-last" />
                 </p>
                 <p v-if="context.last">{{ context.last.title }}</p>
                 <p v-else>已是第一篇</p>
               </span>
-              <span :class="context.next ? 'detail-context-hover' : ''" @click="toDetail(context.next.id)">
+              <span
+                :class="context.next ? 'detail-context-hover' : ''"
+                @click="toDetail(context.next.id)"
+              >
                 <p>
                   <MyIcon type="icon-next" />
                 </p>
@@ -65,26 +87,17 @@
               </span>
             </div>
           </div>
-          <div class="comments detail-card" id="comment">
-            <h2>📝 评论交流</h2>
-            <div class="input-field">
-              <span v-if="isLogin === true"><el-avatar :size="50" :src="photo"></el-avatar></span>
-              <span v-else><el-avatar :size="50" :src="logo"></el-avatar></span>
-              <span>
-                <!-- <Editor ref="messageEditor"></Editor> -->
-              </span>
-              <span v-if="isLogin === true"><el-button type="primary" round @click="clickSend">评论</el-button></span>
-              <span v-else><el-button type="primary" round @click="showLogin">登录</el-button></span>
-            </div>
-            <div class="comment-list">
-              <Comments :comments-list="commentsList"></Comments>
-            </div>
-          </div>
         </div>
         <div class="detail-right">
           <Outline @rollTo="rollTo" :scrollTop="scrollTop"></Outline>
-          <Action :detailType="'section'" @setCatalog="catalogShow = !catalogShow" :catalogShow="catalogShow"
-            @likeClick="likeClick" :isCollect="isCollect" @collectClick="collectClick"></Action>
+          <Action
+            :detailType="'section'"
+            @setCatalog="catalogShow = !catalogShow"
+            :catalogShow="catalogShow"
+            @likeClick="likeClick"
+            :isCollect="isCollect"
+            @collectClick="collectClick"
+          ></Action>
           <BackTop></BackTop>
         </div>
       </div>
@@ -96,17 +109,24 @@
 
 <script setup name="SectionDetail" lang="ts">
 import NavMenu from "@/components/common/NavMenu.vue";
-import Footer from "@/components/common/Footer.vue"
-import BackTop from "@/components/common/BackTop.vue"
+import Footer from "@/components/common/Footer.vue";
+import BackTop from "@/components/common/BackTop.vue";
 //@ts-ignore
-import MarkDown from "@/components/detail/MarkDown.vue"
-import Action from "@/components/detail/Action.vue"
-import Outline from "@/components/detail/Outline.vue"
+import MarkDown from "@/components/detail/MarkDown.vue";
+import Action from "@/components/detail/Action.vue";
+import Outline from "@/components/detail/Outline.vue";
 // import Editor from "@/components/common/Editor.vue"
 // import Comments from "@/components/common/Comments.vue"
-import { ElMessage, ElLoading } from 'element-plus'
+import { ElMessage, ElLoading } from "element-plus";
 
-import { onMounted, reactive, ref, onBeforeUnmount, nextTick, getCurrentInstance } from "vue";
+import {
+  onMounted,
+  reactive,
+  ref,
+  onBeforeUnmount,
+  nextTick,
+  getCurrentInstance,
+} from "vue";
 import { onBeforeRouteUpdate, useRouter } from "vue-router";
 
 import timeFormat from "@/utils/timeFormat";
@@ -114,29 +134,19 @@ import icon from "@/utils/icon";
 import { systemStore } from "@/store/system";
 import user from "@/utils/user";
 import { assert } from "console";
-// import { getImgProxy } from "@/api/public";
-// import { getSectionDetail, getContextSection, getCatalogueList, patchSectionDetail } from "@/api/blog";
-// import { getSiteConfig } from "@/api/management";
-// import {
-//   deleteSectionComment,
-//   getSectionComment,
-//   getSectionHistory,
-//   postReplySectionComment,
-//   postSectionComment, postSectionHistory,
-//   patchSectionComment, putSectionHistory
-// } from "@/api/record";
-// import { getUserinfoId } from "@/api/account";
 
-const store = systemStore()
+import { getDocCatalogTreeApi } from "@/api/content";
+
+const store = systemStore();
 // 引入用户信息模块
 let { userId, isLogin } = user();
-let { MyIcon } = icon()
-let { timeFull } = timeFormat()
-const router = useRouter()
+let { MyIcon } = icon();
+let { timeFull } = timeFormat();
+const router = useRouter();
 // 引入公共模块
-let { sectionID, toNote, sitename, toDetail } = publicFn()
+let { sectionID, toNote, sitename, toDetail } = publicFn();
 // 引入笔记内容模块
-let { sectionData, context, getSectionData, contextData } = section()
+let { sectionData, context, getSectionData, contextData } = section();
 // 引入笔记目录模块
 let {
   catalogShow,
@@ -146,78 +156,77 @@ let {
   catalogueData,
   handleNodeClick,
   findCatalogId,
-  treeRef
-} = catalog(sectionData)
+  treeRef,
+} = catalog(sectionID);
 // 引入markdown模块
-let { rollTo, scrollTop, scroll } = markdown()
+let { rollTo, scrollTop, scroll } = markdown();
 // 弹窗登录对象
-const loginPopupRef = ref(null)
+const loginPopupRef = ref(null);
 // 评论编辑器对象
-const messageEditor = ref(null)
+const messageEditor = ref(null);
 // 调用评论回复模块
-let {
-  commentsList,
-  getSectionCommentData,
-  logo,
-  photo,
-  showLogin,
-  clickSend
-} = comment(sectionID)
+let { commentsList, getSectionCommentData, logo, photo, showLogin, clickSend } =
+  comment(sectionID);
 // 调用动作菜单模块
-let { likeClick, isCollect, collectClick, getSectionHistoryData, postSectionHistoryData } = action(sectionID, sectionData)
+let {
+  likeClick,
+  isCollect,
+  collectClick,
+  getSectionHistoryData,
+  postSectionHistoryData,
+} = action(sectionID, sectionData);
 onMounted(async () => {
   // 开启加载中动画
   const loading = ElLoading.service({
     lock: true,
-    text: '正在加载中……',
-    background: 'rgba(255, 255, 255, 0.3)',
-  })
-  window.scrollTo({ top: 0 })
-  store.setOutline("")
-  sectionID.value = router.currentRoute.value.params.id
-  await getSectionData(sectionID.value)
-  loading.close()
-  await catalogueData()
-  await findCatalogId(sectionID.value)
-  await contextData(sectionID.value)
-  await postSectionHistoryData(sectionID.value)
-  window.addEventListener('scroll', scroll())
-})
+    text: "正在加载中……",
+    background: "rgba(255, 255, 255, 0.3)",
+  });
+  window.scrollTo({ top: 0 });
+  store.setOutline("");
+  sectionID.value = router.currentRoute.value.params.id;
+  await getSectionData(sectionID.value);
+  loading.close();
+  await catalogueData();
+  await findCatalogId(sectionID.value);
+  await contextData(sectionID.value);
+  await postSectionHistoryData(sectionID.value);
+  window.addEventListener("scroll", scroll());
+});
 onBeforeUnmount(() => {
-  window.removeEventListener('scroll', scroll())
-  store.setOutline("")
-
-})
+  window.removeEventListener("scroll", scroll());
+  store.setOutline("");
+});
 onBeforeRouteUpdate(async (to) => {
   // 开启加载中动画
   const loading = ElLoading.service({
     lock: true,
-    text: '正在加载中……',
-    background: 'rgba(255, 255, 255, 0.3)',
-  })
-  window.scrollTo({ top: 0 })
-  store.setOutline("")
+    text: "正在加载中……",
+    background: "rgba(255, 255, 255, 0.3)",
+  });
+  window.scrollTo({ top: 0 });
+  store.setOutline("");
   for (let key in context) {
     delete context[key];
   }
-  await getSectionData(to.params.id)
-  loading.close()
-  await contextData(to.params.id)
-  await getSectionCommentData()
-  await getSectionHistoryData()
-  await postSectionHistoryData(to.params.id)
+  await getSectionData(to.params.id);
+  loading.close();
+  await contextData(to.params.id);
+  await getSectionCommentData();
+  await getSectionHistoryData();
+  await postSectionHistoryData(to.params.id);
 });
 
 // 公共模块
 function publicFn() {
   // 当前笔记id
-  const sectionID = ref()
+  const sectionID = ref();
   //跳转笔记列表
   const toNote = (noteId: any) => {
-    router.push({ path: `/note/${noteId}` })
-  }
+    router.push({ path: `/note/${noteId}` });
+  };
   // 站点名称
-  const sitename = ref('')
+  const sitename = ref("");
 
   // 获取站点名称
   async function siteConfigData() {
@@ -228,57 +237,67 @@ function publicFn() {
 
   // 点击跳转其他笔记事件
   const toDetail = (detailID: any) => {
-    sectionID.value = detailID
-    findCatalogId(sectionID.value)
-    router.push({ path: `/detail/section/${sectionID.value}` })
-  }
+    sectionID.value = detailID;
+    findCatalogId(sectionID.value);
+    router.push({ path: `/detail/section/${sectionID.value}` });
+  };
   onMounted(() => {
-    siteConfigData()
-  })
-  return { sectionID, toNote, sitename, toDetail }
+    siteConfigData();
+  });
+  return { sectionID, toNote, sitename, toDetail };
 }
 
 // 笔记目录模块
 function catalog(sectionData: any) {
   // 笔记目录是否显示
-  const catalogShow = ref(true)
+  const catalogShow = ref(true);
   // 树形组件对象
-  const treeRef = ref(null)
+  const treeRef = ref(null);
   // 笔记目录列表
-  const catalogList = ref([])
+  const catalogList = ref([]);
   // 当前笔记展开的目录id
-  const expanded = ref([])
+  const expanded = ref([]);
   // 当前高亮的笔记目录id
-  const current = ref()
+  const current = ref();
 
   // 获取笔记目录数据
   async function catalogueData() {
-    // let data = await getCatalogueList(sectionData.note_id)
-    // catalogList.value = data.map((i, index) => {
-    //   return {
-    //     id: i['id'],
-    //     label: '第' + (index + 1) + '章：' + i['name'],
-    //     children: i['child'].map((j, index) => {
-    //       return {
-    //         id: j['id'],
-    //         section_id: j['section_id'],
-    //         label: (index + 1) + '. ' + j['name'],
-    //         children: NaN
-    //       }
-    //     })
-    //   }
-    // })
+    getDocCatalogTreeApi({
+      typeLowerLimit: 2,
+      typeUpperLimit: 3,
+      parentId: 3,
+      userId: 1,
+    }).then((res: any) => {
+      if (res.code === 200) {
+        let data: any = res.result;
+        console.log(JSON.stringify(data));
+        catalogList.value = data.map((i: any, index: any) => {
+          return {
+            id: i["id"],
+            label: i["docName"],
+            children: (i["list"] || []).map((j: any, index: any) => {
+              return {
+                id: j["id"],
+                label: index + 1 + ". " + j["docName"],
+                children: NaN,
+              };
+            }),
+          };
+        });
+        console.log("catalogList: " + JSON.stringify(catalogList))
+      }
+    });
   }
 
   // 点击跳转指定笔记
   const handleNodeClick = (data: any) => {
     if (!data.children) {
       // console.log(sectionID.value)
-      sectionID.value = data.section_id
-      findCatalogId(sectionID.value)
-      router.push({ path: `/detail/section/${data.section_id}` })
+      sectionID.value = data.section_id;
+      findCatalogId(sectionID.value);
+      router.push({ path: `/detail/section/${data.section_id}` });
     }
-  }
+  };
   // 查找笔记id对应的目录id
   const findCatalogId = (sectionId: any) => {
     // catalogList.value.forEach((i) => {
@@ -290,22 +309,29 @@ function catalog(sectionData: any) {
     //     }
     //   })
     // })
-  }
-  return { catalogShow, catalogList, expanded, current, catalogueData, handleNodeClick, findCatalogId, treeRef }
+  };
+  return {
+    catalogShow,
+    catalogList,
+    expanded,
+    current,
+    catalogueData,
+    handleNodeClick,
+    findCatalogId,
+    treeRef,
+  };
 }
 
 // 笔记内容模块
 function section() {
   // 当前导航栏id
-  const activeMenu = ref()
+  const activeMenu = ref();
   // 笔记详情数据
-  const sectionData: any = reactive(
-    {
-      body: "123"
-    }
-  )
+  const sectionData: any = reactive({
+    body: "# asda \n## asd \n ### asd",
+  });
   // 笔记上下篇
-  const context: any = reactive({})
+  const context: any = reactive({});
 
   // 获取笔记详情
   async function getSectionData(DetailID: any) {
@@ -330,8 +356,8 @@ function section() {
     //     sectionData[i] = detail_data[i]
     //   }
     // }
-    activeMenu.value = "3-" + sectionData.note_id
-    store.setMenuIndex(activeMenu)
+    activeMenu.value = "3-" + sectionData.note_id;
+    store.setMenuIndex(activeMenu);
   }
 
   // 获取笔记上下篇
@@ -340,7 +366,7 @@ function section() {
     // console.log(context)
   }
 
-  return { sectionData, context, getSectionData, contextData }
+  return { sectionData, context, getSectionData, contextData };
 }
 
 // markdown模块
@@ -352,35 +378,39 @@ function markdown() {
       `.v-md-editor-preview [data-v-md-line="${lineIndex}"]`
     );
     if (heading) {
-      heading.scrollIntoView({ behavior: "smooth", block: "start" })
+      heading.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }
+  };
   // markdown-页面滚动高度
-  const scrollTop = ref()
+  const scrollTop = ref();
   // markdown-页面滚动
   const scroll = () => {
     let timeOut: any = null; // 初始化空定时器
     return () => {
-      clearTimeout(timeOut)   // 频繁操作，一直清空先前的定时器
-      timeOut = setTimeout(() => {  // 只执行最后一次事件
-        scrollTop.value = window.pageYOffset
-      }, 500)
-    }
-  }
-  return { rollTo, scrollTop, scroll }
+      clearTimeout(timeOut); // 频繁操作，一直清空先前的定时器
+      timeOut = setTimeout(() => {
+        // 只执行最后一次事件
+        scrollTop.value = window.pageYOffset;
+      }, 500);
+    };
+  };
+  return { rollTo, scrollTop, scroll };
 }
 
 // 评论回复点赞模块
 function comment(sectionID: any) {
   // 事件总线
-  const internalInstance = getCurrentInstance();  //当前组件实例
-  
-  const $bus = internalInstance===null? null : internalInstance.appContext.config.globalProperties.$bus;
-  
+  const internalInstance = getCurrentInstance(); //当前组件实例
+
+  const $bus =
+    internalInstance === null
+      ? null
+      : internalInstance.appContext.config.globalProperties.$bus;
+
   // logo
-  const logo = ref()
+  const logo = ref();
   // 用户头像
-  const photo = ref()
+  const photo = ref();
 
   // 获取网站logo
   async function getLogoData() {
@@ -397,7 +427,7 @@ function comment(sectionID: any) {
   }
 
   // 留言评论列表
-  const commentsList = ref([])
+  const commentsList = ref([]);
 
   // 获取笔记评论数据
   async function getSectionCommentData() {
@@ -408,14 +438,14 @@ function comment(sectionID: any) {
 
   // 评论表单
   const messageForm = reactive({
-    content: '',
-    user: '',
-  })
+    content: "",
+    user: "",
+  });
   // 弹出登录框
   const showLogin = () => {
-    store.setNextPath(router.currentRoute.value.fullPath)
+    store.setNextPath(router.currentRoute.value.fullPath);
     // loginPopupRef.value.showPopup()
-  }
+  };
   // 点击发表评论事件
   const clickSend = () => {
     // messageEditor.value.syncHTML()
@@ -444,7 +474,7 @@ function comment(sectionID: any) {
     // } else {
     //   ElMessage('请输入评论内容')
     // }
-  }
+  };
   // 评论点赞事件
   // if (!$bus.all.get("likeMessage")) $bus.on("likeMessage", value => {
   //   const params = { 'like': value.like }
@@ -496,16 +526,22 @@ function comment(sectionID: any) {
   //   });
   // });
   onMounted(() => {
-    getSectionCommentData()
+    getSectionCommentData();
     if (isLogin.value === true) {
-      getPhotoData()
+      getPhotoData();
     } else {
-      getLogoData()
+      getLogoData();
     }
-  })
+  });
   return {
-    commentsList, getSectionCommentData, logo, photo, messageForm, showLogin, clickSend
-  }
+    commentsList,
+    getSectionCommentData,
+    logo,
+    photo,
+    messageForm,
+    showLogin,
+    clickSend,
+  };
 }
 
 // 动作菜单模块
@@ -514,7 +550,7 @@ function action(sectionID: any, sectionData: any) {
   let { userId, isLogin } = user();
   // 笔记点赞事件
   const likeClick = () => {
-    console.log("爹收到点赞事件了")
+    console.log("爹收到点赞事件了");
     // const params = { 'like': sectionData.like + 1 }
     // patchSectionDetail(sectionID.value, params).then((response) => {
     //   console.log(response)
@@ -528,9 +564,9 @@ function action(sectionID: any, sectionData: any) {
     //   console.log(response)
     //   ElMessage.error(response.msg)
     // });
-  }
+  };
   // 笔记收藏状态
-  const isCollect = ref(false)
+  const isCollect = ref(false);
 
   // 获取笔记浏览记录（是否已收藏）
   async function getSectionHistoryData() {
@@ -545,9 +581,9 @@ function action(sectionID: any, sectionData: any) {
 
   // 添加/取消收藏表单
   const CollectForm = reactive({
-    user: '',
-    is_collect: ''
-  })
+    user: "",
+    is_collect: "",
+  });
   // 子组件添加/取消收藏事件
   const collectClick = () => {
     // if (isLogin.value === true) {
@@ -579,15 +615,15 @@ function action(sectionID: any, sectionData: any) {
     //   store.commit('setNextPath', router.currentRoute.value.fullPath)
     //   loginPopupRef.value.showPopup()
     // }
-  }
+  };
   // 添加笔记浏览记录表单
   const sectionHistoryForm = reactive({
-    section_id: '',
-    user: ''
-  })
+    section_id: "",
+    user: "",
+  });
 
   // 添加笔记浏览记录
-  async function postSectionHistoryData(section_id :any) {
+  async function postSectionHistoryData(section_id: any) {
     // if (isLogin.value === true) {
     //   sectionHistoryForm.section_id = section_id
     //   sectionHistoryForm.user = userId.value
@@ -598,11 +634,15 @@ function action(sectionID: any, sectionData: any) {
   }
 
   onMounted(() => {
-    getSectionHistoryData()
-  })
+    getSectionHistoryData();
+  });
   return {
-    likeClick, isCollect, collectClick, getSectionHistoryData, postSectionHistoryData
-  }
+    likeClick,
+    isCollect,
+    collectClick,
+    getSectionHistoryData,
+    postSectionHistoryData,
+  };
 }
 </script>
 
@@ -642,7 +682,7 @@ function action(sectionID: any, sectionData: any) {
           margin: 10px 30px;
           border-radius: 20px;
 
-          >span {
+          > span {
             margin: 0 4%;
 
             .anticon {
@@ -682,11 +722,11 @@ function action(sectionID: any, sectionData: any) {
             }
           }
 
-          >span:nth-child(2) {
+          > span:nth-child(2) {
             border-left: 2px solid var(--el-text-color-placeholder);
 
             span {
-              margin: 0 5px
+              margin: 0 5px;
             }
           }
         }
@@ -699,17 +739,17 @@ function action(sectionID: any, sectionData: any) {
           display: flex;
           justify-content: center;
 
-          >span:nth-child(1) {
+          > span:nth-child(1) {
             width: 10%;
             padding-top: 10px;
             text-align: center;
           }
 
-          >span:nth-child(2) {
+          > span:nth-child(2) {
             width: 80%;
           }
 
-          >span:nth-child(3) {
+          > span:nth-child(3) {
             width: 10%;
             padding-top: 85px;
             text-align: center;

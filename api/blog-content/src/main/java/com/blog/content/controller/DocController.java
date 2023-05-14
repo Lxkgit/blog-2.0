@@ -8,18 +8,13 @@ import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.common.util.JwtUtil;
-import com.blog.content.service.DocCatalogService;
+import com.blog.content.service.DocService;
 import com.blog.content.service.DocContentService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 
 /**
  * @Author: lxk
@@ -29,14 +24,21 @@ import java.util.Objects;
 
 @Slf4j
 @RestController
-@RequestMapping("/doc/catalog")
+@RequestMapping("/doc")
 public class DocController {
 
     @Autowired
-    private DocCatalogService docCatalogService;
+    private DocService docService;
 
     @Autowired
     private DocContentService docContentService;
+
+    @GetMapping("/catalog/tree")
+    public Result selectDocCatalogTree(DocCatalogVo docCatalogVo) {
+        return ResultFactory.buildSuccessResult(docService.selectDocCatalogTree(docCatalogVo));
+    }
+
+
 
     @GetMapping("/list")
     public Result selectDocCatalogList(@RequestHeader HttpHeaders headers, DocCatalogVo docCatalogVo) {
@@ -49,7 +51,7 @@ public class DocController {
                 docCatalogVo.setUserId(0);
             }
         }
-        return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogList(docCatalogVo));
+        return ResultFactory.buildSuccessResult(docService.selectDocCatalogTree(docCatalogVo));
     }
 
     @GetMapping("/id")
@@ -59,7 +61,7 @@ public class DocController {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
             docCatalogVo.setUserId(blogUser.getId());
         }
-        return ResultFactory.buildSuccessResult(docCatalogService.selectDocCatalogListById(docCatalogVo));
+        return ResultFactory.buildSuccessResult(docService.selectDocCatalogListById(docCatalogVo));
     }
 
     @PostMapping("/save")
@@ -71,7 +73,7 @@ public class DocController {
         } catch (Exception e) {
             log.warn(Constant.JWTError, e);
         }
-        return ResultFactory.buildSuccessResult(docCatalogService.saveDoc(catalog));
+        return ResultFactory.buildSuccessResult(docService.saveDoc(catalog));
     }
 
     @PostMapping("/update")
@@ -80,7 +82,7 @@ public class DocController {
             String token = String.valueOf(headers.get("Authorization"));
             BlogUser blogUser = JwtUtil.getUserInfo(token);
             catalog.setUserId(blogUser.getId());
-            return ResultFactory.buildSuccessResult(docCatalogService.updateDocCatalog(catalog));
+            return ResultFactory.buildSuccessResult(docService.updateDocCatalog(catalog));
         } catch (Exception e) {
             log.warn(Constant.JWTError, e);
         }
@@ -91,7 +93,7 @@ public class DocController {
     public Result deleteDoc(@RequestHeader HttpHeaders headers, @RequestParam(value = "ids") String ids) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
-        return ResultFactory.buildSuccessResult(docCatalogService.deleteDocCatalogByIds(ids, blogUser.getId()));
+        return ResultFactory.buildSuccessResult(docService.deleteDocCatalogByIds(ids, blogUser.getId()));
     }
 
     @GetMapping("/select/content")

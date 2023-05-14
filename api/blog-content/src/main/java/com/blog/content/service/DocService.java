@@ -8,11 +8,14 @@ import com.github.pagehelper.Page;
 import java.util.List;
 import java.util.Map;
 
-public interface DocCatalogService {
+public interface DocService {
 
-    MyPage<DocCatalogVo> selectDocCatalogList(DocCatalogVo docCatalogVo);
+    List<DocCatalogVo> selectDocCatalogTree(DocCatalogVo docCatalogVo);
+    List<DocCatalogVo> selectCatalogForDoc(Integer parentId);
+
+//    MyPage<DocCatalogVo> selectDocCatalogTree(DocCatalogVo docCatalogVo);
     List<DocCatalogVo>  selectDocCatalogListById(DocCatalogVo docCatalogVo);
-    List<DocCatalogVo> selectDocCatalogList(Integer treeNode, Integer userId);
+
     Map<String, Object> saveDoc(DocCatalog docCatalog);
     Map<String, Object> updateDocCatalog(DocCatalog docCatalog);
     Map<String, Object> deleteDocCatalogByIds(String ids, Integer userId);

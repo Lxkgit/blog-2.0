@@ -42,7 +42,7 @@ const router = createRouter({
             name: 'Document',
             component: () => import('@/views/note/Document.vue'),
             meta: {
-                title: '文档列表',
+                title: '文章正文',
                 keepAlive: false,
                 isAuth: false
             }
@@ -188,7 +188,17 @@ const router = createRouter({
                     name: 'Doc',
                     component: () => import('@/views/admin/doc/AdminDoc.vue'),
                     meta: {
-                        title: '笔记管理',
+                        title: '文档管理',
+                        keepAlive: false,
+                        isAuth: true,
+                    },
+                },
+                {
+                    path: 'doc/editor',
+                    name: 'DocEditor',
+                    component: () => import('@/views/admin/doc/DocEditor.vue'),
+                    meta: {
+                        title: '文章编辑',
                         keepAlive: false,
                         isAuth: true,
                     },
