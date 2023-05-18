@@ -188,3 +188,43 @@ export const getDocContentByIdApi = (id: any) => {
   const uri = "/content/doc/content/id?id=" + id
   return api.get(uri)
 }
+
+/**
+ * 创建文档目录接口
+ * @param catalog 
+ * @returns 
+ */
+export const saveDocCatalogApi = (catalog: any) => {
+  const uri = "/content/doc/content/insert"
+  return api.put(uri, catalog)
+}
+
+/**
+ * 删除文档接口
+ * @param id 
+ * @returns 
+ */
+export const deleteDocApi = (id: any) => {
+  const uri = "/content/doc/content/delete?id=" + id
+  return api.delete(uri)
+}
+
+/**
+ * 修改文档目录接口
+ * @param catalog 
+ */
+export const updateCatalogApi = (catalog: any) => {
+  const uri = "/content/doc/catalog/update"
+  return api.post(uri, catalog)
+}
+
+/**
+ * 修改文档内容接口
+ * @param content 
+ * @returns 
+ */
+export const updateContentApi = (content: any) => {
+  const uri = "/content/api/content/update"
+  return api.post(uri, content)
+}
+

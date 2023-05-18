@@ -42,10 +42,10 @@
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="100">
                     <template #default="scope">
-                        <el-button @click.native.prevent="editArticle(scope.row)" size="small" text>
+                        <el-button @click="editArticle(scope.row)" size="small" text>
                             <MyIcon type="icon-edit"/>
                         </el-button>
-                        <el-button style="margin-left: 0;" @click.native.prevent="deleteArticle(scope.row.id)"
+                        <el-button style="margin-left: 0;" @click="deleteArticle(scope.row.id)"
                             size="small" text>
                             <MyIcon type="icon-shanchu"/>
                         </el-button>
@@ -122,7 +122,6 @@ const editArticle = (article?: any) => {
     let path = "/admin/article/editor"
     store.addTag("编辑文章", path)
     router.push(path)
-
     cStore.setArticle(article);
 }
 

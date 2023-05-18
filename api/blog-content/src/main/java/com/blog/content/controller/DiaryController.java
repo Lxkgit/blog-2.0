@@ -1,13 +1,5 @@
 package com.blog.content.controller;
 
-/**
- * @author: lxk
- * @date: 2022/6/22 22:50
- * @description:
- * @modified By:
- */
-
-import com.blog.common.constant.Constant;
 import com.blog.common.entity.content.diary.Diary;
 import com.blog.common.entity.content.diary.vo.DiaryVo;
 import com.blog.common.entity.user.BlogUser;
@@ -16,17 +8,12 @@ import com.blog.common.result.ResultFactory;
 import com.blog.common.util.JwtUtil;
 import com.blog.content.service.DiaryService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.util.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @Author: lxk
@@ -39,73 +26,37 @@ import java.util.Objects;
 @RequestMapping("/diary")
 public class DiaryController {
 
-    @Autowired
+    @Resource
     private DiaryService diaryService;
 
     @GetMapping("/list")
-    public Result selectDiaryByDate(DiaryVo diaryVo){
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
-        try {
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
-            return ResultFactory.buildSuccessResult(diaryService.selectDiaryByDate(diaryVo, blogUser.getId()));
-        } catch (Exception e){
-            log.warn(Constant.JWTError, e);
-        }
-        return ResultFactory.buildFailResult("日记查询失败 ... ");
+    public Result selectDiaryByDate(@RequestHeader HttpHeaders headers, DiaryVo diaryVo){
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        return ResultFactory.buildSuccessResult(diaryService.selectDiaryByDate(diaryVo, blogUser.getId()));
     }
 
     @PostMapping("/save")
-    public Result saveDiary(@RequestBody Diary diary){
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
-        try {
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
-            diary.setUserId(blogUser.getId());
-            return ResultFactory.buildSuccessResult(diaryService.saveDiary(diary));
-        } catch (Exception e){
-            log.warn(Constant.JWTError, e);
-        }
-        return ResultFactory.buildFailResult("日记保存失败 ... ");
+    public Result saveDiary(@RequestHeader HttpHeaders headers, @RequestBody Diary diary){
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        diary.setUserId(blogUser.getId());
+        return ResultFactory.buildSuccessResult(diaryService.saveDiary(diary));
     }
 
     @PostMapping("/update")
-    public Result updateDiary(@RequestBody Diary diary){
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
-        try {
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
-            diary.setUserId(blogUser.getId());
-            return ResultFactory.buildSuccessResult(diaryService.updateDiary(diary));
-        } catch (Exception e){
-            log.warn(Constant.JWTError, e);
-        }
-        return ResultFactory.buildFailResult("日记修改失败 ... ");
+    public Result updateDiary(@RequestHeader HttpHeaders headers, @RequestBody Diary diary){
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        diary.setUserId(blogUser.getId());
+        return ResultFactory.buildSuccessResult(diaryService.updateDiary(diary));
     }
 
     @DeleteMapping("/delete")
-    public Result deleteDiaryByDate(@RequestParam(required = false, value = "ids") String ids){
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
-        try {
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
-            return ResultFactory.buildSuccessResult(diaryService.deleteDiaryByDate(ids, blogUser.getId()));
-        } catch (Exception e){
-            log.warn(Constant.JWTError, e);
-        }
-        return ResultFactory.buildFailResult("日记删除失败 ... ");
+    public Result deleteDiaryByDate(@RequestHeader HttpHeaders headers, @RequestParam(required = false, value = "ids") String ids){
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        return ResultFactory.buildSuccessResult(diaryService.deleteDiaryByDate(ids, blogUser.getId()));
     }
 
     /**
