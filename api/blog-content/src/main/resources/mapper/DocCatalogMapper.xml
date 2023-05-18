@@ -6,6 +6,7 @@
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
         <id column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <id column="doc_name" property="docName" jdbcType="VARCHAR"/>
+        <id column="doc_level" property="docLevel" jdbcType="INTEGER"/>
         <id column="doc_type" property="docType" jdbcType="INTEGER"/>
         <id column="sort" property="sort" jdbcType="INTEGER"/>
         <id column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
@@ -18,6 +19,7 @@
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
         <id column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <id column="doc_name" property="docName" jdbcType="VARCHAR"/>
+        <id column="doc_level" property="docLevel" jdbcType="INTEGER"/>
         <id column="doc_type" property="docType" jdbcType="INTEGER"/>
         <id column="sort" property="sort" jdbcType="INTEGER"/>
         <id column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
@@ -26,15 +28,15 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id, parent_id, doc_name, doc_type, sort, img_url, create_time, update_time
+        id, user_id, parent_id, doc_name, doc_level, doc_type, sort, img_url, create_time, update_time
     </sql>
 
     <select id="selectListByDocTypeAndUserId" resultMap="DocCatalogVo">
         select <include refid="Base_Column_List"/>
         from doc_catalog
-        where doc_type in
-        <foreach item="docType" collection="docTypeList" open="(" separator="," close=")">
-            #{docType}
+        where doc_level in
+        <foreach item="docLevel" collection="docLevelList" open="(" separator="," close=")">
+            #{docLevel}
         </foreach>
         <if test="userId != null and userId != 0">
             and user_id = #{userId}

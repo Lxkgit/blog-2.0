@@ -38,6 +38,12 @@ public class DocController {
         return ResultFactory.buildSuccessResult(docService.selectDocCatalogTree(docCatalogVo));
     }
 
+    @GetMapping("/content/id")
+    public Result selectDocContentById(@RequestParam(value = "id") Integer id) {
+        return ResultFactory.buildSuccessResult(docService.selectDocContentById(id));
+    }
+
+
 
 
     @GetMapping("/list")

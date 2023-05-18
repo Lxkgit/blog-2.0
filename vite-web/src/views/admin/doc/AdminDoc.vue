@@ -11,53 +11,47 @@
         <el-row>
           <el-col :span="4">
             <div style="overflow-y: scroll; height: 650px; margin-top: 10px">
-              <el-tree :data="catalogList" :highlight-current="true" :expand-on-click-node="false" @node-click="handleNodeClick" />
+              <el-tree :data="catalogList" :highlight-current="true" :expand-on-click-node="false"
+                @node-click="handleNodeClick" />
             </div>
           </el-col>
           <el-col :span="20">
             <div style="margin-top: 10px">
-              <el-form :model="form" label-width="120px">
-                <el-form-item label="文档名称">
-                  <el-input
-                    v-model="form.name"
-                    :disabled="!edit"
-                    style="width: 300px"
-                  />
-                </el-form-item>
-                <el-form-item label="文档分类">
-                  <el-select
-                    v-model="form.region"
-                    :disabled="!edit"
-                    placeholder="please select your zone"
-                  >
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
-                  </el-select>
-                </el-form-item>
+              <div v-if="docType === 1" style="overflow-y: scroll; height: 650px;">
+                <MarkDown :text="docContent.data.docContentMd"></MarkDown>
+              </div>
 
-                <el-form-item label="文档封面图">
-                  <el-upload
-                    v-model:file-list="fileList"
-                    :disabled="!edit"
-                    list-type="picture-card"
-                    :on-preview="handlePictureCardPreview"
-                    :on-remove="handleRemove"
-                  >
-                    <el-icon>
-                      <MyIcon type="icon-edit" />
-                    </el-icon>
-                  </el-upload>
-                </el-form-item>
+              <div v-else-if="docType === 0">
+                <el-form :model="docCatalog" label-width="120px">
+                  <el-form-item label="文档名称">
+                    <el-input v-model="docCatalog.docName" :disabled="!edit" style="width: 300px" />
+                  </el-form-item>
+                  <el-form-item label="文档分类">
+                    <el-select v-model="docCatalog.docType" :disabled="!edit">
+                      <el-option label="目录" value="0" />
+                      <el-option label="内容" value="1" />
+                    </el-select>
+                  </el-form-item>
 
-                <el-form-item>
-                  <el-button v-if="edit" type="primary" @click="onSubmit"
-                    >保存</el-button
-                  >
-                  <el-button v-else type="primary" @click="edit = true"
-                    >编辑</el-button
-                  >
-                </el-form-item>
-              </el-form>
+                  <!-- <el-form-item v-if="docLevel === 1" label="文档封面图">
+                    <el-upload v-model:file-list="fileList" :disabled="!edit" list-type="picture-card"
+                      :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+                      <el-icon>
+                        <MyIcon type="icon-edit" />
+                      </el-icon>
+                    </el-upload>
+                  </el-form-item> -->
+
+                  <el-form-item>
+                    <el-button v-if="edit" type="primary" @click="onSubmit">保存</el-button>
+                    <el-button v-else type="primary" @click="edit = true">编辑</el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
+
+              <div v-else>
+                个人文档数据统计
+              </div>
             </div>
           </el-col>
         </el-row>
@@ -68,392 +62,137 @@
 
 <script setup lang="ts">
 import { ElMessage } from "element-plus";
-// import { getDocCatalogList, getDocCatalogListById, createCatalog, updateCatalog, deleteDocByIds } from "../../../api/article"
 import { ref, reactive, onMounted } from "vue";
-import type { FormInstance, FormRules } from "element-plus";
 import { useRouter } from "vue-router";
-// import { docStore } from "../../../store/doc";
 import mixin from "@/mixins/doc";
 import icon from "@/utils/icon";
-import { getDocCatalogTreeApi } from "@/api/content";
-import type Node from "element-plus/es/components/tree/src/model/node";
-let { docType } = mixin();
-
+import { getDocCatalogTreeApi, getDocContentByIdApi } from "@/api/content";
+import MarkDown from "@/components/detail/MarkDown.vue";
 import { tagsStore } from "@/store/tag";
+
+// 引入笔记目录模块
+let { docType, docLevel, catalogList, getDocCatalogTreeFun, handleNodeClick } = catalog();
+let { editDoc } = content();
 const store = tagsStore();
 
-let ids = new Array();
-let docList: any = reactive({ data: [] });
-let size = ref(14);
-let total = ref(0);
-let showUpdateDocDialog = ref(false);
-let showInsertDocDialog = ref(false);
 const router = useRouter();
-// const store = docStore();
 let { MyIcon } = icon();
-// do not use same name with ref
-const form = reactive({
-  name: "",
-  region: "",
-  date1: "",
-  date2: "",
-  delivery: false,
-  type: [],
-  resource: "",
-  desc: "",
+
+// 文档目录信息
+let docCatalog = reactive({
+  docName: "",
+  docType: "",
+  docImg: ""
 });
+// 文档内容信息
+let docContent: any = reactive({ data: {} });
+
 let edit = ref(false);
 const onSubmit = () => {
   edit.value = false;
   console.log("submit!");
 };
 
-// 文档目录列表
-const catalogList = ref([]);
-const getDocCatalogTreeFun = () => {
-  getDocCatalogTreeApi({
-    typeLowerLimit: 0,
-    typeUpperLimit: 3,
-    userId: 1,
-  }).then((res: any) => {
-    if (res.code === 200) {
-      let data = res.result;
-      catalogList.value = data.map((i: any, index: any) => {
-        return {
-          id: i["id"],
-          label: i["docName"],
-          children: (i["list"] || []).map((j: any, index: any) => {
-            return {
-              id: j["id"],
-              label: j["docName"],
-              children: (j["list"] || []).map((k: any, index: any) => {
-                return {
-                  id: k["id"],
-                  label: k["docName"],
-                  children: (k["list"] || []).map((m: any, index: any) => {
-                    return {
-                      id: m["id"],
-                      label: m["docName"],
-                      children: NaN,
-                    };
-                  }),
-                };
-              }),
-            };
-          }),
-        };
-      });
+// 文档目录模块
+function catalog() {
+  // 文档目录类型
+  let docType = ref();
+  // 文档目录层级
+  let docLevel = ref();
+  // 文档目录列表
+  const catalogList = ref([]);
+  // 加载文档目录树
+  const getDocCatalogTreeFun = () => {
+    getDocCatalogTreeApi({
+      typeLowerLimit: 0,
+      typeUpperLimit: 4,
+      userId: 1,
+    }).then((res: any) => {
+      if (res.code === 200) {
+        let data = res.result;
+        catalogList.value = data.map((i: any, index: any) => {
+          return {
+            id: i["id"],
+            label: i["docName"],
+            docType: i["docType"],
+            docLevel: i["docLevel"],
+            children: (i["list"] || []).map((j: any, index: any) => {
+              return {
+                id: j["id"],
+                label: j["docName"],
+                docType: j["docType"],
+                docImg: j["imgUrl"],
+                docLevel: j["docLevel"],
+                children: (j["list"] || []).map((k: any, index: any) => {
+                  return {
+                    id: k["id"],
+                    label: k["docName"],
+                    docType: k["docType"],
+                    docLevel: k["docLevel"],
+                    children: (k["list"] || []).map((m: any, index: any) => {
+                      return {
+                        id: m["id"],
+                        label: m["docName"],
+                        docType: m["docType"],
+                        docLevel: m["docLevel"],
+                        children: (m["list"] || []).map((n: any, index: any) => {
+                          return {
+                            id: n["id"],
+                            label: n["docName"],
+                            docType: n["docType"],
+                            docLevel: n["docLevel"],
+                            children: NaN,
+                          };
+                        }),
+                      };
+                    }),
+                  };
+                }),
+              };
+            }),
+          };
+        });
+      }
+    });
+  };
+  // 点击目录树上文章标签加载对应文章
+  const handleNodeClick = (data: any) => {
+    docContent.data = {}
+    docType.value = data.docType;
+    docLevel.value = data.docLevel;
+    docCatalog.docName = data.label;
+    if (data.docType === 1) {
+      getDocContentByIdApi(data.id).then((res: any) => {
+        if (res.code === 200) {
+          docContent.data = res.result
+        }
+      })
     }
-  });
-};
-
-const handleNodeClick = (data: any) => {
-  console.log(data);
-};
-
-const editDoc = (article?: any) => {
-  let path = "/admin/doc/editor";
-  store.addTag("编辑文档", path);
-  router.push(path);
-};
-
-let createForm = reactive({
-  parentId: "",
-  docName: "",
-  docType: "",
-  sort: null,
-});
-const data: any = [
-  {
-    label: "Level one 1",
-    children: [
-      {
-        label: "Level two 1-1",
-        children: [
-          {
-            label: "Level three 1-1-1",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Level one 2",
-    children: [
-      {
-        label: "Level two 2-1",
-        children: [
-          {
-            label: "Level three 2-1-1",
-          },
-        ],
-      },
-      {
-        label: "Level two 2-2",
-        children: [
-          {
-            label: "Level three 2-2-1",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Level one 3",
-    children: [
-      {
-        label: "Level two 3-1",
-        children: [
-          {
-            label: "Level three 3-1-1",
-          },
-        ],
-      },
-      {
-        label: "Level two 3-2",
-        children: [
-          {
-            label: "Level three 3-2-1",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Level one 3",
-    children: [
-      {
-        label: "Level two 3-1",
-        children: [
-          {
-            label: "Level three 3-1-1",
-          },
-        ],
-      },
-      {
-        label: "Level two 3-2",
-        children: [
-          {
-            label: "Level three 3-2-1",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Level one 3",
-    children: [
-      {
-        label: "Level two 3-1",
-        children: [
-          {
-            label: "Level three 3-1-1",
-          },
-        ],
-      },
-      {
-        label: "Level two 3-2",
-        children: [
-          {
-            label: "Level three 3-2-1",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Level one 3",
-    children: [
-      {
-        label: "Level two 3-1",
-        children: [
-          {
-            label: "Level three 3-1-1",
-          },
-        ],
-      },
-      {
-        label: "Level two 3-2",
-        children: [
-          {
-            label: "Level three 3-2-1",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Level one 3",
-    children: [
-      {
-        label: "Level two 3-1",
-        children: [
-          {
-            label: "Level three 3-1-1",
-          },
-        ],
-      },
-      {
-        label: "Level two 3-2",
-        children: [
-          {
-            label: "Level three 3-2-1",
-          },
-        ],
-      },
-    ],
-  },
-];
-
-const createFormRules = reactive<FormRules>({
-  // sort: [
-  //     { required: true, message: '排序值不为空'},
-  //     { type: 'number', message: 'sort必须为数字值'},
-  //     { pattern: /^([0-9]|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])$/, message: '取值范围是1-3000', trigger: 'blur' },
-  // ],
-});
-
-let updateForm: any = reactive({
-  id: 0,
-  userId: 0,
-  parentId: 0,
-  docName: "",
-  docType: "",
-  sort: 0,
-  createTime: "",
-  updateTime: "",
-});
-
+  };
+  return {
+    docType,
+    docLevel,
+    catalogList,
+    getDocCatalogTreeFun,
+    handleNodeClick
+  };
+}
+// 文档内容模块
+function content() {
+  // 编辑文档
+  const editDoc = (doc?: any) => {
+    let path = "/admin/doc/editor";
+    store.addTag("编辑文档", path);
+    router.push(path);
+  };
+  return {
+    editDoc
+  }
+}
 onMounted(() => {
   getDocCatalogTreeFun();
 });
 
-const getDocCatalogListFun = (page: any) => {
-  // getDocCatalogList({
-  //     pageNum: page,
-  //     pageSize: 14,
-  //     selectType: "admin",
-  // }).then((res: any) => {
-  //     if (res.code === 200) {
-  //         docList.data = res.result.list
-  //         size.value = res.result.size
-  //         total.value = res.result.total
-  //     }
-  // })
-};
-
-const load = (row: any, treeNode: any, resolve: (date: any) => void) => {
-  // getDocCatalogListById({
-  //     type: 0,
-  //     parentId: row.id
-  // }).then((res: any) => {
-  //     resolve(res.result)
-  // })
-};
-
-const loadTree = (node: any, resolve: (date: any) => void) => {
-  // if (node.level === 0) {
-  //     getDocCatalogListById({
-  //         type: 0,
-  //         parentId: 0,
-  //         docType: "catalog"
-  //     }).then((res: any) => {
-  //         resolve(res.result)
-  //     })
-  // } else {
-  //     getDocCatalogListById({
-  //         type: 0,
-  //         parentId: node.data.id,
-  //         docType: "catalog"
-  //     }).then((res: any) => {
-  //         resolve(res.result)
-  //     })
-  // }
-};
-
-const selected = (val: any) => {
-  ids.splice(0, ids.length);
-  for (let i = 0; i < val.length; i++) {
-    ids.unshift(val[i].id);
-  }
-};
-
-const editCatalogFun = (row: any) => {
-  showUpdateDocDialog.value = true;
-  updateForm = [];
-  updateForm = row;
-};
-
-const updateCatalogFun = () => {
-  // showUpdateDocDialog.value = false
-  // updateCatalog({
-  //     id: updateForm.id,
-  //     docName: updateForm.docName,
-  //     docType: updateForm.docType,
-  //     parentId: updateForm.parentId,
-  //     sort: updateForm.sort
-  // }).then((res: any) => {
-  //     if (res.code === 200) {
-  //         ElMessage({
-  //             message: '文档修改成功',
-  //             type: 'success',
-  //         })
-  //         window.location.reload()
-  //     }
-  // })
-};
-
-const createCatalogOrDocFun = () => {
-  showInsertDocDialog.value = true;
-};
-
-// 创建文档方法
-const createCatalogFun = () => {
-  // createCatalog({
-  //     parentId: createForm.parentId === "" ? 0 : createForm.parentId,
-  //     docName: createForm.docName,
-  //     docType: createForm.docType,
-  //     sort: createForm.sort
-  // }).then((res: any) => {
-  //     if (res.code === 200) {
-  //         ElMessage({
-  //             message: '文档创建成功',
-  //             type: 'success',
-  //         })
-  //         createForm.docName = ""
-  //         createForm.docType = ""
-  //         createForm.parentId = ""
-  //         window.location.reload()
-  //     }
-  // })
-  // showInsertDocDialog.value = false
-};
-
-const editContentFun = (docContentId?: any) => {
-  // store.setDocId(docContentId);
-  // router.push({
-  //     name: "docEditor",
-  // })
-};
-
-const deleteDocFun = (ids: any) => {
-  // deleteDocByIds(ids).then((res: any) => {
-  //     if (res.code === 200) {
-  //         if (res.result.success !== res.result.delete) {
-  //             ElMessage({
-  //                 message: res.result.msg,
-  //                 type: 'error',
-  //             })
-  //         } else {
-  //             ElMessage({
-  //                 message: '文档删除成功',
-  //                 type: 'success',
-  //             })
-  //             window.location.reload()
-  //         }
-  //     }
-  // })
-};
 </script>
 
 <style scoped>

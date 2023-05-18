@@ -9,6 +9,7 @@ import com.blog.common.entity.content.doc.vo.DocCatalogVo;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
 import com.blog.content.dao.DocCatalogDAO;
+import com.blog.content.dao.DocContentDAO;
 import com.blog.content.service.DocService;
 import com.blog.content.service.DocContentService;
 import com.github.pagehelper.Page;
@@ -34,6 +35,9 @@ public class DocCatalogServiceImpl implements DocService {
     @Resource
     private DocCatalogDAO docCatalogDAO;
 
+    @Resource
+    private DocContentDAO docContentDAO;
+
     @Autowired
     private DocContentService docContentService;
 
@@ -47,16 +51,16 @@ public class DocCatalogServiceImpl implements DocService {
     public List<DocCatalogVo> selectDocCatalogTree(DocCatalogVo docCatalogVo) {
         Integer lowerLimit = docCatalogVo.getTypeLowerLimit();
         Integer upperLimit = docCatalogVo.getTypeUpperLimit();
-        List<Integer> docTypeList = new ArrayList<>();
+        List<Integer> docLevelList = new ArrayList<>();
         for (int i=lowerLimit; i<= upperLimit; i++) {
-            docTypeList.add(i);
+            docLevelList.add(i);
         }
 
-        List<DocCatalogVo> docCatalogVoList = docCatalogDAO.selectListByDocTypeAndUserId(docTypeList, docCatalogVo.getUserId());
+        List<DocCatalogVo> docCatalogVoList = docCatalogDAO.selectListByDocTypeAndUserId(docLevelList, docCatalogVo.getUserId());
         if (docCatalogVoList != null) {
 //            Collections.sort(docCatalogVoList);
             for (DocCatalogVo vo : docCatalogVoList) {
-                if (!vo.getDocType().equals(lowerLimit)) {
+                if (!vo.getDocLevel().equals(lowerLimit)) {
                     docCatalogVoList.forEach(docCatalogVo1 -> {
                         if (docCatalogVo1.getId().equals(vo.getParentId())) {
                             if (docCatalogVo1.getList() == null) {
@@ -67,12 +71,23 @@ public class DocCatalogServiceImpl implements DocService {
                     });
                 }
             }
-            docCatalogVoList.removeIf(docCatalogVo1 -> !docCatalogVo1.getDocType().equals(lowerLimit));
+            docCatalogVoList.removeIf(docCatalogVo1 -> !docCatalogVo1.getDocLevel().equals(lowerLimit));
             if (docCatalogVo.getParentId()!=null && !docCatalogVo.getParentId().equals(0)) {
                 docCatalogVoList.removeIf(docCatalogVo1 -> !docCatalogVo1.getParentId().equals(docCatalogVo.getParentId()));
             }
         }
         return docCatalogVoList;
+    }
+
+    @Override
+    public DocContent selectDocContentById(Integer catalogId) {
+        QueryWrapper<DocContent> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("catalog_id", catalogId);
+        List<DocContent> docContentList = docContentDAO.selectList(queryWrapper);
+        if (docContentList!=null && docContentList.size()>0) {
+            return docContentList.get(0);
+        }
+        return null;
     }
 
     /**

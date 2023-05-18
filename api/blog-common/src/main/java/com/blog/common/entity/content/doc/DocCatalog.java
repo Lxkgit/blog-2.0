@@ -28,6 +28,8 @@ public class DocCatalog {
 
     private String docName;
 
+    private Integer docLevel;
+
     private Integer docType;
 
     private Integer sort;

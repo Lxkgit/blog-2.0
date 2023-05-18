@@ -180,11 +180,11 @@ export const getDocCatalogTreeApi = (param: any) => {
 }
 
 /**
- * 获取文档目录接口
- * @param userId
+ * 根据文档目录id获取文档内容
+ * @param id 
  * @returns 
  */
-export const getCatalogForDocApi = (parentId: any) => {
-  const uri = "/content/doc/catalog/detail?parentId=" + parentId
+export const getDocContentByIdApi = (id: any) => {
+  const uri = "/content/doc/content/id?id=" + id
   return api.get(uri)
 }
