@@ -28,7 +28,7 @@ public class DocController {
     private DocService docService;
 
     @PutMapping("/content/insert")
-    public Result insertDocCatalog(@RequestHeader HttpHeaders headers, DocCatalog docCatalog) {
+    public Result insertDocCatalog(@RequestHeader HttpHeaders headers,@RequestBody DocCatalog docCatalog) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
         return ResultFactory.buildSuccessResult(docService.insertDonCatalog(blogUser, docCatalog));
@@ -42,14 +42,14 @@ public class DocController {
     }
 
     @PostMapping("/content/update")
-    public Result updateDocContent(@RequestHeader HttpHeaders headers, DocContent docContent) {
+    public Result updateDocContent(@RequestHeader HttpHeaders headers,@RequestBody DocContent docContent) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
         return ResultFactory.buildSuccessResult(docService.updateDocContent(blogUser, docContent));
     }
 
     @PostMapping("/catalog/update")
-    public Result updateDocCatalog(@RequestHeader HttpHeaders headers, DocCatalog docCatalog){
+    public Result updateDocCatalog(@RequestHeader HttpHeaders headers,@RequestBody DocCatalog docCatalog){
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
         return ResultFactory.buildSuccessResult(docService.updateDocCatalog(blogUser, docCatalog));

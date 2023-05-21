@@ -1,5 +1,5 @@
 <template>
-  <div style="height: calc(100vh - 138px);" :class="{ 'side_bar_open': store.sideBar }">
+  <div style="height: calc(100vh - 144px);" :class="{ 'side_bar_open': store.sideBar }">
     <div @click="store.sideBar = !store.sideBar" style="height: 40px; display: flex;
     align-items: center; padding-left: 25px; border-right: solid 1px var(--el-menu-border-color); border-bottom: solid 1px var(--el-menu-border-color); background-color: var(--el-menu-bg-color);
     border-top: solid 1px var(--el-menu-border-color);">

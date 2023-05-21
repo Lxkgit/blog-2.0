@@ -23,7 +23,7 @@ import java.util.*;
 
 @Slf4j
 @Service
-public class DocCatalogServiceImpl implements DocService {
+public class DocServiceImpl implements DocService {
 
     @Resource
     private DocCatalogDAO docCatalogDAO;
@@ -42,6 +42,7 @@ public class DocCatalogServiceImpl implements DocService {
             docContent.setCatalogId(docCatalog.getId());
             docContent.setCreateTime(new Date());
             docContent.setUserId(blogUser.getId());
+            docContent.setDocContentMd("");
             docContentDAO.insert(docContent);
         }
         return docCatalog.getId();
@@ -72,7 +73,7 @@ public class DocCatalogServiceImpl implements DocService {
         DocCatalog catalog = docCatalogDAO.selectById(docCatalog.getId());
         if (catalog.getUserId().equals(blogUser.getId())) {
             docCatalog.setUpdateTime(new Date());
-            return docCatalogDAO.updateDocCatalog(docCatalog);
+            return docCatalogDAO.updateById(docCatalog);
         }
         return 0;
     }
@@ -82,7 +83,7 @@ public class DocCatalogServiceImpl implements DocService {
         DocContent content = docContentDAO.selectById(docContent.getId());
         if (content.getUserId().equals(blogUser.getId())) {
             docContent.setUpdateTime(new Date());
-            return docContentDAO.updateDocContent(docContent);
+            return docContentDAO.updateById(docContent);
         }
         return 0;
     }
@@ -103,7 +104,7 @@ public class DocCatalogServiceImpl implements DocService {
             docLevelList.add(i);
         }
 
-        List<DocCatalogVo> docCatalogVoList = docCatalogDAO.selectListByDocTypeAndUserId(docLevelList, docCatalogVo.getUserId());
+        List<DocCatalogVo> docCatalogVoList = docCatalogDAO.selectListByDocTypeAndUserId(docLevelList, docCatalogVo.getUserId(), docCatalogVo.getDocType());
         if (docCatalogVoList != null) {
             for (DocCatalogVo vo : docCatalogVoList) {
                 if (!vo.getDocLevel().equals(lowerLimit)) {

@@ -38,6 +38,9 @@
         <foreach item="docLevel" collection="docLevelList" open="(" separator="," close=")">
             #{docLevel}
         </foreach>
+        <if test="docType != null">
+            and doc_type = #{docType}
+        </if>
         <if test="userId != null and userId != 0">
             and user_id = #{userId}
         </if>

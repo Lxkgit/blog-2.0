@@ -17,7 +17,7 @@
               <el-card
                 :body-style="{ padding: '0px' }"
                 style="width: 228px;  margin-bottom: 25px"
-                @click="router.push('/detail/section/' + 3)"
+                @click="router.push('/detail/section/' + item.id)"
               >
                 <img :src="item.imgUrl" class="image" />
                 <div style="padding: 14px">

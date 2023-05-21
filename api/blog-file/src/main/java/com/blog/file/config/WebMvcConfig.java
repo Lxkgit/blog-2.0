@@ -19,11 +19,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         System.out.println(System.getProperty("os.name").toLowerCase());
         String pathPatterns;
         String pathAbsolute;
+        pathPatterns = "/files/**";
         if (!win) {
-            pathPatterns = "/package/**";
-            pathAbsolute = "file:/opt/package/";
+            pathAbsolute = "file:/opt/files/";
         } else {
-            pathPatterns = "/files/**";
             pathAbsolute = "file:D:/files/";
         }
         registry.addResourceHandler(pathPatterns)

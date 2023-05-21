@@ -87,9 +87,7 @@
           </div>
           <el-divider></el-divider>
         </span>
-
       </el-drawer>
-      
     </header>
   </transition>
   <div class="placeholder"></div>

@@ -137,7 +137,6 @@ onMounted(() => {
     article.data = cStore.getArticle;
     if (article.data !== null && article.data.articleType !== null) {
       let articleTypeArr = article.data.articleType.split(",");
-      console.log(articleTypeArr);
       type.value = articleTypeArr[articleTypeArr.length - 1];
       if (article.data.articleLabels !== null) {
         labels.value = article.data.articleLabels;
@@ -153,16 +152,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.clearInterval(time);
 });
-
-// let toolbar = {
-//   file: {
-//     icon: `<MyIcon type="icon-shanchu"/>`,
-//     title: "上传文件",
-//     action(editor) {
-        
-//     }
-//   }
-// }
 
 const selectType = (value: any) => {
   type.value = value;

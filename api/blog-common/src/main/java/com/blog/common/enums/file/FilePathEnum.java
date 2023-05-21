@@ -11,7 +11,9 @@ import java.util.List;
 
 public enum FilePathEnum {
 
-    ARTICLE_PATH(1, "/article", "文章图片存放路径"),
+    ARTICLE_PATH(1, "/article", "文章相关文件存放路径"),
+    DOC_PATH(2, "/doc", "文档相关文件存放路径"),
+    OTHER_PATH(3, "/other", "其它类型文件存放路径"),
 
     ;
 

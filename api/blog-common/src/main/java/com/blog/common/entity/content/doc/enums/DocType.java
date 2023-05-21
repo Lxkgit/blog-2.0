@@ -8,8 +8,8 @@ package com.blog.common.entity.content.doc.enums;
 
 public enum DocType {
 
-    CATALOG("catalog", 1 ),
-    CONTENT("content", 2 ),
+    CATALOG("catalog", 0 ),
+    CONTENT("content", 1 ),
     ;
 
 

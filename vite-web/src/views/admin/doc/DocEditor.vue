@@ -24,7 +24,7 @@
             maxlength="30"
             show-word-limit
             clearable
-            style="margin-left: 12px; font-size: 18px; width: 250px"
+            style="margin-left: 12px; font-size: 18px; width: 400px"
           />
         </div>
         <div style="font-size: 14px">
@@ -64,12 +64,8 @@ import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { contentStore } from "@/store/content";
 import { tagsStore } from "@/store/tag";
-import {
-  getDocContentByIdApi,
-  updateArticleApi,
-  getArticleTypeTreeApi,
-  getArticleLabelListApi,
-} from "@/api/content";
+import { updateContentApi, updateCatalogApi } from "@/api/content";
+import { getDocContentByIdApi } from "@/api/content";
 import { upload } from "@/api/file";
 import icon from "@/utils/icon";
 import VMdEditor from "@kangc/v-md-editor";
@@ -100,22 +96,24 @@ VMdEditor.use(githubTheme, {
   Hljs: hljs,
 });
 
-let { MyIcon } = icon();
-const tagStore = tagsStore();
-const cStore = contentStore();
 const router = useRouter();
-let type = ref("");
+let { MyIcon } = icon();
+const cStore = contentStore();
+const tagStore = tagsStore()
 let labels: any = ref([]);
 let time: number = 0;
 let saveTime = ref("");
 let saveFlag: boolean = false;
 let docCatalog: any = reactive({ data: {} });
-let docContent: any = reactive({ data: {} });
+let docContent: any = reactive({ data: {
+  id: 0,
+  docContentMd: ""
+} });
 
 onMounted(() => {
   if (cStore.getDocContent !== "null") {
     docCatalog.data = cStore.getDocContent;
-    getDocContentByIdFun(docCatalog.data.id)
+    getDocContentByIdFun(docCatalog.data.id);
   }
   time = window.setInterval(() => {
     saveFlag = true;
@@ -130,8 +128,8 @@ onBeforeUnmount(() => {
 function getDocContentByIdFun(contentId: any) {
   getDocContentByIdApi(contentId).then((res: any) => {
     if (res.code === 200) {
-      console.log(res)
       docContent.data = res.result;
+      console.log(JSON.stringify(docContent))
     }
   });
 }
@@ -143,7 +141,7 @@ const uploadImageFun = (event: any, insertImage: any, files: any) => {
     const formData = new FormData();
     formData.append("files", files[i]);
     formData.append("fileTypeCode", 1);
-    formData.append("filePathCode", 1);
+    formData.append("filePathCode", 2);
     upload(formData).then((res: any) => {
       if (res.code === 200) {
         insertImage({
@@ -156,17 +154,37 @@ const uploadImageFun = (event: any, insertImage: any, files: any) => {
 };
 
 const useText = () => {
-  if (article.data.id !== 0) {
-  } else {
-  }
+  console.log(JSON.stringify(docContent))
+  updateCatalogApi({
+    id: docCatalog.data.id,
+    docName: docCatalog.data.label,
+  }).then((res: any) => {});
+  updateContentApi({
+    id: docContent.data.id,
+    docContentMd: docContent.data.docContentMd,
+  }).then((res: any) => {
+    if (res.code === 200) {
+        tagStore.delTagByPath("/admin/doc/editor")
+        router.go(-1);
+      }
+  });
 };
 
 const changeText = () => {
   if (saveFlag === true) {
     saveFlag = false;
-    if (article.data.id !== 0) {
-    } else {
-    }
+    updateCatalogApi({
+      id: docCatalog.data.id,
+      docName: docCatalog.data.label,
+    }).then((res: any) => {});
+    updateContentApi({
+      id: docContent.data.id,
+      docContentMd: docContent.data.docContentMd,
+    }).then((res: any) => {
+      if(res.code === 200) {
+        saveTime.value = getNowTime();
+      }
+    });
   }
 };
 

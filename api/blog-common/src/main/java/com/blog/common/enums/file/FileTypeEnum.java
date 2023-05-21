@@ -12,6 +12,7 @@ import java.util.List;
 public enum FileTypeEnum {
 
     IMAGE(1, "图片", Arrays.asList("jpg","png"), "/img"),
+    FILE(2, "文件", Arrays.asList("jpg","png"), "/file"),
 
     ;
 

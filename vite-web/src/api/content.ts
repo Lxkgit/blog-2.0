@@ -224,7 +224,7 @@ export const updateCatalogApi = (catalog: any) => {
  * @returns 
  */
 export const updateContentApi = (content: any) => {
-  const uri = "/content/api/content/update"
+  const uri = "/content/doc/content/update"
   return api.post(uri, content)
 }
 

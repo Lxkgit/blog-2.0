@@ -17,8 +17,8 @@
             <span>
               <el-breadcrumb separator=">">
                 <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                <el-breadcrumb-item><a @click="toNote(sectionData.note_id)">
-                    {{ sectionData.note }}</a></el-breadcrumb-item>
+                <el-breadcrumb-item><a @click="">
+                    {{ sectionData.data.label }}</a></el-breadcrumb-item>
                 <el-breadcrumb-item>笔记正文</el-breadcrumb-item>
               </el-breadcrumb>
             </span>
@@ -30,8 +30,12 @@
             <div v-else>
               <h1>{{ sectionData.title }}</h1>
               <div class="info">
-                <span>
+                <!-- <span>
                   <MyIcon type="icon-category" />{{ sectionData.note }}
+                </span> -->
+                <span>
+                  <MyIcon type="icon-like" />
+                    {{ docTitle }}
                 </span>
                 <span>
                   <MyIcon type="icon-time" />{{
@@ -43,12 +47,6 @@
                 </span>
                 <span>
                   <MyIcon type="icon-like" />{{ sectionData.like }}
-                </span>
-                <span>
-                  <MyIcon type="icon-collect" />{{ sectionData.collect }}
-                </span>
-                <span>
-                  <MyIcon type="icon-comment" />{{ sectionData.comment }}
                 </span>
               </div>
               <MarkDown :text="sectionData.data.docContentMd"></MarkDown>
@@ -93,9 +91,9 @@ const router = useRouter();
 // 引入用户信息模块
 let { userId, isLogin } = user();
 // 引入公共模块
-let { sectionID, contentID, toNote, sitename, toDetail } = publicFn();
+let { sectionID, contentID } = publicFn();
 // 引入笔记内容模块
-let { sectionData, getDocContentByIdFun, contextData } = section();
+let { docTitle, sectionData, getDocContentByIdFun, contextData } = section();
 // 引入笔记目录模块
 let { catalogShow, catalogList, expanded, current, catalogueData, handleNodeClick, treeRef } = catalog();
 // 引入markdown模块
@@ -140,30 +138,11 @@ function publicFn() {
   const sectionID = ref();
   // 当前文档展示内容ID
   const contentID = ref(0);
-  //跳转笔记列表
-  const toNote = (noteId: any) => {
-    // router.push({ path: `/note/${noteId}` });
-  };
-  // 站点名称
-  const sitename = ref("1231");
 
-  // 获取站点名称
-  async function siteConfigData() {
-    // let siteConfig_data = await getSiteConfig()
-    // console.log(siteConfig_data)
-    // sitename.value = siteConfig_data.name
-  }
-
-  // 点击跳转其他笔记事件
-  const toDetail = (detailID: any) => {
-    // sectionID.value = detailID;
-    // findCatalogId(sectionID.value);
-    // router.push({ path: `/detail/section/${sectionID.value}` });
-  };
   onMounted(() => {
     // siteConfigData();
   });
-  return { sectionID, contentID, toNote, sitename, toDetail };
+  return { sectionID, contentID };
 }
 
 // 笔记目录模块
@@ -179,13 +158,12 @@ function catalog() {
   const expanded = ref([]);
   // 当前高亮的笔记目录id
   const current = ref();
-
   // 获取笔记目录数据
   async function catalogueData() {
     getDocCatalogTreeApi({
       typeLowerLimit: 2,
       typeUpperLimit: 4,
-      parentId: 3,
+      parentId: sectionID.value,
       userId: 1,
     }).then((res: any) => {
       if (res.code === 200) {
@@ -215,11 +193,10 @@ function catalog() {
       }
     });
   }
-
   // 点击跳转指定笔记
   const handleNodeClick = (data: any) => {
-    console.log("data" + JSON.stringify(data))
     if (data.docType === 1) {
+      docTitle.value = data.label
       getDocContentByIdFun(data.id)
     }
   };
@@ -238,6 +215,8 @@ function catalog() {
 function section() {
   // 当前导航栏id
   const activeMenu = ref();
+  // 当前笔记标题
+  let docTitle = ref("")
   // 笔记详情数据
   let sectionData: any = reactive({ data: {} });
   // 笔记上下篇
@@ -248,8 +227,8 @@ function section() {
     contentID.value = contentId
     getDocContentByIdApi(contentId).then((res: any) => {
       if (res.code === 200) {
+        sectionData.data = {}
         sectionData.data = res.result
-        console.log(sectionData.data)
       }
     })
     // const detail_data = await getSectionDetail(DetailID)
@@ -281,7 +260,7 @@ function section() {
     // console.log(context)
   }
 
-  return { sectionData, getDocContentByIdFun, contextData };
+  return { docTitle, sectionData, getDocContentByIdFun, contextData };
 }
 
 // markdown模块
