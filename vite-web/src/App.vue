@@ -35,16 +35,16 @@ onMounted(() => {
   } else {
     setDark(store.isDark)
   }
-  if (document.body.clientWidth <= 1200) {
-    ElMessageBox.alert('检测到您使用移动设备访问，点击确定后跳转至移动版网站', {
-      confirmButtonText: '确定',
-      showClose: false,
-      center: true,
-      callback: () => {
-        // location.href = "https://m.cuiliangblog.cn"
-      },
-    });
-  }
+  // if (document.body.clientWidth <= 1200) {
+  //   ElMessageBox.alert('检测到您使用移动设备访问，点击确定后跳转至移动版网站', {
+  //     confirmButtonText: '确定',
+  //     showClose: false,
+  //     center: true,
+  //     callback: () => {
+  //       // location.href = "https://m.cuiliangblog.cn"
+  //     },
+  //   });
+  // }
   try {
     document.body.removeChild(document.getElementById('Loading'))
     setTimeout(function () {
