@@ -11,7 +11,7 @@
  Target Server Version : 50651
  File Encoding         : 65001
 
- Date: 14/05/2023 21:44:36
+ Date: 21/05/2023 17:08:33
 */
 
 SET NAMES utf8mb4;
@@ -30,7 +30,7 @@ CREATE TABLE `upload_file`  (
   `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件类型',
   `file_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件路径',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 83 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of upload_file
@@ -42,6 +42,8 @@ INSERT INTO `upload_file` VALUES (77, 1, '2023-02-02_21-56-22_EWlCi_2022.zip', '
 INSERT INTO `upload_file` VALUES (78, 1, '2023-02-02_22-06-21_JaBnI_2021.zip', 'D:/img//file/diary/2023-02-02_22-06-21_JaBnI_2021.zip', '2023-02-02 22:06:21', 'zip', 'D:/img/file/diary');
 INSERT INTO `upload_file` VALUES (79, 1, '2023-02-02_22-09-21_tBpkj_2022.zip', 'D:/img//file/diary/2023-02-02_22-09-21_tBpkj_2022.zip', '2023-02-02 22:09:21', 'zip', 'D:/img/file/diary');
 INSERT INTO `upload_file` VALUES (80, 1, '2023-05-07_11-49-37_ZXFuO_2022-01-04-zongjie2021-2.jpg', 'D:/file/img/article/2023-05-07_11-49-37_ZXFuO_2022-01-04-zongjie2021-2.jpg', '2023-05-07 11:49:37', 'jpg', 'D:/file/img/article');
+INSERT INTO `upload_file` VALUES (81, 1, '2023-05-21_15-27-40_XsCfLR_微信截图_20230521152733.png', 'https://localhost:9527/file/files/doc/img/2023-05-21_15-27-40_XsCfLR_微信截图_20230521152733.png', '2023-05-21 15:27:40', 'png', 'D:/files/doc/img');
+INSERT INTO `upload_file` VALUES (82, 1, '2023-05-21_15-35-59_rzjIWu_1684653473(1).jpg', 'https://localhost:9527/file/files/doc/img/2023-05-21_15-35-59_rzjIWu_1684653473(1).jpg', '2023-05-21 15:35:59', 'jpg', 'D:/files/doc/img');
 
 -- ----------------------------
 -- Table structure for upload_log
@@ -56,7 +58,7 @@ CREATE TABLE `upload_log`  (
   `upload_msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `upload_time` datetime(0) NULL DEFAULT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1209 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1211 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of upload_log
@@ -1128,5 +1130,7 @@ INSERT INTO `upload_log` VALUES (1205, 1, '2022-04-18.txt', 'diary', 1, '日记�
 INSERT INTO `upload_log` VALUES (1206, 1, '2023-02-05_11-30-36_TEQEE_activemq-1.png', 'png', 2, '图片上传失败', '2023-02-05 11:30:37');
 INSERT INTO `upload_log` VALUES (1207, 1, '2023-02-05_11-32-03_NTBxI_activemq-1.png', 'png', 2, '图片上传失败', '2023-02-05 11:32:04');
 INSERT INTO `upload_log` VALUES (1208, 1, '2023-05-07_11-49-37_ZXFuO_2022-01-04-zongjie2021-2.jpg', 'jpg', 1, '图片上传成功', '2023-05-07 11:49:37');
+INSERT INTO `upload_log` VALUES (1209, 1, '2023-05-21_15-27-40_XsCfLR_微信截图_20230521152733.png', 'png', 1, '文件上传成功', '2023-05-21 15:27:40');
+INSERT INTO `upload_log` VALUES (1210, 1, '2023-05-21_15-35-59_rzjIWu_1684653473(1).jpg', 'jpg', 1, '文件上传成功', '2023-05-21 15:35:59');
 
 SET FOREIGN_KEY_CHECKS = 1;
