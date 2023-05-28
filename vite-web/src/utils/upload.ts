@@ -1,19 +1,17 @@
 import { systemStore } from "@/store/system"
+import type { UploadProps } from 'element-plus'
 
 
-
-export const uploadUrl = "http://127.0.0.1:9527/file/files/upload"
+export const uploadUrl = "http://localhost:9527/file/upload"
 const store = systemStore()
 const token = store.userLocal.access_token || store.userSession.access_token
-
 export let header = {
     Authorization: "Bearer " + token
 }
-
+// let imgUrl = ""
 // export const imgUploadFun: UploadProps['onSuccess'] = (
 //   response,
 //   uploadFile
 // ) => {
-//     console.log("+++" + JSON.stringify(response))
-//     imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+//     imgUrl = response.result.fileUrl
 // }

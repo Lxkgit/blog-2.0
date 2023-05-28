@@ -34,14 +34,14 @@ public class UploadFileServiceImpl implements FileService {
     @Resource
     private UploadFileDAO uploadImgDAO;
 
-    @Value("${file.system}")
-    private String system;
-
     @Value("${file.basePath}")
     private String basePath;
 
     @Value("${file.serviceIp}")
     private String serviceIp;
+
+    @Value("${file.baseUri}")
+    private String baseUri;
 
     @Override
     public Result upload(MultipartFile[] files, Integer userId, String filePath) {
@@ -65,7 +65,7 @@ public class UploadFileServiceImpl implements FileService {
                     }
                     targetFile = new File(file1, newFileName);
                     file.transferTo(targetFile);
-                    String url = "https://" + serviceIp + ":9527/file/files" + filePath + "/" + newFileName;
+                    String url = serviceIp + baseUri + filePath + "/" + newFileName;
 
                     result.put("fileUrl", url);
                     uploadImgDAO.insert(new UploadFile(userId, newFileName, url, date, fileType, basePath + filePath));

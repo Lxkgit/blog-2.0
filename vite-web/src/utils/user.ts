@@ -2,7 +2,8 @@
 
 import { computed, onMounted, ref, onActivated } from "vue";
 import { systemStore } from "@/store/system"
-
+import { ElMessageBox, ElMessage } from 'element-plus'
+import { useRouter } from "vue-router";
 
 function user() {
 	const store = systemStore()
@@ -10,11 +11,10 @@ function user() {
 	const userId = ref()
 	const userToken = ref()
 	const userName = ref()
+	const router = useRouter()
 	onActivated(() => {
 		// 获取用户基本信息
-		console.log("user.ts onActivated")
 		if (store.keepLogin === true) {
-			console.log("userLocal: " + JSON.stringify(store.userLocal))
 			if (JSON.stringify(store.userLocal) === '{"user_id":"","access_token":""}') {
 				isLogin.value = false
 			} else {
@@ -24,7 +24,6 @@ function user() {
 				userName.value = store.userLocal.user_id
 			}
 		} else {
-			console.log("userSession: " + JSON.stringify(store.userSession))
 			if (JSON.stringify(store.userSession) === '{"user_id":"","access_token":""}') {
 				isLogin.value = false
 			} else {
@@ -36,10 +35,10 @@ function user() {
 		}
 	})
 	onMounted(() => {
+		console.log(JSON.stringify(router.currentRoute.value.path) + "--")
 		// 获取用户基本信息
-		console.log("user.ts onMounted")
 		if (store.keepLogin === true) {
-			if (JSON.stringify(store.userLocal) === '{}') {
+			if (JSON.stringify(store.userLocal) === '{"user_id":"","access_token":""}') {
 				isLogin.value = false
 			} else {
 				isLogin.value = true
@@ -48,7 +47,7 @@ function user() {
 				userName.value = store.userLocal.user_id
 			}
 		} else {
-			if (JSON.stringify(store.userSession) === '{}') {
+			if (JSON.stringify(store.userSession) === '{"user_id":"","access_token":""}') {
 				isLogin.value = false
 			} else {
 				isLogin.value = true
@@ -58,8 +57,35 @@ function user() {
 			}
 		}
 	})
+	// 个人中心-退出登录
+const logout = () => {
+  ElMessageBox.confirm(
+    '真的要退出登录吗?',
+    '退出登录',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '再想想',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: '账号已成功退出',
+      })
+      localStorage.clear()
+      sessionStorage.clear()
+			store.userSession = {user_id:"",access_token:""}
+			store.userLocal = {user_id:"",access_token:""}
+			isLogin.value = false
+			router.replace('/')
+    })
+    .catch(() => {
+      console.log("算了，没退出")
+    })
+}
 	return {
-		isLogin, userId, userToken, userName
+		isLogin, userId, userToken, userName, logout
 	}
 }
 

@@ -169,7 +169,7 @@ const router = useRouter()
 
 let { MyIcon } = icon()
 // 引入用户信息模块
-let { isLogin, userId, userName } = user();
+let { isLogin, userId, userName, logout } = user();
 let { themeList } = color()
 const props = defineProps({
   // 导航栏类型(前台后台)
@@ -246,30 +246,7 @@ const isDropdown = ref(false)
 const dropdownChange = (value: any) => {
   isDropdown.value = value
 }
-// 个人中心-退出登录
-const logout = () => {
-  ElMessageBox.confirm(
-    '真的要退出登录吗?',
-    '退出登录',
-    {
-      confirmButtonText: '确认',
-      cancelButtonText: '再想想',
-      type: 'warning',
-    }
-  )
-    .then(() => {
-      ElMessage({
-        type: 'success',
-        message: '账号已成功退出',
-      })
-      localStorage.clear()
-      sessionStorage.clear()
-      router.replace('/')
-    })
-    .catch(() => {
-      console.log("算了，没退出")
-    })
-}
+
 // 个人中心-用户头像
 const photo = ref()
 

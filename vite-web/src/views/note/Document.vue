@@ -14,7 +14,7 @@
           <el-divider content-position="left">{{ doc.docName }}</el-divider>
           <div style="display: flex; justify-content: start; flex-wrap: wrap;">
             <div v-for="item in doc.list" style="margin-right: 70px;">
-              <el-card
+              <el-card class="article-item-hover" shadow="hover"
                 :body-style="{ padding: '0px' }"
                 style="width: 228px;  margin-bottom: 25px"
                 @click="router.push('/detail/section/' + item.id)"

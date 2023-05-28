@@ -18,6 +18,16 @@ const router = createRouter({
             }
         },
         {
+            path: '/home',
+            name: 'Home1',
+            component: () => import('@/views/home/Home.vue'),
+            meta: {
+                title: 'Home',
+                keepAlive: true,
+                isAuth: false
+            }
+        },
+        {
             path: '/category/:id',
             name: 'Category',
             component: () => import('@/views/article/Category.vue'),
