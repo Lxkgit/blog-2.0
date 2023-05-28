@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 本机
+ Source Server         : 121.4.126.60
  Source Server Type    : MySQL
- Source Server Version : 50651
- Source Host           : localhost:3306
+ Source Server Version : 50737
+ Source Host           : 121.4.126.60:3306
  Source Schema         : blog_user
 
  Target Server Type    : MySQL
- Target Server Version : 50651
+ Target Server Version : 50737
  File Encoding         : 65001
 
- Date: 21/05/2023 17:08:43
+ Date: 28/05/2023 22:12:32
 */
 
 SET NAMES utf8mb4;

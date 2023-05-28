@@ -24,7 +24,7 @@ nacosSql="nacos"
 createDir() {
 	cd /opt
 	# 博客文件服务器目录
-	mkdir -p /opt/file/{img,video}
+	mkdir -p /opt/files
 	# 博客微服务目录
 	mkdir -p /opt/blog/{blog-auth,blog-content,blog-gateway,blog-user,blog-file}
 	# 博客微服务日志目录
@@ -410,9 +410,9 @@ EOF
 }
 
 updateImg() {
-  rm -rf /opt/file/*
-  mv /opt/package/file.zip /opt/file
-  unzip -d /opt/file/ /opt/file/file.zip
+  rm -rf /opt/files
+  mv /opt/package/files.zip /opt/files
+  unzip -d /opt/files/ /opt/files/files.zip
 }
 
 
@@ -482,15 +482,15 @@ main
 # - web     # 存放前端包
 
 # 备份数据
-# cd /opt/file
-# zip -r file.zip ./*
-# sz file.zip
+# cd /opt/files
+# zip -r files.zip ./*
+# sz files.zip
 
 # 恢复备份数据
-# cd /opt/file
+# cd /opt/files
 # rm -rf *
 # rz
-# unzip file.zip
+# unzip files.zip
 
 # DEBUG
 # java -Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=y -jar test.jar
