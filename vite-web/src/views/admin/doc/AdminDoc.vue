@@ -4,9 +4,6 @@
       <span>文档管理</span>
     </div>
     <el-card style="margin: 18px 2%; width: 95%; height: 732px">
-      <!-- <div style="height: 40px; border-bottom: 1px solid #000">
-        <el-button @click="editDoc"> 编辑 </el-button>
-      </div> -->
       <div>
         <el-row>
           <el-col :span="4">
@@ -22,7 +19,6 @@
               <div v-if="docType === 1" style="overflow-y: scroll; height: 650px">
                 <MarkDown :text="docContent.data.docContentMd"></MarkDown>
               </div>
-
               <div v-else-if="docType === 0">
                 <el-form :model="docCatalog" label-width="120px">
                   <el-form-item label="文档名称">
@@ -34,25 +30,15 @@
                       <el-option label="内容" value="1" />
                     </el-select>
                   </el-form-item>
-
                   <el-form-item v-if="docLevel === 1" label="文档封面图">
-                    <!-- <el-upload v-model:file-list="docCatalog.docImg" :disabled="!edit" list-type="picture-card"
-                      :class="{ 'img_upload': docCatalog.docImg.length > 0 && docCatalog.docImg[0].url !== '' }"
-                      :action="uploadUrl" :headers="header" :data="uploadData" name="files" :on-success="imgUploadFun"
-                      :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
-                      <el-icon>
-                        <MyIcon type="icon-edit" />
-                      </el-icon>
-                    </el-upload> -->
                     <el-upload v-model:file-list="docCatalog.docImg" :disabled="!edit" list-type="picture-card"
                       :class="{ 'img_upload': docCatalog.docImg.length > 0 && docCatalog.docImg[0].url !== '' }"
-                      action="#" :on-progress="uploadFun">
+                      :auto-upload="false" :on-change="changeUpload">
                       <el-icon>
                         <MyIcon type="icon-edit" />
                       </el-icon>
                     </el-upload>
                   </el-form-item>
-
                   <el-form-item>
                     <el-button v-if="edit" type="primary" @click="updateCatalogFun">保存</el-button>
                     <el-button v-else type="primary" @click="edit = true">编辑</el-button>
@@ -80,7 +66,6 @@
       </div>
       <div @click="visible = false">关闭</div>
     </div>
-
     <el-dialog v-model="createCatalogDialog" title="创建文档目录" width="460px">
       <el-form :model="createCatalogFrom" label-width="120px">
         <el-form-item label="目录名称">
@@ -103,7 +88,6 @@
         </span>
       </template>
     </el-dialog>
-
     <el-dialog v-model="createContentDialog" title="创建文档" width="460px">
       <el-form :model="createCatalogFrom" label-width="120px">
         <el-form-item label="文档名称">
@@ -129,46 +113,43 @@
     <el-dialog v-model="dialogVisible">
       <img fit :src="dialogImageUrl" alt="Preview Image" />
     </el-dialog>
-
-    <!-- <el-dialog title="图片剪裁" :visible.sync="dialogVisible" class="crop-dialog" append-to-body>
-      <div class="cropper-content">
-        <div class="cropper" style="text-align:center">
-          <vueCropper ref="cropper" :img="option.img" :outputSize="option.size" :outputType="option.outputType"
-            :info="true" :full="option.full" :canMove="option.canMove" :canMoveBox="option.canMoveBox"
-            :original="option.original" :autoCrop="option.autoCrop" :fixed="option.fixed"
-            :fixedNumber="option.fixedNumber" :centerBox="option.centerBox" :infoTrue="option.infoTrue"
-            :fixedBox="option.fixedBox" :autoCropWidth="option.autoCropWidth" :autoCropHeight="option.autoCropHeight"
-            @cropMoving="cropMoving" />
-        </div>
+    <el-dialog title="图片裁剪" v-model="imgDialog">
+      <div style="height: 400px;">
+        <VueCropper ref="cropperRef" :img="option.img" :output-size="option.outputSize" :output-type="option.outputType"
+          :info="option.info" :can-scale="option.canScale" :auto-crop="option.autoCrop"
+          :auto-crop-width="option.autoCropWidth" :auto-crop-height="option.autoCropHeight" :full="option.full"
+          :fixed-box="option.fixedBox" :can-move="option.canMove" :can-move-box="option.canMoveBox"
+          :original="option.original" :center-box="option.centerBox" @realTime="realTime" />
       </div>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="finish" :loading="loading">确认</el-button>
-      </div>
-    </el-dialog> -->
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="imgDialog = false">
+            取消
+          </el-button>
+          <el-button type="primary" :loading="loading" @click="finish">
+            确认
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
+//@ts-nocheck
+import 'vue-cropper/dist/index.css'
+import { VueCropper } from "vue-cropper";
 import { ElMessage } from "element-plus";
 import { ref, reactive, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import icon from "@/utils/icon";
-import {
-  getDocCatalogTreeApi,
-  getDocContentByIdApi,
-  saveDocCatalogApi,
-  deleteDocApi,
-  updateCatalogApi
-} from "@/api/content";
+import { getDocCatalogTreeApi, getDocContentByIdApi, saveDocCatalogApi, deleteDocApi, updateCatalogApi } from "@/api/content";
 import MarkDown from "@/components/detail/MarkDown.vue";
 import { tagsStore } from "@/store/tag";
 import { contentStore } from "@/store/content";
 import { ElTree } from "element-plus";
-import type { UploadProps } from 'element-plus'
-import { uploadUrl, header } from "@/utils/upload"
 import { upload } from "@/api/file"
+
 // 引入笔记目录模块
 let {
   docType,
@@ -184,7 +165,7 @@ let {
   getDocCatalogThreeLevelCatalogTreeFun
 } = catalog();
 let { editDocContentFun, createContentDialogFun, saveContentDialogFun } = content();
-let { imageUrl, option, loading, cropMoving, finish } = cropper();
+let { imgDialog, option, loading, cropMoving, finish, realTime } = cropper();
 const store = tagsStore();
 const cStore = contentStore();
 const router = useRouter();
@@ -192,109 +173,90 @@ let { MyIcon } = icon();
 let createCatalogDialog = ref(false);
 let createContentDialog = ref(false);
 
-
+// 裁剪组件Ref
+const cropperRef: any = ref({})
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
 
+//限制图片大小
+const changeUpload = (file: any, fileList: any) => {
+  option.img = URL.createObjectURL(file.raw)
+  option.imgName = file.name
+  imgDialog.value = true
+}
+
 // 图片裁剪方法
 function cropper() {
-  let isPreview = ref(false);
-  let imageUrl = ref("");
+  // cropper文档
+  // http://github.xyxiao.cn/vue-cropper/
+  let imgDialog = ref(false)
   let option = reactive({
-    img: 'https://pic1.zhimg.com/80/v2-366c0aeae2b4050fa2fcbfc09c74aad4_720w.jpg', // 裁剪图片的地址
-    info: true, // 裁剪框的大小信息
-    outputSize: 1, // 裁剪生成图片的质量
-    outputType: 'png', // 裁剪生成图片的格式
-    canScale: true, // 图片是否允许滚轮缩放
-    autoCrop: true, // 是否默认生成截图框
-    canMoveBox: true, // 截图框能否拖动
-    autoCropWidth: 200, // 默认生成截图框宽度
-    autoCropHeight: 200, // 默认生成截图框高度
-    fixedBox: false, // 固定截图框大小 不允许改变
-    fixed: true, // 是否开启截图框宽高固定比例
-    fixedNumber: [1, 1], // 截图框的宽高比例
-    full: false, // 是否输出原图比例的截图
-    original: false, // 上传图片按照原始比例渲染
-    centerBox: false, // 截图框是否被限制在图片里面
-    infoTrue: true // true 为展示真实输出图片宽高 false 展示看到的截图框宽高
+    img: '', //裁剪图片地址
+    outputSize: 1, //裁剪生成图片质量
+    outputType: 'png', //裁剪生成图片格式
+    info: true, //裁剪框大小信息
+    canScale: true,//图片是否允许缩放
+    autoCrop: true,//是否默认生成截图框
+    // 只有自动截图开启 宽度高度才生效
+    autoCropWidth: 228,//默认生成截图框宽度
+    autoCropHeight: 240,//默认生成截图框高度
+    full: false, //是否输出原图比例截图
+    fixedBox: true, //固定截图框大小
+    canMove: true, //上传图片是否可以移动
+    canMoveBox: true,//截图框是否拖动
+    original: true,//上传图片按照原始比例渲染
+    centerBox: true,//截图框是否被限制在图片里面
+    // 自定义
+    imgName: '', //图片名称
   });
   // 防止重复提交
   let loading = ref(false)
 
-  // 清理图片
-  const clearImgHandle = () => {
-    option.img = ''
-  };
-
-  // 截图框移动回调函数
-  const cropMoving = (data: any) => {
-    // 截图框的左上角 x，y和右下角坐标x，y
-    // let cropAxis = [data.axis.x1, data.axis.y1, data.axis.x2, data.axis.y2]
-    // console.log(cropAxis)
-  };
-
+  // Blob 转 File
+  const blobToFile = (blob, fileName) => {
+    const file = new File([blob], fileName, { type: blob.type });
+    return file;
+  }
+  // 图片上传
   const finish = () => {
-    // this.$refs.cropper.get
+    cropperRef.value.getCropBlob((blob) => {
+      loading.value = true
+      const data = new FormData()
+      let fileName = "";
+      let fileNameArr = option.imgName.split(".")
+      if (fileNameArr.length === 2) {
+        fileName = fileNameArr[0]
+      } else {
+        for (let i = 0; i < fileNameArr.length - 1; i++) {
+          fileName = fileName + fileNameArr[i]
+        }
+      }
+      data.append('files', blobToFile(blob, fileName + "." + option.outputType))
+      data.append('fileTypeCode', "1")
+      data.append('filePathCode', "2")
+      upload(data).then((res: any) => {
+        if (res.code === 200) {
+          ElMessage.success({
+            message: '图片上传成功',
+            type: 'success'
+          });
+          docCatalog.docImg = [{ name: "", url: "" }];
+          docCatalog.docImg[0].name = option.imgName
+          docCatalog.docImg[0].url = res.result.fileUrl
+          loading.value = false
+          imgDialog.value = false
+        }
+      })
+    })
   }
 
   return {
-    imageUrl,
+    imgDialog,
     option,
     loading,
-    clearImgHandle,
-    cropMoving,
     finish
   }
 }
-
-let uploadData: Record<string, any> = {
-  fileTypeCode: 1,
-  filePathCode: 2
-};
-const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-  console.log(uploadFile, uploadFiles)
-}
-const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
-  dialogImageUrl.value = uploadFile.url!
-  dialogVisible.value = true
-}
-
-const imgUploadFun: UploadProps['onSuccess'] = (
-  response,
-  uploadFile
-) => {
-  docCatalog.docImg[0].name = "img"
-  docCatalog.docImg[0].url = response.result.fileUrl
-}
-
-const uploadFun = (event: any, file: any) => {
-  console.log(file)
-  upload({
-    fileTypeCode: 1,
-    filePathCode: 2,
-    files: file
-  }).then((res: any) => {
-    if(res.code === 200) {
-      ElMessage.success({
-          message: '图片上传成功',
-          type: 'success'
-        });
-    }
-  })
-  // const data = new FormData()
-  // data.append('file', file.raw)
-  // data.append('key', this.field)
-  // data.append('value', this.model)
-  // this.$store.dispatch('upload/uploadImg', data).then((resp) => {
-  //   if (resp.code === 200) {
-  //     this.$store.dispatch('setting/selectWebSetting')
-  //   }
-  // }).catch(() => {
-  //   this.fileList = [{ name: 'test.png', url: this.model }]
-  //   this.$message.error('上传图片失败')
-  // })
-}
-
 
 const filterText = ref("");
 const treeRef = ref<InstanceType<typeof ElTree>>();
@@ -316,7 +278,7 @@ const filterNode = (value: string, data: any) => {
 };
 
 // 文档目录信息
-let docCatalog = reactive({
+let docCatalog: any = reactive({
   catalogId: 0,
   docName: "",
   docType: "",
@@ -348,10 +310,6 @@ let clickRightItem: any = ref({});
 let clickRightNode: any = ref({});
 // 主展示页面是否可以编辑
 let edit = ref(false);
-// 编辑按钮控制方法
-const onSubmit = () => {
-  edit.value = false;
-};
 // 设置创建文档默认数据
 const setTreeData = (data: any) => {
   createCatalogFrom.id = data.id;
@@ -539,7 +497,6 @@ function catalog() {
     createCatalogDialog.value = true;
     visible.value = false;
   };
-
   // 修改文档目录
   const updateCatalogFun = () => {
     edit.value = false;
@@ -565,7 +522,6 @@ function catalog() {
   };
   // 保存文档目录接口方法
   const saveDocCatalogFun = () => {
-    console.log(JSON.stringify(createCatalogFrom));
     saveDocCatalogApi({
       parentId: createCatalogFrom.id == null ? 0 : createCatalogFrom.id,
       docName: createCatalogFrom.docName,
@@ -573,7 +529,6 @@ function catalog() {
         createCatalogFrom.docLevel == null ? 0 : createCatalogFrom.docLevel + 1,
       docType: 0,
     }).then((res: any) => {
-      console.log(res);
       getDocCatalogTreeFun();
     });
   };
@@ -608,7 +563,6 @@ function content() {
   };
   // 保存文档调用接口方法
   const saveDocContentFun = () => {
-    console.log(JSON.stringify(createCatalogFrom));
     saveDocCatalogApi({
       parentId: createCatalogFrom.id == null ? 0 : createCatalogFrom.id,
       docName: createCatalogFrom.docName,
@@ -679,6 +633,10 @@ function content() {
 .img_upload .el-upload--picture-card {
   display: none !important;
   background-color: black;
+}
+
+.dialog-footer button:first-child {
+  margin-right: 10px;
 }
 </style>
 

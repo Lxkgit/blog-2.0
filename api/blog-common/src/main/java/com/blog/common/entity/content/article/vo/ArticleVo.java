@@ -16,20 +16,51 @@ import java.util.List;
 
 public class ArticleVo extends Article {
 
+    /**
+     * 页大小
+     */
     private Integer pageSize;
 
+    /**
+     * 页数
+     */
     private Integer pageNum;
 
+    /**
+     * 接口访问用户
+     */
     private BlogUser blogUser;
 
+    /**
+     *
+     */
     private String type;
 
+    /**
+     * 查询文章状态 0：全部文章 1：已发布文章 2：草稿类文章
+     */
+    private String selectStatus;
+
+    /**
+     * 查询文章所属用户 0：全部用户 x：指定用户
+     */
+    private String selectUser;
+
+    /**
+     *
+     */
     private List<String> articleLabelList;
 
     private List<String> articleTypeList;
 
+    /**
+     * 文章分类
+     */
     private List<ArticleType> articleTypes;
-    
+
+    /**
+     * 文章标签
+     */
     private List<ArticleLabel> articleLabels;
 
     public Integer getPageSize() {
@@ -86,6 +117,22 @@ public class ArticleVo extends Article {
 
     public void setArticleLabelList(List<String> articleLabelList) {
         this.articleLabelList = articleLabelList;
+    }
+
+    public String getSelectStatus() {
+        return selectStatus;
+    }
+
+    public void setSelectStatus(String selectStatus) {
+        this.selectStatus = selectStatus;
+    }
+
+    public String getSelectUser() {
+        return selectUser;
+    }
+
+    public void setSelectUser(String selectUser) {
+        this.selectUser = selectUser;
     }
 
     public String getType() {

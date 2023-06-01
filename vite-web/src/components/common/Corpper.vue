@@ -21,7 +21,7 @@
 <script lang="ts">
 //@ts-nocheck
 import 'vue-cropper/dist/index.css'
-import { VueCropper }  from "vue-cropper";
+import { vueCropper }  from "vue-cropper";
 
 
 </script>

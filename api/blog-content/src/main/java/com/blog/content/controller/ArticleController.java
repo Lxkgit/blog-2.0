@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,8 +37,30 @@ import java.util.Objects;
 @RequestMapping("/article")
 public class ArticleController {
 
-    @Autowired
+    @Resource
     private ArticleService articleService;
+
+    @PostMapping("/save")
+    public Result saveArticle(@RequestHeader HttpHeaders headers, @RequestBody Article article) {
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        article.setUserId(blogUser.getId());
+        return ResultFactory.buildSuccessResult(articleService.saveArticle(article));
+    }
+
+    @DeleteMapping("/delete")
+    public Result deleteArticle(@RequestHeader HttpHeaders headers, @RequestParam(value = "articleIds") String articleIds) {
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        return ResultFactory.buildSuccessResult(articleService.deleteArticle(blogUser, articleIds));
+    }
+
+    @PostMapping("/update")
+    public Result updateArticle(@RequestHeader HttpHeaders headers, @RequestBody ArticleVo articleVo) {
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        return ResultFactory.buildSuccessResult(articleService.updateArticle(blogUser, articleVo));
+    }
 
     @GetMapping("/list")
     public Result selectArticleByPage(@RequestHeader HttpHeaders headers, ArticleVo articleVo) {
@@ -60,70 +83,6 @@ public class ArticleController {
     @GetMapping("/id")
     public Result selectArticleById(@RequestParam(value = "id") Integer articleId) {
         return ResultFactory.buildSuccessResult(articleService.selectArticleById(articleId));
-    }
-
-    @PostMapping("/save")
-    public Result saveArticle(@RequestBody Article article) {
-        // 获取用户请求头，从请求头中获取token
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
-        if (!token.isEmpty()) {
-            try {
-                BlogUser blogUser = JwtUtil.getUserInfo(token);
-                article.setUserId(blogUser.getId());
-                int result = articleService.saveArticle(article);
-                if (result == 1) {
-                    return ResultFactory.buildSuccessResult(article.getId());
-                }
-            } catch (Exception e) {
-                log.warn(Constant.JWTError, e);
-            }
-        }
-        return ResultFactory.buildFailResult(Constant.articleSaveFail);
-    }
-
-    @PostMapping("/update")
-    public Result updateArticle(@RequestBody ArticleVo articleVo) {
-        // 获取用户请求头，从请求头中获取token
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
-        if (!token.isEmpty()) {
-            try {
-                BlogUser blogUser = JwtUtil.getUserInfo(token);
-                int code = articleService.updateArticle(blogUser, articleVo);
-                if (code == 1) {
-                    return ResultFactory.buildSuccessResult();
-                }
-            } catch (Exception e) {
-                log.warn(Constant.JWTError, e);
-            }
-        }
-        return ResultFactory.buildFailResult(Constant.articleUpdateFail);
-    }
-
-    @DeleteMapping("/delete")
-    public Result deleteArticle(@RequestParam(value = "articleIds") String articleIds) {
-        // 获取用户请求头，从请求头中获取token
-        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        String token = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(token)) {
-            token = request.getParameter("Authorization");
-        }
-        if (!token.isEmpty()) {
-            try {
-                BlogUser blogUser = JwtUtil.getUserInfo(token);
-                return ResultFactory.buildSuccessResult(articleService.deleteArticle(blogUser, articleIds));
-            } catch (Exception e) {
-                log.warn(Constant.JWTError, e);
-            }
-        }
-        return ResultFactory.buildFailResult(Constant.articleUpdateFail);
     }
 
 }
