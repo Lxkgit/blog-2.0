@@ -11,7 +11,6 @@ import java.util.Map;
 
 public interface ArticleService {
 
-    MyPage<ArticleVo> selectArticleListByPage(ArticleVo articleVo);
     MyPage<ArticleVo> selectArticleListByPageAndUserId(ArticleVo articleVo);
     ArticleVo selectArticleById(int articleId);
     int saveArticle(Article article);

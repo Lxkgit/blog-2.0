@@ -96,7 +96,10 @@ onMounted(() => {
 async function articleData(page: any, size: any) {
   const params = {
     pageNum: page,
-    pageSize: size
+    pageSize: size,
+    type: 1,
+    selectStatus: "0,1,2",
+    sortType: "1"
   }
   getArticleListApi(params).then((res: any) => {
     if (res.code === 200) {

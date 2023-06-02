@@ -64,20 +64,27 @@ public class ArticleController {
 
     @GetMapping("/list")
     public Result selectArticleByPage(@RequestHeader HttpHeaders headers, ArticleVo articleVo) {
-        BlogUser blogUser;
-        try {
+        if (headers.get("Authorization") != null) {
             String token = String.valueOf(headers.get("Authorization"));
-            if (token != null && !token.equals("") && !token.equals("null")) {
-                blogUser = JwtUtil.getUserInfo(token);
-                if (articleVo.getType() != null && articleVo.getType().equals("admin")) {
-                    articleVo.setUserId(blogUser.getId());
-                }
-            }
-        } catch (Exception e) {
-            log.warn(Constant.JWTError, e);
+            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            articleVo.setBlogUser(blogUser);
         }
-        MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
-        return ResultFactory.buildSuccessResult(result);
+        return ResultFactory.buildSuccessResult(articleService.selectArticleListByPageAndUserId(articleVo));
+        
+//        BlogUser blogUser;
+//        try {
+//            String token = String.valueOf(headers.get("Authorization"));
+//            if (token != null && !token.equals("") && !token.equals("null")) {
+//                blogUser = JwtUtil.getUserInfo(token);
+//                if (articleVo.getType() != null && articleVo.getType().equals("admin")) {
+//                    articleVo.setUserId(blogUser.getId());
+//                }
+//            }
+//        } catch (Exception e) {
+//            log.warn(Constant.JWTError, e);
+//        }
+//        MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
+//        return ResultFactory.buildSuccessResult(result);
     }
 
     @GetMapping("/id")

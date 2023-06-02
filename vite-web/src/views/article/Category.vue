@@ -57,10 +57,11 @@ const router = useRouter()
 // 当前文章分类id
 const categoryID = ref()
 // 文章分类名
-const articleType:any = reactive({ date: [] })
+let articleType:any = reactive({ date: [] })
 
 // 获取文章分类名称
-async function articleTypeData(categoryID: any) {
+const articleTypeData = (categoryID: any) => {
+  articleType.date = []
   getArticleTypeByIdApi(categoryID).then((res: any) => {
     if (res.code === 200) {
       articleType.date = res.result
@@ -70,21 +71,26 @@ async function articleTypeData(categoryID: any) {
 }
 
 // 文章列表
-const article: any = reactive({
+let article: any = reactive({
   list: [],
   total: '',
 })
 
 // 获取文章数据
-async function articleData(page: any, size: any, categoryID: any) {
+const articleData = (page: any, size: any, categoryID: any) => {
+  article.list = []
+  article.total = 0
   const params = {
     pageNum: page,
     pageSize: size,
+    type: 0,
+    selectUser: 0,
+    selectStatus: "1,2",
+    sortType: "0,1",
     articleType: categoryID
   }
   getArticleListApi(params).then((res: any) => {
     if (res.code === 200) {
-      console.log(JSON.stringify(res) + " --- ")
       article.list = res.result.list
       article.total = res.result.total
     }
@@ -93,24 +99,26 @@ async function articleData(page: any, size: any, categoryID: any) {
 
 // 分页-页面跳转
 const changePage = (pageSize: any, pageNumber: any) => {
-  console.log("categoryID", categoryID.value)
   window.scrollTo({ top: 0 })
-  console.log(pageSize, pageNumber)
   articleData(pageNumber, pageSize, categoryID.value)
 }
 
 onMounted(() => {
   categoryID.value = router.currentRoute.value.params.id
+  console.log("categoryID" + categoryID.value)
   articleTypeData(categoryID.value)
   articleData(1, 10, categoryID.value)
 })
 onBeforeRouteUpdate(async (to) => {
   categoryID.value = to.params.id
-  await articleTypeData(categoryID.value)
-  await articleData(1, 10, categoryID.value)
+  articleTypeData(categoryID.value)
+  articleData(1, 10, categoryID.value)
 });
 onActivated(() => {
   store.setMenuIndex('2-' + router.currentRoute.value.params.id)
+  categoryID.value = router.currentRoute.value.params.id
+  articleTypeData(categoryID.value)
+  articleData(1, 10, categoryID.value)
 })
 </script>
 

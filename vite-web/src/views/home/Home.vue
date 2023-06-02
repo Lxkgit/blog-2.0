@@ -102,6 +102,10 @@ const article: any = reactive({
 const article_params = {
     pageNum: 1,
     pageSize: 5,
+    type: 0,
+    selectUser: 0,
+    selectStatus: "1,2",
+    sortType: "0,1"
 }
 // 是否可以执行加载中动画
 const loading = ref(false)

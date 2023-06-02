@@ -132,6 +132,7 @@
 </template>
 
 <script setup name="MyIndex" lang="ts">
+//@ts-nocheck
 // 引入用户信息模块
 import user from "@/utils/user";
 import { onMounted, reactive, ref, watch } from "vue";
@@ -212,7 +213,7 @@ const setColor = () => {
 async function trend() {
   const query = {chart: 'trend', user: userId.value}
   // const chartData = await getUserEcharts(query)
-  const chartData: any = [{article_view:1,article_collect:1,article_comment:1, section_view:1, section_collect:1, section_comment:1}]
+  const chartData: any[] = [{article_view:1,article_collect:1,article_comment:1, section_view:1, section_collect:1, section_comment:1}]
   console.log("trend", chartData)
   const date = []
   const article_view = []

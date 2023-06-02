@@ -32,19 +32,24 @@ public class ArticleVo extends Article {
     private BlogUser blogUser;
 
     /**
-     *
+     * 接口查询位置 0：首页 1：管理页面
      */
-    private String type;
+    private Integer type;
 
     /**
-     * 查询文章状态 0：全部文章 1：已发布文章 2：草稿类文章
+     * 查询文章状态 0：草稿 1：已发布文章 2：置顶
      */
     private String selectStatus;
 
     /**
      * 查询文章所属用户 0：全部用户 x：指定用户
      */
-    private String selectUser;
+    private Integer selectUser;
+
+    /**
+     * 排序方式 0：置顶排序 1：更新时间排序
+     */
+    private String sortType;
 
     /**
      *
@@ -127,19 +132,27 @@ public class ArticleVo extends Article {
         this.selectStatus = selectStatus;
     }
 
-    public String getSelectUser() {
+    public Integer getSelectUser() {
         return selectUser;
     }
 
-    public void setSelectUser(String selectUser) {
+    public void setSelectUser(Integer  selectUser) {
         this.selectUser = selectUser;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getSortType() {
+        return sortType;
+    }
+
+    public void setSortType(String sortType) {
+        this.sortType = sortType;
     }
 }

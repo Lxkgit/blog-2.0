@@ -164,7 +164,7 @@ function catalog() {
       typeLowerLimit: 2,
       typeUpperLimit: 4,
       parentId: sectionID.value,
-      userId: 1,
+      type: 0
     }).then((res: any) => {
       if (res.code === 200) {
         let data: any = res.result;

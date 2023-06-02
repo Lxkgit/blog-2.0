@@ -24,7 +24,7 @@ nacosSql="nacos"
 createDir() {
 	cd /opt
 	# 博客文件服务器目录
-	mkdir -p /opt/files
+	mkdir -p /opt/files/{article,doc}
 	# 博客微服务目录
 	mkdir -p /opt/blog/{blog-auth,blog-content,blog-gateway,blog-user,blog-file}
 	# 博客微服务日志目录
@@ -410,7 +410,7 @@ EOF
 }
 
 updateImg() {
-  rm -rf /opt/files
+  rm -rf /opt/files/*
   mv /opt/package/files.zip /opt/files
   unzip -d /opt/files/ /opt/files/files.zip
 }

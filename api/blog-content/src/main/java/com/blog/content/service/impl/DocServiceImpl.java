@@ -103,7 +103,9 @@ public class DocServiceImpl implements DocService {
         for (int i = lowerLimit; i <= upperLimit; i++) {
             docLevelList.add(i);
         }
-
+        if (docCatalogVo.getType() == 0) {
+            docCatalogVo.setUserId(0);
+        }
         List<DocCatalogVo> docCatalogVoList = docCatalogDAO.selectListByDocTypeAndUserId(docLevelList, docCatalogVo.getUserId(), docCatalogVo.getDocType());
         if (docCatalogVoList != null) {
             for (DocCatalogVo vo : docCatalogVoList) {

@@ -1,6 +1,7 @@
 package com.blog.content.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.entity.content.article.Article;
 import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.content.article.ArticleType;
@@ -18,7 +19,6 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -46,22 +46,75 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleLabelDAO articleLabelDAO;
 
     @Override
-    public MyPage<ArticleVo> selectArticleListByPage(ArticleVo articleVo) {
-        return this.selectArticle(articleVo);
+    public MyPage<ArticleVo> selectArticleListByPageAndUserId(ArticleVo articleVoParam) {
+        MyPage<ArticleVo> myPage = null;
+        QueryWrapper<Article> articleQueryWrapper = new QueryWrapper<>();
+        if (articleVoParam.getType() == 1) {
+            articleQueryWrapper.eq("user_id", articleVoParam.getBlogUser().getId());
+        } else {
+            if (articleVoParam.getSelectUser() != null && articleVoParam.getSelectUser() != 0) {
+                articleQueryWrapper.eq("user_id", articleVoParam.getSelectUser());
+            }
+        }
+        if (articleVoParam.getArticleType() != null && !articleVoParam.getArticleType().equals("")) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(articleVoParam.getArticleType());
+            ArticleType articleType = articleTypeDAO.selectById(Integer.parseInt(articleVoParam.getArticleType()));
+            while (articleType.getParentId()!=0) {
+                articleType = articleTypeDAO.selectById(articleType.getParentId());
+                stringBuilder.insert(0, articleType.getId()+",");
+            }
+            articleQueryWrapper.likeRight("article_type", stringBuilder.toString());
+        }
+        if (articleVoParam.getSelectStatus() != null && !articleVoParam.getSelectStatus().equals("")) {
+            String[] status = articleVoParam.getSelectStatus().split(",");
+            articleQueryWrapper.and((wrapper) -> {
+                for (int i=0; i<status.length; i++) {
+                    if (i==0) {
+                        wrapper.eq("article_status", status[i]);
+                    } else {
+                        wrapper.or().eq("article_status", status[i]);
+                    }
+                }
+            });
+        }
+        if (articleVoParam.getSortType() != null && !articleVoParam.getSortType().equals("")) {
+            List<String> sortList = Arrays.asList(articleVoParam.getSortType().split(","));
+            if (sortList.contains("0")) {
+                articleQueryWrapper.orderByDesc("article_status");
+            }
+            if (sortList.contains("1")) {
+                articleQueryWrapper.orderByDesc("update_time");
+            }
+        }
+        PageHelper.startPage(articleVoParam.getPageNum(), articleVoParam.getPageSize());
+        Page<Article> articlePage = (Page<Article>) articleDAO.selectList(articleQueryWrapper);
+        List<ArticleVo> articleVoList = new ArrayList<>();
+        Map<Integer, BlogUser> userMap = new HashMap<>();
+        for (Article article : articlePage){
+            ArticleVo articleVo = new ArticleVo();
+            BeanUtils.copyProperties(article, articleVo);
+
+            if (userMap.containsKey(article.getUserId())) {
+                articleVo.setBlogUser(userMap.get(article.getUserId()));
+            } else {
+                BlogUser blogUser = userClient.selectUserById(article.getUserId());
+                userMap.put(article.getUserId(), blogUser);
+                articleVo.setBlogUser(blogUser);
+            }
+            setArticleTypeAndLabel(article, articleVo);
+            articleVoList.add(articleVo);
+        }
+        try {
+            myPage = MyPageUtils.pageUtil(articleVoList, articlePage.getPageNum(), articlePage.getPageSize(), (int)articlePage.getTotal());
+        } catch (Exception e){
+            log.info("分页查询文章报错, param:{}", JSON.toJSONString(articleVoParam));
+            e.printStackTrace();
+        }
+        return myPage;
     }
 
-    @Override
-    public MyPage<ArticleVo> selectArticleListByPageAndUserId(ArticleVo articleVo) {
-        return this.selectArticle(articleVo);
-    }
-
-    @Override
-    public ArticleVo selectArticleById(int articleId) {
-        Article article = articleDAO.selectArticleById(articleId);
-        ArticleVo articleVo = new ArticleVo();
-        BeanUtils.copyProperties(article, articleVo);
-        BlogUser blogUser = userClient.selectUserById(article.getUserId());
-        articleVo.setBlogUser(blogUser);
+    private void setArticleTypeAndLabel(Article article, ArticleVo articleVo) {
         if (article.getArticleType() != null && !article.getArticleType().equals("")) {
             String[] types = article.getArticleType().split(",");
             List<ArticleType> articleTypeList = articleTypeDAO.selectArticleTypeByArray(types);
@@ -72,6 +125,16 @@ public class ArticleServiceImpl implements ArticleService {
             List<ArticleLabel> articleLabelList = articleLabelDAO.selectArticleLabelByArray(labels);
             articleVo.setArticleLabels(articleLabelList);
         }
+    }
+
+    @Override
+    public ArticleVo selectArticleById(int articleId) {
+        Article article = articleDAO.selectArticleById(articleId);
+        ArticleVo articleVo = new ArticleVo();
+        BeanUtils.copyProperties(article, articleVo);
+        BlogUser blogUser = userClient.selectUserById(article.getUserId());
+        articleVo.setBlogUser(blogUser);
+        setArticleTypeAndLabel(article, articleVo);
         return articleVo;
     }
 
@@ -117,56 +180,5 @@ public class ArticleServiceImpl implements ArticleService {
         map.put("delete", articleBo.getIds().length);
         map.put("success", articleDAO.deleteArticle(articleBo));
         return map;
-    }
-
-    /**
-     * 查询文章内部方法
-     * userId = 0 时查询全部文章
-     * @param articleVoParam
-     * @return
-     */
-    private MyPage<ArticleVo> selectArticle(ArticleVo articleVoParam){
-        MyPage<ArticleVo> myPage = null;
-        PageHelper.startPage(articleVoParam.getPageNum(), articleVoParam.getPageSize());
-        if (articleVoParam.getArticleType() != null) {
-            articleVoParam.setArticleTypeList(Arrays.asList(articleVoParam.getArticleType().split(",")));
-        }
-        if (articleVoParam.getArticleLabel() != null) {
-            articleVoParam.setArticleLabelList(Arrays.asList(articleVoParam.getArticleLabel().split(",")));
-        }
-        Page<Article> articlePage = (Page<Article>) articleDAO.selectArticleListByPage(articleVoParam);
-        List<ArticleVo> articleVoList = new ArrayList<>();
-        Map<Integer, BlogUser> userMap = new HashMap<>();
-        for (Article article : articlePage){
-            ArticleVo articleVo = new ArticleVo();
-            BeanUtils.copyProperties(article, articleVo);
-
-            if (userMap.containsKey(article.getUserId())) {
-                articleVo.setBlogUser(userMap.get(article.getUserId()));
-            } else {
-                BlogUser blogUser = userClient.selectUserById(article.getUserId());
-                userMap.put(article.getUserId(), blogUser);
-                articleVo.setBlogUser(blogUser);
-            }
-
-            if (article.getArticleType() != null && !article.getArticleType().equals("")) {
-                String[] types = article.getArticleType().split(",");
-                List<ArticleType> articleTypeList = articleTypeDAO.selectArticleTypeByArray(types);
-                articleVo.setArticleTypes(articleTypeList);
-            }
-            if (article.getArticleLabel() != null && !article.getArticleLabel().equals("")) {
-                String[] labels = article.getArticleLabel().split(",");
-                List<ArticleLabel> articleLabelList = articleLabelDAO.selectArticleLabelByArray(labels);
-                articleVo.setArticleLabels(articleLabelList);
-            }
-            articleVoList.add(articleVo);
-        }
-        try {
-            myPage = MyPageUtils.pageUtil(articleVoList, articlePage.getPageNum(), articlePage.getPageSize(), (int)articlePage.getTotal());
-        } catch (Exception e){
-            log.info("分页查询文章报错, param:{}", JSON.toJSONString(articleVoParam));
-            e.printStackTrace();
-        }
-        return myPage;
     }
 }

@@ -30,7 +30,9 @@ public class DocCatalogVo extends DocCatalog implements Comparable<DocCatalog>{
 
     private boolean isLeaf;
 
-    // 查询标志 0:只查询当前用户数据 1：查询全部数据
+    /**
+     * 接口查询位置 0：首页 1：管理页面
+     */
     private Integer type;
 
     private String selectType;

@@ -62,7 +62,7 @@ async function getDocCatalogTreeFun() {
   getDocCatalogTreeApi({
     "typeLowerLimit": 0,
     "typeUpperLimit": 1,
-    "userId": 1
+    "type": 0
   }).then((res: any) => {
     if (res.code === 200) {
       docList.list = res.result;

@@ -343,7 +343,7 @@ function catalog() {
     getDocCatalogTreeApi({
       typeLowerLimit: 0,
       typeUpperLimit: 4,
-      userId: 1,
+      type: 1,
     }).then((res: any) => {
       if (res.code === 200) {
         let data = res.result;
@@ -410,7 +410,7 @@ function catalog() {
       typeLowerLimit: 0,
       typeUpperLimit: upperLimit,
       docType: 0,
-      userId: 1,
+      type: 1,
     }).then((res: any) => {
       if (res.code === 200) {
         let data = res.result;

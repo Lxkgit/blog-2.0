@@ -56,7 +56,12 @@ public class DocController {
     }
 
     @GetMapping("/catalog/tree")
-    public Result selectDocCatalogTree(DocCatalogVo docCatalogVo) {
+    public Result selectDocCatalogTree(@RequestHeader HttpHeaders headers,DocCatalogVo docCatalogVo) {
+        if (headers.get("Authorization") != null) {
+            String token = String.valueOf(headers.get("Authorization"));
+            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            docCatalogVo.setUserId(blogUser.getId());
+        }
         return ResultFactory.buildSuccessResult(docService.selectDocCatalogTree(docCatalogVo));
     }
 
