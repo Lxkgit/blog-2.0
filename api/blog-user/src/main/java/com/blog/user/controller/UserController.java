@@ -81,7 +81,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/permission/update")
-    @PreAuthorize("hasAnyAuthority('sys:user:update')")
+    @PreAuthorize("hasAnyAuthority('sys:user:role:update')")
     public Result updateUserPer(@RequestBody SysUserVo sysUserVo) {
         userService.updateUser(sysUserVo, 1);
         return ResultFactory.buildSuccessResult();

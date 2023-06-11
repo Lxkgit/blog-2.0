@@ -39,10 +39,7 @@ export function request(config: any) {
           window.location.href = "http://127.0.0.1:5173";
           break
         case 403:
-          ElMessage.error('对不起，您的身份信息已过期，请重新登录！')
-          localStorage.clear()
-          sessionStorage.clear()
-          window.location.href = "http://127.0.0.1:5173";
+          ElMessage.error('对不起，您暂无权限访问此接口！')
           break
         case 404:
           console.log("404啦")

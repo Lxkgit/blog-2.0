@@ -10,6 +10,7 @@ import com.blog.content.service.ArticleTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -47,6 +48,7 @@ public class ArticleTypeController {
     }
 
     @PostMapping("/save")
+    @PreAuthorize("hasAnyAuthority('sys:article:type:insert')")
     public Result saveArticleType(@RequestHeader HttpHeaders headers, @RequestBody ArticleType articleType) {
         String token = String.valueOf(headers.get("Authorization"));
         try {
@@ -61,6 +63,7 @@ public class ArticleTypeController {
     }
 
     @PostMapping("/update")
+    @PreAuthorize("hasAnyAuthority('sys:article:type:update')")
     public Result updateArticleType(@RequestHeader HttpHeaders headers, @RequestBody ArticleType articleType) {
 
         String token = String.valueOf(headers.get("Authorization"));
@@ -81,6 +84,7 @@ public class ArticleTypeController {
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('sys:article:type:delete')")
     public Result deleteArticleType(@RequestParam(value = "articleTypeId") String articleTypeId) {
         return ResultFactory.buildSuccessResult(articleTypeService.deleteArticleTypeById(articleTypeId));
     }

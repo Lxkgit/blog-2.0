@@ -11,6 +11,7 @@ import com.blog.content.service.DocService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -28,6 +29,7 @@ public class DocController {
     private DocService docService;
 
     @PutMapping("/content/insert")
+    @PreAuthorize("hasAnyAuthority('sys:doc:insert')")
     public Result insertDocCatalog(@RequestHeader HttpHeaders headers,@RequestBody DocCatalog docCatalog) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
@@ -35,6 +37,7 @@ public class DocController {
     }
 
     @DeleteMapping("/content/delete")
+    @PreAuthorize("hasAnyAuthority('sys:doc:delete')")
     public Result deleteDocContent(@RequestHeader HttpHeaders headers, @RequestParam(value = "id") Integer id) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
@@ -42,6 +45,7 @@ public class DocController {
     }
 
     @PostMapping("/content/update")
+    @PreAuthorize("hasAnyAuthority('sys:doc:update')")
     public Result updateDocContent(@RequestHeader HttpHeaders headers,@RequestBody DocContent docContent) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
@@ -49,6 +53,7 @@ public class DocController {
     }
 
     @PostMapping("/catalog/update")
+    @PreAuthorize("hasAnyAuthority('sys:doc:catalog:update')")
     public Result updateDocCatalog(@RequestHeader HttpHeaders headers,@RequestBody DocCatalog docCatalog){
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
@@ -56,12 +61,7 @@ public class DocController {
     }
 
     @GetMapping("/catalog/tree")
-    public Result selectDocCatalogTree(@RequestHeader HttpHeaders headers,DocCatalogVo docCatalogVo) {
-        if (headers.get("Authorization") != null) {
-            String token = String.valueOf(headers.get("Authorization"));
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
-            docCatalogVo.setUserId(blogUser.getId());
-        }
+    public Result selectDocCatalogTree(DocCatalogVo docCatalogVo) {
         return ResultFactory.buildSuccessResult(docService.selectDocCatalogTree(docCatalogVo));
     }
 

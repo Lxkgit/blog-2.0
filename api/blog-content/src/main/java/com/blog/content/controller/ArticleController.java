@@ -14,6 +14,7 @@ import com.blog.content.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -41,6 +42,7 @@ public class ArticleController {
     private ArticleService articleService;
 
     @PostMapping("/save")
+    @PreAuthorize("hasAnyAuthority('sys:article:insert')")
     public Result saveArticle(@RequestHeader HttpHeaders headers, @RequestBody Article article) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
@@ -49,6 +51,7 @@ public class ArticleController {
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('sys:article:delete')")
     public Result deleteArticle(@RequestHeader HttpHeaders headers, @RequestParam(value = "articleIds") String articleIds) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
@@ -56,6 +59,7 @@ public class ArticleController {
     }
 
     @PostMapping("/update")
+    @PreAuthorize("hasAnyAuthority('sys:article:update')")
     public Result updateArticle(@RequestHeader HttpHeaders headers, @RequestBody ArticleVo articleVo) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
@@ -64,27 +68,21 @@ public class ArticleController {
 
     @GetMapping("/list")
     public Result selectArticleByPage(@RequestHeader HttpHeaders headers, ArticleVo articleVo) {
-        if (headers.get("Authorization") != null) {
+        BlogUser blogUser;
+        try {
             String token = String.valueOf(headers.get("Authorization"));
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
-            articleVo.setBlogUser(blogUser);
+            if (token != null && !token.equals("") && !token.equals("null")) {
+                blogUser = JwtUtil.getUserInfo(token);
+                if (articleVo.getType() != null && articleVo.getType() == 1) {
+                    articleVo.setUserId(blogUser.getId());
+                    articleVo.setBlogUser(blogUser);
+                }
+            }
+        } catch (Exception e) {
+            log.warn(Constant.JWTError, e);
         }
-        return ResultFactory.buildSuccessResult(articleService.selectArticleListByPageAndUserId(articleVo));
-        
-//        BlogUser blogUser;
-//        try {
-//            String token = String.valueOf(headers.get("Authorization"));
-//            if (token != null && !token.equals("") && !token.equals("null")) {
-//                blogUser = JwtUtil.getUserInfo(token);
-//                if (articleVo.getType() != null && articleVo.getType().equals("admin")) {
-//                    articleVo.setUserId(blogUser.getId());
-//                }
-//            }
-//        } catch (Exception e) {
-//            log.warn(Constant.JWTError, e);
-//        }
-//        MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
-//        return ResultFactory.buildSuccessResult(result);
+        MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
+        return ResultFactory.buildSuccessResult(result);
     }
 
     @GetMapping("/id")

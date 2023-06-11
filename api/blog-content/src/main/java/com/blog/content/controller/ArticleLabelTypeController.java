@@ -10,6 +10,7 @@ import com.blog.content.service.ArticleLabelTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -38,6 +39,7 @@ public class ArticleLabelTypeController {
     }
 
     @PostMapping("/save")
+    @PreAuthorize("hasAnyAuthority('sys:article:label:type:insert')")
     public Result saveArticleLabelType(@RequestHeader HttpHeaders headers, @RequestBody ArticleLabelType articleLabelType) {
 
         String token = String.valueOf(headers.get("Authorization"));
@@ -53,6 +55,7 @@ public class ArticleLabelTypeController {
     }
 
     @PostMapping("/update")
+    @PreAuthorize("hasAnyAuthority('sys:article:label:type:update')")
     public Result updateArticleLabelType(@RequestBody ArticleLabelType articleLabelType) {
         int flag = articleLabelTypeService.updateArticleLabelType(articleLabelType);
         if (flag == 1) {
@@ -62,6 +65,7 @@ public class ArticleLabelTypeController {
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('sys:article:label:type:delete')")
     public Result deleteArticleLabelTypeByIds(@RequestParam(value = "articleLabelTypeIds") String articleLabelTypeIds) {
         return ResultFactory.buildSuccessResult(articleLabelTypeService.deleteArticleLabelTypeByIds(articleLabelTypeIds));
     }

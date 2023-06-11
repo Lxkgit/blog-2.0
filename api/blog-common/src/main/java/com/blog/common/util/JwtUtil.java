@@ -13,12 +13,8 @@ public class JwtUtil {
 
     public static BlogUser getUserInfo(String authorization){
         BlogUser blogUser = new BlogUser();
-        String token = authorization.split(" ")[1];
-        JWT jwt = JWT.of(token);
-
-        blogUser.setId(Integer.parseInt(jwt.getPayload("user_id").toString()));
-        blogUser.setUsername((String) jwt.getPayload("user_name"));
-
+        String userId = (authorization.split(" ")[1]).split(":")[0];
+        blogUser.setId(Integer.parseInt(userId));
         return blogUser;
     }
 }

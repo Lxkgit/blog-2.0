@@ -17,9 +17,14 @@ import { ElMessageBox } from 'element-plus'
 import dark from "@/utils/dark";
 import { systemStore } from "@/store/system"
 import { useRouter } from "vue-router";
+// import  socketAll  from '@/utils/socketAll';
+// import { getCurrentInstance } from "vue";
 
+
+// const instance = getCurrentInstance();
 const store = systemStore()
 let { setDark } = dark()
+// let { openSocket } = socketAll()
 const locale = zhCn
 const includeList = ref([])
 const router = useRouter()
@@ -29,6 +34,10 @@ watch(() => router, (newValue) => {
   }
 }, { deep: true })
 onMounted(() => {
+  // openSocket();
+  // instance?.proxy?.$emitter.on("chat", (data) => {
+  //   console.log(data)
+  // });
   const is_dark = window.matchMedia('(prefers-color-scheme: dark)').matches
   if (is_dark) {
     setDark(is_dark)

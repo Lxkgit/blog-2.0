@@ -2,6 +2,7 @@ package com.blog.content.config;
 
 import com.blog.common.constant.PermitUrl;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableResourceServer
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] permitUrl = {
