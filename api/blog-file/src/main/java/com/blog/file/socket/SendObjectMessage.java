@@ -39,7 +39,7 @@ public class SendObjectMessage {
         socket.add(this);
         onlineCount.incrementAndGet(); // 在线数加1
         try {
-            String result = "{\"topic\":system, \"message\": \"连接成功\"}";
+            String result = "{\"topic\": \"system\", \"message\": \"连接成功\"}";
             sendMessage(result);
         } catch (IOException e) {
             e.printStackTrace();

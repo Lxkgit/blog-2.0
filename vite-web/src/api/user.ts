@@ -1,5 +1,6 @@
 import api from "@/api/api"
 
+// --------------角色-------------
 // 角色列表接口
 export const roleListApi = (page: any, size: any) => {
   const uri = "/user/role/list?page=" + page + "&size=" + size
@@ -36,6 +37,7 @@ export const updateRolePerApi = (rolePer: any) => {
   return api.post(uri, rolePer)
 }
 
+// --------------用户-------------
 
 // 用户列表接口
 export const userListApi = (page: any, size: any) => {
@@ -49,6 +51,20 @@ export const updateUserApi = (userDate: any) => {
   return api.post(uri, userDate)
 }
 
+// 用户注册
+export const registerUserApi = (userDate: any) => {
+  const uri = "/user/user/register"
+  return api.put(uri, userDate)
+}
+
+// 获取注册验证码
+export const getUserVerifyCodeApi = (email: any) => {
+  const uri = "/user/user/code?email=" + email
+  return api.get(uri)
+}
+
+
+// --------------菜单-------------
 /**
  * 获取全部菜单
  * menuType = 1 获取到目录

@@ -19,7 +19,7 @@ function user() {
 				isLogin.value = false
 			} else {
 				isLogin.value = true
-				userId.value = store.userLocal.user_id
+				userId.value = store.userLocal.access_token.split(":")[0]
 				userToken.value = store.userLocal.access_token
 				userName.value = store.userLocal.user_id
 			}
@@ -28,7 +28,7 @@ function user() {
 				isLogin.value = false
 			} else {
 				isLogin.value = true
-				userId.value = store.userSession.user_id
+				userId.value = store.userSession.access_token.split(":")[0]
 				userToken.value = store.userSession.access_token
 				userName.value = store.userSession.user_id
 			}
@@ -42,7 +42,7 @@ function user() {
 				isLogin.value = false
 			} else {
 				isLogin.value = true
-				userId.value = store.userLocal.user_id
+				userId.value = store.userLocal.access_token.split(":")[0]
 				userToken.value = store.userLocal.access_token
 				userName.value = store.userLocal.user_id
 			}
@@ -51,7 +51,7 @@ function user() {
 				isLogin.value = false
 			} else {
 				isLogin.value = true
-				userId.value = store.userSession.user_id
+				userId.value = store.userSession.access_token.split(":")[0]
 				userToken.value = store.userSession.access_token
 				userName.value = store.userSession.user_id
 			}

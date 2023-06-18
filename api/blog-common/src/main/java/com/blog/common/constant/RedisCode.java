@@ -6,7 +6,7 @@ package com.blog.common.constant;
  * @description:
  */
 
-public enum ErrorMessage {
+public enum RedisCode {
 
     /**
      * 01 网关服务
@@ -19,8 +19,7 @@ public enum ErrorMessage {
     /**
      * 03 用户服务
      */
-    USER_VERIFICATION_CODE_ALREADY_EXISTS("用户验证码已存在,请检查邮箱信件"),
-    USER_VERIFICATION_CODE_SEND_SUCCESS("用户验证码发送成功"),
+    USER_VERIFICATION_CODE("verify_code:", "redis验证码前缀")
     /**
      * 04 内容服务
      */
@@ -28,21 +27,26 @@ public enum ErrorMessage {
     /**
      * 05 文件服务
      */
-    FILE_SIZE_NULL( "文件大小为空"),
-    FILE_UPLOAD_ERROR( "文件上传失败"),
-    FILE_TYPE_ERROR( "文件类型禁止上传"),
-    FILE_TYPE_ERROR_SUFFIX("文件后缀类型禁止"),
-    FILE_PATH_ERROR("文件存放路径编码错误"),
+
 
     ;
 
 
 
+    private String key;
     private String desc;
 
-    ErrorMessage(String desc) {
-
+    RedisCode(String key, String desc) {
+        this.key = key;
         this.desc = desc;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getDesc() {

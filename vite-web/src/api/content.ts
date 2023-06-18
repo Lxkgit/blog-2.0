@@ -228,3 +228,7 @@ export const updateContentApi = (content: any) => {
   return api.post(uri, content)
 }
 
+export const selectDocUserListApi = () => {
+  const uri = "/content/doc/content/user"
+  return api.get(uri)
+}

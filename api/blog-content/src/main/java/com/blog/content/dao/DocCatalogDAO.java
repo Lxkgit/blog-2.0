@@ -19,5 +19,6 @@ public interface DocCatalogDAO extends BaseMapper<DocCatalog> {
     List<DocCatalogVo> selectDocCatalogTree(@Param("parentId") Integer treeNode, @Param("userId") Integer userId);
     int updateDocCatalog(DocCatalog docCatalog);
     int deleteDocCatalogById(@Param("id") String id, @Param("userId") Integer userId);
+    List<Integer> selectDocUserList();
 
 }

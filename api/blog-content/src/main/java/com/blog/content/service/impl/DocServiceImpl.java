@@ -8,6 +8,7 @@ import com.blog.common.entity.content.doc.vo.DocCatalogVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.content.dao.DocCatalogDAO;
 import com.blog.content.dao.DocContentDAO;
+import com.blog.content.feign.UserClient;
 import com.blog.content.service.DocService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class DocServiceImpl implements DocService {
 
     @Resource
     private DocContentDAO docContentDAO;
+
+    @Resource
+    private UserClient userClient;
 
     @Override
     public Integer insertDonCatalog(BlogUser blogUser, DocCatalog docCatalog) {
@@ -96,7 +100,7 @@ public class DocServiceImpl implements DocService {
      * @return
      */
     @Override
-    public List<DocCatalogVo> selectDocCatalogTree(DocCatalogVo docCatalogVo) {
+    public List<DocCatalogVo> selectDocCatalogTree(BlogUser blogUser, DocCatalogVo docCatalogVo) {
         Integer lowerLimit = docCatalogVo.getTypeLowerLimit();
         Integer upperLimit = docCatalogVo.getTypeUpperLimit();
         List<Integer> docLevelList = new ArrayList<>();
@@ -104,7 +108,11 @@ public class DocServiceImpl implements DocService {
             docLevelList.add(i);
         }
         if (docCatalogVo.getType() == 0) {
-            docCatalogVo.setUserId(0);
+            docCatalogVo.setUserId(docCatalogVo.getUserId());
+        } else if(docCatalogVo.getType() == 1) {
+            if (blogUser != null) {
+                docCatalogVo.setUserId(blogUser.getId());
+            }
         }
         List<DocCatalogVo> docCatalogVoList = docCatalogDAO.selectListByDocTypeAndUserId(docLevelList, docCatalogVo.getUserId(), docCatalogVo.getDocType());
         if (docCatalogVoList != null) {
@@ -139,4 +147,21 @@ public class DocServiceImpl implements DocService {
         return null;
     }
 
+    @Override
+    public List<BlogUser> selectDocUserList() {
+        List<Integer> userIdList = docCatalogDAO.selectDocUserList();
+        List<BlogUser> blogUserList = new ArrayList<>();
+        BlogUser blogUser = new BlogUser();
+        blogUser.setId(0);
+        blogUser.setUsername("全部用户");
+        blogUserList.add(blogUser);
+        Map<Integer, BlogUser> userMap = new HashMap<>();
+        for(Integer userId : userIdList) {
+            if (!userMap.containsKey(userId)) {
+                userMap.put(userId, userClient.selectUserById(userId));
+            }
+            blogUserList.add(userMap.get(userId));
+        }
+        return blogUserList;
+    }
 }

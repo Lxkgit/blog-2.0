@@ -8,12 +8,26 @@
             <el-form-item prop="username">
               <el-input v-model="registerForm.username" placeholder="请输入用户名">
                 <template #prefix>
-                  <MyIcon type="icon-my" />
+                  <MyIcon type="icon-plus" />
                 </template>
               </el-input>
             </el-form-item>
-            <el-form-item prop="contact">
-              <el-input v-model="registerForm.contact" placeholder="请输入邮箱号/手机号">
+            <el-form-item prop="password1">
+              <el-input v-model="registerForm.password1" type="password" placeholder="请输入密码" show-password>
+                <template #prefix>
+                  <MyIcon type="icon-password" />
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="password2">
+              <el-input v-model="registerForm.password2" type="password" placeholder="请再次输入密码" show-password>
+                <template #prefix>
+                  <MyIcon type="icon-password" />
+                </template>
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="email">
+              <el-input v-model="registerForm.email" placeholder="请输入邮箱号">
                 <template #prefix>
                   <MyIcon type="icon-email" />
                 </template>
@@ -29,22 +43,9 @@
                 </template>
               </el-input>
             </el-form-item>
-            <el-form-item prop="password1">
-              <el-input v-model="registerForm.password1" type="password" placeholder="请输入密码(数字+字符,8-16位)" show-password>
-                <template #prefix>
-                  <MyIcon type="icon-password" />
-                </template>
-              </el-input>
-            </el-form-item>
-            <el-form-item prop="password2">
-              <el-input v-model="registerForm.password2" type="password" placeholder="请再次输入密码" show-password>
-                <template #prefix>
-                  <MyIcon type="icon-password" />
-                </template>
-              </el-input>
-            </el-form-item>
+
             <el-form-item>
-              <el-button class="register-btn" type="primary" @click="registerSubmit" round>立即注册</el-button>
+              <el-button class="register-btn" type="primary" @click="registerUserFun" round>立即注册</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -54,7 +55,7 @@
           <h1>用户登录</h1>
           <el-form class="loginForm" :model="loginForm" ref="loginRef" label-width="0" :rules="loginRules">
             <el-form-item prop="username">
-              <el-input v-model="loginForm.username" placeholder="请输入用户名/手机号/邮箱号">
+              <el-input v-model="loginForm.username" placeholder="请输入用户名">
                 <template #prefix>
                   <MyIcon type="icon-my" />
                 </template>
@@ -86,21 +87,6 @@
               <span @click="otherLogin('QQ')" class="pointer">
                 <MyIcon type="icon-qq-logo" />
               </span>
-              <!-- <span @click="otherLogin('PAY')" class="pointer">
-                <MyIcon type="icon-alipay-logo" />
-              </span> -->
-              <!-- <span @click="otherLogin('BAIDU')" class="pointer">
-                <MyIcon type="icon-baidu-logo" />
-              </span> -->
-              <!-- <span @click="otherLogin('WEIBO')" class="pointer">
-                <MyIcon type="icon-weibo-logo" />
-              </span> -->
-              <span @click="otherLogin('GITHUB')" class="pointer">
-                <MyIcon type="icon-github-logo" />
-              </span>
-              <!-- <span @click="otherLogin('MICROSOFT')" class="pointer">
-                <MyIcon type="icon-microsoft-logo" />
-              </span> -->
             </div>
           </div>
         </div>
@@ -110,14 +96,14 @@
           <div class="overlay-panel overlay-left">
             <div class="point">
               <h1>欢迎回来</h1>
-              <p>欢迎登录，与我们保持联系。<br>若您已有账号，请立即登录</p>
+              <p>欢迎注册{{ sitename }}<br>若您已有账号，请切换登录</p>
               <el-button @click="switchLogin" type="danger">切换登录</el-button>
             </div>
           </div>
           <div class="overlay-panel overlay-right">
             <div class="point">
               <h1>欢迎光临</h1>
-              <p>欢迎访问{{ sitename }}，并与我们一起开始旅程<br>若您还没有账号，请立即注册</p>
+              <p>欢迎访问{{ sitename }}<br>若您还没有账号，请切换注册</p>
               <el-button @click="switchRegister" type="danger">切换注册</el-button>
             </div>
           </div>
@@ -135,10 +121,8 @@ import VerifyImgBtn from "@/components/verify/VerifyImgBtn.vue";
 import VerifyCodeBtn from "@/components/verify/VerifyCodeBtn.vue"
 import { ElMessage } from 'element-plus'
 import { systemStore } from "@/store/system";
-// import { getBgiUrl } from "@/api/public";
-// import { getOAuthID, getRegister, postCode, postLogin, postRegister } from "@/api/account";
-// import { getSiteConfig } from "@/api/management";
 import { userLoginApi } from "@/api/auth"
+import { getUserVerifyCodeApi, registerUserApi } from "@/api/user"
 
 const store = systemStore()
 const router = useRouter();
@@ -148,8 +132,8 @@ let { switchLogin, switchRegister, bgiURL, component, sitename } = publicFn()
 // 引入登录模块
 let { loginForm, loginRules, remember, isPassing, verifyPass, btnType, otherLogin } = loginFn()
 // 引入注册模块
-let { registerForm, registerRules, codeBtnDisabled, registerPass } = registerFn()
-onActivated(()=>{
+let { registerForm, registerRules, codeBtnDisabled, registerPass, registerUserFun } = registerFn()
+onActivated(() => {
 
 })
 // 登录表单对象
@@ -194,49 +178,14 @@ const loginSubmit = () => {
 }
 // 注册表单对象
 const registerRef = ref(null)
-// 注册表单提交事件
-const registerSubmit = () => {
-  console.log("注册了啊")
-  // registerRef.value.validate((valid) => {
-  //   if (valid) {
-  //     console.log("表单校验通过了")
-  //     registerForm.password = registerForm.password1
-  //     postRegister(registerForm).then((response) => {
-  //       console.log(response)
-  //       ElMessage({
-  //         message: '注册成功,即将自动登录',
-  //         type: 'success',
-  //       })
-  //       loginForm.username = registerForm.username
-  //       loginForm.password = registerForm.password
-  //       postLogin(loginForm).then((response) => {
-  //         console.log(response)
-  //         store.commit('setKeepLogin', false)
-  //         store.commit('setUserSession', response)
-  //         router.push(store.state.nextPath)
-  //       }).catch(response => {
-  //         //发生错误时执行的代码
-  //         console.log(response)
-  //         ElMessage.error('自动登录出现异常，请重试！')
-  //       });
-  //     }).catch(response => {
-  //       //发生错误时执行的代码
-  //       console.log(response)
-  //       ElMessage.error('账号注册失败！')
-  //     });
-  //   } else {
-  //     ElMessage.error('请检查表单内容后再登录')
-  //     return false
-  //   }
-  // })
-}
+
 
 // 公共模块
 function publicFn() {
   // 背景图片地址
-  const bgiURL = ref('https://img2.baidu.com/it/u=2241198009,1203637343&fm=253&fmt=auto')
+  const bgiURL = ref('')
   // 当前组件名称
-  const component = ref('Login')
+  const component: any = ref('Login')
 
   // 获取背景图片
   async function getBgiURLData() {
@@ -245,7 +194,7 @@ function publicFn() {
   }
 
   // 站点名称
-  const sitename = ref('')
+  const sitename = ref('GSZero个人小站')
 
   // 获取站点名称
   async function getSiteConfigData() {
@@ -255,12 +204,10 @@ function publicFn() {
 
   // 切换登录页事件
   const switchLogin = () => {
-    console.log("切换登录")
     component.value = 'Login'
   }
   // 切换注册页事件
   const switchRegister = () => {
-    console.log("切换注册")
     component.value = 'Register'
   }
   onBeforeMount(() => {
@@ -270,14 +217,14 @@ function publicFn() {
   // 其他页面调用，默认跳转
   onMounted(() => {
     if (router.currentRoute.value.query.component) {
-      // component.value = router.currentRoute.value.query.component
+      component.value = router.currentRoute.value.query.component
     }
   })
   return { switchLogin, switchRegister, bgiURL, component, sitename }
 }
 
 // 登录模块
-function loginFn() :any {
+function loginFn(): any {
   // 登录表单
   const loginForm = reactive({
     username: '',
@@ -404,7 +351,7 @@ function registerFn() {
   // 注册表单
   const registerForm = reactive({
     username: '',
-    contact: '',
+    email: '',
     code: '',
     password: '',
     password1: '',
@@ -433,25 +380,20 @@ function registerFn() {
     }, 500)
   }
   // 联系方式验证
-  const checkContact = (rule: any, value: any, callback: any) => {
+  const checkEmail = (rule: any, value: any, callback: any) => {
     if (!value) {
-      return callback(new Error('请输入邮箱号/手机号'))
+      return callback(new Error('请输入邮箱号'))
     }
     setTimeout(() => {
-      // getRegister(NaN, value).then((response: any) => {
-      //   console.log(response)
-      //   console.log("联系方式可以使用")
-      //   codeBtnDisabled.value = false
-      //   callback()
-      // }).catch(response => {
-      //   //发生错误时执行的代码
-      //   console.log(response)
-      //   ElMessage({
-      //     message: response.msg + ',请更换联系方式',
-      //     type: 'warning',
-      //   })
-      //   callback(new Error(response.msg))
-      // });
+      registerForm.email = value
+      const pattern = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+      if (!pattern.test(value)) {
+        codeBtnDisabled.value = true
+        callback(new Error('请输入正确的邮箱'))
+      } else {
+        codeBtnDisabled.value = false
+        callback()
+      }
     }, 500)
   }
   // 用户密码验证
@@ -461,12 +403,10 @@ function registerFn() {
     }
     setTimeout(() => {
       registerForm.password1 = value
-      const pattern = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+      const pattern = /^[0-9A-Za-z]{5,16}$/;
       if (!pattern.test(value)) {
-        console.log("没通过")
-        callback(new Error('密码必须是数字+字符组合，8-16位长度！'))
+        callback(new Error('密码必须是数字或字母，5-16位长度！'))
       } else {
-        console.log("通过了")
         callback()
       }
     }, 500)
@@ -478,10 +418,9 @@ function registerFn() {
     }
     setTimeout(() => {
       registerForm.password2 = value
-      const pattern = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+      const pattern = /^[0-9A-Za-z]{5,16}$/;
       if (!pattern.test(value)) {
-        console.log("没通过")
-        callback(new Error('密码必须是数字+字符组合，8-16位长度！'))
+        callback(new Error('密码必须是数字或字母，5-16位长度！'))
       } else {
         if (registerForm.password1 !== registerForm.password2) {
           callback(new Error('两次密码不一致'))
@@ -494,7 +433,7 @@ function registerFn() {
   // 注册表单验证规则
   const registerRules = {
     username: [{ validator: checkUsername, trigger: 'blur' }],
-    contact: [{ validator: checkContact, trigger: 'blur' }],
+    email: [{ validator: checkEmail, trigger: 'blur' }],
     code: [{ required: true, message: '请输入验证码', trigger: 'blur', }],
     password1: [{ validator: checkPassword1, trigger: 'blur' }],
     password2: [{ validator: checkPassword2, trigger: 'blur' }]
@@ -509,21 +448,32 @@ function registerFn() {
   const codeBtnDisabled = ref(true)
   // 获取注册验证码通过事件
   const registerPass = () => {
-    // console.log("通过验证了,开始获取验证码")
-    // codeForm.contact = registerForm.contact
-    // postCode(codeForm).then((response) => {
-    //   console.log(response)
-    //   ElMessage({
-    //     message: '验证码发送成功！',
-    //     type: 'success',
-    //   })
-    // }).catch(response => {
-    //   //发生错误时执行的代码
-    //   console.log(response)
-    //   ElMessage.error(response.msg)
-    // });
+    getUserVerifyCodeApi(registerForm.email).then((res: any) => {
+      if (res.code === 200) {
+        ElMessage({
+          message: '验证码发送成功！',
+          type: 'success',
+        })
+      }
+    })
   }
-  return { registerForm, codeBtnDisabled, registerRules, registerPass }
+  // 注册表单提交事件
+  const registerUserFun = () => {
+    registerUserApi({
+        username: registerForm.username,
+        password: registerForm.password1,
+        email: registerForm.email,
+        code: registerForm.code
+    }).then((res: any) => {
+        if(res.code === 200) {
+          ElMessage({
+          message: '用户注册成功',
+          type: 'success',
+        })
+        }
+    })
+  }
+  return { registerForm, codeBtnDisabled, registerRules, registerPass, registerUserFun }
 }
 </script>
 

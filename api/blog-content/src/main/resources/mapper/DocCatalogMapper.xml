@@ -32,7 +32,8 @@
     </sql>
 
     <select id="selectListByDocTypeAndUserId" resultMap="DocCatalogVo">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from doc_catalog
         where doc_level in
         <foreach item="docLevel" collection="docLevelList" open="(" separator="," close=")">
@@ -47,14 +48,14 @@
     </select>
 
     <select id="selectListByParentIdAndUserId" resultMap="DocCatalogVo">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from doc_catalog
         where parent_id = #{parentId}
         <if test="userId != null and userId != 0">
             and user_id = #{userId}
         </if>
     </select>
-
 
 
     <select id="selectCountByParentId" resultType="java.lang.Integer">
@@ -64,7 +65,8 @@
 </select>
 
     <select id="selectDocCatalogList" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from doc_catalog
         where parent_id = 1
         <if test="userId != null and userId != 0">
@@ -73,7 +75,8 @@
     </select>
 
     <select id="selectListByParentId" resultMap="DocCatalogVo">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from doc_catalog
         where parent_id = #{parentId}
         <if test="docType != null ">
@@ -86,7 +89,8 @@
 
 
     <select id="selectDocCatalogTree" resultMap="DocCatalogVo">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from doc_catalog
         where parent_id = #{parentId}
         <if test="userID != null and userId != 0">
@@ -95,7 +99,7 @@
     </select>
 
     <insert id="insertDocCatalog" parameterType="com.blog.common.entity.content.doc.DocCatalog">
-        <selectKey resultType="java.lang.Integer" keyProperty="value" order="AFTER" >
+        <selectKey resultType="java.lang.Integer" keyProperty="value" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
         insert into doc_catalog
@@ -157,10 +161,18 @@
     </update>
 
     <delete id="deleteDocCatalogById">
-    delete from doc_catalog
-    where id = #{id}
-    and user_id = #{userId};
-</delete>
+        delete from doc_catalog
+        where id = #{id}
+        and user_id = #{userId};
+    </delete>
+
+    <select id="selectDocUserList" resultType="java.lang.Integer">
+        select user_id
+        from doc_catalog
+        GROUP BY user_id
+        ORDER BY count(*) desc
+        limit 9
+    </select>
 
 
 </mapper>

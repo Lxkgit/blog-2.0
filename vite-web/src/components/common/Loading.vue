@@ -1,9 +1,9 @@
 <template>
   <div v-show="props.type === 'image'" class="image-loading">
-    <vue-loaders-ball-spin-fade-loader color="#74b9ff"></vue-loaders-ball-spin-fade-loader>
+    <!-- <vue-loaders-ball-spin-fade-loader color="#74b9ff"></vue-loaders-ball-spin-fade-loader> -->
   </div>
   <div v-show="props.type === 'tips'" class="tips-loading">
-    <vue-loaders-pacman color="#74b9ff" />
+    <!-- <vue-loaders-pacman color="#74b9ff" /> -->
     <p>{{ text }}</p>
   </div>
 </template>

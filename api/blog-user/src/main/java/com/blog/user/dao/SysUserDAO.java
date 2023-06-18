@@ -1,5 +1,7 @@
 package com.blog.user.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.blog.common.entity.file.UploadLog;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.entity.user.vo.SysUserVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,11 +16,10 @@ import java.util.List;
  */
 
 @Mapper
-public interface SysUserDAO {
+public interface SysUserDAO extends BaseMapper<BlogUser> {
 
     BlogUser selectUserById(@Param("id") Integer id);
     BlogUser selectUserByUsername(@Param("username") String username);
-    void insertUser(BlogUser blogUser);
     List<BlogUser> selectUserList();
     int selectUserCount();
     void updateUser(SysUserVo sysUserVo);

@@ -2,6 +2,7 @@ package com.blog.common.entity.user;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +16,7 @@ import java.util.Date;
  * @description:
  */
 @Data
+@TableName("sys_user")
 public class BlogUser implements Serializable {
 
     private static final long serialVersionUID = -1202327391177030056L;

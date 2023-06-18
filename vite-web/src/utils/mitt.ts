@@ -1,10 +1,10 @@
-// import mitt from 'mitt'
+import mitt from 'mitt'
 
-// type Events = {
-//   foo: string;
-//   bar: any;
-// };
+type Events = {
+  foo: string;
+  bar: any;
+};
 
-// const emitter = mitt<Events>();
+const emitter = mitt<Events>();
 
-// export default emitter
+export default emitter

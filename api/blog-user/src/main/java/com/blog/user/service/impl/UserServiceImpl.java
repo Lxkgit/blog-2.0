@@ -1,9 +1,12 @@
 package com.blog.user.service.impl;
 
+import com.blog.common.constant.ErrorMessage;
+import com.blog.common.constant.RedisCode;
 import com.blog.common.entity.auth.LoginUser;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.entity.user.SysPermission;
 import com.blog.common.entity.user.SysRole;
+import com.blog.common.entity.user.vo.BlogUserVo;
 import com.blog.common.entity.user.vo.SysUserVo;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
@@ -16,13 +19,15 @@ import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundHashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -46,16 +51,17 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+
     @Override
     public LoginUser findByUsername(String username) {
         BlogUser blogUser = sysUserDAO.selectUserByUsername(username);
         if (blogUser != null) {
             LoginUser loginAppUser = new LoginUser();
             BeanUtils.copyProperties(blogUser, loginAppUser);
-
             Set<SysRole> sysRoles = sysRoleService.selectRoleByUserId(blogUser.getId());
             loginAppUser.setSysRoles(sysRoles);// 设置角色
-
             if (!CollectionUtils.isEmpty(sysRoles)) {
                 Set<Integer> roleIds = sysRoles.parallelStream().map(SysRole::getId).collect(Collectors.toSet());
                 Set<SysPermission> sysPermissions = sysPermissionService.selectPermissionByRoleIds(roleIds, 3);
@@ -64,12 +70,9 @@ public class UserServiceImpl implements UserService {
                             .collect(Collectors.toSet());
                     loginAppUser.setPermissions(permissions);// 设置权限集合
                 }
-
             }
-
             return loginAppUser;
         }
-
         return null;
     }
 
@@ -79,23 +82,48 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String registerUser(BlogUser blogUser) {
-        String username = blogUser.getUsername();
+    public String getUserVerifyCode(String email) {
+        if (Objects.equals(redisTemplate.hasKey(email),Boolean.TRUE)) {
+            return ErrorMessage.USER_VERIFICATION_CODE_ALREADY_EXISTS.getDesc();
+        }
+        int code = ((Double)(Math.random() * 10000)).intValue();
+        StringBuilder str = new StringBuilder(Integer.toString(code));
+        if (str.length() < 4) {
+            for (int i = str.length(); i < 4; i++) {
+                str.append("0");
+            }
+        }
+        redisTemplate.boundValueOps(RedisCode.USER_VERIFICATION_CODE.getKey() + email).set(str.toString(), 30, TimeUnit.MINUTES);
+        System.out.println(str.toString());
+        return ErrorMessage.USER_VERIFICATION_CODE_SEND_SUCCESS.getDesc();
+    }
+
+    @Override
+    public String registerUser(BlogUserVo blogUserVo) {
+        String username = blogUserVo.getUsername();
         if (StringUtils.isBlank(username)) {
             return "用户名不能为空";
         }
-        if (StringUtils.isBlank(blogUser.getPassword())) {
+        if (StringUtils.isBlank(blogUserVo.getPassword())) {
             return "密码不能为空";
         }
         BlogUser user = sysUserDAO.selectUserByUsername(username);
         if (user != null){
             return "用户名已存在";
         }
-        blogUser.setPassword(passwordEncoder.encode(blogUser.getPassword()));
-        blogUser.setStatus(1);
-        blogUser.setCreateTime(new Date());
-        blogUser.setUpdateTime(blogUser.getCreateTime());
-        sysUserDAO.insertUser(blogUser);
+        if (Objects.equals(redisTemplate.hasKey(RedisCode.USER_VERIFICATION_CODE.getKey() + blogUserVo.getEmail()), Boolean.FALSE)) {
+            return "验证码不存在";
+        }
+        String code = (String) redisTemplate.boundValueOps(RedisCode.USER_VERIFICATION_CODE.getKey() + blogUserVo.getEmail()).get();
+        if (code != null && !code.equals(blogUserVo.getCode())) {
+            return "验证码错误";
+        }
+        blogUserVo.setPassword(passwordEncoder.encode(blogUserVo.getPassword()));
+        blogUserVo.setStatus(1);
+        blogUserVo.setCreateTime(new Date());
+        blogUserVo.setUpdateTime(blogUserVo.getCreateTime());
+        sysUserDAO.insert(blogUserVo);
+        sysUserDAO.insertUserRole(Collections.singletonList(2), blogUserVo.getId());
         return "注册成功";
     }
 

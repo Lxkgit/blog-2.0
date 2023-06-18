@@ -3,6 +3,7 @@ package com.blog.user.service;
 
 import com.blog.common.entity.auth.LoginUser;
 import com.blog.common.entity.user.BlogUser;
+import com.blog.common.entity.user.vo.BlogUserVo;
 import com.blog.common.entity.user.vo.SysUserVo;
 import com.blog.common.util.MyPage;
 
@@ -10,7 +11,8 @@ public interface UserService {
 
     LoginUser findByUsername(String username);
     BlogUser selectUserById(Integer userId);
-    String registerUser(BlogUser blogUser);
+    String getUserVerifyCode(String email);
+    String registerUser(BlogUserVo blogUserVo);
     BlogUser selectUserByUsername(String username);
     MyPage<SysUserVo> selectUserByPage(int page, int size);
 

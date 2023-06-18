@@ -24,7 +24,7 @@
         </el-tooltip>
         <span class="user">
           <el-dropdown v-if="isLogin" @visible-change="dropdownChange">
-            <span class="no-choose">
+            <span class="no-choose" style="outline:0;">
               <el-avatar :src="photo"></el-avatar>
               <p>{{ userName }}
                 <el-icon v-if="isDropdown">

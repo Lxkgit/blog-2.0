@@ -7,11 +7,17 @@
       <div>
         <el-row>
           <el-col :span="4">
-            <div style="overflow-y: scroll; height: 650px; margin-top: 10px">
-              <el-input v-model="filterText" placeholder="Filter keyword" />
-              <el-tree ref="treeRef" class="filter-tree" :data="catalogList" :highlight-current="true"
-                :expand-on-click-node="false" @node-click="handleNodeClick" @node-contextmenu="nodeRightClick"
-                :filter-node-method="filterNode" />
+            <div
+              style="border-bottom: 1px solid rgb(233, 235, 238); font-weight: 700; height: 40px; border-right: 1px solid rgb(233, 235, 238); display: flex;">
+              <p style="margin-right: 150px;">文档目录</p>
+              <MyIcon style="outline:0;" @click="createCatalogDialogFun(true)" type="icon-plus" />
+            </div>
+            <div style="overflow-y: auto; height: 650px; padding-top: 10px; border-right: 1px solid rgb(233, 235, 238);">
+              <el-input v-model="filterText" placeholder="Filter keyword" style="width: 210px; height: 30px;"
+                size="small" />
+              <el-tree style="margin-top: 20px;" ref="treeRef" class="filter-tree" :data="catalogList"
+                :highlight-current="true" :expand-on-click-node="false" @node-click="handleNodeClick"
+                @node-contextmenu="nodeRightClick" :filter-node-method="filterNode" />
             </div>
           </el-col>
           <el-col :span="20">
@@ -52,7 +58,7 @@
       </div>
     </el-card>
     <div v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
-      <div v-if="clickRightItem.docLevel <= 2 && clickRightItem.docType == 0" @click="createCatalogDialogFun()">
+      <div v-if="clickRightItem.docLevel <= 2 && clickRightItem.docType == 0" @click="createCatalogDialogFun(false)">
         创建目录
       </div>
       <div v-if="clickRightItem.docLevel >= 1 && clickRightItem.docType == 0" @click="createContentDialogFun()">
@@ -492,7 +498,8 @@ function catalog() {
     });
   };
   // 创建文档目录
-  const createCatalogDialogFun = () => {
+  const createCatalogDialogFun = (root: boolean) => { 
+    createCatalogFrom.root = root;
     getDocCatalogThreeLevelCatalogTreeFun(2);
     createCatalogDialog.value = true;
     visible.value = false;
@@ -523,13 +530,21 @@ function catalog() {
   // 保存文档目录接口方法
   const saveDocCatalogFun = () => {
     saveDocCatalogApi({
-      parentId: createCatalogFrom.id == null ? 0 : createCatalogFrom.id,
+      parentId: createCatalogFrom.root === true ? 0 : createCatalogFrom.id,
       docName: createCatalogFrom.docName,
-      docLevel:
-        createCatalogFrom.docLevel == null ? 0 : createCatalogFrom.docLevel + 1,
+      docLevel: createCatalogFrom.root === true ? 0 : createCatalogFrom.docLevel + 1,
       docType: 0,
     }).then((res: any) => {
-      getDocCatalogTreeFun();
+      if (res.code === 200) {
+        getDocCatalogTreeFun();
+        createCatalogFrom.node = null;
+        createCatalogFrom.id = null;
+        createCatalogFrom.docName = "";
+        createCatalogFrom.docLevel = null;
+        createCatalogFrom.docType = 0;
+        createCatalogFrom.imgUrl = "";
+        createCatalogFrom.root = false;
+      }
     });
   };
   return {
@@ -570,8 +585,16 @@ function content() {
         createCatalogFrom.docLevel == null ? 0 : createCatalogFrom.docLevel + 1,
       docType: 1,
     }).then((res: any) => {
-      getDocCatalogTreeFun();
-      createCatalogFrom = {}
+      if (res.code === 200) {
+        getDocCatalogTreeFun();
+        createCatalogFrom.node = null;
+        createCatalogFrom.id = null;
+        createCatalogFrom.docName = "";
+        createCatalogFrom.docLevel = null;
+        createCatalogFrom.docType = 0;
+        createCatalogFrom.imgUrl = "";
+        createCatalogFrom.root = false;
+      }
     });
   };
   // 保存文档dialog方法

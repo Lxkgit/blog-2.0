@@ -61,13 +61,23 @@ public class DocController {
     }
 
     @GetMapping("/catalog/tree")
-    public Result selectDocCatalogTree(DocCatalogVo docCatalogVo) {
-        return ResultFactory.buildSuccessResult(docService.selectDocCatalogTree(docCatalogVo));
+    public Result selectDocCatalogTree(@RequestHeader HttpHeaders headers, DocCatalogVo docCatalogVo) {
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = null;
+        if (token != null && (token.contains("bearer") || token.contains("Bearer"))) {
+            blogUser = JwtUtil.getUserInfo(token);
+        }
+        return ResultFactory.buildSuccessResult(docService.selectDocCatalogTree(blogUser, docCatalogVo));
     }
 
     @GetMapping("/content/id")
     public Result selectDocContentById(@RequestParam(value = "id") Integer id) {
         return ResultFactory.buildSuccessResult(docService.selectDocContentById(id));
+    }
+
+    @GetMapping("/content/user")
+    public  Result selectDocUserList() {
+        return ResultFactory.buildSuccessResult(docService.selectDocUserList());
     }
 
 }

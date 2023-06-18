@@ -4,7 +4,7 @@
     <el-popover
         :visible="show"
         placement="top-end"
-        :width="275"
+        :width="300"
         trigger="manual"
         content="this is content, this is content, this is content"
     >

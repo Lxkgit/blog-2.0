@@ -32,6 +32,8 @@ public class DocCatalogVo extends DocCatalog implements Comparable<DocCatalog>{
 
     /**
      * 接口查询位置 0：首页 1：管理页面
+     * 0： 首页数据提过选择用户查询文档
+     * 1： 管理员数据从token中解析用户id查询文档
      */
     private Integer type;
 

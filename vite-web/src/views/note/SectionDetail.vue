@@ -4,10 +4,10 @@
     <section class="detail">
       <NavMenu></NavMenu>
       <div class="detail-page">
-        <div :class="'detail-left animate__animated animate__' +
+        <div  :class="'detail-left animate__animated animate__' +
           (catalogShow === true ? 'fadeIn' : 'fadeOut')
-          ">
-          <el-tree v-if="catalogShow" accordion :data="catalogList" @node-click="handleNodeClick"
+          " >
+          <el-tree v-if="catalogShow" accordion :data="catalogList" @node-click="handleNodeClick" style="overflow-x:auto; overflow-y:auto; height: calc(100vh - 142px); "
             :default-expanded-keys="expanded" node-key="id" :highlight-current="true" :current-node-key="current"
             ref="treeRef"></el-tree>
         </div>
@@ -403,7 +403,8 @@ function action(sectionID: any, sectionData: any) {
 
     .detail-left {
       width: 15%;
-
+      overflow-x: auto;
+      overflow-y: auto;
       .el-tree {
         width: 15%;
         position: fixed;

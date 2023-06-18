@@ -2,7 +2,7 @@ package com.blog.user.controller;
 
 import com.blog.common.entity.auth.LoginUser;
 import com.blog.common.entity.user.BlogUser;
-import com.blog.common.entity.user.vo.SysRoleVo;
+import com.blog.common.entity.user.vo.BlogUserVo;
 import com.blog.common.entity.user.vo.SysUserVo;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
@@ -46,9 +46,14 @@ public class UserController {
         return userService.selectUserByUsername(username);
     }
 
-    @PostMapping("/register")
-    public Result registerUser(@RequestBody BlogUser blogUser){
-        String msg = userService.registerUser(blogUser);
+    @GetMapping("/code")
+    public Result getUserVerifyCode(@RequestParam(value = "email") String email) {
+        return ResultFactory.buildFailResult(userService.getUserVerifyCode(email));
+    }
+
+    @PutMapping("/register")
+    public Result registerUser(@RequestBody BlogUserVo blogUserVo){
+        String msg = userService.registerUser(blogUserVo);
         return ResultFactory.buildSuccessResult(msg);
     }
 
@@ -87,6 +92,10 @@ public class UserController {
         return ResultFactory.buildSuccessResult();
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping("/doc/user")
     public Result selectDocUserList() {
         return ResultFactory.buildSuccessResult(userService.selectUserByPage(1, 50));
