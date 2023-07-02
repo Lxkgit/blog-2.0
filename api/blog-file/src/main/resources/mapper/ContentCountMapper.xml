@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.file.dao.ContentCountDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.file.ContentCount">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="doc_count" property="docCount" jdbcType="INTEGER"/>
+        <id column="article_count" property="articleCount" jdbcType="INTEGER"/>
+        <id column="diary_count" property="diaryCount" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, doc_count, article_count, diary_count
+    </sql>
+
+</mapper>

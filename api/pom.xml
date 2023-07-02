@@ -40,6 +40,7 @@
         <hutool.version>5.8.3</hutool.version>
         <websocket.version>2.7.5</websocket.version>
         <pagehelper.version>1.2.12</pagehelper.version>
+        <rocketmq.version>2.1.0</rocketmq.version>
     </properties>
 
     <dependencyManagement>
@@ -147,6 +148,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-websocket</artifactId>
                 <version>${websocket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${rocketmq.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

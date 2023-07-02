@@ -24,7 +24,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             "/files/**",
             "/img/**",
             "/client/**",
-            "/result"
+            "/result",
+            "/mq/**"
     };
 
     @Override
