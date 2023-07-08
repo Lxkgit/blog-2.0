@@ -2,6 +2,8 @@ package com.blog.common.entity.file.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.blog.common.entity.content.article.ArticleType;
+import com.blog.common.entity.content.doc.DocCatalog;
 import com.blog.common.entity.file.ContentCount;
 import lombok.Data;
 import lombok.Getter;
@@ -15,12 +17,17 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ContentCountVo extends ContentCount {
+public class ContentCountVo extends ContentCount implements Comparable<ContentCountVo>{
 
-    /**
-     * mq消息类型 0：全量 1：增量
-     */
-    private Integer mqMsgType;
-
-
+    @Override
+    public int compareTo(ContentCountVo countVo) {
+        return this.getUserId() - countVo.getUserId();
+        //所有比较最底层的逻辑都是发生两两比较逻辑的,返回比较结果
+        //只关心结果结果三种:
+        //正数:   this.age - o.age    >
+        //负数:   this.age - o.age    <
+        //0       this   ==
+        //return this.age-o.age; 升序排序
+        //return o.age-this.age; 降序排序
+    }
 }

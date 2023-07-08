@@ -5,10 +5,14 @@ import com.blog.common.entity.content.doc.DocCatalog;
 import com.blog.common.entity.content.doc.DocContent;
 import com.blog.common.entity.content.doc.enums.DocType;
 import com.blog.common.entity.content.doc.vo.DocCatalogVo;
+import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.entity.user.BlogUser;
+import com.blog.common.enums.mq.RocketMQTopicEnum;
+import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.content.dao.DocCatalogDAO;
 import com.blog.content.dao.DocContentDAO;
 import com.blog.content.feign.UserClient;
+import com.blog.content.mq.MQProducerService;
 import com.blog.content.service.DocService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,8 +39,11 @@ public class DocServiceImpl implements DocService {
     @Resource
     private UserClient userClient;
 
+    @Resource
+    private MQProducerService mqProducerService;
+
     @Override
-    public Integer insertDonCatalog(BlogUser blogUser, DocCatalog docCatalog) {
+    public Integer insertDocCatalog(BlogUser blogUser, DocCatalog docCatalog) {
         docCatalog.setUserId(blogUser.getId());
         docCatalog.setUpdateTime(new Date());
         docCatalog.setCreateTime(new Date());
@@ -48,6 +55,15 @@ public class DocServiceImpl implements DocService {
             docContent.setUserId(blogUser.getId());
             docContent.setDocContentMd("");
             docContentDAO.insert(docContent);
+
+            // 发送mq新增文档
+            ContentCountVo contentCountVo = new ContentCountVo();
+            contentCountVo.setUserId(blogUser.getId());
+            contentCountVo.setDocCount(1);
+            RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
+                    RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
+            mqProducerService.sendSyncOrderly(rocketMQMessage);
+
         }
         return docCatalog.getId();
     }
@@ -68,6 +84,13 @@ public class DocServiceImpl implements DocService {
             QueryWrapper<DocContent> catalogQueryWrapper = new QueryWrapper<>();
             catalogQueryWrapper.eq("catalog_id", id);
             docContentDAO.delete(catalogQueryWrapper);
+            // 发送mq删除文档
+            ContentCountVo contentCountVo = new ContentCountVo();
+            contentCountVo.setUserId(blogUser.getId());
+            contentCountVo.setDocCount(-1);
+            RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
+                    RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
+            mqProducerService.sendSyncOrderly(rocketMQMessage);
         }
         return id;
     }

@@ -22,7 +22,7 @@ public class Article {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private int userId;
+    private Integer userId;
 
     private String title;
 

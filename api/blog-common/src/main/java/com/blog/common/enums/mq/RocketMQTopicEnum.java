@@ -6,10 +6,10 @@ package com.blog.common.enums.mq;
  * @date 2023/6/28 16:50
  */
 
-public enum TopicEnum {
+public enum RocketMQTopicEnum {
 
     // 博客数据类数据统计
-    BLOG_DATE_STATISTICS("BLOG", "BLOG_STATISTICS", "COUNT"),
+    MQ_DATE_STATISTICS("BLOG", "BLOG_STATISTICS", "COUNT"),
 
     ;
 
@@ -28,7 +28,7 @@ public enum TopicEnum {
      */
     private String tag;
 
-    TopicEnum(String group, String topic, String tag) {
+    RocketMQTopicEnum(String group, String topic, String tag) {
         this.group = group;
         this.topic = topic;
         this.tag = tag;

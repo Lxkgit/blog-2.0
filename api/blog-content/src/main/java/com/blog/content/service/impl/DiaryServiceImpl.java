@@ -3,10 +3,14 @@ package com.blog.content.service.impl;
 import com.blog.common.entity.content.article.Article;
 import com.blog.common.entity.content.diary.Diary;
 import com.blog.common.entity.content.diary.vo.DiaryVo;
+import com.blog.common.entity.file.vo.ContentCountVo;
+import com.blog.common.enums.mq.RocketMQTopicEnum;
+import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.common.util.DateUtil;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
 import com.blog.content.dao.DiaryDAO;
+import com.blog.content.mq.MQProducerService;
 import com.blog.content.service.DiaryService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -30,6 +34,9 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Resource
     private DiaryDAO diaryDAO;
+
+    @Resource
+    private MQProducerService mqProducerService;
 
     @Override
     public Map<String, Object> selectDiaryByDate(DiaryVo diaryVo, Integer userId) {
@@ -77,6 +84,13 @@ public class DiaryServiceImpl implements DiaryService {
         diary.setCreateTime(date);
         diary.setUpdateTime(date);
         diaryDAO.insertDiary(diary);
+        // 发送mq新增日记
+        ContentCountVo contentCountVo = new ContentCountVo();
+        contentCountVo.setUserId(diary.getUserId());
+        contentCountVo.setDiaryCount(1);
+        RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
+                RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
+        mqProducerService.sendSyncOrderly(rocketMQMessage);
         return diary.getId();
     }
 
@@ -114,7 +128,8 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public int updateDiary(Diary diary) {
         diary.setUpdateTime(new Date());
-        return diaryDAO.updateDiary(diary);
+        diaryDAO.updateDiary(diary);
+        return diary.getId();
     }
 
     @Override
@@ -125,6 +140,13 @@ public class DiaryServiceImpl implements DiaryService {
             int num = diaryDAO.deleteDiaryByIds(ids, userId);
             map.put("delete", ids.length);
             map.put("success", num);
+            // 发送mq删除日记
+            ContentCountVo contentCountVo = new ContentCountVo();
+            contentCountVo.setUserId(userId);
+            contentCountVo.setDiaryCount(-num);
+            RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
+                    RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
+            mqProducerService.sendSyncOrderly(rocketMQMessage);
         } else {
             map.put("msg", "ids、date和dateMonth参数不能同时为空 ... ");
         }

@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 121.4.126.60
+ Source Server         : 本机MySQL
  Source Server Type    : MySQL
- Source Server Version : 50737
- Source Host           : 121.4.126.60:3306
+ Source Server Version : 50721
+ Source Host           : localhost:3306
  Source Schema         : blog_user
 
  Target Server Type    : MySQL
- Target Server Version : 50737
+ Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 28/05/2023 22:12:32
+ Date: 07/07/2023 19:40:03
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `sys_permission`  (
   `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `menu_type` int(5) NULL DEFAULT NULL COMMENT '类型 0:目录 1:菜单 2:按钮',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 109 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限标识表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 706 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限标识表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -54,9 +54,34 @@ INSERT INTO `sys_permission` VALUES (102, 50, '删除角色', '', '', 'sys:role:
 INSERT INTO `sys_permission` VALUES (103, 50, '修改角色', '', '', 'sys:role:update', '', 2);
 INSERT INTO `sys_permission` VALUES (104, 50, '查看角色权限', '', '', 'sys:role:permission:select', '', 2);
 INSERT INTO `sys_permission` VALUES (105, 50, '修改角色权限', '', '', 'sys:role:permission:update', '', 2);
-INSERT INTO `sys_permission` VALUES (106, 51, '用户列表', '', '', 'sys:user:list', '', 2);
-INSERT INTO `sys_permission` VALUES (107, 51, '注销用户', '', '', 'sys:user:delete', '', 2);
-INSERT INTO `sys_permission` VALUES (108, 51, '修改用户角色', '', '', 'sys:user:update', '', 2);
+INSERT INTO `sys_permission` VALUES (200, 51, '用户列表', '', '', 'sys:user:list', '', 2);
+INSERT INTO `sys_permission` VALUES (201, 51, '注销用户', '', '', 'sys:user:delete', '', 2);
+INSERT INTO `sys_permission` VALUES (202, 51, '修改用户角色', '', '', 'sys:user:role:update', '', 2);
+INSERT INTO `sys_permission` VALUES (300, 60, '文章列表', '', '', 'sys:article:list', '', 2);
+INSERT INTO `sys_permission` VALUES (301, 60, '创建文章', '', '', 'sys:article:insert', '', 2);
+INSERT INTO `sys_permission` VALUES (302, 60, '修改文章', '', '', 'sys:article:update', '', 2);
+INSERT INTO `sys_permission` VALUES (303, 60, '删除文章', '', '', 'sys:article:delete', '', 2);
+INSERT INTO `sys_permission` VALUES (400, 61, '文章分类列表', '', '', 'sys:article:type:list', '', 2);
+INSERT INTO `sys_permission` VALUES (401, 61, '创建分类', '', '', 'sys:article:type:insert', '', 2);
+INSERT INTO `sys_permission` VALUES (402, 61, '修改分类', '', '', 'sys:article:type:update', '', 2);
+INSERT INTO `sys_permission` VALUES (403, 61, '删除分类', '', '', 'sys:article:type:delete', '', 2);
+INSERT INTO `sys_permission` VALUES (500, 62, '文章标签列表', '', '', 'sys:article:label:list', '', 2);
+INSERT INTO `sys_permission` VALUES (501, 62, '创建标签', '', '', 'sys:article:label:insert', '', 2);
+INSERT INTO `sys_permission` VALUES (502, 62, '修改标签', '', '', 'sys:article:label:update', '', 2);
+INSERT INTO `sys_permission` VALUES (503, 62, '删除标签', '', '', 'sys:article:label:delete', '', 2);
+INSERT INTO `sys_permission` VALUES (504, 62, '创建标签分类', '', '', 'sys:article:label:type:insert', '', 2);
+INSERT INTO `sys_permission` VALUES (505, 62, '修改标签分类', '', '', 'sys:article:label:type:update', '', 2);
+INSERT INTO `sys_permission` VALUES (506, 62, '删除标签分类', '', '', 'sys:article:label:type:delete', '', 2);
+INSERT INTO `sys_permission` VALUES (600, 63, '日记列表', '', '', 'sys:diary:list', '', 2);
+INSERT INTO `sys_permission` VALUES (601, 63, '创建日记', '', '', 'sys:diary:insert', '', 2);
+INSERT INTO `sys_permission` VALUES (602, 63, '修改日记', '', '', 'sys:diary:update', '', 2);
+INSERT INTO `sys_permission` VALUES (603, 63, '删除日记', '', '', 'sys:diary:delete', '', 2);
+INSERT INTO `sys_permission` VALUES (700, 64, '文档列表', '', '', 'sys:doc:list', '', 2);
+INSERT INTO `sys_permission` VALUES (701, 64, '文档目录列表', '', '', 'sys:doc:catalog:list', '', 2);
+INSERT INTO `sys_permission` VALUES (702, 64, '创建文档', '', '', 'sys:doc:insert', '', 2);
+INSERT INTO `sys_permission` VALUES (703, 64, '修改文档', '', '', 'sys:doc:update', '', 2);
+INSERT INTO `sys_permission` VALUES (704, 64, '修改文档目录', '', '', 'sys:doc:catalog:update', '', 2);
+INSERT INTO `sys_permission` VALUES (705, 64, '删除文档', '', '', 'sys:doc:delete', '', 2);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -69,7 +94,7 @@ CREATE TABLE `sys_role`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
@@ -86,7 +111,7 @@ CREATE TABLE `sys_role_permission`  (
   `role_id` int(11) NOT NULL COMMENT '角色id',
   `permission_id` int(11) NOT NULL COMMENT '权限id',
   PRIMARY KEY (`role_id`, `permission_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限关系表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限关系表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_permission
@@ -109,27 +134,56 @@ INSERT INTO `sys_role_permission` VALUES (1, 102);
 INSERT INTO `sys_role_permission` VALUES (1, 103);
 INSERT INTO `sys_role_permission` VALUES (1, 104);
 INSERT INTO `sys_role_permission` VALUES (1, 105);
-INSERT INTO `sys_role_permission` VALUES (1, 106);
-INSERT INTO `sys_role_permission` VALUES (1, 107);
-INSERT INTO `sys_role_permission` VALUES (1, 108);
-INSERT INTO `sys_role_permission` VALUES (2, 1);
-INSERT INTO `sys_role_permission` VALUES (2, 50);
-INSERT INTO `sys_role_permission` VALUES (2, 51);
-INSERT INTO `sys_role_permission` VALUES (2, 100);
-INSERT INTO `sys_role_permission` VALUES (2, 101);
-INSERT INTO `sys_role_permission` VALUES (2, 102);
-INSERT INTO `sys_role_permission` VALUES (2, 103);
-INSERT INTO `sys_role_permission` VALUES (2, 104);
-INSERT INTO `sys_role_permission` VALUES (2, 105);
-INSERT INTO `sys_role_permission` VALUES (2, 106);
-INSERT INTO `sys_role_permission` VALUES (2, 107);
-INSERT INTO `sys_role_permission` VALUES (2, 108);
-INSERT INTO `sys_role_permission` VALUES (3, 1);
-INSERT INTO `sys_role_permission` VALUES (3, 50);
-INSERT INTO `sys_role_permission` VALUES (3, 51);
-INSERT INTO `sys_role_permission` VALUES (3, 100);
-INSERT INTO `sys_role_permission` VALUES (3, 104);
-INSERT INTO `sys_role_permission` VALUES (3, 106);
+INSERT INTO `sys_role_permission` VALUES (1, 200);
+INSERT INTO `sys_role_permission` VALUES (1, 201);
+INSERT INTO `sys_role_permission` VALUES (1, 202);
+INSERT INTO `sys_role_permission` VALUES (1, 300);
+INSERT INTO `sys_role_permission` VALUES (1, 301);
+INSERT INTO `sys_role_permission` VALUES (1, 302);
+INSERT INTO `sys_role_permission` VALUES (1, 303);
+INSERT INTO `sys_role_permission` VALUES (1, 400);
+INSERT INTO `sys_role_permission` VALUES (1, 401);
+INSERT INTO `sys_role_permission` VALUES (1, 402);
+INSERT INTO `sys_role_permission` VALUES (1, 403);
+INSERT INTO `sys_role_permission` VALUES (1, 500);
+INSERT INTO `sys_role_permission` VALUES (1, 501);
+INSERT INTO `sys_role_permission` VALUES (1, 502);
+INSERT INTO `sys_role_permission` VALUES (1, 503);
+INSERT INTO `sys_role_permission` VALUES (1, 504);
+INSERT INTO `sys_role_permission` VALUES (1, 505);
+INSERT INTO `sys_role_permission` VALUES (1, 506);
+INSERT INTO `sys_role_permission` VALUES (1, 600);
+INSERT INTO `sys_role_permission` VALUES (1, 601);
+INSERT INTO `sys_role_permission` VALUES (1, 602);
+INSERT INTO `sys_role_permission` VALUES (1, 603);
+INSERT INTO `sys_role_permission` VALUES (1, 700);
+INSERT INTO `sys_role_permission` VALUES (1, 701);
+INSERT INTO `sys_role_permission` VALUES (1, 702);
+INSERT INTO `sys_role_permission` VALUES (1, 703);
+INSERT INTO `sys_role_permission` VALUES (1, 704);
+INSERT INTO `sys_role_permission` VALUES (1, 705);
+INSERT INTO `sys_role_permission` VALUES (2, 2);
+INSERT INTO `sys_role_permission` VALUES (2, 60);
+INSERT INTO `sys_role_permission` VALUES (2, 61);
+INSERT INTO `sys_role_permission` VALUES (2, 62);
+INSERT INTO `sys_role_permission` VALUES (2, 63);
+INSERT INTO `sys_role_permission` VALUES (2, 64);
+INSERT INTO `sys_role_permission` VALUES (2, 300);
+INSERT INTO `sys_role_permission` VALUES (2, 301);
+INSERT INTO `sys_role_permission` VALUES (2, 302);
+INSERT INTO `sys_role_permission` VALUES (2, 303);
+INSERT INTO `sys_role_permission` VALUES (2, 400);
+INSERT INTO `sys_role_permission` VALUES (2, 500);
+INSERT INTO `sys_role_permission` VALUES (2, 600);
+INSERT INTO `sys_role_permission` VALUES (2, 601);
+INSERT INTO `sys_role_permission` VALUES (2, 602);
+INSERT INTO `sys_role_permission` VALUES (2, 603);
+INSERT INTO `sys_role_permission` VALUES (2, 700);
+INSERT INTO `sys_role_permission` VALUES (2, 701);
+INSERT INTO `sys_role_permission` VALUES (2, 702);
+INSERT INTO `sys_role_permission` VALUES (2, 703);
+INSERT INTO `sys_role_permission` VALUES (2, 704);
+INSERT INTO `sys_role_permission` VALUES (2, 705);
 
 -- ----------------------------
 -- Table structure for sys_role_user
@@ -139,15 +193,17 @@ CREATE TABLE `sys_role_user`  (
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `role_id` int(11) NOT NULL COMMENT '角色id',
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色用户关系表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色用户关系表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role_user
 -- ----------------------------
 INSERT INTO `sys_role_user` VALUES (1, 1);
-INSERT INTO `sys_role_user` VALUES (2, 1);
+INSERT INTO `sys_role_user` VALUES (1, 2);
+INSERT INTO `sys_role_user` VALUES (2, 2);
 INSERT INTO `sys_role_user` VALUES (3, 3);
 INSERT INTO `sys_role_user` VALUES (4, 3);
+INSERT INTO `sys_role_user` VALUES (5, 2);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -165,12 +221,13 @@ CREATE TABLE `sys_user`  (
   `update_time` datetime(0) NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'gszero', '$2a$10$xGoFa7bqOTurkUvy9roreeON0j/CvXysaXauswXf5RHol/pMCSuGy', 'GSZero', 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg', '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 02:02:03');
 INSERT INTO `sys_user` VALUES (2, 'admin', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管3', 'D:/img/2022-12-20_fisSb_Snipaste_2022-12-19_11-38-40.jpg', '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (5, 'qwer', '$2a$10$OHpyM2UUhZITdTxruZAAu.O2fAPl67ZMVFNa6wvtycpc.w5NHueVO', NULL, NULL, '470687917@qq.com', 1, '2023-06-16 17:10:40', '2023-06-16 17:10:40');
 
 SET FOREIGN_KEY_CHECKS = 1;

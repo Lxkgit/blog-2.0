@@ -7,13 +7,17 @@ import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.content.article.ArticleType;
 import com.blog.common.entity.content.article.bo.ArticleBo;
 import com.blog.common.entity.content.article.vo.ArticleVo;
+import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.entity.user.BlogUser;
+import com.blog.common.enums.mq.RocketMQTopicEnum;
+import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
 import com.blog.content.dao.ArticleDAO;
 import com.blog.content.dao.ArticleLabelDAO;
 import com.blog.content.dao.ArticleTypeDAO;
 import com.blog.content.feign.UserClient;
+import com.blog.content.mq.MQProducerService;
 import com.blog.content.service.ArticleService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -44,6 +48,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Resource
     private ArticleLabelDAO articleLabelDAO;
+
+    @Resource
+    private MQProducerService mqProducerService;
 
     @Override
     public MyPage<ArticleVo> selectArticleListByPageAndUserId(ArticleVo articleVoParam) {
@@ -146,6 +153,12 @@ public class ArticleServiceImpl implements ArticleService {
         if (article.getArticleType() != null && !article.getArticleType().equals("")) {
             article.setArticleType(updateArticleType(article.getArticleType()));
         }
+        ContentCountVo contentCountVo = new ContentCountVo();
+        contentCountVo.setUserId(article.getUserId());
+        contentCountVo.setArticleCount(1);
+        RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
+                RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
+        mqProducerService.sendSyncOrderly(rocketMQMessage);
         return articleDAO.insert(article);
     }
 
@@ -179,6 +192,12 @@ public class ArticleServiceImpl implements ArticleService {
         articleBo.setIds(article.split(","));
         map.put("delete", articleBo.getIds().length);
         map.put("success", articleDAO.deleteArticle(articleBo));
+        ContentCountVo contentCountVo = new ContentCountVo();
+        contentCountVo.setUserId(blogUser.getId());
+        contentCountVo.setArticleCount(-1);
+        RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
+                RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
+        mqProducerService.sendSyncOrderly(rocketMQMessage);
         return map;
     }
 }

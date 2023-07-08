@@ -198,6 +198,7 @@ const showDiaryFun = (diary: any) => {
 }
 
 const newDiaryFun = () => {
+  saveFlag = false
   saveTime.value = ""
   diary.data = { id: 0 }
   diary.data.diaryDate = getNowDate()
@@ -211,62 +212,31 @@ const updateDiaryFun = (param: any) => {
   saveAndUpdateDiaryDialog.value = true;
 }
 
-
-
 const deleteDiaryFun = (id?: any) => {
-  // deleteBtnVisible.value = false;
-  // if (id === 0) {
-  //   if (ids.length !== 0) {
-  //     deleteDiaryByIds(ids.join()).then((res: any) => {
-  //       if (res.code === 200) {
-  //         ElMessage({
-  //           message: '日记删除成功',
-  //           type: 'success',
-  //         })
-  //         getDiaryListFun(1)
-  //       }
-  //     })
-  //   }
-  // } else {
-  //   deleteDiaryByIds(id).then((res: any) => {
-  //     if (res.code === 200) {
-  //       ElMessage({
-  //         message: '日记删除成功',
-  //         type: 'success',
-  //       })
-  //       getDiaryListFun(1)
-  //     }
-  //   })
-  // }
-}
-
-const changeDiaryFun = () => {
-  // if (saveFlag === true) {
-  //   saveFlag = false
-  //   if (diary.data.id !== 0) {
-  //     updateDiary({
-  //       id: diary.data.id,
-  //       diaryMd: diary.data.diaryMd,
-  //       diaryDate: diary.data.diaryDate
-  //     }).then((res: any) => {
-  //       if (res.code === 200) {
-  //         saveTime.value = getNowTime();
-  //         getDiaryListFun(1)
-  //       }
-  //     })
-  //   } else {
-  //     saveDiary({
-  //       diaryMd: diary.data.diaryMd,
-  //       diaryDate: diary.data.diaryDate
-  //     }).then((res: any) => {
-  //       if (res.code === 200) {
-  //         saveTime.value = getNowTime();
-  //         diary.data.id = res.result;
-  //         getDiaryListFun(1)
-  //       }
-  //     })
-  //   }
-  // }
+  deleteBtnVisible.value = false;
+  if (id === 0) {
+    if (ids.length !== 0) {
+      deleteDiaryByIdsApi(ids.join()).then((res: any) => {
+        if (res.code === 200) {
+          ElMessage({
+            message: '日记删除成功',
+            type: 'success',
+          })
+          getDiaryListFun(1)
+        }
+      })
+    }
+  } else {
+    deleteDiaryByIdsApi(id).then((res: any) => {
+      if (res.code === 200) {
+        ElMessage({
+          message: '日记删除成功',
+          type: 'success',
+        })
+        getDiaryListFun(1)
+      }
+    })
+  }
 }
 
 let uploadData: Record<string, any> = {
@@ -325,29 +295,6 @@ const importDiaryFun = () => {
   //     uploadDiaryDialog.value = false
   //   })
   // }
-
-
-}
-
-const getNowDate = () => {
-  let data = new Date();
-  let year = data.getFullYear();
-  let month = data.getMonth();
-  let day = data.getDate();
-  let monthStr: any = "";
-  let dayStr: any = "";
-  month = month + 1;
-  if (month < 10) {
-    monthStr = "0" + month;
-  } else {
-    monthStr = month;
-  }
-  if (day < 10) {
-    dayStr = "0" + day;
-  } else {
-    dayStr = day;
-  }
-  return year + "-" + monthStr + "-" + dayStr;
 }
 
 const uploadImageFun = (event: any, insertImage: any, files: any) => {
@@ -377,7 +324,7 @@ const uploadImageFun = (event: any, insertImage: any, files: any) => {
  * 手动保存日记方法
  */
 const useText = () => {
-  if (diary.data.id !== 0) {
+  if (showDiary.data.id !== undefined) {
     updateDiaryApi({
       id: showDiary.data.id,
       diaryMd: showDiary.data.diaryMd,
@@ -415,19 +362,19 @@ const useText = () => {
 const changeText = () => {
   if (saveFlag === true) {
     saveFlag = false;
-    if (diary.data.id !== 0) {
+    console.log("showDiary.data.id" + showDiary.data.id)
+    if (showDiary.data.id !== undefined) {
       updateDiaryApi({
         id: showDiary.data.id,
         diaryMd: showDiary.data.diaryMd,
         diaryDate: showDiary.data.diaryDate
       }).then((res: any) => {
         if (res.code === 200) {
+          saveTime.value = getNowTime();
           ElMessage({
-            message: '日记修改成功',
+            message: '日记自动保存成功',
             type: 'success',
           })
-          getDiaryListFun(1)
-          saveAndUpdateDiaryDialog.value = false;
         }
       })
     } else {
@@ -436,17 +383,38 @@ const changeText = () => {
         diaryDate: showDiary.data.diaryDate
       }).then((res: any) => {
         if (res.code === 200) {
+          saveTime.value = getNowTime();
           ElMessage({
-            message: '日记保存成功',
+            message: '日记自动保存成功',
             type: 'success',
           })
-          getDiaryListFun(1)
-          saveAndUpdateDiaryDialog.value = false;
+          showDiary.data.id = res.result
         }
       })
     }
   }
 };
+
+const getNowDate = () => {
+  let data = new Date();
+  let year = data.getFullYear();
+  let month = data.getMonth();
+  let day = data.getDate();
+  let monthStr: any = "";
+  let dayStr: any = "";
+  month = month + 1;
+  if (month < 10) {
+    monthStr = "0" + month;
+  } else {
+    monthStr = month;
+  }
+  if (day < 10) {
+    dayStr = "0" + day;
+  } else {
+    dayStr = day;
+  }
+  return year + "-" + monthStr + "-" + dayStr;
+}
 
 const getNowTime = () => {
   let data = new Date();

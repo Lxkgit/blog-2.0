@@ -16,9 +16,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-06-18【功能新增】：文档页面新增用户切换功能，博客服务改为http协议">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-06-18【功能新增】：文档页面新增用户切换功能，博客服务改为http协议" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -360,13 +358,7 @@
       <workItem from="1687501496563" duration="1561000" />
       <workItem from="1687582184809" duration="174000" />
       <workItem from="1687582422640" duration="510000" />
-    </task>
-    <task id="LOCAL-00046" summary="22-12-03【功能修改】：解决前端打包问题">
-      <created>1670041988238</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1670041988238</updated>
+      <workItem from="1688341962109" duration="172000" />
     </task>
     <task id="LOCAL-00047" summary="22-12-05【bug修复】：前端打包成功">
       <created>1670207948709</created>
@@ -704,7 +696,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687092692847</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="23-07-03【功能新增】：博客开始引入mq">
+      <created>1688342107653</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1688342107653</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -735,7 +734,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="23-02-09【功能新增】：新增nuxt3项目，移除原有vue文件" />
     <MESSAGE value="23-02-11【功能新增】：网站改造为https，新增gitee登陆" />
     <MESSAGE value="23-02-12【功能新增】：新增vite-web学习前端，修改数据库文件" />
     <MESSAGE value="23-02-16【功能新增】：博客更新2.1版本，修改前端页面，后端接口不兼容2.0版本博客" />
@@ -760,7 +758,8 @@
     <MESSAGE value="23-06-11【功能修改】：修改token由jwt改为redis缓存，鉴权功能完善，前端新增mitt总线和websocket" />
     <MESSAGE value="23-06-02【功能新增】：优化文章查询，博客文档封面图片完成" />
     <MESSAGE value="23-06-18【功能新增】：文档页面新增用户切换功能，博客服务改为http协议" />
-    <option name="LAST_COMMIT_MESSAGE" value="23-06-18【功能新增】：文档页面新增用户切换功能，博客服务改为http协议" />
+    <MESSAGE value="23-07-03【功能新增】：博客开始引入mq" />
+    <option name="LAST_COMMIT_MESSAGE" value="23-07-03【功能新增】：博客开始引入mq" />
   </component>
   <component name="WindowStateProjectService">
     <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1684036105991">
@@ -775,28 +774,28 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2012" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1685283082752" />
-    <state width="1603" height="295" key="GridCell.Tab.0.bottom" timestamp="1687582960830">
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom" timestamp="1688342141332">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1603" height="295" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1687582960830" />
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1688342141332" />
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1686460128348" />
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645931" />
-    <state width="1603" height="295" key="GridCell.Tab.0.center" timestamp="1687582960830">
+    <state width="1877" height="239" key="GridCell.Tab.0.center" timestamp="1688342141331">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1603" height="295" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1687582960830" />
+    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1688342141331" />
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1686460128348" />
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645930" />
-    <state width="1603" height="295" key="GridCell.Tab.0.left" timestamp="1687582960830">
+    <state width="1877" height="239" key="GridCell.Tab.0.left" timestamp="1688342141331">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1603" height="295" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1687582960830" />
+    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1688342141331" />
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1686460128348" />
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645930" />
-    <state width="1603" height="295" key="GridCell.Tab.0.right" timestamp="1687582960830">
+    <state width="1877" height="239" key="GridCell.Tab.0.right" timestamp="1688342141331">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1603" height="295" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1687582960830" />
+    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1688342141331" />
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1686460128348" />
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645930" />
     <state width="1603" height="295" key="GridCell.Tab.1.bottom" timestamp="1687582960831">
@@ -847,10 +846,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="731" y="432" key="VCS.ChangelistChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1687092618450" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1687501537306">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1688342113226">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1687501537306" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1688342113226" />
     <state x="2315" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1685284332186" />
     <state x="662" y="252" width="596" height="536" key="find.popup" timestamp="1684649647257">
       <screen x="0" y="0" width="1920" height="1040" />

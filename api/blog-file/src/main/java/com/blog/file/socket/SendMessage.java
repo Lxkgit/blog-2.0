@@ -2,13 +2,18 @@ package com.blog.file.socket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.blog.common.enums.socket.SocketTopicEnum;
+import com.blog.common.message.socket.SocketMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -50,8 +55,10 @@ public class SendMessage {
             onlineCount.incrementAndGet(); // 在线数加1
         }
         try {
-            String result = "{\"topic\": \"system\", \"message\": \"连接成功\"}";
-            sendMessage(JSON.toJSONString(result));
+            SocketMessage<String> socketMessage = new SocketMessage<>();
+            socketMessage.setTopic(SocketTopicEnum.SOCKET_SYSTEM.getTopic());
+            socketMessage.setMessage("连接成功");
+            sendMessage(JSON.toJSONString(socketMessage));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -103,5 +110,24 @@ public class SendMessage {
      */
     private void sendMessage(String message) throws IOException {
         session.getBasicRemote().sendText(message);
+    }
+
+    /**
+     * 推送消息给指定用户
+     * @param message
+     * @param userId
+     */
+    public static void sendMessageToUser(String message, Integer userId) {
+        if (socket.isEmpty()) {
+            return;
+        }
+        if (!socket.containsKey(userId.toString())) {
+            return;
+        }
+        try {
+            socket.get(userId.toString()).sendMessage(message);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 }

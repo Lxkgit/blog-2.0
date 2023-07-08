@@ -1,7 +1,8 @@
 package com.blog.file.controller;
 
 import com.blog.common.entity.file.vo.ContentCountVo;
-import com.blog.common.enums.mq.TopicEnum;
+import com.blog.common.enums.mq.RocketMQTopicEnum;
+import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.file.mq.MQProducerService;
@@ -35,8 +36,12 @@ public class MQTestController {
         contentCountVo.setArticleCount(msg);
         contentCountVo.setDocCount(msg);
         contentCountVo.setDiaryCount(msg);
-        contentCountVo.setMqMsgType(type);
-        mqProducerService.send(TopicEnum.BLOG_DATE_STATISTICS.getTopic(), TopicEnum.BLOG_DATE_STATISTICS.getTag(), contentCountVo);
+        RocketMQMessage<ContentCountVo>  rocketMQMessage = new RocketMQMessage<>();
+        rocketMQMessage.setTopic(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic());
+        rocketMQMessage.setTag(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag());
+        rocketMQMessage.setMessage(contentCountVo);
+        rocketMQMessage.setMqMsgType(1);
+        mqProducerService.sendSyncOrderly(rocketMQMessage);
         return ResultFactory.buildSuccessResult();
     }
 

@@ -1,12 +1,10 @@
-package com.blog.file.mq;
+package com.blog.content.mq;
 
 import com.alibaba.fastjson.JSON;
 import com.blog.common.entity.file.ContentCount;
 import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.message.mq.RocketMQMessage;
-import com.blog.common.message.socket.SocketMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -85,7 +83,7 @@ public class MQProducerService {
     /**
      * 发送带tag的消息，直接在topic后面加上":tag"
      */
-    public SendResult sendTagMsg(String topic, String tag, String msgBody) {
+    public SendResult sendTagMsg(String topic, String tag, ContentCount msgBody) {
         return rocketMQTemplate.syncSend(topic + ":" + tag, MessageBuilder.withPayload(msgBody).build());
     }
 
@@ -94,8 +92,8 @@ public class MQProducerService {
      * @param rocketMQMessage
      */
     public void sendSyncOrderly(RocketMQMessage rocketMQMessage) {
+        log.info("发送mq顺序消费消息: " + rocketMQMessage.toString());
         rocketMQTemplate.syncSendOrderly(rocketMQMessage.getTopic() + ":" + rocketMQMessage.getTag(),
                 MessageBuilder.withPayload(rocketMQMessage).build(), rocketMQMessage.getTopic() + ":" + rocketMQMessage.getTag());
     }
-
 }

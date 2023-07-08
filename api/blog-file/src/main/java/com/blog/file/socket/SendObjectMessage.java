@@ -1,5 +1,8 @@
 package com.blog.file.socket;
 
+import com.alibaba.fastjson.JSON;
+import com.blog.common.enums.socket.SocketTopicEnum;
+import com.blog.common.message.socket.SocketMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -39,8 +42,10 @@ public class SendObjectMessage {
         socket.add(this);
         onlineCount.incrementAndGet(); // 在线数加1
         try {
-            String result = "{\"topic\": \"system\", \"message\": \"连接成功\"}";
-            sendMessage(result);
+            SocketMessage<String> socketMessage = new SocketMessage<>();
+            socketMessage.setTopic(SocketTopicEnum.SOCKET_SYSTEM.getTopic());
+            socketMessage.setMessage("连接成功");
+            sendMessage(JSON.toJSONString(socketMessage));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,7 +109,7 @@ public class SendObjectMessage {
             try {
                 sendObjectMessage.sendMessage(message);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
         }
     }
