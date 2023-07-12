@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.entity.content.article.Article;
 import com.blog.common.entity.content.diary.Diary;
 import com.blog.common.entity.content.doc.DocCatalog;
+import com.blog.common.entity.file.vo.BlogDataVo;
 import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
 import com.blog.common.message.mq.RocketMQMessage;
-import com.blog.content.dao.ArticleDAO;
-import com.blog.content.dao.DiaryDAO;
-import com.blog.content.dao.DocCatalogDAO;
+import com.blog.content.dao.*;
 import com.blog.content.mq.MQProducerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -41,6 +40,12 @@ public class ContentCountInit implements ApplicationRunner {
 
     @Resource
     private DocCatalogDAO docCatalogDAO;
+
+    @Resource
+    private ArticleTypeDAO articleTypeDAO;
+
+    @Resource
+    private ArticleLabelDAO articleLabelDAO;
 
     @Resource
     private MQProducerService mqProducerService;
@@ -92,6 +97,7 @@ public class ContentCountInit implements ApplicationRunner {
             }
         }
         Collections.sort(countVoList);
+        BlogDataVo blogDataVo = new BlogDataVo();
         for (ContentCountVo countVo : countVoList) {
             RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>();
             rocketMQMessage.setTopic(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic());
@@ -100,7 +106,22 @@ public class ContentCountInit implements ApplicationRunner {
             rocketMQMessage.setMqMsgType(0);
             mqProducerService.sendSyncOrderly(rocketMQMessage);
 
+            blogDataVo.setArticleCount(blogDataVo.getArticleCount() == null ? (countVo.getArticleCount() == null ? 0 : countVo.getArticleCount()) : blogDataVo.getArticleCount() + countVo.getArticleCount());
+            blogDataVo.setDiaryCount(blogDataVo.getDiaryCount() == null ? (countVo.getDiaryCount() == null ? 0 : countVo.getDiaryCount()) : blogDataVo.getDiaryCount() + countVo.getDiaryCount());
+            blogDataVo.setDocCount(blogDataVo.getDocCount() == null ? (countVo.getDocCount() == null ? 0 : countVo.getDocCount()) : blogDataVo.getDocCount() + countVo.getDocCount());
         }
+
+        blogDataVo.setArticleTypeCount(Math.toIntExact(articleTypeDAO.selectCount(null)));
+        blogDataVo.setArticleLabelCount(Math.toIntExact(articleLabelDAO.selectCount(null)));
+        QueryWrapper<DocCatalog> docCatalogQueryWrapper = new QueryWrapper<>();
+        docCatalogQueryWrapper.eq("doc_type", 0);
+        blogDataVo.setDocTypeCount(Math.toIntExact(docCatalogDAO.selectCount(docCatalogQueryWrapper)));
+        RocketMQMessage<BlogDataVo> rocketMQMessage = new RocketMQMessage<>();
+        rocketMQMessage.setTopic(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic());
+        rocketMQMessage.setTag(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag());
+        rocketMQMessage.setMessage(blogDataVo);
+        rocketMQMessage.setMqMsgType(0);
+        mqProducerService.sendSyncOrderly(rocketMQMessage);
     }
 
     /**

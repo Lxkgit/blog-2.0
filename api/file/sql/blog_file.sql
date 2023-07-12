@@ -11,11 +11,31 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 07/07/2023 19:39:50
+ Date: 12/07/2023 17:09:45
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for blog_data
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_data`;
+CREATE TABLE `blog_data`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `deployment_time` datetime(0) NULL DEFAULT NULL COMMENT '博客部署时间',
+  `visits` int(11) NULL DEFAULT NULL COMMENT '接口访问总次数',
+  `user_count` int(11) NULL DEFAULT NULL COMMENT '用户数量',
+  `ip_count` int(11) NULL DEFAULT NULL COMMENT '访问ip数',
+  `article_count` int(11) NULL DEFAULT NULL COMMENT '文章总数',
+  `article_type_count` int(11) NULL DEFAULT NULL COMMENT '文章分类数',
+  `article_label_count` int(11) NULL DEFAULT NULL COMMENT '文章标签数',
+  `doc_count` int(11) NULL DEFAULT NULL COMMENT '文档总数',
+  `doc_type_count` int(11) NULL DEFAULT NULL COMMENT '文档分类数',
+  `diary_count` int(11) NULL DEFAULT NULL COMMENT '日记总数',
+  `img_count` int(11) NULL DEFAULT NULL COMMENT '图片总数',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for content_count
@@ -28,7 +48,7 @@ CREATE TABLE `content_count`  (
   `article_count` int(11) NULL DEFAULT 0 COMMENT '文章数量',
   `diary_count` int(11) NULL DEFAULT 0 COMMENT '日记数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 535 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客用户内容数量统计' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 558 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客用户内容数量统计' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for upload_file
@@ -43,7 +63,7 @@ CREATE TABLE `upload_file`  (
   `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件类型',
   `file_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件路径',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for upload_log
@@ -58,6 +78,6 @@ CREATE TABLE `upload_log`  (
   `upload_msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `upload_time` datetime(0) NULL DEFAULT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -9,7 +9,8 @@ package com.blog.common.enums.mq;
 public enum RocketMQTopicEnum {
 
     // 博客数据类数据统计
-    MQ_DATE_STATISTICS("BLOG", "BLOG_STATISTICS", "COUNT"),
+    MQ_DATE_STATISTICS("BLOG_STATISTICS_COUNT", "BLOG_STATISTICS", "COUNT"),
+    BLOG_STATISTICS_OVERALL("BLOG_STATISTICS_OVERALL", "BLOG_STATISTICS", "OVERALL"),
 
     ;
 

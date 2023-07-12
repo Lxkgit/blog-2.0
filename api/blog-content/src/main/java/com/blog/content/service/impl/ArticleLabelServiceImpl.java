@@ -1,16 +1,18 @@
 package com.blog.content.service.impl;
 
 import com.blog.common.entity.content.article.ArticleLabel;
+import com.blog.common.entity.file.vo.BlogDataVo;
+import com.blog.common.enums.mq.RocketMQTopicEnum;
+import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.content.dao.ArticleLabelDAO;
 import com.blog.content.dao.ArticleLabelTypeDAO;
+import com.blog.content.mq.MQProducerService;
 import com.blog.content.service.ArticleLabelService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author: lxk
@@ -28,6 +30,9 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
     @Resource
     private ArticleLabelTypeDAO articleLabelTypeDAO;
 
+    @Resource
+    private MQProducerService mqProducerService;
+
     @Override
     public List<ArticleLabel> selectArticleLabelList(Integer labelType) {
         return articleLabelDAO.selectArticleLabelList(labelType);
@@ -40,6 +45,13 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
         articleLabel.setUpdateTime(new Date());
         articleLabelDAO.insert(articleLabel);
         articleLabelTypeDAO.updateArticleLabelTypeLabelNumAdd(articleLabel.getLabelType());
+
+        // 发送博客系统新增文章标签mq消息
+        BlogDataVo blogDataVo = new BlogDataVo();
+        blogDataVo.setArticleLabelCount(1);
+        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
+                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+        mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
     }
 
     @Override
@@ -59,6 +71,12 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
                 articleLabelTypeDAO.updateArticleLabelTypeLabelNumSubtract(articleLabel.getLabelType());
             }
         }
+        // 发送博客系统删除文章标签mq消息
+        BlogDataVo blogDataVo = new BlogDataVo();
+        blogDataVo.setArticleLabelCount(-ids.length);
+        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
+                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+        mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
         return 0;
     }
 }

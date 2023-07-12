@@ -7,6 +7,7 @@ import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.content.article.ArticleType;
 import com.blog.common.entity.content.article.bo.ArticleBo;
 import com.blog.common.entity.content.article.vo.ArticleVo;
+import com.blog.common.entity.file.vo.BlogDataVo;
 import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
@@ -153,12 +154,21 @@ public class ArticleServiceImpl implements ArticleService {
         if (article.getArticleType() != null && !article.getArticleType().equals("")) {
             article.setArticleType(updateArticleType(article.getArticleType()));
         }
+
+        // 发送博客用户新增文章mq消息
         ContentCountVo contentCountVo = new ContentCountVo();
         contentCountVo.setUserId(article.getUserId());
         contentCountVo.setArticleCount(1);
-        RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
+        RocketMQMessage<ContentCountVo> countVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
                 RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
-        mqProducerService.sendSyncOrderly(rocketMQMessage);
+        mqProducerService.sendSyncOrderly(countVoRocketMQMessage);
+
+        // 发送博客系统新增文章mq消息
+        BlogDataVo blogDataVo = new BlogDataVo();
+        blogDataVo.setArticleCount(1);
+        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
+                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+        mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
         return articleDAO.insert(article);
     }
 
@@ -192,12 +202,21 @@ public class ArticleServiceImpl implements ArticleService {
         articleBo.setIds(article.split(","));
         map.put("delete", articleBo.getIds().length);
         map.put("success", articleDAO.deleteArticle(articleBo));
+
+        // 发送博客用户删除文章mq消息
         ContentCountVo contentCountVo = new ContentCountVo();
         contentCountVo.setUserId(blogUser.getId());
-        contentCountVo.setArticleCount(-1);
-        RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
+        contentCountVo.setArticleCount(-article.split(",").length);
+        RocketMQMessage<ContentCountVo> contentCountVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
                 RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
-        mqProducerService.sendSyncOrderly(rocketMQMessage);
+        mqProducerService.sendSyncOrderly(contentCountVoRocketMQMessage);
+
+        // 发送博客系统删除文章mq消息
+        BlogDataVo blogDataVo = new BlogDataVo();
+        blogDataVo.setArticleCount(-article.split(",").length);
+        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
+                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+        mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
         return map;
     }
 }

@@ -4,7 +4,7 @@ import { getCurrentInstance } from "vue";
 const socketAll = () => {
   let websocket = null;
   const instance = getCurrentInstance();
-  const openSocket = () => {
+  const openSocketAll = () => {
     //判断当前浏览器是否支持WebSocket, 主要此处要更换为自己的地址
     if ('WebSocket' in window) {
       let url = "http://localhost:9527/file/result";
@@ -20,7 +20,7 @@ const socketAll = () => {
 
       // 连接成功建立的回调方法
       websocket.onopen = function (event) {
-        console.log("websocket已打开");
+        console.log("系统websocket已打开");
       }
 
       // 接收到消息的回调方法
@@ -50,22 +50,23 @@ const socketAll = () => {
   }
 
   //关闭连接
-  function closeWebSocket() {
+  function closeWebSocketAll() {
     if (websocket != null) {
       websocket.close();
       websocket = null;
+      console.log("系统websocket已关闭");
     }
   }
 
   //发送消息
-  function send(message: any) {
+  function sendSocketAll(message: any) {
     websocket.send(message);
   }
 
   return {
-    openSocket,
-    closeWebSocket,
-    send
+    openSocketAll,
+    closeWebSocketAll,
+    sendSocketAll
   }
 }
 

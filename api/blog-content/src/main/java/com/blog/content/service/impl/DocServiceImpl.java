@@ -5,6 +5,7 @@ import com.blog.common.entity.content.doc.DocCatalog;
 import com.blog.common.entity.content.doc.DocContent;
 import com.blog.common.entity.content.doc.enums.DocType;
 import com.blog.common.entity.content.doc.vo.DocCatalogVo;
+import com.blog.common.entity.file.vo.BlogDataVo;
 import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
@@ -56,7 +57,7 @@ public class DocServiceImpl implements DocService {
             docContent.setDocContentMd("");
             docContentDAO.insert(docContent);
 
-            // 发送mq新增文档
+            // 发送博客用户新增文档mq消息
             ContentCountVo contentCountVo = new ContentCountVo();
             contentCountVo.setUserId(blogUser.getId());
             contentCountVo.setDocCount(1);
@@ -64,6 +65,19 @@ public class DocServiceImpl implements DocService {
                     RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
             mqProducerService.sendSyncOrderly(rocketMQMessage);
 
+            // 发送博客系统新增文档mq消息
+            BlogDataVo blogDataVo = new BlogDataVo();
+            blogDataVo.setDocCount(1);
+            RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
+                    RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+            mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
+        } else {
+            // 发送博客系统新增文档分类mq消息
+            BlogDataVo blogDataVo = new BlogDataVo();
+            blogDataVo.setDocTypeCount(1);
+            RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
+                    RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+            mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
         }
         return docCatalog.getId();
     }
@@ -79,18 +93,31 @@ public class DocServiceImpl implements DocService {
         DocCatalog docCatalog = docCatalogDAO.selectById(id);
         if (docCatalog.getDocType().equals(DocType.CATALOG.getId())) {
             docCatalogDAO.deleteById(id);
+            // 发送博客系统删除文档分类mq消息
+            BlogDataVo blogDataVo = new BlogDataVo();
+            blogDataVo.setDocTypeCount(-1);
+            RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
+                    RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+            mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
         } else {
             docCatalogDAO.deleteById(id);
             QueryWrapper<DocContent> catalogQueryWrapper = new QueryWrapper<>();
             catalogQueryWrapper.eq("catalog_id", id);
             docContentDAO.delete(catalogQueryWrapper);
-            // 发送mq删除文档
+            // 发送博客用户删除文档mq消息
             ContentCountVo contentCountVo = new ContentCountVo();
             contentCountVo.setUserId(blogUser.getId());
             contentCountVo.setDocCount(-1);
             RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
                     RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
             mqProducerService.sendSyncOrderly(rocketMQMessage);
+
+            // 发送博客系统删除文档mq消息
+            BlogDataVo blogDataVo = new BlogDataVo();
+            blogDataVo.setDocCount(-1);
+            RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
+                    RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+            mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
         }
         return id;
     }

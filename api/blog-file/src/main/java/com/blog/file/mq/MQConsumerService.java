@@ -2,13 +2,17 @@ package com.blog.file.mq;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.blog.common.entity.file.BlogData;
 import com.blog.common.entity.file.ContentCount;
+import com.blog.common.entity.file.vo.BlogDataVo;
 import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.enums.socket.SocketTopicEnum;
 import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.common.message.socket.SocketMessage;
+import com.blog.file.dao.BlogDataDAO;
 import com.blog.file.dao.ContentCountDAO;
 import com.blog.file.socket.SendMessage;
+import com.blog.file.socket.SendObjectMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.ConsumeMode;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
@@ -90,6 +94,51 @@ public class MQConsumerService {
                 socketMessage.setMessage(contentCountVo);
                 SendMessage.sendMessageToUser(JSON.toJSONString(socketMessage), contentCountVo.getUserId());
             }
+        }
+    }
+
+    /**
+     * 监听博客全局统计数据
+     * 博客网站点击数 博客总文章数 等数据
+     */
+    @Service
+    @RocketMQMessageListener(consumerGroup = "BLOG_STATISTICS_OVERALL", topic = "BLOG_STATISTICS", selectorExpression = "OVERALL", consumeMode = ConsumeMode.ORDERLY)
+    public static class ConsumerGlobalData implements RocketMQListener<RocketMQMessage<BlogDataVo>> {
+
+        @Resource
+        private BlogDataDAO blogDataDAO;
+
+        // 监听到消息就会执行此方法
+        @Override
+        public void onMessage(RocketMQMessage<BlogDataVo> rocketMQMessage) {
+
+            log.info("监听到消息 topic:{}, tag:{}, msg:{} ", rocketMQMessage.getTopic(), rocketMQMessage.getTag(), rocketMQMessage.getMessage().toString());
+            if (rocketMQMessage.getMqMsgType() == null) {
+                return;
+            }
+            if (rocketMQMessage.getMqMsgType() == 0) {
+                BlogData blogData = blogDataDAO.selectById(1);
+                BlogData rocketMsg = rocketMQMessage.getMessage();
+                rocketMsg.setId(1);
+                if (blogData == null) {
+                    blogDataDAO.insert(rocketMsg);
+                } else {
+                    blogDataDAO.updateById(rocketMQMessage.getMessage());
+                }
+            } else {
+                BlogData blogData = rocketMQMessage.getMessage();
+                blogDataDAO.updateBlogDataById(blogData);
+            }
+
+            QueryWrapper<BlogData> wrapper = new QueryWrapper<>();
+            wrapper.eq("id", 1);
+            BlogData blogData = blogDataDAO.selectById(1);
+            System.out.println(blogData.toString());
+            SocketMessage<BlogData> socketMessage = new SocketMessage<>();
+            socketMessage.setTopic(SocketTopicEnum.SOCKET_SYSTEM_DATA.getTopic());
+            socketMessage.setMessage(blogData);
+            SendObjectMessage.sendInfo(JSON.toJSONString(socketMessage));
+
         }
     }
 }

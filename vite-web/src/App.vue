@@ -18,13 +18,16 @@ import dark from "@/utils/dark";
 import { systemStore } from "@/store/system"
 import { useRouter } from "vue-router";
 import  socketAll  from '@/utils/socketAll';
+import socketUser from '@/utils/socketUser'
 import { getCurrentInstance } from "vue";
+import user from "@/utils/user";
 
-
+let { isLogin, userId } = user();
 const instance = getCurrentInstance();
 const store = systemStore()
 let { setDark } = dark()
-let { openSocket } = socketAll()
+let { openSocketAll } = socketAll()
+let { openSocketUser, closeWebSocketUser } = socketUser()
 const locale = zhCn
 const includeList = ref([])
 const router = useRouter()
@@ -33,8 +36,23 @@ watch(() => router, (newValue) => {
     includeList.value.push(newValue.currentRoute.value.name);
   }
 }, { deep: true })
+
+watch(isLogin, (newValue, oldValue) => {
+  console.log("watch 监听数据 .... " + newValue)
+  if (newValue) {
+    openSocketUser(userId.value);
+  } else {
+    closeWebSocketUser();
+  }
+})
+
 onMounted(() => {
-  openSocket();
+  openSocketAll();
+  if (isLogin.value) {
+    openSocketUser(userId.value);
+  } else {
+    closeWebSocketUser();
+  }
   instance?.proxy?.$emitter.on("chat", (data) => {
     console.log("chat" + data)
   });
