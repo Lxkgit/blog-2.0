@@ -3,9 +3,13 @@ package com.blog.content.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.entity.content.article.ArticleType;
 import com.blog.common.entity.content.article.vo.ArticleTypeVo;
+import com.blog.common.entity.file.vo.BlogDataVo;
 import com.blog.common.entity.user.BlogUser;
+import com.blog.common.enums.mq.RocketMQTopicEnum;
+import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.content.dao.ArticleTypeDAO;
 import com.blog.content.feign.UserClient;
+import com.blog.content.mq.MQProducerService;
 import com.blog.content.service.ArticleTypeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -27,6 +31,9 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 
     @Resource
     private UserClient userClient;
+
+    @Resource
+    private MQProducerService mqProducerService;
 
     @Override
     public List<ArticleType> selectArticleTypeByParentId(String parentId) {
@@ -92,7 +99,14 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
     public int saveArticleType(ArticleType articleType) {
         articleType.setCreateTime(new Date());
         articleType.setUpdateTime(new Date());
-        return articleTypeDAO.insert(articleType);
+        int id = articleTypeDAO.insert(articleType);
+        // 发送博客系统新增文章分类mq消息
+        BlogDataVo blogDataVo = new BlogDataVo();
+        blogDataVo.setArticleTypeCount(1);
+        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
+                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+        mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
+        return id;
     }
 
     @Override
@@ -122,6 +136,12 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
         if (ids.length != num) {
             map.put("msg", "请确认所选分类下文章数是否为0");
         }
+        // 发送博客系统新增文章分类mq消息
+        BlogDataVo blogDataVo = new BlogDataVo();
+        blogDataVo.setArticleTypeCount(-num);
+        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
+                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+        mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
         return map;
     }
 }

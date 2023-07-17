@@ -128,8 +128,7 @@ import { onMounted, reactive, ref } from "vue";
 import timeFormat from "@/utils/timeFormat";
 import icon from "@/utils/icon";
 import { useRouter } from "vue-router";
-// import {getArticle} from "@/api/blog";
-// import {getInfo, getSiteStatistics} from "@/api/management";
+import { selectBlogDataApi } from "@/api/file"
 
 let { MyIcon } = icon()
 let { timeFull } = timeFormat()
@@ -143,9 +142,7 @@ async function recommendData() {
     size: 6,
     ordering: '-is_recommend,-created_time'
   }
-  // let data = await getArticle(params)
-  // recommend.value = data.results
-  console.log("recommend", recommend.value)
+
 }
 
 // 排行列表-全部种类
