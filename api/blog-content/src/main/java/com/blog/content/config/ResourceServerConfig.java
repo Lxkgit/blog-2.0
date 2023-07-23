@@ -31,7 +31,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             "/doc/content/id",
             "/doc/content/user",
             "/article/type/id",
-            "/usp/**"
+            "/usp/**",
+            "/article/label/list"
     };
 
     @Override

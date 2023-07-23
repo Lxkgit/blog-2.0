@@ -1,6 +1,7 @@
 package com.blog.file.controller;
 
 import com.blog.common.constant.ErrorMessage;
+import com.blog.common.entity.file.vo.ImportDiaryVo;
 import com.blog.common.entity.file.vo.UploadVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.enums.file.FilePathEnum;
@@ -68,18 +69,18 @@ public class UploadFileController {
         return ResultFactory.buildFailResult(ErrorMessage.FILE_UPLOAD_ERROR.getDesc());
     }
 
-//    @PostMapping("/diary/import")
-//    public Result importDiary(@RequestHeader HttpHeaders headers,@RequestBody ImportDiaryVo importDiaryVo) {
-//        String token = String.valueOf(headers.get("Authorization"));
-//        BlogUser blogUser = JwtUtil.getUserInfo(token);
-//        importDiaryVo.setUserId(blogUser.getId());
-//        if (importService.importDiary(importDiaryVo)){
-//            return ResultFactory.buildSuccessResult();
-//        } else {
-//            return ResultFactory.buildFailResult("部分日记上传失败");
-//        }
-//    }
-//
+    @PostMapping("/diary/import")
+    public Result importDiary(@RequestHeader HttpHeaders headers,@RequestBody ImportDiaryVo importDiaryVo) {
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        importDiaryVo.setUserId(blogUser.getId());
+        if (importService.importDiary(importDiaryVo)){
+            return ResultFactory.buildSuccessResult();
+        } else {
+            return ResultFactory.buildFailResult("部分日记上传失败");
+        }
+    }
+
 //    @GetMapping("/export")
 //    public void exportImg(HttpServletResponse response) throws IOException {
 //        List<String> strings = new ArrayList<>();

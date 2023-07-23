@@ -81,39 +81,38 @@
         <div>
           <MyIcon type="icon-yunhangshijian" />
           运行时间：<span v-html='runTimeString'></span>
-
         </div>
         <div>
           <MyIcon type="icon-fangwenliang" />
-          总访问量：{{ statistics.pv }}次
+          总访问量：{{ blogData.data.visits }}次
         </div>
         <div>
           <MyIcon type="icon-fangwenrenshu" />
-          访问人数：{{ statistics.uv }}次
+          用户人数：{{ blogData.data.userCount }}人
         </div>
         <div>
           <MyIcon type="icon-ip" />
-          访问IP数：{{ statistics.ip }}个
+          访问IP数：{{ blogData.data.ipCount }}个
         </div>
         <div>
           <MyIcon type="icon-icon-article" />
-          文章篇数：{{ statistics.article }}篇
+          文章篇数：{{ blogData.data.articleCount }}篇
         </div>
         <div>
           <MyIcon type="icon-book" />
-          笔记篇数：{{ statistics.section }}篇
+          笔记篇数：{{ blogData.data.docCount }}篇
         </div>
         <div>
           <MyIcon type="icon-wenzhangfenlei" />
-          文章分类数：{{ statistics.category }}个
+          文章分类数：{{ blogData.data.articleTypeCount }}个
         </div>
         <div>
           <MyIcon type="icon-biaoqian1" />
-          文章标签数：{{ statistics.tag }}个
+          文章标签数：{{ blogData.data.articleLabelCount }}个
         </div>
         <div>
           <MyIcon type="icon-wenzhangfenlei1" />
-          笔记分类数：{{ statistics.note }}个
+          笔记分类数：{{ blogData.data.docTypeCount }}个
         </div>
       </div>
     </el-card>
@@ -135,7 +134,8 @@ let { timeFull } = timeFormat()
 const router = useRouter()
 //推荐阅读文章列表
 const recommend: any = ref([])
-
+// 
+const blogData: any = reactive({data: {}})
 async function recommendData() {
   const params = {
     page: 1,
@@ -167,10 +167,6 @@ const handleCommand = (index: any) => {
     size: 10,
     ordering: ranking.value[index].value
   }
-  // getArticle(params).then((response) => {
-  //   articleRanking.value = response.results
-  //   rankingLoading.value = false
-  // })
 };
 // 排行列表-是否下拉状态
 const isDropdown: any = ref(false)
@@ -186,27 +182,6 @@ async function rankingData() {
     size: 10,
     ordering: '-view',
   }
-  // let data = await getArticle(params)
-  // articleRanking.value = data.results
-  console.log("articleRanking", articleRanking.value)
-}
-
-//关于博主信息
-let info = reactive({})
-
-async function infoData() {
-  // Object.assign(info, await getInfo());
-  // console.log("info", info)
-}
-
-// 网站数据统计
-let statistics: any = reactive({
-  uptime: "2023-01-12 14:37:54"
-})
-
-async function statisticsData() {
-  // Object.assign(statistics, await getSiteStatistics());
-  // console.log("statistics", statistics)
 }
 
 // 跳转文章详情页
@@ -214,11 +189,19 @@ const toDetail = (detailID: any) => {
   router.push({ path: `/detail/article/${detailID}` })
 }
 
-let runTimeString = ref();
+const selectBlogDataFun = () => {
+  selectBlogDataApi().then((res: any) => {
+      if(res.code === 200) {
+        blogData.data = res.result
+        runTime(res.result.deploymentTime)
+      }
+  })
+}
 
 // 运行时间
-const runTime = () => {
-  let oldTime = new Date(statistics.uptime)
+let runTimeString = ref();
+const runTime = (time: any) => {
+  let oldTime = new Date(time)
   setInterval(function () {
     let nowTime = new Date()
     let longTime = nowTime.getTime() - oldTime.getTime()
@@ -231,11 +214,9 @@ const runTime = () => {
 }
 
 onMounted(() => {
-  runTime()
   recommendData()
   rankingData()
-  infoData()
-  statisticsData()
+  selectBlogDataFun()
 })
 </script>
 

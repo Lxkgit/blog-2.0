@@ -16,7 +16,15 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-07-13【功能新增】：mq上报消息新增" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-07-13【功能新增】：mq上报消息新增">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/config/ResourceServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/config/ResourceServerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/config/ResourceServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/config/ResourceServerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/UploadFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/UploadFileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/BlogDataServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/BlogDataServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/common/Aside.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/common/Aside.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/common/TagCloud.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/common/TagCloud.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -362,13 +370,8 @@
       <workItem from="1688782848320" duration="193000" />
       <workItem from="1689165988296" duration="384000" />
       <workItem from="1689166957627" duration="1660000" />
-    </task>
-    <task id="LOCAL-00049" summary="22-12-17【功能修改】：前端界面功能完善，博客接口优化">
-      <created>1671245435656</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1671245435656</updated>
+      <workItem from="1689551670037" duration="507000" />
+      <workItem from="1690124017747" duration="650000" />
     </task>
     <task id="LOCAL-00050" summary="22-12-17【bug修复】：修复前端打包问题">
       <created>1671245962503</created>
@@ -706,7 +709,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689181244042</updated>
     </task>
-    <option name="localTasksCounter" value="98" />
+    <task id="LOCAL-00098" summary="23-07-17【功能新增】：新增博客数据统计接口">
+      <created>1689552149438</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1689552149439</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -737,7 +747,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="23-02-16【功能新增】：博客更新2.1版本，修改前端页面，后端接口不兼容2.0版本博客" />
     <MESSAGE value="23-02-19【功能新增】：文章展示功能完成" />
     <MESSAGE value="23-03-06【功能新增】：新增博客后端管理页面" />
     <MESSAGE value="23-03-12【功能新增】：博客后端管理页面角色、用户、文章管理功能新增" />
@@ -762,7 +771,8 @@
     <MESSAGE value="23-07-03【功能新增】：博客开始引入mq" />
     <MESSAGE value="23-07-08【功能新增】：新增mq推送数据功能，新增socket推送数据功能，修复日记保存bug，修复日记删除bug" />
     <MESSAGE value="23-07-13【功能新增】：mq上报消息新增" />
-    <option name="LAST_COMMIT_MESSAGE" value="23-07-13【功能新增】：mq上报消息新增" />
+    <MESSAGE value="23-07-17【功能新增】：新增博客数据统计接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="23-07-17【功能新增】：新增博客数据统计接口" />
   </component>
   <component name="WindowStateProjectService">
     <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1684036105991">
@@ -849,10 +859,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="731" y="432" key="VCS.ChangelistChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1687092618450" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1689181249560">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1689552163067">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1689181249560" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1689552163067" />
     <state x="2315" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1685284332186" />
     <state x="662" y="252" width="596" height="536" key="find.popup" timestamp="1684649647257">
       <screen x="0" y="0" width="1920" height="1040" />

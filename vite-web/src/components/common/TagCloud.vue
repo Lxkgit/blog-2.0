@@ -1,23 +1,23 @@
 <template>
   <div id="tags-cloud">
-    <a v-for="(item,index) in tagList"
+    <a v-for="(item,index) in tagList.data"
        :key="index"
        :style="'background-color:'+tagColor(item.id)"
        @click="$router.push(`/tag/${item.id}`)"
-    >{{ item.name }}</a>
-    <a v-for="(item,index) in tagList"
+    >{{ item.labelName }}</a>
+    <a v-for="(item,index) in tagList.data"
        :key="index"
        :style="'background-color:'+tagColor(item.id)"
        @click="$router.push(`/tag/${item.id}`)"
-    >{{ item.name }}</a>
+    >{{ item.labelName }}</a>
   </div>
 </template>
 
 <script setup lang="ts">
 //@ts-nocheck
-import {onMounted, ref} from "vue";
+import {onMounted, ref, reactive} from "vue";
 import color from "@/utils/color";
-// import {getTag} from "@/api/blog";
+import { getArticleLabelListApi } from "@/api/content"
 
 let {tagColor} = color()
 const radius = 90;
@@ -41,28 +41,37 @@ let cb = ''
 let sc = ''
 let cc = ''
 // 标签云-所有标签
-const tagList = ref([
+const tagList = reactive({data: [
   {
     id: 1,
-    name: "Java"
+    labelName: "Java"
   },
   {
     id: 2,
-    name: "Spring Boot"
+    labelName: "Spring Boot"
   },
   {
     id: 3,
-    name: "Redis"
+    labelName: "Redis"
   },
   {
     id: 4,
-    name: "Rabbit MQ"
+    labelName: "Rabbit MQ"
   }
-])
+]})
 
-async function tagData() {
-  // tagList.value = await getTag()
-  // console.log(tagList.value)
+onMounted(async () => {
+  // getArticleLabelListFun()
+  begin()
+})
+
+const getArticleLabelListFun = () => {
+  getArticleLabelListApi(0).then((res: any) => {
+    if(res.code === 200) {
+      console.log(res.result)
+      tagList.data = res.result
+    }
+  })
 }
 
 const begin = () => {
@@ -91,7 +100,7 @@ const begin = () => {
         this.style.filter = "alpha(opacity=" + 100 * obj.alpha + ")";
         this.style.opacity = obj.alpha;
         this.style.zIndex = obj.zIndex;
-      }
+       }
     })(oTag)
     oTag.offsetWidth = aA[i].offsetWidth;
     oTag.offsetHeight = aA[i].offsetHeight;
@@ -203,10 +212,7 @@ const sineCosine = (a, b, c) => {
   sc = Math.sin(c * dtr);
   cc = Math.cos(c * dtr);
 }
-onMounted(async () => {
-  await tagData()
-  begin()
-})
+
 </script>
 
 <style scoped lang="scss">
