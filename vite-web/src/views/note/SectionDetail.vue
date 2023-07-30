@@ -1,5 +1,4 @@
 <template>
-  <!-- <div v-title="sectionData.title + '-' + sitename"> -->
   <div>
     <section class="detail">
       <NavMenu></NavMenu>

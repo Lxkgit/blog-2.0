@@ -1,6 +1,6 @@
 <template>
   <NavMenu></NavMenu>
-  <div class="page" v-title="title + '-笔记目录'">
+  <div class="page">
     <div class="catalog animate__animated animate__zoomIn">
       <el-tree :data="catalogList" @node-click="handleNodeClick"></el-tree>
     </div>

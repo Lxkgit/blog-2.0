@@ -37,7 +37,6 @@ function user() {
 		}
 	})
 	onMounted(() => {
-		console.log(JSON.stringify(router.currentRoute.value.path) + "--")
 		// 获取用户基本信息
 		if (store.keepLogin === true) {
 			if (JSON.stringify(store.userLocal) === '{"user_id":"","access_token":""}') {

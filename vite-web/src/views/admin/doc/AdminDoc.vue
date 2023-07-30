@@ -154,7 +154,7 @@ import MarkDown from "@/components/detail/MarkDown.vue";
 import { tagsStore } from "@/store/tag";
 import { contentStore } from "@/store/content";
 import { ElTree } from "element-plus";
-import { upload } from "@/api/file"
+import { uploadApi } from "@/api/file"
 
 // 引入笔记目录模块
 let {
@@ -240,7 +240,7 @@ function cropper() {
       data.append('files', blobToFile(blob, fileName + "." + option.outputType))
       data.append('fileTypeCode', "1")
       data.append('filePathCode', "2")
-      upload(data).then((res: any) => {
+      uploadApi(data).then((res: any) => {
         if (res.code === 200) {
           ElMessage.success({
             message: '图片上传成功',

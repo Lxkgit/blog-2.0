@@ -38,7 +38,6 @@ watch(() => router, (newValue) => {
 }, { deep: true })
 
 watch(isLogin, (newValue, oldValue) => {
-  console.log("watch 监听数据 .... " + newValue)
   if (newValue) {
     openSocketUser(userId.value);
   } else {

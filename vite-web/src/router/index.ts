@@ -213,6 +213,26 @@ const router = createRouter({
                         isAuth: true,
                     },
                 },
+                {
+                    path: 'setting/web',
+                    name: 'WebSetting',
+                    component: () => import('@/views/admin/setting/WebSetting.vue'),
+                    meta: {
+                        title: '网站设置',
+                        keepAlive: false,
+                        isAuth: true,
+                    },
+                },
+                {
+                    path: 'setting/user',
+                    name: 'UserSetting',
+                    component: () => import('@/views/admin/setting/UserSetting.vue'),
+                    meta: {
+                        title: '个人设置',
+                        keepAlive: false,
+                        isAuth: true,
+                    },
+                },
                
             ]
         },

@@ -1,5 +1,5 @@
 <template>
-  <div v-title="articleData.title + '-' + sitename">
+  <div>
     <section class="detail">
       <NavMenu></NavMenu>
       <div class="detail-page">

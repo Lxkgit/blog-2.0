@@ -74,6 +74,7 @@ const showImg = (MDimages, currentIndex) => {
   images.MDimages = MDimages
   images.currentIndex = currentIndex
   images.isShow = true
+  console.log(images)
 }
 // markdown-对象
 const editor = ref(null)

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.file.dao.BlogSettingDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.file.BlogSetting">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="setting_type" property="settingType" jdbcType="VARCHAR"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="type" property="type" jdbcType="INTEGER"/>
+        <id column="title" property="title" jdbcType="VARCHAR"/>
+        <id column="setting" property="setting" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, setting_type, user_id, type, title, setting
+    </sql>
+
+</mapper>

@@ -72,7 +72,7 @@ import { useRouter } from "vue-router";
 import { contentStore } from "@/store/content"
 import { tagsStore } from "@/store/tag"
 import { saveArticleApi, updateArticleApi, getArticleTypeTreeApi, getArticleLabelListApi } from "@/api/content"
-import { upload } from "@/api/file" 
+import { uploadApi } from "@/api/file" 
 import icon from '@/utils/icon'
 import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
@@ -202,7 +202,7 @@ const uploadImageFun = (event: any, insertImage: any, files: any) => {
     formData.append("files", files[i]);
     formData.append("fileTypeCode", 1);
     formData.append("filePathCode", 1);
-    upload(
+    uploadApi(
       formData
     ).then((res: any) => {
       if (res.code === 200) {

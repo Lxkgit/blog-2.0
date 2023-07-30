@@ -196,7 +196,7 @@ const photo = ref()
 async function getPhotoData() {
   // let data = await getUserinfoId(userId.value)
   // photo.value = data.photo
-  console.log("photo:", photo.value)
+  // console.log("photo:", photo.value)
 }
 
 //设置-菜单默认关闭

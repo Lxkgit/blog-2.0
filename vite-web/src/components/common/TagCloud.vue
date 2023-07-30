@@ -5,11 +5,11 @@
        :style="'background-color:'+tagColor(item.id)"
        @click="$router.push(`/tag/${item.id}`)"
     >{{ item.labelName }}</a>
-    <a v-for="(item,index) in tagList.data"
+    <!-- <a v-for="(item,index) in tagList.data"
        :key="index"
        :style="'background-color:'+tagColor(item.id)"
        @click="$router.push(`/tag/${item.id}`)"
-    >{{ item.labelName }}</a>
+    >{{ item.labelName }}</a> -->
   </div>
 </template>
 
@@ -18,6 +18,7 @@
 import {onMounted, ref, reactive} from "vue";
 import color from "@/utils/color";
 import { getArticleLabelListApi } from "@/api/content"
+import { ITEM_RENDER_EVT } from "element-plus/es/components/virtual-list/src/defaults";
 
 let {tagColor} = color()
 const radius = 90;
@@ -41,34 +42,18 @@ let cb = ''
 let sc = ''
 let cc = ''
 // 标签云-所有标签
-const tagList = reactive({data: [
-  {
-    id: 1,
-    labelName: "Java"
-  },
-  {
-    id: 2,
-    labelName: "Spring Boot"
-  },
-  {
-    id: 3,
-    labelName: "Redis"
-  },
-  {
-    id: 4,
-    labelName: "Rabbit MQ"
-  }
-]})
+const tagList = reactive({data: []})
+
+
 
 onMounted(async () => {
-  // getArticleLabelListFun()
+  await getArticleLabelListFun()
   begin()
 })
 
-const getArticleLabelListFun = () => {
-  getArticleLabelListApi(0).then((res: any) => {
+async function getArticleLabelListFun(){
+    await getArticleLabelListApi(0).then((res: any) => {    
     if(res.code === 200) {
-      console.log(res.result)
       tagList.data = res.result
     }
   })

@@ -6,7 +6,6 @@ const socketUser = () => {
     //判断当前浏览器是否支持WebSocket, 主要此处要更换为自己的地址
     if ('WebSocket' in window) {
       let url = "http://localhost:9527/file/client/" + userId;
-      console.log("user socket : " + url)
       url = url.replace("https", "wss").replace("http", "ws");
       if (websocket == null && !socketLink) {      
         websocket = new WebSocket(url); 
