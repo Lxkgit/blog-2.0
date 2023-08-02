@@ -21,7 +21,7 @@ import { ref } from 'vue'
 import WebSetting from '@/components/setting/WebSetting.vue';
 import WallpaperSetting from '@/components/setting/WallpaperSetting.vue';
 
-const activeName = ref('2')
+const activeName = ref('1')
 
 const change = (tab: any, event: Event) => {
   // console.log(tab)

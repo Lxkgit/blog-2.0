@@ -13,6 +13,8 @@ import java.util.List;
 
 public interface BlogSettingService {
 
+    BlogSettingVo selectBlogSettingById(Integer id);
+
     List<BlogSettingVo> selectBlogSetting(BlogUser blogUser, String type);
 
     void updateBlogSetting(BlogUser blogUser, BlogSettingVo blogSettingVo);

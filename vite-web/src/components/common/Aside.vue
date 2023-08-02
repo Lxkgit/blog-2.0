@@ -5,19 +5,7 @@
         <span class="card-title no-choose">🔈 网站公告</span>
       </template>
       <div class="recommend">
-        <!-- <span class="recommend-hover"
-                v-for="article in recommend" :key="article.id"
-                @click="toDetail(article.id)">
-          <el-image
-              style="width: 115px;height: 76px"
-              :src="article.cover"
-              :fit="'fill'">
-            <template #placeholder>
-              <span class="loading" v-loading="true"></span>
-            </template>
-          </el-image>
-          <p class="no-choose">{{ article.title }}</p>
-          </span> -->
+        {{ webNotice.value }}
       </div>
     </el-card>
     <el-card class="card-hover">
@@ -127,11 +115,12 @@ import { onMounted, reactive, ref } from "vue";
 import timeFormat from "@/utils/timeFormat";
 import icon from "@/utils/icon";
 import { useRouter } from "vue-router";
-import { selectBlogDataApi } from "@/api/file"
+import { selectBlogDataApi, selectBlogSettingByIdApi } from "@/api/file"
 
 let { MyIcon } = icon()
 let { timeFull } = timeFormat()
 const router = useRouter()
+const webNotice: any = ref({})
 //推荐阅读文章列表
 const recommend: any = ref([])
 // 
@@ -142,7 +131,6 @@ async function recommendData() {
     size: 6,
     ordering: '-is_recommend,-created_time'
   }
-
 }
 
 // 排行列表-全部种类
@@ -198,6 +186,12 @@ const selectBlogDataFun = () => {
   })
 }
 
+const selectBlogSettingByIdFun = () => {
+  selectBlogSettingByIdApi(2).then((res: any) => {
+    webNotice.value = res.result
+  })
+}
+
 // 运行时间
 let runTimeString = ref();
 const runTime = (time: any) => {
@@ -217,6 +211,7 @@ onMounted(() => {
   recommendData()
   rankingData()
   selectBlogDataFun()
+  selectBlogSettingByIdFun()
 })
 </script>
 

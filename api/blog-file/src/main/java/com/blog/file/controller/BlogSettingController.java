@@ -26,6 +26,11 @@ public class BlogSettingController {
     @Resource
     private BlogSettingService blogSettingService;
 
+    @GetMapping("/id")
+    public Result selectSettingById(@RequestParam(value = "id") Integer id) {
+        return ResultFactory.buildSuccessResult(blogSettingService.selectBlogSettingById(id));
+    }
+
     @GetMapping("/select")
     public Result selectSettingList(@RequestHeader HttpHeaders headers, @RequestParam(value = "settingType") String settingType) {
         String token = String.valueOf(headers.get("Authorization"));

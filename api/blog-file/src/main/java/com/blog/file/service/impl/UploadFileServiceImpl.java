@@ -7,7 +7,7 @@ import com.blog.common.result.ResultFactory;
 import com.blog.common.util.DateUtil;
 import com.blog.file.dao.UploadFileDAO;
 import com.blog.file.dao.UploadLogDAO;
-import com.blog.file.service.FileService;
+import com.blog.file.service.UploadFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +26,7 @@ import java.util.*;
 
 @Slf4j
 @Service
-public class UploadFileServiceImpl implements FileService {
+public class UploadFileServiceImpl implements UploadFileService {
 
     @Resource
     private UploadLogDAO uploadLogDAO;

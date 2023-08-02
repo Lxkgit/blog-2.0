@@ -7,6 +7,7 @@ import com.blog.common.entity.file.vo.BlogSettingVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.file.dao.BlogSettingDAO;
 import com.blog.file.service.BlogSettingService;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,19 @@ public class BlogSettingServiceImpl implements BlogSettingService {
 
     @Resource
     private BlogSettingDAO blogSettingDAO;
+
+    @Override
+    public BlogSettingVo selectBlogSettingById(Integer id) {
+        BlogSetting blogSetting = blogSettingDAO.selectById(id);
+        if (blogSetting != null) {
+            List<BlogSettingVo> blogSettingVoList = new ArrayList<>();
+            List<BlogSetting> blogSettingList = new ArrayList<>();
+            blogSettingList.add(blogSetting);
+            setBlogSettingVoList(blogSettingVoList, blogSettingList);
+            return blogSettingVoList.get(0);
+        }
+        return null;
+    }
 
     @Override
     public List<BlogSettingVo> selectBlogSetting(BlogUser blogUser, String settingType) {

@@ -10,9 +10,10 @@ import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.common.util.JwtUtil;
 import com.blog.file.service.ImportService;
-import com.blog.file.service.FileService;
+import com.blog.file.service.UploadFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,13 +32,13 @@ import java.util.List;
 public class UploadFileController {
 
     @Resource
-    private FileService fileUploadService;
+    private UploadFileService fileUploadService;
 
     @Resource
     private ImportService importService;
 
     @PostMapping
-    public Result uploadFile(@RequestHeader HttpHeaders headers, UploadVo uploadVo) {
+    public Result uploadFile(@RequestHeader HttpHeaders headers,@Validated UploadVo uploadVo) {
         if (uploadVo.getFiles() == null || uploadVo.getFiles().length == 0) {
             log.info(ErrorMessage.FILE_SIZE_NULL.getDesc());
             return ResultFactory.buildFailResult(ErrorMessage.FILE_SIZE_NULL.getDesc());
@@ -50,7 +51,6 @@ public class UploadFileController {
         if (typeList == null) {
             return ResultFactory.buildFailResult(ErrorMessage.FILE_TYPE_ERROR.getDesc());
         }
-        filePath = filePath + FileTypeEnum.getTypePathByTypeName(uploadVo.getFileTypeCode());
         for (MultipartFile file : uploadVo.getFiles()) {
             String fileName = file.getName();
             String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1);
@@ -62,6 +62,11 @@ public class UploadFileController {
         String token = String.valueOf(headers.get("Authorization"));
         try {
             BlogUser blogUser = JwtUtil.getUserInfo(token);
+            if (uploadVo.getFilePathCode().equals(FilePathEnum.USER_PATH.getFilePathCode())) {
+                filePath = filePath + "/" + blogUser.getId() + uploadVo.getAddPath();
+            } else {
+                filePath = filePath + FileTypeEnum.getTypePathByTypeName(uploadVo.getFileTypeCode());
+            }
             return fileUploadService.upload(uploadVo.getFiles(), blogUser.getId(), filePath);
         } catch (Exception e) {
             log.error(ErrorMessage.FILE_UPLOAD_ERROR.getDesc(), e);

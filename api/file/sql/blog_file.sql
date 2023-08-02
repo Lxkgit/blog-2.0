@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 28/07/2023 18:17:09
+ Date: 02/08/2023 18:01:12
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `blog_data`  (
 -- ----------------------------
 -- Records of blog_data
 -- ----------------------------
-INSERT INTO `blog_data` VALUES (1, '2023-07-14 11:33:36', 6061, 3, 5, 2, 1, 5, 1, 2, 1, 74);
+INSERT INTO `blog_data` VALUES (1, '2023-07-14 11:33:36', 6400, 3, 5, 2, 1, 5, 1, 2, 1, 94);
 
 -- ----------------------------
 -- Table structure for blog_setting
@@ -59,15 +59,11 @@ CREATE TABLE `blog_setting`  (
 -- ----------------------------
 -- Records of blog_setting
 -- ----------------------------
-INSERT INTO `blog_setting` VALUES (1, '0-0', NULL, 0, '网站设置', '{\"id\":7,\"num\":4,\"userId\":1,\"valueList\":[\"http://localhost/files/doc/img/2023-07-26_20-17-30_bCFETh_Snipaste_2023-07-26_20-08-22.jpg\",\"http://localhost/files/doc/img/2023-07-26_20-17-36_KZpCJV_Snipaste_2023-07-26_20-08-46.jpg\",\"http://localhost/files/doc/img/2023-07-26_20-17-41_CnkgaQ_Snipaste_2023-07-26_20-08-56.jpg\",\"http://localhost/files/doc/img/2023-07-26_20-17-47_SHYKfC_Snipaste_2023-07-26_20-09-05.jpg\"]}');
-INSERT INTO `blog_setting` VALUES (2, '0-0', 1, 1, '公告', '{\"id\":2,\"userId\":1,\"value\":\"今天没有公告\"}');
-INSERT INTO `blog_setting` VALUES (3, '0-0', NULL, 0, '用户设置', NULL);
-INSERT INTO `blog_setting` VALUES (4, '0-0', 1, 3, '新用户注册', '{\"bool\":true,\"id\":4,\"userId\":1}');
-INSERT INTO `blog_setting` VALUES (5, '0-1', NULL, 0, '背景壁纸', NULL);
-INSERT INTO `blog_setting` VALUES (6, '0-1', 1, 5, '轮播图', '{\"id\":6,\"userId\":1,\"valueList\":[\"http://localhost/files/doc/img/2023-07-27_19-10-19_VYlysy_Snipaste_2023-07-26_20-09-05.jpg\"]}');
-INSERT INTO `blog_setting` VALUES (7, '0-1', 1, 6, '轮播图', '{\"id\":7,\"num\":4,\"userId\":1,\"valueList\":[\"http://localhost/files/doc/img/2023-07-27_19-06-22_LLMJoB_Snipaste_2023-07-26_20-08-46.jpg\",\"http://localhost/files/doc/img/2023-07-27_19-09-43_nZysAF_Snipaste_2023-07-26_20-08-22.jpg\",\"http://localhost/files/doc/img/2023-07-27_19-09-49_CbJJSv_Snipaste_2023-07-26_20-09-05.jpg\",\"http://localhost/files/doc/img/2023-07-27_19-10-00_suPcoD_Snipaste_2023-07-26_20-08-56.jpg\"]}');
-INSERT INTO `blog_setting` VALUES (8, '0-0', 1, 2, 'test', '{\"id\":8,\"num\":100,\"userId\":1}');
-INSERT INTO `blog_setting` VALUES (9, '0-0', 1, 4, '公告', '{\"id\":9,\"userId\":1,\"value\":\"111\"}');
+INSERT INTO `blog_setting` VALUES (1, '0-0', NULL, 0, '信息展示', NULL);
+INSERT INTO `blog_setting` VALUES (2, '0-0', 1, 1, '公告', '{\"id\":2,\"userId\":1,\"value\":\"很长很长的网站公告------------------很长很长的网站公告------------------很长很长的网站公告------------------\"}');
+INSERT INTO `blog_setting` VALUES (3, '0-0', 1, 6, '轮播图', '{\"id\":3,\"num\":3,\"userId\":1,\"valueList\":[\"http://localhost/files/doc/img/2023-07-27_19-06-22_LLMJoB_Snipaste_2023-07-26_20-08-46.jpg\",\"http://localhost/files/doc/img/2023-08-01_20-03-37_WehrqV_2023-05-11_16-40-49_TjXVgH_Snipaste_2023-05-11_15-51-44.jpg\",\"http://localhost/files/doc/img/2023-08-02_15-53-34_YqCiiM_Snipaste_2023-08-02_15-43-39.jpg\"]}');
+INSERT INTO `blog_setting` VALUES (5, '0-1', 1, 0, '背景壁纸', NULL);
+INSERT INTO `blog_setting` VALUES (6, '0-1', 1, 5, '轮播图', '{\"id\":6,\"userId\":1,\"valueList\":[]}');
 
 -- ----------------------------
 -- Table structure for content_count
@@ -80,12 +76,25 @@ CREATE TABLE `content_count`  (
   `article_count` int(11) NULL DEFAULT 0 COMMENT '文章数量',
   `diary_count` int(11) NULL DEFAULT 0 COMMENT '日记数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 570 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客用户内容数量统计' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 572 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客用户内容数量统计' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of content_count
 -- ----------------------------
-INSERT INTO `content_count` VALUES (569, 1, 1, 2, 1);
+INSERT INTO `content_count` VALUES (571, 1, 1, 2, 1);
+
+-- ----------------------------
+-- Table structure for file_data
+-- ----------------------------
+DROP TABLE IF EXISTS `file_data`;
+CREATE TABLE `file_data`  (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件/目录名称',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件/目录全路径',
+  `type` tinyint(4) NULL DEFAULT NULL COMMENT '文件类型 0：目录 1：文件',
+  `fileSize` bigint(20) NULL DEFAULT NULL COMMENT '文件大小（kb）',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for upload_file
@@ -100,7 +109,7 @@ CREATE TABLE `upload_file`  (
   `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件类型',
   `file_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件路径',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 83 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 95 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of upload_file
@@ -187,6 +196,18 @@ INSERT INTO `upload_file` VALUES (79, 1, '2023-07-27_19-09-43_nZysAF_Snipaste_20
 INSERT INTO `upload_file` VALUES (80, 1, '2023-07-27_19-09-49_CbJJSv_Snipaste_2023-07-26_20-09-05.jpg', 'http://localhost/files/doc/img/2023-07-27_19-09-49_CbJJSv_Snipaste_2023-07-26_20-09-05.jpg', '2023-07-27 19:09:50', 'jpg', 'D:/files/doc/img');
 INSERT INTO `upload_file` VALUES (81, 1, '2023-07-27_19-10-00_suPcoD_Snipaste_2023-07-26_20-08-56.jpg', 'http://localhost/files/doc/img/2023-07-27_19-10-00_suPcoD_Snipaste_2023-07-26_20-08-56.jpg', '2023-07-27 19:10:00', 'jpg', 'D:/files/doc/img');
 INSERT INTO `upload_file` VALUES (82, 1, '2023-07-27_19-10-19_VYlysy_Snipaste_2023-07-26_20-09-05.jpg', 'http://localhost/files/doc/img/2023-07-27_19-10-19_VYlysy_Snipaste_2023-07-26_20-09-05.jpg', '2023-07-27 19:10:19', 'jpg', 'D:/files/doc/img');
+INSERT INTO `upload_file` VALUES (83, 1, '2023-08-01_20-03-37_WehrqV_2023-05-11_16-40-49_TjXVgH_Snipaste_2023-05-11_15-51-44.jpg', 'http://localhost/files/doc/img/2023-08-01_20-03-37_WehrqV_2023-05-11_16-40-49_TjXVgH_Snipaste_2023-05-11_15-51-44.jpg', '2023-08-01 20:03:37', 'jpg', 'D:/files/doc/img');
+INSERT INTO `upload_file` VALUES (84, 1, '2023-08-02_15-52-40_IZuLcI_Snipaste_2023-08-02_15-43-39.jpg', 'http://localhost/files/doc/img/2023-08-02_15-52-40_IZuLcI_Snipaste_2023-08-02_15-43-39.jpg', '2023-08-02 15:52:41', 'jpg', 'D:/files/doc/img');
+INSERT INTO `upload_file` VALUES (85, 1, '2023-08-02_15-52-51_SYWpLS_Snipaste_2023-08-02_15-43-39.jpg', 'http://localhost/files/doc/img/2023-08-02_15-52-51_SYWpLS_Snipaste_2023-08-02_15-43-39.jpg', '2023-08-02 15:52:51', 'jpg', 'D:/files/doc/img');
+INSERT INTO `upload_file` VALUES (86, 1, '2023-08-02_15-53-34_YqCiiM_Snipaste_2023-08-02_15-43-39.jpg', 'http://localhost/files/doc/img/2023-08-02_15-53-34_YqCiiM_Snipaste_2023-08-02_15-43-39.jpg', '2023-08-02 15:53:34', 'jpg', 'D:/files/doc/img');
+INSERT INTO `upload_file` VALUES (87, 1, '2023-08-02_15-54-44_XZuZcx_Snipaste_2023-08-02_15-43-39.jpg', 'http://localhost/files/user/img/1/测试路径/test/2023-08-02_15-54-44_XZuZcx_Snipaste_2023-08-02_15-43-39.jpg', '2023-08-02 15:54:44', 'jpg', 'D:/files/user/img/1/测试路径/test');
+INSERT INTO `upload_file` VALUES (88, 1, '2023-08-02_15-57-14_uTbvdP_Snipaste_2023-08-02_15-43-39.jpg', 'http://localhost/files/user/1/测试路径/test/2023-08-02_15-57-14_uTbvdP_Snipaste_2023-08-02_15-43-39.jpg', '2023-08-02 15:57:15', 'jpg', 'D:/files/user/1/测试路径/test');
+INSERT INTO `upload_file` VALUES (89, 1, '2023-08-02_15-57-28_sTAwfZ_Snipaste_2023-08-02_15-43-39.jpg', 'http://localhost/files/user/1/测试路径/test---/2023-08-02_15-57-28_sTAwfZ_Snipaste_2023-08-02_15-43-39.jpg', '2023-08-02 15:57:28', 'jpg', 'D:/files/user/1/测试路径/test---');
+INSERT INTO `upload_file` VALUES (90, 1, '2023-08-02_15-59-09_UiuOgf_Snipaste_2023-08-02_15-43-39.jpg', 'http://localhost/files/user/1/测试路径/test1/2023-08-02_15-59-09_UiuOgf_Snipaste_2023-08-02_15-43-39.jpg', '2023-08-02 15:59:10', 'jpg', 'D:/files/user/1/测试路径/test1');
+INSERT INTO `upload_file` VALUES (91, 1, '2023-08-02_16-00-24_QgQyhc_Snipaste_2023-08-02_15-43-39.jpg', 'http://localhost/files/doc/img/2023-08-02_16-00-24_QgQyhc_Snipaste_2023-08-02_15-43-39.jpg', '2023-08-02 16:00:24', 'jpg', 'D:/files/doc/img');
+INSERT INTO `upload_file` VALUES (92, 1, '2023-08-02_16-00-30_rvjZxH_Snipaste_2023-08-02_15-43-39.jpg', 'http://localhost/files/article/img/2023-08-02_16-00-30_rvjZxH_Snipaste_2023-08-02_15-43-39.jpg', '2023-08-02 16:00:31', 'jpg', 'D:/files/article/img');
+INSERT INTO `upload_file` VALUES (93, 1, '2023-08-02_16-00-35_QrcGRJ_Snipaste_2023-08-02_15-43-39.jpg', 'http://localhost/files/article/file/2023-08-02_16-00-35_QrcGRJ_Snipaste_2023-08-02_15-43-39.jpg', '2023-08-02 16:00:36', 'jpg', 'D:/files/article/file');
+INSERT INTO `upload_file` VALUES (94, 1, '2023-08-02_16-00-39_WpqbyK_Snipaste_2023-08-02_15-43-39.jpg', 'http://localhost/files/article/img/2023-08-02_16-00-39_WpqbyK_Snipaste_2023-08-02_15-43-39.jpg', '2023-08-02 16:00:40', 'jpg', 'D:/files/article/img');
 
 -- ----------------------------
 -- Table structure for upload_log
@@ -201,7 +222,7 @@ CREATE TABLE `upload_log`  (
   `upload_msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `upload_time` datetime(0) NULL DEFAULT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 83 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 95 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of upload_log
@@ -288,5 +309,17 @@ INSERT INTO `upload_log` VALUES (79, 1, '2023-07-27_19-09-43_nZysAF_Snipaste_202
 INSERT INTO `upload_log` VALUES (80, 1, '2023-07-27_19-09-49_CbJJSv_Snipaste_2023-07-26_20-09-05.jpg', 'jpg', 1, '文件上传成功', '2023-07-27 19:09:50');
 INSERT INTO `upload_log` VALUES (81, 1, '2023-07-27_19-10-00_suPcoD_Snipaste_2023-07-26_20-08-56.jpg', 'jpg', 1, '文件上传成功', '2023-07-27 19:10:00');
 INSERT INTO `upload_log` VALUES (82, 1, '2023-07-27_19-10-19_VYlysy_Snipaste_2023-07-26_20-09-05.jpg', 'jpg', 1, '文件上传成功', '2023-07-27 19:10:19');
+INSERT INTO `upload_log` VALUES (83, 1, '2023-08-01_20-03-37_WehrqV_2023-05-11_16-40-49_TjXVgH_Snipaste_2023-05-11_15-51-44.jpg', 'jpg', 1, '文件上传成功', '2023-08-01 20:03:37');
+INSERT INTO `upload_log` VALUES (84, 1, '2023-08-02_15-52-40_IZuLcI_Snipaste_2023-08-02_15-43-39.jpg', 'jpg', 1, '文件上传成功', '2023-08-02 15:52:41');
+INSERT INTO `upload_log` VALUES (85, 1, '2023-08-02_15-52-51_SYWpLS_Snipaste_2023-08-02_15-43-39.jpg', 'jpg', 1, '文件上传成功', '2023-08-02 15:52:51');
+INSERT INTO `upload_log` VALUES (86, 1, '2023-08-02_15-53-34_YqCiiM_Snipaste_2023-08-02_15-43-39.jpg', 'jpg', 1, '文件上传成功', '2023-08-02 15:53:34');
+INSERT INTO `upload_log` VALUES (87, 1, '2023-08-02_15-54-44_XZuZcx_Snipaste_2023-08-02_15-43-39.jpg', 'jpg', 1, '文件上传成功', '2023-08-02 15:54:44');
+INSERT INTO `upload_log` VALUES (88, 1, '2023-08-02_15-57-14_uTbvdP_Snipaste_2023-08-02_15-43-39.jpg', 'jpg', 1, '文件上传成功', '2023-08-02 15:57:15');
+INSERT INTO `upload_log` VALUES (89, 1, '2023-08-02_15-57-28_sTAwfZ_Snipaste_2023-08-02_15-43-39.jpg', 'jpg', 1, '文件上传成功', '2023-08-02 15:57:28');
+INSERT INTO `upload_log` VALUES (90, 1, '2023-08-02_15-59-09_UiuOgf_Snipaste_2023-08-02_15-43-39.jpg', 'jpg', 1, '文件上传成功', '2023-08-02 15:59:10');
+INSERT INTO `upload_log` VALUES (91, 1, '2023-08-02_16-00-24_QgQyhc_Snipaste_2023-08-02_15-43-39.jpg', 'jpg', 1, '文件上传成功', '2023-08-02 16:00:24');
+INSERT INTO `upload_log` VALUES (92, 1, '2023-08-02_16-00-30_rvjZxH_Snipaste_2023-08-02_15-43-39.jpg', 'jpg', 1, '文件上传成功', '2023-08-02 16:00:31');
+INSERT INTO `upload_log` VALUES (93, 1, '2023-08-02_16-00-35_QrcGRJ_Snipaste_2023-08-02_15-43-39.jpg', 'jpg', 1, '文件上传成功', '2023-08-02 16:00:36');
+INSERT INTO `upload_log` VALUES (94, 1, '2023-08-02_16-00-39_WpqbyK_Snipaste_2023-08-02_15-43-39.jpg', 'jpg', 1, '文件上传成功', '2023-08-02 16:00:40');
 
 SET FOREIGN_KEY_CHECKS = 1;

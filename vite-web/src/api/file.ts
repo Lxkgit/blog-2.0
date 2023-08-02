@@ -14,6 +14,12 @@ export const selectBlogDataApi = () => {
 }
 
 // --------------设置接口-------------
+
+export const selectBlogSettingByIdApi = (id: any) => {
+    const uri = "/file/setting/id?id=" + id
+    return api.get(uri)
+}
+
 export const selectBlogSettingApi = (params: any) => {
     const uri = "/file/setting/select"
     return api.get(uri, params)
