@@ -40,9 +40,11 @@ public class UploadFileController {
     @PostMapping
     public Result uploadFile(@RequestHeader HttpHeaders headers,@Validated UploadVo uploadVo) {
         if (uploadVo.getFiles() == null || uploadVo.getFiles().length == 0) {
-            log.info(ErrorMessage.FILE_SIZE_NULL.getDesc());
             return ResultFactory.buildFailResult(ErrorMessage.FILE_SIZE_NULL.getDesc());
         }
+        String token = String.valueOf(headers.get("Authorization"));
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
+
         String filePath = FilePathEnum.getFilePathByCode(uploadVo.getFilePathCode());
         if (filePath == null) {
             return ResultFactory.buildFailResult(ErrorMessage.FILE_PATH_ERROR.getDesc());
@@ -59,15 +61,14 @@ public class UploadFileController {
             }
         }
 
-        String token = String.valueOf(headers.get("Authorization"));
         try {
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            String path = "/" + blogUser.getId() + filePath;
             if (uploadVo.getFilePathCode().equals(FilePathEnum.USER_PATH.getFilePathCode())) {
-                filePath = filePath + "/" + blogUser.getId() + uploadVo.getAddPath();
+                path = path + uploadVo.getAddPath();
             } else {
-                filePath = filePath + FileTypeEnum.getTypePathByTypeName(uploadVo.getFileTypeCode());
+                path = path + FileTypeEnum.getTypePathByTypeName(uploadVo.getFileTypeCode());
             }
-            return fileUploadService.upload(uploadVo.getFiles(), blogUser.getId(), filePath);
+            return fileUploadService.upload(uploadVo.getFiles(), blogUser.getId(), path);
         } catch (Exception e) {
             log.error(ErrorMessage.FILE_UPLOAD_ERROR.getDesc(), e);
         }

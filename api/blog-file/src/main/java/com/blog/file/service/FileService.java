@@ -2,6 +2,7 @@ package com.blog.file.service;
 
 import com.blog.common.entity.file.vo.FileDataVo;
 import com.blog.common.entity.user.BlogUser;
+import com.blog.common.exception.ValidException;
 import org.apache.poi.ss.formula.functions.T;
 
 import java.util.List;
@@ -14,5 +15,13 @@ import java.util.List;
 
 public interface FileService {
 
-    List<FileDataVo> selectFileDir(BlogUser blogUser, String filePath);
+    List<FileDataVo> selectFileDir(BlogUser blogUser, FileDataVo fileDataVo);
+
+    void saveFileDir(BlogUser blogUser, FileDataVo fileDataVo) throws ValidException;
+
+    void deleteFileOrDir(BlogUser blogUser, FileDataVo fileDataVo) throws ValidException;
+
+    void updateFileOrDirName(BlogUser blogUser, FileDataVo fileDataVo) throws ValidException;
+
+    Long selectUserSpace(BlogUser blogUser);
 }
