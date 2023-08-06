@@ -1,10 +1,10 @@
-package com.blog.common.message.socket;
+package com.blog.file.socket;
 
 import lombok.Data;
 
 /**
  * @description:
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/7/5 14:24
  */
 

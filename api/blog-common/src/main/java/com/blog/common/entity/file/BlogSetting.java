@@ -6,7 +6,7 @@ import lombok.Data;
 
 /**
  * @description: 博客设置表
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/7/25 15:04
  */
 

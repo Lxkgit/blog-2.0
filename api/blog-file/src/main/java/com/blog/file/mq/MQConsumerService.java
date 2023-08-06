@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * @description: mq消息消费服务
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/6/26 20:00
  */
 

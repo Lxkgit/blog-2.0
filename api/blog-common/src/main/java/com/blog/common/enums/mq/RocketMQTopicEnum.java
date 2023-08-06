@@ -2,7 +2,7 @@ package com.blog.common.enums.mq;
 
 /**
  * @description: mq topic基础类
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/6/28 16:50
  */
 

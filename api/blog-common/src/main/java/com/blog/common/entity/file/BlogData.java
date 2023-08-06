@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * @description: 博客数据实体类
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/7/10 15:48
  */
 

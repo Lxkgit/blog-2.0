@@ -3,23 +3,19 @@ package com.blog.file.socket;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.blog.common.enums.socket.SocketTopicEnum;
-import com.blog.common.message.socket.SocketMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @description: 点对点消息
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/6/8 10:55
  */
 

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @description: mq消息生产服务
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/6/26 19:56
  */
 

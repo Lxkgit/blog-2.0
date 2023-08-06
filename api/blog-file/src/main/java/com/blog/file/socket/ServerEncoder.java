@@ -9,7 +9,7 @@ import javax.websocket.EndpointConfig;
 
 /**
  * @description: websocket 编码
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/6/8 15:53
  */
 

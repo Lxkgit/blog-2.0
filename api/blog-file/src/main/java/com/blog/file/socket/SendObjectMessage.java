@@ -2,7 +2,6 @@ package com.blog.file.socket;
 
 import com.alibaba.fastjson.JSON;
 import com.blog.common.enums.socket.SocketTopicEnum;
-import com.blog.common.message.socket.SocketMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -15,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @description: 群发消息
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/6/8 10:54
  */
 
