@@ -28,7 +28,7 @@ createDir() {
 	# 博客微服务目录
 	mkdir -p /opt/blog/{blog-auth,blog-content,blog-gateway,blog-user,blog-file}
 	# 博客微服务日志目录
-	mkdir -p /opt/log/{blog-auth,blog-content,blog-gateway,blog-user,blog-file}
+	mkdir /opt/log
 	
 }
 
@@ -37,13 +37,13 @@ util(){
 	# 压缩解压工具
 	yum install -y unzip zip
 	yum install -y zlib zlib-devel
-	yum -y install lrzsz
-  yum -y install php-devel php-pear httpd-devel
-  yum -y install libaio
-  yum -y install perl
-  yum -y install net-tools
-	yum -y install gcc gcc-c++ make glibc automake autoconf libtool  libssl-dev openssl openssl-devel
-	yum -y install tree
+	yum install -y lrzsz
+  yum install -y php-devel php-pear httpd-devel
+  yum install -y libaio
+  yum install -y perl
+  yum install -y net-tools
+	yum install -y gcc gcc-c++ make glibc automake autoconf libtool  libssl-dev openssl openssl-devel
+	yum install -y tree
 }
 
 jdk() {
@@ -286,6 +286,11 @@ serviceStart(){
 	echo "启动nacos ... "
 	cd /opt/nacos/bin
 	./startup.sh -m standalone
+
+	echo "启动rocketMQ ... "
+	cd /opt/rocketmq-all-5.1.3-bin-release/bin
+	nohup sh mqnamesrv.sh >/dev/null 2>&1 &
+  nohup sh mqbroker.sh -n localhost:9876 >/dev/null 2>&1 &
 }
 
 blogJar() {
@@ -321,7 +326,7 @@ blogShell() {
  	cat > start.sh <<EOF
 #! /bin/bash
 
-nohup java -jar --add-opens java.base/java.lang=ALL-UNNAMED ../${blogAuthJar}.jar >/opt/log/blog-auth/blog-auth.log 2>&1 &
+nohup java -jar --add-opens java.base/java.lang=ALL-UNNAMED ../${blogAuthJar}.jar >/opt/log/blog-auth.log 2>&1 &
 echo \$! > project.pid
 EOF
 	cat > stop.sh <<EOF
@@ -340,7 +345,7 @@ EOF
  	cat > start.sh <<EOF
 #! /bin/bash
 
-nohup java -jar --add-opens java.base/java.lang=ALL-UNNAMED ../${blogContentJar}.jar >/opt/log/blog-content/blog-content.log 2>&1 &
+nohup java -jar --add-opens java.base/java.lang=ALL-UNNAMED ../${blogContentJar}.jar >/opt/log/blog-content.log 2>&1 &
 echo \$! > project.pid
 EOF
 	cat > stop.sh <<EOF
@@ -359,7 +364,7 @@ EOF
  	cat > start.sh <<EOF
 #! /bin/bash
 
-nohup java -jar --add-opens java.base/java.lang=ALL-UNNAMED ../${blogGatewayJar}.jar >/opt/log/blog-gateway/blog-gateway.log 2>&1 &
+nohup java -jar --add-opens java.base/java.lang=ALL-UNNAMED ../${blogGatewayJar}.jar >/opt/log/blog-gateway.log 2>&1 &
 echo \$! > project.pid
 EOF
 	cat > stop.sh <<EOF
@@ -378,7 +383,7 @@ EOF
  	cat > start.sh <<EOF
 #! /bin/bash
 
-nohup java -jar --add-opens java.base/java.lang=ALL-UNNAMED ../${blogUserJar}.jar >/opt/log/blog-user/blog-user.log 2>&1 &
+nohup java -jar --add-opens java.base/java.lang=ALL-UNNAMED ../${blogUserJar}.jar >/opt/log/blog-user.log 2>&1 &
 echo \$! > project.pid
 EOF
 	cat > stop.sh <<EOF
@@ -397,7 +402,7 @@ EOF
  	cat > start.sh <<EOF
 #! /bin/bash
 
-nohup java -jar --add-opens java.base/java.lang=ALL-UNNAMED ../${blogFileJar}.jar >/opt/log/blog-file/blog-file.log 2>&1 &
+nohup java -jar --add-opens java.base/java.lang=ALL-UNNAMED ../${blogFileJar}.jar >/opt/log/blog-file.log 2>&1 &
 echo \$! > project.pid
 EOF
 	cat > stop.sh <<EOF
@@ -415,7 +420,33 @@ updateImg() {
   unzip -d /opt/files/ /opt/files/files.zip
 }
 
+rocketMQ() {
+  cd /opt/package/soft
+	echo "rocketMQ 正在解压..."
+	unzip -d /opt/ /opt/package/soft/rocketmq-all-5.1.3-bin-release.zip
 
+	# 替换rocketMQ配置文件
+	cd /opt/rocketmq-all-5.1.3-bin-release/bin
+
+	mv runserver.sh runserver.sh.bk
+	mv /opt/package/conf/runserver.sh /opt/rocketmq-all-5.1.3-bin-release/bin
+
+	mv runbroker.sh runbroker.sh.bk
+	mv /opt/package/conf/runbroker.sh /opt/rocketmq-all-5.1.3-bin-release/bin
+}
+
+# 添加4g的虚拟内存
+addVirtualMemory() {
+  cd /usr
+  mkdir swap
+  cd swap/
+  dd if=/dev/zero of=/usr/swap/swapfile bs=1M count=4096
+  du -sh /usr/swap/swapfile
+  mkswap /usr/swap/swapfile
+  swapon /usr/swap/swapfile
+  free -m
+  echo "/usr/swap/swapfile swap swap defaults 0 0"  >> /etc/fstab
+}
 main() {
   $(cd `dirname $0`;pwd)
   if [ ! -f "blog.zip" ]; then
@@ -424,7 +455,10 @@ main() {
   fi
   mkdir /opt/package
   mv blog.zip /opt/package/blog.zip
-  
+
+  echo "创建虚拟内存空间 ... "
+  addVirtualMemory
+
   echo "开始安装服务器所需依赖工具 ... "
   util
   echo "正在创建服务器目录 ... "
@@ -449,6 +483,8 @@ main() {
   redis
   echo "开始安装MySQL ... "
   buildMysql
+  echo "开始安装RocketMQ ... "
+  rocketMQ
   echo "加载防火墙端口 ... "
   firewall
   echo "正在导入sql文件 ... "

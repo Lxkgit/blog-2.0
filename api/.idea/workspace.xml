@@ -16,52 +16,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-07-13【功能新增】：mq上报消息新增">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-auth/src/main/java/com/blog/auth/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-auth/src/main/java/com/blog/auth/config/RedisConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/BlogData.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/BlogData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/BlogSetting.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/BlogSetting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/ContentCount.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/ContentCount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/FileData.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/FileData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/BlogDataVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/BlogDataVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/BlogSettingVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/BlogSettingVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/ContentCountVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/ContentCountVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/FileDataVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/FileDataVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/user/vo/BlogUserVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/user/vo/BlogUserVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/enums/mq/RocketMQTopicEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/enums/mq/RocketMQTopicEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/enums/socket/SocketTopicEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/enums/socket/SocketTopicEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/message/mq/RocketMQMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/message/mq/RocketMQMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/init/ContentCountInit.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/init/ContentCountInit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/mq/MQProducerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/mq/MQProducerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/config/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/config/WebSocketConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/BlogDataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/BlogDataController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/BlogSettingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/BlogSettingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/FileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/MQTestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/MQTestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/dao/BlogDataDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/dao/BlogDataDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/dao/BlogSettingDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/dao/BlogSettingDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/dao/ContentCountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/dao/ContentCountDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/dao/FileDataDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/dao/FileDataDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/init/FileInitSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/init/FileInitSchedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/mq/MQConsumerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/mq/MQConsumerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/mq/MQProducerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/mq/MQProducerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/BlogDataService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/BlogDataService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/BlogSettingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/BlogSettingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/FileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/FileService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/BlogDataServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/BlogDataServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/BlogSettingServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/BlogSettingServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/FileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/FileServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/socket/AjaxResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/socket/AjaxResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/socket/SendMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/socket/SendMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/socket/SendObjectMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/socket/SendObjectMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/socket/ServerEncoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/socket/ServerEncoder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/socket/SocketMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/socket/SocketMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-gateway/src/main/java/com/blog/gateway/mq/MQProducerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-gateway/src/main/java/com/blog/gateway/mq/MQProducerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-gateway/src/main/java/com/blog/gateway/schedule/ScheduleBlogLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-gateway/src/main/java/com/blog/gateway/schedule/ScheduleBlogLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/config/RedisConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/init/UserInitSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/init/UserInitSchedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/mq/MQProducerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/mq/MQProducerService.java" afterDir="false" />
-    </list>
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-08-06【功能新增】：修改文件信息" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -417,14 +372,7 @@
       <workItem from="1691220271376" duration="500000" />
       <workItem from="1691220815095" duration="412000" />
       <workItem from="1691286164517" duration="4426000" />
-      <workItem from="1691332593021" duration="361000" />
-    </task>
-    <task id="LOCAL-00054" summary="22-12-22【功能修改】：用户数据库更新">
-      <created>1671723161023</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1671723161023</updated>
+      <workItem from="1691332593021" duration="853000" />
     </task>
     <task id="LOCAL-00055" summary="22-12-23【bug修复】：导航页面图片展示bug修复">
       <created>1671802225509</created>
@@ -762,7 +710,14 @@
       <option name="project" value="LOCAL" />
       <updated>1691215683756</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="23-08-06【功能新增】：修改文件信息">
+      <created>1691333360563</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1691333360564</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -793,7 +748,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="23-04-02【bug修复】：前端vite项目打包正常，缺少新版本sql文件无法更新" />
     <MESSAGE value="23-04-30【功能修改】：日记保存页面与文章保持页面修改" />
     <MESSAGE value="23-04-30【功能修改】：日记保存页面与文章保存页面修改" />
     <MESSAGE value="23-05-07【功能新增】：新增图片上传功能，修改博客一键部署脚本" />
@@ -818,7 +772,8 @@
     <MESSAGE value="23-07-30【功能新增】：设置功能新增完成" />
     <MESSAGE value="23-08-03【功能新增】：开始开发文件上传管理功能" />
     <MESSAGE value="23-08-05【功能新增】：博客文件上传接口开发完成" />
-    <option name="LAST_COMMIT_MESSAGE" value="23-08-05【功能新增】：博客文件上传接口开发完成" />
+    <MESSAGE value="23-08-06【功能新增】：修改文件信息" />
+    <option name="LAST_COMMIT_MESSAGE" value="23-08-06【功能新增】：修改文件信息" />
   </component>
   <component name="WindowStateProjectService">
     <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1684036105991">
@@ -833,28 +788,28 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2012" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1685283082752" />
-    <state width="1603" height="402" key="GridCell.Tab.0.bottom" timestamp="1691319950626">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom" timestamp="1691333460144">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1603" height="402" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691297492283" />
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691333460144" />
     <state width="1603" height="402" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1691319950626" />
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645931" />
-    <state width="1603" height="402" key="GridCell.Tab.0.center" timestamp="1691319950625">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="1877" height="239" key="GridCell.Tab.0.center" timestamp="1691333460144">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1603" height="402" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691297492283" />
+    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691333460144" />
     <state width="1603" height="402" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1691319950625" />
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645930" />
-    <state width="1603" height="402" key="GridCell.Tab.0.left" timestamp="1691319950625">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="1877" height="239" key="GridCell.Tab.0.left" timestamp="1691333460143">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1603" height="402" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691297492283" />
+    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691333460143" />
     <state width="1603" height="402" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1691319950625" />
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645930" />
-    <state width="1603" height="402" key="GridCell.Tab.0.right" timestamp="1691319950626">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state width="1877" height="239" key="GridCell.Tab.0.right" timestamp="1691333460144">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1603" height="402" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691297492283" />
+    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691333460144" />
     <state width="1603" height="402" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1691319950626" />
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645930" />
     <state width="1603" height="402" key="GridCell.Tab.1.bottom" timestamp="1691319950626">
@@ -905,10 +860,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="731" y="432" key="VCS.ChangelistChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1687092618450" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1691215778370">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1691333424198">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691215778370" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691333424198" />
     <state x="2315" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1685284332186" />
     <state x="759" y="297" key="chooseDestDirectoryDialog" timestamp="1691332845035">
       <screen x="0" y="0" width="1920" height="1040" />
