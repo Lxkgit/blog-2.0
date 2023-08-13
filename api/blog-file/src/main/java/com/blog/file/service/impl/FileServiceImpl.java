@@ -5,9 +5,11 @@ import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.FileData;
 import com.blog.common.entity.file.vo.FileDataVo;
 import com.blog.common.entity.user.BlogUser;
+import com.blog.common.enums.file.FileTypeEnum;
 import com.blog.common.exception.ValidException;
 import com.blog.file.dao.FileDataDAO;
 import com.blog.file.service.FileService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -32,6 +36,12 @@ public class FileServiceImpl implements FileService {
 
     @Value("${file.basePath}")
     private String basePath;
+
+    @Value("${file.serviceIp}")
+    private String serviceIp;
+
+    @Value("${file.baseUri}")
+    private String baseUri;
 
     @Resource
     private FileDataDAO fileDataDAO;
@@ -123,28 +133,48 @@ public class FileServiceImpl implements FileService {
         File[] files = (new File(path)).listFiles();
         if (null != files && files.length > 0) {
             for (File file : files) {
+                String fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
                 AtomicReference<Boolean> flag = new AtomicReference<>(false);
                 fileDataVoList.forEach(fileDataVo -> {
                     if (fileDataVo.getName().toLowerCase().equals(file.getName().toLowerCase())) {
                         flag.set(true);
                         fileDataVo.setFlag(true);
+                        fileDataVo.setUpdateTime(new Date(file.lastModified()));
+
+                        if (!file.isFile()) {
+                            // 目录计算目录占用大小
+                            fileDataVo.setFileSize(FileUtils.sizeOf(file));
+                        } else {
+                            if (FileTypeEnum.IMAGE.getTypeList().contains(fileType)) {
+                                // 图片添加图片链接
+                                fileDataVo.setImgPath(serviceIp + baseUri + path.substring(basePath.length()) + "/" + file.getName());
+                            }
+                            // 文件计算文件大小
+                            fileDataVo.setFileSize(file.length());
+                        }
                     }
                 });
+
                 // 数据库中不存在的目录 文件中存在 将数据入库
                 if (!flag.get()) {
-                    FileData fileData = new FileData();
-                    fileData.setName(file.getName());
-                    fileData.setPath(path);
-                    fileData.setUserId(blogUser.getId());
-                    if (!file.isFile()) {
-                        fileData.setType(0);
-                    } else {
-                        fileData.setType(1);
-                        fileData.setFileSize(file.length());
-                    }
-                    fileDataDAO.insert(fileData);
                     FileDataVo fileDataVo = new FileDataVo();
-                    BeanUtils.copyProperties(fileData, fileDataVo);
+                    fileDataVo.setName(file.getName());
+                    fileDataVo.setPath(path);
+                    fileDataVo.setUserId(blogUser.getId());
+                    fileDataVo.setUpdateTime(new Date(file.lastModified()));
+                    if (!file.isFile()) {
+                        fileDataVo.setType(0);
+                        fileDataVo.setFileSize(FileUtils.sizeOf(file));
+                    } else {
+                        if (FileTypeEnum.IMAGE.getTypeList().contains(fileType)) {
+                            fileDataVo.setType(1);
+                            fileDataVo.setImgPath(serviceIp + baseUri + path.substring(basePath.length()) + "/" + file.getName());
+                        } else {
+                            fileDataVo.setType(2);
+                        }
+                        fileDataVo.setFileSize(file.length());
+                    }
+                    fileDataDAO.insert(fileDataVo);
                     fileDataVo.setFlag(true);
                     fileDataVoList.add(fileDataVo);
                 }
@@ -169,6 +199,7 @@ public class FileServiceImpl implements FileService {
             wrapper.likeRight("path", path);
             fileDataDAO.delete(wrapper);
         }
+        Collections.sort(fileDataVoList);
         return fileDataVoList;
     }
 }

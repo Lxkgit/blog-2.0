@@ -39,7 +39,7 @@ public class FileController {
     }
 
     @DeleteMapping("/delete")
-    public Result deleteFileOrDir(@RequestHeader HttpHeaders headers,@Validated @RequestBody FileDataVo fileDataVo) throws ValidException {
+    public Result deleteFileOrDir(@RequestHeader HttpHeaders headers,@Validated FileDataVo fileDataVo) throws ValidException {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
         fileService.deleteFileOrDir(blogUser, fileDataVo);

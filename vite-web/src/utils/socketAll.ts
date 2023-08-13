@@ -1,13 +1,15 @@
 import { getCurrentInstance } from "vue";
+import mitter from "@/utils/mitt";
 
 // 全局socket
 const socketAll = () => {
-  let websocket = null;
+  let websocket: any = null;
   const instance = getCurrentInstance();
   const openSocketAll = () => {
     //判断当前浏览器是否支持WebSocket, 主要此处要更换为自己的地址
+    let url = "http://localhost:9527/file/result";
+    // let url = "http://124.221.12.158:9527/file/result";
     if ('WebSocket' in window) {
-      let url = "http://localhost:9527/file/result";
       url = url.replace("https", "wss").replace("http", "ws");
       if (websocket == null) {
         websocket = new WebSocket(url);
@@ -15,7 +17,7 @@ const socketAll = () => {
 
       // 连接发生错误的回调方法
       websocket.onerror = function () {
-        setMessageInnerHTML("error");
+        console.log("系统websocket连接错误");
       };
 
       // 连接成功建立的回调方法
@@ -25,9 +27,9 @@ const socketAll = () => {
 
       // 接收到消息的回调方法
       websocket.onmessage = function (event) {
-        console.log(event.data)
         let data:any = JSON.parse(event.data)
-        instance?.proxy?.$emitter.emit(data.topic, data.message);
+        console.log(data)
+        mitter.emit(data.topic, data.message);
       }
 
       // 连接关闭的回调方法
@@ -41,10 +43,6 @@ const socketAll = () => {
         console.log("系统websocket已关闭");
       }
 
-      //将消息显示在网页上
-      // function setMessageInnerHTML(innerHTML) {
-      //   document.getElementById('message').innerHTML += innerHTML + '<br/>';
-      // }
     } else {
       console.log("您的浏览器不支持websocket!!!")
     }

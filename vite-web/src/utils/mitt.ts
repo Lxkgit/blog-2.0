@@ -1,10 +1,6 @@
+//@ts-nocheck
 import mitt from 'mitt'
 
-type Events = {
-  foo: string;
-  bar: any;
-};
+const mitter: any = new mitt();
 
-const emitter = mitt<Events>();
-
-export default emitter
+export default mitter

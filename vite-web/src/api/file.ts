@@ -29,3 +29,26 @@ export const updateBlogSettingApi = (params: any) => {
     const uri = "/file/setting/update"
     return api.post(uri, params)
 }
+
+
+// --------------文件服务接口-------------
+
+export const saveFileDirApi = (id: any, params: any) => {
+    const uri = "/file/dir/save"
+    return api.post(uri, params)
+}
+
+export const deleteFileDirOrFileApi = (params: any) => {
+    const uri = "/file/dir/delete"
+    return api.delete(uri, params)
+}
+
+export const updateFileDirOrFileApi = (params: any) => {
+    const uri = "/file/dir/update"
+    return api.delete(uri, params)
+}
+
+export const selectFileDirOrFileApi = (params: any) => {
+    const uri = "/file/dir/select"
+    return api.get(uri, params)
+}

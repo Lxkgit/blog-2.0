@@ -6,6 +6,7 @@ import com.blog.common.entity.file.vo.UploadVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.enums.file.FilePathEnum;
 import com.blog.common.enums.file.FileTypeEnum;
+import com.blog.common.exception.ValidException;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.common.util.JwtUtil;
@@ -54,19 +55,25 @@ public class UploadFileController {
             return ResultFactory.buildFailResult(ErrorMessage.FILE_TYPE_ERROR.getDesc());
         }
         for (MultipartFile file : uploadVo.getFiles()) {
-            String fileName = file.getName();
-            String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1);
-            if (typeList.contains(fileSuffix)) {
-                return ResultFactory.buildFailResult(ErrorMessage.FILE_TYPE_ERROR_SUFFIX.getDesc());
+            String fileName = file.getOriginalFilename();
+            if (fileName != null && !fileName.equals("")) {
+                String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1);
+                if (!typeList.contains(fileSuffix)) {
+//                    throw new ValidException(ErrorMessage.BASE_FILE_DIR_NOT_DELETE);
+                    return ResultFactory.buildFailResult(ErrorMessage.FILE_TYPE_ERROR_SUFFIX.getDesc());
+                }
+            } else {
+                return ResultFactory.buildFailResult("777");
             }
+
         }
 
         try {
-            String path = "/" + blogUser.getId() + filePath;
+            String path = "/" + blogUser.getId();
             if (uploadVo.getFilePathCode().equals(FilePathEnum.USER_PATH.getFilePathCode())) {
                 path = path + uploadVo.getAddPath();
             } else {
-                path = path + FileTypeEnum.getTypePathByTypeName(uploadVo.getFileTypeCode());
+                path = path + filePath + FileTypeEnum.getTypePathByTypeName(uploadVo.getFileTypeCode());
             }
             return fileUploadService.upload(uploadVo.getFiles(), blogUser.getId(), path);
         } catch (Exception e) {

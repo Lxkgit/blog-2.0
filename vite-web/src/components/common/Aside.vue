@@ -72,35 +72,35 @@
         </div>
         <div>
           <MyIcon type="icon-fangwenliang" />
-          总访问量：{{ blogData.data.visits }}次
+          总访问量: {{ blogData.data.visits }}次
         </div>
         <div>
           <MyIcon type="icon-fangwenrenshu" />
-          用户人数：{{ blogData.data.userCount }}人
+          用户人数: {{ blogData.data.userCount }}人
         </div>
         <div>
           <MyIcon type="icon-ip" />
-          访问IP数：{{ blogData.data.ipCount }}个
+          访问IP数: {{ blogData.data.ipCount }}个
         </div>
         <div>
           <MyIcon type="icon-icon-article" />
-          文章篇数：{{ blogData.data.articleCount }}篇
-        </div>
-        <div>
-          <MyIcon type="icon-book" />
-          笔记篇数：{{ blogData.data.docCount }}篇
+          文章篇数: {{ blogData.data.articleCount }}篇
         </div>
         <div>
           <MyIcon type="icon-wenzhangfenlei" />
-          文章分类数：{{ blogData.data.articleTypeCount }}个
+          文章分类数: {{ blogData.data.articleTypeCount }}个
         </div>
         <div>
           <MyIcon type="icon-biaoqian1" />
-          文章标签数：{{ blogData.data.articleLabelCount }}个
+          文章标签数: {{ blogData.data.articleLabelCount }}个
+        </div>
+        <div>
+          <MyIcon type="icon-book" />
+          笔记篇数: {{ blogData.data.docCount }}篇
         </div>
         <div>
           <MyIcon type="icon-wenzhangfenlei1" />
-          笔记分类数：{{ blogData.data.docTypeCount }}个
+          笔记分类数: {{ blogData.data.docTypeCount }}个
         </div>
       </div>
     </el-card>
@@ -109,21 +109,21 @@
 
 <script setup lang="ts">
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-import Loading from "@/components/common/Loading.vue"
 import TagCloud from "@/components/common/TagCloud.vue";
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, onUnmounted } from "vue";
 import timeFormat from "@/utils/timeFormat";
 import icon from "@/utils/icon";
 import { useRouter } from "vue-router";
 import { selectBlogDataApi, selectBlogSettingByIdApi } from "@/api/file"
+import mitter from "@/utils/mitt";
 
 let { MyIcon } = icon()
-let { timeFull } = timeFormat()
+
 const router = useRouter()
 const webNotice: any = ref({})
-//推荐阅读文章列表
+// 推荐阅读文章列表
 const recommend: any = ref([])
-// 
+// 博客数据
 const blogData: any = reactive({data: {}})
 async function recommendData() {
   const params = {
@@ -132,6 +132,23 @@ async function recommendData() {
     ordering: '-is_recommend,-created_time'
   }
 }
+
+mitter.on("SYSTEM_DATA", (data: any) => {
+  blogData.data.visits = data.visits
+  blogData.data.userCount = data.userCount
+  blogData.data.ipCount = data.ipCount
+  blogData.data.articleCount = data.articleCount
+  blogData.data.articleTypeCount = data.articleTypeCount
+  blogData.data.articleLabelCount = data.articleLabelCount
+  blogData.data.docCount = data.docCount
+  blogData.data.docTypeCount = data.docTypeCount
+})
+
+//Vue3中的写法
+onUnmounted(()=>{
+  mitter.off("SYSTEM_DATA")
+})
+
 
 // 排行列表-全部种类
 const ranking: any = ref([

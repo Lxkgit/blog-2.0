@@ -52,9 +52,7 @@ onMounted(() => {
   } else {
     closeWebSocketUser();
   }
-  instance?.proxy?.$emitter.on("chat", (data) => {
-    console.log("chat" + data)
-  });
+  
   const is_dark = window.matchMedia('(prefers-color-scheme: dark)').matches
   if (is_dark) {
     setDark(is_dark)

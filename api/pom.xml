@@ -41,6 +41,7 @@
         <websocket.version>2.7.5</websocket.version>
         <pagehelper.version>1.2.12</pagehelper.version>
         <rocketmq.version>2.1.0</rocketmq.version>
+        <mqtt.version>1.2.2</mqtt.version>
     </properties>
 
     <dependencyManagement>
@@ -153,6 +154,11 @@
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-spring-boot-starter</artifactId>
                 <version>${rocketmq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.paho</groupId>
+                <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+                <version>${mqtt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

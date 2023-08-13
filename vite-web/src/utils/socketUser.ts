@@ -1,11 +1,12 @@
 
 const socketUser = () => {
-  let websocket = null;
+  let websocket: any = null;
   let socketLink = false
   async function openSocketUser(userId): Promise<void> {
     //判断当前浏览器是否支持WebSocket, 主要此处要更换为自己的地址
     if ('WebSocket' in window) {
       let url = "http://localhost:9527/file/client/" + userId;
+      // let url = "http://124.221.12.158:9527/file/client/" + userId;
       url = url.replace("https", "wss").replace("http", "ws");
       if (websocket == null && !socketLink) {      
         websocket = new WebSocket(url); 
@@ -17,7 +18,7 @@ const socketUser = () => {
 
       //连接发生错误的回调方法
       websocket.onerror = function () {
-        setMessageInnerHTML("error");
+        console.log("用户websocket连接错误");
       };
 
       //连接成功建立的回调方法
@@ -41,10 +42,6 @@ const socketUser = () => {
         console.log("用户websocket已关闭");
       }
 
-      //将消息显示在网页上
-      // function setMessageInnerHTML(innerHTML) {
-      //   document.getElementById('message').innerHTML += innerHTML + '<br/>';
-      // }
     } else {
       console.log("您的浏览器不支持websocket!!!")
     }
@@ -61,9 +58,9 @@ const socketUser = () => {
 
   //发送消息
   function sendSocketUser() {
-    const message = document.getElementById('text').value;
-    const toUserId = document.getElementById('toUserId').value;
-    websocket.send('{"toUserId":"' + toUserId + '","message":"' + message + '"}');
+    // const message = document.getElementById('text').value;
+    // const toUserId = document.getElementById('toUserId').value;
+    // websocket.send('{"toUserId":"' + toUserId + '","message":"' + message + '"}');
   }
 
   return {

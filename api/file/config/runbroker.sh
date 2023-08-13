@@ -111,6 +111,8 @@ JAVA_OPT="${JAVA_OPT} -Drocketmq.client.logUseSlf4j=true"
 JAVA_OPT="${JAVA_OPT} ${JAVA_OPT_EXT}"
 JAVA_OPT="${JAVA_OPT} -cp ${CLASSPATH}"
 
+$JAVA ${JAVA_OPT} --add-exports=java.base/sun.nio.ch=ALL-UNNAMED $@
+
 numactl --interleave=all pwd > /dev/null 2>&1
 if [ $? -eq 0 ]
 then

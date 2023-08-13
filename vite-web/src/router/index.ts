@@ -214,6 +214,16 @@ const router = createRouter({
                     },
                 },
                 {
+                    path: 'file',
+                    name: 'File',
+                    component: () => import('@/views/admin/file/UserFile.vue'),
+                    meta: {
+                        title: '个人云盘',
+                        keepAlive: false,
+                        isAuth: true,
+                    },
+                },
+                {
                     path: 'setting/web',
                     name: 'WebSetting',
                     component: () => import('@/views/admin/setting/WebSetting.vue'),

@@ -227,7 +227,7 @@ nginxConf() {
 	cd /usr/local/nginx/html
 	rm -rf *
 	mv /opt/package/web/dist/assets/ /usr/local/nginx/html
-	mv /opt/package/web/dist/favicon.ico /usr/local/nginx/html
+	mv /opt/package/web/dist/vite.svg /usr/local/nginx/html
 	mv /opt/package/web/dist/index.html /usr/local/nginx/html
 }
 
@@ -289,8 +289,14 @@ serviceStart(){
 
 	echo "启动rocketMQ ... "
 	cd /opt/rocketmq-all-5.1.3-bin-release/bin
-	nohup sh mqnamesrv.sh >/dev/null 2>&1 &
-  nohup sh mqbroker.sh -n localhost:9876 >/dev/null 2>&1 &
+	nohup sh mqnamesrv >/dev/null 2>&1 &
+	nohup sh mqbroker -n localhost:9876 autoCreateTopicEnable=true >/dev/null 2>&1 &
+	
+	# chmod 777 runbroker.sh
+	# chmod 777 runserver.sh
+	# sh mqshutdown namesrv
+	# sh mqshutdown broker
+	# sh mqadmin clusterList -n localhost:9876
 }
 
 blogJar() {
@@ -430,9 +436,11 @@ rocketMQ() {
 
 	mv runserver.sh runserver.sh.bk
 	mv /opt/package/conf/runserver.sh /opt/rocketmq-all-5.1.3-bin-release/bin
+	chmod 777 runserver.sh
 
 	mv runbroker.sh runbroker.sh.bk
 	mv /opt/package/conf/runbroker.sh /opt/rocketmq-all-5.1.3-bin-release/bin
+	  chmod 777 runbroker.sh
 }
 
 # 添加4g的虚拟内存

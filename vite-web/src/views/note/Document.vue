@@ -27,7 +27,7 @@
                 <img :src="item.imgUrl" class="image" />
                 <div style="padding: 14px">
                   <span>{{ item.docName }}</span>
-                  <div class="bottom">
+                  <div>
                     <time class="time">{{ item.updateTime }}</time>
                   </div>
                 </div>
