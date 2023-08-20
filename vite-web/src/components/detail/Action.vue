@@ -7,7 +7,7 @@
     </el-tooltip>
     <el-tooltip class="item" effect="dark" content="大纲" placement="left">
       <div @click="setOutline" :class="[outlineShow===true?'action-active':'']+' detail-action-hover'">
-        <MyIcon type="icon-outline"/>
+        <MyIcon type="icon-list"/>
       </div>
     </el-tooltip>
     <el-tooltip class="item" effect="dark" content="点赞" placement="left">
@@ -63,16 +63,10 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ElTooltip,
-  ElPopover,
-  ElImage,
-} from 'element-plus'
-import {ElMessage} from 'element-plus'
+import { ElTooltip, ElPopover, ElImage } from 'element-plus'
 import icon from "@/utils/icon";
 import {computed, onMounted, reactive, ref} from "vue";
 import {systemStore} from "@/store/system";
-// import {getInfo} from "@/api/management";
 
 const store = systemStore()
 let {MyIcon} = icon()
@@ -148,8 +142,6 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-
-
 .action {
   position: fixed;
   bottom: 120px;

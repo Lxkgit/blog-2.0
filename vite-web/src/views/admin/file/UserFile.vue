@@ -10,7 +10,7 @@
         </el-upload>
         <div style="line-height: 23px; margin-left: 20px;">
           <MyIcon :style="[filePath === '/' ? { 'pointer-events': 'none' } : { 'cursor': 'pointer' }]"
-            style="margin-right: 20px; outline:0;" type="icon-search" @click="changePath(-2)" title="返回上一级" />
+            style="margin-right: 20px; outline:0;" type="icon-shangyibu" @click="changePath(-2)" title="返回上一级" />
           <span style="">当前路径：&nbsp;</span>
           <div style="display: inline; margin-left: 10px;">
             <span class="file_path" style="cursor: pointer;" @click="changePath(-1)">&nbsp;/&nbsp;</span>
@@ -38,14 +38,14 @@
                 <img :src="item.imgPath" class="image" style="width: 100%; height: 100%; object-fit: cover;" @click="" />
                 <div class="show_icon">
                   <MyIcon title="预览" class="icon_type" type="icon-search" @click="showImg(item)" />
-                  <MyIcon title="查看文件信息" class="icon_type" type="icon-search" @click="showFileDesc(item)" />
-                  <MyIcon title="删除" class="icon_type" type="icon-search" @click="deleteFileDirOrFileFun(item)" />
+                  <MyIcon title="查看文件信息" class="icon_type" type="icon-file" @click="showFileDesc(item)" />
+                  <MyIcon title="删除" class="icon_type" type="icon-delete" @click="deleteFileDirOrFileFun(item)" />
                 </div>
               </div>
               <div v-else style="height: 125px;">
                 <div class="show_icon">
-                  <MyIcon title="查看文件信息" class="icon_type" type="icon-search" @click="showFileDesc(item)" />
-                  <MyIcon title="删除" class="icon_type" type="icon-search" @click="deleteFileDirOrFileFun(item)" />
+                  <MyIcon title="查看文件信息" class="icon_type" type="icon-file" @click="showFileDesc(item)" />
+                  <MyIcon title="删除" class="icon_type" type="icon-delete" @click="deleteFileDirOrFileFun(item)" />
                 </div>
                 其它类型文件
               </div>
@@ -55,7 +55,7 @@
               <span :title="item.name"
                 style="line-height: 20px; margin-left:5px; width: 90px; height: 20px; overflow: hidden; text-overflow: ellipsis; -o-text-overflow: ellipsis; white-space:nowrap; display:inline-block;">{{
                   item.name }}</span>
-              <MyIcon v-if="item.type !== 0" type="icon-search" style="line-height: 21px;" />
+              <MyIcon v-if="item.type !== 0" type="icon-download" style="line-height: 21px;" />
             </div>
           </el-card>
         </div>
@@ -99,10 +99,8 @@ import { selectFileDirOrFileApi, deleteFileDirOrFileApi, uploadApi } from "@/api
 import icon from '@/utils/icon'
 import { onMounted, ref, reactive } from "vue";
 import mixin from "@/mixins/fileType";
-import color from "@/utils/color";
 import { ElImageViewer } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import type { UploadProps } from 'element-plus'
 
 let { fileType } = mixin();
 let { MyIcon } = icon()
@@ -291,15 +289,6 @@ const deleteFileDirOrFileFun = (item: any) => {
 
 .contextmenu div:hover {
   background: #eee;
-}
-
-.img_upload .el-upload--picture-card {
-  display: none !important;
-  background-color: black;
-}
-
-.dialog-footer button:first-child {
-  margin-right: 10px;
 }
 
 .file_path:hover {

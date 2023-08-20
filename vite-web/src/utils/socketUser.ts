@@ -8,12 +8,13 @@ const socketUser = () => {
       let url = "http://localhost:9527/file/client/" + userId;
       // let url = "http://124.221.12.158:9527/file/client/" + userId;
       url = url.replace("https", "wss").replace("http", "ws");
-      if (websocket == null && !socketLink) {      
+      if (websocket == null && !socketLink) {
         websocket = new WebSocket(url); 
         socketLink = true
-      } else {
-        console.log("用户websocket已连接");
-      }
+      } 
+      // else {
+      //   console.log("用户websocket已连接");
+      // }
       
 
       //连接发生错误的回调方法
@@ -52,7 +53,6 @@ const socketUser = () => {
     if (websocket != null) {
       websocket.close();
       websocket = null;
-      console.log("用户websocket已关闭");
     }
   }
 

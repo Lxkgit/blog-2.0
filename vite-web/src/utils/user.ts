@@ -57,36 +57,36 @@ function user() {
 				isLogin.value = true
 			}
 		}
-		
+
 	})
 	// 个人中心-退出登录
-const logout = () => {
-  ElMessageBox.confirm(
-    '真的要退出登录吗?',
-    '退出登录',
-    {
-      confirmButtonText: '确认',
-      cancelButtonText: '再想想',
-      type: 'warning',
-    }
-  )
-    .then(() => {
-      ElMessage({
-        type: 'success',
-        message: '账号已成功退出',
-      })
-			closeWebSocketUser();
-      localStorage.clear()
-      sessionStorage.clear()
-			store.userSession = {user_id:"",access_token:""}
-			store.userLocal = {user_id:"",access_token:""}
-			isLogin.value = false
-			router.replace('/')
-    })
-    .catch(() => {
-      console.log("算了，没退出")
-    })
-}
+	const logout = () => {
+		ElMessageBox.confirm(
+			'真的要退出登录吗?',
+			'退出登录',
+			{
+				confirmButtonText: '确认',
+				cancelButtonText: '再想想',
+				type: 'warning',
+			}
+		)
+			.then(() => {
+				ElMessage({
+					type: 'success',
+					message: '账号已成功退出',
+				})
+				closeWebSocketUser();
+				localStorage.clear()
+				sessionStorage.clear()
+				store.userSession = { user_id: "", access_token: "" }
+				store.userLocal = { user_id: "", access_token: "" }
+				isLogin.value = false
+				router.replace('/')
+			})
+			.catch(() => {
+				console.log("算了，没退出")
+			})
+	}
 	return {
 		isLogin, userId, userToken, userName, logout
 	}

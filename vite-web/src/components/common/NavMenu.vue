@@ -4,7 +4,7 @@
     <header class="navigation-show" v-if="navigationType === 'show'">
       <span v-show="props.kind === 'front'" class="left">
         <el-image style="width: 40px; height: 40px" :src="siteConfig.logo" :fit="'fill'"></el-image>
-        <span class="no-choose">{{ siteConfig.name }}</span>
+        <span>{{ siteConfig.name }}</span>
       </span>
       <span class="middle">
         <el-menu :default-active="menuIndex" mode="horizontal">
@@ -15,7 +15,7 @@
 
           <el-sub-menu index="2">
             <template #title>
-              <MyIcon type="icon-icon-article" />
+              <MyIcon type="icon-article" />
               <span class="menu-title">文章</span>
             </template>
             <div v-for="articleType in articleTypeList">
@@ -30,38 +30,20 @@
               </el-sub-menu>
             </div>
           </el-sub-menu>
-
           <el-menu-item index="3" @click="router.push('/document')">
             <MyIcon type="icon-book" />
             <span class="menu-title">文档</span>
           </el-menu-item>
-
-          <!-- <el-sub-menu index="3">
-            <template #title>
-              <MyIcon type="icon-book" />
-              <span class="menu-title">笔记</span>
-            </template>
-            <el-menu-item v-for="note in noteList" :key="note.id" :index="'3-' + note.id"
-              @click="router.push(`/catalog/${note.id}`)">{{ note.name }}</el-menu-item>
-          </el-sub-menu> -->
           <el-menu-item index="4" @click="router.push('/classify')">
             <MyIcon type="icon-shijianzhou" />
             <span class="menu-title">归档</span>
           </el-menu-item>
-          <!-- <el-menu-item index="5" @click="router.push('/message')">
-            <MyIcon type="icon-liuyan" />
-            <span class="menu-title">留言板</span>
-          </el-menu-item>
-          <el-menu-item index="6" @click="router.push('/about')">
-            <MyIcon type="icon-about1" />
-            <span class="menu-title">关于</span>
-          </el-menu-item> -->
         </el-menu>
       </span>
       <span class="right">
         <el-tooltip class="item" effect="dark" content="设置" placement="bottom">
           <span class="setting hvr-grow" @click="drawer = true">
-            <MyIcon type="icon-shezhi-xianxing" />
+            <MyIcon type="icon-setting" />
           </span>
         </el-tooltip>
         <el-tooltip class="item" effect="dark" content="搜索" placement="bottom">
@@ -72,7 +54,7 @@
         </el-tooltip>
         <span class="user">
           <el-dropdown v-if="isLogin" @visible-change="dropdownChange">
-            <span class="no-choose">
+            <span style="outline:0;">
               <el-avatar :src="photo"></el-avatar>
               <p>{{ userName }}
                 <el-icon v-if="isDropdown">
@@ -143,15 +125,11 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessageBox, ElMessage } from 'element-plus'
 import { computed, onMounted, reactive, ref, onActivated } from "vue";
 import icon from '@/utils/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-// import {getCategory, getNote} from "@/api/blog";
-// import {getSiteConfig} from "@/api/management";
 import { useRouter } from "vue-router";
 import user from "@/utils/user";
-// import {getUserinfoId} from "@/api/account";
 import { systemStore } from "@/store/system";
 import { tagsStore } from "@/store/tag"
 import dark from "@/utils/dark";
@@ -169,7 +147,7 @@ const router = useRouter()
 
 let { MyIcon } = icon()
 // 引入用户信息模块
-let { isLogin, userId, userName, logout } = user();
+let { isLogin, userName, logout } = user();
 let { themeList } = color()
 const props = defineProps({
   // 导航栏类型(前台后台)
@@ -185,13 +163,6 @@ const siteConfig = reactive({
   name: '',
 })
 
-async function siteConfigData() {
-  // let data = await getSiteConfig()
-  // siteConfig.logo = data.logo
-  // siteConfig.name = data.name
-  // console.log(siteConfig)
-}
-
 //导航菜单-文章分类
 const articleTypeList: any = ref([])
 
@@ -199,31 +170,13 @@ async function categoryData() {
   getArticleTypeTreeApi().then((res: any) => {
     if (res.code === 200) {
       articleTypeList.value = res.result
-      console.log(res)
     }
   })
 }
 
 //导航菜单-跳转文章列表
 const toCategory = (articleTypeId: any) => {
-  console.log("click" + articleTypeId)
   router.push({ path: `/category/${articleTypeId}` })
-}
-//导航菜单-笔记分类
-const noteList = ref([
-  {
-    id: 1,
-    name: "linux"
-  },
-  {
-    id: 2,
-    name: "项目"
-  }
-])
-
-async function NoteData() {
-  // noteList.value = await getNote()
-  // console.log(noteList.value)
 }
 
 const selfPage = () => {
@@ -254,7 +207,6 @@ const photo = ref()
 async function getPhotoData() {
   // let data = await getUserinfoId(userId.value)
   // photo.value = data.photo
-  console.log("photo:", photo.value)
 }
 
 //设置-菜单默认关闭
@@ -268,8 +220,6 @@ const handleClose = () => {
 const isDarkSwitch = ref(false)
 // // 设置-切换是否设置暗黑模式
 const setDarkMode = () => {
-  console.log("菜单栏执行切换事件", isDarkSwitch.value)
-
   setDark(isDarkSwitch.value)
 }
 // 设置-侧边菜单显示是否折叠
@@ -291,23 +241,16 @@ const navValue = ref('')
 
 // 设置-导航菜单样式切换事件
 const navChange = (value: any) => {
-  console.log(value)
   setNavigation(value)
 }
 
 onActivated(() => {
-  console.log("NavMenu onActivated")
-
+  asideMenuFold.value = store.asideMenuFold
 })
 
 onMounted(() => {
-
-  console.log("isLogin: " + JSON.stringify(isLogin))
-
   asideMenuFold.value = store.asideMenuFold
-  siteConfigData()
   categoryData()
-  NoteData()
   if (isLogin.value === true) {
     getPhotoData()
   }

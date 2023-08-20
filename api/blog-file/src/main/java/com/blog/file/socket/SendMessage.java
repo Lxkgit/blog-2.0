@@ -82,17 +82,24 @@ public class SendMessage {
     public void onMessage(String message, Session session) throws IOException {
         if (message != null && !message.isEmpty()) {
             JSONObject object = JSON.parseObject(message);
-            object.put("userId", userId);
-            String toUserId = object.getString("toUserId");
-            if (socket.containsKey(toUserId)) {
-                socket.get(userId).sendMessage(object.toJSONString());
-                socket.get(toUserId).sendMessage(object.toJSONString());
-            } else {
-                log.error("请求的用户:{}不在该服务器上", toUserId);
-            }
-        }
+            String topic = (String) object.get("topic");
+            log.info("服务端收到客户端[{}]的消息:{}", userId, message);
+            if (topic.equals("heart")) {
 
-        log.info("服务端收到客户端[{}]的消息:{}", userId, message);
+            } else if (topic.equals("chat")) {
+                object.put("userId", userId);
+                String toUserId = object.getString("toUserId");
+                if (socket.containsKey(toUserId)) {
+                    socket.get(userId).sendMessage(object.toJSONString());
+                    socket.get(toUserId).sendMessage(object.toJSONString());
+                } else {
+                    log.error("请求的用户:{}不在该服务器上", toUserId);
+                }
+            } else {
+
+            }
+
+        }
     }
 
     @OnError

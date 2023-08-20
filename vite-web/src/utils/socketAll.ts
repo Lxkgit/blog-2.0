@@ -53,7 +53,6 @@ const socketAll = () => {
     if (websocket != null) {
       websocket.close();
       websocket = null;
-      console.log("系统websocket已关闭");
     }
   }
 

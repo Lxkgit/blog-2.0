@@ -2,7 +2,7 @@
   <el-sub-menu v-if="item.list !== null" :index="indexKey.toString()">
     <template #title>
       <el-icon>
-        <MyIcon type="icon-custom-user" />
+        <MyIcon :type="item.menuIcon" />
       </el-icon>
       <span>{{ item.menuName }}</span>
     </template>
@@ -16,7 +16,7 @@
   </el-sub-menu>
   <el-menu-item v-else :index="indexKey.toString()" @click="gotoSite(item)">
     <el-icon>
-      <MyIcon type="icon-custom-user" />
+      <MyIcon :type="item.menuIcon" />
     </el-icon>
     <template #title>{{ item.menuName }}</template>
   </el-menu-item>
@@ -26,7 +26,6 @@
 import { useRouter } from "vue-router";
 import { tagsStore } from "../../store/tag";
 import icon from "@/utils/icon";
-import { User as IconUser, Tickets, Operation } from "@element-plus/icons-vue";
 
 let { MyIcon } = icon();
 const store = tagsStore();

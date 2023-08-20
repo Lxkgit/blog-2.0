@@ -2,7 +2,7 @@
   <el-backtop :bottom="70">
     <el-tooltip class="item" effect="dark" content="回到顶部" placement="left">
       <div>
-        <MyIcon type="icon-backTop" />
+        <MyIcon type="icon-up" />
       </div>
     </el-tooltip>
   </el-backtop>

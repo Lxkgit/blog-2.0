@@ -48,13 +48,10 @@
         </div>
         <Footer></Footer>
         <BackTop></BackTop>
-</section>
+    </section>
 </template>
 
 <script setup name="Home" lang="ts">
-
-
-
 import NavMenu from "@/components/common/NavMenu.vue";
 import Loading from "@/components/common/Loading.vue"
 import ArticleItem from "@/components/common/ArticleItem.vue";
@@ -62,7 +59,6 @@ import Aside from "@/components/common/Aside.vue"
 import Footer from "@/components/common/Footer.vue"
 import BackTop from "@/components/common/BackTop.vue"
 import { computed, onActivated, onMounted, onUnmounted, reactive, ref } from "vue";
-//   import {getCarousel} from "@/api/management";
 import { getArticleListApi } from "@/api/content";
 import { systemStore } from "@/store/system";
 
@@ -71,7 +67,6 @@ const store = systemStore()
 const carouselList: any = ref([])
 
 async function CarouselData() {
-    // carouselList.value = await getCarousel()
     carouselList.value = [
         {
             id: "1",
@@ -79,14 +74,10 @@ async function CarouselData() {
             img: "https://img2.baidu.com/it/u=2241198009,1203637343&fm=253&fmt=auto",
         }
     ]
-
-
-    // console.log(carouselList.value)
 }
 
 // 点击轮播图跳转
 const toCarousel = (url: any) => {
-    console.log(url)
     window.open(url)
 }
 // 轮播图加载动画是否开启
@@ -97,7 +88,7 @@ const article: any = reactive({
     count: 0,
 })
 // 是否还有更多需要加载
-  const noMore = computed(() => article.list.length < article.count);
+const noMore = computed(() => article.list.length < article.count);
 // 文章请求参数
 const article_params = {
     pageNum: 1,
@@ -109,17 +100,6 @@ const article_params = {
 }
 // 是否可以执行加载中动画
 const loading = ref(false)
-// 加载中svg
-const svg = `
-        <path class="path" d="
-          M 30 15
-          L 28 17
-          M 25.61 25.61
-          A 15 15, 0, 0, 1, 15 30
-          A 15 15, 0, 1, 1, 27.99 7.5
-          L 15 15
-        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
-      `
 // 加载下一页
 const load = () => {
     console.log("加载下一页了")
@@ -129,7 +109,7 @@ const load = () => {
         loading.value = false
         article_params.pageNum = article_params.pageNum + 1
     })
-    
+
 }
 // 页面滚动事件
 const scrollHandle = () => {
@@ -138,14 +118,14 @@ const scrollHandle = () => {
     const clientHeight = document.documentElement.clientHeight
     const distance = scrollHeight - scrollTop - clientHeight
     if (distance <= 400 && noMore.value) {
-      console.log("满足加载下一页了")
-      if (!loading.value) {
-        console.log("执行加载下一页")
-        loading.value = true;
-        setTimeout(() => {
-          load()
-        }, 300);
-      }
+        console.log("满足加载下一页了")
+        if (!loading.value) {
+            console.log("执行加载下一页")
+            loading.value = true;
+            setTimeout(() => {
+                load()
+            }, 300);
+        }
     }
 }
 onMounted(() => {
@@ -174,14 +154,10 @@ article {
     }
 
     .new {
-        //   margin-top: 15px;
-
         ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
-
-            li {}
         }
     }
 
@@ -190,6 +166,4 @@ article {
         font-size: 30px;
     }
 }
-
-aside {}
 </style>

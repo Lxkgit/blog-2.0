@@ -28,7 +28,7 @@ public class Article {
 
     private String contentMd;
 
-    private String contentHtml;
+    private String contentImg;
 
     private String articleType;
 

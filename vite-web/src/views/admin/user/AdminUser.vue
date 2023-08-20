@@ -14,7 +14,6 @@
           <template #default="scope">
             <div>
               <el-avatar :src="scope.row.headImg" />
-              <!-- <el-image :src="scope.row.headImg" :preview-src-list="[scope.row.headImg]" fit="cover" z-index="9999"/> -->
             </div>
           </template>
         </el-table-column>
@@ -42,10 +41,10 @@
         <el-table-column fixed="right" label="操作" width="100">
           <template #default="scope">
             <el-button @click.prevent="loadUserData(scope.row)" size="small" text>
-              <MyIcon type="icon-edit"/>
+              <MyIcon type="icon-edit" />
             </el-button>
             <el-button style="margin-left: 0;" @click.prevent="" size="small" text>
-              <MyIcon type="icon-shanchu"/>
+              <MyIcon type="icon-delete" />
             </el-button>
           </template>
         </el-table-column>
@@ -83,12 +82,12 @@
           <el-input v-model="userDate.data.email" autocomplete="off" style="width: 230px;" />
         </el-form-item>
         <el-form-item label="账号状态：" label-width="100">
-          <!-- <el-tag v-if="(userDate.data.status === 1)" class="ml-2" type="success">{{
+          <el-tag v-if="(userDate.data.status === 1)" class="ml-2" type="success">{{
             userStatus(userDate.data.status)
           }}</el-tag>
           <el-tag v-else class="ml-2" type="info">{{
             userStatus(userDate.data.status)
-          }}</el-tag> -->
+          }}</el-tag>
         </el-form-item>
         <el-form-item label="最近登录" label-width="100">
           <el-input v-model="userDate.data.updateTime" disabled autocomplete="off" style="width: 230px;" />
@@ -121,7 +120,7 @@ import icon from '@/utils/icon'
 let { MyIcon } = icon()
 
 let { userStatus } = mixin();
-let page = ref<number>(1)
+// let page = ref<number>(1)
 let size = ref<number>(10)
 let total = ref<number>(0)
 let userList: any = reactive({ data: [] });
@@ -190,7 +189,6 @@ const imgUploadFun = (res: any) => {
     message: '用户头像上传成功',
     type: 'success',
   })
-  console.log(imageUrl.value)
 }
 
 const updateUserFun = () => {

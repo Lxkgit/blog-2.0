@@ -67,7 +67,7 @@
       </template>
       <div class="statistics">
         <div>
-          <MyIcon type="icon-yunhangshijian" />
+          <MyIcon type="icon-time" />
           运行时间：<span v-html='runTimeString'></span>
         </div>
         <div>
@@ -83,7 +83,7 @@
           访问IP数: {{ blogData.data.ipCount }}个
         </div>
         <div>
-          <MyIcon type="icon-icon-article" />
+          <MyIcon type="icon-article" />
           文章篇数: {{ blogData.data.articleCount }}篇
         </div>
         <div>
@@ -91,7 +91,7 @@
           文章分类数: {{ blogData.data.articleTypeCount }}个
         </div>
         <div>
-          <MyIcon type="icon-biaoqian1" />
+          <MyIcon type="icon-tag" />
           文章标签数: {{ blogData.data.articleLabelCount }}个
         </div>
         <div>

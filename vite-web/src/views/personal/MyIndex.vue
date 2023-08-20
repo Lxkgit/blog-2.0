@@ -223,7 +223,7 @@ async function trend() {
   const section_collect = []
   const section_comment = []
   for (let i in chartData) {
-    date.push(chartData[i].date.slice(5))
+    // date.push(chartData[i].date.slice(5))
     article_view.push(chartData[i].article_view)
     article_collect.push(chartData[i].article_collect)
     article_comment.push(chartData[i].article_comment)

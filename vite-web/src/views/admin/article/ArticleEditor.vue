@@ -1,111 +1,87 @@
 <template>
   <div>
-    <el-row>
-      <div style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 50px;
-            margin-left: 18px;
-          ">
-        <div style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            ">
-          <span>文章标题:</span>
-          <el-input v-model="article.data.title" placeholder="文章标题" maxlength="30" show-word-limit clearable style="margin-left: 12px; font-size: 18px; width: 250px"/>
-        </div>
-        <div style="font-size: 14px;">
-          <span> 最近保存时间：</span>
-          <span v-if="saveTime !== ''">{{ saveTime }}</span>
-          <span v-else>未保存</span>
-        </div>
-        <div style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              margin-left: 20px;
-            ">
-          <span>文章分类:</span>
-          <el-tree-select style="margin-left: 12px; font-size: 18px; width: 280px" v-model="type" :data="typeList"
+    <div style="height: calc(100vh - 140px)">
+      <MarkDownEditor @change="updateArticleFun" @save="saveArticleDialogFun" v-model:text="article.data.contentMd"
+        fileTypeCode="1" filePathCode="1" />
+    </div>
+    <el-dialog v-model="saveDialog" title="文章信息" width="40%">
+      <el-form class="demo-form-inline">
+        <el-form-item label="文章标题" style="width: 80%">
+          <el-input placeholder="文章标题" clearable />
+        </el-form-item>
+        <el-form-item label="文章描述" style="width: 80%">
+          <el-input maxlength="300" placeholder="请输入文章描述" show-word-limit type="textarea" />
+        </el-form-item>
+        <el-form-item label="文章封面">
+          <ImgUpload @upload="imgUpload" :imgList="list" :num="1" fileTypeCode="1" filePathCode="1" :cropper="1"
+            :autoCropWidth="270" :autoCropHeight="180" />
+        </el-form-item>
+        <el-form-item label="文章类型">
+          <el-tree-select style="font-size: 18px; width: 200px" v-model="type" :data="typeList"
             :render-after-expand="false" @change="selectType" />
-        </div>
-        <div style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              margin-left: 20px;
-            ">
-          <el-popover placement="bottom" title="文章标签" trigger="click" :width="360">
-            <el-tag style="margin-right: 10px; margin-bottom: 10px" v-for="label in labelList" :key="label.id"
-              class="mx-1" @Click="addLabel(label)">{{ label.labelName }}</el-tag>
-            <template #reference>
-              <el-button>文章标签:</el-button>
-            </template>
-          </el-popover>
-        </div>
-        <el-tag style="margin-left: 10px" v-for="label in labels" :key="label.id" class="mx-1" closable
-          @close="deleteLabel(label.id)">{{ label.labelName }}</el-tag>
-      </div>
-    </el-row>
-    <el-row style="height: calc(100vh - 200px)">
-      <v-md-editor
-        v-model="article.data.contentMd"
-        height="100%"
-        @save="useText"
-        :disabled-menus="[]"
-        left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code file | save"
-        :toolbar="toolbar"
-        @change="changeText"
-        @upload-image="uploadImageFun"
-        
-      ></v-md-editor>
-    </el-row>
+        </el-form-item>
+        <el-form-item label="文章标签">
+          <div style="display: flex; justify-content: space-between; align-items: center; ">
+            <el-popover placement="top" title="文章标签" trigger="click" :width="360">
+              <el-input style="padding-bottom: 10px;" class="w-50 m-2" placeholder="Please Input" />
+              <el-row :gutter="24" style="height: 200px;">
+                <el-col :span="6">
+                  left
+                </el-col>
+                <el-col :span="18">
+                  <el-tag style="margin-right: 10px; margin-bottom: 10px; cursor: pointer;" v-for="label in labelList"
+                    :style="'color: ' + tagColor(label.id)" :key="label.id" class="mx-1" @Click="addLabel(label)">
+                    {{ label.labelName }}
+                  </el-tag>
+                  <!-- <el-input v-if="inputVisible" ref="InputRef" v-model="inputValue" class="ml-1 w-20" size="small"
+                    @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" />
+                  <el-button v-else class="button-new-tag ml-1" size="small" @click="showInput">
+                    + New Tag
+                  </el-button> -->
+                </el-col>
+              </el-row>
+              <template #reference>
+                <el-button text type="success" size="small">选择标签</el-button>
+              </template>
+            </el-popover>
+            <el-tag style="margin-left: 10px; cursor: pointer;" v-for="label in labels" :key="label.id" class="mx-1"
+              :style="'color: ' + tagColor(label.id)" closable @close="deleteLabel(label.id)">{{
+                label.labelName }}</el-tag>
+          </div>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="saveDialog = false">取消</el-button>
+          <el-button type="primary" @click="saveDialog = false">
+            保存
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-//@ts-nocheck
 import { reactive, ref, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { contentStore } from "@/store/content"
 import { tagsStore } from "@/store/tag"
 import { saveArticleApi, updateArticleApi, getArticleTypeTreeApi, getArticleLabelListApi } from "@/api/content"
-import { uploadApi } from "@/api/file" 
-import icon from '@/utils/icon'
-import VMdEditor from '@kangc/v-md-editor';
-import '@kangc/v-md-editor/lib/style/base-editor.css';
-import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
-import '@kangc/v-md-editor/lib/theme/style/github.css';
-import hljs from 'highlight.js/lib/core';
-import python from 'highlight.js/lib/languages/python';
-import json from 'highlight.js/lib/languages/json';
-import yaml from 'highlight.js/lib/languages/yaml';
-import sql from 'highlight.js/lib/languages/sql';
-import javascript from 'highlight.js/lib/languages/javascript';
-import css from 'highlight.js/lib/languages/css';
-import scss from 'highlight.js/lib/languages/scss';
-import xml from 'highlight.js/lib/languages/xml';
-import java from 'highlight.js/lib/languages/java'
+import MarkDownEditor from "@/components/common/MarkDownEditor.vue";
+import ImgUpload from "@/components/common/ImgUpload.vue"
+import data from "@/utils/date"
+import color from "@/utils/color";
 
-hljs.registerLanguage('json', json);
-hljs.registerLanguage('python', python);
-hljs.registerLanguage('yaml', yaml);
-hljs.registerLanguage('sql', sql);
-hljs.registerLanguage('javascript', javascript);
-hljs.registerLanguage('scss', scss);
-hljs.registerLanguage('css', css);
-hljs.registerLanguage('xml', xml);
-hljs.registerLanguage('java', java);
-VMdEditor.use(githubTheme, {
-  Hljs: hljs,
-});
-
-let { MyIcon } = icon()
+let { tagColor } = color()
+let { getNowTime } = data();
 const tagStore = tagsStore()
 const cStore = contentStore()
 const router = useRouter();
+const saveDialog = ref(false)
+
+let list = ref(["http://localhost/files/1/doc/img/2023-08-17_14-55-53_KooHLF_2023-08-15_09-10-36_PngxNK_image.png"])
+
 let type = ref("");
 let labels: any = ref([]);
 let typeList: any = ref();
@@ -153,6 +129,11 @@ onBeforeUnmount(() => {
   window.clearInterval(time);
 });
 
+const imgUpload = (upload: any) => {
+  console.log("upload")
+  console.log(upload)
+}
+
 const selectType = (value: any) => {
   type.value = value;
 };
@@ -194,28 +175,12 @@ const articleLabel = () => {
   });
 };
 
-const uploadImageFun = (event: any, insertImage: any, files: any) => {
-  // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
-  console.log("file" + files);
-  for (let i in files) {
-    const formData = new FormData();
-    formData.append("files", files[i]);
-    formData.append("fileTypeCode", 1);
-    formData.append("filePathCode", 1);
-    uploadApi(
-      formData
-    ).then((res: any) => {
-      if (res.code === 200) {
-        insertImage({
-          url: res.result.fileUrl,
-          desc: files[i].name,
-        });
-      }
-    });
-  }
-};
+const saveArticleDialogFun = () => {
+  saveDialog.value = true
+}
 
-const useText = () => {
+
+const saveArticleFun = () => {
   let labelId = "";
   for (let i = 0; i < labels.value.length; i++) {
     if (i === 0) {
@@ -258,7 +223,7 @@ const useText = () => {
   }
 };
 
-const changeText = () => {
+const updateArticleFun = () => {
   if (saveFlag === true) {
     saveFlag = false;
     let labelId = "";
@@ -303,29 +268,4 @@ const changeText = () => {
   }
 };
 
-const getNowTime = () => {
-  let data = new Date();
-  let hours = data.getHours();
-  let min = data.getMinutes();
-  let second = data.getSeconds();
-  let hoursStr: any = "";
-  let minStr: any = "";
-  let secondStr: any = "";
-  if (hours < 10) {
-    hoursStr = "0" + hours;
-  } else {
-    hoursStr = hours;
-  }
-  if (min < 10) {
-    minStr = "0" + min;
-  } else {
-    minStr = min;
-  }
-  if (second < 10) {
-    secondStr = "0" + second;
-  } else {
-    secondStr = second;
-  }
-  return hoursStr + ":" + minStr + ":" + secondStr;
-};
 </script>

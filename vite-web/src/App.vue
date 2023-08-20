@@ -21,6 +21,7 @@ import  socketAll  from '@/utils/socketAll';
 import socketUser from '@/utils/socketUser'
 import { getCurrentInstance } from "vue";
 import user from "@/utils/user";
+import mitter from "@/utils/mitt";
 
 let { isLogin, userId } = user();
 const instance = getCurrentInstance();
@@ -37,11 +38,13 @@ watch(() => router, (newValue) => {
   }
 }, { deep: true })
 
-watch(isLogin, (newValue, oldValue) => {
-  if (newValue) {
-    openSocketUser(userId.value);
+mitter.on("login", (data) => {
+  const msg = JSON.parse(data)
+  if(msg.state === true) {
+    openSocketUser(msg.userId);
   } else {
-    closeWebSocketUser();
+    console.log("断开socket")
+    closeWebSocketUser
   }
 })
 
@@ -49,8 +52,6 @@ onMounted(() => {
   openSocketAll();
   if (isLogin.value) {
     openSocketUser(userId.value);
-  } else {
-    closeWebSocketUser();
   }
   
   const is_dark = window.matchMedia('(prefers-color-scheme: dark)').matches

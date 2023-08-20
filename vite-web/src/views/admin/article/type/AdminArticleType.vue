@@ -27,7 +27,7 @@
                         </el-button>
                         <el-button style="margin-left: 0;" @click.native.prevent="deleteArticleTypeByIdsFun(scope.row.id)"
                             size="small" text>
-                            <MyIcon type="icon-shanchu" />
+                            <MyIcon type="icon-delete" />
                         </el-button>
                     </template>
                 </el-table-column>

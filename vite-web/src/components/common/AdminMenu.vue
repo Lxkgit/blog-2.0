@@ -4,7 +4,6 @@
     <header class="navigation-show" v-if="navigationType === 'show'">
       <span class="left">
         <span style="float: left; padding-left: 20px; line-height: 60px; cursor: pointer;" @click="router.push('/')">
-          <!-- <MyIcon type="icon-home" style="font-size: 25px;"/> -->
           <span style="font-size: 25px;font-weight: bolder;"> GSZero
             博客管理中心
           </span>
@@ -13,18 +12,12 @@
       <span class="right">
         <el-tooltip class="item" effect="dark" content="设置" placement="bottom">
           <span class="setting hvr-grow" @click="drawer = true">
-            <MyIcon type="icon-shezhi-xianxing" />
-          </span>
-        </el-tooltip>
-        <el-tooltip class="item" effect="dark" content="搜索" placement="bottom">
-          <span class="search hvr-grow" :style="{ 'color': (menuIndex === '7' ? 'var(--el-color-primary)' : '') }"
-            @click="router.push('/search')">
-            <MyIcon type="icon-search" />
+            <MyIcon type="icon-setting" />
           </span>
         </el-tooltip>
         <span class="user">
           <el-dropdown v-if="isLogin" @visible-change="dropdownChange">
-            <span class="no-choose" style="outline:0;">
+            <span style="outline:0;">
               <el-avatar :src="photo"></el-avatar>
               <p>{{ userName }}
                 <el-icon v-if="isDropdown">
@@ -41,10 +34,6 @@
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-          <div v-else class="toLoginRegister">
-            <span @click="toLogin">登录</span>
-            <span @click="toRegister">注册</span>
-          </div>
         </span>
       </span>
       <el-drawer title="系统设置" v-model="drawer" :direction="'rtl'" :size="'25%'" :before-close="handleClose"
@@ -95,7 +84,7 @@
 
 <script setup lang="ts">
 
-import { computed, onMounted, reactive, ref } from "vue";
+import { onMounted, ref } from "vue";
 import icon from '@/utils/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useRouter } from "vue-router";
@@ -114,7 +103,7 @@ const router = useRouter()
 
 let { MyIcon } = icon()
 // 引入用户信息模块
-let { isLogin, userId, userName, logout } = user();
+let { isLogin, userName, logout } = user();
 let { themeList } = color()
 const props = defineProps({
   // 导航栏类型(前台后台)
@@ -124,64 +113,7 @@ const props = defineProps({
     default: 'front'
   }
 })
-//导航菜单-logo和name
-const siteConfig = reactive({
-  logo: '',
-  name: '',
-})
 
-async function siteConfigData() {
-  // let data = await getSiteConfig()
-  // siteConfig.logo = data.logo
-  // siteConfig.name = data.name
-}
-
-//导航菜单-文章分类
-const categoryList = ref([
-  {
-    id: 1,
-    name: "java"
-  },
-  {
-    id: 2,
-    name: "Spring"
-  },
-])
-
-async function categoryData() {
-  // categoryList.value = await getCategory()
-  // console.log(categoryList.value)
-}
-
-//导航菜单-跳转文章列表
-const toCategory = (categoryId: any) => {
-  router.push({ path: `/category/${categoryId}` })
-}
-//导航菜单-笔记分类
-const noteList = ref([
-  {
-    id: 1,
-    name: "linux"
-  },
-  {
-    id: 2,
-    name: "项目"
-  }
-])
-
-async function NoteData() {
-  // noteList.value = await getNote()
-  // console.log(noteList.value)
-}
-
-// 跳转至登录页
-const toLogin = () => {
-  router.push({ path: '/loginRegister', query: { component: 'Login' } })
-}
-// 跳转至注册页
-const toRegister = () => {
-  router.push({ path: '/loginRegister', query: { component: 'Register' } })
-}
 // 个人中心-是否下拉状态
 const isDropdown = ref(false)
 
@@ -194,9 +126,7 @@ const photo = ref()
 
 // 个人中心-获取用户头像
 async function getPhotoData() {
-  // let data = await getUserinfoId(userId.value)
-  // photo.value = data.photo
-  // console.log("photo:", photo.value)
+  
 }
 
 //设置-菜单默认关闭
@@ -210,8 +140,6 @@ const handleClose = () => {
 const isDarkSwitch = ref(false)
 // // 设置-切换是否设置暗黑模式
 const setDarkMode = () => {
-  console.log("菜单栏执行切换事件", isDarkSwitch.value)
-
   setDark(isDarkSwitch.value)
 }
 // 设置-侧边菜单显示是否折叠
@@ -238,18 +166,15 @@ const navChange = (value: any) => {
 }
 onMounted(() => {
   asideMenuFold.value = store.asideMenuFold
-  siteConfigData()
-  categoryData()
-  NoteData()
   if (isLogin.value === true) {
     getPhotoData()
+  } else {
+    router.push({ path: '/' })
   }
   colorValue.value = store.theme
   navValue.value = store.navigation
   isDarkSwitch.value = store.isDark
 })
-// 当前激活的菜单id
-const menuIndex = computed(() => store.menuIndex)
 </script>
 
 <style scoped lang="scss">

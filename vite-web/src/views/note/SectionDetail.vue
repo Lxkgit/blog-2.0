@@ -60,7 +60,6 @@
         </div>
       </div>
       <Footer></Footer>
-      <LoginPopup ref="loginPopupRef"></LoginPopup>
     </section>
   </div>
 </template>
@@ -332,35 +331,7 @@ function action(sectionID: any, sectionData: any) {
   });
   // 子组件添加/取消收藏事件
   const collectClick = () => {
-    // if (isLogin.value === true) {
-    //   console.log("当前收藏状态是", isCollect.value)
-    //   isCollect.value = !isCollect.value
-    //   CollectForm.user = userId.value
-    //   CollectForm.is_collect = isCollect.value
-    //   CollectForm['section_id'] = sectionID
-    //   putSectionHistory(CollectForm).then((response) => {
-    //     console.log(response)
-    //     if (response.is_collect === true) {
-    //       ElMessage({
-    //         message: '已添加收藏！',
-    //         type: 'success',
-    //       })
-    //     } else {
-    //       ElMessage({
-    //         message: '已取消收藏！',
-    //         type: 'success',
-    //       })
-    //     }
-    //   }).catch(response => {
-    //     //发生错误时执行的代码
-    //     console.log(response)
-    //     ElMessage.error(response.msg)
-    //   });
-    // } else {
-    //   console.log("先登录")
-    //   store.commit('setNextPath', router.currentRoute.value.fullPath)
-    //   loginPopupRef.value.showPopup()
-    // }
+
   };
   // 添加笔记浏览记录表单
   const sectionHistoryForm = reactive({

@@ -29,13 +29,13 @@
         <el-table-column fixed="right" label="操作" width="110">
           <template #default="scope">
             <el-button style="margin: 0; padding: 8px;" @click="showDiaryFun(scope.row)" size="small" text>
-              <MyIcon type="icon-eye1" />
+              <MyIcon type="icon-eye" />
             </el-button>
             <el-button style="margin: 0; padding: 8px;" @click="updateDiaryFun(scope.row)" size="small" text>
               <MyIcon type="icon-edit" />
             </el-button>
             <el-button style="margin: 0; padding: 8px;" @click="deleteDiaryFun(scope.row.id)" size="small" text>
-              <MyIcon type="icon-shanchu" />
+              <MyIcon type="icon-delete" />
             </el-button>
           </template>
         </el-table-column>

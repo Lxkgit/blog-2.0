@@ -97,23 +97,7 @@
               </span>
             </div>
           </div>
-          <div class="comments detail-card" id="comment">
-            <h2>📝 评论交流</h2>
-            <div class="input-field">
-              <span v-if="isLogin === true"><el-avatar :size="50" :src="photo"></el-avatar></span>
-              <span v-else><el-avatar :size="50" :src="logo"></el-avatar></span>
-              <span>
-                <Editor ref="messageEditor"></Editor>
-              </span>
-              <span v-if="isLogin === true"><el-button type="primary" round @click="clickSend">评论</el-button></span>
-              <span v-else><el-button type="primary" round @click="showLogin">登录</el-button></span>
-            </div>
-            <div class="comment-list">
-              <div class="comment-list">
-                <Comments :comments-list="commentsList"></Comments>
-              </div>
-            </div>
-          </div>
+          
         </div>
         <div class="detail-right">
           <Outline @rollTo="rollTo" :scrollTop="scrollTop"></Outline>
@@ -123,7 +107,6 @@
         </div>
       </div>
       <Footer></Footer>
-      <LoginPopup ref="loginPopupRef"></LoginPopup>
     </section>
   </div>
 </template>
@@ -162,19 +145,6 @@ let { articleID, sitename, toDetail, toCategory } = publicFn()
 let { articleData, context, recommendList, getArticleData, getContextData, getGuessLikeData } = article()
 // 引入markdown模块
 let { rollTo, scrollTop, scroll } = markdown()
-// 评论编辑器对象
-const messageEditor = ref(null)
-// 弹窗登录对象
-const loginPopupRef = ref(null)
-// 调用评论回复点赞模块
-let {
-  commentsList,
-  getArticleCommentData,
-  logo,
-  photo,
-  showLogin,
-  clickSend
-} = comment(articleID)
 // 调用动作菜单模块
 let { likeClick, isCollect, getArticleHistoryData, collectClick, postArticleHistoryData } = action(articleID, articleData)
 
@@ -208,18 +178,9 @@ onBeforeRouteUpdate(async (to) => {
     background: 'rgba(255, 255, 255,0.3)',
   })
   window.scrollTo({ top: 0 })
-  // console.log(to + "--")
   store.setOutline("")
-  // for (let key in context) {
-  //   delete context[key];
-  // }
   await getArticleData(to.params.id)
   loading.close()
-  // await getContextData(to.params.id)
-  // await getGuessLikeData(to.params.id)
-  // await getArticleCommentData(to.params.id)
-  // await getArticleHistoryData()
-  // await postArticleHistoryData(to.params.id)
 });
 
 // 公共模块
@@ -265,40 +226,14 @@ function article() {
   async function getArticleData(DetailID: any) {
     const detail_data: any = await getArticleByIdApi(DetailID)
     articleData.data = detail_data.result
-    // for (let i in detail_data) {
-    //   if (i === 'body') {
-    //     // 图片防盗链处理
-    //     articleData.body = detail_data.body
-    //     const pattern = /!\[(.*?)\]\((https:\/\/cdn.nlark.com.*?)\)/gm;
-    //     let matcher;
-    //     let imgArr = [];
-    //     while ((matcher = pattern.exec(articleData.body)) !== null) {
-    //       imgArr.push(matcher[2]);
-    //     }
-    //     for (let i = 0; i < imgArr.length; i++) {
-    //       articleData.body = articleData.body.replace(
-    //           imgArr[i],
-    //           getImgProxy(imgArr[i])
-    //       );
-    //     }
-    //   } else {
-    //     articleData[i] = detail_data[i]
-    //   }
-    // }
-    // activeMenu.value = "2-" + articleData.category_id
-    // store.setMenuIndex(activeMenu)
   }
 
   // 获取文章上下篇
   async function getContextData(DetailID: any) {
-    // Object.assign(context, await getContextArticle(DetailID));
-    // console.log("context", context)
   }
 
   // 获取猜你喜欢
   async function getGuessLikeData(DetailID: any) {
-    // recommendList.value = await getGuessLike(DetailID)
-    // console.log("recommendList", recommendList.value)
   }
   return { articleData, context, recommendList, getArticleData, getContextData, getGuessLikeData }
 }
@@ -314,7 +249,6 @@ function markdown() {
     if (heading) {
       heading.scrollIntoView({ behavior: "smooth", block: "start" })
     }
-
   }
   // markdown-页面滚动高度
   const scrollTop = ref()
@@ -331,144 +265,6 @@ function markdown() {
   return { rollTo, scrollTop, scroll }
 }
 
-// 评论回复模块
-function comment(articleID: any) {
-  // 事件总线
-  // const internalInstance = getCurrentInstance();  //当前组件实例
-  // const $bus = internalInstance.appContext.config.globalProperties.$bus;
-  // logo
-  const logo = ref()
-  // 用户头像
-  const photo = ref()
-
-  // 获取网站logo
-  async function getLogoData() {
-    // let data = await getSiteConfig()
-    // logo.value = data.logo
-    console.log("logo:", logo.value)
-  }
-
-  // 获取用户头像
-  async function getPhotoData() {
-    // let data = await getUserinfoId(userId.value)
-    // console.log(data)
-    // photo.value = data.photo
-  }
-
-  // 评论列表
-  const commentsList = ref([])
-
-  // 获取文章评论数据
-  async function getArticleCommentData() {
-    // await nextTick()
-    // commentsList.value = await getArticleComment(articleID.value)
-    // console.log("commentsList", commentsList.value)
-  }
-
-  // 评论表单
-  const messageForm = reactive({
-    content: '',
-    user: '',
-  })
-  // 弹出登录框
-  const showLogin = () => {
-    // store.commit('setNextPath', router.currentRoute.value.fullPath)
-    // loginPopupRef.value.showPopup()
-  }
-  // 点击发表评论事件
-  const clickSend = () => {
-    // messageEditor.value.syncHTML()
-    // messageForm.content = messageEditor.value.content
-    // console.log(messageForm.content)
-    // if (messageForm.content) {
-    //   messageForm.user = userId.value
-    //   messageForm['article_id'] = articleID.value
-    //   console.log(messageForm)
-    //   postArticleComment(messageForm).then((response) => {
-    //     console.log(response)
-    //     ElMessage({
-    //       message: '评论成功！',
-    //       type: 'success',
-    //     })
-    //     messageForm.content = ''
-    //     messageEditor.value.clear()
-    //     getArticleCommentData()
-    //   }).catch(response => {
-    //     //发生错误时执行的代码
-    //     console.log(response)
-    //     for (let i in response) {
-    //       ElMessage.error(i + response[i][0])
-    //     }
-    //   });
-    // } else {
-    //   ElMessage('请输入评论内容')
-    // }
-  }
-  // 评论点赞事件
-  // if (!$bus.all.get("likeMessage")) $bus.on("likeMessage", value => {
-  //   const params = { 'like': value.like }
-  //   patchArticleComment(value.id, params).then((response) => {
-  //     console.log(response)
-  //     ElMessage({
-  //       message: '点赞成功',
-  //       type: 'success',
-  //     })
-  //     getArticleCommentData()
-  //   }).catch(response => {
-  //     //发生错误时执行的代码
-  //     console.log(response)
-  //     ElMessage.error(response.msg)
-  //   });
-  // });
-  // 评论回复事件
-  // if (!$bus.all.get("replySend")) $bus.on("replySend", replyForm => {
-  //   replyForm['article_id'] = articleID.value
-  //   console.log(replyForm)
-  //   postReplyArticleComment(replyForm).then((response) => {
-  //     console.log(response)
-  //     ElMessage({
-  //       message: '回复成功！',
-  //       type: 'success',
-  //     })
-  //     getArticleCommentData()
-  //   }).catch(response => {
-  //     //发生错误时执行的代码
-  //     console.log(response)
-  //     for (let i in response) {
-  //       ElMessage.error(i + response[i][0])
-  //     }
-  //   });
-  // });
-  // 评论删除事件
-  // if (!$bus.all.get("delMessage")) $bus.on("delMessage", messageId => {
-  //   deleteArticleComment(messageId).then((response) => {
-  //     console.log(response)
-  //     console.log("要开始删除了")
-  //     ElMessage({
-  //       message: '评论删除成功！',
-  //       type: 'success',
-  //     })
-  //     console.log("删除完成了")
-  //     getArticleCommentData()
-  //   }).catch(response => {
-  //     //发生错误时执行的代码
-  //     console.log(response)
-  //     ElMessage.error(response.msg)
-  //   });
-  // });
-  onMounted(() => {
-    getArticleCommentData()
-    if (isLogin.value === true) {
-      getPhotoData()
-    } else {
-      getLogoData()
-    }
-  })
-  return {
-    commentsList, getArticleCommentData, logo, photo, messageForm, showLogin, clickSend
-  }
-}
-
 // 侧边栏动作模块
 function action(articleID: any, articleData: any) {
   // 引入用户信息模块
@@ -476,31 +272,12 @@ function action(articleID: any, articleData: any) {
   // 文章点赞事件
   const likeClick = () => {
     const params = { like: articleData.like + 1 }
-    // patchArticleDetail(articleID.value, params).then((response) => {
-    //   console.log(response)
-    //   ElMessage({
-    //     message: '文章点赞成功！',
-    //     type: 'success',
-    //   })
-    //   articleData.like = params.like
-    // }).catch(response => {
-    //   //发生错误时执行的代码
-    //   console.log(response)
-    //   ElMessage.error(response.msg)
-    // });
   }
   // 文章收藏状态
   const isCollect = ref(false)
 
   // 获取文章浏览记录（是否已收藏）
   async function getArticleHistoryData() {
-    // await nextTick()
-    // if (isLogin.value === true) {
-    //   let res = await getArticleHistory(articleID.value, userId.value)
-    //   console.log("查询是否已收藏", res.is_collect)
-    //   isCollect.value = res.is_collect
-    //   console.log(isCollect.value)
-    // }
   }
 
   // 添加/取消收藏表单
@@ -510,35 +287,7 @@ function action(articleID: any, articleData: any) {
   })
   // 子组件添加/取消收藏事件
   const collectClick = () => {
-    // if (isLogin.value === true) {
-    //   console.log("当前收藏状态是", isCollect.value)
-    //   isCollect.value = !isCollect.value
-    //   CollectForm.user = userId.value
-    //   CollectForm.is_collect = isCollect.value
-    //   CollectForm['article_id'] = articleID
-    //   putArticleHistory(CollectForm).then((response) => {
-    //     console.log(response)
-    //     if (response.is_collect === true) {
-    //       ElMessage({
-    //         message: '已添加收藏！',
-    //         type: 'success',
-    //       })
-    //     } else {
-    //       ElMessage({
-    //         message: '已取消收藏！',
-    //         type: 'success',
-    //       })
-    //     }
-    //   }).catch(response => {
-    //     //发生错误时执行的代码
-    //     console.log(response)
-    //     ElMessage.error(response.msg)
-    //   });
-    // } else {
-    //   console.log("先登录")
-    //   store.commit('setNextPath', router.currentRoute.value.fullPath)
-    //   loginPopupRef.value.showPopup()
-    // }
+
   }
   // 添加文章浏览记录表单
   const articleHistoryForm = reactive({
@@ -551,10 +300,6 @@ function action(articleID: any, articleData: any) {
     if (isLogin.value === true) {
       articleHistoryForm.article_id = article_id
       articleHistoryForm.user = userId.value
-      console.log("添加文章浏览记录了")
-      console.log("articleHistoryForm", articleHistoryForm)
-      // let res = await postArticleHistory(articleHistoryForm)
-      // console.log(res)
     }
   }
 
