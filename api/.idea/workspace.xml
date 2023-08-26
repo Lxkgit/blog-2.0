@@ -381,13 +381,8 @@
       <workItem from="1691895994537" duration="8000" />
       <workItem from="1691897207563" duration="4747000" />
       <workItem from="1691928388537" duration="4460000" />
-    </task>
-    <task id="LOCAL-00057" summary="23-01-08【功能新增】：新增文档功能">
-      <created>1673189097133</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
-      <option name="project" value="LOCAL" />
-      <updated>1673189097133</updated>
+      <workItem from="1692544065613" duration="254000" />
+      <workItem from="1693014017817" duration="1006000" />
     </task>
     <task id="LOCAL-00058" summary="23-01-08【功能新增】：新增文档功能">
       <created>1673189297549</created>
@@ -725,7 +720,14 @@
       <option name="project" value="LOCAL" />
       <updated>1691933470267</updated>
     </task>
-    <option name="localTasksCounter" value="106" />
+    <task id="LOCAL-00106" summary="23-08-20【功能修改】：优化博客前端">
+      <created>1692544279233</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1692544279234</updated>
+    </task>
+    <option name="localTasksCounter" value="107" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -756,7 +758,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="23-05-07【功能新增】：新增图片上传功能，修改博客一键部署脚本" />
     <MESSAGE value="23-05-13【功能新增】：修改文件上传逻辑，修改图片访问方式，文档查看页面修改，缺少前端页面文件" />
     <MESSAGE value="23-05-14【功能新增】：文档目录树接口前后端完成" />
     <MESSAGE value="23-05-18【功能新增】：文档查看详情功能完成，缺少content新表结构" />
@@ -781,7 +782,8 @@
     <MESSAGE value="23-08-06【功能新增】：修改文件信息" />
     <MESSAGE value="23-08-07【功能修改】：修改部署脚本，新增创建服务器虚拟内存" />
     <MESSAGE value="23-08-13【功能新增】：新增博客云盘功能，新版博客部署" />
-    <option name="LAST_COMMIT_MESSAGE" value="23-08-13【功能新增】：新增博客云盘功能，新版博客部署" />
+    <MESSAGE value="23-08-20【功能修改】：优化博客前端" />
+    <option name="LAST_COMMIT_MESSAGE" value="23-08-20【功能修改】：优化博客前端" />
   </component>
   <component name="WindowStateProjectService">
     <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1684036105991">
@@ -868,10 +870,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="731" y="432" key="VCS.ChangelistChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1687092618450" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1691933477670">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1692544285630">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691933477670" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1692544285630" />
     <state x="2315" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1685284332186" />
     <state x="759" y="297" key="chooseDestDirectoryDialog" timestamp="1691332845035">
       <screen x="0" y="0" width="1920" height="1040" />

@@ -2,7 +2,14 @@
   <section class="article-item article-item-hover">
     <span class="describe no-choose">
       <h2 class="article-title-hover" @click="toDetail(article.id)">{{ article.title }}</h2>
-      <p class="article-abstract-hover" @click="toDetail(article.id)">{{ article.contentMd }}</p>
+      <p class="article-abstract-hover" @click="toDetail(article.id)">
+        <span v-if="article.contentMemo !== null && article.contentMemo !== undefined && article.contentMemo !== ''">
+          {{ article.contentMemo }}
+        </span>
+        <span v-else>
+          {{ article.contentMd }}
+        </span>
+      </p>
       <div class="info">
         <span>
           {{ article.blogUser.nickname }}
@@ -23,17 +30,14 @@
         <span>
           <MyIcon type="icon-like" />{{ article.likeCount }}
         </span>
-        <!-- <span>
-          <MyIcon type="icon-collect" />{{ article.collect }}
-        </span> -->
         <span>
           <MyIcon type="icon-review" />1{{ article.comment }}
         </span>
       </div>
     </span>
     <span class="cover" @click="toDetail(article.id)">
-      <!-- <el-image :src="article.cover" style="width: 270px; height: 180px" :fit="'fill'" lazy> -->
-      <el-image src="https://img2.baidu.com/it/u=2241198009,1203637343&fm=253&fmt=auto"
+      <el-image
+        :src="(article.contentImg === null || article.contentImg === undefined) ? 'https://img2.baidu.com/it/u=2241198009,1203637343&fm=253&fmt=auto' : article.contentImg"
         style="width: 270px; height: 180px" :fit="'fill'" lazy>
         <template #placeholder>
           <Loading type="image"></Loading>
@@ -50,6 +54,8 @@ import icon from "@/utils/icon";
 import timeFormat from "@/utils/timeFormat";
 import color from "@/utils/color";
 import { useRouter } from "vue-router";
+import { onMounted } from "vue";
+
 
 const router = useRouter()
 const props = defineProps({
@@ -58,6 +64,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+})
+
+onMounted(() => {
+  
 })
 let { MyIcon } = icon()
 let { timeAgo } = timeFormat()

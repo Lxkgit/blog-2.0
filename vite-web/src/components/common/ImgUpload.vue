@@ -5,7 +5,7 @@
       :on-change="changeUpload">
       <MyIcon type="icon-plus" />
     </el-upload>
-    <el-image-viewer v-if="imgViewerDialog" :initial-index="imgNum" :url-list="dialogImageUrl.data"
+    <el-image-viewer v-if="imgViewerDialog" :initial-index="imgNum" :url-list="dialogImageUrl.data" :disabled="true"
       @close="imgViewerDialog = false">
     </el-image-viewer>
     <el-dialog title="图片裁剪" v-model="imgCroppingDialog">
@@ -32,13 +32,11 @@
 
 <script setup lang="ts">
 import { reactive, ref, onMounted } from "vue";
-import icon from "@/utils/icon"
-import { uploadApi } from "@/api/file";
 import { ElImageViewer, ElMessage } from 'element-plus'
-import 'vue-cropper/dist/index.css'
 import { VueCropper } from "vue-cropper";
-import { number } from "echarts";
-
+import 'vue-cropper/dist/index.css'
+import { uploadApi } from "@/api/file";
+import icon from "@/utils/icon"
 
 let imgNumber = ref(0)
 let { MyIcon } = icon()
@@ -76,7 +74,7 @@ const props = defineProps({
   // 截图框宽高比例 [ 宽度 , 高度 ]
   fixedNumber: {
     type: Array,
-    default: [1,1]
+    default: [1, 1]
   },
   // 默认生成截图框宽度
   autoCropWidth: {
@@ -103,6 +101,7 @@ onMounted(() => {
     if (props.imgList.length === 0) {
       fileList.data = []
     } else {
+      fileList.data = []
       for (let i = 0; i < props.imgList.length; i++) {
         fileList.data.push({ url: props.imgList[i] })
       }
@@ -138,7 +137,6 @@ function imgUpload() {
       data.append('filePathCode', props.filePathCode)
       uploadApi(data).then((res: any) => {
         if (res.code === 200) {
-          console.log(fileList)
           ElMessage.success({ message: '图片上传成功', type: 'success' });
           fileList.data.push({ url: res.result.fileUrl })
           fileList.data = fileList.data.filter(function (item: any) {

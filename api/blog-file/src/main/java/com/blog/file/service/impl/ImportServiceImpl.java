@@ -12,6 +12,7 @@ import com.blog.file.feign.ContentClient;
 import com.blog.file.service.ImportService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,6 +30,15 @@ import java.util.regex.Pattern;
 @Service
 public class ImportServiceImpl implements ImportService {
 
+    @Value("${file.basePath}")
+    private String basePath;
+
+    @Value("${file.serviceIp}")
+    private String serviceIp;
+
+    @Value("${file.baseUri}")
+    private String baseUri;
+
     @Resource
     private UploadLogDAO uploadLogDAO;
 
@@ -39,19 +49,21 @@ public class ImportServiceImpl implements ImportService {
     public boolean importDiary(ImportDiaryVo importDiaryVo) {
         boolean flag = false;
         try {
-            File zipFile = new File(importDiaryVo.getFilePath());
+            String filePath = basePath + importDiaryVo.getFilePath().substring(serviceIp.length() + baseUri.length());
+            System.out.println(filePath);
+            File zipFile = new File(filePath);
             if (!zipFile.exists()) {
                 System.out.println("文件不存在 ... ");
             }
-            String descPath = importDiaryVo.getFilePath().substring(0, importDiaryVo.getFilePath().lastIndexOf("/")) + "/" + RandomStringUtils.randomAlphabetic(5);
-            ZipFileUtil.unZipToFold(importDiaryVo.getFilePath(), descPath);
+            String descPath = filePath.substring(0, filePath.lastIndexOf("/")) + "/" + RandomStringUtils.randomAlphabetic(5);
+            ZipFileUtil.unZipToFold(filePath, descPath);
             File diaryDir = new File(descPath);
             File[] files = diaryDir.listFiles();
             if (files != null) {
                 flag = uploadDiary(files, importDiaryVo.getYear(), importDiaryVo.getUserId());
             }
             FileUtil.deleteDir(descPath);
-            FileUtil.deleteFile(importDiaryVo.getFilePath());
+            FileUtil.deleteFile(filePath);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

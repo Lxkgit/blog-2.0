@@ -9,13 +9,13 @@ const socketUser = () => {
       // let url = "http://124.221.12.158:9527/file/client/" + userId;
       url = url.replace("https", "wss").replace("http", "ws");
       if (websocket == null && !socketLink) {
-        websocket = new WebSocket(url); 
+        websocket = new WebSocket(url);
         socketLink = true
-      } 
+      }
       // else {
       //   console.log("用户websocket已连接");
       // }
-      
+
 
       //连接发生错误的回调方法
       websocket.onerror = function () {
@@ -25,11 +25,12 @@ const socketUser = () => {
       //连接成功建立的回调方法
       websocket.onopen = function (event) {
         console.log("用户websocket已打开");
+        heart()
       }
 
       //接收到消息的回调方法
       websocket.onmessage = function (event) {
-        // setMessageInnerHTML(event.data);
+        let data:any = JSON.parse(event.data)
       }
 
       //连接关闭的回调方法
@@ -41,6 +42,17 @@ const socketUser = () => {
       window.onbeforeunload = function () {
         websocket.close();
         console.log("用户websocket已关闭");
+      }
+
+      function heart() {
+        let time: number = 0;
+        time = window.setInterval(() => {
+          let data = {
+            msg: "ping",
+            topic: "heart"
+          }
+          websocket.send(JSON.stringify(data))
+        }, 30000);
       }
 
     } else {
@@ -62,6 +74,9 @@ const socketUser = () => {
     // const toUserId = document.getElementById('toUserId').value;
     // websocket.send('{"toUserId":"' + toUserId + '","message":"' + message + '"}');
   }
+
+
+
 
   return {
     openSocketUser,

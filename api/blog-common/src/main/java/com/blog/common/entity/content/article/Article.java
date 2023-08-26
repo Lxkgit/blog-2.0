@@ -30,6 +30,8 @@ public class Article {
 
     private String contentImg;
 
+    private String contentMemo;
+
     private String articleType;
 
     private String articleLabel;

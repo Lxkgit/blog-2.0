@@ -2,6 +2,28 @@
 
 function data() {
 
+  const getNowDate = () => {
+    let data = new Date();
+    let year = data.getFullYear();
+    let month = data.getMonth();
+    let day = data.getDate();
+    let monthStr: any = "";
+    let dayStr: any = "";
+    month = month + 1;
+    if (month < 10) {
+      monthStr = "0" + month;
+    } else {
+      monthStr = month;
+    }
+    if (day < 10) {
+      dayStr = "0" + day;
+    } else {
+      dayStr = day;
+    }
+    return year + "-" + monthStr + "-" + dayStr;
+  }
+
+  
   const getNowTime = () => {
     let data = new Date();
     let hours = data.getHours();
@@ -29,6 +51,7 @@ function data() {
   };
   
   return {
+    getNowDate,
     getNowTime
   }
 }

@@ -6,6 +6,11 @@ export const uploadApi = (params: any) => {
     return api.post(uri, params)
 }
 
+// 导入日记
+export const importDiaryApi = (params: any) => {
+    const uri = "/file/upload/diary/import"
+    return api.post(uri, params)
+}
 
 // 博客数据接口
 export const selectBlogDataApi = () => {

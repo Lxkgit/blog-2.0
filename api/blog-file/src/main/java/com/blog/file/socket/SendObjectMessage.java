@@ -72,6 +72,10 @@ public class SendObjectMessage {
         if (message != null && !message.isEmpty()) {
             for (SendObjectMessage sendObjectMessage : socket) {
                 sendObjectMessage.sendMessage(message);
+                String topic = (String) JSON.parseObject(message).get("topic");
+                if(topic.equals("heart")) {
+                    sendObjectMessage.sendMessage("{\"msg\":\"pong\",\"topic\":\"heart\"}");
+                }
             }
         }
         log.info("服务端收到客户端的消息:{}", message);

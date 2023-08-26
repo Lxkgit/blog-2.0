@@ -1,6 +1,7 @@
 package com.blog.common.enums.file;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,7 +14,8 @@ public enum FileTypeEnum {
 
     IMAGE(1, "图片", Arrays.asList("jpg","png"), "/img"),
     FILE(2, "文件", Arrays.asList("jpg","png"), "/file"),
-    OTHER_FILE(3, "用户自定义上传文件", Arrays.asList("jpg","png", "txt", "zip", "7z"), null)
+    OTHER_FILE(3, "用户自定义上传文件", Arrays.asList("jpg","png", "txt", "zip", "7z"), null),
+    DIARY_FILE(4, "用户自定义上传文件", Collections.singletonList("zip"), "/upload")
 
     ;
 

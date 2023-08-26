@@ -2,16 +2,14 @@
   <div ref="editor">
     <v-md-preview :text="text" @copy-code-success="handleCopyCodeSuccess" @image-click="showImg"></v-md-preview>
   </div>
-  <el-image-viewer v-if="images.isShow" :initial-index="images.currentIndex"
-                   :url-list="images.MDimages" @close="images.isShow=false">
+  <el-image-viewer v-if="images.isShow" :initial-index="images.currentIndex" :url-list="images.MDimages"
+    @close="images.isShow = false">
   </el-image-viewer>
 </template>
 
 <script setup>
-import {systemStore} from "@/store/system";
-import {
-  ElImageViewer,
-} from 'element-plus'
+import { systemStore } from "@/store/system";
+import { ElImageViewer } from 'element-plus'
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
 import '@kangc/v-md-editor/lib/style/preview.css';
 import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
@@ -29,8 +27,8 @@ import css from 'highlight.js/lib/languages/css';
 import scss from 'highlight.js/lib/languages/scss';
 import xml from 'highlight.js/lib/languages/xml';
 import java from 'highlight.js/lib/languages/java'
-import {ElMessage} from "element-plus";
-import {nextTick, onBeforeUnmount, onMounted, reactive, ref, watch} from "vue";
+import { ElMessage } from "element-plus";
+import { nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 
 hljs.registerLanguage('json', json);
 hljs.registerLanguage('python', python);
@@ -40,6 +38,7 @@ hljs.registerLanguage('javascript', javascript);
 hljs.registerLanguage('scss', scss);
 hljs.registerLanguage('css', css);
 hljs.registerLanguage('xml', xml);
+hljs.registerLanguage('java', xml);
 VMdPreview.use(githubTheme, {
   codeHighlightExtensionMap: {
     vue: 'xml',
@@ -74,7 +73,6 @@ const showImg = (MDimages, currentIndex) => {
   images.MDimages = MDimages
   images.currentIndex = currentIndex
   images.isShow = true
-  console.log(images)
 }
 // markdown-对象
 const editor = ref(null)
@@ -85,11 +83,9 @@ const titleList = ref([])
 async function getTitle() {
   await nextTick()
   const anchors = editor.value.querySelectorAll(
-      '.v-md-editor-preview h1,h2,h3,h4,h5,h6'
+    '.v-md-editor-preview h1,h2,h3,h4,h5,h6'
   )
-  // console.log(anchors)
   const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());
-  // console.log(titles)
   if (!titles.length) {
     titleList.value = [];
     return;
@@ -106,31 +102,27 @@ async function getTitle() {
 
 // 监听markdown内容发生变化
 watch(
-    () => props.text,
-    (value) => {
-      console.log("value: +++++++++++    " + value)
-      if (value) {
-        getTitle()
-      }
+  () => props.text,
+  (value) => {
+    if (value) {
+      getTitle()
     }
+  }
 )
 // 监听是否查看大图，阻止默认事件
 watch(
-    () => images.isShow,
-    (value) => {
-      console.log(value)
-      if (value){
-        document.body.style.overflow='hidden'
-      }else {
-        document.body.style.overflow='visible'
-      }
+  () => images.isShow,
+  (value) => {
+    if (value) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'visible'
     }
+  }
 )
 onMounted(async () => {
   await getTitle()
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -15,6 +15,7 @@ public enum FilePathEnum {
     DOC_PATH(2, "/doc", "文档相关文件存放路径"),
     OTHER_PATH(3, "/other", "其它类型文件存放路径"),
     USER_PATH(4, "/user", "用户个人文件存放路径"),
+    DIARY_PATH(5,"/diary", "日记相关文件存放路径")
 
     ;
 

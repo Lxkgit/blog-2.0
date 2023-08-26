@@ -102,7 +102,6 @@ const article_params = {
 const loading = ref(false)
 // 加载下一页
 const load = () => {
-    console.log("加载下一页了")
     getArticleListApi(article_params).then((res: any) => {
         article.list.push(...res.result.list)
         article.count = res.result.total

@@ -13,14 +13,16 @@
                 </el-table-column>
                 <el-table-column label="文章分类" width="300">
                     <template #default="scope">
-                        <el-tag style="margin-right: 2px; margin-bottom: 2px;" v-for="item in scope.row.articleTypes">
+                        <el-tag :style="'color: ' + tagColor(item.id)" style="margin-right: 2px; margin-bottom: 2px;"
+                            v-for="item in scope.row.articleTypes">
                             {{ item.typeName }}
                         </el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column label="文章标签" width="180">
                     <template #default="scope">
-                        <el-tag style="margin-right: 2px; margin-bottom: 2px;" v-for="item in scope.row.articleLabels">
+                        <el-tag :style="'color: ' + tagColor(item.id)" style="margin-right: 2px; margin-bottom: 2px;"
+                            v-for="item in scope.row.articleLabels">
                             {{ item.labelName }}
                         </el-tag>
                     </template>
@@ -43,18 +45,17 @@
                 <el-table-column fixed="right" label="操作" width="100">
                     <template #default="scope">
                         <el-button @click="editArticle(scope.row)" size="small" text>
-                            <MyIcon type="icon-edit"/>
+                            <MyIcon type="icon-edit" />
                         </el-button>
-                        <el-button style="margin-left: 0;" @click="deleteArticle(scope.row.id)"
-                            size="small" text>
-                            <MyIcon type="icon-delete"/>
+                        <el-button style="margin-left: 0;" @click="deleteArticle(scope.row.id)" size="small" text>
+                            <MyIcon type="icon-delete" />
                         </el-button>
                     </template>
                 </el-table-column>
             </el-table>
             <div style="margin: 20px 0 50px 0">
                 <el-pagination background style="float:right;" layout="total, prev, pager, next, jumper"
-                @current-change="getArticleListByPage" :page-size="size" :total="total">
+                    @current-change="getArticleListByPageFun" :page-size="size" :total="total">
                 </el-pagination>
             </div>
         </el-card>
@@ -64,63 +65,63 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { tagsStore } from "@/store/tag"
 import { contentStore } from "@/store/content"
 import { getArticleListApi, deleteArticleByIdsApi } from "@/api/content";
+import { tagsStore } from "@/store/tag"
 import icon from '@/utils/icon'
+import color from "@/utils/color";
 import mixin from "@/mixins/article"
 
-let { articleStatus } = mixin();
-const store = tagsStore()
-const cStore = contentStore()
 const router = useRouter()
 
+const store = tagsStore()
+const cStore = contentStore()
+
 let { MyIcon } = icon()
+let { tagColor } = color()
+let { articleStatus } = mixin();
+
+// 文章分页信息
 let page = ref<number>(1)
 let size = ref<number>(13)
 let total = ref<number>(0)
+
 // 文章列表
 const articleList: any = reactive({
-  list: [],
-  total: '',
+    list: [],
+    total: '',
 })
-let labelList: any = ref([]);
+
+// 勾选文章id
+let ids = new Array();
 
 onMounted(() => {
-    articleData(page.value,size.value)
-    // articleLabel();
+    getArticleListFun(page.value, size.value)
 });
 
-
 // 获取文章数据
-async function articleData(page: any, size: any) {
-  const params = {
-    pageNum: page,
-    pageSize: size,
-    type: 1,
-    selectStatus: "0,1,2",
-    sortType: "1"
-  }
-  getArticleListApi(params).then((res: any) => {
-    if (res.code === 200) {
-      articleList.list = res.result.list
-      total.value = res.result.total
+async function getArticleListFun(page: any, size: any) {
+    const params = {
+        pageNum: page,
+        pageSize: size,
+        type: 1,
+        selectStatus: "0,1,2",
+        sortType: "1"
     }
-  })
+    getArticleListApi(params).then((res: any) => {
+        if (res.code === 200) {
+            articleList.list = res.result.list
+            total.value = res.result.total
+        }
+    })
 }
 
-let ids = new Array();
-const selected = (val: any) => {
-    ids.splice(0, ids.length)
-    for (let i = 0; i < val.length; i++) {
-        ids.unshift(val[i].id)
-    }
-}
-
-const getArticleListByPage = (page: any) => {
-    articleData(page, size.value)
+// 分页获取文章列表
+const getArticleListByPageFun = (page: any) => {
+    getArticleListFun(page, size.value)
 };
 
+// 编辑文章
 const editArticle = (article?: any) => {
     let path = "/admin/article/editor"
     store.addTag("编辑文章", path)
@@ -128,18 +129,27 @@ const editArticle = (article?: any) => {
     cStore.setArticle(article);
 }
 
+// 获取勾选文章id
+const selected = (val: any) => {
+    ids.splice(0, ids.length)
+    for (let i = 0; i < val.length; i++) {
+        ids.unshift(val[i].id)
+    }
+}
+
+// 删除文章
 const deleteArticle = (id?: any) => {
     if (id === 0) {
         if (ids.length !== 0) {
             deleteArticleByIdsApi(ids.join()).then((res: any) => {
                 if (res.code === 200) {
-                    getArticleListByPage(1)
+                    getArticleListByPageFun(1)
                 }
             })
         }
     } else {
         deleteArticleByIdsApi(id).then((res: any) => {
-            getArticleListByPage(1)
+            getArticleListByPageFun(1)
         })
     }
 };

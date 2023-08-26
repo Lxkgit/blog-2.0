@@ -7,6 +7,7 @@
         <id column="title" property="title" jdbcType="VARCHAR"/>
         <id column="content_md" property="contentMd" jdbcType="VARCHAR"/>
         <id column="content_img" property="contentImg" jdbcType="VARCHAR"/>
+        <id column="content_memo" property="contentMemo" jdbcType="VARCHAR"/>
         <id column="article_type" property="articleType" jdbcType="VARCHAR"/>
         <id column="article_label" property="articleLabel" jdbcType="VARCHAR"/>
         <id column="article_status" property="articleStatus" jdbcType="INTEGER"/>
@@ -17,7 +18,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id, title, content_md, content_img, article_type, article_label,
+        id, user_id, title, content_md, content_img, content_memo, article_type, article_label,
          article_status, browse_count, like_count, create_time, update_time
     </sql>
 
@@ -156,6 +157,9 @@
             </if>
             <if test="contentImg !=null and contentImg !=''">
                 content_img = #{contentImg},
+            </if>
+            <if test="contentMemo !=null and contentMemo !=''">
+                content_memo = #{contentMemo},
             </if>
             <if test="articleType !=null and articleType !=''">
                 article_type = #{articleType},

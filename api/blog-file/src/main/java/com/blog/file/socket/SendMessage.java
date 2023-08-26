@@ -85,7 +85,7 @@ public class SendMessage {
             String topic = (String) object.get("topic");
             log.info("服务端收到客户端[{}]的消息:{}", userId, message);
             if (topic.equals("heart")) {
-
+                socket.get(userId).sendMessage("{\"msg\":\"pong\",\"topic\":\"heart\"}");
             } else if (topic.equals("chat")) {
                 object.put("userId", userId);
                 String toUserId = object.getString("toUserId");

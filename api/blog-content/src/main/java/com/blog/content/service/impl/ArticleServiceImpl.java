@@ -169,7 +169,8 @@ public class ArticleServiceImpl implements ArticleService {
         RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
                 RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
         mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
-        return articleDAO.insert(article);
+        articleDAO.insert(article);
+        return article.getId();
     }
 
     @Override

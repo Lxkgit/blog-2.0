@@ -34,6 +34,12 @@ export const systemStore = defineStore('system', {
     isLogin: false,
     
     sideBar: false,
+    // 是否获取过socket信息
+    socketFlag: false,
+    // 全局socket
+    globalSocket: false,
+    // 用户socket
+    userSocket: false
   }),
   getters: {
 
@@ -82,6 +88,17 @@ export const systemStore = defineStore('system', {
     // 设置深色模式
     setDark(value: any) {
       this.isDark = value
+    },
+    setSocketFlag(value: any) {
+      this.socketFlag = value
+    },
+    // 设置全局socket是否开启
+    setGlobalSocket(value: any) {
+      this.globalSocket = value
+    },
+    // 设置用户socket是否开启
+    setUserSocket(value: any) {
+      this.userSocket = value
     }
   },
   persist: {
@@ -117,9 +134,21 @@ export const systemStore = defineStore('system', {
         storage: sessionStorage,
         paths: ['userSession']
       },
-
-
-      
+      {
+        key: 'socketFlag',
+        storage: sessionStorage,
+        paths: ['socketFlag']
+      },
+      {
+        key: 'globalSocket',
+        storage: sessionStorage,
+        paths: ['globalSocket']
+      },
+      {
+        key: 'userSocket',
+        storage: sessionStorage,
+        paths: ['userSocket']
+      },
     ]
   }
 })

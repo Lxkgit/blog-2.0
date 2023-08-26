@@ -23,12 +23,12 @@ const socketAll = () => {
       // 连接成功建立的回调方法
       websocket.onopen = function (event) {
         console.log("系统websocket已打开");
+        heart()
       }
 
       // 接收到消息的回调方法
       websocket.onmessage = function (event) {
         let data:any = JSON.parse(event.data)
-        console.log(data)
         mitter.emit(data.topic, data.message);
       }
 
@@ -43,10 +43,23 @@ const socketAll = () => {
         console.log("系统websocket已关闭");
       }
 
+      function heart() {
+        let time: number = 0;
+        time = window.setInterval(() => {
+          let data = {
+            msg: "ping",
+            topic: "heart"
+          }
+          websocket.send(JSON.stringify(data))
+        }, 30000);
+      }
+
     } else {
       console.log("您的浏览器不支持websocket!!!")
     }
   }
+
+  
 
   //关闭连接
   function closeWebSocketAll() {

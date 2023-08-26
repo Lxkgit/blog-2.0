@@ -17,11 +17,14 @@ import { ElMessageBox } from 'element-plus'
 import dark from "@/utils/dark";
 import { systemStore } from "@/store/system"
 import { useRouter } from "vue-router";
-import  socketAll  from '@/utils/socketAll';
+import socketAll from '@/utils/socketAll';
 import socketUser from '@/utils/socketUser'
 import { getCurrentInstance } from "vue";
 import user from "@/utils/user";
 import mitter from "@/utils/mitt";
+import { selectBlogSettingByIdApi } from "@/api/file"
+import SettingEnum from "@/enums/blogSettingEnum"
+
 
 let { isLogin, userId } = user();
 const instance = getCurrentInstance();
@@ -40,20 +43,18 @@ watch(() => router, (newValue) => {
 
 mitter.on("login", (data) => {
   const msg = JSON.parse(data)
-  if(msg.state === true) {
+  if (msg.state === true && store.userSocket) {
     openSocketUser(msg.userId);
   } else {
-    console.log("断开socket")
-    closeWebSocketUser
+    closeWebSocketUser()
   }
 })
 
 onMounted(() => {
-  openSocketAll();
-  if (isLogin.value) {
-    openSocketUser(userId.value);
-  }
-  
+  selectBlogSettingByIdFun()
+
+
+
   const is_dark = window.matchMedia('(prefers-color-scheme: dark)').matches
   if (is_dark) {
     setDark(is_dark)
@@ -80,6 +81,36 @@ onMounted(() => {
   }
 })
 
+async function selectBlogSettingByIdFun() {
+  if (!store.socketFlag) {
+    let fGlobal = false
+    let fUser = false
+    await selectBlogSettingByIdApi(SettingEnum.getEnumValueByLabel("globalSocket")).then((res) => {
+      if (res.code === 200) {
+        store.setGlobalSocket(res.result.bool)
+        fGlobal = true
+      }
+    })
+    await selectBlogSettingByIdApi(SettingEnum.getEnumValueByLabel("userSocket")).then((res) => {
+      if (res.code === 200) {
+        store.setUserSocket(res.result.bool)
+        fUser = true
+      }
+    })
+    if (fGlobal && fUser) {
+      store.setSocketFlag(true)
+    }
+  }
+  if (store.globalSocket) {
+    openSocketAll();
+  }
+  if (store.userSocket) {
+    if (isLogin.value) {
+      openSocketUser(userId.value);
+    }
+  }
+}
+
 </script>
 
 <style lang="scss">
@@ -96,5 +127,31 @@ onMounted(() => {
   margin: 0 auto;
   -webkit-overflow-scrolling: touch;
   animation-timing-function: linear;
+}
+
+// 全局设置滚动条样式
+
+* {}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  /* 滑块颜色   */
+  background: #ccc;
+  /* 滑块圆角 */
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  /* 鼠标移入滑块变红 */
+  background: var(--el-color-primary);
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px var(--el-color-primary);
+  background: #ededed;
+  border-radius: 5px;
 }
 </style>
