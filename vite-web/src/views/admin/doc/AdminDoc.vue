@@ -15,9 +15,10 @@
             <div style="overflow-y: auto; height: 650px; padding-top: 10px; border-right: 1px solid rgb(233, 235, 238);">
               <el-input v-model="filterText" placeholder="Filter keyword" style="width: 90%; height: 30px;"
                 size="small" />
-              <el-tree style="margin-top: 20px;" ref="treeRef" class="filter-tree" :data="catalogList"
-                :highlight-current="true" :expand-on-click-node="false" @node-click="handleNodeClick"
-                @node-contextmenu="nodeRightClick" :filter-node-method="filterNode" />
+              <el-tree style="margin-top: 20px;" ref="treeRef" class="filter-tree" :data="catalogList" draggable
+                @node-drag-start="handleDragStart" @node-drag-end="handleDragEnd" :highlight-current="true"
+                :expand-on-click-node="false" @node-click="handleNodeClick" @node-contextmenu="nodeRightClick"
+                :filter-node-method="filterNode" />
             </div>
           </el-col>
           <el-col :span="20">
@@ -119,11 +120,11 @@ import { getDocCatalogTreeApi, getDocContentByIdApi, saveDocCatalogApi, deleteDo
 import { tagsStore } from "@/store/tag";
 import { contentStore } from "@/store/content";
 import icon from "@/utils/icon";
-
 // 引入笔记目录模块
-let { docType, docLevel, catalogList, catalogListT, getDocCatalogTreeFun, handleNodeClick, deleteDocCatalogFun,
-  createCatalogDialogFun, saveCatalogDialogFun, updateCatalogFun, getDocCatalogThreeLevelCatalogTreeFun } = catalog();
-let { editDocContentFun, createContentDialogFun, saveContentDialogFun } = content();
+let { filterText, treeRef, docCatalog, createCatalogFrom, createCatalogDialog, docType, docLevel, catalogList, catalogListT, imgUpload,
+  filterNode, getDocCatalogTreeFun, handleNodeClick, deleteDocCatalogFun, createCatalogDialogFun, saveCatalogDialogFun, updateCatalogFun,
+  getDocCatalogThreeLevelCatalogTreeFun } = catalog();
+let { docContent, createContentDialog, editDocContentFun, createContentDialogFun, saveContentDialogFun } = content();
 
 const store = tagsStore();
 const cStore = contentStore();
@@ -135,39 +136,29 @@ onMounted(() => {
   getDocCatalogTreeFun();
 });
 
-// 创建文档目录
-let createCatalogDialog = ref(false);
-// 创建文档
-let createContentDialog = ref(false);
-// 关键字查找
-const filterText = ref("");
-const treeRef = ref<InstanceType<typeof ElTree>>();
-// 监听文档目录树筛选输入框
-watch(filterText, (val) => {
-  treeRef.value!.filter(val);
-});
-// 过滤主文档树选项
-const filterNode = (value: string, data: any) => {
-  if (!value) return true;
-  return data.label.includes(value);
-};
 
-// 文档目录信息
-let docCatalog: any = reactive({ data: {} });
+const handleDragStart = (node: any,
+  // ev: DragEvents
+) => {
+  console.log('drag start', node.data)
+  if (node.data.docLevel === 0) {
+    ElMessage.error({ message: '根目录禁止拖动' });
+    return false
+  }
+}
+const handleDragEnd = (
+  // draggingNode: Node,
+  dropNode: Node,
+  // dropType: NodeDropType,
+  // ev: DragEvents
+) => {
+  // console.log('tree drag end:', dropNode && dropNode.label, dropType)
+  console.log('tree drag end:', dropNode)
 
-// 创建文档目录表单
-let createCatalogFrom: any = reactive({
-  node: null,
-  id: Number(null),
-  docName: "",
-  docLevel: Number(null),
-  docType: 0,
-  imgUrl: "",
-  root: false,
-});
 
-// 文档内容信息
-let docContent: any = reactive({ data: {} });
+}
+
+
 // 文档目录树邮件菜单是否展示控制
 let visible = ref(false);
 // 右键菜单的左边距
@@ -178,8 +169,6 @@ let top = ref(0);
 let clickRightItem: any = ref({});
 // 右键选中对象的node信息
 let clickRightNode: any = ref({});
-// 主展示页面是否可以编辑
-let edit = ref(false);
 // 设置创建文档默认数据
 const setTreeData = (data: any) => {
   createCatalogFrom.id = data.id;
@@ -198,13 +187,38 @@ const nodeRightClick = (event: any, data: any, node: any, self: any) => {
   visible.value = true;
 };
 
-// 文章封面上传
-const imgUpload = (upload: any) => {
-  docCatalog.data.docImg = upload[0].url
-}
-
 // 文档目录模块
 function catalog() {
+
+  // 关键字查找
+  const filterText = ref("");
+  const treeRef = ref<InstanceType<typeof ElTree>>();
+  // 监听文档目录树筛选输入框
+  watch(filterText, (val) => {
+    treeRef.value!.filter(val);
+  });
+  // 过滤主文档树选项
+  const filterNode = (value: string, data: any) => {
+    if (!value) return true;
+    return data.label.includes(value);
+  };
+
+  // 文档目录信息
+  let docCatalog: any = reactive({ data: {} });
+
+  // 创建文档目录表单
+  let createCatalogFrom: any = reactive({
+    node: null,
+    id: Number(null),
+    docName: "",
+    docLevel: Number(null),
+    docType: 0,
+    imgUrl: "",
+    root: false,
+  });
+  // 创建文档目录
+  let createCatalogDialog = ref(false);
+
   // 文档目录类型
   let docType = ref();
   // 文档目录层级
@@ -213,6 +227,11 @@ function catalog() {
   let catalogList = ref([]);
   // 文档前三级目录
   let catalogListT = ref([]);
+
+  // 文章封面上传
+  const imgUpload = (upload: any) => {
+    docCatalog.data.docImg = upload[0].url
+  }
   // 加载文档主目录树
   const getDocCatalogTreeFun = () => {
     getDocCatalogTreeApi({
@@ -221,61 +240,7 @@ function catalog() {
       type: 1,
     }).then((res: any) => {
       if (res.code === 200) {
-        let data = res.result;
-        catalogList.value = data.map((i: any, index: any) => {
-          return {
-            id: i["id"],
-            value: i["id"],
-            label: i["docName"],
-            docType: i["docType"],
-            docLevel: i["docLevel"],
-            delete: i["list"] === null ? 1 : 0,
-            children: (i["list"] || []).map((j: any, index: any) => {
-              return {
-                id: j["id"],
-                value: j["id"],
-                label: j["docName"],
-                docType: j["docType"],
-                docImg: j["imgUrl"],
-                docLevel: j["docLevel"],
-                delete: j["list"] === null ? 1 : 0,
-                children: (j["list"] || []).map((k: any, index: any) => {
-                  return {
-                    id: k["id"],
-                    value: k["id"],
-                    label: k["docName"],
-                    docType: k["docType"],
-                    docLevel: k["docLevel"],
-                    delete: k["list"] === null ? 1 : 0,
-                    children: (k["list"] || []).map((m: any, index: any) => {
-                      return {
-                        id: m["id"],
-                        value: m["id"],
-                        label: m["docName"],
-                        docType: m["docType"],
-                        docLevel: m["docLevel"],
-                        delete: m["list"] === null ? 1 : 0,
-                        children: (m["list"] || []).map(
-                          (n: any, index: any) => {
-                            return {
-                              id: n["id"],
-                              value: n["id"],
-                              label: n["docName"],
-                              docType: n["docType"],
-                              docLevel: n["docLevel"],
-                              delete: n["list"] === null ? 1 : 0,
-                              children: NaN,
-                            };
-                          }
-                        ),
-                      };
-                    }),
-                  };
-                }),
-              };
-            }),
-          };
-        });
+        catalogList.value = res.result;
       }
     });
   };
@@ -288,49 +253,7 @@ function catalog() {
       type: 1,
     }).then((res: any) => {
       if (res.code === 200) {
-        let data = res.result;
-        catalogListT.value = data.map((i: any, index: any) => {
-          return {
-            id: i["id"],
-            value: i["id"],
-            label: i["docName"],
-            docType: i["docType"],
-            docLevel: i["docLevel"],
-            delete: i["list"] === null ? 1 : 0,
-            children: (i["list"] || []).map((j: any, index: any) => {
-              return {
-                id: j["id"],
-                value: j["id"],
-                label: j["docName"],
-                docType: j["docType"],
-                docImg: j["imgUrl"],
-                docLevel: j["docLevel"],
-                delete: j["list"] === null ? 1 : 0,
-                children: (j["list"] || []).map((k: any, index: any) => {
-                  return {
-                    id: k["id"],
-                    value: k["id"],
-                    label: k["docName"],
-                    docType: k["docType"],
-                    docLevel: k["docLevel"],
-                    delete: k["list"] === null ? 1 : 0,
-                    children: (k["list"] || []).map((m: any, index: any) => {
-                      return {
-                        id: m["id"],
-                        value: m["id"],
-                        label: m["docName"],
-                        docType: m["docType"],
-                        docLevel: m["docLevel"],
-                        delete: m["list"] === null ? 1 : 0,
-                        children: NaN
-                      };
-                    }),
-                  };
-                }),
-              };
-            }),
-          };
-        });
+        catalogListT.value = res.result;
       }
     });
   };
@@ -345,7 +268,7 @@ function catalog() {
     if (data.docImg === null || data.docImg === "") {
       docCatalog.data.docImg = ""
     } else {
-      docCatalog.data.docImg = data.docImg;
+      docCatalog.data.docImg = data.imgUrl;
     }
     if (data.docType === 1) {
       getDocContentByIdApi(data.id).then((res: any) => {
@@ -374,7 +297,6 @@ function catalog() {
   };
   // 修改文档目录
   const updateCatalogFun = () => {
-    edit.value = false;
     updateCatalogApi({
       id: docCatalog.data.catalogId,
       docName: docCatalog.data.docName,
@@ -415,11 +337,23 @@ function catalog() {
       }
     });
   };
+
+
+
+
+
   return {
+    filterText,
+    treeRef,
+    docCatalog,
+    createCatalogFrom,
+    createCatalogDialog,
     docType,
     docLevel,
     catalogList,
     catalogListT,
+    imgUpload,
+    filterNode,
     getDocCatalogTreeFun,
     handleNodeClick,
     deleteDocCatalogFun,
@@ -429,8 +363,13 @@ function catalog() {
     getDocCatalogThreeLevelCatalogTreeFun
   };
 }
+
 // 文档内容模块
 function content() {
+  // 文档内容信息
+  let docContent: any = reactive({ data: {} });
+  // 创建文档
+  let createContentDialog = ref(false);
   // 编辑文档
   const editDocContentFun = (docContent?: any) => {
     let path = "/admin/doc/editor";
@@ -471,6 +410,8 @@ function content() {
     saveDocContentFun()
   };
   return {
+    docContent,
+    createContentDialog,
     editDocContentFun,
     createContentDialogFun,
     saveContentDialogFun

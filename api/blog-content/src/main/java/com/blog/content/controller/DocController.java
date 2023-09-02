@@ -30,6 +30,7 @@ public class DocController {
 
     @PutMapping("/content/insert")
     @PreAuthorize("hasAnyAuthority('sys:doc:insert')")
+//    @RequestHeader(required = false,value = "Authorization")
     public Result insertDocCatalog(@RequestHeader HttpHeaders headers,@RequestBody DocCatalog docCatalog) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);

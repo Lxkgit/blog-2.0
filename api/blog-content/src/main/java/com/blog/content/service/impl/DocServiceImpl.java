@@ -167,13 +167,15 @@ public class DocServiceImpl implements DocService {
         List<DocCatalogVo> docCatalogVoList = docCatalogDAO.selectListByDocTypeAndUserId(docLevelList, docCatalogVo.getUserId(), docCatalogVo.getDocType());
         if (docCatalogVoList != null) {
             for (DocCatalogVo vo : docCatalogVoList) {
+                vo.setValue(vo.getId());
+                vo.setLabel(vo.getDocName());
                 if (!vo.getDocLevel().equals(lowerLimit)) {
                     docCatalogVoList.forEach(docCatalogVo1 -> {
                         if (docCatalogVo1.getId().equals(vo.getParentId())) {
-                            if (docCatalogVo1.getList() == null) {
-                                docCatalogVo1.setList(new ArrayList<>());
+                            if (docCatalogVo1.getChildren() == null) {
+                                docCatalogVo1.setChildren(new ArrayList<>());
                             }
-                            docCatalogVo1.getList().add(vo);
+                            docCatalogVo1.getChildren().add(vo);
                         }
                     });
                 }

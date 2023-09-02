@@ -1,6 +1,9 @@
 #! /bin/bash
 # 压缩包安装博客
 
+oldServiceIP="124.221.12.158"
+newServiceIp=""
+
 # MySQL登陆密码
 mysqlPassword="MySql@Admin123*."
 # redis登陆密码
@@ -455,6 +458,15 @@ addVirtualMemory() {
   free -m
   echo "/usr/swap/swapfile swap swap defaults 0 0"  >> /etc/fstab
 }
+
+# 修改已有数据服务器IP
+updateServiceIp() {
+  cd /opt/package/sql
+  sed -i "s/${oldServiceIP}/${newServiceIp}/" blog_content.sql
+#  sed -i "s/${oldServiceIP}/${newServiceIp}/" blog_file.sql
+  sed -i "s/${oldServiceIP}/${newServiceIp}/" nacos.sql
+}
+
 main() {
   $(cd `dirname $0`;pwd)
   if [ ! -f "blog.zip" ]; then
@@ -474,7 +486,7 @@ main() {
   
   cd /opt/package
   unzip blog.zip
-
+  updateServiceIp
   echo "开始安装jdk ... "
   jdk
   echo "开始安装nginx ... "
@@ -504,14 +516,72 @@ main() {
   blogShell
   echo "恢复博客备份图片 ... "
   updateImg
+
 }
+
+
+# 获取参数
+while getopts "i:" arg
+    do
+		case "$arg" in
+			i)
+				newServiceIp=$OPTARG
+				echo $newServiceIp
+				;;
+			?)
+				echo "没有找到这条命令 ... "
+				exit 1
+				;;
+		esac
+	done
 
 # 开始执行函数
 main
 
+# 部署完成修改部署脚本
+sed -i "s/^oldServiceIP=\".*\"$/oldServiceIP=\"${newServiceIp}\"/" /root/blog_package.sh
+
+# 服务启动
+startService() {
+
+  /etc/init.d/mysql start
+
+  echo "启动nigix ... "
+cd /usr/local/nginx/sbin
+./nginx
+
+echo "启动tomcat ... "
+cd /opt/apache-tomcat-9.0.63/bin
+./startup.sh
+
+echo "启动nacos ... "
+cd /opt/nacos/bin
+./startup.sh -m standalone
+
+echo "启动rocketMQ ... "
+cd /opt/rocketmq-all-5.1.3-bin-release/bin
+nohup sh mqnamesrv >/dev/null 2>&1 &
+nohup sh mqbroker -n localhost:9876 autoCreateTopicEnable=true >/dev/null 2>&1 &
+
+cd /opt/blog/blog-auth/bin
+./start.sh
+
+cd /opt/blog/blog-content/bin
+./start.sh
+
+cd /opt/blog/blog-gateway/bin
+./start.sh
+
+cd /opt/blog/blog-user/bin
+./start.sh
+
+cd /opt/blog/blog-file/bin
+./start.sh
+}
+
 # 脚本执行方法
 # chmod 777 blog_package.sh
-# nohup sh blog_package.sh >my.log 2>&1 &
+# nohup sh blog_package.sh -i 124.221.12.158 >my.log 2>&1 &
 
 
 
@@ -524,6 +594,7 @@ main
 # - sql     # 存放博客sql和nacos的sql文件
 # - conf    # 存放需要替换的配置文件
 # - web     # 存放前端包
+# - files   # 存放博客已有数据文件
 
 # 备份数据
 # cd /opt/files

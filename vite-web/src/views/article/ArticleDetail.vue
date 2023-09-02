@@ -119,8 +119,6 @@ import BackTop from "@/components/common/BackTop.vue"
 import MarkDown from "@/components/detail/MarkDown.vue"
 import Action from "@/components/detail/Action.vue"
 import Outline from "@/components/detail/Outline.vue"
-import Editor from "@/components/common/Editor.vue"
-import Comments from "@/components/common/Comments.vue"
 import { ElLoading, ElMessage } from 'element-plus'
 
 import { onMounted, reactive, ref, onBeforeUnmount, nextTick, getCurrentInstance } from "vue";

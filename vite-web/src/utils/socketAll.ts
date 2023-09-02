@@ -1,14 +1,16 @@
 import { getCurrentInstance } from "vue";
 import mitter from "@/utils/mitt";
+import { systemStore } from "@/store/system"
 
 // 全局socket
 const socketAll = () => {
+  const store = systemStore()
   let websocket: any = null;
   const instance = getCurrentInstance();
   const openSocketAll = () => {
     //判断当前浏览器是否支持WebSocket, 主要此处要更换为自己的地址
-    let url = "http://localhost:9527/file/result";
-    // let url = "http://124.221.12.158:9527/file/result";
+    let url = "http://"+ store.serviceIP + ":9527/file/result";
+    // let url = window.config.socket + "/file/result";
     if ('WebSocket' in window) {
       url = url.replace("https", "wss").replace("http", "ws");
       if (websocket == null) {

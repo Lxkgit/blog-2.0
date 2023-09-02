@@ -32,14 +32,16 @@ export const systemStore = defineStore('system', {
     isDark: false,
     // 用户是否登录
     isLogin: false,
-    
+
     sideBar: false,
     // 是否获取过socket信息
     socketFlag: false,
     // 全局socket
     globalSocket: false,
     // 用户socket
-    userSocket: false
+    userSocket: false,
+    // 服务器IP
+    serviceIP: ""
   }),
   getters: {
 
@@ -99,7 +101,12 @@ export const systemStore = defineStore('system', {
     // 设置用户socket是否开启
     setUserSocket(value: any) {
       this.userSocket = value
+    },
+    // 设置服务器IP
+    setServiceIP(value: any) {
+      this.serviceIP = value
     }
+
   },
   persist: {
     enabled: true,
@@ -148,6 +155,11 @@ export const systemStore = defineStore('system', {
         key: 'userSocket',
         storage: sessionStorage,
         paths: ['userSocket']
+      },
+      {
+        key: 'serviceIP',
+        storage: sessionStorage,
+        paths: ['serviceIP']
       },
     ]
   }

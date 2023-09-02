@@ -42,19 +42,19 @@
       </span>
       <span class="right">
         <el-tooltip class="item" effect="dark" content="设置" placement="bottom">
-          <span class="setting hvr-grow" @click="drawer = true">
+          <span class="setting hvr-grow" @click="drawer = true" style="cursor: pointer;">
             <MyIcon type="icon-setting" />
           </span>
         </el-tooltip>
         <el-tooltip class="item" effect="dark" content="搜索" placement="bottom">
           <span class="search hvr-grow" :style="{ 'color': (menuIndex === '7' ? 'var(--el-color-primary)' : '') }"
-            @click="router.push('/search')">
+            @click="router.push('/search')" style="cursor: pointer;">
             <MyIcon type="icon-search" />
           </span>
         </el-tooltip>
         <span class="user">
           <el-dropdown v-if="isLogin" @visible-change="dropdownChange">
-            <span style="outline:0;">
+            <span style="outline:0; cursor: pointer;" >
               <el-avatar :src="photo"></el-avatar>
               <p>{{ userName }}
                 <el-icon v-if="isDropdown">
@@ -159,7 +159,7 @@ const props = defineProps({
 })
 //导航菜单-logo和name
 const siteConfig = reactive({
-  logo: '',
+  logo: '/logo.png',
   name: '',
 })
 
@@ -297,15 +297,16 @@ header {
     display: flex;
     align-items: center;
     border-bottom: 1px solid var(--el-border-color);
-    height: 60px;
+    height: 58px;
     flex-direction: row-reverse;
-    cursor: pointer;
 
     .user {
       display: flex;
       align-items: center;
 
       .toLoginRegister {
+        cursor: pointer;
+
         span {
           margin: 0 10px;
         }

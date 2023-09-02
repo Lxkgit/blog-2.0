@@ -22,13 +22,11 @@ public class DocCatalogVo extends DocCatalog implements Comparable<DocCatalog>{
 
     private Integer pageSize;
 
-    private List<DocCatalogVo> list;
-
-    private boolean hasChildren;
+    private List<DocCatalogVo> children;
 
     private Integer value;
 
-    private boolean isLeaf;
+    private String label;
 
     /**
      * 接口查询位置 0：首页 1：管理页面

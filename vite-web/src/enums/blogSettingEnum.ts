@@ -1,15 +1,21 @@
 
 const SettingEnum = {
 
+  SERVICE_IP: {
+    label: "serviceIP",
+    value: 8,
+    memo: "服务器IP"
+  },
+
   GLOBAL_SOCKET: {
     label: "globalSocket",
-    value: 8,
+    value: 9,
     memo: "全局socket"
   },
 
   USER_SOCKET: {
     label: "userSocket",
-    value: 9,
+    value: 10,
     memo: "用户socket"
   },
 

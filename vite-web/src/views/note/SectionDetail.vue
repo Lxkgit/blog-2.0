@@ -15,7 +15,7 @@
             <span>您的位置：</span>
             <span>
               <el-breadcrumb separator=">">
-                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/' }">文档</el-breadcrumb-item>
                 <el-breadcrumb-item><a @click="">
                     {{ sectionData.data.label }}</a></el-breadcrumb-item>
                 <el-breadcrumb-item>笔记正文</el-breadcrumb-item>
@@ -29,9 +29,6 @@
             <div v-else>
               <h1>{{ sectionData.title }}</h1>
               <div class="info">
-                <!-- <span>
-                  <MyIcon type="icon-category" />{{ sectionData.note }}
-                </span> -->
                 <span>
                   <MyIcon type="icon-like" />
                     {{ docTitle }}
@@ -165,29 +162,7 @@ function catalog() {
       type: 0
     }).then((res: any) => {
       if (res.code === 200) {
-        let data: any = res.result;
-        catalogList.value = data.map((i: any, index: any) => {
-          return {
-            id: i["id"],
-            label: i["docName"],
-            docType: i["docType"],
-            children: (i["list"] || []).map((j: any, index: any) => {
-              return {
-                id: j["id"],
-                label: j["docName"],
-                docType: j["docType"],
-                children: (j["list"] || []).map((k: any, index: any) => {
-                  return {
-                    id: k["id"],
-                    label: k["docName"],
-                    docType: k["docType"],
-                    children: NaN,
-                  };
-                }),
-              };
-            }),
-          };
-        });
+        catalogList.value = res.result;
       }
     });
   }
@@ -229,33 +204,11 @@ function section() {
         sectionData.data = res.result
       }
     })
-    // const detail_data = await getSectionDetail(DetailID)
-    // for (let i in detail_data) {
-    //   if (i === 'body') {
-    //     // 图片防盗链处理
-    //     sectionData.body = detail_data.body
-    //     const pattern = /!\[(.*?)\]\((https:\/\/cdn.nlark.com.*?)\)/gm;
-    //     let matcher;
-    //     let imgArr = [];
-    //     while ((matcher = pattern.exec(sectionData.body)) !== null) {
-    //       imgArr.push(matcher[2]);
-    //     }
-    //     for (let i = 0; i < imgArr.length; i++) {
-    //       sectionData.body = sectionData.body.replace(
-    //         imgArr[i],
-    //         getImgProxy(imgArr[i])
-    //       );
-    //     }
-    //   } else {
-    //     sectionData[i] = detail_data[i]
-    //   }
-    // }
   }
 
   // 获取笔记上下篇
   async function contextData(DetailID: any) {
-    // Object.assign(context, await getContextSection(DetailID));
-    // console.log(context)
+
   }
 
   return { docTitle, sectionData, getDocContentByIdFun, contextData };

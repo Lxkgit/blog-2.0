@@ -13,21 +13,17 @@
 <script setup>
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import { onMounted, ref, watch } from "vue";
-import { ElMessageBox } from 'element-plus'
-import dark from "@/utils/dark";
-import { systemStore } from "@/store/system"
 import { useRouter } from "vue-router";
+import { systemStore } from "@/store/system"
+import dark from "@/utils/dark";
 import socketAll from '@/utils/socketAll';
 import socketUser from '@/utils/socketUser'
-import { getCurrentInstance } from "vue";
 import user from "@/utils/user";
 import mitter from "@/utils/mitt";
 import { selectBlogSettingByIdApi } from "@/api/file"
 import SettingEnum from "@/enums/blogSettingEnum"
 
-
 let { isLogin, userId } = user();
-const instance = getCurrentInstance();
 const store = systemStore()
 let { setDark } = dark()
 let { openSocketAll } = socketAll()
@@ -51,26 +47,14 @@ mitter.on("login", (data) => {
 })
 
 onMounted(() => {
+  // console.log(window.config.api)
   selectBlogSettingByIdFun()
-
-
-
   const is_dark = window.matchMedia('(prefers-color-scheme: dark)').matches
   if (is_dark) {
     setDark(is_dark)
   } else {
     setDark(store.isDark)
   }
-  // if (document.body.clientWidth <= 1200) {
-  //   ElMessageBox.alert('检测到您使用移动设备访问，点击确定后跳转至移动版网站', {
-  //     confirmButtonText: '确定',
-  //     showClose: false,
-  //     center: true,
-  //     callback: () => {
-  //       // location.href = "https://m.cuiliangblog.cn"
-  //     },
-  //   });
-  // }
   try {
     document.body.removeChild(document.getElementById('Loading'))
     setTimeout(function () {
@@ -85,6 +69,13 @@ async function selectBlogSettingByIdFun() {
   if (!store.socketFlag) {
     let fGlobal = false
     let fUser = false
+    if (store.serviceIP === "") {
+      await selectBlogSettingByIdApi(SettingEnum.getEnumValueByLabel("serviceIP")).then((res) => {
+        if (res.code === 200) {
+          store.setServiceIP(res.result.value)
+        }
+      })
+    }
     await selectBlogSettingByIdApi(SettingEnum.getEnumValueByLabel("globalSocket")).then((res) => {
       if (res.code === 200) {
         store.setGlobalSocket(res.result.bool)
@@ -145,7 +136,7 @@ async function selectBlogSettingByIdFun() {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  /* 鼠标移入滑块变红 */
+  /* 鼠标移入滑块变色 */
   background: var(--el-color-primary);
 }
 

@@ -54,6 +54,10 @@
         </where>
     </update>
 
+    <update id="updateArticleLabelNumById" parameterType="com.blog.common.entity.content.article.ArticleLabel">
+        update article_label_type set label_num = label_num + #{label_num} where id = #{id}
+    </update>
+
     <delete id="deleteArticleLabelByIds">
         delete from article_label
         where id in

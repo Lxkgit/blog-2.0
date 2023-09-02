@@ -18,10 +18,10 @@
     </div>
     <div style="width: 70%; min-height: calc(100vh - 182px);">
       <el-row style="display: flex; flex-direction: column">
-        <div v-for="doc in docList.list">
+        <div v-for="doc in docList.list" style="cursor: pointer;">
           <el-divider content-position="left">{{ doc.docName }}</el-divider>
           <div style="display: flex; justify-content: start; flex-wrap: wrap;">
-            <div v-for="item in doc.list" style="margin-right: 70px;">
+            <div v-for="item in doc.children" style="margin-right: 70px;">
               <el-card class="article-item-hover" shadow="hover" :body-style="{ padding: '0px' }"
                 style="width: 228px;  margin-bottom: 25px" @click="router.push('/detail/section/' + item.id)">
                 <img :src="item.imgUrl" class="image" />
@@ -84,6 +84,7 @@ async function getDocCatalogTreeFun() {
   }).then((res: any) => {
     if (res.code === 200) {
       docList.list = res.result;
+      console.log(docList.list)
     }
   });
 }

@@ -2,6 +2,7 @@ package com.blog.content.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.blog.common.entity.content.article.Article;
 import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.content.article.ArticleType;
@@ -154,7 +155,13 @@ public class ArticleServiceImpl implements ArticleService {
         if (article.getArticleType() != null && !article.getArticleType().equals("")) {
             article.setArticleType(updateArticleType(article.getArticleType()));
         }
-
+        String[] labels = article.getArticleLabel().split(",");
+        for (String label : labels) {
+            ArticleLabel articleLabel = new ArticleLabel();
+            articleLabel.setId(Integer.parseInt(label));
+            articleLabel.setArticleNum(1);
+            articleLabelDAO.updateArticleLabelNumById(articleLabel);
+        }
         // 发送博客用户新增文章mq消息
         ContentCountVo contentCountVo = new ContentCountVo();
         contentCountVo.setUserId(article.getUserId());
