@@ -581,7 +581,7 @@ cd /opt/blog/blog-file/bin
 
 # 脚本执行方法
 # chmod 777 blog_package.sh
-# nohup sh blog_package.sh -i 124.221.12.158 >my.log 2>&1 &
+# nohup sh blog_package.sh -i 192.168.0.105 >my.log 2>&1 &
 
 
 
