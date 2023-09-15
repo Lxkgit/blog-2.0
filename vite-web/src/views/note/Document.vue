@@ -1,12 +1,6 @@
 <template>
   <NavMenu></NavMenu>
-  <div style="
-      margin-top: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-    ">
-
+  <div style="margin-top: 50px; display: flex; justify-content: center; align-items: flex-start;">
     <div style="margin-top: 20px; width: 15%;">
       <div style="padding-left: 40px; position: fixed;">
         <p>选择用户文档：</p>
@@ -14,7 +8,6 @@
           <el-option v-for="item in userList.data" :key="item.id" :label="item.username" :value="item.id" />
         </el-select>
       </div>
-
     </div>
     <div style="width: 70%; min-height: calc(100vh - 182px);">
       <el-row style="display: flex; flex-direction: column">
@@ -39,8 +32,6 @@
     </div>
     <div style="width: 15%;"></div>
   </div>
-
-
   <Footer></Footer>
   <BackTop></BackTop>
 </template>
@@ -57,21 +48,20 @@ const store = systemStore();
 
 // 引入用户信息模块
 let { isLogin, userId } = user();
-// 当前文章id
-const docID = ref()
+
 let userList: any = reactive({ data: {} })
 let selectUserId: any = ref(0)
+const docList: any = reactive({ list: [] });
 
-onMounted(() => {
+onMounted(async () => {
   store.setMenuIndex("3");
   if(isLogin.value) {
     selectUserId.value = Number(userId.value);
   } else {
     selectUserId.value = 0;
   }
-  seleteDocUserListFun();
-  getDocCatalogTreeFun();
-  
+  await seleteDocUserListFun();
+  await getDocCatalogTreeFun();
 });
 
 // 获取文章数据
@@ -84,24 +74,18 @@ async function getDocCatalogTreeFun() {
   }).then((res: any) => {
     if (res.code === 200) {
       docList.list = res.result;
-      console.log(docList.list)
     }
   });
 }
 
-const seleteDocUserListFun = () => {
+// 获取文档用户
+async function seleteDocUserListFun () {
   selectDocUserListApi().then((res: any) => {
     if(res.code === 200) {
-      console.log(userList)
       userList.data = res.result
-      
     }
   })
 }
-
-
-const docList: any = reactive({ list: [] });
-
 
 </script>
 

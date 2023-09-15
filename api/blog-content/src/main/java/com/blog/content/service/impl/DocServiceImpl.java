@@ -200,6 +200,11 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
+    public DocCatalog selectDocCatalogById(Integer catalogId) {
+        return docCatalogDAO.selectById(catalogId);
+    }
+
+    @Override
     public List<BlogUser> selectDocUserList() {
         List<Integer> userIdList = docCatalogDAO.selectDocUserList();
         List<BlogUser> blogUserList = new ArrayList<>();

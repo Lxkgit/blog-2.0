@@ -3,22 +3,29 @@
     <section class="detail">
       <NavMenu></NavMenu>
       <div class="detail-page">
-        <div  :class="'detail-left animate__animated animate__' +
-          (catalogShow === true ? 'fadeIn' : 'fadeOut')
-          " >
-          <el-tree v-if="catalogShow" accordion :data="catalogList" @node-click="handleNodeClick" style="overflow-x:auto; overflow-y:auto; height: calc(100vh - 142px); "
-            :default-expanded-keys="expanded" node-key="id" :highlight-current="true" :current-node-key="current"
-            ref="treeRef"></el-tree>
+        <div :class="'detail-left animate__animated animate__' + (catalogShow === true ? 'fadeIn' : 'fadeOut')">
+          <el-tree v-if="catalogShow" accordion :data="catalogList" @node-click="handleNodeClick"
+            style="overflow-x:auto; overflow-y:auto; height: calc(100vh - 142px); " :default-expanded-keys="expanded"
+            node-key="id" :highlight-current="true" :current-node-key="current" ref="treeRef">
+            <template #default="{ node, data }">
+              <span class="custom-tree-node">
+                <span>
+                  <el-tag v-if="data.docType === 1" class="mx-1" >文章</el-tag>
+                  <el-tag v-else class="mx-1" size="small" type="success">目录</el-tag>
+                </span>
+                <span>{{ node.label }} </span>
+              </span>
+            </template></el-tree>
         </div>
         <div class="detail-center">
           <div class="current-position">
             <span>您的位置：</span>
             <span>
               <el-breadcrumb separator=">">
-                <el-breadcrumb-item :to="{ path: '/' }">文档</el-breadcrumb-item>
-                <el-breadcrumb-item><a @click="">
-                    {{ sectionData.data.label }}</a></el-breadcrumb-item>
-                <el-breadcrumb-item>笔记正文</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/document' }">文档</el-breadcrumb-item>
+                <el-breadcrumb-item>{{ docName }}</el-breadcrumb-item>
+                <el-breadcrumb-item v-if="docTitle === ''">首页</el-breadcrumb-item>
+                <el-breadcrumb-item v-else>{{ docTitle }}</el-breadcrumb-item>
               </el-breadcrumb>
             </span>
           </div>
@@ -31,7 +38,7 @@
               <div class="info">
                 <span>
                   <MyIcon type="icon-like" />
-                    {{ docTitle }}
+                  {{ docTitle }}
                 </span>
                 <span>
                   <MyIcon type="icon-time" />{{
@@ -65,7 +72,6 @@
 import NavMenu from "@/components/common/NavMenu.vue";
 import Footer from "@/components/common/Footer.vue";
 import BackTop from "@/components/common/BackTop.vue";
-//@ts-ignore
 import MarkDown from "@/components/detail/MarkDown.vue";
 import Action from "@/components/detail/Action.vue";
 import Outline from "@/components/detail/Outline.vue";
@@ -76,7 +82,7 @@ import timeFormat from "@/utils/timeFormat";
 import icon from "@/utils/icon";
 import { systemStore } from "@/store/system";
 import user from "@/utils/user";
-import { getDocCatalogTreeApi, getDocContentByIdApi } from "@/api/content";
+import { getDocCatalogTreeApi, getDocCatalogByIdApi, getDocContentByIdApi } from "@/api/content";
 
 const store = systemStore();
 let { MyIcon } = icon();
@@ -88,13 +94,13 @@ let { userId, isLogin } = user();
 // 引入公共模块
 let { sectionID, contentID } = publicFn();
 // 引入笔记内容模块
-let { docTitle, sectionData, getDocContentByIdFun, contextData } = section();
+let { docTitle, docName, sectionData, getDocContentByIdFun } = section();
 // 引入笔记目录模块
-let { catalogShow, catalogList, expanded, current, catalogueData, handleNodeClick, treeRef } = catalog();
+let { catalogShow, catalogList, expanded, current, catalogueData, handleNodeClick, getDocCatalogByIdFun, treeRef } = catalog();
 // 引入markdown模块
 let { rollTo, scrollTop, scroll } = markdown();
 // 调用动作菜单模块
-let { likeClick, isCollect, collectClick } = action(sectionID, sectionData);
+let { likeClick, isCollect, collectClick } = action();
 
 onMounted(async () => {
   // 开启加载中动画
@@ -106,9 +112,10 @@ onMounted(async () => {
   window.scrollTo({ top: 0 });
   store.setOutline("");
   sectionID.value = router.currentRoute.value.params.id;
-  store.setMenuIndex(3);
+  store.setMenuIndex("3");
   loading.close();
   await catalogueData();
+  await getDocCatalogByIdFun();
   window.addEventListener("scroll", scroll());
 });
 onBeforeUnmount(() => {
@@ -134,9 +141,6 @@ function publicFn() {
   // 当前文档展示内容ID
   const contentID = ref(0);
 
-  onMounted(() => {
-    // siteConfigData();
-  });
   return { sectionID, contentID };
 }
 
@@ -166,6 +170,14 @@ function catalog() {
       }
     });
   }
+  // 获取笔记目录
+  async function getDocCatalogByIdFun() {
+    getDocCatalogByIdApi(sectionID.value).then((res: any) => {
+      if (res.code === 200) {
+        docName.value = res.result.docName
+      }
+    })
+  }
   // 点击跳转指定笔记
   const handleNodeClick = (data: any) => {
     if (data.docType === 1) {
@@ -180,21 +192,20 @@ function catalog() {
     current,
     catalogueData,
     handleNodeClick,
+    getDocCatalogByIdFun,
     treeRef,
   };
 }
 
 // 笔记内容模块
 function section() {
-  // 当前导航栏id
-  const activeMenu = ref();
+
   // 当前笔记标题
   let docTitle = ref("")
+  // 笔记名称
+  let docName = ref("")
   // 笔记详情数据
   let sectionData: any = reactive({ data: {} });
-  // 笔记上下篇
-  // const context: any = reactive({});
-
   // 获取笔记详情
   async function getDocContentByIdFun(contentId: any) {
     contentID.value = contentId
@@ -206,12 +217,7 @@ function section() {
     })
   }
 
-  // 获取笔记上下篇
-  async function contextData(DetailID: any) {
-
-  }
-
-  return { docTitle, sectionData, getDocContentByIdFun, contextData };
+  return { docTitle, docName, sectionData, getDocContentByIdFun };
 }
 
 // markdown模块
@@ -243,72 +249,32 @@ function markdown() {
 }
 
 // 动作菜单模块
-function action(sectionID: any, sectionData: any) {
-  // 引入用户信息模块
-  let { userId, isLogin } = user();
-  // 笔记点赞事件
-  const likeClick = () => {
-    console.log("爹收到点赞事件了");
-    // const params = { 'like': sectionData.like + 1 }
-    // patchSectionDetail(sectionID.value, params).then((response) => {
-    //   console.log(response)
-    //   ElMessage({
-    //     message: '笔记点赞成功！',
-    //     type: 'success',
-    //   })
-    //   sectionData.like = params.like
-    // }).catch(response => {
-    //   //发生错误时执行的代码
-    //   console.log(response)
-    //   ElMessage.error(response.msg)
-    // });
-  };
+function action() {
+
   // 笔记收藏状态
   const isCollect = ref(false);
 
-  // 获取笔记浏览记录（是否已收藏）
-  async function getSectionHistoryData() {
-    // await nextTick()
-    // if (isLogin.value === true) {
-    //   let res = await getSectionHistory(sectionID.value, userId.value)
-    //   console.log(res)
-    //   isCollect.value = res.is_collect
-    //   console.log(isCollect.value)
-    // }
-  }
+  // 笔记点赞事件
+  const likeClick = () => {
 
-  // 添加/取消收藏表单
-  const CollectForm = reactive({
-    user: "",
-    is_collect: "",
-  });
+  };
+
   // 子组件添加/取消收藏事件
   const collectClick = () => {
 
   };
-  // 添加笔记浏览记录表单
-  const sectionHistoryForm = reactive({
-    section_id: "",
-    user: "",
-  });
+
+  // 获取笔记浏览记录（是否已收藏）
+  async function getSectionHistoryData() {
+  }
 
   // 添加笔记浏览记录
   async function postSectionHistoryData(section_id: any) {
-    // if (isLogin.value === true) {
-    //   sectionHistoryForm.section_id = section_id
-    //   sectionHistoryForm.user = userId.value
-    //   console.log(sectionHistoryForm)
-    //   let res = await postSectionHistory(sectionHistoryForm)
-    //   console.log(res)
-    // }
   }
 
-  onMounted(() => {
-    getSectionHistoryData();
-  });
   return {
-    likeClick,
     isCollect,
+    likeClick,
     collectClick,
     getSectionHistoryData,
     postSectionHistoryData,
@@ -328,6 +294,7 @@ function action(sectionID: any, sectionData: any) {
       width: 15%;
       overflow-x: auto;
       overflow-y: auto;
+
       .el-tree {
         width: 15%;
         position: fixed;

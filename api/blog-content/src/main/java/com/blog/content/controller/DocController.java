@@ -76,6 +76,11 @@ public class DocController {
         return ResultFactory.buildSuccessResult(docService.selectDocContentById(id));
     }
 
+    @GetMapping("/catalog/id")
+    public Result selectDocCatalogById(@RequestParam(value = "id") Integer id) {
+        return ResultFactory.buildSuccessResult(docService.selectDocCatalogById(id));
+    }
+
     @GetMapping("/content/user")
     public  Result selectDocUserList() {
         return ResultFactory.buildSuccessResult(docService.selectDocUserList());

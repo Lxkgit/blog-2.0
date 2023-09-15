@@ -16,15 +16,15 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-08-13【功能新增】：新增博客云盘功能，新版博客部署">
-      <change afterPath="$PROJECT_DIR$/../vite-web/public/config.js" afterDir="false" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-09-04【功能新增】：新增博客云盘功能，新版博客部署">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-auth/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-auth/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-gateway/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-gateway/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/shell/blog_package.sh" beforeDir="false" afterPath="$PROJECT_DIR$/file/shell/blog_package.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/config/ResourceServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/config/ResourceServerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/DocController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/DocController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/DocService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/DocService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/DocServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/DocServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/api/content.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/api/content.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/note/Document.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/note/Document.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/note/SectionDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/note/SectionDetail.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -394,13 +394,8 @@
       <workItem from="1693662509268" duration="1825000" />
       <workItem from="1693730363526" duration="499000" />
       <workItem from="1693737055431" duration="613000" />
-    </task>
-    <task id="LOCAL-00060" summary="23-01-20【功能修改】：接口以及界面逻辑调整、优化，未新增功能">
-      <created>1674204416129</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1674204416130</updated>
+      <workItem from="1693757272408" duration="107000" />
+      <workItem from="1694779253353" duration="1920000" />
     </task>
     <task id="LOCAL-00061" summary="23-01-25【bug修复】：文章修改分类bug修复，删除无用图片">
       <created>1674624366398</created>
@@ -738,7 +733,14 @@
       <option name="project" value="LOCAL" />
       <updated>1693662875221</updated>
     </task>
-    <option name="localTasksCounter" value="109" />
+    <task id="LOCAL-00109" summary="23-09-04【功能新增】：新增博客云盘功能，新版博客部署">
+      <created>1693757353141</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1693757353142</updated>
+    </task>
+    <option name="localTasksCounter" value="110" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -769,7 +771,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="23-05-18【功能新增】：文档查看详情功能完成，缺少content新表结构" />
     <MESSAGE value="23-05-19【功能新增】：文档删除功能完成，文档接口开发完成" />
     <MESSAGE value="23-05-21【功能新增】：博客文档功能基础部分完成，开始部署测试第一版" />
     <MESSAGE value="23-05-21【功能新增】：部署修改版本-1" />
@@ -794,7 +795,8 @@
     <MESSAGE value="23-08-20【功能修改】：优化博客前端" />
     <MESSAGE value="23-08-26【功能修改】：优化博客前端" />
     <MESSAGE value="23-09-02【功能修改】：优化博客前端" />
-    <option name="LAST_COMMIT_MESSAGE" value="23-09-02【功能修改】：优化博客前端" />
+    <MESSAGE value="23-09-04【功能新增】：新增博客云盘功能，新版博客部署" />
+    <option name="LAST_COMMIT_MESSAGE" value="23-09-04【功能新增】：新增博客云盘功能，新版博客部署" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2012" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1685283082752">
@@ -873,10 +875,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="731" y="432" key="VCS.ChangelistChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1687092618450" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1693662883592">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1693757363033">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1693662883592" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1693757363033" />
     <state x="2315" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1685284332186" />
     <state x="759" y="297" key="chooseDestDirectoryDialog" timestamp="1691332845035">
       <screen x="0" y="0" width="1920" height="1040" />

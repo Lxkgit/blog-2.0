@@ -18,6 +18,7 @@ public interface DocService {
     Integer updateDocCatalog(BlogUser blogUser, DocCatalog docCatalog);
     List<DocCatalogVo> selectDocCatalogTree(BlogUser blogUser, DocCatalogVo docCatalogVo);
     DocContent selectDocContentById(Integer catalogId);
+    DocCatalog selectDocCatalogById(Integer catalogId);
     List<BlogUser> selectDocUserList();
 
 }

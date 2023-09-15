@@ -190,6 +190,16 @@ export const getDocContentByIdApi = (id: any) => {
 }
 
 /**
+ * 根据文档目录id获取目录
+ * @param id 
+ * @returns 
+ */
+export const getDocCatalogByIdApi = (id: any) => {
+  const uri = "/content/doc/catalog/id?id=" + id
+  return api.get(uri)
+}
+
+/**
  * 创建文档目录接口
  * @param catalog 
  * @returns 
