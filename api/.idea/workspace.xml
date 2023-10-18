@@ -16,10 +16,10 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-09-17【功能修改】：前端页面样式微调，修改数据库sql bug">
-      <change afterPath="$PROJECT_DIR$/file/shell/docker.sh" afterDir="false" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-09-17【功能新增】：新增博客docker部署脚本">
+      <change afterPath="$PROJECT_DIR$/file/shell/docker-1.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/config/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/file/config/nginx.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file/shell/docker.sh" beforeDir="false" afterPath="$PROJECT_DIR$/file/shell/docker.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,19 +83,19 @@
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\workspace\blog-2.0\api\file\config" />
-      <recent name="F:\workspace\blog-2.0\api\file\sql" />
-      <recent name="F:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\file\vo" />
-      <recent name="F:\workspace\blog-2.0\api\blog-file\src\main\java\com\blog\file\dao" />
-      <recent name="F:\workspace\blog-2.0\api\blog-file\src\main\java\com\blog\file\service\impl" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\workspace\blog-2.0\api\file\config" />
       <recent name="F:\workspace\blog-2.0\api\file\sql" />
       <recent name="F:\workspace\blog-2.0\api\file\shell" />
       <recent name="F:\workspace\blog-2.0\api\blog-content\src\main\resources\mapper" />
       <recent name="F:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\util" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\workspace\blog-2.0\api\file\shell" />
+      <recent name="F:\workspace\blog-2.0\api\file\config" />
+      <recent name="F:\workspace\blog-2.0\api\file\sql" />
+      <recent name="F:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\file\vo" />
+      <recent name="F:\workspace\blog-2.0\api\blog-file\src\main\java\com\blog\file\dao" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -395,14 +395,9 @@
       <workItem from="1694929756090" duration="1079000" />
       <workItem from="1694957267480" duration="3572000" />
       <workItem from="1695215973672" duration="99000" />
-      <workItem from="1696593942533" duration="1479000" />
-    </task>
-    <task id="LOCAL-00063" summary="23-01-29【功能新增】：新增博客文章编辑上传图片">
-      <created>1674999444754</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1674999444755</updated>
+      <workItem from="1696593942533" duration="1536000" />
+      <workItem from="1696604367098" duration="7000" />
+      <workItem from="1697336948909" duration="2804000" />
     </task>
     <task id="LOCAL-00064" summary="23-01-31【功能新增】：文档功能完成，图片上传修改，sql更新">
       <created>1675176881077</created>
@@ -740,7 +735,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694965489436</updated>
     </task>
-    <option name="localTasksCounter" value="112" />
+    <task id="LOCAL-00112" summary="23-09-17【功能新增】：新增博客docker部署脚本">
+      <created>1696604316763</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1696604316763</updated>
+    </task>
+    <option name="localTasksCounter" value="113" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -771,7 +773,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="23-05-21【功能新增】：部署修改版本-1" />
     <MESSAGE value="23-05-21【功能新增】：博客手动部署成功，部署脚本存在问题" />
     <MESSAGE value="23-05-28【功能新增】：博客部署前版本" />
     <MESSAGE value="23-05-28【功能新增】：博客部署完成" />
@@ -796,7 +797,8 @@
     <MESSAGE value="23-09-04【功能新增】：新增博客云盘功能，新版博客部署" />
     <MESSAGE value="23-09-15【功能修改】：修改文档功能" />
     <MESSAGE value="23-09-17【功能修改】：前端页面样式微调，修改数据库sql bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="23-09-17【功能修改】：前端页面样式微调，修改数据库sql bug" />
+    <MESSAGE value="23-09-17【功能新增】：新增博客docker部署脚本" />
+    <option name="LAST_COMMIT_MESSAGE" value="23-09-17【功能新增】：新增博客docker部署脚本" />
   </component>
   <component name="WindowStateProjectService">
     <state width="1877" height="200" key="GridCell.Tab.0.bottom" timestamp="1694965759954">
@@ -804,77 +806,61 @@
     </state>
     <state width="1877" height="200" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1694965759954" />
     <state width="1603" height="298" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1694929958660" />
-    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645931" />
     <state width="1877" height="200" key="GridCell.Tab.0.center" timestamp="1694965759954">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="200" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1694965759954" />
     <state width="1603" height="298" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1694929958660" />
-    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645930" />
     <state width="1877" height="200" key="GridCell.Tab.0.left" timestamp="1694965759953">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="200" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1694965759953" />
     <state width="1603" height="298" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1694929958659" />
-    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645930" />
     <state width="1877" height="200" key="GridCell.Tab.0.right" timestamp="1694965759954">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="200" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1694965759954" />
     <state width="1603" height="298" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1694929958660" />
-    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645930" />
     <state width="1603" height="298" key="GridCell.Tab.1.bottom" timestamp="1694965759951">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1603" height="298" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1694965759951" />
     <state width="1603" height="298" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1694929958660" />
-    <state width="1603" height="298" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645927" />
     <state width="1603" height="298" key="GridCell.Tab.1.center" timestamp="1694965759951">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1603" height="298" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1694965759951" />
     <state width="1603" height="298" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1694929958660" />
-    <state width="1603" height="298" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645927" />
     <state width="1603" height="298" key="GridCell.Tab.1.left" timestamp="1694965759951">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1603" height="298" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1694965759951" />
     <state width="1603" height="298" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1694929958660" />
-    <state width="1603" height="298" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645927" />
     <state width="1603" height="298" key="GridCell.Tab.1.right" timestamp="1694965759951">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1603" height="298" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1694965759951" />
     <state width="1603" height="298" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1694929958660" />
-    <state width="1603" height="298" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1687064645927" />
     <state width="1603" height="355" key="GridCell.Tab.2.bottom" timestamp="1691808757310">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1603" height="355" key="GridCell.Tab.2.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691808757310" />
-    <state width="1603" height="320" key="GridCell.Tab.2.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1686454558651" />
     <state width="1603" height="355" key="GridCell.Tab.2.center" timestamp="1691808757310">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1603" height="355" key="GridCell.Tab.2.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691808757310" />
-    <state width="1603" height="320" key="GridCell.Tab.2.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1686454558651" />
     <state width="1603" height="355" key="GridCell.Tab.2.left" timestamp="1691808757310">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1603" height="355" key="GridCell.Tab.2.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691808757310" />
-    <state width="1603" height="320" key="GridCell.Tab.2.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1686454558651" />
     <state width="1603" height="355" key="GridCell.Tab.2.right" timestamp="1691808757310">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1603" height="355" key="GridCell.Tab.2.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1691808757310" />
-    <state width="1603" height="320" key="GridCell.Tab.2.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1686454558651" />
-    <state x="731" y="432" key="VCS.ChangelistChooser" timestamp="1687092618450">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1696604325254">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="731" y="432" key="VCS.ChangelistChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1687092618450" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1694965502423">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1694965502423" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1696604325254" />
     <state x="759" y="297" key="chooseDestDirectoryDialog" timestamp="1691332845035">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
