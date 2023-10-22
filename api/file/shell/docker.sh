@@ -38,7 +38,40 @@ docker() {
 # 安装MySQL
 mysql() {
 
-	docker pull mysql:5.7
+  cd /
+
+  # 宿主机创建数据存放目录映射到容器
+  mkdir -p /opt/docker/mysql/data
+  # 宿主机创建配置文件目录映射到容器
+  mkdir -p /opt/docker/mysql/conf
+  #(需要在此目录下创建"conf.d"、"mysql.conf.d"两个目录)
+  mkdir -p /opt/docker/mysql/conf/conf.d
+  #(建议在此目录创建my.cnf文件并进行相关MySQL配置)
+  mkdir -p /opt/docker/mysql/conf/mysql.conf.d
+  # 宿主机创建日志目录映射到容器
+  mkdir -p /opt/docker/mysql/logs
+
+	cd /opt/docker/mysql/conf/mysql.conf.d
+	touch my.cnf
+	chmod 644 my.cnf
+	echo "[client]"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "port = 3306"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "[mysqld]"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "port = 3306"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "server_id = 1"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "user = mysql"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "character_set_server = utf8"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "max_connections = 100"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "max_connect_errors = 10"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "max_allowed_packet = 10M"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "[mysqldump]"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "user=root"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+	echo "password=${mysqlPassword}"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
+
+  # 安装mysql5.7
+  docker pull mysql:5.7
+
+  # 启动mysql
 	docker run --privileged=true --name mysql5.7 --restart=always --network blog_network -p 3306:3306 -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -d  -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf:/etc/mysql/ -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:5.7
 
 }
@@ -208,8 +241,6 @@ redis() {
 
   docker run -p 6379:6379 --name redis6.2.5 --restart=always --network blog_network -v /opt/docker/redis/conf/redis.conf:/etc/redis/redis.conf -v /opt/docker/redis/data:/data  -v /opt/docker/files:/opt/docker/files -d redis:6.2.5 redis-server /etc/redis/redis.conf
 
-  docker stop redis6.2.5
-  docker rm redis6.2.5
 }
 # 安装nacos
 nacos() {
@@ -268,12 +299,6 @@ createDir() {
 	# 创建docker共享文件目录
 	mkdir -p /opt/docker/files
 
-	# 创建docker中MySQL数据存放目录
-	mkdir -p /opt/docker/mysql/data
-	mkdir -p /opt/docker/mysql/conf
-	mkdir -p /opt/docker/mysql/conf/conf.d
-	mkdir -p /opt/docker/mysql/conf/mysql.conf.d
-	mkdir -p /opt/docker/mysql/logs
 }
 
 main() {
