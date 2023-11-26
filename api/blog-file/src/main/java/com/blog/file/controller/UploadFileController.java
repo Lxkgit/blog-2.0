@@ -14,6 +14,7 @@ import com.blog.file.service.ImportService;
 import com.blog.file.service.UploadFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +40,7 @@ public class UploadFileController {
     private ImportService importService;
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('sys:file:user:upload')")
     public Result uploadFile(@RequestHeader HttpHeaders headers,@Validated UploadVo uploadVo) {
         if (uploadVo.getFiles() == null || uploadVo.getFiles().length == 0) {
             return ResultFactory.buildFailResult(ErrorMessage.FILE_SIZE_NULL.getDesc());

@@ -4,7 +4,7 @@
       <span>角色管理</span>
     </div>
     <el-card style="margin: 18px 2%; width: 95%">
-      <el-button type="primary" plain @click="">创建</el-button>
+      <el-button type="primary" plain @click="roleDialogVisible = true">创建</el-button>
       <el-button type="danger" plain @click="">删除</el-button>
       <el-table :data="roleList.data" stripe style="width: 100%" height="610">
         <el-table-column type="selection" width="55"> </el-table-column>
@@ -44,6 +44,33 @@
           </span>
         </template>
       </el-dialog>
+
+      <el-dialog v-model="roleDialogVisible" title="角色权限修改" width="30%">
+        <div style="height: 300px; overflow: auto">
+          <el-form :model="userDate.data">
+            <el-form-item label="用户名：" label-width="100">
+              <el-input v-model="userDate.data.username" disabled autocomplete="off" style="width: 230px;" />
+            </el-form-item>
+            <el-form-item label="昵称：" label-width="100">
+              <el-input v-model="userDate.data.nickname" autocomplete="off" style="width: 230px;" />
+            </el-form-item>
+            <el-form-item label="最近登录" label-width="100">
+              <el-input v-model="userDate.data.updateTime" disabled autocomplete="off" style="width: 230px;" />
+            </el-form-item>
+            <el-form-item label="创建日期" label-width="100">
+              <el-input v-model="userDate.data.createTime" disabled autocomplete="off" style="width: 230px;" />
+            </el-form-item>
+          </el-form>
+        </div>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="roleDialogVisible = false">取消</el-button>
+            <el-button type="primary" @click="">
+              提交
+            </el-button>
+          </span>
+        </template>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -55,15 +82,30 @@ import { roleListApi, createRoleApi, updateRoleApi, deleteRoleApi, selectRolePer
 import icon from '@/utils/icon'
 
 let { MyIcon } = icon()
+
+// 分页数据
 let page = ref<number>(1);
 let size = ref<number>(14);
 let total = ref<number>(0);
+
+// 角色列表
 let roleList: any = reactive({ data: [] });
+
+// 角色创建修改dialog
+let roleDialogVisible = ref(false);
+
+// 角色权限修改dialog
 let dialogVisible = ref(false);
+
+// 全部菜单列表
 let menuList: any = reactive({ data: [] });
+
+// 角色菜单
 let roleMenu: any = ref([]);
+
 let roleId: any = ref();
 let rolePer: any = ref([]);
+let roleDate: any = reactive({ data: {} })
 
 onMounted(() => {
   getRoleList(1);

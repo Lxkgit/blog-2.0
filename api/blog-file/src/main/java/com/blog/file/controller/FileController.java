@@ -10,6 +10,7 @@ import com.blog.file.service.FileService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,15 @@ public class FileController {
     @Resource
     private FileService fileService;
 
+    /**
+     * 创建云盘目录
+     * @param headers
+     * @param fileDataVo
+     * @return
+     * @throws ValidException
+     */
     @PostMapping("/save")
+    @PreAuthorize("hasAnyAuthority('sys:file:user:save')")
     public Result saveFileDir(@RequestHeader HttpHeaders headers,@Validated @RequestBody FileDataVo fileDataVo) throws ValidException {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
@@ -38,7 +47,15 @@ public class FileController {
         return ResultFactory.buildSuccessResult();
     }
 
+    /**
+     * 删除云盘文件或目录
+     * @param headers
+     * @param fileDataVo
+     * @return
+     * @throws ValidException
+     */
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('sys:file:user:delete')")
     public Result deleteFileOrDir(@RequestHeader HttpHeaders headers,@Validated FileDataVo fileDataVo) throws ValidException {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
@@ -46,7 +63,15 @@ public class FileController {
         return ResultFactory.buildSuccessResult();
     }
 
+    /**
+     * 修改云盘文件或目录名称
+     * @param headers
+     * @param fileDataVo
+     * @return
+     * @throws ValidException
+     */
     @PostMapping("/update")
+    @PreAuthorize("hasAnyAuthority('sys:file:user:update')")
     public Result updateFileOrDirName(@RequestHeader HttpHeaders headers,@Validated @RequestBody FileDataVo fileDataVo) throws ValidException {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
@@ -54,14 +79,27 @@ public class FileController {
         return ResultFactory.buildSuccessResult();
     }
 
+    /**
+     * 查看文件列表
+     * @param headers
+     * @param fileDataVo
+     * @return
+     */
     @GetMapping("/select")
+    @PreAuthorize("hasAnyAuthority('sys:file:user:select')")
     public Result selectFileDir(@RequestHeader HttpHeaders headers,@Validated FileDataVo fileDataVo) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
         return ResultFactory.buildSuccessResult(fileService.selectFileDir(blogUser, fileDataVo));
     }
 
+    /**
+     * 获取云盘剩余空间大小
+     * @param headers
+     * @return
+     */
     @GetMapping("/space")
+    @PreAuthorize("hasAnyAuthority('sys:file:user:space')")
     public Result selectUserSpace(@RequestHeader HttpHeaders headers) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);

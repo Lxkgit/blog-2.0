@@ -54,11 +54,14 @@ public class SysRoleServiceImpl implements SysRoleService {
 
     @Override
     public int saveRole(SysRole sysRole) {
+        sysRole.setUpdateTime(new Date());
+        sysRole.setCreateTime(new Date());
         return sysRoleDAO.insert(sysRole);
     }
 
     @Override
     public int updateRole(SysRole sysRole) {
+        sysRole.setUpdateTime(new Date());
         return sysRoleDAO.updateRole(sysRole);
     }
 
