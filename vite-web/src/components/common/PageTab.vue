@@ -1,108 +1,131 @@
 <template>
-  <transition enter-active-class="animate__animated animate__fadeInDown"
-    leave-active-class="animate__animated animate__fadeOutUp" mode="in-out">
+  <transition
+    enter-active-class="animate__animated animate__fadeInDown"
+    leave-active-class="animate__animated animate__fadeOutUp"
+    mode="in-out"
+  >
     <header id="tags_view_container" class="tags_view_container">
       <div class="tags_view_wrapper">
-        <span style="float: left; width: 57px; box-sizing: border-box; line-height: 38px; text-align: center;">
-          <MyIcon type="icon-home3" @click="router.push('/')"/>
+        <span
+          style="
+            float: left;
+            width: 57px;
+            box-sizing: border-box;
+            line-height: 38px;
+            text-align: center;
+          "
+        >
+          <MyIcon type="icon-home3" @click="router.push('/')" />
         </span>
-        <router-link v-for="(item, index) in store.tags" :key="index" ref="tag" tag="span" class="tags_view_item"
-          :class="{ 'active': item.active }" :to="item.path" @contextmenu.prevent="openMenu(item.path, index, $event)">
+        <router-link
+          v-for="(item, index) in store.tags"
+          :key="index"
+          ref="tag"
+          tag="span"
+          class="tags_view_item"
+          :class="{ active: item.active }"
+          :to="item.path"
+          @contextmenu.prevent="openMenu(item.path, index, $event)"
+        >
           {{ item.title }}
           <!--这里加prevent.stop是为了避免跳转路由-->
-          <i v-if="item.close"
-            @click.prevent.stop="closeTag(index)"> 
-            <MyIcon  style="width: 16px; height:16px" type="icon-close"/>
+          <i v-if="item.close" @click.prevent.stop="closeTag(index)">
+            <MyIcon style="width: 16px; height: 16px" type="icon-close" />
           </i>
         </router-link>
       </div>
-      <ul v-if="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
-        <li @click="refresh">
-          刷新
-        </li>
-        <li @click="closeMenu()">
-          关闭菜单
-        </li>
-        <li @click="closeTag()">
-          关闭标签
-        </li>
-        <li @click="closeOther()">
-          关闭其他
-        </li>
-        <li @click="closeAll">
-          全部关闭
-        </li>
+      <ul
+        v-if="visible"
+        :style="{ left: left + 'px', top: top + 'px' }"
+        class="contextmenu"
+      >
+        <li @click="refresh">刷新</li>
+        <li @click="closeMenu()">关闭菜单</li>
+        <li @click="closeTag()">关闭标签</li>
+        <li @click="closeOther()">关闭其他</li>
+        <li @click="closeAll">全部关闭</li>
       </ul>
     </header>
   </transition>
-
 </template>
 
 <script setup lang="ts">
-import { ref, watch, reactive } from "vue"
-import { tagsStore } from "@/store/tag"
-import { useRoute, useRouter } from "vue-router"
-import icon from '@/utils/icon'
+import { ref, watch, reactive } from "vue";
+import { tagsStore } from "@/store/tag";
+import { useRoute, useRouter } from "vue-router";
+import icon from "@/utils/icon";
 
-const route = useRoute()
-const router = useRouter()
-const store = tagsStore()
-let { MyIcon } = icon()
-let visible = ref(false)
-let top = ref(100)
-let left = ref(100)
+const route = useRoute();
+const router = useRouter();
+const store = tagsStore();
+let { MyIcon } = icon();
+let visible = ref(false);
+let top = ref(100);
+let left = ref(100);
 // let path: any = route.path
 
 // 监听路由变化，激活对应标签
-watch(() => route.path, () => {
-  console.log("PageTab path: " + route.path)
-  store.activeTag(route.path)
-})
+watch(
+  () => route.path,
+  () => {
+    console.log("PageTab path: " + route.path);
+    store.activeTag(route.path);
+  }
+);
 
 // 关闭标签
 const closeTag = (index?: any) => {
-  visible.value = false
-  if(index === undefined) {
-    store.delTag(store.selectedTag)
-    router.push("/admin/index")
+  visible.value = false;
+  if (index === undefined) {
+    store.delTag(store.selectedTag, 0);
+    router.push("/admin/index");
   } else {
-    if(store.tags[index].active){
-      router.push("/admin/index")
+    if (store.tags[index].active) {
+      let nextIndex = 0;
+      if(index === store.tags.length - 1) {
+        nextIndex = store.tags.length - 2
+      } else {
+        if (store.tags[index].open === 1) {
+          nextIndex = index - 1
+        } else {
+          nextIndex = index
+        }
+      }
+      store.delTag(index, nextIndex);
+      router.push(store.tags[nextIndex].path);
+    } else {
+      store.delTag(index);
     }
-    store.delTag(index)
   }
-}
+};
 
 // 打开菜单
 const openMenu = (path: any, index: any, e: any) => {
-  store.activeTag(path)
+  store.activeTag(path);
   visible.value = true;
-  left.value = e.clientX
-  top.value = e.clientY
-
-}
+  left.value = e.clientX;
+  top.value = e.clientY;
+};
 // 关闭菜单
 const closeMenu = () => {
-  visible.value = false
-}
+  visible.value = false;
+};
 
 const closeOther = () => {
-  visible.value = false
-  store.delOtherTags()
-}
+  visible.value = false;
+  store.delOtherTags();
+};
 
 const closeAll = () => {
-  visible.value = false
-  router.push("/admin/index")
-  store.delAllTags()
-}
+  visible.value = false;
+  router.push("/admin/index");
+  store.delAllTags();
+};
 
 const refresh = () => {
-  window.location.reload()
-}
-
+  window.location.reload();
+};
 </script>
-  
 
 <style scoped lang="scss">
 .tags_view_container {
@@ -133,7 +156,7 @@ const refresh = () => {
   text-decoration: none;
 }
 
-.tags_view_container .tags_view_wrapper .tags_view_item i:hover{
+.tags_view_container .tags_view_wrapper .tags_view_item i:hover {
   background-color: #949790;
   border-radius: 50%;
 }
@@ -153,7 +176,7 @@ const refresh = () => {
 }
 
 .tags_view_container .tags_view_wrapper .tags_view_item.active::before {
-  content: '';
+  content: "";
   background: #fff;
   display: inline-block;
   width: 8px;

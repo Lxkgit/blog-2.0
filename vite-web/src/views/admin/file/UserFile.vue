@@ -3,7 +3,7 @@
     <div class="title_style">
       <span>个人云盘</span>
     </div>
-    <el-card style="margin: 18px 2%; width: 95%; height: 732px; color: #606266;">
+    <el-card style="margin: 18px 2%; width: 95%; color: #606266;">
       <div style="display: flex; font-size: 14px;">
         <el-upload :auto-upload="false" multiple :show-file-list="false" :on-change="changeUpload">
           <el-button type="success" size="small" text>上传文件</el-button>
@@ -22,7 +22,7 @@
         </div>
       </div>
       <el-divider content-position="left">文件目录</el-divider>
-      <div style="display: flex; flex-wrap: wrap; align-content: flex-start; height:630px; overflow:auto; margin: 10px;"
+      <div style="display: flex; flex-wrap: wrap; align-content: flex-start; height:630px; overflow:auto; margin: 10px; height: calc(100vh - 330px);"
         @contextmenu.prevent="openMenu($event, null)">
         <div v-for="item in dirList.data">
           <el-card :body-style="{ padding: '0px' }" shadow="hover"

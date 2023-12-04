@@ -16,7 +16,7 @@
         </template>
       </el-popover>
       <el-button type="info" plain @click="uploadDiaryDialog = true">导入</el-button>
-      <el-table :data="diaryList.data" stripe style="width: 100%" height="610" @selection-change="selected">
+      <el-table :data="diaryList.data" stripe style="width: 100%; height: calc(100vh - 328px);" @selection-change="selected">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column prop="diaryDate" label="日期" fit>

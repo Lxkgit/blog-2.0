@@ -4,9 +4,14 @@
       <span>角色管理</span>
     </div>
     <el-card style="margin: 18px 2%; width: 95%">
-      <el-button type="primary" plain @click="roleDialogVisible = true">创建</el-button>
-      <el-button type="danger" plain @click="">删除</el-button>
-      <el-table :data="roleList.data" stripe style="width: 100%" height="610">
+      <el-button type="primary" plain @click="roleCreateDialog = true">创建</el-button>
+      <el-button type="danger" plain @click="deleteRoleFun(0)">删除</el-button>
+      <el-table
+        :data="roleList.data"
+        stripe
+        style="width: 100%; height: calc(100vh - 328px)"
+        @selection-change="selected"
+      >
         <el-table-column type="selection" width="55"> </el-table-column>
         <el-table-column prop="roleCode" label="角色编码" />
         <el-table-column prop="roleName" label="角色名称" />
@@ -14,60 +19,87 @@
         <el-table-column prop="createTime" label="创建日期" width="162" />
         <el-table-column fixed="right" label="操作" width="100">
           <template #default="scope">
-            <el-button style="margin-left: 0" @click.prevent="loadMenuData(scope.row.id, 2)" size="small" text>
-              <MyIcon type="icon-edit"/>
+            <el-button
+              style="margin-left: 0"
+              @click.prevent="loadMenuData(scope.row.id, 2)"
+              size="small"
+              text
+              title="修改角色信息"
+            >
+              <MyIcon type="icon-edit" />
             </el-button>
-            <el-button style="margin-left: 0" @click.prevent="" size="small" text>
-              <MyIcon type="icon-delete"/>
+            <el-button
+              style="margin-left: 0"
+              @click.prevent="deleteRoleFun(scope.row.id)"
+              size="small"
+              text
+              title="删除角色"
+            >
+              <MyIcon type="icon-delete" />
             </el-button>
           </template>
         </el-table-column>
       </el-table>
       <div style="margin: 20px 0 50px 0">
-        <el-pagination background style="float: right" layout="total, prev, pager, next, jumper"
-          @current-change="getRoleListByPage" :page-size="size" :total="total">
+        <el-pagination
+          background
+          v-model:page-size="size"
+          :page-sizes="[10, 20, 50, 100]"
+          style="float: right"
+          layout="total, sizes, prev, pager, next, jumper"
+          @current-change="getRoleList"
+          :page-size="size"
+          :total="total"
+        >
         </el-pagination>
       </div>
     </el-card>
     <div>
-      <el-dialog v-model="dialogVisible" title="角色权限修改" width="30%">
+      <el-dialog v-model="updateRolePerDialog" title="角色权限修改" width="30%">
         <div style="height: 300px; overflow: auto">
-          <el-tree :data="menuList.data" node-key="id" :default-checked-keys="roleMenu" show-checkbox
-            @check="handleCheckChange" />
+          <el-tree
+            :data="menuList.data"
+            node-key="id"
+            :default-checked-keys="roleMenu"
+            show-checkbox
+            @check="handleCheckChange"
+          />
         </div>
         <template #footer>
           <span class="dialog-footer">
-            <el-button @click="dialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="updateRolePerFun()">
-              提交
-            </el-button>
+            <el-button @click="updateRolePerDialog = false">取消</el-button>
+            <el-button type="primary" @click="updateRolePerFun()"> 提交 </el-button>
           </span>
         </template>
       </el-dialog>
 
-      <el-dialog v-model="roleDialogVisible" title="角色权限修改" width="30%">
-        <div style="height: 300px; overflow: auto">
-          <el-form :model="userDate.data">
-            <el-form-item label="用户名：" label-width="100">
-              <el-input v-model="userDate.data.username" disabled autocomplete="off" style="width: 230px;" />
+      <el-dialog
+        v-model="roleCreateDialog"
+        title="创建新角色"
+        style="width: 30%; max-width: 500px"
+      >
+        <div style="height: auto; overflow: auto">
+          <el-form :model="roleDate" ref="createRoleFormRef" :rules="createRoleRules">
+            <el-form-item label="角色编码：" label-width="100" prop="roleCode">
+              <el-input
+                v-model="roleDate.roleCode"
+                autocomplete="off"
+                style="width: 80%; max-width: 250px"
+              />
             </el-form-item>
-            <el-form-item label="昵称：" label-width="100">
-              <el-input v-model="userDate.data.nickname" autocomplete="off" style="width: 230px;" />
-            </el-form-item>
-            <el-form-item label="最近登录" label-width="100">
-              <el-input v-model="userDate.data.updateTime" disabled autocomplete="off" style="width: 230px;" />
-            </el-form-item>
-            <el-form-item label="创建日期" label-width="100">
-              <el-input v-model="userDate.data.createTime" disabled autocomplete="off" style="width: 230px;" />
+            <el-form-item label="角色名称：" label-width="100" prop="roleName">
+              <el-input
+                v-model="roleDate.roleName"
+                autocomplete="off"
+                style="width: 80%; max-width: 250px"
+              />
             </el-form-item>
           </el-form>
         </div>
         <template #footer>
           <span class="dialog-footer">
-            <el-button @click="roleDialogVisible = false">取消</el-button>
-            <el-button type="primary" @click="">
-              提交
-            </el-button>
+            <el-button @click="roleCreateDialog = false">取消</el-button>
+            <el-button type="primary" @click="createRoleFun()"> 提交 </el-button>
           </span>
         </template>
       </el-dialog>
@@ -77,107 +109,281 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
-import { ElMessage } from 'element-plus'
-import { roleListApi, createRoleApi, updateRoleApi, deleteRoleApi, selectRolePerListApi, updateRolePerApi, allMenuApi } from "@/api/user"
-import icon from '@/utils/icon'
+import { ElMessage } from "element-plus";
+import {
+  roleListApi,
+  createRoleApi,
+  updateRoleApi,
+  deleteRoleApi,
+  selectRolePerListApi,
+  updateRolePerApi,
+  allMenuApi,
+} from "@/api/user";
+import icon from "@/utils/icon";
+import type { FormInstance, FormRules } from "element-plus";
 
-let { MyIcon } = icon()
+let {
+  roleCreateDialog,
+  createRoleFormRef,
+  roleDate,
+  createRoleRules,
+  createRoleFun,
+} = createRoleFn();
 
-// 分页数据
-let page = ref<number>(1);
-let size = ref<number>(14);
-let total = ref<number>(0);
+let {
+  ids,
+  page,
+  size,
+  total,
+  roleList,
+  updateRolePerDialog,
+  menuList,
+  roleMenu,
+  roleId,
+  rolePer,
+  selected,
+  deleteRoleFun,
+  updateRolePerFun,
+  handleCheckChange,
+  loadMenuData,
+  getRoleList,
+  getMenuApi,
+  selectRolePerListFun,
+} = roleFn();
 
-// 角色列表
-let roleList: any = reactive({ data: [] });
+// 界面icon
+let { MyIcon } = icon();
 
-// 角色创建修改dialog
-let roleDialogVisible = ref(false);
-
-// 角色权限修改dialog
-let dialogVisible = ref(false);
-
-// 全部菜单列表
-let menuList: any = reactive({ data: [] });
-
-// 角色菜单
-let roleMenu: any = ref([]);
-
-let roleId: any = ref();
-let rolePer: any = ref([]);
-let roleDate: any = reactive({ data: {} })
-
+/**
+ * 页面初始化
+ */
 onMounted(() => {
   getRoleList(1);
 });
 
-const loadMenuData = (id: any, menuType: any) => {
-  menuList.data = [];
-  roleMenu.value = [];
-  rolePer.value = [];
-  dialogVisible.value = true;
-  roleId.value = id;
-  getMenuApi(menuType);
-  selectRolePerListFun(id, menuType);
-};
-
-const getRoleListByPage = (page: any) => {
-  getRoleList(page);
-};
-
-const getRoleList = (page: any) => {
-  roleListApi(page, size.value).then((res: any) => {
-    if (res.code === 200) {
-      roleList.data = res.result.list;
-      total.value = res.result.total;
-    }
+/**
+ * 创建角色方法合集
+ */
+function createRoleFn(): any {
+  // 创建角色数据
+  let roleDate = reactive({
+    roleCode: "",
+    roleName: "",
   });
-};
 
-const getMenuApi = (menuType: any) => {
-  allMenuApi(menuType).then((res: any) => {
-    if (res.code === 200) {
-      menuList.data = res.result;
-      menuList.data.list = "";
+  // 角色创建修改dialog
+  let roleCreateDialog = ref(false);
+
+  // 角色编码格式校验
+  const checkRoleCode = (rule: any, value: any, callback: any) => {
+    if (!value) {
+      return callback(new Error("请输入角色编码(只允许大小写字母与数字)"));
     }
-  });
-};
-
-const selectRolePerListFun = (roleId: any, menuType: any) => {
-  selectRolePerListApi(roleId, menuType).then((res: any) => {
-    if (res.code === 200) {
-      roleMenu.value = res.result.perIds;
-      rolePer.value = res.result.perIds;
+    const pattern = /^[a-zA-Z0-9]+$/;
+    if (!pattern.test(value)) {
+      callback(new Error("请输入正确的角色编码(只允许大小写字母与数字)"));
+    } else {
+      callback();
     }
-  });
-};
+  };
 
-const updateRolePerFun = () => {
-  dialogVisible.value = false;
-  if (roleId.value === 1) {
-    ElMessage({
-      message: '超级管理员权限无法修改',
-      type: 'error',
-    })
-  } else {
-    updateRolePerApi({
-      id: roleId.value,
-      perIds: rolePer.value,
-    }).then((res: any) => {
+  // 注册表单验证规则
+  const createRoleRules = {
+    roleCode: [{ required: true, validator: checkRoleCode, trigger: "blur" }],
+    roleName: [{ required: true, message: "请输入角色名称", trigger: "blur" }],
+  };
+
+  // 创建角色表单
+  const createRoleFormRef: any = ref(null);
+
+  /**
+   * 创建角色
+   */
+  const createRoleFun = () => {
+    if (createRoleFormRef.value !== null) {
+      createRoleFormRef.value.validate((valid: any) => {
+        if (valid) {
+          createRoleApi(roleDate).then((res: any) => {
+            if (res.code === 200) {
+              getRoleList(1);
+              ElMessage.success({ message: "角色创建成功", type: "success" });
+              roleCreateDialog.value = false;
+              roleDate.roleCode = "";
+              roleDate.roleName = "";
+            }
+          });
+        }
+      });
+    }
+  };
+
+  return {
+    roleCreateDialog,
+    createRoleFormRef,
+    roleDate,
+    createRoleRules,
+    createRoleFun,
+  };
+}
+
+/**
+ * 角色删改查接口方法合集
+ */
+function roleFn(): any {
+  // 勾选角色id（删除使用）
+  let ids = new Array();
+
+  // 分页数据 （查询页面）
+  let page = ref<number>(1);
+  let size = ref<number>(20);
+  let total = ref<number>(0);
+
+  // 角色列表 （查询）
+  let roleList: any = reactive({ data: [] });
+
+  // 角色权限修改dialog
+  let updateRolePerDialog = ref(false);
+
+  // 全部菜单列表
+  let menuList: any = reactive({ data: [] });
+
+  // 角色菜单
+  let roleMenu: any = ref([]);
+
+  // 修改角色权限时角色 id 与 权限列表
+  let roleId: any = ref();
+  let rolePer: any = ref([]);
+
+  // 获取勾选角色id
+  const selected = (val: any) => {
+    ids.splice(0, ids.length);
+    for (let i = 0; i < val.length; i++) {
+      ids.unshift(val[i].id);
+    }
+  };
+  /**
+   * 删除ids勾选的角色
+   */
+  const deleteRoleFun = (id?: any) => {
+    if (id === 0) {
+      if (ids.length !== 0) {
+        deleteRoleApi(ids.join()).then((res: any) => {
+          if (res.code === 200) {
+            getRoleList(1);
+            ElMessage.success({ message: "角色删除成功", type: "success" });
+          }
+        });
+      }
+    } else {
+      deleteRoleApi(id).then((res: any) => {
+        getRoleList(1);
+        ElMessage.success({ message: "角色删除成功", type: "success" });
+      });
+    }
+  };
+
+  /**
+   * 修改角色权限
+   */
+  const updateRolePerFun = () => {
+    updateRolePerDialog.value = false;
+    if (roleId.value === 1) {
+      ElMessage({
+        message: "超级管理员权限无法修改",
+        type: "error",
+      });
+    } else {
+      updateRolePerApi({
+        id: roleId.value,
+        perIds: rolePer.value,
+      }).then((res: any) => {
+        if (res.code === 200) {
+          ElMessage({
+            message: "角色权限修改成功",
+            type: "success",
+          });
+        }
+      });
+    }
+  };
+
+  /**
+   * 更新角色权限数组
+   */
+  const handleCheckChange = (data: any, checked: any) => {
+    rolePer.value = checked.checkedKeys;
+  };
+
+  /**
+   * 加载角色权限
+   */
+  const loadMenuData = (id: any, menuType: any) => {
+    menuList.data = [];
+    roleMenu.value = [];
+    rolePer.value = [];
+    updateRolePerDialog.value = true;
+    roleId.value = id;
+    getMenuApi(menuType);
+    selectRolePerListFun(id, menuType);
+  };
+
+  /**
+   * 分页查询角色
+   */
+  const getRoleList = (page: any) => {
+    roleListApi(page, size.value).then((res: any) => {
       if (res.code === 200) {
-        ElMessage({
-          message: '角色权限修改成功',
-          type: 'success',
-        })
+        roleList.data = res.result.list;
+        total.value = res.result.total;
       }
     });
-  }
-};
+  };
 
-const handleCheckChange = (data: any, checked: any) => {
-  rolePer.value = checked.checkedKeys;
-  console.log("checked:", rolePer.value);
-};
+  /**
+   * 获取全部菜单
+   */
+  const getMenuApi = (menuType: any) => {
+    allMenuApi(menuType).then((res: any) => {
+      if (res.code === 200) {
+        menuList.data = res.result;
+        menuList.data.list = "";
+      }
+    });
+  };
+
+  /**
+   * 获取当前用户拥有权限的菜单
+   */
+  const selectRolePerListFun = (roleId: any, menuType: any) => {
+    selectRolePerListApi(roleId, menuType).then((res: any) => {
+      if (res.code === 200) {
+        roleMenu.value = res.result.perIds;
+        rolePer.value = res.result.perIds;
+      }
+    });
+  };
+
+  return {
+    ids,
+    page,
+    size,
+    total,
+    roleList,
+    updateRolePerDialog,
+    menuList,
+    roleMenu,
+    roleId,
+    rolePer,
+    selected,
+    deleteRoleFun,
+    updateRolePerFun,
+    handleCheckChange,
+    loadMenuData,
+    getRoleList,
+    getMenuApi,
+    selectRolePerListFun,
+  };
+}
 </script>
 
 <style scoped>

@@ -21,7 +21,7 @@ export const updateRoleApi = (roleDate: any) => {
 
 // 删除角色接口
 export const deleteRoleApi = (ids: any) => {
-  const uri = "/user/role/update?ids=" + ids
+  const uri = "/user/role/delete?ids=" + ids
   return api.delete(uri)
 }
 
@@ -45,10 +45,15 @@ export const userListApi = (page: any, size: any) => {
   return api.get(uri)
 }
 
-// 修改用户权限
-export const updateUserApi = (userDate: any) => {
+// 管理员修改用户信息
+export const updateUserPerApi = (userDate: any) => {
   const uri = "/user/user/permission/update"
   return api.post(uri, userDate)
+}
+
+// 用户修改个人信息
+export const updateUserApi = (userDate: any) => {
+
 }
 
 // 用户注册

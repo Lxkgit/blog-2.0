@@ -3,7 +3,7 @@
     <div class="title_style">
       <span>文档管理</span>
     </div>
-    <el-card style="margin: 18px 2%; width: 95%; height: 732px;">
+    <el-card style="margin: 18px 2%; width: 95%;">
       <div>
         <el-row>
           <el-col :span="4">
@@ -12,8 +12,8 @@
               <p style="">文档目录</p>
               <MyIcon style="margin-right: 20px; " @click="createCatalogDialogFun(true)" type="icon-plus" />
             </div>
-            <div style="overflow-y: auto; height: 650px; padding-top: 10px; border-right: 1px solid rgb(233, 235, 238);">
-              <el-input v-model="filterText" placeholder="Filter keyword" style="width: 90%; height: 30px;"
+            <div style="overflow-y: auto; height: calc(100vh - 277px); padding-top: 10px; border-right: 1px solid rgb(233, 235, 238);">
+              <el-input v-model="filterText" placeholder="请输入标题" style="width: 95%; height: 30px;"
                 size="small" />
               <el-tree style="margin-top: 20px;" ref="treeRef" class="filter-tree" :data="catalogList" draggable
                 @node-drag-start="handleDragStart" @node-drag-end="handleDragEnd" :highlight-current="true"
@@ -23,7 +23,7 @@
           </el-col>
           <el-col :span="20">
             <div style="margin-top: 10px">
-              <div v-if="docType === 1" style="overflow-y: scroll; height: 650px">
+              <div v-if="docType === 1" style="overflow-y: scroll;">
                 <MarkDown :text="docContent.data.docContentMd"></MarkDown>
               </div>
               <div v-else-if="docType === 0">
@@ -373,7 +373,7 @@ function content() {
   // 编辑文档
   const editDocContentFun = (docContent?: any) => {
     let path = "/admin/doc/editor";
-    store.addTag("编辑文档", path);
+    store.addTag("编辑文档", path, true);
     cStore.setDocContent(docContent);
     router.push(path);
   };

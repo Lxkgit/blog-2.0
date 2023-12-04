@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
             userVoPage.add(sysUserVo);
         }
         try {
-            myPage = MyPageUtils.pageUtil(userVoPage, userVoPage.getPageNum(), userVoPage.getPageSize(), (int) userVoPage.getTotal());
+            myPage = MyPageUtils.pageUtil(userVoPage, userPage.getPageNum(), userPage.getPageSize(), (int) userPage.getTotal());
         } catch (Exception e){
             e.printStackTrace();
         }

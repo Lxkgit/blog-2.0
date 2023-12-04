@@ -6,7 +6,7 @@
         <el-card style="margin: 18px 2%;width: 95%">
             <el-button type="primary" plain @click="editArticle('null')">新增</el-button>
             <el-button type="danger" plain @click="deleteArticle(0)">删除</el-button>
-            <el-table :data="articleList.list" stripe style="width: 100%" height="610" @selection-change="selected">
+            <el-table :data="articleList.list" stripe style="width: 100%; height: calc(100vh - 328px);" @selection-change="selected">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
                 <el-table-column prop="title" label="标题" fit>
@@ -124,7 +124,7 @@ const getArticleListByPageFun = (page: any) => {
 // 编辑文章
 const editArticle = (article?: any) => {
     let path = "/admin/article/editor"
-    store.addTag("编辑文章", path)
+    store.addTag("编辑文章", path, true)
     router.push(path)
     cStore.setArticle(article);
 }

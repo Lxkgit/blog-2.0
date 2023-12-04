@@ -6,7 +6,7 @@
         <el-card style="margin: 18px 2%;width: 95%">
             <el-button type="primary" plain @click="createArticleLabelTypeDialog = true">新增</el-button>
             <el-button type="danger" plain @click="deleteArticleLabelTypeByIdsFun()">删除</el-button>
-            <el-table :data="articleLabelTypeList.list" style="width: 100%" height="660" @selection-change="selected">
+            <el-table :data="articleLabelTypeList.list" style="width: 100%; height: calc(100vh - 278px);" @selection-change="selected">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
                 <el-table-column type="expand">

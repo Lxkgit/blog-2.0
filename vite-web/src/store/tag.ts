@@ -9,45 +9,60 @@ export const tagsStore = defineStore('tag', {
                 active: true,  // 是否激活
                 title: '个人中心', // 任务栏标题
                 close: false,  // 是否可以关闭
-                path: '/admin/index' // 当前标签的路径
+                path: '/admin/index', // 当前标签的路径
+                open: 0, // 标签打开方式 0：通过左侧菜单打开 1： 通过页面打开
             },
         ],
         sideBar: false,
+        // 当前激活的tag
         selectedTag: 0,
     }),
     getters: {},
     actions: {
-        addTag(name: any, path: any) {
-            this.tags.map(item => (item.active = false))
-            let flag = false
-            for (let i = 0; i < this.tags.length; i++) {
-                if (this.tags[i].path === path) {
-                    flag = true;
-                    this.tags[i].active = true;
+        addTag(name: any, path: any, add?: any) {
+            if (add !== undefined && add === true) {
+                let oldTags = this.tags
+                this.tags = []
+                for (let i = 0; i < oldTags.length; i++) {
+                    if (oldTags[i].active === false) {
+                        this.tags.push(oldTags[i])
+                    } else {
+                        oldTags[i].active = false
+                        this.tags.push(oldTags[i])
+                        this.tags.push({ active: true, title: name, close: true, path: path, open: 1})
+                    }
+                }
+            } else {
+                this.tags.map(item => (item.active = false))
+                let flag = false
+                for (let i = 0; i < this.tags.length; i++) {
+                    if (this.tags[i].path === path) {
+                        flag = true;
+                        this.tags[i].active = true;
+                    }
+                }
+                if (!flag) {
+                    this.selectedTag = this.tags.length
+                    this.tags.push({ active: true, title: name, close: true, path: path, open: 0})
                 }
             }
-            if (!flag) {
-                this.selectedTag = this.tags.length
-                this.tags.push({ active: true, title: name, close: true, path: path })
-            }
-
         },
-        delTag(index: any) {
+        delTag(index: any, nextIndex?: any) {
             if (this.tags[index].close) {
                 if (this.tags[index].active) {
                     this.tags.splice(index, 1)
-                    this.tags[0].active = true
-                    this.selectedTag = 0
+                    this.tags[nextIndex].active = true
+                    this.selectedTag = nextIndex
                 } else {
                     this.tags.splice(index, 1)
                 }
             }
         },
-        delTagByPath(path: any){
-            for(let i=0; i< this.tags.length; i++) {
+        delTagByPath(path: any) {
+            for (let i = 0; i < this.tags.length; i++) {
                 console.log(JSON.stringify(this.tags[i]))
-                if(this.tags[i].path === path){
-                    if(this.tags[i].close) {
+                if (this.tags[i].path === path) {
+                    if (this.tags[i].close) {
                         this.tags.splice(i, 1)
                     }
                 }

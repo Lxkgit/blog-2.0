@@ -6,7 +6,7 @@
         <el-card style="margin: 18px 2%;width: 95%">
             <el-button type="primary" plain @click="saveArticleTypeDialogFun">新增</el-button>
             <el-button type="danger" plain @click="deleteArticleTypeByIdsFun()">删除</el-button>
-            <el-table :data="articleTypeList.data" stripe style="width: 100%" row-key="id" height="660"
+            <el-table :data="articleTypeList.data" stripe style="width: 100%; height: calc(100vh - 278px);" row-key="id"
                 @selection-change="selected">
                 <el-table-column type="selection" width="55">
                 </el-table-column>

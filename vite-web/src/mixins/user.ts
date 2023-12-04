@@ -9,9 +9,9 @@ export default function() {
         switch(type) {
             case 1:
                 val = "正常";
-                break;
-            case 0:
-                val = "异常";
+                break;            
+            case 2:
+                val = "禁用";
                 break;
             default: 
                 val = "";
