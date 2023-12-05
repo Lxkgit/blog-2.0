@@ -54,7 +54,7 @@
         </where>
     </update>
 
-    <update id="updateArticleLabelNumById" parameterType="com.blog.common.entity.content.article.ArticleLabel">
+    <update id="updateArticleLabelNumById">
         update article_label_type set label_num = label_num + #{articleNum} where id = #{id}
     </update>
 

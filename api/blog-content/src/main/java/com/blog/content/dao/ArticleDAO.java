@@ -20,6 +20,7 @@ public interface ArticleDAO extends BaseMapper<Article> {
     Integer insertArticle(Article article);
     Article selectArticleById(@Param("id")int id);
     Integer updateArticle(ArticleBo articleBo);
+    Integer updateArticleStatus(ArticleBo articleBo);
     Integer deleteArticle(ArticleBo articleBo);
 
 }

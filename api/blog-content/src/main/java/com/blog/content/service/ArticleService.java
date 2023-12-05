@@ -15,5 +15,5 @@ public interface ArticleService {
     ArticleVo selectArticleById(int articleId);
     int saveArticle(Article article);
     int updateArticle(BlogUser blogUser, Article article);
-    Map<String, Integer> deleteArticle(BlogUser blogUser, String article);
+    Integer deleteArticle(BlogUser blogUser, String articleIds);
 }

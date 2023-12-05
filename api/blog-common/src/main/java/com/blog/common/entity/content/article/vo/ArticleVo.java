@@ -37,7 +37,7 @@ public class ArticleVo extends Article {
     private Integer type;
 
     /**
-     * 查询文章状态 0：草稿 1：已发布文章 2：置顶
+     * 查询文章状态 0：草稿 1：已发布文章 2：置顶 3：已删除
      */
     private String selectStatus;
 

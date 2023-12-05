@@ -69,17 +69,13 @@ public class ArticleController {
     @GetMapping("/list")
     public Result selectArticleByPage(@RequestHeader HttpHeaders headers, ArticleVo articleVo) {
         BlogUser blogUser;
-        try {
-            String token = String.valueOf(headers.get("Authorization"));
-            if (token != null && !token.equals("") && !token.equals("null")) {
-                blogUser = JwtUtil.getUserInfo(token);
-                if (articleVo.getType() != null && articleVo.getType() == 1) {
-                    articleVo.setUserId(blogUser.getId());
-                    articleVo.setBlogUser(blogUser);
-                }
+        String token = String.valueOf(headers.get("Authorization"));
+        if (token != null && !token.equals("") && !token.equals("null")) {
+            blogUser = JwtUtil.getUserInfo(token);
+            if (articleVo.getType() != null && articleVo.getType() == 1) {
+                articleVo.setUserId(blogUser.getId());
+                articleVo.setBlogUser(blogUser);
             }
-        } catch (Exception e) {
-            log.warn(Constant.JWTError, e);
         }
         MyPage<ArticleVo> result = articleService.selectArticleListByPageAndUserId(articleVo);
         return ResultFactory.buildSuccessResult(result);

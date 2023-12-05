@@ -15,5 +15,5 @@ public interface ArticleLabelDAO extends BaseMapper<ArticleLabel> {
     List<ArticleLabel> selectArticleLabelByLabelType(@Param("labelType") Integer labelType);
     int updateArticleLabel(ArticleLabel articleLabel);
     int deleteArticleLabelByIds(@Param("ids") String[] ids, @Param("userId") Integer userId);
-    void updateArticleLabelNumById(ArticleLabel articleLabel);
+    void updateArticleLabelNumById(@Param("id") Integer id, @Param("articleNum") Integer articleNum);
 }

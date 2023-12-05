@@ -42,7 +42,8 @@
     </select>
 
     <select id="selectArticleListByPage" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from article
         <where>
             <if test="userId != 0 ">
@@ -68,78 +69,79 @@
     </select>
 
     <select id="selectArticleById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from article
         where id = #{id}
     </select>
 
     <insert id="insertArticle" parameterType="com.blog.common.entity.content.article.Article">
-        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
         insert into article
 
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="userId != null" >
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
                 user_id,
             </if>
-            <if test="title != null" >
+            <if test="title != null">
                 title,
             </if>
-            <if test="contentMd != null" >
+            <if test="contentMd != null">
                 content_md,
             </if>
-            <if test="articleType != null" >
+            <if test="articleType != null">
                 article_type,
             </if>
-            <if test="articleLabel != null" >
+            <if test="articleLabel != null">
                 article_label,
             </if>
-            <if test="articleStatus != null" >
+            <if test="articleStatus != null">
                 article_status,
             </if>
-            <if test="browseCount != null" >
+            <if test="browseCount != null">
                 browse_count,
             </if>
-            <if test="likeCount != null" >
+            <if test="likeCount != null">
                 like_count,
             </if>
-            <if test="createTime != null" >
+            <if test="createTime != null">
                 create_time,
             </if>
-            <if test="updateTime != null" >
+            <if test="updateTime != null">
                 update_time,
             </if>
         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="userId != null" >
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
                 #{userId},
             </if>
-            <if test="title != null" >
+            <if test="title != null">
                 #{title},
             </if>
-            <if test="contentMd != null" >
+            <if test="contentMd != null">
                 #{contentMd},
             </if>
-            <if test="articleType != null" >
+            <if test="articleType != null">
                 #{articleType},
             </if>
-            <if test="articleLabel != null" >
+            <if test="articleLabel != null">
                 #{articleLabel},
             </if>
-            <if test="articleStatus != null" >
+            <if test="articleStatus != null">
                 #{articleStatus},
             </if>
-            <if test="browseCount != null" >
+            <if test="browseCount != null">
                 #{browseCount},
             </if>
-            <if test="likeCount != null" >
+            <if test="likeCount != null">
                 #{likeCount},
             </if>
-            <if test="createTime != null" >
+            <if test="createTime != null">
                 #{createTime},
             </if>
-            <if test="updateTime != null" >
+            <if test="updateTime != null">
                 #{updateTime},
             </if>
         </trim>
@@ -187,5 +189,15 @@
         </foreach>
         and user_id = #{userId};
     </delete>
+
+    <update id="updateArticleStatus" parameterType="com.blog.common.entity.content.article.bo.ArticleBo">
+        update article
+        set article_status = #{articleStatus}
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and user_id = #{userId};
+    </update>
 
 </mapper>

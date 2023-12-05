@@ -52,13 +52,6 @@
         </where>
     </update>
 
-    <!--将所有数据都设置为节点-->
-    <update id="updateArticleTypeNode" >
-        UPDATE article_type set node = 0;
-    </update>
-
-
-
     <delete id="deleteArticleTypeByIds">
         delete from article_type
         where id in
@@ -68,4 +61,9 @@
         and num = 0;
     </delete>
 
+    <update id="updateArticleTypeNumById">
+        update article_type
+        set num = num + #{articleNum}
+        where  id = #{id}
+    </update>
 </mapper>
