@@ -20,30 +20,31 @@ export const tagsStore = defineStore('tag', {
     getters: {},
     actions: {
         addTag(name: any, path: any, add?: any) {
-            if (add !== undefined && add === true) {
-                let oldTags = this.tags
-                this.tags = []
-                for (let i = 0; i < oldTags.length; i++) {
-                    if (oldTags[i].active === false) {
-                        this.tags.push(oldTags[i])
-                    } else {
-                        oldTags[i].active = false
-                        this.tags.push(oldTags[i])
-                        this.tags.push({ active: true, title: name, close: true, path: path, open: 1})
-                    }
+            let flag = false
+            for (let i = 0; i < this.tags.length; i++) {
+                if (this.tags[i].path === path) {
+                    flag = true;
+                    this.tags[i].active = true;
                 }
-            } else {
-                this.tags.map(item => (item.active = false))
-                let flag = false
-                for (let i = 0; i < this.tags.length; i++) {
-                    if (this.tags[i].path === path) {
-                        flag = true;
-                        this.tags[i].active = true;
+            }
+
+            if (!flag) {
+                if (add !== undefined && add === true) {
+                    let oldTags = this.tags
+                    this.tags = []
+                    for (let i = 0; i < oldTags.length; i++) {
+                        if (oldTags[i].active === false) {
+                            this.tags.push(oldTags[i])
+                        } else {
+                            oldTags[i].active = false
+                            this.tags.push(oldTags[i])
+                            this.tags.push({ active: true, title: name, close: true, path: path, open: 1 })
+                        }
                     }
-                }
-                if (!flag) {
+                } else {
+                    this.tags.map(item => (item.active = false))
                     this.selectedTag = this.tags.length
-                    this.tags.push({ active: true, title: name, close: true, path: path, open: 0})
+                    this.tags.push({ active: true, title: name, close: true, path: path, open: 0 })
                 }
             }
         },
@@ -60,7 +61,6 @@ export const tagsStore = defineStore('tag', {
         },
         delTagByPath(path: any) {
             for (let i = 0; i < this.tags.length; i++) {
-                console.log(JSON.stringify(this.tags[i]))
                 if (this.tags[i].path === path) {
                     if (this.tags[i].close) {
                         this.tags.splice(i, 1)
@@ -82,7 +82,6 @@ export const tagsStore = defineStore('tag', {
         },
         delOtherTags() {
             for (let i = 0; i < this.tags.length; i++) {
-                console.log(JSON.stringify(this.tags[i]))
                 if (!this.tags[i].active && this.tags[i].close) {
                     this.tags.splice(i, 1)
                     i--

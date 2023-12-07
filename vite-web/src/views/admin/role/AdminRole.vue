@@ -5,7 +5,28 @@
     </div>
     <el-card style="margin: 18px 2%; width: 95%">
       <el-button type="primary" plain @click="roleCreateDialog = true">创建</el-button>
-      <el-button type="danger" plain @click="deleteRoleFun(0)">删除</el-button>
+
+      <el-popover :visible="deleteBtnPopoverByIds" placement="top" :width="160">
+        <p>删除所选角色？</p>
+        <div style="text-align: right; margin: 0">
+          <el-button size="small" text @click="deleteBtnPopoverByIds = false"
+            >取消</el-button
+          >
+          <el-button size="small" type="primary" @click="deleteRoleFun(0)"
+            >删除</el-button
+          >
+        </div>
+        <template #reference>
+          <el-button
+            :disabled="ids.length > 0 ? false : true"
+            type="danger"
+            plain
+            @click="deleteBtnPopoverByIds = true"
+            >删除</el-button
+          >
+        </template>
+      </el-popover>
+
       <el-table
         :data="roleList.data"
         stripe
@@ -28,15 +49,40 @@
             >
               <MyIcon type="icon-edit" />
             </el-button>
-            <el-button
-              style="margin-left: 0"
-              @click.prevent="deleteRoleFun(scope.row.id)"
-              size="small"
-              text
-              title="删除角色"
+
+            <el-popover
+              :visible="deleteBtnPopoverById && selectRow === scope.$index"
+              placement="top"
+              :width="160"
+              :ref="`popover-${scope.$index}`"
             >
-              <MyIcon type="icon-delete" />
-            </el-button>
+              <p>删除所选角色？</p>
+              <div style="text-align: right; margin: 0">
+                <el-button size="small" text @click="deleteBtnPopoverById = false"
+                  >取消</el-button
+                >
+                <el-button
+                  size="small"
+                  type="primary"
+                  @click="deleteRoleFun(scope.row.id)"
+                  >删除</el-button
+                >
+              </div>
+              <template #reference>
+                <el-button
+                  style="margin-left: 0"
+                  @click="
+                    deleteBtnPopoverById = true;
+                    selectRow = scope.$index;
+                  "
+                  size="small"
+                  text
+                  title="删除角色"
+                >
+                  <MyIcon type="icon-delete" />
+                </el-button>
+              </template>
+            </el-popover>
           </template>
         </el-table-column>
       </el-table>
@@ -141,6 +187,8 @@ let {
   roleMenu,
   roleId,
   rolePer,
+  deleteBtnPopoverByIds,
+  deleteBtnPopoverById,
   selected,
   deleteRoleFun,
   updateRolePerFun,
@@ -231,7 +279,7 @@ function createRoleFn(): any {
  */
 function roleFn(): any {
   // 勾选角色id（删除使用）
-  let ids = new Array();
+  let ids = reactive([]);
 
   // 分页数据 （查询页面）
   let page = ref<number>(1);
@@ -254,6 +302,11 @@ function roleFn(): any {
   let roleId: any = ref();
   let rolePer: any = ref([]);
 
+  // 多选删除角色Popover弹窗展示
+  let deleteBtnPopoverByIds = ref(false);
+  // 单选删除角色Popover弹窗展示
+  let deleteBtnPopoverById = ref(false);
+
   // 获取勾选角色id
   const selected = (val: any) => {
     ids.splice(0, ids.length);
@@ -269,6 +322,7 @@ function roleFn(): any {
       if (ids.length !== 0) {
         deleteRoleApi(ids.join()).then((res: any) => {
           if (res.code === 200) {
+            deleteBtnPopoverByIds.value = false;
             getRoleList(1);
             ElMessage.success({ message: "角色删除成功", type: "success" });
           }
@@ -276,6 +330,7 @@ function roleFn(): any {
       }
     } else {
       deleteRoleApi(id).then((res: any) => {
+        deleteBtnPopoverById.value = false;
         getRoleList(1);
         ElMessage.success({ message: "角色删除成功", type: "success" });
       });
@@ -374,6 +429,8 @@ function roleFn(): any {
     roleMenu,
     roleId,
     rolePer,
+    deleteBtnPopoverByIds,
+    deleteBtnPopoverById,
     selected,
     deleteRoleFun,
     updateRolePerFun,
