@@ -537,7 +537,7 @@ function articleLabelFn() {
   /**
    * 关键字过滤标签
    */
-  const filterTag = (str: String, value: String) => {
+  const filterTag = (str: string, value: string) => {
     return str.indexOf(value) !== -1;
   };
 

@@ -117,7 +117,7 @@ public class ArticleServiceImpl implements ArticleService {
         for (Article article : articlePage){
             ArticleVo articleVo = new ArticleVo();
             BeanUtils.copyProperties(article, articleVo);
-
+            articleVo.setContentMd("");
             if (userMap.containsKey(article.getUserId())) {
                 articleVo.setBlogUser(userMap.get(article.getUserId()));
             } else {

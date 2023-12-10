@@ -72,7 +72,6 @@
           style="float: right"
           layout="total, sizes, prev, pager, next, jumper"
           @current-change="getUserList"
-          :page-size="size"
           :total="total"
         >
         </el-pagination>

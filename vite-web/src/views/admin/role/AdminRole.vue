@@ -9,30 +9,17 @@
       <el-popover :visible="deleteBtnPopoverByIds" placement="top" :width="160">
         <p>删除所选角色？</p>
         <div style="text-align: right; margin: 0">
-          <el-button size="small" text @click="deleteBtnPopoverByIds = false"
-            >取消</el-button
-          >
-          <el-button size="small" type="primary" @click="deleteRoleFun(0)"
-            >删除</el-button
-          >
+          <el-button size="small" text @click="deleteBtnPopoverByIds = false">取消</el-button>
+          <el-button size="small" type="primary" @click="deleteRoleFun(0)">删除</el-button>
         </div>
         <template #reference>
-          <el-button
-            :disabled="ids.length > 0 ? false : true"
-            type="danger"
-            plain
-            @click="deleteBtnPopoverByIds = true"
-            >删除</el-button
-          >
+          <el-button :disabled="ids.length > 0 ? false : true" type="danger" plain
+            @click="deleteBtnPopoverByIds = true">删除</el-button>
         </template>
       </el-popover>
 
-      <el-table
-        :data="roleList.data"
-        stripe
-        style="width: 100%; height: calc(100vh - 328px)"
-        @selection-change="selected"
-      >
+      <el-table :data="roleList.data" stripe style="width: 100%; height: calc(100vh - 328px)"
+        @selection-change="selected">
         <el-table-column type="selection" width="55"> </el-table-column>
         <el-table-column prop="roleCode" label="角色编码" />
         <el-table-column prop="roleName" label="角色名称" />
@@ -40,45 +27,22 @@
         <el-table-column prop="createTime" label="创建日期" width="162" />
         <el-table-column fixed="right" label="操作" width="100">
           <template #default="scope">
-            <el-button
-              style="margin-left: 0"
-              @click.prevent="loadMenuData(scope.row.id, 2)"
-              size="small"
-              text
-              title="修改角色信息"
-            >
+            <el-button style="margin-left: 0" @click.prevent="loadMenuData(scope.row.id, 2)" size="small" text
+              title="修改角色信息">
               <MyIcon type="icon-edit" />
             </el-button>
 
-            <el-popover
-              :visible="deleteBtnPopoverById && selectRow === scope.$index"
-              placement="top"
-              :width="160"
-              :ref="`popover-${scope.$index}`"
-            >
+            <el-popover :visible="deleteBtnPopoverById" placement="top" :width="160" :ref="`popover-${scope.$index}`">
               <p>删除所选角色？</p>
               <div style="text-align: right; margin: 0">
-                <el-button size="small" text @click="deleteBtnPopoverById = false"
-                  >取消</el-button
-                >
-                <el-button
-                  size="small"
-                  type="primary"
-                  @click="deleteRoleFun(scope.row.id)"
-                  >删除</el-button
-                >
+                <el-button size="small" text @click="deleteBtnPopoverById = false">取消</el-button>
+                <el-button size="small" type="primary" @click="deleteRoleFun(scope.row.id)">删除</el-button>
               </div>
               <template #reference>
-                <el-button
-                  style="margin-left: 0"
-                  @click="
-                    deleteBtnPopoverById = true;
-                    selectRow = scope.$index;
-                  "
-                  size="small"
-                  text
-                  title="删除角色"
-                >
+                <el-button style="margin-left: 0" @click="
+                  deleteBtnPopoverById = true;
+
+                " size="small" text title="删除角色">
                   <MyIcon type="icon-delete" />
                 </el-button>
               </template>
@@ -87,29 +51,16 @@
         </el-table-column>
       </el-table>
       <div style="margin: 20px 0 50px 0">
-        <el-pagination
-          background
-          v-model:page-size="size"
-          :page-sizes="[10, 20, 50, 100]"
-          style="float: right"
-          layout="total, sizes, prev, pager, next, jumper"
-          @current-change="getRoleList"
-          :page-size="size"
-          :total="total"
-        >
+        <el-pagination background v-model:page-size="size" :page-sizes="[10, 20, 50, 100]" style="float: right"
+          layout="total, sizes, prev, pager, next, jumper" @current-change="getRoleList" :total="total">
         </el-pagination>
       </div>
     </el-card>
     <div>
       <el-dialog v-model="updateRolePerDialog" title="角色权限修改" width="30%">
         <div style="height: 300px; overflow: auto">
-          <el-tree
-            :data="menuList.data"
-            node-key="id"
-            :default-checked-keys="roleMenu"
-            show-checkbox
-            @check="handleCheckChange"
-          />
+          <el-tree :data="menuList.data" node-key="id" :default-checked-keys="roleMenu" show-checkbox
+            @check="handleCheckChange" />
         </div>
         <template #footer>
           <span class="dialog-footer">
@@ -119,26 +70,14 @@
         </template>
       </el-dialog>
 
-      <el-dialog
-        v-model="roleCreateDialog"
-        title="创建新角色"
-        style="width: 30%; max-width: 500px"
-      >
+      <el-dialog v-model="roleCreateDialog" title="创建新角色" style="width: 30%; max-width: 500px">
         <div style="height: auto; overflow: auto">
           <el-form :model="roleDate" ref="createRoleFormRef" :rules="createRoleRules">
             <el-form-item label="角色编码：" label-width="100" prop="roleCode">
-              <el-input
-                v-model="roleDate.roleCode"
-                autocomplete="off"
-                style="width: 80%; max-width: 250px"
-              />
+              <el-input v-model="roleDate.roleCode" autocomplete="off" style="width: 80%; max-width: 250px" />
             </el-form-item>
             <el-form-item label="角色名称：" label-width="100" prop="roleName">
-              <el-input
-                v-model="roleDate.roleName"
-                autocomplete="off"
-                style="width: 80%; max-width: 250px"
-              />
+              <el-input v-model="roleDate.roleName" autocomplete="off" style="width: 80%; max-width: 250px" />
             </el-form-item>
           </el-form>
         </div>
@@ -308,9 +247,10 @@ function roleFn(): any {
   let deleteBtnPopoverById = ref(false);
 
   // 获取勾选角色id
-  const selected = (val: any) => {
+  const selected = (val: any[]) => {
     ids.splice(0, ids.length);
     for (let i = 0; i < val.length; i++) {
+      //@ts-ignore 单行忽略
       ids.unshift(val[i].id);
     }
   };

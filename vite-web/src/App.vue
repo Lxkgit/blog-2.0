@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { systemStore } from "@/store/system"
