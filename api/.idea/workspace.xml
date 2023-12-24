@@ -16,27 +16,12 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-12-07【功能修改】：文章角色页面修改">
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-12-11【功能修改】：版本部署打包，bug修改">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-auth/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-auth/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-auth/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-auth/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-gateway/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-gateway/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/shell/blog_package.sh" beforeDir="false" afterPath="$PROJECT_DIR$/file/shell/blog_package.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/admin/article/AdminArticle.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/admin/article/AdminArticle.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/admin/article/ArticleEditor.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/admin/article/ArticleEditor.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/admin/role/AdminRole.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/admin/role/AdminRole.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/admin/user/AdminUser.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/admin/user/AdminUser.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/common/NavMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/common/NavMenu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/router/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/article/Category.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/article/Category.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/personal/Personal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/personal/Personal.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -438,13 +423,9 @@
       <workItem from="1702199570403" duration="195000" />
       <workItem from="1702199785999" duration="6053000" />
       <workItem from="1702210011671" duration="1006000" />
-    </task>
-    <task id="LOCAL-00069" summary="23-02-09【功能新增】：新增nuxt3项目，移除原有vue文件">
-      <created>1675944137811</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1675944137812</updated>
+      <workItem from="1702225906403" duration="209000" />
+      <workItem from="1702226137275" duration="9000" />
+      <workItem from="1702697318434" duration="1133000" />
     </task>
     <task id="LOCAL-00070" summary="23-02-11【功能新增】：网站改造为https，新增gitee登陆">
       <created>1676087276459</created>
@@ -782,7 +763,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701961936000</updated>
     </task>
-    <option name="localTasksCounter" value="118" />
+    <task id="LOCAL-00118" summary="23-12-11【功能修改】：版本部署打包，bug修改">
+      <created>1702226077900</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1702226077901</updated>
+    </task>
+    <option name="localTasksCounter" value="119" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -813,7 +801,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="23-06-02【功能新增】：优化文章查询，博客文档封面图片完成" />
     <MESSAGE value="23-06-18【功能新增】：文档页面新增用户切换功能，博客服务改为http协议" />
     <MESSAGE value="23-07-03【功能新增】：博客开始引入mq" />
     <MESSAGE value="23-07-08【功能新增】：新增mq推送数据功能，新增socket推送数据功能，修复日记保存bug，修复日记删除bug" />
@@ -838,7 +825,8 @@
     <MESSAGE value="23-11-26【功能修改】：整理用户权限" />
     <MESSAGE value="23-12-05【功能修改】：修改用户角色操作页面" />
     <MESSAGE value="23-12-07【功能修改】：文章角色页面修改" />
-    <option name="LAST_COMMIT_MESSAGE" value="23-12-07【功能修改】：文章角色页面修改" />
+    <MESSAGE value="23-12-11【功能修改】：版本部署打包，bug修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="23-12-11【功能修改】：版本部署打包，bug修改" />
   </component>
   <component name="WindowStateProjectService">
     <state x="842" y="386" key="#Notifications" timestamp="1702195519476">
@@ -914,10 +902,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="326" y="176" key="SettingsEditor/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1702199765830" />
-    <state x="395" y="245" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1701962645226">
-      <screen x="0" y="0" width="1920" height="1050" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1702226105158">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1701735019231" />
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1702226105158" />
     <state x="395" y="245" key="Vcs.Push.Dialog.v2/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1701962645226" />
     <state x="234" y="138" width="1237" height="648" key="find.popup" timestamp="1694958035704">
       <screen x="0" y="0" width="1920" height="1040" />

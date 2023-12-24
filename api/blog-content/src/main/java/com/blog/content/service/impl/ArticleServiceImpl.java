@@ -117,7 +117,6 @@ public class ArticleServiceImpl implements ArticleService {
         for (Article article : articlePage){
             ArticleVo articleVo = new ArticleVo();
             BeanUtils.copyProperties(article, articleVo);
-            articleVo.setContentMd("");
             if (userMap.containsKey(article.getUserId())) {
                 articleVo.setBlogUser(userMap.get(article.getUserId()));
             } else {
@@ -249,13 +248,13 @@ public class ArticleServiceImpl implements ArticleService {
      */
     private String updateArticleType(String articleType, Integer articleNum) {
         StringBuilder type = new StringBuilder(articleType);
-        articleTypeDAO.updateArticleTypeNumById(Integer.parseInt(articleType), articleNum);
         ArticleType type1 = articleTypeDAO.selectArticleTypeById(Integer.parseInt(articleType));
         while (type1.getParentId() != 0) {
             type.insert(0, type1.getParentId() + ",");
             articleTypeDAO.updateArticleTypeNumById(type1.getId(), articleNum);
             type1 = articleTypeDAO.selectArticleTypeById(type1.getParentId());
         }
+        articleTypeDAO.updateArticleTypeNumById(type1.getId(), articleNum);
         return type.toString();
     }
 
@@ -279,6 +278,12 @@ public class ArticleServiceImpl implements ArticleService {
         articleBo.setArticleStatus(3);
         articleBo.setIds(articleIds.split(","));
         Integer deleteArticleNum = articleDAO.updateArticleStatus(articleBo);
+
+        for(String id : articleBo.getIds()) {
+            Article article = articleDAO.selectArticleById(Integer.parseInt(id));
+            String[] articleType = article.getArticleType().split(",");
+            updateArticleType(articleType[articleType.length-1], -1);
+        }
 
         // 发送博客用户删除文章mq消息
         ContentCountVo contentCountVo = new ContentCountVo();

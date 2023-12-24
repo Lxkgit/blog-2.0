@@ -2,6 +2,7 @@ package com.blog.common.util;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.json.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.blog.common.entity.file.vo.ImportDiaryVo;
 import lombok.extern.slf4j.Slf4j;
@@ -501,6 +502,39 @@ public class DateUtil {
 //        String formatDate = DateUtil.formatDateTime(date).replaceFirst(" ","_");
 //        System.out.println(formatDate + "---");
 //        System.out.println(formatDate.length());
+        String str = "      ";
+        System.out.println(isJson(str));
+    }
+
+    private static boolean isJson(String content) {
+        if (org.apache.commons.lang3.StringUtils.isEmpty(content)) {
+            return true;
+        } else {
+            boolean flag = true;
+            for (char ch : content.toCharArray()) {
+                if (ch == ' ') {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                return false;
+            }
+        }
+
+        boolean isJsonObject = true;
+        boolean isJsonArray = true;
+        try {
+            JSONObject.parseObject(content);
+        } catch (Exception e) {
+            isJsonObject = false;
+        }
+        try {
+            JSONObject.parseArray(content);
+        } catch (Exception e) {
+            isJsonArray = false;
+        }
+        return isJsonObject || isJsonArray;
     }
 
     /**

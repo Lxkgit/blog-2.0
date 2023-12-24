@@ -1,9 +1,16 @@
 <template>
-  <transition enter-active-class="animate__animated animate__fadeInDown"
-    leave-active-class="animate__animated animate__fadeOutUp" mode="in-out">
+  <transition
+    enter-active-class="animate__animated animate__fadeInDown"
+    leave-active-class="animate__animated animate__fadeOutUp"
+    mode="in-out"
+  >
     <header class="navigation-show" v-if="navigationType === 'show'">
       <span v-show="props.kind === 'front'" class="left">
-        <el-image style="width: 40px; height: 40px" :src="siteConfig.logo" :fit="'fill'"></el-image>
+        <el-image
+          style="width: 40px; height: 40px"
+          :src="siteConfig.logo"
+          :fit="'fill'"
+        ></el-image>
         <span>{{ siteConfig.name }}</span>
       </span>
       <span class="middle">
@@ -13,23 +20,11 @@
             <span class="menu-title">首页</span>
           </el-menu-item>
 
-          <el-sub-menu index="2">
-            <template #title>
-              <MyIcon type="icon-article" />
-              <span class="menu-title">文章</span>
-            </template>
-            <div v-for="articleType in articleTypeList">
-              <el-menu-item v-if="articleType.children === null" :key="articleType.id" :index="'2-' + articleType.id"
-                @click="toCategory(articleType.id)">
-                {{ articleType.typeName }}
-              </el-menu-item>
-              <el-sub-menu v-else :index="'2-' + articleType.id">
-                <template #title>{{ articleType.typeName }}</template>
-                <el-menu-item :index="'2-' + articleType.id + '-' + item.id" :key="item.id" @click="toCategory(item.id)"
-                  v-for="item in articleType.children">{{ item.typeName }}</el-menu-item>
-              </el-sub-menu>
-            </div>
-          </el-sub-menu>
+          <el-menu-item index="2" @click="router.push('/category')">
+            <MyIcon type="icon-article" />
+            <span class="menu-title">文章</span>
+          </el-menu-item>
+
           <el-menu-item index="3" @click="router.push('/document')">
             <MyIcon type="icon-book" />
             <span class="menu-title">文档</span>
@@ -42,21 +37,26 @@
       </span>
       <span class="right">
         <el-tooltip class="item" effect="dark" content="设置" placement="bottom">
-          <span class="setting hvr-grow" @click="drawer = true" style="cursor: pointer;">
+          <span class="setting hvr-grow" @click="drawer = true" style="cursor: pointer">
             <MyIcon type="icon-setting" />
           </span>
         </el-tooltip>
         <el-tooltip class="item" effect="dark" content="搜索" placement="bottom">
-          <span class="search hvr-grow" :style="{ 'color': (menuIndex === '7' ? 'var(--el-color-primary)' : '') }"
-            @click="router.push('/search')" style="cursor: pointer;">
+          <span
+            class="search hvr-grow"
+            :style="{ color: menuIndex === '7' ? 'var(--el-color-primary)' : '' }"
+            @click="router.push('/search')"
+            style="cursor: pointer"
+          >
             <MyIcon type="icon-search" />
           </span>
         </el-tooltip>
         <span class="user">
           <el-dropdown v-if="isLogin" @visible-change="dropdownChange">
-            <span style="outline:0; cursor: pointer;" >
+            <span style="outline: 0; cursor: pointer">
               <el-avatar :src="photo"></el-avatar>
-              <p>{{ userName }}
+              <p>
+                {{ userName }}
                 <el-icon v-if="isDropdown">
                   <ArrowUp />
                 </el-icon>
@@ -78,27 +78,56 @@
           </div>
         </span>
       </span>
-      <el-drawer title="系统设置" v-model="drawer" :direction="'rtl'" :size="'25%'" :before-close="handleClose"
-        destroy-on-close>
+      <el-drawer
+        title="系统设置"
+        v-model="drawer"
+        :direction="'rtl'"
+        :size="'25%'"
+        :before-close="handleClose"
+        destroy-on-close
+      >
         <span>
           <el-divider></el-divider>
           <div class="display">
             <h4>显示模式</h4>
             <span>
-              <img :class="isDark === true ? '' : 'img-active'" src="~@/assets/images/light.png" alt="">
-              <img :class="isDark === false ? '' : 'img-active'" src="~@/assets/images/dark.png" alt="">
+              <img
+                :class="isDark === true ? '' : 'img-active'"
+                src="~@/assets/images/light.png"
+                alt=""
+              />
+              <img
+                :class="isDark === false ? '' : 'img-active'"
+                src="~@/assets/images/dark.png"
+                alt=""
+              />
             </span>
-            <el-switch style="display: block" v-model="isDarkSwitch" active-color="#303133" inactive-color="#f5f7fa"
-              active-text="深色模式" inactive-text="浅色模式" @change="setDarkMode" />
+            <el-switch
+              style="display: block"
+              v-model="isDarkSwitch"
+              active-color="#303133"
+              inactive-color="#f5f7fa"
+              active-text="深色模式"
+              inactive-text="浅色模式"
+              @change="setDarkMode"
+            />
           </div>
           <el-divider></el-divider>
           <div class="color">
             <h4>主题色</h4>
             <div>
-              <el-tooltip v-for="(item, index) in themeList" :key="index" effect="dark" :content="item.name"
-                placement="top">
-                <span :style="{ backgroundColor: item.value }" :class="(colorValue === item.value ? 'color-active' : '')"
-                  @click="colorChoose(item.value)"></span>
+              <el-tooltip
+                v-for="(item, index) in themeList"
+                :key="index"
+                effect="dark"
+                :content="item.name"
+                placement="top"
+              >
+                <span
+                  :style="{ backgroundColor: item.value }"
+                  :class="colorValue === item.value ? 'color-active' : ''"
+                  @click="colorChoose(item.value)"
+                ></span>
               </el-tooltip>
             </div>
           </div>
@@ -107,7 +136,12 @@
             <h4>导航菜单</h4>
             菜单显示模式：
             <el-select v-model="navValue" @change="navChange">
-              <el-option v-for="item in navigationList" :key="item.value" :label="item.label" :value="item.value">
+              <el-option
+                v-for="item in navigationList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
               </el-option>
             </el-select>
           </div>
@@ -126,82 +160,65 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, onActivated } from "vue";
-import icon from '@/utils/icon'
-import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
+import icon from "@/utils/icon";
+import { ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import user from "@/utils/user";
 import { systemStore } from "@/store/system";
-import { tagsStore } from "@/store/tag"
+import { tagsStore } from "@/store/tag";
 import dark from "@/utils/dark";
-import color from "@/utils/color"
-import theme from "@/utils/theme"
+import color from "@/utils/color";
+import theme from "@/utils/theme";
 import navigation from "@/utils/navigation";
-import { getArticleTypeTreeApi } from "@/api/content"
 
-const store = systemStore()
-const tagStore = tagsStore()
-let { isDark, setDark } = dark()
-let { setTheme } = theme()
-let { navigationList, setNavigation, navigationType } = navigation()
-const router = useRouter()
+const store = systemStore();
+const tagStore = tagsStore();
+let { isDark, setDark } = dark();
+let { setTheme } = theme();
+let { navigationList, setNavigation, navigationType } = navigation();
+const router = useRouter();
 
-let { MyIcon } = icon()
+let { MyIcon } = icon();
 // 引入用户信息模块
 let { isLogin, userName, logout } = user();
-let { themeList } = color()
+let { themeList } = color();
 const props = defineProps({
   // 导航栏类型(前台后台)
   kind: {
     type: String,
     required: false,
-    default: 'front'
-  }
-})
+    default: "front",
+  },
+});
 //导航菜单-logo和name
 const siteConfig = reactive({
-  logo: '/logo.png',
-  name: '',
-})
-
-//导航菜单-文章分类
-const articleTypeList: any = ref([])
-
-async function categoryData() {
-  getArticleTypeTreeApi().then((res: any) => {
-    if (res.code === 200) {
-      articleTypeList.value = res.result
-    }
-  })
-}
-
-//导航菜单-跳转文章列表
-const toCategory = (articleTypeId: any) => {
-  router.push({ path: `/category/${articleTypeId}` })
-}
+  logo: "/logo.png",
+  name: "",
+});
 
 const selfPage = () => {
-  tagStore.activeTag("/admin/index")
-  router.push('/admin/index')
-}
+  tagStore.activeTag("/admin/index");
+  router.push("/admin/index");
+};
 
 // 跳转至登录页
 const toLogin = () => {
-  router.push({ path: '/loginRegister', query: { component: 'Login' } })
-}
+  router.push({ path: "/loginRegister", query: { component: "Login" } });
+};
 // 跳转至注册页
 const toRegister = () => {
-  router.push({ path: '/loginRegister', query: { component: 'Register' } })
-}
+  router.push({ path: "/loginRegister", query: { component: "Register" } });
+};
 // 个人中心-是否下拉状态
-const isDropdown = ref(false)
+const isDropdown = ref(false);
 
 // 个人中心-下拉事件
 const dropdownChange = (value: any) => {
-  isDropdown.value = value
-}
+  isDropdown.value = value;
+};
 
 // 个人中心-用户头像
-const photo = ref()
+const photo = ref();
 
 // 个人中心-获取用户头像
 async function getPhotoData() {
@@ -213,53 +230,52 @@ async function getPhotoData() {
 let drawer = ref(false);
 //设置-菜单关闭事件
 const handleClose = () => {
-  drawer.value = false
+  drawer.value = false;
 };
 // 设置-显示模式默认值
 
-const isDarkSwitch = ref(false)
+const isDarkSwitch = ref(false);
 // // 设置-切换是否设置暗黑模式
 const setDarkMode = () => {
-  setDark(isDarkSwitch.value)
-}
+  setDark(isDarkSwitch.value);
+};
 // 设置-侧边菜单显示是否折叠
-const asideMenuFold = ref(false)
+const asideMenuFold = ref(false);
 // 设置-侧边菜单显示折叠切换事件
 const asideMenuFoldChange = () => {
-  store.setAsideMenuFold(asideMenuFold.value)
-}
+  store.setAsideMenuFold(asideMenuFold.value);
+};
 
 // 设置-默认主题色
-const colorValue = ref('')
+const colorValue = ref("");
 // 设置-切换主题色事件
 const colorChoose = (value: any) => {
-  colorValue.value = value
-  setTheme(colorValue.value)
-}
+  colorValue.value = value;
+  setTheme(colorValue.value);
+};
 // 设置-默认导航菜单样式
-const navValue = ref('')
+const navValue = ref("");
 
 // 设置-导航菜单样式切换事件
 const navChange = (value: any) => {
-  setNavigation(value)
-}
+  setNavigation(value);
+};
 
 onActivated(() => {
-  asideMenuFold.value = store.asideMenuFold
-})
+  asideMenuFold.value = store.asideMenuFold;
+});
 
 onMounted(() => {
-  asideMenuFold.value = store.asideMenuFold
-  categoryData()
+  asideMenuFold.value = store.asideMenuFold;
   if (isLogin.value === true) {
-    getPhotoData()
+    getPhotoData();
   }
-  colorValue.value = store.theme
-  navValue.value = store.navigation
-  isDarkSwitch.value = store.isDark
-})
+  colorValue.value = store.theme;
+  navValue.value = store.navigation;
+  isDarkSwitch.value = store.isDark;
+});
 // 当前激活的菜单id
-const menuIndex = computed(() => store.menuIndex)
+const menuIndex = computed(() => store.menuIndex);
 </script>
 
 <style scoped lang="scss">
@@ -322,7 +338,6 @@ header {
           margin-left: 6px;
         }
       }
-
     }
 
     .search,
@@ -351,7 +366,7 @@ header {
     }
 
     .img-active {
-      box-shadow: 0 2px 12px 0 #409EFF;
+      box-shadow: 0 2px 12px 0 #409eff;
     }
   }
 

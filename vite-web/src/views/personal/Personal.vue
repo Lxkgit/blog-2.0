@@ -8,7 +8,7 @@
       <el-aside width="store.sideBar === true ? '65px' : '200px'">
         <AsideMenu></AsideMenu>
       </el-aside>
-      <el-main style="min-height: calc(100vh - 96px);">
+      <el-main>
         <router-view></router-view>
       </el-main>
     </el-container>

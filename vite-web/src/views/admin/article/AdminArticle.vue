@@ -9,30 +9,49 @@
       <el-popover :visible="deleteBtnPopoverByIds" placement="top" :width="160">
         <p>删除所选文章？</p>
         <div style="text-align: right; margin: 0">
-          <el-button size="small" text @click="deleteBtnPopoverByIds = false">取消</el-button>
-          <el-button size="small" type="primary" @click="deleteArticle(0)">删除</el-button>
+          <el-button size="small" text @click="deleteBtnPopoverByIds = false"
+            >取消</el-button
+          >
+          <el-button size="small" type="primary" @click="deleteArticle(0)"
+            >删除</el-button
+          >
         </div>
         <template #reference>
-          <el-button :disabled="ids.length > 0 ? false : true" type="danger" plain
-            @click="deleteBtnPopoverByIds = true">删除</el-button>
+          <el-button
+            :disabled="ids.length > 0 ? false : true"
+            type="danger"
+            plain
+            @click="deleteBtnPopoverByIds = true"
+            >删除</el-button
+          >
         </template>
       </el-popover>
-      <el-table :data="articleList.data" stripe style="width: 100%; height: calc(100vh - 328px)"
-        @selection-change="selected">
+      <el-table
+        :data="articleList.data"
+        stripe
+        style="width: 100%; height: calc(100vh - 328px)"
+        @selection-change="selected"
+      >
         <el-table-column type="selection" width="55"> </el-table-column>
         <el-table-column prop="title" label="标题" fit> </el-table-column>
         <el-table-column label="文章分类" width="300">
           <template #default="scope">
-            <el-tag :style="'color: ' + tagColor(item.id)" style="margin-right: 2px; margin-bottom: 2px"
-              v-for="item in scope.row.articleTypes">
+            <el-tag
+              :style="'color: ' + tagColor(item.id)"
+              style="margin-right: 2px; margin-bottom: 2px"
+              v-for="item in scope.row.articleTypes"
+            >
               {{ item.typeName }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="文章标签" width="180">
           <template #default="scope">
-            <el-tag :style="'color: ' + tagColor(item.id)" style="margin-right: 2px; margin-bottom: 2px"
-              v-for="item in scope.row.articleLabels">
+            <el-tag
+              :style="'color: ' + tagColor(item.id)"
+              style="margin-right: 2px; margin-bottom: 2px"
+              v-for="item in scope.row.articleLabels"
+            >
               {{ item.labelName }}
             </el-tag>
           </template>
@@ -57,17 +76,34 @@
             <el-button @click="editArticle(scope.row)" size="small" text>
               <MyIcon type="icon-edit" />
             </el-button>
-            <el-popover :visible="deleteBtnPopoverById" placement="top" :width="160" :ref="`popover-${scope.$index}`">
+            <el-popover
+              :visible="deleteBtnPopoverById && selectRow === scope.$index"
+              placement="top"
+              :width="160"
+              :ref="`popover-${scope.$index}`"
+            >
               <p>删除所选文章？</p>
               <div style="text-align: right; margin: 0">
-                <el-button size="small" text @click="deleteBtnPopoverById = false">取消</el-button>
-                <el-button size="small" type="primary" @click="deleteArticle(scope.row.id)">删除</el-button>
+                <el-button size="small" text @click="deleteBtnPopoverById = false"
+                  >取消</el-button
+                >
+                <el-button
+                  size="small"
+                  type="primary"
+                  @click="deleteArticle(scope.row.id)"
+                  >删除</el-button
+                >
               </div>
               <template #reference>
-                <el-button style="margin: 0; padding: 8px" @click="
-                  deleteBtnPopoverById = true;
-
-                " size="small" text>
+                <el-button
+                  style="margin: 0; padding: 8px"
+                  @click="
+                    deleteBtnPopoverById = true;
+                    selectRow = scope.$index;
+                  "
+                  size="small"
+                  text
+                >
                   <MyIcon type="icon-delete" />
                 </el-button>
               </template>
@@ -76,8 +112,17 @@
         </el-table-column>
       </el-table>
       <div style="margin: 20px 0 50px 0">
-        <el-pagination background v-model:page-size="size" :page-sizes="[10, 20, 50, 100]" style="float: right"
-          layout="total, sizes, prev, pager, next, jumper" @current-change="getArticleListFun" :total="total">
+        <el-pagination
+          background
+          v-model:current-page="page"
+          v-model:page-size="size"
+          :page-sizes="[10, 20, 50, 100]"
+          style="float: right"
+          layout="total, sizes, prev, pager, next, jumper"
+          @current-change="pageChange"
+          @size-change="sizeChange"
+          :total="total"
+        >
         </el-pagination>
       </div>
     </el-card>
@@ -103,6 +148,8 @@ let {
   deleteBtnPopoverById,
   articleList,
   ids,
+  pageChange,
+  sizeChange,
   getArticleListFun,
   editArticle,
   selected,
@@ -112,13 +159,13 @@ let {
 const router = useRouter();
 const store = tagsStore();
 const cStore = contentStore();
-
+let selectRow = ref(0);
 let { MyIcon } = icon();
 let { tagColor } = color();
 let { articleStatus } = mixin();
 
 onMounted(() => {
-  getArticleListFun(page.value);
+  getArticleListFun(page.value, size.value);
 });
 
 /**
@@ -141,13 +188,21 @@ function articleFn(): any {
   // 勾选文章id 用于批量删除
   let ids = reactive([]);
 
+  const pageChange = (page: any) => {
+    getArticleListFun(page, size.value);
+  };
+
+  const sizeChange = (size: any) => {
+    getArticleListFun(1, size);
+  };
+
   /**
    * 分页获取文章数据
    */
-  async function getArticleListFun(page: any) {
+  async function getArticleListFun(page: any, size: any) {
     const params = {
       pageNum: page,
-      pageSize: size.value,
+      pageSize: size,
       type: 1,
       selectStatus: "0,1,2",
       sortType: "1",
@@ -190,14 +245,14 @@ function articleFn(): any {
         deleteArticleByIdsApi(ids.join()).then((res: any) => {
           if (res.code === 200) {
             deleteBtnPopoverByIds.value = false;
-            getArticleListFun(1);
+            getArticleListFun(1, size.value);
             ElMessage.success({ message: "文章删除成功", type: "success" });
           }
         });
       }
     } else {
       deleteArticleByIdsApi(id).then((res: any) => {
-        getArticleListFun(1);
+        getArticleListFun(1, size.value);
         deleteBtnPopoverById.value = false;
         ElMessage.success({ message: "文章删除成功", type: "success" });
       });
@@ -212,6 +267,8 @@ function articleFn(): any {
     deleteBtnPopoverById,
     articleList,
     ids,
+    pageChange,
+    sizeChange,
     getArticleListFun,
     editArticle,
     selected,

@@ -10,7 +10,7 @@
             <span>您的位置：</span>
             <span>
               <el-breadcrumb separator=">">
-                <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/category' }">文章</el-breadcrumb-item>
                 <el-breadcrumb-item v-for="item in articleData.data.articleTypes">
                   <a @click="toCategory(item.id)">
                     {{ item.typeName }}
@@ -27,14 +27,6 @@
             <div v-else>
               <h1>{{ articleData.data.title }}</h1>
               <div class="info">
-                <span class="type">
-                  <MyIcon type="icon-category" />
-                  <span v-for="item in articleData.data.articleTypes">{{ item.typeName }}</span>
-                </span>
-                <span>
-                  <MyIcon type="icon-tag" />
-                  <span v-for="(label, index) in articleData.data.articleLabels" :key="index">{{ label.labelName }}</span>
-                </span>
                 <span>
                   <MyIcon type="icon-time" />{{ timeFull(articleData.data.createTime) }}
                 </span>
@@ -54,13 +46,7 @@
               <MarkDown :text="articleData.data.contentMd"></MarkDown>
             </div>
             <div class="context">
-              <span :class="context.last ? 'detail-context-hover' : ''" @click="toDetail(context.last.id)">
-                <p>
-                  <MyIcon type="icon-last" />
-                </p>
-                <p v-if="context.last">{{ context.last.title }}</p>
-                <p v-else>已是第一篇</p>
-              </span>
+              
               <span>
                 <p>文章分类：
                   <span v-for="item in articleData.data.articleTypes" class="tag article-tag-hover"
@@ -74,13 +60,6 @@
                     {{ item.labelName }}
                   </span>
                 </p>
-              </span>
-              <span :class="context.next ? 'detail-context-hover' : ''" @click="toDetail(context.next.id)">
-                <p>
-                  <MyIcon type="icon-next" />
-                </p>
-                <p v-if="context.next">{{ context.next.title }}</p>
-                <p v-else>已是最后一篇</p>
               </span>
             </div>
           </div>
@@ -373,25 +352,13 @@ function action(articleID: any, articleData: any) {
 
           span {
             flex: 1;
-            text-align: center;
-
-            .anticon {
-              color: var(--el-color-primary);
-              margin: 0 10px;
-              font-size: 25px;
-            }
 
             p {
               margin: 15px 0;
-            }
-          }
 
-          >span:nth-child(2) {
-            border-left: 2px solid var(--el-text-color-placeholder);
-            border-right: 2px solid var(--el-text-color-placeholder);
-
-            span {
-              margin: 0 5px
+              span:not(:first-child) {
+                margin-left: 10px;
+              }
             }
           }
         }
@@ -474,7 +441,7 @@ function action(articleID: any, articleData: any) {
 
   .detail-card {
     margin-top: 15px;
-    padding: 20px 10px;
+    padding: 20px 0px;
     background-color: var(--el-bg-color-overlay);
   }
 }

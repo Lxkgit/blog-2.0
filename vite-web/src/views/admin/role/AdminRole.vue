@@ -52,7 +52,7 @@
       </el-table>
       <div style="margin: 20px 0 50px 0">
         <el-pagination background v-model:page-size="size" :page-sizes="[10, 20, 50, 100]" style="float: right"
-          layout="total, sizes, prev, pager, next, jumper" @current-change="getRoleList" :total="total">
+          layout="total, sizes, prev, pager, next, jumper" @current-change="pageChange" @size-change="sizeChange" :total="total">
         </el-pagination>
       </div>
     </el-card>
@@ -133,6 +133,8 @@ let {
   updateRolePerFun,
   handleCheckChange,
   loadMenuData,
+  pageChange,
+  sizeChange,
   getRoleList,
   getMenuApi,
   selectRolePerListFun,
@@ -145,7 +147,7 @@ let { MyIcon } = icon();
  * 页面初始化
  */
 onMounted(() => {
-  getRoleList(1);
+  pageChange(1);
 });
 
 /**
@@ -192,7 +194,7 @@ function createRoleFn(): any {
         if (valid) {
           createRoleApi(roleDate).then((res: any) => {
             if (res.code === 200) {
-              getRoleList(1);
+              pageChange(1);
               ElMessage.success({ message: "角色创建成功", type: "success" });
               roleCreateDialog.value = false;
               roleDate.roleCode = "";
@@ -263,7 +265,7 @@ function roleFn(): any {
         deleteRoleApi(ids.join()).then((res: any) => {
           if (res.code === 200) {
             deleteBtnPopoverByIds.value = false;
-            getRoleList(1);
+            pageChange(1);
             ElMessage.success({ message: "角色删除成功", type: "success" });
           }
         });
@@ -271,7 +273,7 @@ function roleFn(): any {
     } else {
       deleteRoleApi(id).then((res: any) => {
         deleteBtnPopoverById.value = false;
-        getRoleList(1);
+        pageChange(1);
         ElMessage.success({ message: "角色删除成功", type: "success" });
       });
     }
@@ -322,11 +324,19 @@ function roleFn(): any {
     selectRolePerListFun(id, menuType);
   };
 
+  const pageChange = (page: any) => {
+    getRoleList(page, size.value)
+  }
+
+  const sizeChange = (size: any) => {
+    getRoleList(1, size)
+  }
+
   /**
    * 分页查询角色
    */
-  const getRoleList = (page: any) => {
-    roleListApi(page, size.value).then((res: any) => {
+  const getRoleList = (page: any, size: any) => {
+    roleListApi(page, size).then((res: any) => {
       if (res.code === 200) {
         roleList.data = res.result.list;
         total.value = res.result.total;
@@ -376,6 +386,8 @@ function roleFn(): any {
     updateRolePerFun,
     handleCheckChange,
     loadMenuData,
+    pageChange,
+    sizeChange,
     getRoleList,
     getMenuApi,
     selectRolePerListFun,

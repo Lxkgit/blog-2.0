@@ -44,14 +44,6 @@
         <el-table-column prop="createTime" label="创建日期" width="162" />
         <el-table-column fixed="right" label="操作" width="100">
           <template #default="scope">
-            <!-- <el-button
-              @click.prevent=""
-              size="small"
-              text
-              title="重置密码"
-            >
-              <MyIcon type="icon-edit" />
-            </el-button> -->
             <el-button
               style="margin-left: 0"
               @click.prevent="loadUserData(scope.row)"
@@ -67,11 +59,13 @@
       <div style="margin: 20px 0 50px 0">
         <el-pagination
           background
+          v-model:current-page="page"
           v-model:page-size="size"
           :page-sizes="[10, 20, 50, 100]"
           style="float: right"
           layout="total, sizes, prev, pager, next, jumper"
-          @current-change="getUserList"
+          @current-change="pageChange"
+          @size-change="sizeChange"
           :total="total"
         >
         </el-pagination>
@@ -189,6 +183,8 @@ let {
   roleList,
   updateUserDialog,
   userDate,
+  pageChange,
+  sizeChange,
   getUserList,
   getRoleList,
   loadUserData,
@@ -200,7 +196,7 @@ let { MyIcon } = icon();
 let { userStatus } = mixin();
 
 onMounted(() => {
-  getUserList(1);
+  pageChange(1);
 });
 
 /**
@@ -220,6 +216,20 @@ function userFn(): any {
   let updateUserDialog = ref(false);
   // 修改用户数据
   const userDate: any = reactive({ data: {} });
+
+  /**
+   * 页数修改查询数据
+   */
+  const pageChange = (page: any) => {
+    getUserList(page, size.value);
+  };
+
+  /**
+   * 页大小修改查询数据
+   */
+  const sizeChange = (size: any) => {
+    getUserList(1, size);
+  };
 
   /**
    * 分页获取用户列表
@@ -252,7 +262,7 @@ function userFn(): any {
    * 修改用户信息
    */
   const loadUserData = (data: any) => {
-    // 转为json 再转回来防止表单修改影响页面展示 
+    // 转为json 再转回来防止表单修改影响页面展示
     userDate.data = JSON.parse(JSON.stringify(data));
     updateUserDialog.value = true;
     getRoleList();
@@ -283,7 +293,7 @@ function userFn(): any {
           message: "用户数据修改成功",
           type: "success",
         });
-        getUserList(1);
+        pageChange(1);
       }
     });
   };
@@ -296,6 +306,8 @@ function userFn(): any {
     roleList,
     updateUserDialog,
     userDate,
+    pageChange,
+    sizeChange,
     getUserList,
     getRoleList,
     loadUserData,
