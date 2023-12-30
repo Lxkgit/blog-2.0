@@ -38,7 +38,7 @@ export const updateBlogSettingApi = (params: any) => {
 
 // --------------文件服务接口-------------
 
-export const saveFileDirApi = (id: any, params: any) => {
+export const saveFileDirApi = (params: any) => {
     const uri = "/file/dir/save"
     return api.post(uri, params)
 }

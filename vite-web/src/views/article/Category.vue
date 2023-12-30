@@ -62,7 +62,7 @@ let page = ref<number>(1);
 let size = ref<number>(5);
 let total = ref<number>(0);
 
-let articleTypeId = ref<number>(null);
+let articleTypeId = ref<number>(0);
 
 // 文章分类名
 let articleType: any = reactive({ date: [] });

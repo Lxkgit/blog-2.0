@@ -1,5 +1,6 @@
 package com.blog.user.init;
 
+import com.alibaba.fastjson.JSON;
 import com.blog.common.entity.file.BlogData;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
 import com.blog.common.message.mq.RocketMQMessage;
@@ -33,10 +34,10 @@ public class UserInitSchedule implements ApplicationRunner {
         log.info("开始初始化博客用户数据 ... ");
         BlogData blogData = new BlogData();
         blogData.setUserCount(Math.toIntExact(sysUserDAO.selectCount(null)));
-        RocketMQMessage<BlogData> rocketMQMessage = new RocketMQMessage<>();
-        rocketMQMessage.setTopic(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic());
-        rocketMQMessage.setTag(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag());
-        rocketMQMessage.setMessage(blogData);
+        RocketMQMessage rocketMQMessage = new RocketMQMessage();
+        rocketMQMessage.setTopic(RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTopic());
+        rocketMQMessage.setTag(RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTag());
+        rocketMQMessage.setMessage(JSON.toJSONString(blogData));
         rocketMQMessage.setMqMsgType(0);
         mqProducerService.sendSyncOrderly(rocketMQMessage);
     }

@@ -72,36 +72,36 @@
         </div>
         <div>
           <MyIcon type="icon-fangwenliang" />
-          总访问量: {{ blogData.data.visits }}次
+          总访问: {{ blogData.data.visits }}次
         </div>
         <div>
           <MyIcon type="icon-fangwenrenshu" />
-          用户人数: {{ blogData.data.userCount }}人
+          用户: {{ blogData.data.userCount }}人
         </div>
         <div>
           <MyIcon type="icon-ip" />
-          访问IP数: {{ blogData.data.ipCount }}个
+          访问IP: {{ blogData.data.ipCount }}个
         </div>
         <div>
           <MyIcon type="icon-article" />
-          文章篇数: {{ blogData.data.articleCount }}篇
+          文章: {{ blogData.data.articleCount }}篇
         </div>
-        <div>
+        <!-- <div>
           <MyIcon type="icon-wenzhangfenlei" />
           文章分类数: {{ blogData.data.articleTypeCount }}个
-        </div>
+        </div> -->
         <div>
           <MyIcon type="icon-tag" />
-          文章标签数: {{ blogData.data.articleLabelCount }}个
+          标签: {{ blogData.data.articleLabelCount }}个
         </div>
         <div>
           <MyIcon type="icon-book" />
-          笔记篇数: {{ blogData.data.docCount }}篇
+          笔记: {{ blogData.data.docCount }}篇
         </div>
-        <div>
+        <!-- <div>
           <MyIcon type="icon-wenzhangfenlei1" />
           笔记分类数: {{ blogData.data.docTypeCount }}个
-        </div>
+        </div> -->
       </div>
     </el-card>
   </section>

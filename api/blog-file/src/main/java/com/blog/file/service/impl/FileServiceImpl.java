@@ -78,6 +78,21 @@ public class FileServiceImpl implements FileService {
         file.delete();
     }
 
+    private void deleteDir(File dir) {
+        File[] files = dir.listFiles();
+        // 删除dir 里面的内容
+        // 用到递归  此处注意不要经常用  因为java删除的内容是 在回收站找不到
+        for (File file : files) {
+            if (file.isFile()) {
+                file.delete();
+            } else {
+                deleteDir(file);
+            }
+        }
+        // 删除 dir
+        dir.delete();
+    }
+
     @Override
     public void updateFileOrDirName(BlogUser blogUser, FileDataVo fileDataVo) throws ValidException {
         if (fileDataVo.getName() == null || fileDataVo.getName().equals("")) {
@@ -198,6 +213,7 @@ public class FileServiceImpl implements FileService {
             QueryWrapper<FileData> wrapper = new QueryWrapper<>();
             wrapper.likeRight("path", path);
             fileDataDAO.delete(wrapper);
+            fileDataVoList.clear();
         }
         Collections.sort(fileDataVoList);
         return fileDataVoList;

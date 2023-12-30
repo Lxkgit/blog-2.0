@@ -61,7 +61,7 @@ public class DiaryController {
     public Result deleteDiaryByDate(@RequestHeader HttpHeaders headers, @RequestParam(required = false, value = "ids") String ids){
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
-        return ResultFactory.buildSuccessResult(diaryService.deleteDiaryByDate(ids, blogUser.getId()));
+        return ResultFactory.buildSuccessResult(diaryService.deleteDiary(ids, blogUser.getId()));
     }
 
     /**

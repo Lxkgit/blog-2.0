@@ -418,7 +418,7 @@ function action() {
 
   .detail-card {
     margin-top: 15px;
-    padding: 20px 10px;
+    padding: 20px 0px;
     min-height: 700px;
     background-color: var(--el-bg-color-overlay);
   }

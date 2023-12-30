@@ -32,10 +32,13 @@
               class="file_item">
               <div v-if="item.type === 0" style="height: 125px; cursor: pointer;" @dblclick="openFileDirFun(item)">
                 目录
+                <div class="show_icon">
+                  <MyIcon title="删除" class="icon_type" type="icon-delete" @click="deleteFileDirOrFileFun(item)" />
+                </div>
               </div>
               <div v-else-if="item.type === 1"
                 style="height: 125px; display: flex; justify-content: space-between; align-items: center;">
-                <img :src="item.imgPath" class="image" style="width: 100%; height: 100%; object-fit: cover;" @click="" />
+                <img :src="item.imgPath" class="image" style="width: 100%; height: 100%; object-fit: cover;" @click="" loading="lazy"/>
                 <div class="show_icon">
                   <MyIcon title="预览" class="icon_type" type="icon-search" @click="showImg(item)" />
                   <MyIcon title="查看文件信息" class="icon_type" type="icon-file" @click="showFileDesc(item)" />
@@ -61,17 +64,25 @@
         </div>
       </div>
     </el-card>
-    <el-image-viewer v-if="dialogImageUrl.show" :initial-index="dialogImageUrl.index" :url-list="dialogImageUrl.url"
+    <el-image-viewer v-if="dialogImageUrl.show" :initial-index="dialogImageUrl.index" :url-list="dialogImageUrl.url" :hide-on-click-modal="true"
       @close="dialogImageUrl.show = false">
     </el-image-viewer>
     <ul v-if="menu.visible" :style="{ left: menu.left + 'px', top: menu.top + 'px' }" class="contextmenu">
       <li @click="refreshDir">
         刷新
       </li>
+      <!-- <li v-if="menu.type === -1">
+        <el-upload :auto-upload="false" multiple :show-file-list="false" :on-change="changeUpload">
+          上传文件
+        </el-upload>
+      </li> -->
+      <li v-if="menu.type === -1" @click="menu.dirDialog = true; menu.visible = false">
+        创建目录
+      </li>
       <li v-if="menu.type !== -1" @click="showFileDesc(null)">
         查看文件信息
       </li>
-      <li v-if="menu.type !== -1" @click="">
+      <li v-if="menu.type !== -1 && menu.type !== 0" @click="">
         删除文件
       </li>
       <li @click="menu.visible = false">
@@ -91,11 +102,22 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <el-dialog v-model="menu.dirDialog" width="40%">
+      <el-form :model="menu.dirFile" label-width="100px">
+        <el-form-item label="目录名称: ">
+          <el-input v-model="menu.dirFile.name" size="small" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="saveFileDirFun">创建</el-button>
+          <el-button @click="menu.dirDialog = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { selectFileDirOrFileApi, deleteFileDirOrFileApi, uploadApi } from "@/api/file";
+import { selectFileDirOrFileApi, deleteFileDirOrFileApi, uploadApi, saveFileDirApi } from "@/api/file";
 import icon from '@/utils/icon'
 import { onMounted, ref, reactive } from "vue";
 import mixin from "@/mixins/fileType";
@@ -115,12 +137,30 @@ let menu: any = reactive({
   top: 0,
   type: -1,
   fileDialog: false,
+  dirDialog: false,
+  dirFile: {
+    name: ""
+  },
   file: null,
 })
 
 onMounted(() => {
   selectFileDirOrFileFun()
 })
+
+const saveFileDirFun = () => {
+  saveFileDirApi({
+    name: menu.dirFile.name,
+    filePath: filePath.value
+  }).then((res: any) => {
+    if(res.code === 200) {
+      menu.dirFile.name = ""
+      ElMessage.success({ message: '文件上传成功', type: 'success' });
+      selectFileDirOrFileFun()
+    }
+  })
+  menu.dirDialog = false
+}
 
 const changeUpload = (file: any, fileLists: any) => {
   if (file.size / 1024 / 1024 > 100) {

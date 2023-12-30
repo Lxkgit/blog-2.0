@@ -15,48 +15,4 @@
         id, user_id, file_name, file_url, upload_time, file_type, file_path
     </sql>
 
-    <insert id="saveFileUrl" parameterType="com.blog.common.entity.file.UploadFile">
-        insert into upload_file
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="userId !=null">
-                user_id,
-            </if>
-            <if test="fileName !=null and fileName !=''">
-                file_name,
-            </if>
-            <if test="fileUrl !=null and fileUrl !=''">
-                file_url,
-            </if>
-            <if test="uploadTime !=null">
-                upload_time,
-            </if>
-            <if test="fileType !=null and fileType !=''">
-                file_type,
-            </if>
-            <if test="filePath !=null and filePath !=''">
-                file_path,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="userId !=null" >
-                #{userId},
-            </if>
-            <if test="fileName !=null and fileName!=''" >
-                #{fileName},
-            </if>
-            <if test="fileUrl !=null and fileUrl !=''" >
-                #{fileUrl},
-            </if>
-            <if test="uploadTime !=null" >
-                #{uploadTime},
-            </if>
-            <if test="fileType !=null and fileType !=''">
-                #{fileType},
-            </if>
-            <if test="filePath !=null and filePath !=''">
-                #{filePath},
-            </if>
-        </trim>
-    </insert>
-
 </mapper>

@@ -32,7 +32,7 @@
               <MyIcon type="icon-edit" />
             </el-button>
 
-            <el-popover :visible="deleteBtnPopoverById" placement="top" :width="160" :ref="`popover-${scope.$index}`">
+            <el-popover :visible="deleteBtnPopoverById  && selectRow === scope.$index" placement="top" :width="160" :ref="`popover-${scope.$index}`">
               <p>删除所选角色？</p>
               <div style="text-align: right; margin: 0">
                 <el-button size="small" text @click="deleteBtnPopoverById = false">取消</el-button>
@@ -41,7 +41,7 @@
               <template #reference>
                 <el-button style="margin-left: 0" @click="
                   deleteBtnPopoverById = true;
-
+                  selectRow = scope.$index;
                 " size="small" text title="删除角色">
                   <MyIcon type="icon-delete" />
                 </el-button>
@@ -142,7 +142,7 @@ let {
 
 // 界面icon
 let { MyIcon } = icon();
-
+let selectRow = ref(0);
 /**
  * 页面初始化
  */

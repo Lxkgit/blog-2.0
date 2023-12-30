@@ -1,19 +1,20 @@
 package com.blog.content.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.blog.common.constant.Constant;
 import com.blog.common.entity.content.doc.DocCatalog;
 import com.blog.common.entity.content.doc.DocContent;
 import com.blog.common.entity.content.doc.enums.DocType;
 import com.blog.common.entity.content.doc.vo.DocCatalogVo;
-import com.blog.common.entity.file.vo.BlogDataVo;
-import com.blog.common.entity.file.vo.ContentCountVo;
+import com.blog.common.entity.file.ContentCount;
 import com.blog.common.entity.user.BlogUser;
-import com.blog.common.enums.mq.RocketMQTopicEnum;
-import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.content.dao.DocCatalogDAO;
 import com.blog.content.dao.DocContentDAO;
 import com.blog.content.feign.UserClient;
 import com.blog.content.mq.MQProducerService;
+import com.blog.content.mq.send.SendSystemData;
+import com.blog.content.mq.send.SendUserData;
 import com.blog.content.service.DocService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -41,8 +42,18 @@ public class DocServiceImpl implements DocService {
     private UserClient userClient;
 
     @Resource
-    private MQProducerService mqProducerService;
+    private SendUserData sendUserData;
 
+    @Resource
+    private SendSystemData sendSystemData;
+
+    /**
+     * 创建文档目录组织 组织类型为目录则只创建目录、组织类型为文档则创建对应文档、文档状态为草稿
+     *
+     * @param blogUser
+     * @param docCatalog
+     * @return
+     */
     @Override
     public Integer insertDocCatalog(BlogUser blogUser, DocCatalog docCatalog) {
         docCatalog.setUserId(blogUser.getId());
@@ -54,74 +65,65 @@ public class DocServiceImpl implements DocService {
             docContent.setCatalogId(docCatalog.getId());
             docContent.setCreateTime(new Date());
             docContent.setUserId(blogUser.getId());
+            docContent.setDocStatus(Constant.DRAFT);
             docContent.setDocContentMd("");
             docContentDAO.insert(docContent);
 
             // 发送博客用户新增文档mq消息
-            ContentCountVo contentCountVo = new ContentCountVo();
-            contentCountVo.setUserId(blogUser.getId());
-            contentCountVo.setDocCount(1);
-            RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
-                    RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
-            mqProducerService.sendSyncOrderly(rocketMQMessage);
-
+            sendUserData.sendUserData(SendUserData.doc, blogUser.getId(), 1);
             // 发送博客系统新增文档mq消息
-            BlogDataVo blogDataVo = new BlogDataVo();
-            blogDataVo.setDocCount(1);
-            RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                    RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
-            mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
-        } else {
-            // 发送博客系统新增文档分类mq消息
-            BlogDataVo blogDataVo = new BlogDataVo();
-            blogDataVo.setDocTypeCount(1);
-            RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                    RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
-            mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
+            sendSystemData.sendSystemData(SendSystemData.doc, 1);
         }
         return docCatalog.getId();
     }
 
+    /**
+     * 删除文档（修改状态）
+     *
+     * @param blogUser
+     * @param id
+     * @return
+     */
     @Override
     public Integer deleteDocCatalog(BlogUser blogUser, Integer id) {
         QueryWrapper<DocCatalog> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("parent_id", id);
+        queryWrapper.ne("doc_status", Constant.DELETE);
         List<DocCatalog> catalogList = docCatalogDAO.selectList(queryWrapper);
         if (catalogList != null && catalogList.size() > 0) {
             return 0;
         }
         DocCatalog docCatalog = docCatalogDAO.selectById(id);
-        if (docCatalog.getDocType().equals(DocType.CATALOG.getId())) {
-            docCatalogDAO.deleteById(id);
-            // 发送博客系统删除文档分类mq消息
-            BlogDataVo blogDataVo = new BlogDataVo();
-            blogDataVo.setDocTypeCount(-1);
-            RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                    RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
-            mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
-        } else {
-            docCatalogDAO.deleteById(id);
-            QueryWrapper<DocContent> catalogQueryWrapper = new QueryWrapper<>();
-            catalogQueryWrapper.eq("catalog_id", id);
-            docContentDAO.delete(catalogQueryWrapper);
-            // 发送博客用户删除文档mq消息
-            ContentCountVo contentCountVo = new ContentCountVo();
-            contentCountVo.setUserId(blogUser.getId());
-            contentCountVo.setDocCount(-1);
-            RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
-                    RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
-            mqProducerService.sendSyncOrderly(rocketMQMessage);
 
+        // 修改文档目录状态为删除
+        DocCatalog catalog = new DocCatalog();
+        catalog.setId(id);
+        catalog.setDocStatus(Constant.DELETE);
+        docCatalogDAO.updateById(catalog);
+
+        if (docCatalog.getDocType().equals(DocType.CONTENT.getId())) {
+            // 修改文档状态为删除
+            UpdateWrapper<DocContent> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("catalog_id", id);
+            DocContent docContent = new DocContent();
+            docContent.setDocStatus(Constant.DELETE);
+            docContentDAO.update(docContent, updateWrapper);
+
+            // 发送博客用户删除文档mq消息
+            sendUserData.sendUserData(SendUserData.doc, blogUser.getId(), -1);
             // 发送博客系统删除文档mq消息
-            BlogDataVo blogDataVo = new BlogDataVo();
-            blogDataVo.setDocCount(-1);
-            RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                    RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
-            mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
+            sendSystemData.sendSystemData(SendSystemData.doc, -1);
         }
         return id;
     }
 
+    /**
+     * 修改文档目录
+     *
+     * @param blogUser
+     * @param docCatalog
+     * @return
+     */
     @Override
     public Integer updateDocCatalog(BlogUser blogUser, DocCatalog docCatalog) {
         DocCatalog catalog = docCatalogDAO.selectById(docCatalog.getId());
@@ -159,7 +161,7 @@ public class DocServiceImpl implements DocService {
         }
         if (docCatalogVo.getType() == 0) {
             docCatalogVo.setUserId(docCatalogVo.getUserId());
-        } else if(docCatalogVo.getType() == 1) {
+        } else if (docCatalogVo.getType() == 1) {
             if (blogUser != null) {
                 docCatalogVo.setUserId(blogUser.getId());
             }
@@ -188,6 +190,12 @@ public class DocServiceImpl implements DocService {
         return docCatalogVoList;
     }
 
+    /**
+     * 查询指定文档
+     *
+     * @param catalogId
+     * @return
+     */
     @Override
     public DocContent selectDocContentById(Integer catalogId) {
         QueryWrapper<DocContent> queryWrapper = new QueryWrapper<>();
@@ -199,11 +207,22 @@ public class DocServiceImpl implements DocService {
         return null;
     }
 
+    /**
+     * 查询指定文档目录
+     *
+     * @param catalogId
+     * @return
+     */
     @Override
     public DocCatalog selectDocCatalogById(Integer catalogId) {
         return docCatalogDAO.selectById(catalogId);
     }
 
+    /**
+     * 展示文档最多的九位用户
+     *
+     * @return
+     */
     @Override
     public List<BlogUser> selectDocUserList() {
         List<Integer> userIdList = docCatalogDAO.selectDocUserList();
@@ -213,7 +232,7 @@ public class DocServiceImpl implements DocService {
         blogUser.setUsername("全部用户");
         blogUserList.add(blogUser);
         Map<Integer, BlogUser> userMap = new HashMap<>();
-        for(Integer userId : userIdList) {
+        for (Integer userId : userIdList) {
             if (!userMap.containsKey(userId)) {
                 userMap.put(userId, userClient.selectUserById(userId));
             }

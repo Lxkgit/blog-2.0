@@ -23,22 +23,16 @@
     </sql>
 
     <select id="selectArticleCount" resultType="java.lang.Integer">
-        select count(*)
+        select count(1)
         from article
-        <where>
-            <if test="userId != 0 ">
-                AND user_id = #{userId}
-            </if>
-            <if test="title != null and title != ''">
-                AND title like CONCAT(CONCAT('%',#{title}),'%')
-            </if>
-            <if test="articleLabel != null and articleLabel != ''">
-                AND
-                <foreach item="label" collection="articleLabelList" open="(" separator="or" close=")">
-                    article_label like CONCAT(CONCAT('%',#{label}),'%')
-                </foreach>
-            </if>
-        </where>
+        where article_status != 3
+    </select>
+
+    <select id="selectArticleCountGroupByUserId" resultType="map">
+        select user_id as userId, count(1) as count
+        from article
+        where article_status != 3
+        group by user_id
     </select>
 
     <select id="selectArticleListByPage" resultMap="BaseResultMap">
@@ -151,22 +145,22 @@
     <update id="updateArticle" parameterType="com.blog.common.entity.content.article.bo.ArticleBo">
         update article
         <set>
-            <if test="title !=null and title!=''">
+            <if test="title !=null">
                 title = #{title},
             </if>
-            <if test="contentMd !=null and contentMd !=''">
+            <if test="contentMd !=null">
                 content_md = #{contentMd},
             </if>
-            <if test="contentImg !=null and contentImg !=''">
+            <if test="contentImg !=null">
                 content_img = #{contentImg},
             </if>
-            <if test="contentMemo !=null and contentMemo !=''">
+            <if test="contentMemo !=null">
                 content_memo = #{contentMemo},
             </if>
-            <if test="articleType !=null and articleType !=''">
+            <if test="articleType !=null">
                 article_type = #{articleType},
             </if>
-            <if test="articleLabel !=null and articleLabel !=''">
+            <if test="articleLabel !=null">
                 article_label = #{articleLabel},
             </if>
             <if test="articleStatus !=null">

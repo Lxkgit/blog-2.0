@@ -11,4 +11,9 @@ import com.blog.common.entity.file.FileData;
 
 public interface FileDataDAO extends BaseMapper<FileData> {
 
+    /**
+     * 查询系统中全部文章（删除状态的除外）
+     * @return
+     */
+    Integer selectImgCount();
 }

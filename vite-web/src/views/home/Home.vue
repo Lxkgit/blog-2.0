@@ -115,7 +115,7 @@ const loading = ref(false);
 /**
  * 加载下一页
  */
-const load = (type: any) => {
+const load = () => {
   getArticleListApi(article_params).then((res: any) => {
     if (res.code === 200) {
       article.list.push(...res.result.list);

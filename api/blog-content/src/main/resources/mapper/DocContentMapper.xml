@@ -8,49 +8,25 @@
         <id column="doc_content_md" property="docContentMd" jdbcType="VARCHAR"/>
         <id column="browse_count" property="browseCount" jdbcType="INTEGER"/>
         <id column="like_count" property="likeCount" jdbcType="INTEGER"/>
+        <id column="doc_status" property="docStatus" jdbcType="INTEGER"/>
         <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id, catalog_id, doc_content_md, browse_count, like_count, create_time, update_time
+        id, user_id, catalog_id, doc_content_md, browse_count, like_count, doc_status, create_time, update_time
     </sql>
 
-    <select id="selectDocContentByCatalogId" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
+    <select id="selectDocContentCount" resultType="java.lang.Integer">
+        select count(1)
         from doc_content
-        where catalog_id = #{id}
+        where doc_status != 3
     </select>
 
-    <update id="updateDocContent" parameterType="com.blog.common.entity.content.doc.DocContent">
-        update doc_content
-        <set>
-            <if test="docContentMd !=null and docContentMd !=''">
-                doc_content_md = #{docContentMd},
-            </if>
-            <if test="updateTime !=null">
-                update_time = #{updateTime},
-            </if>
-        </set>
-        <where>
-            catalog_id = #{catalogId} and user_id = #{userId}
-        </where>
-    </update>
-
-    <delete id="deleteDocContentByIds">
-        delete from doc_content
-        where id in
-        <foreach item="id" collection="ids" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-        and user_id = #{userId};
-    </delete>
-
-    <delete id="deleteDocContentByCatalogId">
-        delete from doc_content
-        where catalog_id = #{catalogId}
-        and user_id = #{userId};
-    </delete>
-
+    <select id="selectDocCountGroupByUserId" resultType="map">
+        select user_id as userId, count(1) as count
+        from doc_content
+        where doc_status != 3
+        group by user_id
+    </select>
 </mapper>

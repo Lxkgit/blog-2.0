@@ -5,7 +5,7 @@
         </div>
         <el-card style="margin: 18px 2%;width: 95%">
             <el-button type="primary" plain @click="saveArticleTypeDialogFun">新增</el-button>
-            <el-button type="danger" plain @click="deleteArticleTypeByIdsFun()">删除</el-button>
+            <el-button :disabled="ids.length > 0 ? false : true" type="danger" plain @click="deleteArticleTypeByIdsFun()">删除</el-button>
             <el-table :data="articleTypeList.data" stripe style="width: 100%; height: calc(100vh - 278px);" row-key="id"
                 @selection-change="selected">
                 <el-table-column type="selection" width="55">
@@ -171,10 +171,12 @@ const saveArticleTypeFun = () => {
 /**
  * 获取多选删除ids
  */
-let ids = new Array();
+// 勾选文章id 用于批量删除
+let ids = reactive([]);
 const selected = (val: any) => {
     ids.splice(0, ids.length)
     for (let i = 0; i < val.length; i++) {
+        //@ts-ignore 单行忽略
         ids.unshift(val[i].id)
     }
 }

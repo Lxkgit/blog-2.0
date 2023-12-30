@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 25/08/2023 16:31:49
+ Date: 28/12/2023 19:32:26
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `blog_data`  (
 -- ----------------------------
 -- Records of blog_data
 -- ----------------------------
-INSERT INTO `blog_data` VALUES (1, '2023-07-01 11:54:51', 16481, 3, 4, 9, 2, 16, 1, 4, 3, 63);
+INSERT INTO `blog_data` VALUES (1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for blog_setting
@@ -54,19 +54,20 @@ CREATE TABLE `blog_setting`  (
   `title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设置名称',
   `setting` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'JSON格式设置信息',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客设置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客设置表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_setting
 -- ----------------------------
 INSERT INTO `blog_setting` VALUES (1, '0-0', 1, 0, '信息展示', NULL);
-INSERT INTO `blog_setting` VALUES (2, '0-0', 1, 1, '公告', '{\"id\":2,\"userId\":1,\"value\":\"最近没有公告\"}');
-INSERT INTO `blog_setting` VALUES (3, '0-0', 1, 6, '轮播图', '{\"id\":3,\"num\":3,\"userId\":1,\"valueList\":[\"http://localhost/files/1/doc/img/2023-08-17_14-56-10_Gpfgwi_Snipaste_2023-08-17_14-56-02.jpg\",\"http://localhost/files/1/doc/img/2023-08-17_14-57-05_BMuMCk_Snipaste_2023-08-17_14-56-58.jpg\",\"http://localhost/files/1/doc/img/2023-08-18_16-21-05_RwqLIb_Snipaste_2023-08-17_14-56-02.jpg\"]}');
+INSERT INTO `blog_setting` VALUES (2, '0-0', 1, 1, '公告', '{\"id\":2,\"userId\":1,\"value\":\"最近没有公告99999999111\"}');
+INSERT INTO `blog_setting` VALUES (3, '0-0', 1, 6, '轮播图', '{\"id\":3,\"num\":2,\"userId\":1,\"valueList\":[\"http://127.0.0.1/files/1/doc/img/2023-08-28_16-26-28_dCOQlW_Snipaste_2023-08-28_16-25-29.jpg\",\"http://127.0.0.1/files/1/doc/img/2023-08-28_16-26-35_ourYOY_Snipaste_2023-08-26_14-54-11.jpg\"]}');
 INSERT INTO `blog_setting` VALUES (5, '0-1', 1, 0, '背景壁纸', NULL);
-INSERT INTO `blog_setting` VALUES (6, '0-1', 1, 5, '轮播图', '{\"id\":6,\"userId\":1,\"valueList\":[\"http://localhost/files/1/doc/img/2023-08-17_14-55-53_KooHLF_2023-08-15_09-10-36_PngxNK_image.png\"]}');
+INSERT INTO `blog_setting` VALUES (6, '0-1', 1, 5, '轮播图', '{\"id\":6,\"userId\":1,\"valueList\":[\"http://127.0.0.1/files/1/doc/img/2023-08-28_16-27-21_ZXypgB_Snipaste_2023-08-26_14-54-11.jpg\"]}');
 INSERT INTO `blog_setting` VALUES (7, '0-0', 1, 0, 'socket设置', NULL);
-INSERT INTO `blog_setting` VALUES (8, '0-0', 1, 3, '全局socket', '{\"bool\":true,\"id\":8,\"userId\":1}');
-INSERT INTO `blog_setting` VALUES (9, '0-0', 1, 3, '用户socket', '{\"bool\":true,\"id\":9,\"userId\":1}');
+INSERT INTO `blog_setting` VALUES (8, '0-0', 1, 1, '服务器ip(用于socket连接)', '{\"id\":8,\"userId\":1,\"value\":\"127.0.0.1\"}');
+INSERT INTO `blog_setting` VALUES (9, '0-0', 1, 3, '全局socket', '{\"bool\":false,\"id\":9,\"userId\":1}');
+INSERT INTO `blog_setting` VALUES (10, '0-0', 1, 3, '用户socket', '{\"bool\":false,\"id\":10,\"userId\":1}');
 
 -- ----------------------------
 -- Table structure for content_count
@@ -79,12 +80,7 @@ CREATE TABLE `content_count`  (
   `article_count` int(11) NULL DEFAULT 0 COMMENT '文章数量',
   `diary_count` int(11) NULL DEFAULT 0 COMMENT '日记数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 594 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客用户内容数量统计' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of content_count
--- ----------------------------
-INSERT INTO `content_count` VALUES (593, 1, 1, 9, 3);
+) ENGINE = InnoDB AUTO_INCREMENT = 112 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客用户内容数量统计' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for file_data
@@ -98,7 +94,17 @@ CREATE TABLE `file_data`  (
   `type` tinyint(4) NULL DEFAULT NULL COMMENT '文件类型 0：目录 1：图片 2：其它文件',
   `file_size` bigint(20) NULL DEFAULT NULL COMMENT '文件大小（kb）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 152 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 336 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of file_data
+-- ----------------------------
+INSERT INTO `file_data` VALUES (284, 1, 'article', 'D:/files/1', 0, 0);
+INSERT INTO `file_data` VALUES (285, 1, 'diary', 'D:/files/1', 0, 0);
+INSERT INTO `file_data` VALUES (286, 1, 'doc', 'D:/files/1', 0, 1732806);
+INSERT INTO `file_data` VALUES (287, 1, 'other', 'D:/files/1', 0, 0);
+INSERT INTO `file_data` VALUES (288, 1, 'user', 'D:/files/1', 0, 0);
+INSERT INTO `file_data` VALUES (289, 1, 'img', 'D:/files/1/article', 0, 0);
 
 -- ----------------------------
 -- Table structure for upload_file
@@ -113,7 +119,7 @@ CREATE TABLE `upload_file`  (
   `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件类型',
   `file_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件路径',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 220 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for upload_log
@@ -128,6 +134,6 @@ CREATE TABLE `upload_log`  (
   `upload_msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `upload_time` datetime(0) NULL DEFAULT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1289 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1352 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

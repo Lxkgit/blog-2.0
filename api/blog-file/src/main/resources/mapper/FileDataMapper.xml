@@ -15,4 +15,9 @@
         id, user_id, name, path, type, fileSize
     </sql>
 
+    <select id="selectImgCount" resultType="java.lang.Integer">
+        select count(1)
+        from file_data
+        where type = 1
+    </select>
 </mapper>

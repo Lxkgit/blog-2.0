@@ -1,6 +1,6 @@
 package com.blog.content.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.alibaba.fastjson.JSON;
 import com.blog.common.entity.content.article.ArticleType;
 import com.blog.common.entity.content.article.vo.ArticleTypeVo;
 import com.blog.common.entity.file.vo.BlogDataVo;
@@ -103,8 +103,8 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
         // 发送博客系统新增文章分类mq消息
         BlogDataVo blogDataVo = new BlogDataVo();
         blogDataVo.setArticleTypeCount(1);
-        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+        RocketMQMessage blogDataVoRocketMQMessage = new RocketMQMessage(RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTopic(),
+                RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTag(), 1, JSON.toJSONString(blogDataVo));
         mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
         return id;
     }
@@ -112,18 +112,7 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
     @Override
     public int updateArticleType(ArticleType articleType) {
         articleType.setUpdateTime(new Date());
-        int result = articleTypeDAO.updateArticleType(articleType);
-//        if (result == 1) {
-//            List<ArticleType> articleTypeList = articleTypeDAO.selectList(null);
-//            for (ArticleType type : articleTypeList) {
-//                articleTypeList.forEach(articleType1 -> {
-//                    if (articleType1.getParentId() == type.getId()) {
-//
-//                    }
-//                });
-//            }
-//        }
-        return result;
+        return articleTypeDAO.updateArticleType(articleType);
     }
 
     @Override
@@ -139,8 +128,8 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
         // 发送博客系统新增文章分类mq消息
         BlogDataVo blogDataVo = new BlogDataVo();
         blogDataVo.setArticleTypeCount(-num);
-        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
+        RocketMQMessage blogDataVoRocketMQMessage = new RocketMQMessage(RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTopic(),
+                RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTag(), 1, JSON.toJSONString(blogDataVo));
         mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
         return map;
     }

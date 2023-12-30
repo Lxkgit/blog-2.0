@@ -13,4 +13,28 @@
         id, user_id, doc_count, article_count, diary_count
     </sql>
 
+    <select id="selectCountByUserId" resultType="java.lang.Integer">
+        select count(1)
+        from content_count
+        where user_id = #{userId}
+    </select>
+
+    <update id="updateContentCountByUserId" parameterType="com.blog.common.entity.file.ContentCount">
+        update content_count
+        <set>
+            <if test="docCount != null">
+                doc_count = doc_count + #{docCount},
+            </if>
+            <if test="articleCount != null">
+                article_count = article_count + #{articleCount},
+            </if>
+            <if test="diaryCount != null">
+                diary_count = diary_count + #{diaryCount},
+            </if>
+        </set>
+        <where>
+            user_id = #{userId}
+        </where>
+    </update>
+
 </mapper>

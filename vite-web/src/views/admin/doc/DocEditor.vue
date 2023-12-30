@@ -106,6 +106,7 @@ function docFun() {
     updateContentApi({
       id: docContent.data.id,
       docContentMd: docContent.data.docContentMd,
+      docStatus: 1
     }).then((res: any) => {
       if (res.code === 200) {
         tagStore.delTagByPath("/admin/doc/editor")
@@ -125,6 +126,7 @@ function docFun() {
       updateContentApi({
         id: docContent.data.id,
         docContentMd: docContent.data.docContentMd,
+        docStatus: 0
       }).then((res: any) => {
         if (res.code === 200) {
           saveTime.value = getNowTime();

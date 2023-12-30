@@ -26,34 +26,34 @@
             <if test="deploymentTime !=null and deploymentTime!=''">
                 deployment_time = #{deploymentTime},
             </if>
-            <if test="visits != 0 and visits != null">
+            <if test="visits != null">
                 visits = visits + #{visits},
             </if>
-            <if test="userCount != 0 and userCount != null">
+            <if test="userCount != null">
                 user_count = user_count + #{userCount},
             </if>
-            <if test="ipCount != 0 and ipCount != null">
+            <if test="ipCount != null">
                 ip_count = ip_count + #{ipCount},
             </if>
-            <if test="articleCount != 0 and articleCount != null">
+            <if test="articleCount != null">
                 article_count = article_count + #{articleCount},
             </if>
-            <if test="articleTypeCount != 0 and articleTypeCount != null">
+            <if test="articleTypeCount != null">
                 article_type_count = article_type_count + #{articleTypeCount},
             </if>
-            <if test="articleLabelCount != 0 and articleLabelCount != null">
+            <if test="articleLabelCount != null">
                 article_label_count = article_label_count + #{articleLabelCount},
             </if>
-            <if test="docCount != 0 and docCount != null">
+            <if test="docCount != null">
                 doc_count = doc_count + #{docCount},
             </if>
-            <if test="docTypeCount != 0 and docTypeCount != null">
+            <if test="docTypeCount != null">
                 doc_type_count = doc_type_count + #{docTypeCount},
             </if>
-            <if test="diaryCount != 0 and diaryCount != null">
+            <if test="diaryCount != null">
                 diary_count = diary_count + #{diaryCount},
             </if>
-            <if test="imgCount != 0 and imgCount != null">
+            <if test="imgCount != null">
                 img_count = img_count + #{imgCount},
             </if>
         </set>

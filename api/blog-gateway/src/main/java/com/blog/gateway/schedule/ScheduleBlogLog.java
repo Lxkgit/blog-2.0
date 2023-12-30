@@ -1,5 +1,6 @@
 package com.blog.gateway.schedule;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.entity.file.vo.BlogDataVo;
 import com.blog.common.entity.gateway.RequestLog;
@@ -7,6 +8,7 @@ import com.blog.common.enums.mq.RocketMQTopicEnum;
 import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.gateway.dao.RequestLogDAO;
 import com.blog.gateway.mq.MQProducerService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -50,18 +52,18 @@ public class ScheduleBlogLog {
         List<Map<String, Object>> ipMaps = requestLogDAO.selectMaps(ipWrapper);
 
         if (logId == -1) {
-            mqProducerService.sendSyncOrderly(new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                    RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 0, setMqMessage(visitLogList, ipMaps)));
+            mqProducerService.sendSyncOrderly(new RocketMQMessage(RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTopic(),
+                    RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTag(), 0, setMqMessage(visitLogList, ipMaps)));
         } else {
-            BlogDataVo blogDataVo = setMqMessage(visitLogList, ipMaps);
-            if (blogDataVo != null) {
-                mqProducerService.sendSyncOrderly(new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                        RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo));
+            String blogDataVo = setMqMessage(visitLogList, ipMaps);
+            if (StringUtils.isNotBlank(blogDataVo)) {
+                mqProducerService.sendSyncOrderly(new RocketMQMessage(RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTopic(),
+                        RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTag(), 1, blogDataVo));
             }
         }
     }
 
-    private BlogDataVo setMqMessage(List<RequestLog> requestLogs, List<Map<String, Object>> ipMaps) {
+    private String setMqMessage(List<RequestLog> requestLogs, List<Map<String, Object>> ipMaps) {
         Integer nowIpCount = ipMaps.size();
         if ((requestLogs == null || requestLogs.size() ==0) && nowIpCount.equals(ipCount)) {
             return null;
@@ -81,6 +83,6 @@ public class ScheduleBlogLog {
             }
             ipCount = nowIpCount;
         }
-        return blogDataVo;
+        return JSON.toJSONString(blogDataVo);
     }
 }

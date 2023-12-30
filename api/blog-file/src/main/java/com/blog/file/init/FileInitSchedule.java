@@ -1,19 +1,25 @@
 package com.blog.file.init;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.entity.file.BlogData;
 import com.blog.common.entity.file.UploadFile;
-import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.enums.file.FileTypeEnum;
+import com.blog.common.enums.mq.RocketMQMsgEnum;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
 import com.blog.common.message.mq.RocketMQMessage;
+import com.blog.file.dao.FileDataDAO;
 import com.blog.file.dao.UploadFileDAO;
 import com.blog.file.mq.MQProducerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 /**
@@ -23,27 +29,28 @@ import javax.annotation.Resource;
  */
 
 @Slf4j
-@Component
-public class FileInitSchedule implements ApplicationRunner {
+@Configuration     //证明这个类是一个配置文件
+@EnableScheduling  //启用定时器
+public class FileInitSchedule {
 
     @Resource
-    private UploadFileDAO uploadFileDAO;
+    private FileDataDAO fileDataDAO;
 
     @Resource
     private MQProducerService mqProducerService;
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
+
+    @PostConstruct
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void initFile() {
         log.info("开始初始化博客文件数据 ... ");
-        QueryWrapper<UploadFile> wrapper = new QueryWrapper<>();
-        wrapper.in("file_type", FileTypeEnum.IMAGE.getTypeList());
         BlogData blogData = new BlogData();
-        blogData.setImgCount(Math.toIntExact(uploadFileDAO.selectCount(wrapper)));
-        RocketMQMessage<BlogData> rocketMQMessage = new RocketMQMessage<>();
-        rocketMQMessage.setTopic(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic());
-        rocketMQMessage.setTag(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag());
-        rocketMQMessage.setMessage(blogData);
-        rocketMQMessage.setMqMsgType(0);
+        blogData.setImgCount(fileDataDAO.selectImgCount());
+        RocketMQMessage rocketMQMessage = new RocketMQMessage();
+        rocketMQMessage.setTopic(RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTopic());
+        rocketMQMessage.setTag(RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTag());
+        rocketMQMessage.setMessage(JSON.toJSONString(blogData));
+        rocketMQMessage.setMqMsgType(RocketMQMsgEnum.ALL.getType());
         mqProducerService.sendSyncOrderly(rocketMQMessage);
     }
 }

@@ -9,15 +9,10 @@ package com.blog.common.enums.mq;
 public enum RocketMQTopicEnum {
 
     // 博客数据类数据统计
-    MQ_DATE_STATISTICS("BLOG_STATISTICS_COUNT", "BLOG_STATISTICS", "COUNT"),
-    BLOG_STATISTICS_OVERALL("BLOG_STATISTICS_OVERALL", "BLOG_STATISTICS", "OVERALL"),
+    BLOG_USER_DATA("BLOG_USER_DATA", "CONTENT" , "博客用户内容统计数据"),
+    BLOG_SYSTEM_DATA("BLOG_SYSTEM_DATA", "CONTENT", "博客系统内容消息"),
 
     ;
-
-    /**
-     * group
-     */
-    private String group;
 
     /**
      * topic
@@ -29,18 +24,15 @@ public enum RocketMQTopicEnum {
      */
     private String tag;
 
-    RocketMQTopicEnum(String group, String topic, String tag) {
-        this.group = group;
+    /**
+     * 备注
+     */
+    private String memo;
+
+    RocketMQTopicEnum(String topic, String tag, String memo) {
         this.topic = topic;
         this.tag = tag;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
+        this.memo = memo;
     }
 
     public String getTopic() {
@@ -57,5 +49,13 @@ public enum RocketMQTopicEnum {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
     }
 }

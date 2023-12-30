@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 17/11/2023 19:01:12
+ Date: 28/12/2023 19:32:13
 */
 
 SET NAMES utf8mb4;
@@ -106,7 +106,7 @@ CREATE TABLE `sys_role`  (
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
@@ -261,6 +261,64 @@ INSERT INTO `sys_role_permission` VALUES (3, 702);
 INSERT INTO `sys_role_permission` VALUES (3, 703);
 INSERT INTO `sys_role_permission` VALUES (3, 704);
 INSERT INTO `sys_role_permission` VALUES (3, 705);
+INSERT INTO `sys_role_permission` VALUES (9, 1);
+INSERT INTO `sys_role_permission` VALUES (9, 2);
+INSERT INTO `sys_role_permission` VALUES (9, 3);
+INSERT INTO `sys_role_permission` VALUES (9, 4);
+INSERT INTO `sys_role_permission` VALUES (9, 50);
+INSERT INTO `sys_role_permission` VALUES (9, 51);
+INSERT INTO `sys_role_permission` VALUES (9, 60);
+INSERT INTO `sys_role_permission` VALUES (9, 61);
+INSERT INTO `sys_role_permission` VALUES (9, 62);
+INSERT INTO `sys_role_permission` VALUES (9, 63);
+INSERT INTO `sys_role_permission` VALUES (9, 64);
+INSERT INTO `sys_role_permission` VALUES (9, 70);
+INSERT INTO `sys_role_permission` VALUES (9, 80);
+INSERT INTO `sys_role_permission` VALUES (9, 81);
+INSERT INTO `sys_role_permission` VALUES (9, 100);
+INSERT INTO `sys_role_permission` VALUES (9, 101);
+INSERT INTO `sys_role_permission` VALUES (9, 102);
+INSERT INTO `sys_role_permission` VALUES (9, 103);
+INSERT INTO `sys_role_permission` VALUES (9, 104);
+INSERT INTO `sys_role_permission` VALUES (9, 105);
+INSERT INTO `sys_role_permission` VALUES (9, 200);
+INSERT INTO `sys_role_permission` VALUES (9, 201);
+INSERT INTO `sys_role_permission` VALUES (9, 202);
+INSERT INTO `sys_role_permission` VALUES (9, 300);
+INSERT INTO `sys_role_permission` VALUES (9, 301);
+INSERT INTO `sys_role_permission` VALUES (9, 302);
+INSERT INTO `sys_role_permission` VALUES (9, 303);
+INSERT INTO `sys_role_permission` VALUES (9, 400);
+INSERT INTO `sys_role_permission` VALUES (9, 401);
+INSERT INTO `sys_role_permission` VALUES (9, 402);
+INSERT INTO `sys_role_permission` VALUES (9, 403);
+INSERT INTO `sys_role_permission` VALUES (9, 500);
+INSERT INTO `sys_role_permission` VALUES (9, 501);
+INSERT INTO `sys_role_permission` VALUES (9, 502);
+INSERT INTO `sys_role_permission` VALUES (9, 503);
+INSERT INTO `sys_role_permission` VALUES (9, 504);
+INSERT INTO `sys_role_permission` VALUES (9, 505);
+INSERT INTO `sys_role_permission` VALUES (9, 506);
+INSERT INTO `sys_role_permission` VALUES (9, 600);
+INSERT INTO `sys_role_permission` VALUES (9, 601);
+INSERT INTO `sys_role_permission` VALUES (9, 602);
+INSERT INTO `sys_role_permission` VALUES (9, 603);
+INSERT INTO `sys_role_permission` VALUES (9, 700);
+INSERT INTO `sys_role_permission` VALUES (9, 701);
+INSERT INTO `sys_role_permission` VALUES (9, 702);
+INSERT INTO `sys_role_permission` VALUES (9, 703);
+INSERT INTO `sys_role_permission` VALUES (9, 704);
+INSERT INTO `sys_role_permission` VALUES (9, 705);
+INSERT INTO `sys_role_permission` VALUES (9, 800);
+INSERT INTO `sys_role_permission` VALUES (9, 801);
+INSERT INTO `sys_role_permission` VALUES (9, 802);
+INSERT INTO `sys_role_permission` VALUES (9, 803);
+INSERT INTO `sys_role_permission` VALUES (9, 804);
+INSERT INTO `sys_role_permission` VALUES (9, 805);
+INSERT INTO `sys_role_permission` VALUES (9, 900);
+INSERT INTO `sys_role_permission` VALUES (9, 901);
+INSERT INTO `sys_role_permission` VALUES (9, 1000);
+INSERT INTO `sys_role_permission` VALUES (9, 1001);
 
 -- ----------------------------
 -- Table structure for sys_role_user
@@ -304,7 +362,7 @@ CREATE TABLE `sys_user`  (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'gszero', '$2a$10$xGoFa7bqOTurkUvy9roreeON0j/CvXysaXauswXf5RHol/pMCSuGy', 'GSZero', 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg', '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 02:02:03');
-INSERT INTO `sys_user` VALUES (2, 'admin', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管3', '', '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
-INSERT INTO `sys_user` VALUES (5, 'qwer', '$2a$10$OHpyM2UUhZITdTxruZAAu.O2fAPl67ZMVFNa6wvtycpc.w5NHueVO', NULL, NULL, '470687917@qq.com', 1, '2023-06-16 17:10:40', '2023-06-16 17:10:40');
+INSERT INTO `sys_user` VALUES (2, 'admin', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管311111', 'http://127.0.0.1/files/1/other/img/2023-12-04_16-06-11_irnDQR_Snipaste_2023-12-04_15-34-24.png', '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (5, 'qwer', '$2a$10$OHpyM2UUhZITdTxruZAAu.O2fAPl67ZMVFNa6wvtycpc.w5NHueVO', '1', 'http://localhost/files/1/other/img/2023-12-28_12-02-40_DzUIqz_Snipaste_2023-12-04_15-34-24.png', '470687917@qq.com', 1, '2023-06-16 17:10:40', '2023-06-16 17:10:40');
 
 SET FOREIGN_KEY_CHECKS = 1;

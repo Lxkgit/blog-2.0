@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blog.common.entity.content.doc.DocContent;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author: lxk
  * @date: 2022/6/21 22:38
@@ -12,8 +15,15 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface DocContentDAO extends BaseMapper<DocContent> {
 
-    DocContent selectDocContentByCatalogId(@Param("id") Integer id);
-    int updateDocContent(DocContent docContent);
-    int deleteDocContentByCatalogIds(@Param("ids") String[] ids, @Param("userId") Integer userId);
-    int deleteDocContentByCatalogId(@Param("catalogId") Integer parentId, @Param("userId") Integer userId);
+    /**
+     * 查询文档总数
+     * @return
+     */
+    Integer selectDocContentCount();
+
+    /**
+     * 以用户id分组查询用户文章数（删除状态的除外）
+     * @return
+     */
+    List<Map<String, Integer>> selectDocCountGroupByUserId();
 }

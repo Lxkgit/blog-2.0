@@ -1,7 +1,7 @@
 <template>
   <NavMenu></NavMenu>
   <div style="margin-top: 50px; display: flex; justify-content: center; align-items: flex-start;">
-    <div style="margin-top: 20px; width: 15%;">
+    <div style="margin-top: 20px; width: 15%; min-width: 250px;">
       <div style="padding-left: 40px; position: fixed;">
         <p>选择用户文档：</p>
         <el-select v-model="selectUserId" class="m-2" placeholder="Select" style="margin-top: 20px;" @change="getDocCatalogTreeFun">

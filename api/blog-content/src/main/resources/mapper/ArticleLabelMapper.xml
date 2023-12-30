@@ -15,6 +15,11 @@
         id, user_id,label_type, label_name, article_num, create_time, update_time
     </sql>
 
+    <select id="selectArticleLabelCount" resultType="java.lang.Integer">
+        select count(1)
+        from article_label
+    </select>
+
     <!--根据标签分类查询标签，标签分类为0查询全部标签-->
     <select id="selectArticleLabelList" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
@@ -33,12 +38,6 @@
         </foreach>
     </select>
 
-    <select id="selectArticleLabelByLabelType" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
-        from article_label
-        where label_type = #{labelType}
-    </select>
-
     <update id="updateArticleLabel" parameterType="com.blog.common.entity.content.article.ArticleLabel">
         update article_label
         <set>
@@ -55,7 +54,7 @@
     </update>
 
     <update id="updateArticleLabelNumById">
-        update article_label_type set label_num = label_num + #{articleNum} where id = #{id}
+        update article_label set article_num = article_num + #{articleNum} where id = #{id}
     </update>
 
     <delete id="deleteArticleLabelByIds">

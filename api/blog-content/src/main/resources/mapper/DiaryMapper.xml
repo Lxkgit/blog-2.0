@@ -6,13 +6,27 @@
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
         <id column="diary_md" property="diaryMd" jdbcType="VARCHAR"/>
         <id column="diary_date" property="diaryDate" jdbcType="TIMESTAMP"/>
+        <id column="diary_status" property="diaryStatus" jdbcType="INTEGER"/>
         <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id, diary_md, diary_date, create_time, update_time
+        id, user_id, diary_md, diary_date, diary_status, create_time, update_time
     </sql>
+
+    <select id="selectDiaryCount" resultType="java.lang.Integer">
+        select count(1)
+        from blog_diary
+        where diary_status != 3
+    </select>
+
+    <select id="selectDiaryCountGroupByUserId" resultType="map">
+        select user_id as userId, count(1) as count
+        from blog_diary
+        where diary_status != 3
+        group by user_id
+    </select>
 
     <select id="selectDiaryByDate" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
@@ -24,9 +38,7 @@
     <select id="selectDiaryList" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from blog_diary
-        <where>
-            user_id = #{userId}
-        </where>
+        where user_id = #{userId} and diary_status != 3
         order by diary_date desc
     </select>
 
@@ -87,6 +99,16 @@
         <where>
             id = #{id} and user_id = #{userId}
         </where>
+    </update>
+
+    <update id="updateDiaryStatusByIds">
+        update blog_diary
+        set diary_status = #{diaryStatus}
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and user_id = #{userId};
     </update>
 
     <delete id="deleteDiaryByIds">

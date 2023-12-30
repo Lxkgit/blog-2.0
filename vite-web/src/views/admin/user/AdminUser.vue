@@ -221,14 +221,14 @@ function userFn(): any {
    * 页数修改查询数据
    */
   const pageChange = (page: any) => {
-    getUserList(page, size.value);
+    getUserList(page);
   };
 
   /**
    * 页大小修改查询数据
    */
   const sizeChange = (size: any) => {
-    getUserList(1, size);
+    getUserList(1);
   };
 
   /**

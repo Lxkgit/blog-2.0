@@ -58,7 +58,7 @@
       <div v-if="clickRightItem.docType == 1" @click="editDocContentFun(clickRightItem)">
         编辑
       </div>
-      <div v-if="clickRightItem.delete == 1" @click="deleteDocCatalogFun(clickRightItem)">
+      <div v-if="clickRightItem.children == null" @click="deleteDocCatalogFun(clickRightItem)">
         删除
       </div>
       <div @click="visible = false">关闭</div>
@@ -176,6 +176,7 @@ const setTreeData = (data: any) => {
 };
 // 节点点击事件
 const nodeRightClick = (event: any, data: any, node: any, self: any) => {
+  console.log(data)
   clickRightItem = data;
   clickRightNode = node;
   createCatalogFrom.node = data.id;
@@ -337,10 +338,6 @@ function catalog() {
       }
     });
   };
-
-
-
-
 
   return {
     filterText,

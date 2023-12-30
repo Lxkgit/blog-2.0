@@ -10,15 +10,6 @@ import java.util.List;
 public interface DocCatalogDAO extends BaseMapper<DocCatalog> {
 
     List<DocCatalogVo> selectListByDocTypeAndUserId(@Param("docLevelList") List<Integer> docLevelList, @Param("userId") Integer userId, @Param("docType") Integer docType);
-
-    List<DocCatalogVo> selectListByParentIdAndUserId(@Param("parentId") Integer parentId, @Param("userId") Integer userId);
-
-    int selectCountByParentId(@Param("id") String id);
-    List<DocCatalogVo> selectListByParentId(DocCatalogVo docCatalogVo);
-    List<DocCatalog> selectDocCatalogList(DocCatalogVo docCatalogVo);
-    List<DocCatalogVo> selectDocCatalogTree(@Param("parentId") Integer treeNode, @Param("userId") Integer userId);
-    int updateDocCatalog(DocCatalog docCatalog);
-    int deleteDocCatalogById(@Param("id") String id, @Param("userId") Integer userId);
     List<Integer> selectDocUserList();
 
 }

@@ -12,5 +12,5 @@ public interface DiaryService {
     int saveDiary(Diary diary);
     Map<String, List<String>> saveDiaryList(Map<String, Diary> map);
     int updateDiary(Diary diary);
-    Map<String, Object> deleteDiaryByDate(String ids, Integer userId);
+    Map<String, Object> deleteDiary(String ids, Integer userId);
 }

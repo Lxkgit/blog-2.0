@@ -5,7 +5,7 @@
         </div>
         <el-card style="margin: 18px 2%;width: 95%">
             <el-button type="primary" plain @click="createArticleLabelTypeDialog = true">新增</el-button>
-            <el-button type="danger" plain @click="deleteArticleLabelTypeByIdsFun()">删除</el-button>
+            <el-button :disabled="ids.length > 0 ? false : true" type="danger" plain @click="deleteArticleLabelTypeByIdsFun()">删除</el-button>
             <el-table :data="articleLabelTypeList.list" style="width: 100%; height: calc(100vh - 278px);" @selection-change="selected">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
@@ -155,10 +155,11 @@ const saveArticleLabelFun = () => {
 /**
  * 获取id
  */
-let ids = new Array();
+let ids = reactive([]);
 const selected = (val: any) => {
     ids.splice(0, ids.length)
     for (let i = 0; i < val.length; i++) {
+        //@ts-ignore 单行忽略
         ids.unshift(val[i].id)
     }
 }

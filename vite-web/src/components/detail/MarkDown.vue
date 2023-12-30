@@ -2,7 +2,7 @@
   <div ref="editor">
     <v-md-preview :text="text" @copy-code-success="handleCopyCodeSuccess" @image-click="showImg"></v-md-preview>
   </div>
-  <el-image-viewer v-if="images.isShow" :initial-index="images.currentIndex" :url-list="images.MDimages"
+  <el-image-viewer v-if="images.isShow" :initial-index="images.currentIndex" :url-list="images.MDimages" :hide-on-click-modal="true"
     @close="images.isShow = false">
   </el-image-viewer>
 </template>

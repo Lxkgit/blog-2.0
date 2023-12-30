@@ -1,5 +1,6 @@
 package com.blog.content.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.file.vo.BlogDataVo;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
@@ -7,6 +8,8 @@ import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.content.dao.ArticleLabelDAO;
 import com.blog.content.dao.ArticleLabelTypeDAO;
 import com.blog.content.mq.MQProducerService;
+import com.blog.content.mq.send.SendSystemData;
+import com.blog.content.mq.send.SendUserData;
 import com.blog.content.service.ArticleLabelService;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +34,7 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
     private ArticleLabelTypeDAO articleLabelTypeDAO;
 
     @Resource
-    private MQProducerService mqProducerService;
+    private SendSystemData sendSystemData;
 
     @Override
     public List<ArticleLabel> selectArticleLabelList(Integer labelType) {
@@ -47,11 +50,7 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
         articleLabelTypeDAO.updateArticleLabelTypeLabelNumAdd(articleLabel.getLabelType());
 
         // 发送博客系统新增文章标签mq消息
-        BlogDataVo blogDataVo = new BlogDataVo();
-        blogDataVo.setArticleLabelCount(1);
-        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
-        mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
+        sendSystemData.sendSystemData(3, 1);
     }
 
     @Override
@@ -72,11 +71,7 @@ public class ArticleLabelServiceImpl implements ArticleLabelService {
             }
         }
         // 发送博客系统删除文章标签mq消息
-        BlogDataVo blogDataVo = new BlogDataVo();
-        blogDataVo.setArticleLabelCount(-ids.length);
-        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
-        mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
+        sendSystemData.sendSystemData(3, -ids.length);
         return 0;
     }
 }

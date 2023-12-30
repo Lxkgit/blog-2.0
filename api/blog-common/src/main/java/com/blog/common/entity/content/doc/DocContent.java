@@ -28,9 +28,12 @@ public class DocContent {
 
     private String docContentMd;
 
-    private int browseCount;
+    private Integer browseCount;
 
-    private int likeCount;
+    private Integer likeCount;
+
+    // 文档状态 0:草稿 1:发布 2: 3: 删除
+    private Integer docStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -72,19 +75,19 @@ public class DocContent {
         this.docContentMd = docContentMd;
     }
 
-    public int getBrowseCount() {
+    public Integer getBrowseCount() {
         return browseCount;
     }
 
-    public void setBrowseCount(int browseCount) {
+    public void setBrowseCount(Integer browseCount) {
         this.browseCount = browseCount;
     }
 
-    public int getLikeCount() {
+    public Integer getLikeCount() {
         return likeCount;
     }
 
-    public void setLikeCount(int likeCount) {
+    public void setLikeCount(Integer likeCount) {
         this.likeCount = likeCount;
     }
 

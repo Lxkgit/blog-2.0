@@ -178,9 +178,6 @@ import color from "@/utils/color";
 // 模块方法引入
 let {
   time,
-  saveTime,
-  saveFlag,
-  autoSaveTime,
   saveDialog,
   article,
   type,
@@ -214,6 +211,11 @@ let { tagColor } = color();
 const tagStore = tagsStore();
 const cStore = contentStore();
 
+let saveTime = ref("");
+let saveFlag: boolean = false;
+// 文章自动保存时间间隔
+let autoSaveTime = ref(10000);
+
 onMounted(() => {
   // 初始化文章数据
   if (cStore.getArticle !== "null") {
@@ -230,6 +232,7 @@ onMounted(() => {
   // 定时保存文章功能
   time = window.setInterval(() => {
     saveFlag = true;
+    console.log("----");
   }, autoSaveTime.value);
 });
 
@@ -241,10 +244,6 @@ onBeforeUnmount(() => {
 function articleFn() {
   // 保存文章计时
   let time: number = 0;
-  let saveTime = ref("");
-  let saveFlag: boolean = false;
-  // 文章自动保存时间间隔
-  let autoSaveTime = ref(30000);
   // 文章保存dialog
   const saveDialog = ref(false);
   // 当前时间
@@ -345,6 +344,7 @@ function articleFn() {
 
   // 定时保存文章方法
   const updateArticleFun = () => {
+    console.log("自动保存 ... ");
     if (saveFlag === true) {
       saveFlag = false;
       let labelId = "";
@@ -408,9 +408,6 @@ function articleFn() {
 
   return {
     time,
-    saveTime,
-    saveFlag,
-    autoSaveTime,
     saveDialog,
     article,
     type,

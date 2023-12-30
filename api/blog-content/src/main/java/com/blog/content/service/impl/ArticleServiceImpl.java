@@ -2,7 +2,6 @@ package com.blog.content.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.blog.common.entity.content.article.Article;
 import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.content.article.ArticleType;
@@ -11,6 +10,7 @@ import com.blog.common.entity.content.article.vo.ArticleVo;
 import com.blog.common.entity.file.vo.BlogDataVo;
 import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.entity.user.BlogUser;
+import com.blog.common.enums.mq.RocketMQMsgEnum;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
 import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.common.util.MyPage;
@@ -20,6 +20,8 @@ import com.blog.content.dao.ArticleLabelDAO;
 import com.blog.content.dao.ArticleTypeDAO;
 import com.blog.content.feign.UserClient;
 import com.blog.content.mq.MQProducerService;
+import com.blog.content.mq.send.SendSystemData;
+import com.blog.content.mq.send.SendUserData;
 import com.blog.content.service.ArticleService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -53,10 +55,14 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleLabelDAO articleLabelDAO;
 
     @Resource
-    private MQProducerService mqProducerService;
+    private SendSystemData sendSystemData;
+
+    @Resource
+    private SendUserData sendUserData;
 
     /**
      * 查询文章列表
+     *
      * @param articleVoParam 查询参数
      * @return
      */
@@ -79,9 +85,9 @@ public class ArticleServiceImpl implements ArticleService {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(articleVoParam.getArticleType());
             ArticleType articleType = articleTypeDAO.selectById(Integer.parseInt(articleVoParam.getArticleType()));
-            while (articleType.getParentId()!=0) {
+            while (articleType.getParentId() != 0) {
                 articleType = articleTypeDAO.selectById(articleType.getParentId());
-                stringBuilder.insert(0, articleType.getId()+",");
+                stringBuilder.insert(0, articleType.getId() + ",");
             }
             articleQueryWrapper.likeRight("article_type", stringBuilder.toString());
         }
@@ -90,8 +96,8 @@ public class ArticleServiceImpl implements ArticleService {
         if (articleVoParam.getSelectStatus() != null && !articleVoParam.getSelectStatus().equals("")) {
             String[] status = articleVoParam.getSelectStatus().split(",");
             articleQueryWrapper.and((wrapper) -> {
-                for (int i=0; i<status.length; i++) {
-                    if (i==0) {
+                for (int i = 0; i < status.length; i++) {
+                    if (i == 0) {
                         wrapper.eq("article_status", status[i]);
                     } else {
                         wrapper.or().eq("article_status", status[i]);
@@ -114,7 +120,7 @@ public class ArticleServiceImpl implements ArticleService {
         Page<Article> articlePage = (Page<Article>) articleDAO.selectList(articleQueryWrapper);
         List<ArticleVo> articleVoList = new ArrayList<>();
         Map<Integer, BlogUser> userMap = new HashMap<>();
-        for (Article article : articlePage){
+        for (Article article : articlePage) {
             ArticleVo articleVo = new ArticleVo();
             BeanUtils.copyProperties(article, articleVo);
             if (userMap.containsKey(article.getUserId())) {
@@ -128,8 +134,8 @@ public class ArticleServiceImpl implements ArticleService {
             articleVoList.add(articleVo);
         }
         try {
-            myPage = MyPageUtils.pageUtil(articleVoList, articlePage.getPageNum(), articlePage.getPageSize(), (int)articlePage.getTotal());
-        } catch (Exception e){
+            myPage = MyPageUtils.pageUtil(articleVoList, articlePage.getPageNum(), articlePage.getPageSize(), (int) articlePage.getTotal());
+        } catch (Exception e) {
             log.info("分页查询文章报错, param:{}", JSON.toJSONString(articleVoParam));
             e.printStackTrace();
         }
@@ -138,6 +144,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     /**
      * 查询文章分类和标签
+     *
      * @param article
      * @param articleVo
      */
@@ -156,6 +163,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     /**
      * 根据id查询文章
+     *
      * @param articleId
      * @return
      */
@@ -172,45 +180,33 @@ public class ArticleServiceImpl implements ArticleService {
 
     /**
      * 创建文章
+     *
      * @param article
      * @return
      */
     @Override
-    public int saveArticle(Article article){
+    public int saveArticle(Article article) {
         Date date = new Date();
         article.setCreateTime(date);
         article.setUpdateTime(date);
         // 文章类型页面传入数据是类型树最底层节点id
-        if (StringUtils.isNotBlank(article.getArticleType())) {
-            article.setArticleType(updateArticleType(article.getArticleType(), 1));
-        }
-
-        if (StringUtils.isNotBlank(article.getArticleLabel())) {
-            updateArticleLabel(article.getArticleLabel(), 1);
-        }
+        article.setArticleType(updateArticleType(article.getArticleType(), 1));
+        updateArticleLabel(article.getArticleLabel(), 1);
 
         // 发送博客用户新增文章mq消息
-        ContentCountVo contentCountVo = new ContentCountVo();
-        contentCountVo.setUserId(article.getUserId());
-        contentCountVo.setArticleCount(1);
-        RocketMQMessage<ContentCountVo> countVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
-                RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
-        mqProducerService.sendSyncOrderly(countVoRocketMQMessage);
+        sendUserData.sendUserData(SendUserData.article, article.getUserId(), 1);
 
         // 发送博客系统新增文章mq消息
-        BlogDataVo blogDataVo = new BlogDataVo();
-        blogDataVo.setArticleCount(1);
-        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
-        mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
+        sendSystemData.sendSystemData(SendSystemData.article, 1);
         articleDAO.insert(article);
         return article.getId();
     }
 
     /**
      * 更新文章接口
+     *
      * @param blogUser 操作用户
-     * @param article 文章数据
+     * @param article  文章数据
      * @return
      */
     @Override
@@ -218,55 +214,57 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleBo articleBo = new ArticleBo();
         Article oldArticle = articleDAO.selectArticleById(article.getId());
         // 修改前文章分类-1
-        if (StringUtils.isNotBlank(oldArticle.getArticleType())) {
-            String[] oldArticleTypes = oldArticle.getArticleType().split(",");
-            updateArticleType(oldArticleTypes[oldArticleTypes.length-1], -1);
-        }
+        updateArticleType(oldArticle.getArticleType(), -1);
         // 修改前文章标签对应文章-1
-        if (StringUtils.isNotBlank(oldArticle.getArticleLabel())) {
-            updateArticleLabel(oldArticle.getArticleLabel(), -1);
-        }
+        updateArticleLabel(oldArticle.getArticleLabel(), -1);
+
         // 修改后文章分类+1
-        if (StringUtils.isNotBlank(article.getArticleType())) {
-            article.setArticleType(updateArticleType(article.getArticleType(), 1));
-        }
-        // 修改后文章标签对应文章-1
-        if (StringUtils.isNotBlank(article.getArticleLabel())) {
-            updateArticleLabel(article.getArticleLabel(), 1);
-        }
+        article.setArticleType(updateArticleType(article.getArticleType(), 1));
+        // 修改后文章标签对应文章+1
+        updateArticleLabel(article.getArticleLabel(), 1);
+
         BeanUtils.copyProperties(article, articleBo);
         articleBo.setUpdateUserId(blogUser.getId());
         articleBo.setUpdateTime(new Date());
-        return articleDAO.updateArticle(articleBo);
+        articleDAO.updateArticle(articleBo);
+        return article.getId();
     }
 
     /**
      * 修改文章分类下文章数量，返回文章分类全类型字符串（从根节点分类开始）
-     * @param articleType 最底层文章分类
-     * @param articleNum 文章数量变化
+     *
+     * @param articleTypes 文章分类
+     * @param articleNum  文章数量变化
      * @return
      */
-    private String updateArticleType(String articleType, Integer articleNum) {
-        StringBuilder type = new StringBuilder(articleType);
-        ArticleType type1 = articleTypeDAO.selectArticleTypeById(Integer.parseInt(articleType));
-        while (type1.getParentId() != 0) {
-            type.insert(0, type1.getParentId() + ",");
+    private String updateArticleType(String articleTypes, Integer articleNum) {
+        if (StringUtils.isNotBlank(articleTypes)) {
+            String[] articleTypeArr = articleTypes.split(",");
+            StringBuilder type = new StringBuilder(articleTypeArr[articleTypeArr.length-1]);
+            ArticleType type1 = articleTypeDAO.selectArticleTypeById(Integer.parseInt(String.valueOf(type)));
+            while (type1.getParentId() != 0) {
+                type.insert(0, type1.getParentId() + ",");
+                articleTypeDAO.updateArticleTypeNumById(type1.getId(), articleNum);
+                type1 = articleTypeDAO.selectArticleTypeById(type1.getParentId());
+            }
             articleTypeDAO.updateArticleTypeNumById(type1.getId(), articleNum);
-            type1 = articleTypeDAO.selectArticleTypeById(type1.getParentId());
+            return type.toString();
         }
-        articleTypeDAO.updateArticleTypeNumById(type1.getId(), articleNum);
-        return type.toString();
+        return null;
     }
 
     private void updateArticleLabel(String articleLabel, Integer articleNum) {
-        String[] labels = articleLabel.split(",");
-        for (String label : labels) {
-            articleLabelDAO.updateArticleLabelNumById(Integer.parseInt(label), articleNum);
+        if (StringUtils.isNotBlank(articleLabel)) {
+            String[] labels = articleLabel.split(",");
+            for (String label : labels) {
+                articleLabelDAO.updateArticleLabelNumById(Integer.parseInt(label), articleNum);
+            }
         }
     }
 
     /**
      * 删除文章, 并非真正删除，修改文章状态为删除
+     *
      * @param blogUser
      * @param articleIds
      * @return
@@ -279,26 +277,20 @@ public class ArticleServiceImpl implements ArticleService {
         articleBo.setIds(articleIds.split(","));
         Integer deleteArticleNum = articleDAO.updateArticleStatus(articleBo);
 
-        for(String id : articleBo.getIds()) {
+        for (String id : articleBo.getIds()) {
             Article article = articleDAO.selectArticleById(Integer.parseInt(id));
-            String[] articleType = article.getArticleType().split(",");
-            updateArticleType(articleType[articleType.length-1], -1);
+
+
+            updateArticleType(article.getArticleType(), -1);
+
+            updateArticleLabel(article.getArticleLabel(), -1);
         }
 
         // 发送博客用户删除文章mq消息
-        ContentCountVo contentCountVo = new ContentCountVo();
-        contentCountVo.setUserId(blogUser.getId());
-        contentCountVo.setArticleCount(-deleteArticleNum);
-        RocketMQMessage<ContentCountVo> contentCountVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic(),
-                RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag(), 1, contentCountVo);
-        mqProducerService.sendSyncOrderly(contentCountVoRocketMQMessage);
+        sendUserData.sendUserData(SendUserData.article, blogUser.getId(), -deleteArticleNum);
 
         // 发送博客系统删除文章mq消息
-        BlogDataVo blogDataVo = new BlogDataVo();
-        blogDataVo.setArticleCount(-deleteArticleNum);
-        RocketMQMessage<BlogDataVo> blogDataVoRocketMQMessage = new RocketMQMessage<>(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic(),
-                RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag(), 1, blogDataVo);
-        mqProducerService.sendSyncOrderly(blogDataVoRocketMQMessage);
+        sendSystemData.sendSystemData(SendSystemData.article, -deleteArticleNum);
 
         return deleteArticleNum;
 

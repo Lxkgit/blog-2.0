@@ -12,7 +12,7 @@
           <el-button size="small" type="primary" @click="deleteDiaryFun(0)">删除</el-button>
         </div>
         <template #reference>
-          <el-button type="danger" @click="deleteBtnVisible = true" plain>删除</el-button>
+          <el-button :disabled="ids.length > 0 ? false : true" type="danger" @click="deleteBtnVisible = true" plain>删除</el-button>
         </template>
       </el-popover>
       <el-button type="info" plain @click="uploadDiaryDialog = true">导入</el-button>
@@ -99,11 +99,6 @@
               <el-upload :auto-upload="false" multiple :show-file-list="false" :on-change="changeUpload">
                 <el-button type="success" size="small" text>上传日记</el-button>
               </el-upload>
-              <!-- <el-upload :action="uploadUrl" :headers="header" :show-file-list="false" :data="uploadData"
-                style="display: inline; margin-left: 12px;" :on-success="zipUploadFun" name="files"
-                :before-upload="beforeUploadFun">
-                <el-button type="primary">上传日记</el-button>
-              </el-upload> -->
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="importDiaryFun">创建</el-button>
@@ -126,7 +121,7 @@ import MarkDown from "@/components/detail/MarkDown.vue"
 import icon from '@/utils/icon'
 import data from "@/utils/date"
 
-let { size, total, diaryList, showDiary, deleteBtnVisible, deleteDiaryVisible, saveAndUpdateDiaryDialog, showDiaryDialog, selectRow, selected, showDiaryDialogFun,
+let { ids, size, total, diaryList, showDiary, deleteBtnVisible, deleteDiaryVisible, saveAndUpdateDiaryDialog, showDiaryDialog, selectRow, selected, showDiaryDialogFun,
   newDiaryDialogFun, updateDiaryDialogFun, getDiaryListFun, deleteDiaryFun, saveDiaryFun, updateDiaryFun } = diaryFun();
 let { changeUpload } = uploadFun();
 let { getNowDate, getNowTime } = data();
@@ -138,7 +133,7 @@ let time: number = 0;
 let saveTime = ref("");
 let saveFlag: boolean = false;
 // 日记自动保存时间间隔
-let autoSaveTime = ref(30000)
+let autoSaveTime = ref(5000)
 
 // 上传日记dialog
 let uploadDiaryDialog = ref(false);
@@ -162,7 +157,7 @@ onBeforeUnmount(() => {
 function diaryFun() {
 
   // 勾选日记id列表
-  let ids = new Array();
+  let ids = reactive([]);
   // 页面展示日记条数
   let size = ref<number>(14)
   // 总日记数
@@ -186,6 +181,7 @@ function diaryFun() {
   const selected = (val: any) => {
     ids.splice(0, ids.length)
     for (let i = 0; i < val.length; i++) {
+      //@ts-ignore 单行忽略
       ids.unshift(val[i].id)
     }
   }
@@ -263,7 +259,8 @@ function diaryFun() {
       updateDiaryApi({
         id: showDiary.data.id,
         diaryMd: showDiary.data.diaryMd,
-        diaryDate: showDiary.data.diaryDate
+        diaryDate: showDiary.data.diaryDate,
+        diaryStatus: 1
       }).then((res: any) => {
         if (res.code === 200) {
           ElMessage({
@@ -277,7 +274,8 @@ function diaryFun() {
     } else {
       saveDiaryApi({
         diaryMd: showDiary.data.diaryMd,
-        diaryDate: showDiary.data.diaryDate
+        diaryDate: showDiary.data.diaryDate,
+        diaryStatus: 1
       }).then((res: any) => {
         if (res.code === 200) {
           ElMessage({
@@ -299,7 +297,8 @@ function diaryFun() {
         updateDiaryApi({
           id: showDiary.data.id,
           diaryMd: showDiary.data.diaryMd,
-          diaryDate: showDiary.data.diaryDate
+          diaryDate: showDiary.data.diaryDate,
+          diaryStatus: 0
         }).then((res: any) => {
           if (res.code === 200) {
             getDiaryListFun(1)
@@ -315,7 +314,8 @@ function diaryFun() {
       } else {
         saveDiaryApi({
           diaryMd: showDiary.data.diaryMd,
-          diaryDate: showDiary.data.diaryDate
+          diaryDate: showDiary.data.diaryDate,
+          diaryStatus: 0
         }).then((res: any) => {
           if (res.code === 200) {
             getDiaryListFun(1)

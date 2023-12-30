@@ -1,26 +1,22 @@
 package com.blog.content.init;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.blog.common.entity.content.article.Article;
-import com.blog.common.entity.content.diary.Diary;
-import com.blog.common.entity.content.doc.DocCatalog;
-import com.blog.common.entity.file.vo.BlogDataVo;
-import com.blog.common.entity.file.vo.ContentCountVo;
+import com.alibaba.fastjson.JSON;
+import com.blog.common.entity.file.BlogData;
+import com.blog.common.entity.file.ContentCount;
+import com.blog.common.enums.mq.RocketMQMsgEnum;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
 import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.content.dao.*;
 import com.blog.content.mq.MQProducerService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @description: 博客内容统计初始化
@@ -29,8 +25,16 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 
 @Slf4j
-@Component
-public class ContentCountInit implements ApplicationRunner {
+@Configuration     //证明这个类是一个配置文件
+@EnableScheduling  //启用定时器
+public class ContentCountInit {
+
+    // 发送文章
+    private static final Integer article = 1;
+    // 发送日记
+    private static final Integer diary = 2;
+    // 发送文档
+    private static final Integer doc = 3;
 
     @Resource
     private ArticleDAO articleDAO;
@@ -39,10 +43,7 @@ public class ContentCountInit implements ApplicationRunner {
     private DiaryDAO diaryDAO;
 
     @Resource
-    private DocCatalogDAO docCatalogDAO;
-
-    @Resource
-    private ArticleTypeDAO articleTypeDAO;
+    private DocContentDAO docContentDAO;
 
     @Resource
     private ArticleLabelDAO articleLabelDAO;
@@ -50,108 +51,90 @@ public class ContentCountInit implements ApplicationRunner {
     @Resource
     private MQProducerService mqProducerService;
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
+    @PostConstruct
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void initContent() {
         log.info("开始初始化博客内容数据 ... ");
-        List<ContentCountVo> countVoList = new ArrayList<>();
-        List<Map<String, Object>> articleMaps = initArticleCount();
-        List<Map<String, Object>> diaryMaps = initDiaryCount();
-        List<Map<String, Object>> docMaps = initDocCount();
-        for (Map<String, Object> item : articleMaps) {
-            log.info(articleMaps.toString());
-            ContentCountVo countVo = new ContentCountVo();
-            countVo.setUserId(((Long) item.get("userId")).intValue());
-            countVo.setArticleCount(((Long) item.get("count")).intValue());
-            countVoList.add(countVo);
-        }
 
-        for (Map<String, Object> item : diaryMaps) {
-            AtomicReference<Boolean> flag = new AtomicReference<>(false);
-            countVoList.forEach(contentCountVo -> {
-                if (contentCountVo.getUserId() ==  item.get("userId") ) {
-                    flag.set(true);
-                    contentCountVo.setDiaryCount(((Long) item.get("count")).intValue());
-                }
-            });
-            if (!flag.get()) {
-                ContentCountVo countVo = new ContentCountVo();
-                countVo.setUserId((Integer) item.get("userId"));
-                countVo.setDiaryCount(((Long) item.get("count")).intValue());
-                countVoList.add(countVo);
-            }
-        }
+        // 初始化系统消息数据
+        initSystemData();
 
-        for (Map<String, Object> item : docMaps) {
-            AtomicReference<Boolean> flag = new AtomicReference<>(false);
-            countVoList.forEach(contentCountVo -> {
-                if (contentCountVo.getUserId() ==  item.get("userId") ) {
-                    flag.set(true);
-                    contentCountVo.setDocCount(((Long) item.get("count")).intValue());
-                }
-            });
-            if (!flag.get()) {
-                ContentCountVo countVo = new ContentCountVo();
-                countVo.setUserId((Integer) item.get("userId"));
-                countVo.setDocCount(((Long) item.get("count")).intValue());
-                countVoList.add(countVo);
-            }
-        }
-        Collections.sort(countVoList);
-        BlogDataVo blogDataVo = new BlogDataVo();
-        for (ContentCountVo countVo : countVoList) {
-            RocketMQMessage<ContentCountVo> rocketMQMessage = new RocketMQMessage<>();
-            rocketMQMessage.setTopic(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTopic());
-            rocketMQMessage.setTag(RocketMQTopicEnum.MQ_DATE_STATISTICS.getTag());
-            rocketMQMessage.setMessage(countVo);
-            rocketMQMessage.setMqMsgType(0);
-            mqProducerService.sendSyncOrderly(rocketMQMessage);
+        initUserData();
 
-            blogDataVo.setArticleCount(blogDataVo.getArticleCount() == null ? (countVo.getArticleCount() == null ? 0 : countVo.getArticleCount()) : blogDataVo.getArticleCount() + countVo.getArticleCount());
-            blogDataVo.setDiaryCount(blogDataVo.getDiaryCount() == null ? (countVo.getDiaryCount() == null ? 0 : countVo.getDiaryCount()) : blogDataVo.getDiaryCount() + countVo.getDiaryCount());
-            blogDataVo.setDocCount(blogDataVo.getDocCount() == null ? (countVo.getDocCount() == null ? 0 : countVo.getDocCount()) : blogDataVo.getDocCount() + countVo.getDocCount());
-        }
+    }
 
-        blogDataVo.setArticleTypeCount(Math.toIntExact(articleTypeDAO.selectCount(null)));
-        blogDataVo.setArticleLabelCount(Math.toIntExact(articleLabelDAO.selectCount(null)));
-        QueryWrapper<DocCatalog> docCatalogQueryWrapper = new QueryWrapper<>();
-        docCatalogQueryWrapper.eq("doc_type", 0);
-        blogDataVo.setDocTypeCount(Math.toIntExact(docCatalogDAO.selectCount(docCatalogQueryWrapper)));
-        RocketMQMessage<BlogDataVo> rocketMQMessage = new RocketMQMessage<>();
-        rocketMQMessage.setTopic(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTopic());
-        rocketMQMessage.setTag(RocketMQTopicEnum.BLOG_STATISTICS_OVERALL.getTag());
-        rocketMQMessage.setMessage(blogDataVo);
-        rocketMQMessage.setMqMsgType(0);
+    /**
+     * 初始化系统消息mq
+     */
+    private void initSystemData() {
+        BlogData blogData = new BlogData();
+        blogData.setArticleCount(articleDAO.selectArticleCount());
+        blogData.setArticleLabelCount(articleLabelDAO.selectArticleLabelCount());
+        blogData.setDocCount(docContentDAO.selectDocContentCount());
+        blogData.setArticleTypeCount(0);
+        blogData.setDocTypeCount(0);
+        blogData.setDiaryCount(diaryDAO.selectDiaryCount());
+        RocketMQMessage rocketMQMessage = new RocketMQMessage();
+        rocketMQMessage.setTopic(RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTopic());
+        rocketMQMessage.setTag(RocketMQTopicEnum.BLOG_SYSTEM_DATA.getTag());
+        rocketMQMessage.setMessage(JSON.toJSONString(blogData));
+        rocketMQMessage.setMqMsgType(RocketMQMsgEnum.ALL.getType());
         mqProducerService.sendSyncOrderly(rocketMQMessage);
     }
 
     /**
-     * 初始化统计文章数量
+     * 初始化用户消息
      */
-    private List<Map<String, Object>> initArticleCount() {
-        QueryWrapper<Article> wrapper = new QueryWrapper<>();
-        wrapper.select("count(*) as count, user_id as userId");
-        wrapper.groupBy("user_id");
-        return articleDAO.selectMaps(wrapper);
+    private void initUserData() {
+        List<ContentCount> contentCountList = new ArrayList<>();
+
+        List<Map<String,Integer>> articleList = articleDAO.selectArticleCountGroupByUserId();
+        setContentCountList(contentCountList, articleList, article);
+        List<Map<String,Integer>> diaryList = diaryDAO.selectDiaryCountGroupByUserId();
+        setContentCountList(contentCountList, diaryList, diary);
+        List<Map<String,Integer>> docList = docContentDAO.selectDocCountGroupByUserId();
+        setContentCountList(contentCountList, docList, doc);
+
+        RocketMQMessage rocketMQMessage = new RocketMQMessage();
+        rocketMQMessage.setTopic(RocketMQTopicEnum.BLOG_USER_DATA.getTopic());
+        rocketMQMessage.setTag(RocketMQTopicEnum.BLOG_USER_DATA.getTag());
+        rocketMQMessage.setMessage(JSON.toJSONString(contentCountList));
+        rocketMQMessage.setMqMsgType(RocketMQMsgEnum.ALL.getType());
+        mqProducerService.sendSyncOrderly(rocketMQMessage);
     }
 
     /**
-     * 初始化日记统计数量
+     * 组装mq消息数据
+     * @param contentCountList
+     * @param mapList
+     * @param type
      */
-    private List<Map<String, Object>> initDiaryCount() {
-        QueryWrapper<Diary> wrapper = new QueryWrapper<>();
-        wrapper.select("count(*) as count, user_id as userId");
-        wrapper.groupBy("user_id");
-        return diaryDAO.selectMaps(wrapper);
+    private void setContentCountList(List<ContentCount> contentCountList, List<Map<String, Integer>> mapList, Integer type) {
+        mapList.forEach(item -> {
+            int userId = Integer.parseInt(String.valueOf(item.get("userId")));
+            AtomicBoolean flag = new AtomicBoolean(false);
+            contentCountList.forEach(contentCount -> {
+                if (contentCount.getUserId().equals(userId)) {
+                    flag.set(true);
+                    setContentCount(type, item, contentCount);
+                }
+            });
+            if (!flag.get()) {
+                ContentCount contentCount = new ContentCount();
+                contentCount.setUserId(userId);
+                setContentCount(type, item, contentCount);
+                contentCountList.add(contentCount);
+            }
+        });
     }
 
-    /**
-     * 初始化文档统计数量
-     */
-    private List<Map<String, Object>> initDocCount() {
-        QueryWrapper<DocCatalog> wrapper = new QueryWrapper<>();
-        wrapper.select("count(*) as count, user_id as userId");
-        wrapper.eq("doc_type", 1);
-        wrapper.groupBy("user_id");
-        return docCatalogDAO.selectMaps(wrapper);
+    private void setContentCount(Integer type, Map<String, Integer> item, ContentCount contentCount) {
+        if (type.equals(article)) {
+            contentCount.setArticleCount(Integer.parseInt(String.valueOf(item.get("count"))));
+        } else if (type.equals(diary)) {
+            contentCount.setDiaryCount(Integer.parseInt(String.valueOf(item.get("count"))));
+        } else if (type.equals(doc)) {
+            contentCount.setDocCount(Integer.parseInt(String.valueOf(item.get("count"))));
+        }
     }
 }

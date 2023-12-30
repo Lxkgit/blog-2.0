@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class RocketMQMessage<T> {
+public class RocketMQMessage {
 
     /**
      * mq topic
@@ -29,12 +29,12 @@ public class RocketMQMessage<T> {
     /**
      * 消息体
      */
-    private T message;
+    private String message;
 
     public RocketMQMessage() {
     }
 
-    public RocketMQMessage(String topic, String tag, Integer mqMsgType, T message) {
+    public RocketMQMessage(String topic, String tag, Integer mqMsgType, String message) {
         this.topic = topic;
         this.tag = tag;
         this.mqMsgType = mqMsgType;
