@@ -41,7 +41,9 @@
         <websocket.version>2.7.5</websocket.version>
         <pagehelper.version>1.2.12</pagehelper.version>
         <rocketmq.version>2.1.0</rocketmq.version>
-        <mqtt.version>1.2.2</mqtt.version>
+        <mqttv3.version>1.2.2</mqttv3.version>
+        <mqtt.version>5.5.13</mqtt.version>
+        <commons-net.version>3.9.0</commons-net.version>
     </properties>
 
     <dependencyManagement>
@@ -158,6 +160,16 @@
             <dependency>
                 <groupId>org.eclipse.paho</groupId>
                 <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+                <version>${mqttv3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${commons-net.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>spring-integration-mqtt</artifactId>
                 <version>${mqtt.version}</version>
             </dependency>
         </dependencies>
