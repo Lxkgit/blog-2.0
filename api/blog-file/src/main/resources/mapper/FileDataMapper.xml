@@ -8,16 +8,24 @@
         <id column="path" property="path"/>
         <id column="type" property="type"/>
         <id column="file_size" property="fileSize"/>
-
+        <id column="dir_type" property="dirType"/>
+        <id column="status" property="status"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id, name, path, type, fileSize
+        id, user_id, name, path, type, file_size, dir_type, status
     </sql>
 
     <select id="selectImgCount" resultType="java.lang.Integer">
         select count(1)
         from file_data
         where type = 1
+    </select>
+    
+    <select id="selectByPathAndName" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM file_data
+        WHERE CONCAT(path, '/', `name`) = #{dirPath}
+        limit 1
     </select>
 </mapper>

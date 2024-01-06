@@ -105,7 +105,6 @@ import {
   allMenuApi,
 } from "@/api/user";
 import icon from "@/utils/icon";
-import type { FormInstance, FormRules } from "element-plus";
 
 let {
   roleCreateDialog,

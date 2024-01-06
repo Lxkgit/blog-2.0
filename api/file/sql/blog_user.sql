@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 28/12/2023 19:32:13
+ Date: 05/01/2024 17:11:09
 */
 
 SET NAMES utf8mb4;
@@ -90,6 +90,7 @@ INSERT INTO `sys_permission` VALUES (802, 70, '上传文件', '', '', 'sys:file:
 INSERT INTO `sys_permission` VALUES (803, 70, '修改文件或目录名称', '', '', 'sys:file:user:update', '', 2);
 INSERT INTO `sys_permission` VALUES (804, 70, '删除文件或目录', '', '', 'sys:file:user:delete', '', 2);
 INSERT INTO `sys_permission` VALUES (805, 70, '获取剩余空间', '', '', 'sys:file:user:space', '', 2);
+INSERT INTO `sys_permission` VALUES (806, 70, '同步远程文件', '', '', 'sys:file:user:sync', '', 2);
 INSERT INTO `sys_permission` VALUES (900, 80, '查看网站设置', '', '', 'sys:setting:all:select', '', 2);
 INSERT INTO `sys_permission` VALUES (901, 80, '修改网站设置', '', '', 'sys:setting:all:update', '', 2);
 INSERT INTO `sys_permission` VALUES (1000, 81, '查看个人设置', '', '', 'sys:setting:user:select', '', 2);
@@ -362,7 +363,7 @@ CREATE TABLE `sys_user`  (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'gszero', '$2a$10$xGoFa7bqOTurkUvy9roreeON0j/CvXysaXauswXf5RHol/pMCSuGy', 'GSZero', 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg', '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 02:02:03');
-INSERT INTO `sys_user` VALUES (2, 'admin', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管311111', 'http://127.0.0.1/files/1/other/img/2023-12-04_16-06-11_irnDQR_Snipaste_2023-12-04_15-34-24.png', '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
-INSERT INTO `sys_user` VALUES (5, 'qwer', '$2a$10$OHpyM2UUhZITdTxruZAAu.O2fAPl67ZMVFNa6wvtycpc.w5NHueVO', '1', 'http://localhost/files/1/other/img/2023-12-28_12-02-40_DzUIqz_Snipaste_2023-12-04_15-34-24.png', '470687917@qq.com', 1, '2023-06-16 17:10:40', '2023-06-16 17:10:40');
+INSERT INTO `sys_user` VALUES (2, 'admin', '$2a$10$ZKtsubiIek8Vms11vimLku6hJTALdxRTQxf5SH7w.KrrBcykGH1a6', '超管311111', 'http://localhost/files/1/other/img/2024-01-03_15-38-54_NThNEE_判别图1.png', '470687917@qq.com', 1, '2022-06-07 00:00:00', '2022-06-07 00:00:00');
+INSERT INTO `sys_user` VALUES (5, 'qwer', '$2a$10$OHpyM2UUhZITdTxruZAAu.O2fAPl67ZMVFNa6wvtycpc.w5NHueVO', '1', 'http://localhost/files/1/other/img/2024-01-03_15-39-31_MbdQEN_自动化19条.png', '470687917@qq.com', 1, '2023-06-16 17:10:40', '2023-06-16 17:10:40');
 
 SET FOREIGN_KEY_CHECKS = 1;

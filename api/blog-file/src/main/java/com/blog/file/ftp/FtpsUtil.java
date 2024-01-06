@@ -7,10 +7,9 @@ import org.apache.commons.net.ftp.FTPSClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 /**
  * @description:
@@ -38,7 +37,7 @@ public class FtpsUtil {
         if (ftpsClient.isConnected()) {
             return true;
         }
-        log.info(">>>>> 开始连接ftps");
+        log.info("开始连接ftps");
         int reply = 0;
         try {
             String ftpIp = "10.56.23.145";
@@ -52,7 +51,7 @@ public class FtpsUtil {
             if (!FTPReply.isPositiveCompletion(reply)) {
                 ftpsClient.disconnect();
             } else {
-                log.info(">>>>>Successful to connect the FTPS Server");
+                log.info("ftps 连接成功");
                 ftpsClient.setControlEncoding("UTF-8");
                 ftpsClient.setFileType(FTP.BINARY_FILE_TYPE);
                 ftpsClient.enterLocalActiveMode();
@@ -71,7 +70,7 @@ public class FtpsUtil {
     /**
      * 创建ftp目录并切换ftp工作目录
      *
-     * @param pathName
+     * @param pathName 文件目录
      * @return void
      * @throws IOException
      * @auther 27919
@@ -80,7 +79,7 @@ public class FtpsUtil {
     private void createDirectoryByPathName(String pathName) throws IOException {
         String[] dirList = pathName.split("/");
         for (String dir : dirList) {
-            log.info("current directory : {}", dir);
+            log.info("ftps 当前目录 : {}", dir);
             if (!ftpsClient.changeWorkingDirectory(dir)) {
                 ftpsClient.makeDirectory(dir);
                 ftpsClient.changeWorkingDirectory(dir);
@@ -89,48 +88,114 @@ public class FtpsUtil {
     }
 
     /**
-     * 上传文件到
-     * @param pathName
-     * @param fileName
-     * @param bytes
-     * @return String
-     * @auther 27919
-     * @date 2020年5月16日
+     * 上传文件到ftps服务器
+     *
+     * @param sourceFilePath 源文件位置
+     * @param sourceFileName 源文件名称
+     * @param targetFilePath 服务器文件路径
+     * @param targetFileName 服务器文件名称
+     * @return 文件上传是否成功
      */
-    public boolean uploadFtpFile(String pathName, String fileName, byte[] bytes) {
-
+    public boolean uploadFtpFile(String sourceFilePath, String sourceFileName, String targetFilePath, String targetFileName) {
+        log.info("ftps 上传文件  sourcePath: {}, sourceFileName: {}, targetName: {}, targetFileName: {}", sourceFilePath, sourceFileName, targetFilePath, targetFileName);
         boolean initSuccess = this.init();
-        if(!initSuccess){
+        if (!initSuccess) {
             return false;
         }
         InputStream inputStream = null;
         try {
+            File file = new File(sourceFilePath + sourceFileName);
+            byte[] bytes = Files.readAllBytes(file.toPath());
             inputStream = new ByteArrayInputStream(bytes);
-            // create hierachy directory
-            createDirectoryByPathName(new String(pathName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
-            String fn = new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
-            System.out.println(ftpsClient.printWorkingDirectory());
+            createDirectoryByPathName(new String(targetFilePath.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+            String fn = new String(targetFileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
             boolean success = ftpsClient.storeFile(fn, inputStream);
-
-            return true;
+            log.info("ftps 文件上传结果 " + success);
+            return success;
         } catch (Exception e) {
-            log.error(">>>>>Failed to upload the file to FTP Server!", e);
+            log.error("ftps 文件上传失败", e);
         } finally {
             if (!ftpsClient.isConnected()) {
                 try {
                     ftpsClient.disconnect();
                 } catch (IOException e) {
-                    log.error(">>>>>Failed to disconnect ftpsClient!", e);
+                    log.error("ftps 文件上传失败", e);
                 }
             }
             if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    log.error(">>>>>Failed to close inputStream!", e);
+                    log.error("ftps 文件上传失败", e);
                 }
             }
         }
         return false;
     }
+
+    /**
+     * 下载服务器文件
+     *
+     * @param filePath 文件目录
+     * @param fileName 文件名称
+     * @return 下载结果
+     */
+    public boolean downloadFtpFile(String filePath, String fileName) {
+        log.info("ftps 下载文件  pathName: {}, fileName: {}", filePath, fileName);
+        init();
+        try {
+            ftpsClient.changeWorkingDirectory(new String(filePath.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+            File localFile = new File("D://" + File.separatorChar + fileName);
+            OutputStream os = new FileOutputStream(localFile);
+            boolean success = ftpsClient.retrieveFile(new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1), os);
+            os.close();
+            log.info("ftps 文件下载结果 " + success);
+            return success;
+        } catch (IOException e) {
+            log.error("ftps 文件下载失败", e);
+        } finally {
+            if (!ftpsClient.isConnected()) {
+                try {
+                    ftpsClient.completePendingCommand();
+                    ftpsClient.disconnect();
+                } catch (IOException e) {
+                    log.error("ftps 文件下载失败", e);
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * 删除ftps服务器文件
+     *
+     * @param pathName 文件目录
+     * @param fileName 文件名称
+     * @return 删除结果
+     */
+    public boolean removeFile(String pathName, String fileName) {
+        log.info("ftps 删除文件  pathName: {}, fileName: {}", pathName, fileName);
+        init();
+        try {
+            ftpsClient.changeWorkingDirectory(new String(pathName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+            boolean success = ftpsClient.deleteFile(new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+            log.info("ftps 文件删除结果 " + success);
+            return success;
+        } catch (IOException e) {
+            log.error("ftps 文件删除失败", e);
+        } finally {
+            if (!ftpsClient.isConnected()) {
+                try {
+                    ftpsClient.completePendingCommand();
+                    ftpsClient.disconnect();
+                } catch (IOException e) {
+                    log.error("ftps 文件删除失败", e);
+                }
+            }
+        }
+        return false;
+    }
+
+
 }

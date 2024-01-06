@@ -1,15 +1,26 @@
 package com.blog.file.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.blog.common.constant.Constant;
 import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.FileData;
+import com.blog.common.entity.file.FileSync;
 import com.blog.common.entity.file.vo.FileDataVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.enums.file.FileTypeEnum;
+import com.blog.common.enums.mqtt.MQTTTopicEnum;
 import com.blog.common.exception.ValidException;
+import com.blog.common.message.mqtt.MqttMessage;
+import com.blog.common.util.MqttPushClient;
 import com.blog.file.dao.FileDataDAO;
+import com.blog.file.dao.FileSyncDAO;
+import com.blog.file.mqtt.MyMQTTClient;
 import com.blog.file.service.FileService;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -46,6 +57,13 @@ public class FileServiceImpl implements FileService {
     @Resource
     private FileDataDAO fileDataDAO;
 
+    @Resource
+    private FileSyncDAO fileSyncDAO;
+
+    @Resource
+    private MyMQTTClient mqttClient;
+
+
     @Override
     public void saveFileDir(BlogUser blogUser, FileDataVo fileDataVoParam) throws ValidException {
         if (fileDataVoParam.getName() == null || fileDataVoParam.getName().equals("")) {
@@ -61,8 +79,16 @@ public class FileServiceImpl implements FileService {
                 throw new ValidException(ErrorMessage.FILE_NAME_SAME_ERROR);
             }
         }
+        FileData fileData = fileDataDAO.selectByPathAndName(path);
         File file = new File(path + "/" + fileDataVoParam.getName());
-        file.mkdir();
+        if (file.mkdir()) {
+            fileDataVoParam.setPath(path);
+            fileDataVoParam.setUserId(blogUser.getId());
+            fileDataVoParam.setFileSize(0L);
+            // 同步目录下创建的目录全部为同步目录
+            fileDataVoParam.setDirType(fileData.getDirType().equals(Constant.DIR_TYPE_SYNC) ? Constant.DIR_TYPE_SYNC : fileDataVoParam.getDirType());
+            fileDataDAO.insert(fileDataVoParam);
+        }
     }
 
     @Override
@@ -75,6 +101,7 @@ public class FileServiceImpl implements FileService {
         }
         String path = basePath + "/" + blogUser.getId() + fileDataVo.getFilePath();
         File file = new File(path + "/" + fileDataVo.getName());
+        fileDataDAO.deleteById(fileDataVo.getId());
         file.delete();
     }
 
@@ -109,6 +136,13 @@ public class FileServiceImpl implements FileService {
         fileDataDAO.delete(wrapper);
     }
 
+    /**
+     * 查询指定用户的文件目录
+     *
+     * @param blogUser
+     * @param fileDataVo
+     * @return
+     */
     @Override
     public List<FileDataVo> selectFileDir(BlogUser blogUser, FileDataVo fileDataVo) {
         String path = basePath + "/" + blogUser.getId();
@@ -135,7 +169,64 @@ public class FileServiceImpl implements FileService {
         return size;
     }
 
+    /**
+     * 同步文件
+     * @param blogUser
+     * @param fileDataVoList
+     * @return
+     */
+    @Override
+    public boolean syncFileList(BlogUser blogUser, List<FileDataVo> fileDataVoList) {
+        for (FileDataVo fileData : fileDataVoList) {
+            if (fileData.getType().equals(Constant.FILE_TYPE_DIR)) {
+                // 目录不同步
+                continue;
+            }
+            if (fileData.getDirType().equals(Constant.DIR_TYPE_LOCAL)) {
+                // 本地目录不同步
+                continue;
+            }
+
+
+        }
+        return false;
+    }
+
+    public boolean syncFile(BlogUser blogUser, FileDataVo fileDataVo) {
+        if (fileDataVo.getType().equals(Constant.FILE_TYPE_DIR)) {
+            // 目录不同步
+            return false;
+        }
+        if (fileDataVo.getDirType().equals(Constant.DIR_TYPE_LOCAL)) {
+            // 本地目录不同步
+            return false;
+        }
+        FileSync fileSync = new FileSync();
+        fileSync.setFilePath(fileDataVo.getFilePath());
+        fileSync.setFileName(fileDataVo.getName());
+        fileSync.setFileSn(RandomStringUtils.random(16, true, true));
+        fileSync.setUserId(blogUser.getId());
+        fileSyncDAO.insert(fileSync);
+
+        // 发送mqtt消息
+        MqttMessage mqttMessage = new MqttMessage();
+        mqttMessage.setSender("blog");
+        mqttMessage.setMessage(JSON.toJSONString(fileSync));
+        mqttClient.publish(JSON.toJSONString(mqttMessage), MQTTTopicEnum.MQTT_SEND_SYNC_FILE.getTopic(), MQTTTopicEnum.MQTT_SEND_SYNC_FILE.getQos());
+
+        return true;
+    }
+
+    /**
+     * 查询用户的文件目录
+     *
+     * @param path     文件目录
+     * @param blogUser 用户信息
+     * @return 文件目录下数据列表
+     */
     private List<FileDataVo> show(String path, BlogUser blogUser) {
+        FileData dir = fileDataDAO.selectByPathAndName(path);
+        // 获取数据库中当前目录下文件列表
         QueryWrapper<FileData> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("path", path);
         List<FileData> fileDataList = fileDataDAO.selectList(queryWrapper);
@@ -145,11 +236,13 @@ public class FileServiceImpl implements FileService {
             BeanUtils.copyProperties(fileData, fileDataVo);
             fileDataVoList.add(fileDataVo);
         }
+        // 获取当前目录下实际文件列表
         File[] files = (new File(path)).listFiles();
         if (null != files && files.length > 0) {
             for (File file : files) {
                 String fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
                 AtomicReference<Boolean> flag = new AtomicReference<>(false);
+                // 统计目录下文件大小
                 fileDataVoList.forEach(fileDataVo -> {
                     if (fileDataVo.getName().toLowerCase().equals(file.getName().toLowerCase())) {
                         flag.set(true);
@@ -176,16 +269,18 @@ public class FileServiceImpl implements FileService {
                     fileDataVo.setName(file.getName());
                     fileDataVo.setPath(path);
                     fileDataVo.setUserId(blogUser.getId());
+                    fileDataVo.setDirType(dir.getDirType());
+                    fileDataVo.setStatus(Constant.FILE_TYPE_FILE);
                     fileDataVo.setUpdateTime(new Date(file.lastModified()));
                     if (!file.isFile()) {
-                        fileDataVo.setType(0);
+                        fileDataVo.setType(Constant.FILE_TYPE_DIR);
                         fileDataVo.setFileSize(FileUtils.sizeOf(file));
                     } else {
                         if (FileTypeEnum.IMAGE.getTypeList().contains(fileType)) {
-                            fileDataVo.setType(1);
+                            fileDataVo.setType(Constant.FILE_TYPE_FILE);
                             fileDataVo.setImgPath(serviceIp + baseUri + path.substring(basePath.length()) + "/" + file.getName());
                         } else {
-                            fileDataVo.setType(2);
+                            fileDataVo.setType(Constant.FILE_TYPE_IMAGE);
                         }
                         fileDataVo.setFileSize(file.length());
                     }
@@ -194,17 +289,21 @@ public class FileServiceImpl implements FileService {
                     fileDataVoList.add(fileDataVo);
                 }
             }
-            // 删除数据库中存在 文件目录中不存在的数据
+            // 删除数据库中存在 文件目录中不存在的数据 (远程同步文件除外)
             fileDataVoList.forEach(fileDataVo -> {
                 if (!fileDataVo.isFlag()) {
                     // 删除该目录下全部数据
                     QueryWrapper<FileData> wrapper = new QueryWrapper<>();
                     wrapper.likeRight("path", path + "/" + fileDataVo.getName());
+                    wrapper.ne("dir_type", Constant.DIR_TYPE_SYNC);
                     fileDataDAO.delete(wrapper);
                     // 删除该目录
-                    fileDataDAO.deleteById(fileDataVo.getId());
-                    // 标记为false移除List中当前数据
-                    fileDataVo.setFlag(false);
+                    if (!fileDataVo.getDirType().equals(Constant.DIR_TYPE_SYNC)) {
+                        fileDataDAO.deleteById(fileDataVo.getId());
+                        // 标记为false移除List中当前数据
+                        fileDataVo.setFlag(false);
+                    }
+                    fileDataVo.setFlag(true);
                 }
             });
             fileDataVoList.removeIf(fileDataVo -> !fileDataVo.isFlag());
@@ -212,9 +311,15 @@ public class FileServiceImpl implements FileService {
             // 文件目录为空 删除数据库中此目录下全部数据
             QueryWrapper<FileData> wrapper = new QueryWrapper<>();
             wrapper.likeRight("path", path);
+            wrapper.ne("dir_type", Constant.DIR_TYPE_SYNC);
             fileDataDAO.delete(wrapper);
             fileDataVoList.clear();
         }
+        fileDataVoList.forEach(fileDataVo -> {
+            if (fileDataVo.getId() != null) {
+                fileDataDAO.updateById(fileDataVo);
+            }
+        });
         Collections.sort(fileDataVoList);
         return fileDataVoList;
     }

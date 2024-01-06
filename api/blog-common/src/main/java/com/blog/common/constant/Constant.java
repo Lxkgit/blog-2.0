@@ -3,7 +3,7 @@ package com.blog.common.constant;
 /**
  * @Author: lxk
  * @date 2022/6/13 16:38
- * @description: 网站报错类型
+ * @description: 网站枚举类型
  */
 
 public class Constant {
@@ -18,4 +18,18 @@ public class Constant {
     public static final Integer RELEASE = 1;
     public static final Integer TOP = 2;
     public static final Integer DELETE = 3;
+
+    // 文件目录信息  目录类型 0:本地目录 1:同步目录
+    public static final Integer DIR_TYPE_LOCAL = 0;
+    public static final Integer DIR_TYPE_SYNC = 1;
+
+    // 文件/目录状态 0:不存在 1:存在（同步目录专用）
+    public static final Integer DIR_STATUS_NOT_EXIST = 0;
+    public static final Integer DIR_STATUS_EXIST = 1;
+
+    // 文件类型
+    public static final Integer FILE_TYPE_DIR = 0;
+    public static final Integer FILE_TYPE_FILE = 1;
+    public static final Integer FILE_TYPE_IMAGE = 2;
+
 }

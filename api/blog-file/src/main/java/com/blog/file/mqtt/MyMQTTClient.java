@@ -86,6 +86,16 @@ public class MyMQTTClient {
     }
 
     /**
+     * 发布 指定qos等级
+     * @param pushMessage
+     * @param topic
+     * @param qos
+     */
+    public void publish(String pushMessage, String topic, Integer qos) {
+        publish(pushMessage, topic, qos, false);
+    }
+
+    /**
      * 发布消息
      *
      * @param pushMessage

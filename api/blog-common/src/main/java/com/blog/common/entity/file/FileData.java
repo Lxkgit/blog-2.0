@@ -45,4 +45,14 @@ public class FileData {
      */
     private Long fileSize;
 
+    /**
+     * 目录类型 0:本地目录 1:同步目录
+     */
+    private Integer dirType;
+
+    /**
+     * 文件/目录状态 0:不存在 1:存在（同步目录专用）
+     */
+    private Integer status;
+
 }

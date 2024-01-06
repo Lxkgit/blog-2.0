@@ -2,6 +2,7 @@ package com.blog.file.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blog.common.entity.file.FileData;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @description: 文件服务DAO
@@ -16,4 +17,11 @@ public interface FileDataDAO extends BaseMapper<FileData> {
      * @return
      */
     Integer selectImgCount();
+
+    /**
+     * 查询指定的目录数据
+     * @param dirPath
+     * @return
+     */
+    FileData selectByPathAndName(@Param("dirPath") String dirPath);
 }

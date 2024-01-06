@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 28/12/2023 19:32:26
+ Date: 05/01/2024 17:11:02
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `blog_data`  (
 -- ----------------------------
 -- Records of blog_data
 -- ----------------------------
-INSERT INTO `blog_data` VALUES (1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `blog_data` VALUES (1, NULL, 736, 3, 1, 0, 0, 0, 0, 0, 0, 32);
 
 -- ----------------------------
 -- Table structure for blog_setting
@@ -80,7 +80,7 @@ CREATE TABLE `content_count`  (
   `article_count` int(11) NULL DEFAULT 0 COMMENT '文章数量',
   `diary_count` int(11) NULL DEFAULT 0 COMMENT '日记数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 112 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客用户内容数量统计' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 113 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客用户内容数量统计' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for file_data
@@ -93,18 +93,24 @@ CREATE TABLE `file_data`  (
   `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件/目录全路径（不包含当前目录/文件）',
   `type` tinyint(4) NULL DEFAULT NULL COMMENT '文件类型 0：目录 1：图片 2：其它文件',
   `file_size` bigint(20) NULL DEFAULT NULL COMMENT '文件大小（kb）',
+  `dir_type` tinyint(4) NULL DEFAULT 0 COMMENT '目录类型 0:本地目录 1:同步目录',
+  `status` tinyint(4) NULL DEFAULT 1 COMMENT '文件/目录状态 0:不存在 1:存在（同步目录专用）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 336 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 457 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of file_data
+-- Table structure for file_sync
 -- ----------------------------
-INSERT INTO `file_data` VALUES (284, 1, 'article', 'D:/files/1', 0, 0);
-INSERT INTO `file_data` VALUES (285, 1, 'diary', 'D:/files/1', 0, 0);
-INSERT INTO `file_data` VALUES (286, 1, 'doc', 'D:/files/1', 0, 1732806);
-INSERT INTO `file_data` VALUES (287, 1, 'other', 'D:/files/1', 0, 0);
-INSERT INTO `file_data` VALUES (288, 1, 'user', 'D:/files/1', 0, 0);
-INSERT INTO `file_data` VALUES (289, 1, 'img', 'D:/files/1/article', 0, 0);
+DROP TABLE IF EXISTS `file_sync`;
+CREATE TABLE `file_sync`  (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NULL DEFAULT NULL COMMENT '文件所属用户',
+  `file_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件存放本地目录',
+  `file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件名称',
+  `file_sn` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件唯一标识码',
+  `file_client` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件当前存放服务器编码（mqtt客户端编码 ClientId ）',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文件同步数据库' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for upload_file
@@ -119,7 +125,7 @@ CREATE TABLE `upload_file`  (
   `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件类型',
   `file_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件路径',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 220 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 252 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for upload_log
@@ -134,6 +140,6 @@ CREATE TABLE `upload_log`  (
   `upload_msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `upload_time` datetime(0) NULL DEFAULT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1352 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1388 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

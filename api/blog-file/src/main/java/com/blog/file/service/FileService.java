@@ -24,4 +24,8 @@ public interface FileService {
     void updateFileOrDirName(BlogUser blogUser, FileDataVo fileDataVo) throws ValidException;
 
     Long selectUserSpace(BlogUser blogUser);
+
+    boolean syncFile(BlogUser blogUser, FileDataVo fileDataVo);
+
+    boolean syncFileList(BlogUser blogUser, List<FileDataVo> fileDataVoList);
 }
