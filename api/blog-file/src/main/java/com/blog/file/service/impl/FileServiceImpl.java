@@ -16,7 +16,6 @@ import com.blog.common.message.mqtt.MqttMessage;
 import com.blog.common.util.MqttPushClient;
 import com.blog.file.dao.FileDataDAO;
 import com.blog.file.dao.FileSyncDAO;
-import com.blog.file.mqtt.MyMQTTClient;
 import com.blog.file.service.FileService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -60,8 +59,8 @@ public class FileServiceImpl implements FileService {
     @Resource
     private FileSyncDAO fileSyncDAO;
 
-    @Resource
-    private MyMQTTClient mqttClient;
+//    @Resource
+//    private MyMQTTClient mqttClient;
 
 
     @Override
@@ -209,10 +208,10 @@ public class FileServiceImpl implements FileService {
         fileSyncDAO.insert(fileSync);
 
         // 发送mqtt消息
-        MqttMessage mqttMessage = new MqttMessage();
-        mqttMessage.setSender("blog");
-        mqttMessage.setMessage(JSON.toJSONString(fileSync));
-        mqttClient.publish(JSON.toJSONString(mqttMessage), MQTTTopicEnum.MQTT_SEND_SYNC_FILE.getTopic(), MQTTTopicEnum.MQTT_SEND_SYNC_FILE.getQos());
+//        MqttMessage mqttMessage = new MqttMessage();
+//        mqttMessage.setSender("blog");
+//        mqttMessage.setMessage(JSON.toJSONString(fileSync));
+//        mqttClient.publish(JSON.toJSONString(mqttMessage), MQTTTopicEnum.MQTT_SEND_SYNC_FILE.getTopic(), MQTTTopicEnum.MQTT_SEND_SYNC_FILE.getQos());
 
         return true;
     }

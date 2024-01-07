@@ -16,8 +16,5 @@
         <module name="blog-file" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="content" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

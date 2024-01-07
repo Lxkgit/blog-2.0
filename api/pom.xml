@@ -44,6 +44,7 @@
         <mqttv3.version>1.2.2</mqttv3.version>
         <mqtt.version>5.5.13</mqtt.version>
         <commons-net.version>3.9.0</commons-net.version>
+        <netty.version>5.0.0.Alpha2</netty.version>
     </properties>
 
     <dependencyManagement>
@@ -172,6 +173,14 @@
                 <artifactId>spring-integration-mqtt</artifactId>
                 <version>${mqtt.version}</version>
             </dependency>
+
+            <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
