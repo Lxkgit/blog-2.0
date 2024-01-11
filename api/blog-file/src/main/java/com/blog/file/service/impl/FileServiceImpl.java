@@ -1,25 +1,22 @@
 package com.blog.file.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.blog.common.constant.Constant;
 import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.FileData;
-import com.blog.common.entity.file.FileSync;
 import com.blog.common.entity.file.vo.FileDataVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.enums.file.FileTypeEnum;
-import com.blog.common.enums.mqtt.MQTTTopicEnum;
 import com.blog.common.exception.ValidException;
-import com.blog.common.message.mqtt.MqttMessage;
-import com.blog.common.util.MqttPushClient;
 import com.blog.file.dao.FileDataDAO;
 import com.blog.file.dao.FileSyncDAO;
+import com.blog.file.netty.common.NettyConstant;
+import com.blog.file.netty.dto.NettyPacket;
+import com.blog.file.netty.dto.NettySyncBlogFile;
+import com.blog.file.netty.enums.NettyTopicEnum;
+import com.blog.file.netty.service.NettyServer;
 import com.blog.file.service.FileService;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,10 +26,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -59,8 +53,10 @@ public class FileServiceImpl implements FileService {
     @Resource
     private FileSyncDAO fileSyncDAO;
 
-//    @Resource
-//    private MyMQTTClient mqttClient;
+    @Resource
+    private NettyServer nettyServer;
+
+
 
 
     @Override
@@ -200,19 +196,24 @@ public class FileServiceImpl implements FileService {
             // 本地目录不同步
             return false;
         }
-        FileSync fileSync = new FileSync();
-        fileSync.setFilePath(fileDataVo.getFilePath());
-        fileSync.setFileName(fileDataVo.getName());
-        fileSync.setFileSn(RandomStringUtils.random(16, true, true));
-        fileSync.setUserId(blogUser.getId());
-        fileSyncDAO.insert(fileSync);
 
-        // 发送mqtt消息
-//        MqttMessage mqttMessage = new MqttMessage();
-//        mqttMessage.setSender("blog");
-//        mqttMessage.setMessage(JSON.toJSONString(fileSync));
-//        mqttClient.publish(JSON.toJSONString(mqttMessage), MQTTTopicEnum.MQTT_SEND_SYNC_FILE.getTopic(), MQTTTopicEnum.MQTT_SEND_SYNC_FILE.getQos());
-
+        NettySyncBlogFile nettySyncBlogFile = new NettySyncBlogFile();
+        nettySyncBlogFile.setUserId(blogUser.getId());
+        nettySyncBlogFile.setFilePath(fileDataVo.getFilePath());
+        nettySyncBlogFile.setFileName(fileDataVo.getName());
+        nettySyncBlogFile.setSyncType(fileDataVo.getSyncType());
+        if (fileDataVo.getSyncType().equals(0)) {
+            String fileCode = UUID.randomUUID().toString();
+            nettySyncBlogFile.setFileCode(fileCode);
+            fileDataVo.setFileCode(fileCode);
+            fileDataDAO.updateFileCodeByIdAndUserId(fileDataVo);
+        } else if (fileDataVo.getSyncType().equals(1)){
+            FileData fileData = fileDataDAO.selectById(fileDataVo.getId());
+            nettySyncBlogFile.setFileCode(fileData.getFileCode());
+        }
+        NettyPacket<NettySyncBlogFile> syncFileRequest = NettyPacket.buildRequest(nettySyncBlogFile);
+        syncFileRequest.setTopic(NettyTopicEnum.BLOG_FILE_SYNC.getTopic());
+        nettyServer.channelWriteByClientId(NettyConstant.NETTY_CLIENT1, syncFileRequest);
         return true;
     }
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.pi.dao.FileSyncDAO">
+    <resultMap id="BaseResultMap" type="com.blog.pi.entity.FileSync">
+        <id column="id" property="id"/>
+        <id column="file_code" property="fileCode"/>
+        <id column="local_file_path" property="localFilePath"/>
+        <id column="local_file_name" property="localFileName"/>
+        <id column="service_file_path" property="serviceFilePath"/>
+        <id column="service_file_name" property="serviceFileName"/>
+        <id column="file_size" property="fileSize"/>
+        <id column="create_time" property="createTime"/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, file_code, local_file_path, local_file_name, service_file_path, service_file_name, file_size, create_time
+    </sql>
+
+</mapper>

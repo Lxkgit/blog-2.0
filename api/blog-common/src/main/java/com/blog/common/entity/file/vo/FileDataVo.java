@@ -34,6 +34,9 @@ public class FileDataVo extends FileData implements Comparable<FileDataVo>{
     // 图片path
     private String imgPath;
 
+    // 文件同步类型 0:同步至远程 1: 下载到本地
+    private Integer syncType;
+
     // 最近修改时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

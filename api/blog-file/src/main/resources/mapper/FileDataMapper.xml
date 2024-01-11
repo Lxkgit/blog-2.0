@@ -10,10 +10,12 @@
         <id column="file_size" property="fileSize"/>
         <id column="dir_type" property="dirType"/>
         <id column="status" property="status"/>
+        <id column="file_code" property="fileCode"/>
+        <id column="create_time" property="createTime"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id, name, path, type, file_size, dir_type, status
+        id, user_id, name, path, type, file_size, dir_type, status, file_code, create_time
     </sql>
 
     <select id="selectImgCount" resultType="java.lang.Integer">
@@ -28,4 +30,10 @@
         WHERE CONCAT(path, '/', `name`) = #{dirPath}
         limit 1
     </select>
+    
+    <update id="updateFileCodeByIdAndUserId" parameterType="com.blog.common.entity.file.FileData">
+        update file_data
+        set file_code = #{fileCode}
+        where id = #{id} and user_id = #{userId}
+    </update>
 </mapper>

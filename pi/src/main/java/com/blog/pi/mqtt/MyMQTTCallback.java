@@ -1,9 +1,15 @@
 package com.blog.pi.mqtt;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.blog.pi.dao.SensorDataDAO;
+import com.blog.pi.entity.SensorData;
 import com.blog.pi.enums.mqtt.MQTTTopicEnum;
 import com.blog.pi.ftp.FtpsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
+
+import java.util.Date;
 
 /**
  * @description: mqtt回调 https://blog.csdn.net/qq_42862247/article/details/125536672
@@ -16,6 +22,8 @@ public class MyMQTTCallback implements MqttCallbackExtended {
     private final FtpsUtil ftpsUtil = SpringUtils.getBean(FtpsUtil.class);
 
     private final MyMQTTClient myMQTTClient;
+
+    private final SensorDataDAO sensorDataDAO = SpringUtils.getBean(SensorDataDAO.class);
 
     public MyMQTTCallback(MyMQTTClient myMQTTClient) {
         this.myMQTTClient = myMQTTClient;
@@ -61,12 +69,12 @@ public class MyMQTTCallback implements MqttCallbackExtended {
      */
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-        log.info("MQTT 接收消息主题 : {}，接收消息内容 : {}", topic, new String(mqttMessage.getPayload()));
+        String msg = new String(mqttMessage.getPayload());
+        JSONObject jsonObject = JSON.parseObject(msg);
+        log.info("MQTT 接收消息主题 : {}，接收消息内容 : {}", topic, msg);
         // 处理订阅的消息
-        if (topic.equals(MQTTTopicEnum.MQTT_HEART_SMP.getTopic())) {
-
-        } else if (topic.equals(MQTTTopicEnum.MQTT_RECEIVE_SYNC_FILE.getTopic())) {
-
+        if (topic.equals(MQTTTopicEnum.MQTT_TEMPERATURE_HUMIDITY.getTopic())) {
+            sensorDataDAO.insert(new SensorData("devId", jsonObject.getString("value1"), "value2", "value3", jsonObject.toString(), new Date()));
         }
 //        try {
 //            // 上传文件
@@ -95,7 +103,7 @@ public class MyMQTTCallback implements MqttCallbackExtended {
     public void connectComplete(boolean reconnect, String serverURI) {
         log.info("MQTT 连接成功，连接方式：{}", reconnect ? "重连" : "直连");
         // 订阅主题
-        myMQTTClient.subscribe(MQTTTopicEnum.MQTT_HEART_SMP.getTopic(), MQTTTopicEnum.MQTT_HEART_SMP.getQos());
+
     }
 
     /**

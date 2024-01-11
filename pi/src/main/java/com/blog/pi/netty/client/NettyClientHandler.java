@@ -39,7 +39,8 @@ public class NettyClientHandler extends ChannelDuplexHandler {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     /**
-     * 建立连接时
+     * 客户端连接到服务端后调用
+     * 可在此次发送客户端注册
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
@@ -64,10 +65,10 @@ public class NettyClientHandler extends ChannelDuplexHandler {
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
             if (idleStateEvent.state() == IdleState.WRITER_IDLE) {
-                log.info("已经5秒没有发送消息给服务端!!");
                 // 向服务端发送心跳包
-                NettyPacket<String> nettyRequest = NettyPacket.buildRequest("client heartbeat " + new Date().toString());
+                NettyPacket<String> nettyRequest = NettyPacket.buildRequest("client heartbeat " + new Date());
                 nettyRequest.setNettyPacketType(NettyPacketType.HEARTBEAT.getValue());
+                nettyRequest.setTopic(NettyPacketType.HEARTBEAT.getValue());
                 // 发送心跳消息，并在发送失败时关闭该连接
                 ctx.writeAndFlush(JSONObject.toJSONString(nettyRequest));
             }

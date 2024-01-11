@@ -22,7 +22,7 @@ ftp:
   port: 21
 
 mqtt:
-  host: tcp://10.56.23.13:1885
+  host: tcp://${devServiceIp}:1883
   username: admin
   password: public
   clientId: clientId1
@@ -32,3 +32,4 @@ mqtt:
 netty:
   host: 127.0.0.1
   port: 9092
+  sender: SMP1

@@ -51,8 +51,20 @@ public class FileData {
     private Integer dirType;
 
     /**
-     * 文件/目录状态 0:不存在 1:存在（同步目录专用）
+     * 同步文件位置状态 0:远程服务器 1:本地服务器 2:正在同步远程服务器 3:正在同步本地服务器
      */
     private Integer status;
+
+    /**
+     * 同步文件唯一编码
+     */
+    private String fileCode;
+
+    /**
+     * 文件创建时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 
 }

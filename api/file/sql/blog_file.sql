@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 05/01/2024 17:11:02
+ Date: 11/01/2024 17:39:49
 */
 
 SET NAMES utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `blog_data`  (
 -- ----------------------------
 -- Records of blog_data
 -- ----------------------------
-INSERT INTO `blog_data` VALUES (1, NULL, 736, 3, 1, 0, 0, 0, 0, 0, 0, 32);
+INSERT INTO `blog_data` VALUES (1, NULL, 736, 3, 1, 0, 0, 0, 0, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for blog_setting
@@ -80,7 +80,7 @@ CREATE TABLE `content_count`  (
   `article_count` int(11) NULL DEFAULT 0 COMMENT '文章数量',
   `diary_count` int(11) NULL DEFAULT 0 COMMENT '日记数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 113 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客用户内容数量统计' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客用户内容数量统计' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for file_data
@@ -94,9 +94,11 @@ CREATE TABLE `file_data`  (
   `type` tinyint(4) NULL DEFAULT NULL COMMENT '文件类型 0：目录 1：图片 2：其它文件',
   `file_size` bigint(20) NULL DEFAULT NULL COMMENT '文件大小（kb）',
   `dir_type` tinyint(4) NULL DEFAULT 0 COMMENT '目录类型 0:本地目录 1:同步目录',
-  `status` tinyint(4) NULL DEFAULT 1 COMMENT '文件/目录状态 0:不存在 1:存在（同步目录专用）',
+  `status` tinyint(4) NULL DEFAULT 1 COMMENT '同步文件位置状态 0:远程服务器 1:本地服务器 2:正在同步远程服务器 3:正在同步本地服务器',
+  `file_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '同步文件唯一编码',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '文件创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 457 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '文件云盘功能数据库' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for file_sync
@@ -125,7 +127,7 @@ CREATE TABLE `upload_file`  (
   `file_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件类型',
   `file_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文件路径',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 252 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for upload_log
@@ -140,6 +142,6 @@ CREATE TABLE `upload_log`  (
   `upload_msg` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `upload_time` datetime(0) NULL DEFAULT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1388 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

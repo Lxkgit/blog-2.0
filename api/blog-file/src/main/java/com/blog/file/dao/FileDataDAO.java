@@ -24,4 +24,10 @@ public interface FileDataDAO extends BaseMapper<FileData> {
      * @return
      */
     FileData selectByPathAndName(@Param("dirPath") String dirPath);
+
+    /**
+     * 根据文件id与用户id修改文件编码
+     * @param fileData
+     */
+    void updateFileCodeByIdAndUserId(FileData fileData);
 }

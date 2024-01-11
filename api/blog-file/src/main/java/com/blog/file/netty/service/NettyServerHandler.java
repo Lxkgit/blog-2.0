@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,8 +32,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @ChannelHandler.Sharable
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
 
-    // 管理一个全局map，保存连接进服务端的通道
-    public static final Map<ChannelId, ChannelHandlerContext> CHANNEL_MAP = new ConcurrentHashMap<>();
+    // 全局map，保存通道编码与客户端编码 （用户服务端监听到客户端断开连接，移除map通道）
+    public static final Map<ChannelId, ChannelHandlerContext> channelMap = new ConcurrentHashMap<>();
+
+    // 全局map，保存客户端编码与netty通道编码 （用于服务端指定客户端发送消息）
+    public static final Map<String, ChannelId> clientMap = new ConcurrentHashMap<>();
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -47,13 +51,13 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         // 获取连接通道唯一标识
         ChannelId channelId = ctx.channel().id();
         // 如果map中不包含此连接，就保存连接
-        if (CHANNEL_MAP.containsKey(channelId)) {
-            log.info("客户端【{}】是连接状态，连接通道数量:{}", channelId, CHANNEL_MAP.size());
+        if (channelMap.containsKey(channelId)) {
+            log.info("客户端【{}】是连接状态，连接通道数量:{}", channelId, channelMap.size());
         } else {
             // 保存连接
-            CHANNEL_MAP.put(channelId, ctx);
+            channelMap.put(channelId, ctx);
             log.info("客户端【{}】连接Netty服务端!![clientIp:{} clientPort:{}]", channelId, clientIp, clientPort);
-            log.info("连接通道数量:{}", CHANNEL_MAP.size());
+            log.info("连接通道数量:{}", channelMap.size());
         }
     }
 
@@ -68,11 +72,15 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         // 获取终止连接的客户端ID
         ChannelId channelId = ctx.channel().id();
         // 包含此客户端才去删除
-        if (CHANNEL_MAP.containsKey(channelId)) {
+        if (channelMap.containsKey(channelId)) {
             // 删除连接
-            CHANNEL_MAP.remove(channelId);
+            channelMap.remove(channelId);
+            if (clientMap.containsValue(channelId)) {
+                Collection<ChannelId> values = clientMap.values();
+                values.remove(channelId);
+            }
             log.warn("客户端【{}】断开Netty连接!![clientIp:{} clientPort:{}]", channelId, clientIp, clientPort);
-            log.info("连接通道数量:{}", CHANNEL_MAP.size());
+            log.info("channelId: 连接通道数量:{}, client: 绑定通道数量:{}", channelMap.size(), clientMap.size());
         }
     }
 
@@ -88,7 +96,6 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             // 发布自定义Netty数据包处理事件
             applicationEventPublisher.publishEvent(new NettyPacketEvent(ctx.channel().id(), nettyPacket));
         } catch (Exception e) {
-            log.error("channelId:【{}】 报文解析失败!! msg:{} error:{}", ctx.channel().id(), msg.toString(), e.getMessage());
             NettyPacket<String> nettyResponse = NettyPacket.buildRequest("报文解析失败!!");
             ctx.writeAndFlush(JSONObject.toJSONString(nettyResponse));
         }

@@ -40,7 +40,7 @@ public class FtpsUtil {
         int reply = 0;
         try {
             String ftpIp = "10.56.23.145";
-            Integer ftpPort = 10012;
+            int ftpPort = 10012;
             String ftpUsername = "test3";
             String ftpPassword = "Admin123";
             ftpsClient.setConnectTimeout(3000);
@@ -132,21 +132,24 @@ public class FtpsUtil {
         return false;
     }
 
+
+
     /**
      * 下载服务器文件
-     *
-     * @param filePath 文件目录
-     * @param fileName 文件名称
+     * @param serviceFilePath 服务器文件目录
+     * @param serviceFileName 服务器文件名称
+     * @param localFilePath 本地存放文件目录
+     * @param localFileName 本地存放文件名称
      * @return 下载结果
      */
-    public boolean downloadFtpFile(String filePath, String fileName) {
-        log.info("ftps 下载文件  pathName: {}, fileName: {}", filePath, fileName);
+    public boolean downloadFtpFile(String serviceFilePath, String serviceFileName, String localFilePath, String localFileName) {
+        log.info("ftps 下载文件  pathName: {}, fileName: {}", serviceFilePath, serviceFileName);
         init();
         try {
-            ftpsClient.changeWorkingDirectory(new String(filePath.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
-            File localFile = new File("D://" + File.separatorChar + fileName);
+            ftpsClient.changeWorkingDirectory(new String(serviceFilePath.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+            File localFile = new File(localFilePath + File.separatorChar + localFileName);
             OutputStream os = new FileOutputStream(localFile);
-            boolean success = ftpsClient.retrieveFile(new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1), os);
+            boolean success = ftpsClient.retrieveFile(new String(serviceFileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1), os);
             os.close();
             log.info("ftps 文件下载结果 " + success);
             return success;

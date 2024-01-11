@@ -2,13 +2,11 @@ package com.blog.file.netty.listener;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.blog.file.netty.dto.NettyPacket;
-import com.blog.file.netty.dto.request.RequestTestVO;
-import com.blog.file.netty.dto.response.ResponseTestVO;
 import com.blog.file.netty.enums.NettyPacketType;
 import com.blog.file.netty.event.NettyPacketEvent;
 import com.blog.file.netty.service.NettyServer;
+import com.blog.file.netty.service.NettyServerHandler;
 import io.netty.channel.ChannelId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,21 +32,23 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
     @Override
     public void onApplicationEvent(NettyPacketEvent event) {
         ChannelId channelId = (ChannelId) event.getSource();
+        String sender = event.getNettyPacket().getSender();
         String nettyPacketType = event.getNettyPacket().getNettyPacketType();
+        String topic = event.getNettyPacket().getTopic();
+        String requestId = event.getNettyPacket().getRequestId();
+        String data = JSONObject.toJSONString(event.getNettyPacket().getData());
+        log.info("channelId:【{}】 sender:【{}】 requestId:【{}】 topic:【{}】 data:{}", channelId, sender, requestId, topic, data);
         if (nettyPacketType.equals(NettyPacketType.HEARTBEAT.getValue())) {
-            log.info("server receive heartbeat!! channelId:{}", channelId);
-            NettyPacket<String> nettyResponse = NettyPacket.buildResponse("server receive heartbeat " + new Date().toString());
+            NettyPacket<String> nettyResponse = NettyPacket.buildResponse(event.getNettyPacket().getRequestId(), "service receive heartbeat");
             nettyResponse.setNettyPacketType(NettyPacketType.HEARTBEAT.getValue());
-            boolean success = nettyServer.channelWrite(channelId, JSONObject.toJSONString(nettyResponse));
-        } else if (nettyPacketType.equals(NettyPacketType.REQUEST.getValue())) {
-            String command = event.getNettyPacket().getCommand();
-            Object data = event.getNettyPacket().getData();
-            if (command.equals(NettyPacket.REQUEST_TEST_1)) {
-                requestTest1(channelId, event.getNettyPacket().getRequestId(), JSONObject.parseObject(JSONObject.toJSONString(data), new TypeReference<RequestTestVO>() {
-                }.getType()));
-            } else {
-                log.warn("unknown command!! channelId:{} data:{}", channelId, JSONObject.toJSONString(data));
+            nettyResponse.setTopic(NettyPacketType.HEARTBEAT.getValue());
+            if (!NettyServerHandler.clientMap.containsKey(sender)) {
+                NettyServerHandler.clientMap.put(sender, channelId);
+                log.info("客户端【{}】与netty通道【{}】绑定", sender, channelId);
             }
+            boolean success = nettyServer.channelWriteByChannelId(channelId, JSONObject.toJSONString(nettyResponse));
+        } else if (nettyPacketType.equals(NettyPacketType.REQUEST.getValue())) {
+
         } else if (nettyPacketType.equals(NettyPacketType.RESPONSE.getValue())) {
             // TODO RESPONSE
             log.info("channelId:{} RESPONSE!! data:{}", channelId, JSONObject.toJSONString(event.getNettyPacket().getData()));
@@ -57,14 +57,5 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
         }
     }
 
-    /**
-     * 处理请求:RequestTest1
-     */
-    private void requestTest1(ChannelId channelId, String requestId, RequestTestVO param) {
-        log.info("处理客户端【{}】的请求，请求ID:{}，请求参数:{}", channelId, requestId, JSONObject.toJSONString(param));
-        ResponseTestVO response = ResponseTestVO.builder().message("server receive param").date(new Date()).build();
-        NettyPacket<Object> nettyResponse = NettyPacket.buildResponse(requestId, response);
-        nettyServer.channelWrite(channelId, JSONObject.toJSONString(nettyResponse));
-    }
 }
 
