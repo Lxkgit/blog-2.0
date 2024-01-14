@@ -1,9 +1,11 @@
 package com.blog.file;
 
+import com.blog.file.utils.AppContextHelper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -23,7 +25,10 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 public class FileApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FileApplication.class, args);
-        System.out.println("文件服务启动成功...");
+//        SpringApplication.run(FileApplication.class, args);
+//
+        SpringApplication application = new  SpringApplication(FileApplication.class);
+        ApplicationContext applicationContext = application.run(args);
+        AppContextHelper.setContext(applicationContext, true);
     }
 }

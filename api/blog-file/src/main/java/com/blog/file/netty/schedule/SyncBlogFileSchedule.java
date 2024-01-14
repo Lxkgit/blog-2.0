@@ -30,11 +30,12 @@ public class SyncBlogFileSchedule {
     private NettyServer nettyServer;
 
 
-    @PostConstruct
-    @Scheduled(cron = "0 0/1 * * * ?")
+//    @PostConstruct  // 项目启动时执行这个方法
+    @Scheduled(cron = "* * 1 * * ?")
     public void initFile() {
         NettySyncBlogFile nettySyncBlogFile = new NettySyncBlogFile();
         nettySyncBlogFile.setUserId(1);
+        nettySyncBlogFile.setSyncType(0);
         nettySyncBlogFile.setFileCode("44");
         nettySyncBlogFile.setFileName("ftpsUtil.jpg");
         nettySyncBlogFile.setFilePath("/opt/ftps/test");

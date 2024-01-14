@@ -1,35 +1,4 @@
-devServiceIp: localhost
-
-server:
-  port: 10201
-
 spring:
-  application:
-    name: blog-pi
-
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://${devServiceIp}:3306/blog_pi?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
-    username: root
-    password: root
-
-ftp:
-  basePath: D:/files
-  host: ${devServiceIp}
-  httpPath: ftp://${devServiceIp}
-  username: demo
-  password: demo
-  port: 21
-
-mqtt:
-  host: tcp://${devServiceIp}:1883
-  username: admin
-  password: public
-  clientId: clientId1
-  timeout: 20
-  keepalive: 20
-
-netty:
-  host: 127.0.0.1
-  port: 9092
-  sender: SMP1
+  profiles:
+    active: dev # 开发环境
+#    active: pro # 生产环境

@@ -7,23 +7,24 @@ package com.blog.common.result;
  * @modified By:
  */
 public class ResultFactory {
+
     public static Result buildSuccessResult(Object data) {
-        return buildResult(ResultCode.SUCCESS, "成功", data);
+        return buildResult(ResultCode.SUCCESS.code, "成功", data, true);
     }
 
     public static Result buildSuccessResult() {
-        return buildResult(ResultCode.SUCCESS, "成功", null);
+        return buildResult(ResultCode.SUCCESS.code, "成功", null, true);
     }
 
     public static Result buildFailResult(String message) {
-        return buildResult(ResultCode.FAIL, message, null);
+        return buildResult(ResultCode.FAIL.code, message, null, false);
     }
 
-    public static Result buildResult(ResultCode resultCode, String message, Object data) {
-        return buildResult(resultCode.code, message, data);
+    public static Result buildFailResult(String errorCode, String message) {
+        return buildResult(errorCode, message, null, false);
     }
 
-    public static Result buildResult(int resultCode, String message, Object data) {
-        return new Result(resultCode, message, data);
+    public static Result buildResult(String resultCode, String message, Object data, boolean success) {
+        return new Result(resultCode, message, data, success);
     }
 }

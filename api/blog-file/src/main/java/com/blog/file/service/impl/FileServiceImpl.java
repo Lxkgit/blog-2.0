@@ -57,8 +57,6 @@ public class FileServiceImpl implements FileService {
     private NettyServer nettyServer;
 
 
-
-
     @Override
     public void saveFileDir(BlogUser blogUser, FileDataVo fileDataVoParam) throws ValidException {
         if (fileDataVoParam.getName() == null || fileDataVoParam.getName().equals("")) {
@@ -166,6 +164,7 @@ public class FileServiceImpl implements FileService {
 
     /**
      * 同步文件
+     *
      * @param blogUser
      * @param fileDataVoList
      * @return
@@ -187,13 +186,20 @@ public class FileServiceImpl implements FileService {
         return false;
     }
 
+    /**
+     * 同步单个文件至远程服务器
+     *
+     * @param blogUser
+     * @param fileDataVo
+     * @return
+     */
     public boolean syncFile(BlogUser blogUser, FileDataVo fileDataVo) {
         if (fileDataVo.getType().equals(Constant.FILE_TYPE_DIR)) {
             // 目录不同步
             return false;
         }
         if (fileDataVo.getDirType().equals(Constant.DIR_TYPE_LOCAL)) {
-            // 本地目录不同步
+            // 本地目录/文件不同步
             return false;
         }
 
@@ -207,7 +213,7 @@ public class FileServiceImpl implements FileService {
             nettySyncBlogFile.setFileCode(fileCode);
             fileDataVo.setFileCode(fileCode);
             fileDataDAO.updateFileCodeByIdAndUserId(fileDataVo);
-        } else if (fileDataVo.getSyncType().equals(1)){
+        } else if (fileDataVo.getSyncType().equals(1)) {
             FileData fileData = fileDataDAO.selectById(fileDataVo.getId());
             nettySyncBlogFile.setFileCode(fileData.getFileCode());
         }

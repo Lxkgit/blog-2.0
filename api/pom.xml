@@ -32,7 +32,7 @@
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <spring.web.version>2.3.1.RELEASE</spring.web.version>
         <gateway.version>2.2.0.RELEASE</gateway.version>
-        <mysql.version>5.1.46</mysql.version>
+        <mysql.version>8.0.12</mysql.version>
         <redis.version>2.2.6.RELEASE</redis.version>
         <servlet.api.version>3.0-alpha-1</servlet.api.version>
         <lombok.version>1.18.22</lombok.version>

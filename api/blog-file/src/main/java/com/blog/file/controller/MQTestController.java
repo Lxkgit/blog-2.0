@@ -1,17 +1,20 @@
 package com.blog.file.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.blog.common.entity.file.FileSync;
 import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
+import com.blog.common.exception.ValidException;
 import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
+import com.blog.common.valication.annotation.ParamValidated;
 import com.blog.file.mq.MQProducerService;
+import com.blog.file.netty.dto.NettySyncBlogFile;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Validate;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -44,6 +47,12 @@ public class MQTestController {
         rocketMQMessage.setMqMsgType(1);
         mqProducerService.sendSyncOrderly(rocketMQMessage);
         return ResultFactory.buildSuccessResult();
+    }
+
+    @PostMapping("/test")
+    public Result test(@RequestBody @Validated @ParamValidated NettySyncBlogFile fileSync) {
+        log.info(fileSync.toString());
+        return ResultFactory.buildSuccessResult(fileSync);
     }
 
 }
