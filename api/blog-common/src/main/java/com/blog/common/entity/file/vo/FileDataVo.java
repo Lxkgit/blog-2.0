@@ -2,6 +2,7 @@ package com.blog.common.entity.file.vo;
 
 import com.blog.common.entity.file.FileData;
 import com.blog.common.entity.user.vo.SysPermissionVo;
+import com.blog.common.valication.annotation.Equal;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.Getter;
@@ -35,6 +36,7 @@ public class FileDataVo extends FileData implements Comparable<FileDataVo>{
     private String imgPath;
 
     // 文件同步类型 0:同步至远程 1: 下载到本地
+    @Equal(value = "0,1", message = "文件同步类型必须是0或1")
     private Integer syncType;
 
     // 最近修改时间

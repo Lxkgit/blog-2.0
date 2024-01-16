@@ -1,11 +1,11 @@
-package com.blog.pi.utils;
+package com.blog.common.util;
 
 import java.util.Random;
 
 /**
- * @description: 字符串工具
+ * @description: 字符串校验工具
  * @Author: 308501
- * @date 2024/1/11 15:54
+ * @date 2024/1/15 16:56
  */
 
 public class StringUtils {

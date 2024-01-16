@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 11/01/2024 17:39:56
+ Date: 15/01/2024 10:17:26
 */
 
 SET NAMES utf8mb4;
@@ -32,12 +32,13 @@ CREATE TABLE `blog_file_sync`  (
   `file_size` int(11) NULL DEFAULT NULL COMMENT '文件大小（单位kb）',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '博客服务器文件同步表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '博客服务器文件同步表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_file_sync
 -- ----------------------------
 INSERT INTO `blog_file_sync` VALUES (5, 1, '44', 'D://testFtp', 'ftpsUtil_cd0e55.jpg', '/opt/ftps/test', 'ftpsUtil.jpg', 14568, '2024-01-11 16:15:01');
+INSERT INTO `blog_file_sync` VALUES (6, 1, '44', 'D://testFtp', 'ftpsUtil_fa6565.jpg', '/opt/ftps/test', 'ftpsUtil.jpg', 14568, '2024-01-12 09:32:01');
 
 -- ----------------------------
 -- Table structure for sensor_data

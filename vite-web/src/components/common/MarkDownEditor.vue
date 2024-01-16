@@ -73,7 +73,7 @@ const uploadImageFun = (event: any, insertImage: any, files: any) => {
     ).then((res: any) => {
       if (res.code === 200) {
         insertImage({
-          url: res.result.fileUrl,
+          url: res.result[0],
           desc: files[i].name,
         });
       }

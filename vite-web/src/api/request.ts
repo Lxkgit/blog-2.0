@@ -22,8 +22,12 @@ export function request(config: any) {
     // return Promise.error(error)
     return Promise.reject(new Error(error))
   })
+
   // 响应拦截器配置
   instance.interceptors.response.use(response => {
+    if (response.data.code === "200") {
+      response.data.code = 200
+    }
     return response.data
   }, error => {
     console.log(error)

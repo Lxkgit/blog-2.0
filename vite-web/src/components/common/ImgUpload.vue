@@ -98,6 +98,7 @@ onMounted(() => {
     imgNumber.value = props.num
   }
   if (props.imgList !== null && props.imgList !== undefined) {
+    
     if (props.imgList.length === 0) {
       fileList.data = []
     } else {
@@ -138,7 +139,7 @@ function imgUpload() {
       uploadApi(data).then((res: any) => {
         if (res.code === 200) {
           ElMessage.success({ message: '图片上传成功', type: 'success' });
-          fileList.data.push({ url: res.result.fileUrl })
+          fileList.data.push(res.result)
           fileList.data = fileList.data.filter(function (item: any) {
             return item.status !== "ready"
           })
@@ -230,13 +231,13 @@ function cropper() {
             message: '图片上传成功',
             type: 'success'
           });
-          fileList.data.push({ url: res.result.fileUrl })
+          fileList.data.push({ url: res.result[0] })
           loading.value = false
           imgCroppingDialog.value = false
           fileList.data = fileList.data.filter(function (item: any) {
             return item.status !== "ready"
           })
-          emit('upload', fileList.data)
+          emit('upload', res.result)
         }
       })
     })

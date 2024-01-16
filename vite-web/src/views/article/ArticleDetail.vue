@@ -225,6 +225,7 @@ function markdown() {
     );
     if (heading) {
       heading.scrollIntoView({ behavior: "smooth", block: "start" })
+      //todo js计算锚点距离页面顶部的距离，直接给滚动条赋值（smooth）
     }
   }
   // markdown-页面滚动高度

@@ -1,6 +1,8 @@
 package com.blog.file.controller;
 
+import cn.hutool.core.exceptions.ValidateException;
 import com.alibaba.fastjson.JSON;
+import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.FileSync;
 import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
@@ -50,8 +52,15 @@ public class MQTestController {
     }
 
     @PostMapping("/test")
-    public Result test(@RequestBody @Validated @ParamValidated NettySyncBlogFile fileSync) {
+    public Result test(@RequestBody @Validated NettySyncBlogFile fileSync) throws ValidException {
         log.info(fileSync.toString());
+        if (fileSync.getSyncType().equals(1)) {
+            throw new ValidException(ErrorMessage.BASE_FILE_DIR_NOT_CREATE);
+        } else if (fileSync.getSyncType().equals(2)) {
+            throw new ValidException(ErrorMessage.BASE_FILE_DIR_NOT_CREATE, " 测试带数据报错 ");
+        }
+
+
         return ResultFactory.buildSuccessResult(fileSync);
     }
 

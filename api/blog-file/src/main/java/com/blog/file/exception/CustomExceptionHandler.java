@@ -1,10 +1,14 @@
 package com.blog.file.exception;
 
+import com.blog.common.constant.ErrorMessage;
+import com.blog.common.entity.user.SysRole;
 import com.blog.common.exception.ValidException;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 类名称：CustomExceptionHandler.java 类描述：全局异常处理类,包括但不限于：校验contoller参数，业务运行异常
@@ -33,16 +38,27 @@ public class CustomExceptionHandler extends GlobalExceptionHandler {
     @ExceptionHandler(ValidException.class)
 	@Override
     public Result validExceptionHandle(HttpServletRequest request, ValidException e) {
-		Result restResult = null;
-    	// 这里将异常参数放到 RestResult 中的 data 属性中有一个优先级：e.data > e.args
-    	if (e.getData() != null) {
-    		restResult = ResultFactory.buildFailResult(e.getMessage());
+		Result restResult;
+		if (e.getData() != null) {
+			restResult = ResultFactory.buildFailResult(e.getCode(), e.getMessage(), e.getData());
 		} else {
-			restResult = ResultFactory.buildFailResult(e.getMessage());
+			restResult = ResultFactory.buildFailResult(e.getCode(), e.getMessage());
 		}
+
     	logger.error("Http url={} valid params error {}",request.getRequestURI(), e.getMessage(), e);
     	return restResult;
     }
+
+	@ResponseBody
+	@ExceptionHandler(BindException.class)
+	@Override
+	public Result BeanPropertyBindingResult(HttpServletRequest request, BindException e) {
+		Result restResult;
+		List<String> errorMsgList =  e.getBindingResult().getAllErrors().parallelStream().map(ObjectError::getDefaultMessage).collect(Collectors.toList());
+		restResult = ResultFactory.buildFailResult(ErrorMessage.PARAMETER_VERIFICATION_ERROR.getCode(), errorMsgList.toString());
+		logger.error("Http url={} valid params error {}",request.getRequestURI(), errorMsgList.toString(), e);
+		return restResult;
+	}
 
 	@ResponseBody
     @ExceptionHandler(MethodArgumentNotValidException.class)

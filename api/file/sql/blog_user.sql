@@ -84,6 +84,17 @@ INSERT INTO `sys_permission` VALUES (702, 64, '创建文档', '', '', 'sys:doc:i
 INSERT INTO `sys_permission` VALUES (703, 64, '修改文档', '', '', 'sys:doc:update', '', 2);
 INSERT INTO `sys_permission` VALUES (704, 64, '修改文档目录', '', '', 'sys:doc:catalog:update', '', 2);
 INSERT INTO `sys_permission` VALUES (705, 64, '删除文档', '', '', 'sys:doc:delete', '', 2);
+INSERT INTO `sys_permission` VALUES (800, 70, '查看文件', '', '', 'sys:file:user:select', '', 2);
+INSERT INTO `sys_permission` VALUES (801, 70, '创建目录', '', '', 'sys:file:user:save', '', 2);
+INSERT INTO `sys_permission` VALUES (802, 70, '上传文件', '', '', 'sys:file:user:upload', '', 2);
+INSERT INTO `sys_permission` VALUES (803, 70, '修改文件或目录名称', '', '', 'sys:file:user:update', '', 2);
+INSERT INTO `sys_permission` VALUES (804, 70, '删除文件或目录', '', '', 'sys:file:user:delete', '', 2);
+INSERT INTO `sys_permission` VALUES (805, 70, '获取剩余空间', '', '', 'sys:file:user:space', '', 2);
+INSERT INTO `sys_permission` VALUES (806, 70, '同步远程文件', '', '', 'sys:file:user:sync', '', 2);
+INSERT INTO `sys_permission` VALUES (900, 80, '查看网站设置', '', '', 'sys:setting:all:select', '', 2);
+INSERT INTO `sys_permission` VALUES (901, 80, '修改网站设置', '', '', 'sys:setting:all:update', '', 2);
+INSERT INTO `sys_permission` VALUES (1000, 81, '查看个人设置', '', '', 'sys:setting:user:select', '', 2);
+INSERT INTO `sys_permission` VALUES (1001, 81, '修改个人设置', '', '', 'sys:setting:user:update', '', 2);
 
 -- ----------------------------
 -- Table structure for sys_role

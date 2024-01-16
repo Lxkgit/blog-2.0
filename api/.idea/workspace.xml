@@ -17,48 +17,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-12-30【功能修改】：修改文章界面展示，修改接口mq消息发送与接收代码逻辑">
-      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/aop/ParamValidatedAspect.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/Equal.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/EqualValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/ParamValidated.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/validate/ParamValidate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/validate/ParamValidateManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/aop/DefaultParamValidate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/aop/ParamValidate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/aop/ParamValidateManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/aop/ParamValidatedAspect.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/exception/CustomExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/utils/AppContext.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/utils/AppContextHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/utils/AppContextHelperCondition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pi/src/main/resources/application-dev.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pi/src/main/resources/application-pro.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pi/src/main/resources/file/conf/daemon.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pi/src/main/resources/file/docker/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pi/src/main/resources/file/shell/centos.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../pi/src/main/resources/file/shell/debian.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/StringUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/EnumValidate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/EnumValidateImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/EqualImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/BaseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../vite-web/src/doc/blog-file/FileController/创建云盘目录.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../vite-web/src/doc/blog-file/UploadFileController/文件上传.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../vite-web/src/doc/模板.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/result/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/result/Result.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/result/ResultCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/result/ResultCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/constant/ErrorMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/constant/ErrorMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/FileDataVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/FileDataVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/UploadVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/UploadVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/enums/file/FileTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/enums/file/FileTypeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/exception/ValidException.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/exception/ValidException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/result/ResultFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/result/ResultFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/FileApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/FileApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/Equal.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/Equal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/BlogSettingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/BlogSettingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/FileController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/MQTestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/MQTestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/mqtt/SpringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/mqtt/SpringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/UploadFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/UploadFileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/exception/CustomExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/exception/CustomExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyPacket.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettySyncBlogFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettySyncBlogFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/listener/NettyServerPacketListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/listener/NettyServerPacketListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/SyncBlogFileSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/SyncBlogFileSchedule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/FileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/FileServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_auth.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/blog_auth.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_content.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/blog_content.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_file.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/blog_file.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_gateway.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/blog_gateway.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_pi.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/resources/file/sql/blog_pi.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/blog_user.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/nacos.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/nacos.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/pi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/pi.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/UploadFileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/UploadFileServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/NettyPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/NettyPacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/NettySyncBlogFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/NettySyncBlogFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/listener/NettyClientPacketListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/listener/NettyClientPacketListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/service/SyncBlogFileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/service/SyncBlogFileService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/utils/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/utils/StringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/resources/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/resources/file/sql/blog_pi.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/resources/file/sql/blog_pi.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/api/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/api/request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/common/ImgUpload.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/common/ImgUpload.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/common/MarkDownEditor.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/common/MarkDownEditor.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/setting/util/TypeUpload.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/setting/util/TypeUpload.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/setting/util/TypeUploadMore.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/setting/util/TypeUploadMore.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/admin/article/ArticleEditor.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/admin/article/ArticleEditor.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/admin/diary/AdminDiary.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/admin/diary/AdminDiary.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/admin/doc/AdminDoc.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/admin/doc/AdminDoc.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/admin/user/AdminUser.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/admin/user/AdminUser.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/article/ArticleDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/article/ArticleDetail.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -486,7 +489,11 @@
       <workItem from="1705199942607" duration="3864000" />
       <workItem from="1705214551951" duration="6000" />
       <workItem from="1705214722614" duration="5166000" />
-      <workItem from="1705237534400" duration="7289000" />
+      <workItem from="1705237534400" duration="7479000" />
+      <workItem from="1705250435882" duration="57000" />
+      <workItem from="1705336600721" duration="26000" />
+      <workItem from="1705336676494" duration="164000" />
+      <workItem from="1705416351626" duration="309000" />
     </task>
     <task id="LOCAL-00075" summary="23-03-12【功能新增】：博客后端管理页面角色、用户、文章管理功能新增">
       <created>1678607006681</created>
@@ -916,69 +923,69 @@
     </state>
     <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705213695153" />
     <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1702198161755" />
-    <state width="1877" height="377" key="GridCell.Tab.0.bottom" timestamp="1705248148662">
+    <state width="1510" height="429" key="GridCell.Tab.0.bottom" timestamp="1705248528693">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1877" height="200" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1701706247339" />
     <state width="1877" height="382" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1702211164633" />
     <state width="1510" height="411" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705240048669" />
-    <state width="1877" height="377" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248148662" />
+    <state width="1510" height="429" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248528693" />
     <state width="1510" height="356" key="GridCell.Tab.0.bottom/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1702206765728" />
     <state width="1877" height="382" key="GridCell.Tab.0.bottom/0.0.1920.1050/1920.0.1920.1050@1920.0.1920.1050" timestamp="1702210392109" />
-    <state width="1877" height="377" key="GridCell.Tab.0.center" timestamp="1705248148662">
+    <state width="1510" height="429" key="GridCell.Tab.0.center" timestamp="1705248528693">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1877" height="200" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1701706247339" />
     <state width="1877" height="382" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1702211164633" />
     <state width="1510" height="411" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705240048669" />
-    <state width="1877" height="377" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248148662" />
+    <state width="1510" height="429" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248528693" />
     <state width="1510" height="356" key="GridCell.Tab.0.center/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1702206765728" />
     <state width="1877" height="382" key="GridCell.Tab.0.center/0.0.1920.1050/1920.0.1920.1050@1920.0.1920.1050" timestamp="1702210392109" />
-    <state width="1877" height="377" key="GridCell.Tab.0.left" timestamp="1705248148661">
+    <state width="1510" height="429" key="GridCell.Tab.0.left" timestamp="1705248528693">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1877" height="200" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1701706247339" />
     <state width="1877" height="382" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1702211164633" />
     <state width="1510" height="411" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705240048668" />
-    <state width="1877" height="377" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248148661" />
+    <state width="1510" height="429" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248528693" />
     <state width="1510" height="356" key="GridCell.Tab.0.left/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1702206765728" />
     <state width="1877" height="382" key="GridCell.Tab.0.left/0.0.1920.1050/1920.0.1920.1050@1920.0.1920.1050" timestamp="1702210392108" />
-    <state width="1877" height="377" key="GridCell.Tab.0.right" timestamp="1705248148662">
+    <state width="1510" height="429" key="GridCell.Tab.0.right" timestamp="1705248528693">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1877" height="200" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1701706247339" />
     <state width="1877" height="382" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1702211164633" />
     <state width="1510" height="411" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705240048669" />
-    <state width="1877" height="377" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248148662" />
+    <state width="1510" height="429" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248528693" />
     <state width="1510" height="356" key="GridCell.Tab.0.right/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1702206765728" />
     <state width="1877" height="382" key="GridCell.Tab.0.right/0.0.1920.1050/1920.0.1920.1050@1920.0.1920.1050" timestamp="1702210392109" />
-    <state width="1510" height="429" key="GridCell.Tab.1.bottom" timestamp="1705248144660">
+    <state width="1510" height="429" key="GridCell.Tab.1.bottom" timestamp="1705248528693">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1603" height="384" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1701706247336" />
     <state width="1510" height="411" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705240048669" />
-    <state width="1510" height="429" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248144660" />
+    <state width="1510" height="429" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248528693" />
     <state width="1510" height="356" key="GridCell.Tab.1.bottom/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1702206765728" />
-    <state width="1510" height="429" key="GridCell.Tab.1.center" timestamp="1705248144659">
+    <state width="1510" height="429" key="GridCell.Tab.1.center" timestamp="1705248528693">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1603" height="384" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1701706247336" />
     <state width="1510" height="411" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705240048669" />
-    <state width="1510" height="429" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248144659" />
+    <state width="1510" height="429" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248528693" />
     <state width="1510" height="356" key="GridCell.Tab.1.center/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1702206765728" />
-    <state width="1510" height="429" key="GridCell.Tab.1.left" timestamp="1705248144659">
+    <state width="1510" height="429" key="GridCell.Tab.1.left" timestamp="1705248528693">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1603" height="384" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1701706247336" />
     <state width="1510" height="411" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705240048669" />
-    <state width="1510" height="429" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248144659" />
+    <state width="1510" height="429" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248528693" />
     <state width="1510" height="356" key="GridCell.Tab.1.left/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1702206765728" />
-    <state width="1510" height="429" key="GridCell.Tab.1.right" timestamp="1705248144660">
+    <state width="1510" height="429" key="GridCell.Tab.1.right" timestamp="1705248528693">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state width="1603" height="384" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1701706247336" />
     <state width="1510" height="411" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705240048669" />
-    <state width="1510" height="429" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248144660" />
+    <state width="1510" height="429" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1705248528693" />
     <state width="1510" height="356" key="GridCell.Tab.1.right/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1702206765728" />
     <state width="1510" height="302" key="GridCell.Tab.2.bottom" timestamp="1704205956271">
       <screen x="0" y="0" width="1920" height="1040" />

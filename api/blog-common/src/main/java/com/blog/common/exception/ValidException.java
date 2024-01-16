@@ -19,6 +19,12 @@ public class ValidException extends BaseException {
         this.setErrorMessage(errorMessage);
     }
 
+    public ValidException(ErrorMessage errorMessage, Object data) {
+        super(errorMessage.getCode(), errorMessage.getDesc());
+        this.setErrorMessage(errorMessage);
+        this.setData(data);
+    }
+
     public ValidException(String code, String errMsg, Throwable cause) {
         super(code, errMsg, cause);
     }

@@ -24,6 +24,10 @@ public class ResultFactory {
         return buildResult(errorCode, message, null, false);
     }
 
+    public static Result buildFailResult(String errorCode, String message, Object data) {
+        return buildResult(errorCode, message, data, false);
+    }
+
     public static Result buildResult(String resultCode, String message, Object data, boolean success) {
         return new Result(resultCode, message, data, success);
     }

@@ -34,6 +34,8 @@ public class NettyPacket<T> implements Serializable {
     private String sender;
     // netty 消息Topic
     private String topic;
+    // 消息所属用户
+    private Integer userId;
     // netty 消息内容
     private T data;
 

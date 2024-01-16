@@ -70,7 +70,7 @@ const changeUpload = (file: any, fileLists: any) => {
   uploadApi(data).then((res: any) => {
     if (res.code === 200) {
       ElMessage.success({ message: '图片上传成功', type: 'success' });
-      uploadImgList.data.push({url: res.result.fileUrl})
+      uploadImgList.data.push({url: res.result[0]})
       updateBlogSettingFun()
     }
   })

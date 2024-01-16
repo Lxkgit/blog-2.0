@@ -11,8 +11,6 @@ import lombok.Data;
 @Data
 public class NettySyncBlogFile {
 
-    private Integer userId;
-
     private String filePath;
 
     private String fileName;

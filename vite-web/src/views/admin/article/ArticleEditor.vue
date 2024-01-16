@@ -232,7 +232,6 @@ onMounted(() => {
   // 定时保存文章功能
   time = window.setInterval(() => {
     saveFlag = true;
-    console.log("----");
   }, autoSaveTime.value);
 });
 
@@ -282,7 +281,7 @@ function articleFn() {
 
   // 文章封面上传
   const imgUpload = (upload: any) => {
-    article.data.contentImg = upload[0].url;
+    article.data.contentImg = upload[0];
   };
 
   // 保存文章方法

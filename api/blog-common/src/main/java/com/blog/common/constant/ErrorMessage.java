@@ -9,6 +9,14 @@ package com.blog.common.constant;
 public enum ErrorMessage {
 
     /**
+     * 00 全局异常
+     */
+    // 参数校验： 00
+    PARAMETER_VERIFICATION_ERROR( "000001","参数校验错误"),
+    // 业务流程： 01
+    UNKNOWN_ERROR( "000102","未知错误"),
+
+    /**
      * 01 网关服务
      */
 
@@ -28,17 +36,22 @@ public enum ErrorMessage {
     /**
      * 05 文件服务
      */
-    FILE_SIZE_NULL( "05001","文件大小为空"),
-    FILE_UPLOAD_ERROR( "05002","文件上传失败"),
-    FILE_TYPE_ERROR( "05003","文件类型禁止上传"),
-    FILE_TYPE_ERROR_SUFFIX("05004","文件后缀类型禁止"),
-    FILE_PATH_ERROR("05005","文件存放路径编码错误"),
 
-    FILE_NAME_NULL_ERROR("05006","目录名称为空"),
-    FILE_NAME_SAME_ERROR("05007","目录名称已存在"),
-    BASE_FILE_DIR_NOT_CREATE("05008","根目录下禁止创建目录"),
-    BASE_FILE_DIR_NOT_DELETE("05009","基础文件目录无法删除"),
-    BASE_FILE_NOT_RENAME("05010","基础文件目录禁止重命名"),
+    // 文件上传：00
+    FILE_SIZE_NULL( "050001","文件大小为空"),
+    FILE_UPLOAD_ERROR( "050002","文件上传失败"),
+    FILE_TYPE_ERROR( "050003","文件类型禁止上传"),
+    FILE_TYPE_ERROR_SUFFIX("050004","文件后缀类型禁止"),
+    FILE_PATH_ERROR("050005","文件存放路径编码错误"),
+
+    FILE_NAME_NULL_ERROR("050006","目录名称为空"),
+    FILE_NAME_SAME_ERROR("050007","目录名称已存在"),
+    FILE_NAME_NULL("050008","文件名称为空"),
+
+
+    BASE_FILE_DIR_NOT_CREATE("050008","根目录下禁止创建目录"),
+    BASE_FILE_DIR_NOT_DELETE("050009","基础文件目录无法删除"),
+    BASE_FILE_NOT_RENAME("050010","基础文件目录禁止重命名"),
     ;
 
 

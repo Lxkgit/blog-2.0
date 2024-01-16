@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -53,6 +54,15 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler({ValidException.class})
     public Result validExceptionHandle(HttpServletRequest request, ValidException e) {
+        Result restResult = this.createResultByException(e);
+        this.externalHandler(restResult, e);
+        logger.error(MessageFormat.format("Global exception information {0}", e.getMessage()), e);
+        return restResult;
+    }
+
+    @ResponseBody
+    @ExceptionHandler(BindException.class)
+    public Result BeanPropertyBindingResult(HttpServletRequest request, BindException e) {
         Result restResult = this.createResultByException(e);
         this.externalHandler(restResult, e);
         logger.error(MessageFormat.format("Global exception information {0}", e.getMessage()), e);

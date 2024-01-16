@@ -42,6 +42,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
             NettyPacket<String> nettyResponse = NettyPacket.buildResponse(event.getNettyPacket().getRequestId(), "service receive heartbeat");
             nettyResponse.setNettyPacketType(NettyPacketType.HEARTBEAT.getValue());
             nettyResponse.setTopic(NettyPacketType.HEARTBEAT.getValue());
+            nettyResponse.setUserId(0);
             if (!NettyServerHandler.clientMap.containsKey(sender)) {
                 NettyServerHandler.clientMap.put(sender, channelId);
                 log.info("客户端【{}】与netty通道【{}】绑定", sender, channelId);

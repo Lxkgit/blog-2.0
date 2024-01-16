@@ -204,7 +204,6 @@ public class FileServiceImpl implements FileService {
         }
 
         NettySyncBlogFile nettySyncBlogFile = new NettySyncBlogFile();
-        nettySyncBlogFile.setUserId(blogUser.getId());
         nettySyncBlogFile.setFilePath(fileDataVo.getFilePath());
         nettySyncBlogFile.setFileName(fileDataVo.getName());
         nettySyncBlogFile.setSyncType(fileDataVo.getSyncType());
@@ -219,6 +218,7 @@ public class FileServiceImpl implements FileService {
         }
         NettyPacket<NettySyncBlogFile> syncFileRequest = NettyPacket.buildRequest(nettySyncBlogFile);
         syncFileRequest.setTopic(NettyTopicEnum.BLOG_FILE_SYNC.getTopic());
+        syncFileRequest.setUserId(blogUser.getId());
         nettyServer.channelWriteByClientId(NettyConstant.NETTY_CLIENT1, syncFileRequest);
         return true;
     }
@@ -275,7 +275,7 @@ public class FileServiceImpl implements FileService {
                     fileDataVo.setName(file.getName());
                     fileDataVo.setPath(path);
                     fileDataVo.setUserId(blogUser.getId());
-                    fileDataVo.setDirType(dir.getDirType());
+                    fileDataVo.setDirType(dir == null ? 0 : dir.getDirType());
                     fileDataVo.setStatus(Constant.FILE_TYPE_FILE);
                     fileDataVo.setUpdateTime(new Date(file.lastModified()));
                     if (!file.isFile()) {

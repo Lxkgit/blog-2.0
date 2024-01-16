@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/upload")
-public class UploadFileController {
+public class UploadFileController extends BaseController {
 
     @Resource
     private UploadFileService fileUploadService;
@@ -39,57 +40,54 @@ public class UploadFileController {
     @Resource
     private ImportService importService;
 
+    /**
+     * 上传单个文件
+     *
+     * @param request
+     * @param uploadVo
+     * @return
+     * @throws ValidException
+     */
     @PostMapping
     @PreAuthorize("hasAnyAuthority('sys:file:user:upload')")
-    public Result uploadFile(@RequestHeader HttpHeaders headers,@Validated UploadVo uploadVo) {
-        if (uploadVo.getFiles() == null || uploadVo.getFiles().length == 0) {
-            return ResultFactory.buildFailResult(ErrorMessage.FILE_SIZE_NULL.getDesc());
-        }
-        String token = String.valueOf(headers.get("Authorization"));
-        BlogUser blogUser = JwtUtil.getUserInfo(token);
-
+    public Result uploadFile(HttpServletRequest request, @Validated UploadVo uploadVo) throws ValidException {
+        MultipartFile[] files = uploadVo.getFiles();
         String filePath = FilePathEnum.getFilePathByCode(uploadVo.getFilePathCode());
-        if (filePath == null) {
-            return ResultFactory.buildFailResult(ErrorMessage.FILE_PATH_ERROR.getDesc());
-        }
+        BlogUser blogUser = getBlogUser(request);
         List<String> typeList = FileTypeEnum.getTypeListByTypeName(uploadVo.getFileTypeCode());
-        if (typeList == null) {
-            return ResultFactory.buildFailResult(ErrorMessage.FILE_TYPE_ERROR.getDesc());
-        }
-        for (MultipartFile file : uploadVo.getFiles()) {
+        for (MultipartFile file : files) {
             String fileName = file.getOriginalFilename();
             if (fileName != null && !fileName.equals("")) {
-                String fileSuffix = fileName.substring(fileName.lastIndexOf(".")+1);
+                String fileSuffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+                assert typeList != null;
                 if (!typeList.contains(fileSuffix)) {
-//                    throw new ValidException(ErrorMessage.BASE_FILE_DIR_NOT_DELETE);
-                    return ResultFactory.buildFailResult(ErrorMessage.FILE_TYPE_ERROR_SUFFIX.getDesc());
+                    throw new ValidException(ErrorMessage.FILE_TYPE_ERROR_SUFFIX);
                 }
-            } else {
-                return ResultFactory.buildFailResult("777");
             }
-
         }
 
+
         try {
+            // 基础路径按照用户id创建文件夹
             String path = "/" + blogUser.getId();
             if (uploadVo.getFilePathCode().equals(FilePathEnum.USER_PATH.getFilePathCode())) {
+                // 上传用户个人文件拼接附加路径
                 path = path + uploadVo.getAddPath();
             } else {
                 path = path + filePath + FileTypeEnum.getTypePathByTypeName(uploadVo.getFileTypeCode());
             }
-            return fileUploadService.upload(uploadVo.getFiles(), blogUser.getId(), path);
+            return fileUploadService.upload(files, blogUser.getId(), path);
         } catch (Exception e) {
-            log.error(ErrorMessage.FILE_UPLOAD_ERROR.getDesc(), e);
+            log.error(ErrorMessage.UNKNOWN_ERROR.getDesc(), e);
+            throw new ValidException(ErrorMessage.UNKNOWN_ERROR);
         }
-        return ResultFactory.buildFailResult(ErrorMessage.FILE_UPLOAD_ERROR.getDesc());
     }
 
     @PostMapping("/diary/import")
-    public Result importDiary(@RequestHeader HttpHeaders headers,@RequestBody ImportDiaryVo importDiaryVo) {
-        String token = String.valueOf(headers.get("Authorization"));
-        BlogUser blogUser = JwtUtil.getUserInfo(token);
+    public Result importDiary(HttpServletRequest request, @RequestBody ImportDiaryVo importDiaryVo) {
+        BlogUser blogUser = getBlogUser(request);
         importDiaryVo.setUserId(blogUser.getId());
-        if (importService.importDiary(importDiaryVo)){
+        if (importService.importDiary(importDiaryVo)) {
             return ResultFactory.buildSuccessResult();
         } else {
             return ResultFactory.buildFailResult("部分日记上传失败");

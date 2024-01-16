@@ -62,7 +62,7 @@ const changeUpload = (file: any, fileLists: any) => {
     if (res.code === 200) {
       ElMessage.success({ message: '图片上传成功', type: 'success' });
       fileList.data = []
-      fileList.data.push({url: res.result.fileUrl})
+      fileList.data.push({url: res.result[0]})
       updateBlogSettingFun(res.result.fileUrl)
     }
   })

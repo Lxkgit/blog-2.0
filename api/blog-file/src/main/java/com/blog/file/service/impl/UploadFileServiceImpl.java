@@ -5,11 +5,11 @@ import com.blog.common.entity.file.UploadLog;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.common.util.DateUtil;
+import com.blog.common.util.StringUtils;
 import com.blog.file.dao.UploadFileDAO;
 import com.blog.file.dao.UploadLogDAO;
 import com.blog.file.service.UploadFileService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,17 +46,15 @@ public class UploadFileServiceImpl implements UploadFileService {
     @Override
     public Result upload(MultipartFile[] files, Integer userId, String filePath) {
         Date date = new Date();
-        Map<String, String> result = new HashMap<>();
+        List<String> result = new ArrayList<>();
         for (MultipartFile file : files) {
             String fileName = file.getOriginalFilename();
             if (fileName != null && !fileName.equals("")) {
                 String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
                 String formatDate = DateUtil.formatDateTime(date).replace(" ", "_").replace(":", "-");
-                String newFileName = formatDate + "_" + RandomStringUtils.randomAlphabetic(6) + "_" + fileName;
-
+                String newFileName = formatDate + "_" + StringUtils.getRandomString(6) + "_" + fileName;
                 UploadLog uploadLog = new UploadLog(userId, newFileName, fileType, 0, "", date);
                 uploadLogDAO.insert(uploadLog);
-
                 try {
                     File targetFile;
                     File file1 = new File(basePath + filePath);
@@ -67,9 +65,10 @@ public class UploadFileServiceImpl implements UploadFileService {
                     file.transferTo(targetFile);
                     String url = serviceIp + baseUri + filePath + "/" + newFileName;
 
-                    result.put("fileUrl", url);
+                    result.add(url);
                     uploadImgDAO.insert(new UploadFile(userId, newFileName, url, date, fileType, basePath + filePath));
                     uploadLogDAO.updateById(new UploadLog(uploadLog.getId(), userId, 1, "文件上传成功"));
+
                 } catch (Exception e) {
                     uploadLogDAO.updateById(new UploadLog(uploadLog.getId(), userId, 2, "文件上传失败"));
                     log.error(e.getMessage(), e);

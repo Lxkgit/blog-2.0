@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @description:
@@ -21,7 +22,7 @@ import javax.annotation.Resource;
 @Slf4j
 @RestController
 @RequestMapping("/setting")
-public class BlogSettingController {
+public class BlogSettingController extends BaseController {
 
     @Resource
     private BlogSettingService blogSettingService;
@@ -32,17 +33,13 @@ public class BlogSettingController {
     }
 
     @GetMapping("/select")
-    public Result selectSettingList(@RequestHeader HttpHeaders headers, @RequestParam(value = "settingType") String settingType) {
-        String token = String.valueOf(headers.get("Authorization"));
-        BlogUser blogUser = JwtUtil.getUserInfo(token);
-        return ResultFactory.buildSuccessResult(blogSettingService.selectBlogSetting(blogUser, settingType));
+    public Result selectSettingList(HttpServletRequest request, @RequestParam(value = "settingType") String settingType) {
+        return ResultFactory.buildSuccessResult(blogSettingService.selectBlogSetting(getBlogUser(request), settingType));
     }
 
     @PostMapping("/update")
-    public Result updateSetting(@RequestHeader HttpHeaders headers, @RequestBody BlogSettingVo blogSettingVo) {
-        String token = String.valueOf(headers.get("Authorization"));
-        BlogUser blogUser = JwtUtil.getUserInfo(token);
-        blogSettingService.updateBlogSetting(blogUser, blogSettingVo);
+    public Result updateSetting(HttpServletRequest request, @RequestBody BlogSettingVo blogSettingVo) {
+        blogSettingService.updateBlogSetting(getBlogUser(request), blogSettingVo);
         return ResultFactory.buildSuccessResult();
     }
 }

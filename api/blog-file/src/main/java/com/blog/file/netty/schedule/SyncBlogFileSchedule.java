@@ -34,7 +34,6 @@ public class SyncBlogFileSchedule {
     @Scheduled(cron = "* * 1 * * ?")
     public void initFile() {
         NettySyncBlogFile nettySyncBlogFile = new NettySyncBlogFile();
-        nettySyncBlogFile.setUserId(1);
         nettySyncBlogFile.setSyncType(0);
         nettySyncBlogFile.setFileCode("44");
         nettySyncBlogFile.setFileName("ftpsUtil.jpg");
@@ -43,6 +42,7 @@ public class SyncBlogFileSchedule {
         NettyPacket<NettySyncBlogFile> nettyResponse = NettyPacket.buildRequest(nettySyncBlogFile);
         nettyResponse.setNettyPacketType(NettyPacketType.REQUEST.getValue());
         nettyResponse.setTopic(NettyTopicEnum.BLOG_FILE_SYNC.getTopic());
+        nettyResponse.setUserId(1);
 
         boolean success = nettyServer.channelWriteByClientId(NettyConstant.NETTY_CLIENT1, JSONObject.toJSONString(nettyResponse));
         if (success) {

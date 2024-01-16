@@ -45,7 +45,7 @@ public class SyncBlogFileService {
      * @param nettySyncBlogFile netty收到的消息
      * @param requestId 本次请求唯一编码
      */
-    public void syncBlogFile(NettySyncBlogFile nettySyncBlogFile, String requestId) {
+    public void syncBlogFile(NettySyncBlogFile nettySyncBlogFile, String requestId, Integer userId) {
         if (nettySyncBlogFile.getSyncType().equals(0)) {
             String serviceFilePath = nettySyncBlogFile.getFilePath();
             String serviceFileName = nettySyncBlogFile.getFileName();
@@ -65,7 +65,7 @@ public class SyncBlogFileService {
             if (success) {
                 File file = new File(localFilePath + File.separatorChar + localFileName);
                 FileSync fileSync = new FileSync();
-                fileSync.setUserId(nettySyncBlogFile.getUserId());
+                fileSync.setUserId(userId);
                 fileSync.setFileCode(nettySyncBlogFile.getFileCode());
                 fileSync.setServiceFilePath(serviceFilePath);
                 fileSync.setServiceFileName(serviceFileName);
@@ -79,7 +79,7 @@ public class SyncBlogFileService {
         } else if (nettySyncBlogFile.getSyncType().equals(1)) {
             QueryWrapper<FileSync> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("file_code", nettySyncBlogFile.getFileCode());
-            queryWrapper.eq("user_id", nettySyncBlogFile.getUserId());
+            queryWrapper.eq("user_id", userId);
             List<FileSync> fileSyncList = fileSyncDAO.selectList(queryWrapper);
             if (!CollectionUtils.isEmpty(fileSyncList)) {
                 FileSync fileSync = fileSyncList.get(0);

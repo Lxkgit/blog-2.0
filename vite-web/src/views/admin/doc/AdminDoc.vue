@@ -231,7 +231,7 @@ function catalog() {
 
   // 文章封面上传
   const imgUpload = (upload: any) => {
-    docCatalog.data.docImg = upload[0].url
+    docCatalog.data.docImg = upload[0]
   }
   // 加载文档主目录树
   const getDocCatalogTreeFun = () => {

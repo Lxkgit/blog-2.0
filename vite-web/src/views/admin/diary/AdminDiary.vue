@@ -369,7 +369,7 @@ function uploadFun() {
     uploadApi(data).then((res: any) => {
       if (res.code === 200) {
         ElMessage.success({ message: '文件上传成功', type: 'success' });
-        importDiaryForm.filePath = res.result.fileUrl
+        importDiaryForm.filePath = res.result[0]
       } else {
         ElMessage.error({ message: res.message, type: 'error' });
       }

@@ -36,16 +36,17 @@ public class NettyClientPacketListener implements ApplicationListener<NettyPacke
         ChannelId channelId = (ChannelId) event.getSource();
         String nettyPacketType = event.getNettyPacket().getNettyPacketType();
         String topic = event.getNettyPacket().getTopic();
+        Integer userId = event.getNettyPacket().getUserId();
         String requestId = event.getNettyPacket().getRequestId();
         String data = JSONObject.toJSONString(event.getNettyPacket().getData());
-        log.info("channelId:【{}】 requestId:【{}】 topic:【{}】 data:{}", channelId, requestId, topic, data);
+        log.info("channelId:【{}】 requestId:【{}】 topic:【{}】 userId:【{}】 data:{}", channelId, requestId, topic, userId, data);
         if (nettyPacketType.equals(NettyPacketType.HEARTBEAT.getValue())) {
         } else if (nettyPacketType.equals(NettyPacketType.REQUEST.getValue())) {
             // 处理服务端请求
             // 处理文件下载同步
             if (topic.equals(NettyTopicEnum.BLOG_FILE_SYNC.getTopic())) {
                 NettySyncBlogFile nettySyncBlogFile = JSON.parseObject(data, NettySyncBlogFile.class);
-                syncBlogFileService.syncBlogFile(nettySyncBlogFile, requestId);
+                syncBlogFileService.syncBlogFile(nettySyncBlogFile, requestId, userId);
             }
         } else if (nettyPacketType.equals(NettyPacketType.RESPONSE.getValue())) {
             // 处理服务端数据响应

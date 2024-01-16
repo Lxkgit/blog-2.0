@@ -272,7 +272,9 @@ function userFn(): any {
    * 上传用户头像回调方法
    */
   const userHeadUpload = (upload: any) => {
-    userDate.data.headImg = upload[0].url;
+    console.log("-----++-")
+    console.log(upload)
+    userDate.data.headImg = upload[0];
   };
 
   /**
