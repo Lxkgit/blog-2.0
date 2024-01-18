@@ -1,128 +1,50 @@
 <template>
   <div>
     <div style="height: calc(100vh - 140px)">
-      <MarkDownEditor
-        @change="updateArticleFun"
-        @save="saveArticleDialogFun"
-        v-model:text="article.data.contentMd"
-        fileTypeCode="1"
-        filePathCode="1"
-      />
+      <MarkDownEditor @change="updateArticleFun" @save="saveArticleDialogFun" v-model:text="article.data.contentMd" fileTypeCode="1" filePathCode="1" />
     </div>
     <el-dialog v-model="saveDialog" title="文章信息" width="40%">
       <el-form class="demo-form-inline">
         <el-form-item label="文章标题" style="width: 80%">
-          <el-input
-            v-model="article.data.title"
-            placeholder="文章标题"
-            clearable
-            maxlength="46"
-            show-word-limit
-          />
+          <el-input v-model="article.data.title" placeholder="文章标题" clearable maxlength="46" show-word-limit />
         </el-form-item>
         <el-form-item label="文章描述" style="width: 80%">
-          <el-input
-            v-model="article.data.contentMemo"
-            maxlength="300"
-            placeholder="请输入文章描述"
-            show-word-limit
-            type="textarea"
-          />
+          <el-input v-model="article.data.contentMemo" maxlength="300" placeholder="请输入文章描述" show-word-limit type="textarea" />
         </el-form-item>
         <el-form-item label="文章封面">
-          <ImgUpload
-            @upload="imgUpload"
-            :imgList="
+          <ImgUpload @upload="imgUpload" :imgList="
               article.data.contentImg === null ||
               article.data.contentImg === undefined ||
               article.data.contentImg === ''
                 ? []
                 : [article.data.contentImg]
-            "
-            :num="1"
-            fileTypeCode="1"
-            filePathCode="1"
-            :cropper="1"
-            :autoCropWidth="270"
-            :autoCropHeight="180"
-          />
+            " :num="1" fileTypeCode="1" filePathCode="1" :cropper="1" :autoCropWidth="270" :autoCropHeight="180" />
         </el-form-item>
         <el-form-item label="文章类型">
-          <el-tree-select
-            style="font-size: 18px; width: 200px"
-            v-model="type"
-            :data="typeList"
-            :check-strictly="true"
-            @change="selectType"
-          />
+          <el-tree-select style="font-size: 18px; width: 200px" v-model="type" :data="typeList" :check-strictly="true" @change="selectType" />
         </el-form-item>
         <el-form-item label="文章标签">
           <div style="display: flex; justify-content: space-between; align-items: center">
-            <el-popover
-              placement="top-start"
-              title="文章标签"
-              trigger="click"
-              :width="360"
-            >
-              <el-input
-                style="padding-bottom: 10px"
-                class="w-50 m-2"
-                placeholder="搜索文章标签"
-                v-model="selectLabel"
-                clearable
-              />
+            <el-popover placement="top-start" title="文章标签" trigger="click" :width="360">
+              <el-input style="padding-bottom: 10px" class="w-50 m-2" placeholder="搜索文章标签" v-model="selectLabel" clearable />
               <el-row :gutter="24" style="height: 200px">
-                <el-col
-                  :span="6"
-                  style="height: 100%; overflow: auto"
-                  class="label_type_col"
-                >
-                  <ul
-                    v-for="(labelType, index) in labelTypeList"
-                    style="list-style-type: none; padding: 0; margin: 0"
-                  >
-                    <li
-                      style="cursor: pointer; margin-bottom: 5px"
-                      @click="selectLabelList(labelType, index)"
-                      class="article_label_tag"
-                      :class="labelTypeActive == index ? 'article_label_tag_active' : ''"
-                      :key="index"
-                    >
+                <el-col :span="6" style="height: 100%; overflow: auto" class="label_type_col">
+                  <ul v-for="(labelType, index) in labelTypeList" style="list-style-type: none; padding: 0; margin: 0" :key="index">
+                    <li style="cursor: pointer; margin-bottom: 5px" @click="selectLabelList(labelType, index)" class="article_label_tag" :class="labelTypeActive == index ? 'article_label_tag_active' : ''" :key="index">
                       {{ labelType.label }}
                     </li>
                   </ul>
                 </el-col>
                 <el-col :span="18" style="">
                   <div style="overflow: auto; height: 200px">
-                    <span v-for="label in labelList">
-                      <el-tag
-                        v-if="filterTag(label.labelName, selectLabel)"
-                        style="margin-right: 10px; margin-bottom: 10px; cursor: pointer"
-                        :style="'color: ' + tagColor(label.id)"
-                        :key="label.id"
-                        class="mx-1"
-                        @Click="addLabel(label)"
-                      >
+                    <span v-for="(label, index) in labelList" :key="index">
+                      <el-tag v-if="filterTag(label.labelName, selectLabel)" style="margin-right: 10px; margin-bottom: 10px; cursor: pointer" :style="'color: ' + tagColor(label.id)" :key="label.id" class="mx-1" @Click="addLabel(label)">
                         {{ label.labelName }}
                         {{ label.articleNum }}
                       </el-tag>
                     </span>
-                    <el-input
-                      v-if="tagInputVisible"
-                      ref="InputRef"
-                      v-model="inputTagValue"
-                      class="ml-1 w-20"
-                      size="small"
-                      style="width: 80%"
-                      @keyup.enter="tagInputHandleConfirm"
-                      @blur="tagInputHandleConfirm"
-                    />
-                    <el-button
-                      v-else
-                      class="button-new-tag ml-1"
-                      size="small"
-                      @click="showTagInput"
-                    >
+                    <el-input v-if="tagInputVisible" ref="InputRef" v-model="inputTagValue" class="ml-1 w-20" size="small" style="width: 80%" @keyup.enter="tagInputHandleConfirm" @blur="tagInputHandleConfirm" />
+                    <el-button v-else class="button-new-tag ml-1" size="small" @click="showTagInput">
                       + 创建标签
                     </el-button>
                   </div>
@@ -133,16 +55,7 @@
               </template>
             </el-popover>
             <div style="display: inline-block">
-              <el-tag
-                style="margin-left: 10px; cursor: pointer"
-                v-for="label in labels"
-                :key="label.id"
-                class="mx-1"
-                :style="'color: ' + tagColor(label.id)"
-                closable
-                @close="deleteLabel(label.id)"
-                >{{ label.labelName }}</el-tag
-              >
+              <el-tag style="margin-left: 10px; cursor: pointer" v-for="label in labels" :key="label.id" class="mx-1" :style="'color: ' + tagColor(label.id)" closable @close="deleteLabel(label.id)">{{ label.labelName }}</el-tag>
             </div>
           </div>
         </el-form-item>
@@ -158,22 +71,22 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted, onBeforeUnmount, nextTick } from "vue";
-import { ElInput, ElMessage, ElNotification } from "element-plus";
-import { useRouter } from "vue-router";
-import MarkDownEditor from "@/components/common/MarkDownEditor.vue";
-import ImgUpload from "@/components/common/ImgUpload.vue";
+import { reactive, ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { ElInput, ElMessage, ElNotification } from 'element-plus';
+import { useRouter } from 'vue-router';
+import MarkDownEditor from '@/components/common/MarkDownEditor.vue';
+import ImgUpload from '@/components/common/ImgUpload.vue';
 import {
   saveArticleApi,
   updateArticleApi,
   getArticleTypeTreeApi,
   getArticleLabelTypeListApi,
   saveArticleLabelApi,
-} from "@/api/content";
-import { contentStore } from "@/store/content";
-import { tagsStore } from "@/store/tag";
-import data from "@/utils/date";
-import color from "@/utils/color";
+} from '@/api/content';
+import { contentStore } from '@/store/content';
+import { tagsStore } from '@/store/tag';
+import data from '@/utils/date';
+import color from '@/utils/color';
 
 // 模块方法引入
 let {
@@ -211,17 +124,17 @@ let { tagColor } = color();
 const tagStore = tagsStore();
 const cStore = contentStore();
 
-let saveTime = ref("");
+let saveTime = ref('');
 let saveFlag: boolean = false;
 // 文章自动保存时间间隔
 let autoSaveTime = ref(10000);
 
 onMounted(() => {
   // 初始化文章数据
-  if (cStore.getArticle !== "null") {
+  if (cStore.getArticle !== 'null') {
     article.data = cStore.getArticle;
     if (article.data !== null && article.data.articleType !== null) {
-      let articleTypeArr = article.data.articleType.split(",");
+      let articleTypeArr = article.data.articleType.split(',');
       type.value = articleTypeArr[articleTypeArr.length - 1];
       if (article.data.articleLabels !== null) {
         labels.value = article.data.articleLabels;
@@ -252,22 +165,22 @@ function articleFn() {
     data: {
       id: 0,
       userId: 0,
-      title: "",
-      contentMd: "",
-      contentImg: "",
-      contentMemo: "",
-      articleType: "",
-      articleLabel: "",
+      title: '',
+      contentMd: '',
+      contentImg: '',
+      contentMemo: '',
+      articleType: '',
+      articleLabel: '',
       articleStatus: 1,
       browseCount: 0,
       likeCount: 0,
-      createTime: "",
-      updateTime: "",
+      createTime: '',
+      updateTime: '',
     },
   });
 
   // 文章类型
-  let type = ref("");
+  let type = ref('');
 
   // 文章标签
   let labels: any = ref([]);
@@ -287,12 +200,12 @@ function articleFn() {
   // 保存文章方法
   const saveArticleFun = () => {
     saveDialog.value = false;
-    let labelId = "";
+    let labelId = '';
     for (let i = 0; i < labels.value.length; i++) {
       if (i === 0) {
         labelId = labels.value[i].id;
       } else {
-        labelId = labelId + "," + labels.value[i].id;
+        labelId = labelId + ',' + labels.value[i].id;
       }
     }
     if (article.data.id !== 0) {
@@ -309,11 +222,11 @@ function articleFn() {
         likeCount: 0,
       }).then((res: any) => {
         if (res.code === 200) {
-          tagStore.delTagByPath("/admin/article/editor");
-          router.push("/admin/article");
+          tagStore.delTagByPath('/admin/article/editor');
+          router.push('/admin/article');
           ElMessage.success({
-            message: "文章保存成功",
-            type: "success",
+            message: '文章保存成功',
+            type: 'success',
           });
         }
       });
@@ -330,11 +243,11 @@ function articleFn() {
         likeCount: 0,
       }).then((res: any) => {
         if (res.code === 200) {
-          tagStore.delTagByPath("/admin/article/editor");
-          router.push("/admin/article");
+          tagStore.delTagByPath('/admin/article/editor');
+          router.push('/admin/article');
           ElMessage.success({
-            message: "文章保存成功",
-            type: "success",
+            message: '文章保存成功',
+            type: 'success',
           });
         }
       });
@@ -343,21 +256,21 @@ function articleFn() {
 
   // 定时保存文章方法
   const updateArticleFun = () => {
-    console.log("自动保存 ... ");
+    console.log('自动保存 ... ');
     if (saveFlag === true) {
       saveFlag = false;
-      let labelId = "";
+      let labelId = '';
       for (let i = 0; i < labels.value.length; i++) {
         if (i === 0) {
           labelId = labels.value[i].id;
         } else {
-          labelId = labelId + "," + labels.value[i].id;
+          labelId = labelId + ',' + labels.value[i].id;
         }
       }
       if (article.data.id !== 0) {
         updateArticleApi({
           id: article.data.id,
-          title: article.data.title,
+          title: '自动保存文章',
           contentMd: article.data.contentMd,
           contentMemo: article.data.contentMemo,
           contentImg: article.data.contentImg,
@@ -371,16 +284,16 @@ function articleFn() {
             article.data.id = res.result;
             saveTime.value = getNowTime();
             ElNotification({
-              title: "文章自动保存成功",
-              message: "保存时间：" + saveTime.value,
-              type: "success",
+              title: '文章自动保存成功',
+              message: '保存时间：' + saveTime.value,
+              type: 'success',
               duration: autoSaveTime.value,
             });
           }
         });
       } else {
         saveArticleApi({
-          title: article.data.title,
+          title: '自动保存文章',
           contentMd: article.data.contentMd,
           contentMemo: article.data.contentMemo,
           contentImg: article.data.contentImg,
@@ -394,9 +307,9 @@ function articleFn() {
             article.data.id = res.result;
             saveTime.value = getNowTime();
             ElNotification({
-              title: "文章自动保存成功",
-              message: "保存时间：" + saveTime.value,
-              type: "success",
+              title: '文章自动保存成功',
+              message: '保存时间：' + saveTime.value,
+              type: 'success',
               duration: autoSaveTime.value,
             });
           }
@@ -421,7 +334,7 @@ function articleFn() {
 // 文章标签方法合集
 function articleLabelFn() {
   // 查询文章标签
-  let selectLabel: any = ref("");
+  let selectLabel: any = ref('');
 
   // 文章标签列表
   let labelList: any = ref([]);
@@ -442,7 +355,7 @@ function articleLabelFn() {
   let tagInputVisible = ref(false);
 
   // 新增标签输入内容
-  let inputTagValue = ref("");
+  let inputTagValue = ref('');
 
   // 新增标签ref
   const InputRef = ref<InstanceType<typeof ElInput>>();
@@ -463,13 +376,13 @@ function articleLabelFn() {
         labelName: inputTagValue.value,
       }).then((res: any) => {
         if (res.code === 200) {
-          ElMessage({ message: "文章标签创建成功", type: "success" });
+          ElMessage({ message: '文章标签创建成功', type: 'success' });
           getArticleLabelTypeListFun();
         }
       });
     }
     tagInputVisible.value = false;
-    inputTagValue.value = "";
+    inputTagValue.value = '';
   };
 
   // 获取文章标签（分类+标签）
@@ -479,8 +392,10 @@ function articleLabelFn() {
         labelTypeList.value = res.result;
         if (labelTypeList.value.length > 0) {
           if (labelTypeActive.value !== -1) {
-            selectLabelTypeId.value = labelTypeList.value[labelTypeActive.value].id;
-            labelList.value = labelTypeList.value[labelTypeActive.value].labelList;
+            selectLabelTypeId.value =
+              labelTypeList.value[labelTypeActive.value].id;
+            labelList.value =
+              labelTypeList.value[labelTypeActive.value].labelList;
           } else {
             labelTypeActive.value = 0;
             selectLabelTypeId.value = labelTypeList.value[0].id;
@@ -503,8 +418,8 @@ function articleLabelFn() {
     }
     if (labels.value.length + 1 > articleLabelMaxNum.value) {
       ElMessage({
-        message: "文章标签上限为" + articleLabelMaxNum.value + "个",
-        type: "error",
+        message: '文章标签上限为' + articleLabelMaxNum.value + '个',
+        type: 'error',
       });
     } else {
       if (!flag) {

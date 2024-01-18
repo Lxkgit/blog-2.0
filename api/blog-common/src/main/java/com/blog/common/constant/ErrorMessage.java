@@ -32,18 +32,19 @@ public enum ErrorMessage {
     /**
      * 04 内容服务
      */
+    // 文章：00
+    ARTICLE_NULL("040001", "文章不存在"),
+    // 文章分类：01
+    ARTICLE_TYPE_ERROR("040101", "文章分类不存在"),
+    // 文章标签：02
+    ARTICLE_LABEL_NOT_EXISTS("040201", "文章标签不存在"),
 
     /**
      * 05 文件服务
      */
 
     // 文件上传：00
-    FILE_SIZE_NULL( "050001","文件大小为空"),
-    FILE_UPLOAD_ERROR( "050002","文件上传失败"),
-    FILE_TYPE_ERROR( "050003","文件类型禁止上传"),
     FILE_TYPE_ERROR_SUFFIX("050004","文件后缀类型禁止"),
-    FILE_PATH_ERROR("050005","文件存放路径编码错误"),
-
     FILE_NAME_NULL_ERROR("050006","目录名称为空"),
     FILE_NAME_SAME_ERROR("050007","目录名称已存在"),
     FILE_NAME_NULL("050008","文件名称为空"),

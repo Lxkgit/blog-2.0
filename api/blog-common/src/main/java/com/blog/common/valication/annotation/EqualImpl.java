@@ -1,6 +1,6 @@
 package com.blog.common.valication.annotation;
 
-import org.apache.commons.lang3.StringUtils;
+import com.blog.common.util.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -20,7 +20,7 @@ public class EqualImpl implements ConstraintValidator<Equal, Object> {
     @Override
     public void initialize(Equal constraintAnnotation) {
         value = constraintAnnotation.value();
-        this.checkNull = constraintAnnotation.checkNull();
+        checkNull = constraintAnnotation.checkNull();
     }
 
     @Override
@@ -30,12 +30,10 @@ public class EqualImpl implements ConstraintValidator<Equal, Object> {
             return isValid;
         }
         if (null == beanValue) {
-            if (checkNull){
-                return isValid;
-            } else {
+            if (!checkNull) {
                 isValid = true;
-                return isValid;
             }
+            return isValid;
         }
         String beanValueStr = String.valueOf(beanValue);
         if (value.equals(beanValueStr)) {

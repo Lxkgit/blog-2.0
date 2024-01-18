@@ -17,9 +17,9 @@ public @interface Equal {
 
     Class<?>[] groups() default {};
 
-    String value() default "" ;
-
     Class<? extends Payload>[] payload() default { };
+
+    String value() default "" ;
 
 
     /**
