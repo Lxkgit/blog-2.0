@@ -1,6 +1,6 @@
 package com.blog.common.valication.annotation;
 
-import com.blog.common.util.StringUtils;
+import com.blog.common.util.MyStringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -31,10 +31,10 @@ public class EnumValidateImpl implements ConstraintValidator<EnumValidate, Objec
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         boolean isValid = false;
-        if (null == enumClass || StringUtils.isEmpty(methodName)) {
+        if (null == enumClass || MyStringUtils.isEmpty(methodName)) {
             return isValid;
         }
-        if (null == value || StringUtils.isEmpty(String.valueOf(value))) {
+        if (null == value || MyStringUtils.isEmpty(String.valueOf(value))) {
             return acceptEmpty;
         }
         if (!enumClass.isEnum()) {

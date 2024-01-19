@@ -1,6 +1,6 @@
 package com.blog.common.valication.annotation;
 
-import com.blog.common.util.StringUtils;
+import com.blog.common.util.MyStringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -26,7 +26,7 @@ public class EqualImpl implements ConstraintValidator<Equal, Object> {
     @Override
     public boolean isValid(Object beanValue, ConstraintValidatorContext constraintValidatorContext) {
         boolean isValid = false;
-        if (StringUtils.isEmpty(value)) {
+        if (MyStringUtils.isEmpty(value)) {
             return isValid;
         }
         if (null == beanValue) {

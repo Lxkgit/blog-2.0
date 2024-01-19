@@ -1,5 +1,5 @@
 ## 简要描述
-- 根据i查询文章
+- 根据id查询文章
 
 ## 请求url
 - `http://ip:port/content/article/id`

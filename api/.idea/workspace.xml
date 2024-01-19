@@ -17,7 +17,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-12-30【功能修改】：修改文章界面展示，修改接口mq消息发送与接收代码逻辑">
+      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/StringValidate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/group/AddGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/group/DeleteGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/group/SelectIdGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/group/SelectListGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/group/UpdateGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/BaseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/exception/CustomExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../vite-web/src/doc/blog-content/ArticleController/id查询文章接口.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../vite-web/src/doc/blog-content/ArticleController/修改文章接口.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../vite-web/src/doc/blog-content/ArticleController/分页查询文章接口.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../vite-web/src/doc/blog-content/ArticleController/删除文章接口.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../vite-web/src/doc/blog-content/ArticleController/新增文章接口.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/constant/ErrorMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/constant/ErrorMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/article/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/article/Article.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/article/bo/ArticleBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/article/bo/ArticleBo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/article/vo/ArticleVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/content/article/vo/ArticleVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/StringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/Equal.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/Equal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/EqualImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/valication/annotation/EqualImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/ArticleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/ArticleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/service/impl/ArticleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/exception/CustomExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/exception/CustomExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/admin/article/ArticleEditor.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/admin/article/ArticleEditor.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -450,7 +476,7 @@
       <workItem from="1705336600721" duration="26000" />
       <workItem from="1705336676494" duration="164000" />
       <workItem from="1705416351626" duration="1130000" />
-      <workItem from="1705594148560" duration="1787000" />
+      <workItem from="1705594148560" duration="2116000" />
     </task>
     <task id="LOCAL-00076" summary="23-03-24【bug修复】：修复ts语法错误-1">
       <created>1679617089727</created>

@@ -1,14 +1,12 @@
 package com.blog.common.valication.annotation;
 
-import com.blog.common.util.StringUtils;
-import org.springframework.util.CollectionUtils;
+import com.blog.common.util.MyStringUtils;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 import java.lang.annotation.*;
-import java.util.HashSet;
 import java.util.Set;
 
 import static java.lang.annotation.ElementType.*;
@@ -93,7 +91,7 @@ public @interface StringValidate {
         public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
 
             // 校验的字符不能为空
-            if (StringUtils.isEmpty(acceptChar)) {
+            if (MyStringUtils.isEmpty(acceptChar)) {
                 return false;
             }
 
@@ -109,16 +107,16 @@ public @interface StringValidate {
 
             // 输入字符集合
             String inputString = String.valueOf(o);
-            Set<Character> inputSet = StringUtils.stringToSet(inputString);
+            Set<Character> inputSet = MyStringUtils.stringToSet(inputString);
 
             // 接收字符集合
-            Set<Character> acceptCharSet = StringUtils.stringToSet(acceptChar);
+            Set<Character> acceptCharSet = MyStringUtils.stringToSet(acceptChar);
 
             // 必须要有的字符集合
-            Set<Character> existCharSet = StringUtils.stringToSet(existChar);
+            Set<Character> existCharSet = MyStringUtils.stringToSet(existChar);
 
             // 不能只有的字符集合
-            Set<Character> notJustCharSet = StringUtils.stringToSet(notJustChar);
+            Set<Character> notJustCharSet = MyStringUtils.stringToSet(notJustChar);
 
             // 输入的字符串是否包含全部必须存在的字符
             if (!inputSet.containsAll(existCharSet)) {

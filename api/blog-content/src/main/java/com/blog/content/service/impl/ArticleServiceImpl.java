@@ -18,6 +18,7 @@ import com.blog.common.exception.ValidException;
 import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
+import com.blog.common.util.MyStringUtils;
 import com.blog.content.dao.ArticleDAO;
 import com.blog.content.dao.ArticleLabelDAO;
 import com.blog.content.dao.ArticleTypeDAO;
@@ -108,20 +109,13 @@ public class ArticleServiceImpl implements ArticleService {
         ArticleBo articleBo = new ArticleBo();
         articleBo.setUserId(blogUser.getId());
         articleBo.setArticleStatus(Constant.DELETE);
-        List<Integer> idList = new ArrayList<>();
-        try {
-            for (String id : articleIds.split(",")) {
-                idList.add(Integer.parseInt(id));
-            }
-        } catch (Exception e) {
-            throw new ValidException(ErrorMessage.PARAMETER_VERIFICATION_ERROR);
-        }
-        articleBo.setIds(idList);
+        Set<String> idSet = MyStringUtils.splitString(articleIds, ",");
+        articleBo.setIds(idSet);
         // 假删除 修改文章状态为删除状态 3
         Integer deleteArticleNum = articleDAO.updateArticleStatus(articleBo);
 
-        for (Integer id : articleBo.getIds()) {
-            Article article = articleDAO.selectArticleById(id);
+        for (String id : articleBo.getIds()) {
+            Article article = articleDAO.selectById(Integer.parseInt(id));
             updateArticleType(article.getArticleType(), -1);
             updateArticleLabel(article.getArticleLabel(), -1);
         }
@@ -146,7 +140,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional(rollbackFor = Exception.class)
     public int updateArticle(BlogUser blogUser, Article article) throws ValidException {
         ArticleBo articleBo = new ArticleBo();
-        Article oldArticle = articleDAO.selectArticleById(article.getId());
+        Article oldArticle = articleDAO.selectById(article.getId());
         if (oldArticle == null) {
             throw new ValidException(ErrorMessage.ARTICLE_NULL);
         }
@@ -205,7 +199,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         // 指定文章状态
         if (articleVoParam.getSelectStatus() != null && !articleVoParam.getSelectStatus().equals("")) {
-            Set<String> statusSet = Arrays.stream(articleVoParam.getSelectStatus().split(",")).collect(Collectors.toSet());
+            Set<String> statusSet = MyStringUtils.splitString(articleVoParam.getSelectStatus(), ",");
             articleQueryWrapper.and((wrapper) -> {
                 Iterator<String> set = statusSet.iterator();
                 int i=0;
@@ -284,7 +278,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public ArticleVo selectArticleById(int articleId) {
-        Article article = articleDAO.selectArticleById(articleId);
+        Article article = articleDAO.selectById(articleId);
         ArticleVo articleVo = new ArticleVo();
         BeanUtils.copyProperties(article, articleVo);
         BlogUser blogUser = userClient.selectUserById(article.getUserId());

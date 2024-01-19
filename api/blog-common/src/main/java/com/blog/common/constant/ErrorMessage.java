@@ -38,7 +38,10 @@ public enum ErrorMessage {
     ARTICLE_TYPE_ERROR("040101", "文章分类不存在"),
     // 文章标签：02
     ARTICLE_LABEL_NOT_EXISTS("040201", "文章标签不存在"),
-
+    ARTICLE_LABEL_TYPE_NOT_EXISTS("040202", "文章标签分类不存在"),
+    ARTICLE_LABEL_NUM_ERROR("040203", "文章标签下文章数量不为0"),
+    ARTICLE_LABEL_USER_UPDATE_ERROR("040204", "只允许修改自己创建的标签"),
+    ARTICLE_LABEL_USER_DELETE_ERROR("040205", "只允许删除自己创建的标签"),
     /**
      * 05 文件服务
      */

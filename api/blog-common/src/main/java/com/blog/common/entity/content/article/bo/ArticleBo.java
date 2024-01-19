@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: lxk
@@ -16,5 +17,5 @@ import java.util.List;
 @Getter
 public class ArticleBo extends Article {
     private Integer updateUserId;
-    private List<Integer> ids;
+    private Set<String> ids;
 }

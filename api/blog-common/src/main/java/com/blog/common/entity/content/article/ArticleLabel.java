@@ -24,11 +24,11 @@ public class ArticleLabel {
 
     private Integer userId;
 
-    private int labelType;
+    private Integer labelType;
 
     private String labelName;
 
-    private int articleNum;
+    private Integer articleNum;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

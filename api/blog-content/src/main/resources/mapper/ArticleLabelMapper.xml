@@ -22,15 +22,15 @@
 
     <!--根据标签分类查询标签，标签分类为0查询全部标签-->
     <select id="selectArticleLabelList" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from article_label
-        <if test="labelType != 0 ">
-            where label_type = #{labelType}
-        </if>
+        where label_type = #{labelType}
     </select>
 
     <select id="selectArticleLabelByArray" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from article_label
         where id in
         <foreach item="label" collection="array" open="(" separator="," close=")">
@@ -41,7 +41,7 @@
     <update id="updateArticleLabel" parameterType="com.blog.common.entity.content.article.ArticleLabel">
         update article_label
         <set>
-            <if test="labelType !=null and labelType !=''">
+            <if test="labelType !=null">
                 label_type = #{labelType},
             </if>
             <if test="labelName !=null and labelName !=''">
@@ -49,7 +49,7 @@
             </if>
         </set>
         <where>
-            id = #{id} and article_num = 0;
+            id = #{id} and user_id = #{userId};
         </where>
     </update>
 

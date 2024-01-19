@@ -27,10 +27,18 @@ export function request(config: any) {
   instance.interceptors.response.use(response => {
     if (response.data.code === "200") {
       response.data.code = 200
+    } else {
+      if (response.data.result != null) {
+        ElMessage.error(response.data.result)
+      } else {
+        ElMessage.error(response.data.message)
+      }
     }
     return response.data
   }, error => {
+    console.log("-----------------")
     console.log(error)
+    
     if (error.response) {
       switch (error.response.status) {
         case 400:

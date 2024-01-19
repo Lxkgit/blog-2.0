@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 public interface ArticleLabelDAO extends BaseMapper<ArticleLabel> {
@@ -18,6 +19,6 @@ public interface ArticleLabelDAO extends BaseMapper<ArticleLabel> {
     List<ArticleLabel> selectArticleLabelList(@Param("labelType") Integer labelType);
     List<ArticleLabel> selectArticleLabelByArray(@Param("array") String[] labels);
     int updateArticleLabel(ArticleLabel articleLabel);
-    int deleteArticleLabelByIds(@Param("ids") String[] ids, @Param("userId") Integer userId);
+    int deleteArticleLabelByIds(@Param("ids") Set<String> ids, @Param("userId") Integer userId);
     void updateArticleLabelNumById(@Param("id") Integer id, @Param("articleNum") Integer articleNum);
 }

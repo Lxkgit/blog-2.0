@@ -5,7 +5,7 @@ import com.blog.common.entity.file.UploadLog;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.common.util.DateUtil;
-import com.blog.common.util.StringUtils;
+import com.blog.common.util.MyStringUtils;
 import com.blog.file.dao.UploadFileDAO;
 import com.blog.file.dao.UploadLogDAO;
 import com.blog.file.service.UploadFileService;
@@ -52,7 +52,7 @@ public class UploadFileServiceImpl implements UploadFileService {
             if (fileName != null && !fileName.equals("")) {
                 String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
                 String formatDate = DateUtil.formatDateTime(date).replace(" ", "_").replace(":", "-");
-                String newFileName = formatDate + "_" + StringUtils.getRandomString(6) + "_" + fileName;
+                String newFileName = formatDate + "_" + MyStringUtils.getRandomString(6) + "_" + fileName;
                 UploadLog uploadLog = new UploadLog(userId, newFileName, fileType, 0, "", date);
                 uploadLogDAO.insert(uploadLog);
                 try {
