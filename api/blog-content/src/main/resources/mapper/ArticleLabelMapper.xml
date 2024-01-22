@@ -25,7 +25,9 @@
         select
         <include refid="Base_Column_List"/>
         from article_label
-        where label_type = #{labelType}
+        <if test="labelType != 0">
+            where label_type = #{labelType}
+        </if>
     </select>
 
     <select id="selectArticleLabelByArray" resultMap="BaseResultMap">

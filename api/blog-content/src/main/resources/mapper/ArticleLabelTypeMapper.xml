@@ -22,12 +22,8 @@
 
     <update id="updateArticleLabelType" parameterType="com.blog.common.entity.content.article.ArticleLabelType">
         update article_label_type
-        <set>
-            type_name = #{typeName},
-        </set>
-        <where>
-            id = #{id} and label_num = 0;
-        </where>
+        set type_name = #{typeName}, update_time = #{updateTime}
+        where id = #{id}
     </update>
 
     <update id="updateArticleLabelTypeLabelNumAdd" parameterType="java.lang.Integer">

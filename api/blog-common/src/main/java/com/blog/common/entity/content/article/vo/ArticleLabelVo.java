@@ -2,10 +2,7 @@ package com.blog.common.entity.content.article.vo;
 
 import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.user.BlogUser;
-import com.blog.common.valication.group.AddGroup;
-import com.blog.common.valication.group.DeleteGroup;
-import com.blog.common.valication.group.SelectIdGroup;
-import com.blog.common.valication.group.UpdateGroup;
+import com.blog.common.valication.group.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,8 +28,8 @@ public class ArticleLabelVo extends ArticleLabel {
     /**
      * 标签类型
      */
-    @NotNull(message = "文章标签分类字段不能为空", groups = {AddGroup.class, UpdateGroup.class, SelectIdGroup.class})
-    @Min(value = 1, message = "文章分类字段值最小为1", groups = {AddGroup.class, UpdateGroup.class, SelectIdGroup.class})
+    @NotNull(message = "文章标签分类字段不能为空", groups = {AddGroup.class, UpdateGroup.class, SelectListGroup.class})
+    @Min(value = 0, message = "文章分类字段值最小为0", groups = {AddGroup.class, UpdateGroup.class, SelectListGroup.class})
     private Integer labelType;
 
     /**

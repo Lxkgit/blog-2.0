@@ -1,10 +1,13 @@
 package com.blog.content.service.impl;
 
+import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.content.article.ArticleLabelType;
 import com.blog.common.entity.content.article.vo.ArticleLabelTypeVo;
 import com.blog.common.entity.content.article.vo.ArticleLabelVo;
 import com.blog.common.entity.user.BlogUser;
+import com.blog.common.exception.ValidException;
+import com.blog.common.util.MyStringUtils;
 import com.blog.content.dao.ArticleLabelDAO;
 import com.blog.content.dao.ArticleLabelTypeDAO;
 import com.blog.content.feign.UserClient;
@@ -33,12 +36,70 @@ public class ArticleLabelTypeServiceImpl implements ArticleLabelTypeService {
     @Resource
     private UserClient userClient;
 
+    /**
+     * 新增标签分类
+     *
+     * @param articleLabelTypeVo
+     * @return
+     */
+    @Override
+    public Integer saveArticleLabelType(ArticleLabelTypeVo articleLabelTypeVo) {
+        articleLabelTypeVo.setId(null);
+        articleLabelTypeVo.setLabelNum(0);
+        articleLabelTypeVo.setCreateTime(new Date());
+        articleLabelTypeVo.setUpdateTime(new Date());
+        articleLabelTypeDAO.insert(articleLabelTypeVo);
+        return articleLabelTypeVo.getId();
+    }
+
+    /**
+     * 删除标签分类
+     *
+     * @param articleLabelTypeIds
+     * @return
+     * @throws ValidException
+     */
+    @Override
+    public Integer deleteArticleLabelTypeByIds(String articleLabelTypeIds) throws ValidException {
+        Set<String> ids = MyStringUtils.splitString(articleLabelTypeIds, ",");
+        for (String id : ids) {
+            ArticleLabelType articleLabelType = articleLabelTypeDAO.selectById(Integer.parseInt(id));
+            if (!articleLabelType.getLabelNum().equals(0)) {
+                throw new ValidException(ErrorMessage.ARTICLE_LABEL_TYPE_NUMBER_ERROR);
+            }
+        }
+        articleLabelTypeDAO.deleteArticleLabelTypeByIds(ids);
+        return ids.size();
+    }
+
+    /**
+     * 修改标签分类
+     *
+     * @param articleLabelTypeVo
+     * @return
+     */
+    @Override
+    public Integer updateArticleLabelType(ArticleLabelTypeVo articleLabelTypeVo) throws ValidException {
+        ArticleLabelType articleLabelType = articleLabelTypeDAO.selectById(articleLabelTypeVo.getId());
+        if (articleLabelType == null) {
+            throw new ValidException(ErrorMessage.ARTICLE_LABEL_TYPE_NOT_EXISTS);
+        }
+        articleLabelTypeVo.setUpdateTime(new Date());
+        articleLabelTypeDAO.updateArticleLabelType(articleLabelTypeVo);
+        return articleLabelTypeVo.getId();
+    }
+
+
+    /**
+     * 查询标签分类列表
+     *
+     * @return
+     */
     @Override
     public List<ArticleLabelTypeVo> getArticleLabelTypeList() {
         Map<Integer, BlogUser> blogUserMap = new HashMap<>();
-        List<ArticleLabelType> articleLabelTypeList;
         List<ArticleLabelTypeVo> articleLabelTypeVoList = new ArrayList<>();
-        articleLabelTypeList = articleLabelTypeDAO.selectArticleLabelTypeList();
+        List<ArticleLabelType> articleLabelTypeList = articleLabelTypeDAO.selectArticleLabelTypeList();
         for (ArticleLabelType articleLabelType : articleLabelTypeList) {
             ArticleLabelTypeVo articleLabelTypeVo = new ArticleLabelTypeVo();
             BlogUser labelTypeUser = blogUserMap.get(articleLabelType.getUserId());
@@ -70,29 +131,5 @@ public class ArticleLabelTypeServiceImpl implements ArticleLabelTypeService {
         return articleLabelTypeVoList;
     }
 
-    @Override
-    public int saveArticleLabelType(ArticleLabelType articleLabelType) {
-        articleLabelType.setLabelNum(0);
-        articleLabelType.setCreateTime(new Date());
-        articleLabelType.setUpdateTime(new Date());
-        return articleLabelTypeDAO.insert(articleLabelType);
-    }
 
-    @Override
-    public int updateArticleLabelType(ArticleLabelType articleLabelType) {
-        return articleLabelTypeDAO.updateArticleLabelType(articleLabelType);
-    }
-
-    @Override
-    public Map<String, Object> deleteArticleLabelTypeByIds(String articleLabelTypeIds) {
-        Map<String, Object> map = new HashMap<>();
-        String[] ids = articleLabelTypeIds.split(",");
-        int num = articleLabelTypeDAO.deleteArticleLabelTypeByIds(ids);
-        map.put("delete", ids.length);
-        map.put("success", num);
-        if (ids.length != num) {
-            map.put("msg", "请确认所选标签分类下标签数是否为0");
-        }
-        return map;
-    }
 }

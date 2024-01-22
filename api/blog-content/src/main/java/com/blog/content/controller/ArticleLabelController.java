@@ -1,27 +1,19 @@
 package com.blog.content.controller;
 
-import com.blog.common.constant.Constant;
-import com.blog.common.entity.content.article.ArticleLabel;
 import com.blog.common.entity.content.article.vo.ArticleLabelVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.exception.ValidException;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
-import com.blog.common.util.JwtUtil;
-import com.blog.common.valication.group.AddGroup;
-import com.blog.common.valication.group.DeleteGroup;
-import com.blog.common.valication.group.SelectIdGroup;
-import com.blog.common.valication.group.UpdateGroup;
+import com.blog.common.valication.group.*;
 import com.blog.content.service.ArticleLabelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Pattern;
 
 /**
  * @author: lxk
@@ -87,7 +79,7 @@ public class ArticleLabelController extends BaseController {
      * @return
      */
     @GetMapping("/list")
-    public Result selectArticleLabelList(@Validated(value = {SelectIdGroup.class}) ArticleLabelVo articleLabelVo) {
+    public Result selectArticleLabelList(@Validated(value = {SelectListGroup.class}) ArticleLabelVo articleLabelVo) {
         return ResultFactory.buildSuccessResult(articleLabelService.selectArticleLabelList(articleLabelVo.getLabelType()));
     }
 }
