@@ -4,6 +4,7 @@ package com.blog.file.netty.listener;
 import com.alibaba.fastjson.JSONObject;
 import com.blog.file.netty.dto.NettyPacket;
 import com.blog.file.netty.enums.NettyPacketType;
+import com.blog.file.netty.enums.NettyTopicEnum;
 import com.blog.file.netty.event.NettyPacketEvent;
 import com.blog.file.netty.service.NettyServer;
 import com.blog.file.netty.service.NettyServerHandler;
@@ -47,8 +48,16 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
                 NettyServerHandler.clientMap.put(sender, channelId);
                 log.info("客户端【{}】与netty通道【{}】绑定", sender, channelId);
             }
-            boolean success = nettyServer.channelWriteByChannelId(channelId, JSONObject.toJSONString(nettyResponse));
+            nettyServer.channelWriteByChannelId(channelId, JSONObject.toJSONString(nettyResponse));
         } else if (nettyPacketType.equals(NettyPacketType.REQUEST.getValue())) {
+            // 对客户端请求的响应
+            // 收到传感器数据回复响应
+            if (topic.equals(NettyTopicEnum.BLOG_SENSOR_DATA.getTopic())) {
+                NettyPacket<String> nettyResponse = NettyPacket.buildResponse(event.getNettyPacket().getRequestId(), "service receive data");
+                nettyResponse.setTopic(topic);
+                nettyResponse.setUserId(0);
+                nettyServer.channelWriteByChannelId(channelId, JSONObject.toJSONString(nettyResponse));
+            }
 
         } else if (nettyPacketType.equals(NettyPacketType.RESPONSE.getValue())) {
             // TODO RESPONSE

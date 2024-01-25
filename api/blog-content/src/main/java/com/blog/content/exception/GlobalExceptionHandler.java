@@ -1,17 +1,21 @@
 package com.blog.content.exception;
 
+import com.blog.common.constant.ErrorMessage;
 import com.blog.common.exception.ValidException;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.MessageFormat;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @description:
@@ -98,8 +102,11 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler({Exception.class})
-    public Result defaultErrorHandler(HttpServletRequest request, Exception e) throws Exception {
-        return this.errorHandler(request, e);
+    public Result defaultErrorHandler(HttpServletRequest request, Exception e) {
+        Result restResult;
+        restResult = ResultFactory.buildFailResult(ErrorMessage.UNKNOWN_ERROR.getCode(), ErrorMessage.UNKNOWN_ERROR.getDesc());
+        logger.error(MessageFormat.format("Global exception information {0}", e.getMessage()), e);
+        return restResult;
     }
 
     public Result errorHandler(HttpServletRequest request, Exception e) throws Exception {

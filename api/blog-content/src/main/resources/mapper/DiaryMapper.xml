@@ -86,7 +86,7 @@
     <update id="updateDiary" parameterType="com.blog.common.entity.content.diary.Diary">
         update blog_diary
         <set>
-            <if test="diaryMd !=null and diaryMd !=''">
+            <if test="diaryMd !=null">
                 diary_md = #{diaryMd},
             </if>
             <if test="diaryDate !=null">

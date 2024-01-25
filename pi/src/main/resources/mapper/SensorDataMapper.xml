@@ -3,18 +3,15 @@
 <mapper namespace="com.blog.pi.dao.SensorDataDAO">
     <resultMap id="BaseResultMap" type="com.blog.pi.entity.SensorData">
         <id column="id" property="id"/>
-        <id column="device_id" property="deviceId"/>
-        <id column="value1" property="value1"/>
-        <id column="value2" property="value2"/>
-        <id column="value3" property="value3"/>
+        <id column="chip_type" property="chipType"/>
+        <id column="sensor_type" property="sensorType"/>
         <id column="data" property="data"/>
         <id column="create_time" property="createTime"/>
-
     </resultMap>
 
 
     <sql id="Base_Column_List">
-        id, device_id, value1, value2, value3, data, create_time
+        id, chip_type, sensor_type, data, create_time
     </sql>
 
 </mapper>

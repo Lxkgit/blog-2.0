@@ -1,11 +1,14 @@
 package com.blog.pi.mqtt;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.blog.pi.dao.SensorDataDAO;
 import com.blog.pi.entity.SensorData;
 import com.blog.pi.enums.mqtt.MQTTTopicEnum;
+import com.blog.pi.enums.netty.NettyTopicEnum;
 import com.blog.pi.ftp.FtpsUtil;
+import com.blog.pi.mqtt.data.MQTTSensorData;
+import com.blog.pi.netty.client.NettyClient;
+import com.blog.pi.netty.dto.NettyPacket;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
 
@@ -20,6 +23,8 @@ import java.util.Date;
 public class MyMQTTCallback implements MqttCallbackExtended {
 
     private final FtpsUtil ftpsUtil = SpringUtils.getBean(FtpsUtil.class);
+
+    private final NettyClient nettyClient = SpringUtils.getBean(NettyClient.class);
 
     private final MyMQTTClient myMQTTClient;
 
@@ -70,11 +75,20 @@ public class MyMQTTCallback implements MqttCallbackExtended {
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
         String msg = new String(mqttMessage.getPayload());
-        JSONObject jsonObject = JSON.parseObject(msg);
+
         log.info("MQTT 接收消息主题 : {}，接收消息内容 : {}", topic, msg);
         // 处理订阅的消息
-        if (topic.equals(MQTTTopicEnum.MQTT_TEMPERATURE_HUMIDITY.getTopic())) {
-            sensorDataDAO.insert(new SensorData("devId", jsonObject.getString("value1"), "value2", "value3", jsonObject.toString(), new Date()));
+        if (topic.equals(MQTTTopicEnum.CHIP_HEART.getTopic())) {
+
+        } else if (topic.equals(MQTTTopicEnum.SENSOR_DATA.getTopic())) {
+            SensorData sensorData = JSON.parseObject(msg, MQTTSensorData.class);
+            sensorData.setCreateTime(new Date());
+            sensorDataDAO.insert(sensorData);
+
+            NettyPacket<SensorData> nettyRequest = NettyPacket.buildRequest(sensorData);
+            nettyRequest.setTopic(NettyTopicEnum.BLOG_SENSOR_DATA.getTopic());
+            nettyRequest.setUserId(0);
+            nettyClient.sendMsg(JSON.toJSONString(nettyRequest));
         }
 //        try {
 //            // 上传文件
@@ -103,7 +117,7 @@ public class MyMQTTCallback implements MqttCallbackExtended {
     public void connectComplete(boolean reconnect, String serverURI) {
         log.info("MQTT 连接成功，连接方式：{}", reconnect ? "重连" : "直连");
         // 订阅主题
-
+        myMQTTClient.subscribe(MQTTTopicEnum.SENSOR_DATA.getTopic(), MQTTTopicEnum.SENSOR_DATA.getQos());
     }
 
     /**

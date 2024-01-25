@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface DiaryDAO extends BaseMapper<Diary> {
 
@@ -32,6 +33,6 @@ public interface DiaryDAO extends BaseMapper<Diary> {
      * @param diaryStatus
      * @return
      */
-    int updateDiaryStatusByIds(@Param("ids") String[] ids, @Param("userId") Integer userId, @Param("diaryStatus") Integer diaryStatus);
+    void updateDiaryStatusByIds(@Param("ids") Set<String> ids, @Param("userId") Integer userId, @Param("diaryStatus") Integer diaryStatus);
     int deleteDiaryByIds(@Param("ids") String[] ids, @Param("userId") Integer userId);
 }

@@ -1,16 +1,20 @@
 package com.blog.content.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.Constant;
+import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.content.diary.Diary;
 import com.blog.common.entity.content.diary.vo.DiaryVo;
 import com.blog.common.entity.file.vo.BlogDataVo;
 import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
+import com.blog.common.exception.ValidException;
 import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.common.util.DateUtil;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
+import com.blog.common.util.MyStringUtils;
 import com.blog.content.dao.DiaryDAO;
 import com.blog.content.mq.MQProducerService;
 import com.blog.content.mq.send.SendSystemData;
@@ -44,6 +48,71 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Resource
     private SendUserData sendUserData;
+
+    /**
+     * 新增日记
+     *
+     * @param diaryVo
+     * @return
+     */
+    @Override
+    public Integer saveDiary(DiaryVo diaryVo) {
+        diaryVo.setCreateTime(new Date());
+        diaryVo.setUpdateTime(new Date());
+        diaryVo.setDiaryStatus(1);
+        diaryDAO.insertDiary(diaryVo);
+
+        // 发送博客用户新增日记mq消息
+        sendUserData.sendUserData(SendUserData.diary, diaryVo.getUserId(), 1);
+
+        // 发送博客系统新增日记mq消息
+        sendSystemData.sendSystemData(SendSystemData.diary, 1);
+        return diaryVo.getId();
+    }
+
+    /**
+     * 删除日记
+     *
+     * @param diaryIds
+     * @param userId
+     * @return
+     */
+    @Override
+    public Integer deleteDiary(String diaryIds, Integer userId) throws ValidException {
+        Set<String> idSet = MyStringUtils.splitString(diaryIds, ",");
+        for (String id : idSet) {
+            QueryWrapper<Diary> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("id", id);
+            queryWrapper.ne("diary_status", Constant.DELETE);
+            Diary diary = diaryDAO.selectOne(queryWrapper);
+            if (diary == null) {
+                throw new ValidException(ErrorMessage.DIARY_NOT_EXISTS, "日记id: " + id + " 不存在");
+            }
+        }
+        diaryDAO.updateDiaryStatusByIds(idSet, userId, Constant.DELETE);
+
+        // 发送博客用户删除日记mq消息
+        sendUserData.sendUserData(SendUserData.diary, userId, -idSet.size());
+        // 发送博客系统删除日记mq消息
+        sendSystemData.sendSystemData(SendSystemData.diary, -idSet.size());
+
+        return idSet.size();
+
+    }
+
+    /**
+     * 修改日记
+     *
+     * @param diaryVo
+     * @return
+     */
+    @Override
+    public Integer updateDiary(DiaryVo diaryVo) {
+        diaryVo.setUpdateTime(new Date());
+        diaryDAO.updateDiary(diaryVo);
+        return diaryVo.getId();
+    }
+
 
     /**
      * 通过日期查询未删除日记
@@ -92,26 +161,6 @@ public class DiaryServiceImpl implements DiaryService {
         return map;
     }
 
-    /**
-     * 新增日记
-     *
-     * @param diary
-     * @return
-     */
-    @Override
-    public int saveDiary(Diary diary) {
-        Date date = new Date();
-        diary.setCreateTime(date);
-        diary.setUpdateTime(date);
-        diaryDAO.insertDiary(diary);
-
-        // 发送博客用户新增日记mq消息
-        sendUserData.sendUserData(SendUserData.diary, diary.getUserId(), 1);
-
-        // 发送博客系统新增日记mq消息
-        sendSystemData.sendSystemData(SendSystemData.diary, 1);
-        return diary.getId();
-    }
 
     /**
      * 批量保存日记，内部导入接口使用
@@ -150,41 +199,6 @@ public class DiaryServiceImpl implements DiaryService {
         return result;
     }
 
-    /**
-     * 修改日记
-     *
-     * @param diary
-     * @return
-     */
-    @Override
-    public int updateDiary(Diary diary) {
-        diary.setUpdateTime(new Date());
-        diaryDAO.updateDiary(diary);
-        return diary.getId();
-    }
 
-    /**
-     * 删除日记
-     *
-     * @param diaryIds
-     * @param userId
-     * @return
-     */
-    @Override
-    public Map<String, Object> deleteDiary(String diaryIds, Integer userId) {
-        Map<String, Object> map = new HashMap<>();
-        if (diaryIds != null && !diaryIds.equals("")) {
-            String[] ids = diaryIds.split(",");
-            int num = diaryDAO.updateDiaryStatusByIds(ids, userId, Constant.DELETE);
-            map.put("delete", ids.length);
-            map.put("success", num);
-            // 发送博客用户删除日记mq消息
-            sendUserData.sendUserData(SendUserData.diary, userId, -num);
-            // 发送博客系统删除日记mq消息
-            sendSystemData.sendSystemData(SendSystemData.diary, -num);
-        } else {
-            map.put("msg", "ids、date和dateMonth参数不能同时为空 ... ");
-        }
-        return map;
-    }
+
 }

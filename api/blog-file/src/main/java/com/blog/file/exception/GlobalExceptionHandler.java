@@ -1,5 +1,6 @@
 package com.blog.file.exception;
 
+import com.blog.common.constant.ErrorMessage;
 import com.blog.common.exception.ValidException;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
@@ -106,8 +107,11 @@ public class GlobalExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler({Exception.class})
-    public Result defaultErrorHandler(HttpServletRequest request, Exception e) throws Exception {
-        return this.errorHandler(request, e);
+    public Result defaultErrorHandler(HttpServletRequest request, Exception e) {
+        Result restResult;
+        restResult = ResultFactory.buildFailResult(ErrorMessage.UNKNOWN_ERROR.getCode(), ErrorMessage.UNKNOWN_ERROR.getDesc());
+        logger.error(MessageFormat.format("Global exception information {0}", e.getMessage()), e);
+        return restResult;
     }
 
     public Result errorHandler(HttpServletRequest request, Exception e) throws Exception {

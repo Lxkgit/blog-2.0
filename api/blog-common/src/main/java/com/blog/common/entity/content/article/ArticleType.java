@@ -25,15 +25,15 @@ public class ArticleType implements Comparable<ArticleType> {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private int parentId;
+    private Integer parentId;
 
     private String typeName;
 
-    private int num;
+    private Integer num;
 
-    private int node;
+    private Integer node;
 
-    private int createUser;
+    private Integer createUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

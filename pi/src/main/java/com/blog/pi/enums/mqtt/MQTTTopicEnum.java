@@ -2,8 +2,14 @@ package com.blog.pi.enums.mqtt;
 
 public enum MQTTTopicEnum {
 
-    // 温湿度传感器消息
-    MQTT_TEMPERATURE_HUMIDITY("MQTT_HEART_SMP", 2),
+    // 芯片心跳
+    CHIP_HEART("CHIP_HEART", 0),
+
+    // 传感器数据
+    SENSOR_DATA("SENSOR_DATA", 0),
+
+    // 传感器控制
+    SENSOR_CONTROL("SENSOR_CONTROL", 2),
     ;
 
 

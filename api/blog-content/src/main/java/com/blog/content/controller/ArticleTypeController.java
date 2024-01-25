@@ -1,17 +1,18 @@
 package com.blog.content.controller;
 
-import com.blog.common.constant.Constant;
-import com.blog.common.entity.content.article.ArticleType;
-import com.blog.common.entity.user.BlogUser;
+import com.blog.common.entity.content.article.vo.ArticleTypeVo;
+import com.blog.common.exception.ValidException;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
-import com.blog.common.util.JwtUtil;
+import com.blog.common.valication.group.*;
 import com.blog.content.service.ArticleTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author: lxk
@@ -22,70 +23,90 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/article/type")
-public class ArticleTypeController {
+public class ArticleTypeController extends BaseController {
 
     @Autowired
     private ArticleTypeService articleTypeService;
 
+    /**
+     * 创建文章分类
+     *
+     * @param request
+     * @param articleTypeVo
+     * @return
+     */
+    @PostMapping("/save")
+    @PreAuthorize("hasAnyAuthority('sys:article:type:insert')")
+    public Result saveArticleType(HttpServletRequest request, @RequestBody @Validated(value = {AddGroup.class}) ArticleTypeVo articleTypeVo) {
+        articleTypeVo.setCreateUser(getBlogUser(request).getId());
+        return ResultFactory.buildSuccessResult(articleTypeService.saveArticleType(articleTypeVo));
+    }
+
+    /**
+     * 删除文章分类
+     *
+     * @param articleTypeVo
+     * @return
+     */
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('sys:article:type:delete')")
+    public Result deleteArticleType(@Validated(value = {DeleteGroup.class}) ArticleTypeVo articleTypeVo) throws ValidException {
+        return ResultFactory.buildSuccessResult(articleTypeService.deleteArticleTypeById(articleTypeVo.getArticleTypeId()));
+    }
+
+    /**
+     * 修改文章分类
+     *
+     * @param request
+     * @param articleTypeVo
+     * @return
+     */
+    @PostMapping("/update")
+    @PreAuthorize("hasAnyAuthority('sys:article:type:update')")
+    public Result updateArticleType(HttpServletRequest request, @RequestBody @Validated(value = {UpdateGroup.class}) ArticleTypeVo articleTypeVo) throws ValidException {
+        articleTypeVo.setCreateUser(getBlogUser(request).getId());
+        return ResultFactory.buildSuccessResult(articleTypeService.updateArticleType(articleTypeVo));
+    }
+
+    /**
+     * 查询文章分类列表
+     *
+     * @return
+     */
     @GetMapping("/list")
     public Result selectArticleTypeList() {
         return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeList());
     }
 
+    /**
+     * 根据传入的父节点id获取子节点
+     *
+     * @param articleTypeVo
+     * @return
+     */
     @GetMapping("/node")
-    public Result selectArticleTypeListByParentId(@RequestParam(value = "parentId") String parentId) {
-        return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeByParentId(parentId));
+    public Result selectArticleTypeListByParentId(@Validated(value = {SelectListGroup.class}) ArticleTypeVo articleTypeVo) {
+        return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeByParentId(articleTypeVo.getParentId()));
     }
 
+    /**
+     * 查询指定分类，一直到基础分类
+     *
+     * @param articleTypeVo
+     * @return
+     */
     @GetMapping("/id")
-    public Result selectArticleTypeById(@RequestParam(value = "id") Integer id) {
-        return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeById(id));
+    public Result selectArticleTypeById(@Validated(value = {SelectIdGroup.class}) ArticleTypeVo articleTypeVo) {
+        return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeById(articleTypeVo.getId()));
     }
 
+    /**
+     * 查询全部分类，并按照树组织结构返回
+     *
+     * @return
+     */
     @GetMapping("/tree")
     public Result selectArticleTypeTree() {
         return ResultFactory.buildSuccessResult(articleTypeService.selectArticleTypeTree());
-    }
-
-    @PostMapping("/save")
-    @PreAuthorize("hasAnyAuthority('sys:article:type:insert')")
-    public Result saveArticleType(@RequestHeader HttpHeaders headers, @RequestBody ArticleType articleType) {
-        String token = String.valueOf(headers.get("Authorization"));
-        try {
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
-            articleType.setCreateUser(blogUser.getId());
-            articleTypeService.saveArticleType(articleType);
-            return ResultFactory.buildSuccessResult("文章分类保存成功");
-        } catch (Exception e) {
-            log.warn(Constant.JWTError, e);
-        }
-        return ResultFactory.buildSuccessResult("文章分类保存失败");
-    }
-
-    @PostMapping("/update")
-    @PreAuthorize("hasAnyAuthority('sys:article:type:update')")
-    public Result updateArticleType(@RequestHeader HttpHeaders headers, @RequestBody ArticleType articleType) {
-
-        String token = String.valueOf(headers.get("Authorization"));
-        try {
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
-            articleType.setCreateUser(blogUser.getId());
-            articleTypeService.updateArticleType(articleType);
-            int flag = articleTypeService.updateArticleType(articleType);
-            if (flag == 1) {
-                return ResultFactory.buildSuccessResult("文章分类修改成功");
-            }
-            return ResultFactory.buildSuccessResult("文章分类修改失败，请确认改分类下文章数目是否为0");
-
-        } catch (Exception e) {
-            log.warn(Constant.JWTError, e);
-        }
-        return ResultFactory.buildFailResult("文章分类修改失败");
-    }
-
-    @DeleteMapping("/delete")
-    @PreAuthorize("hasAnyAuthority('sys:article:type:delete')")
-    public Result deleteArticleType(@RequestParam(value = "articleTypeId") String articleTypeId) {
-        return ResultFactory.buildSuccessResult(articleTypeService.deleteArticleTypeById(articleTypeId));
     }
 }

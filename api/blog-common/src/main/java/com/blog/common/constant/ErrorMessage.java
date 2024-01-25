@@ -36,6 +36,9 @@ public enum ErrorMessage {
     ARTICLE_NULL("040001", "文章不存在"),
     // 文章分类：01
     ARTICLE_TYPE_ERROR("040101", "文章分类不存在"),
+    ARTICLE_TYPE_PARENT_ERROR("040102", "文章分类父级不存在"),
+    ARTICLE_TYPE_LEVEL_ERROR("040103", "文章分类只支持三级"),
+    ARTICLE_TYPE_NUM_ERROR("040104", "文章分类下文章数量不为0"),
     // 文章标签与标签分类：02
     ARTICLE_LABEL_NOT_EXISTS("040201", "文章标签不存在"),
     ARTICLE_LABEL_TYPE_NOT_EXISTS("040202", "文章标签分类不存在"),
@@ -43,7 +46,8 @@ public enum ErrorMessage {
     ARTICLE_LABEL_USER_UPDATE_ERROR("040204", "只允许修改自己创建的标签"),
     ARTICLE_LABEL_USER_DELETE_ERROR("040205", "只允许删除自己创建的标签"),
     ARTICLE_LABEL_TYPE_NUMBER_ERROR("040206", "文章标签分类下标签数量不为0"),
-
+    // 日记：03
+    DIARY_NOT_EXISTS("040301", "日记不存在"),
     /**
      * 05 文件服务
      */

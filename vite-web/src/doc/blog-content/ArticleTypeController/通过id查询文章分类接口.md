@@ -1,0 +1,62 @@
+## 简要描述
+- 根据id查询文章分类
+
+## 请求url
+- `http://ip:port/content/article/type/id`
+
+## 请求方式
+- POST
+
+## 接口权限
+- 登录
+
+## 请求参数
+无
+
+## 请求示例
+```json
+localhost:9527/content/article/type/id?id=5
+```
+
+## 返回结果
+```json
+{
+    "code": "200",
+    "message": "成功",
+    "result": [
+        {
+            "id": 5,
+            "parentId": 0,
+            "typeName": "Java",
+            "num": 1,
+            "node": 0,
+            "createUser": 1,
+            "createTime": "2024-01-18 14:14:58",
+            "updateTime": "2024-01-18 14:14:58"
+        }
+    ],
+    "success": true
+}
+```
+
+## result数据
+| 参数名       | 类型    | 说明                 |
+| ------------ | ------- | -------------------- |
+| result       | Objecj  | 返回数据             |
+| └─id         | Integer | 分类id               |
+| └─parentId   | Integer | 分类父id             |
+| └─typeName   | String  | 分类名称             |
+| └─num        | Integer | 分类下文章数量       |
+| └─node       | Integer | 分类下是否还有子分类 |
+| └─createUser | Integer | 分类创建用户id       |
+| └─createTime | Date    | 分类创建时间         |
+| └─updateTime | Date    | 分类最近修改时间     |
+
+
+## 错误码
+| 错误码编号 | 描述                                          | 解决方法 |
+| ---------- | --------------------------------------------- | -------- |
+| 000001     | 参数校验错误（返回字段message有详细校验信息） | 修改参数 |
+| 000102     | 未知错误                                      | 无       |
+
+## 备注

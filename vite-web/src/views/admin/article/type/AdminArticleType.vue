@@ -158,7 +158,7 @@ const saveArticleTypeFun = () => {
     createArticleTypeDialog.value = false
     saveArticleTypeApi(
         {
-            parentId: createForm.articleTypeParentId === null ? 0 : createForm.articleTypeParentId,
+            parentId: createForm.articleTypeParentId === '' ? 0 : createForm.articleTypeParentId,
             typeName: createForm.articleTypeName
         }).then((res: any) => {
             if (res.code === 200) {

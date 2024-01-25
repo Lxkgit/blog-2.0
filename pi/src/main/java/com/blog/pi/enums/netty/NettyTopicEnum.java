@@ -10,6 +10,8 @@ public enum NettyTopicEnum {
 
     // 博客MySQL数据与数据文件同步
     BLOG_FILE_SYNC("BLOG_FILE_SYNC"),
+    // 传感器数据消息
+    BLOG_SENSOR_DATA("BLOG_SENSOR_DATA"),
 
     ;
     /**

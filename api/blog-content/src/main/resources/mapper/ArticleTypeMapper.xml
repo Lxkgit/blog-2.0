@@ -17,19 +17,22 @@
     </sql>
 
     <select id="selectArticleTypeById" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from article_type
         where id = #{id}
     </select>
 
     <select id="selectArticleTypeByParentId" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from article_type
         where parent_id = #{parentId}
     </select>
 
     <select id="selectArticleTypeByArray" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from article_type
         where id in
         <foreach item="type" collection="array" open="(" separator="," close=")">
@@ -59,6 +62,11 @@
             #{id}
         </foreach>
         and num = 0;
+    </delete>
+
+    <delete id="deleteArticleTypeByParentId">
+        delete from article_type
+        where parent_id = #{parentId}
     </delete>
 
     <update id="updateArticleTypeNumById">

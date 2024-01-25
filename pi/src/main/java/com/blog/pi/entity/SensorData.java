@@ -8,6 +8,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @description: 传感器数据表
@@ -23,14 +24,9 @@ public class SensorData {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    // 设备编号
-    private String deviceId;
+    private String chipType;
 
-
-    // 消息数据1-3
-    private String value1;
-    private String value2;
-    private String value3;
+    private String sensorType;
 
     // mqtt 接收的数据
     private String data;
@@ -39,13 +35,4 @@ public class SensorData {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-
-    public SensorData(String deviceId, String value1, String value2, String value3, String data, Date createTime) {
-        this.deviceId = deviceId;
-        this.value1 = value1;
-        this.value2 = value2;
-        this.value3 = value3;
-        this.data = data;
-        this.createTime = createTime;
-    }
 }
