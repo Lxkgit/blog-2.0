@@ -32,4 +32,10 @@ public class Constant {
     public static final Integer FILE_TYPE_FILE = 1;
     public static final Integer FILE_TYPE_IMAGE = 2;
 
+    // 设备离线时间
+    public static final Long DEVICE_WAIT_TIME = 3*60L;
+
+    // 设备离线：0  设备在线：1
+    public static final Integer DEVICE_OFFLINE = 0;
+    public static final Integer DEVICE_ONLINE = 1;
 }

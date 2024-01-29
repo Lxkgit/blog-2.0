@@ -1,6 +1,11 @@
 package com.blog.pi.netty.client;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.blog.pi.config.InitConfig;
+import com.blog.pi.dao.RegisterSettingDAO;
+import com.blog.pi.entity.RegisterSetting;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -12,6 +17,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 import java.net.InetAddress;
 import java.util.concurrent.TimeUnit;
 
@@ -29,10 +35,9 @@ public class NettyClient implements CommandLineRunner {
     private final EventLoopGroup workGroup = new NioEventLoopGroup();
     private final NettyClientInitializer nettyClientInitializer;
 
-    @Value("${netty.host}")
-    private String host;
-    @Value("${netty.port}")
-    private Integer port;
+
+    @Resource
+    private RegisterSettingDAO registerSettingDAO;
 
     @Override
     public void run(String... args) {
@@ -51,7 +56,8 @@ public class NettyClient implements CommandLineRunner {
                     // Netty客户端channel初始化
                     .handler(nettyClientInitializer);
             // 连接服务器ip、端口
-            ChannelFuture future = bootstrap.connect(host, port);
+            ChannelFuture future = bootstrap.connect((String) InitConfig.getRegisterConfig("netty", "ip"),
+                    (Integer) InitConfig.getRegisterConfig("netty", "port"));
 
             //客户端断线重连逻辑
             future.addListener((ChannelFutureListener) futureListener -> {

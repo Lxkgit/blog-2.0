@@ -3,6 +3,7 @@ package com.blog.pi.netty.client;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.blog.pi.config.InitConfig;
 import com.blog.pi.netty.dto.NettyPacket;
 import com.blog.pi.netty.enums.NettyPacketType;
 import com.blog.pi.netty.event.NettyPacketEvent;
@@ -18,7 +19,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.net.InetSocketAddress;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -45,7 +48,14 @@ public class NettyClientHandler extends ChannelDuplexHandler {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         log.info("建立Netty连接!!");
-        ctx.fireChannelActive();
+        // 发送注册消息
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("username", InitConfig.getRegisterConfig("netty", "username"));
+        jsonObject.put("registerId", InitConfig.getRegisterConfig("netty", "registerId"));
+        NettyPacket<String> nettyRequest = NettyPacket.buildRequest(jsonObject.toJSONString());
+        nettyRequest.setNettyPacketType(NettyPacketType.REGISTER.getValue());
+        nettyRequest.setTopic(NettyPacketType.REGISTER.getValue());
+        ctx.writeAndFlush(JSONObject.toJSONString(nettyRequest));
     }
 
     /**

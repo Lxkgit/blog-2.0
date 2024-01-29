@@ -46,6 +46,11 @@ public class UserController {
         return userService.selectUserByUsername(username);
     }
 
+    @GetMapping("/username")
+    public Result getUserByUsername(@RequestParam(value = "username") String username) {
+        return ResultFactory.buildSuccessResult(userService.selectUserByUsername(username));
+    }
+
     @GetMapping("/code")
     public Result getUserVerifyCode(@RequestParam(value = "email") String email) {
         return ResultFactory.buildFailResult(userService.getUserVerifyCode(email));

@@ -87,7 +87,6 @@ public class MyMQTTCallback implements MqttCallbackExtended {
 
             NettyPacket<SensorData> nettyRequest = NettyPacket.buildRequest(sensorData);
             nettyRequest.setTopic(NettyTopicEnum.BLOG_SENSOR_DATA.getTopic());
-            nettyRequest.setUserId(0);
             nettyClient.sendMsg(JSON.toJSONString(nettyRequest));
         }
 //        try {

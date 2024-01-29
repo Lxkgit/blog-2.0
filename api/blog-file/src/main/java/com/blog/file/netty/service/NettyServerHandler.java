@@ -3,6 +3,11 @@ package com.blog.file.netty.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.blog.common.constant.Constant;
+import com.blog.common.entity.file.Device;
+import com.blog.file.dao.DeviceDAO;
+import com.blog.file.netty.dto.NettyClientChannel;
 import com.blog.file.netty.dto.NettyPacket;
 import com.blog.file.netty.event.NettyPacketEvent;
 import io.netty.channel.ChannelHandler;
@@ -16,8 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.net.InetSocketAddress;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,9 +43,12 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     public static final Map<ChannelId, ChannelHandlerContext> channelMap = new ConcurrentHashMap<>();
 
     // 全局map，保存客户端编码与netty通道编码 （用于服务端指定客户端发送消息）
-    public static final Map<String, ChannelId> clientMap = new ConcurrentHashMap<>();
+    public static final Map<String, NettyClientChannel> clientMap = new ConcurrentHashMap<>();
 
     private final ApplicationEventPublisher applicationEventPublisher;
+
+    @Resource
+    private DeviceDAO deviceDAO;
 
     /**
      * 当客户端主动连接服务端，通道活跃后触发
@@ -75,10 +85,20 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         if (channelMap.containsKey(channelId)) {
             // 删除连接
             channelMap.remove(channelId);
-            if (clientMap.containsValue(channelId)) {
-                Collection<ChannelId> values = clientMap.values();
-                values.remove(channelId);
+            for (Map.Entry <String, NettyClientChannel>  entry : clientMap.entrySet()) {
+                NettyClientChannel channel = entry.getValue();
+                if (channel.getChannelId() == channelId) {
+                    QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
+                    deviceQueryWrapper.eq("username", channel.getUsername());
+                    deviceQueryWrapper.eq("device_code", channel.getRegisterId());
+                    Device deviceStatus = new Device();
+                    deviceStatus.setDeviceStatus(Constant.DEVICE_OFFLINE);
+                    deviceDAO.update(deviceStatus, deviceQueryWrapper);
+                    clientMap.remove(entry.getKey());
+                    break;
+                }
             }
+
             log.warn("客户端【{}】断开Netty连接!![clientIp:{} clientPort:{}]", channelId, clientIp, clientPort);
             log.info("channelId: 连接通道数量:{}, client: 绑定通道数量:{}", channelMap.size(), clientMap.size());
         }

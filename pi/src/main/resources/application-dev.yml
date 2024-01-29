@@ -13,14 +13,6 @@ spring:
     username: root
     password: root
 
-ftp:
-  basePath: D:/files
-  host: ${devServiceIp}
-  httpPath: ftp://${devServiceIp}
-  username: demo
-  password: demo
-  port: 21
-
 mqtt:
   host: tcp://${devServiceIp}:1883
   username: admin
@@ -28,8 +20,3 @@ mqtt:
   clientId: clientId1
   timeout: 20
   keepalive: 20
-
-netty:
-  host: ${devServiceIp}
-  port: 9092
-  sender: SMP1

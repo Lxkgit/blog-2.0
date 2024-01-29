@@ -2,6 +2,13 @@ package com.blog.file.netty.listener;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.blog.common.constant.Constant;
+import com.blog.common.entity.file.Device;
+import com.blog.common.entity.user.BlogUser;
+import com.blog.file.dao.DeviceDAO;
+import com.blog.file.feign.UserClient;
+import com.blog.file.netty.dto.NettyClientChannel;
 import com.blog.file.netty.dto.NettyPacket;
 import com.blog.file.netty.enums.NettyPacketType;
 import com.blog.file.netty.enums.NettyTopicEnum;
@@ -15,6 +22,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -29,24 +37,59 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
 
     private final NettyServer nettyServer;
 
+    @Resource
+    private UserClient userClient;
+
+    @Resource
+    private DeviceDAO deviceDAO;
+
     @Async
     @Override
     public void onApplicationEvent(NettyPacketEvent event) {
         ChannelId channelId = (ChannelId) event.getSource();
-        String sender = event.getNettyPacket().getSender();
         String nettyPacketType = event.getNettyPacket().getNettyPacketType();
-        String topic = event.getNettyPacket().getTopic();
         String requestId = event.getNettyPacket().getRequestId();
-        String data = JSONObject.toJSONString(event.getNettyPacket().getData());
-        log.info("channelId:【{}】 sender:【{}】 requestId:【{}】 topic:【{}】 data:{}", channelId, sender, requestId, topic, data);
-        if (nettyPacketType.equals(NettyPacketType.HEARTBEAT.getValue())) {
+        String topic = event.getNettyPacket().getTopic();
+        String username = event.getNettyPacket().getUsername();
+        String registerId = event.getNettyPacket().getRegisterId();
+        String data = event.getNettyPacket().getData().toString();
+        log.info("channelId:【{}】 requestId:【{}】 topic:【{}】 username:【{}】 registerId:【{}】 data:{}", channelId, requestId, topic, username, registerId, data);
+        if (nettyPacketType.equals(NettyPacketType.REGISTER.getValue())) {
+            JSONObject jsonObject = JSONObject.parseObject((String) event.getNettyPacket().getData());
+            BlogUser blogUser = JSONObject.parseObject(JSONObject.toJSONString(userClient.getUserByUsername(jsonObject.getString("username")).getResult()), BlogUser.class);
+            QueryWrapper<Device> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_id", blogUser.getId());
+            queryWrapper.eq("device_code", jsonObject.getString("registerId"));
+            Device device = deviceDAO.selectOne(queryWrapper);
+            if (device == null) {
+                log.error("用户与编码匹配失败，拒绝连接");
+                nettyServer.close(channelId);
+            } else {
+                if (!NettyServerHandler.clientMap.containsKey(registerId)) {
+                    NettyServerHandler.clientMap.put(registerId, new NettyClientChannel(channelId, registerId, username, new Date()));
+                    QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
+                    deviceQueryWrapper.eq("username", username);
+                    deviceQueryWrapper.eq("device_code", registerId);
+                    Device deviceStatus = new Device();
+                    deviceStatus.setDeviceStatus(Constant.DEVICE_ONLINE);
+                    deviceDAO.update(deviceStatus, deviceQueryWrapper);
+                    log.info("注册 客户端【{}】与netty通道【{}】绑定", registerId, channelId);
+                }
+            }
+        } else if (nettyPacketType.equals(NettyPacketType.HEARTBEAT.getValue())) {
             NettyPacket<String> nettyResponse = NettyPacket.buildResponse(event.getNettyPacket().getRequestId(), "service receive heartbeat");
             nettyResponse.setNettyPacketType(NettyPacketType.HEARTBEAT.getValue());
             nettyResponse.setTopic(NettyPacketType.HEARTBEAT.getValue());
-            nettyResponse.setUserId(0);
-            if (!NettyServerHandler.clientMap.containsKey(sender)) {
-                NettyServerHandler.clientMap.put(sender, channelId);
-                log.info("客户端【{}】与netty通道【{}】绑定", sender, channelId);
+            nettyResponse.setUsername(username);
+            if (!NettyServerHandler.clientMap.containsKey(registerId)) {
+                NettyServerHandler.clientMap.put(registerId, new NettyClientChannel(channelId, registerId, username, new Date()));
+                QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
+                deviceQueryWrapper.eq("username", username);
+                deviceQueryWrapper.eq("device_code", registerId);
+                Device deviceStatus = new Device();
+                deviceStatus.setDeviceStatus(Constant.DEVICE_ONLINE);
+                deviceDAO.update(deviceStatus, deviceQueryWrapper);
+                log.info("心跳 客户端【{}】与netty通道【{}】绑定", registerId, channelId);
             }
             nettyServer.channelWriteByChannelId(channelId, JSONObject.toJSONString(nettyResponse));
         } else if (nettyPacketType.equals(NettyPacketType.REQUEST.getValue())) {
@@ -55,7 +98,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
             if (topic.equals(NettyTopicEnum.BLOG_SENSOR_DATA.getTopic())) {
                 NettyPacket<String> nettyResponse = NettyPacket.buildResponse(event.getNettyPacket().getRequestId(), "service receive data");
                 nettyResponse.setTopic(topic);
-                nettyResponse.setUserId(0);
+                nettyResponse.setUsername(username);
                 nettyServer.channelWriteByChannelId(channelId, JSONObject.toJSONString(nettyResponse));
             }
 

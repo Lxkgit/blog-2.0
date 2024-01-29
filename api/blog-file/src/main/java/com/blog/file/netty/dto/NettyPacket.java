@@ -1,7 +1,6 @@
 package com.blog.file.netty.dto;
 
 
-import com.blog.common.constant.Constant;
 import com.blog.file.netty.common.NettyConstant;
 import com.blog.file.netty.enums.NettyPacketType;
 import lombok.Data;
@@ -30,19 +29,19 @@ public class NettyPacket<T> implements Serializable {
     private String requestId;
     // netty 请求类型
     private String nettyPacketType;
-    // 消息请求用户
-    private String sender;
     // netty 消息Topic
     private String topic;
+    // netty注册id
+    private String registerId;
     // 消息所属用户
-    private Integer userId;
+    private String username;
     // netty 消息内容
     private T data;
 
     public static <T> NettyPacket<T> buildRequest(T param) {
         NettyPacket<T> nettyPacket = new NettyPacket<>();
         nettyPacket.setRequestId(getOnlyId());
-        nettyPacket.setSender(NettyConstant.NETTY_SENDER);
+        nettyPacket.setRegisterId(NettyConstant.NETTY_SENDER);
         nettyPacket.setNettyPacketType(NettyPacketType.REQUEST.getValue());
         nettyPacket.setData(param);
         return nettyPacket;
@@ -51,7 +50,7 @@ public class NettyPacket<T> implements Serializable {
     public static <T> NettyPacket<T> buildResponse(String requestId, T data) {
         NettyPacket<T> nettyPacket = new NettyPacket<>();
         nettyPacket.setRequestId(requestId);
-        nettyPacket.setSender(NettyConstant.NETTY_SENDER);
+        nettyPacket.setRegisterId(NettyConstant.NETTY_SENDER);
         nettyPacket.setNettyPacketType(NettyPacketType.RESPONSE.getValue());
         nettyPacket.setData(data);
         return nettyPacket;

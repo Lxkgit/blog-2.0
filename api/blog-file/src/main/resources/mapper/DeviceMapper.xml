@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.file.dao.DeviceDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.file.Device">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="device_name" property="deviceName" jdbcType="VARCHAR"/>
+        <id column="device_code" property="deviceCode" jdbcType="VARCHAR"/>
+        <id column="device_position" property="devicePosition" jdbcType="VARCHAR"/>
+        <id column="device_status" property="deviceStatus" jdbcType="INTEGER"/>
+        <id column="memo" property="memo" jdbcType="VARCHAR"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, device_name, device_code, device_position, device_status, memo, create_time, update_time
+    </sql>
+
+
+</mapper>
