@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.blog.common.entity.file.Device">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="username" property="username" jdbcType="VARCHAR"/>
         <id column="device_name" property="deviceName" jdbcType="VARCHAR"/>
         <id column="device_code" property="deviceCode" jdbcType="VARCHAR"/>
         <id column="device_position" property="devicePosition" jdbcType="VARCHAR"/>
@@ -14,7 +15,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id, device_name, device_code, device_position, device_status, memo, create_time, update_time
+        id, user_id, username, device_name, device_code, device_position, device_status, memo, create_time, update_time
     </sql>
 
 

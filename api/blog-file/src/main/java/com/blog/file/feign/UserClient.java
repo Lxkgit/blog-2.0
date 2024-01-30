@@ -17,4 +17,6 @@ public interface UserClient {
     @GetMapping("/user/user/username")
     Result getUserByUsername(@RequestParam(value = "username") String username);
 
+    @GetMapping("/user/user/id")
+    Result getUserById(@RequestParam(value = "id") Integer id);
 }

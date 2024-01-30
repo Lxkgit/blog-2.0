@@ -28,6 +28,11 @@ public class Device {
     private Integer userId;
 
     /**
+     * 用户名
+     */
+    private String username;
+
+    /**
      * 设备名称
      */
     private String deviceName;

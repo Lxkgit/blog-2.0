@@ -7,6 +7,16 @@ public enum MQTTTopicEnum {
 
     // 传感器数据
     SENSOR_DATA("SENSOR_DATA", 0),
+    /*
+    {
+        "chipType": "WeMos D1",
+        "sensorType": "DHT11",
+        "data": [
+            {"key":"温度", "value": "110℃"},
+            {"key":"湿度", "value": "11.23"}
+	    ]
+    }
+     */
 
     // 传感器控制
     SENSOR_CONTROL("SENSOR_CONTROL", 2),

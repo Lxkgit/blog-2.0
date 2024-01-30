@@ -56,9 +56,8 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
         log.info("channelId:【{}】 requestId:【{}】 topic:【{}】 username:【{}】 registerId:【{}】 data:{}", channelId, requestId, topic, username, registerId, data);
         if (nettyPacketType.equals(NettyPacketType.REGISTER.getValue())) {
             JSONObject jsonObject = JSONObject.parseObject((String) event.getNettyPacket().getData());
-            BlogUser blogUser = JSONObject.parseObject(JSONObject.toJSONString(userClient.getUserByUsername(jsonObject.getString("username")).getResult()), BlogUser.class);
             QueryWrapper<Device> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("user_id", blogUser.getId());
+            queryWrapper.eq("username", jsonObject.getString("username"));
             queryWrapper.eq("device_code", jsonObject.getString("registerId"));
             Device device = deviceDAO.selectOne(queryWrapper);
             if (device == null) {
@@ -66,13 +65,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
                 nettyServer.close(channelId);
             } else {
                 if (!NettyServerHandler.clientMap.containsKey(registerId)) {
-                    NettyServerHandler.clientMap.put(registerId, new NettyClientChannel(channelId, registerId, username, new Date()));
-                    QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
-                    deviceQueryWrapper.eq("username", username);
-                    deviceQueryWrapper.eq("device_code", registerId);
-                    Device deviceStatus = new Device();
-                    deviceStatus.setDeviceStatus(Constant.DEVICE_ONLINE);
-                    deviceDAO.update(deviceStatus, deviceQueryWrapper);
+                    addNettyChannel(channelId, username, registerId);
                     log.info("注册 客户端【{}】与netty通道【{}】绑定", registerId, channelId);
                 }
             }
@@ -82,15 +75,10 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
             nettyResponse.setTopic(NettyPacketType.HEARTBEAT.getValue());
             nettyResponse.setUsername(username);
             if (!NettyServerHandler.clientMap.containsKey(registerId)) {
-                NettyServerHandler.clientMap.put(registerId, new NettyClientChannel(channelId, registerId, username, new Date()));
-                QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
-                deviceQueryWrapper.eq("username", username);
-                deviceQueryWrapper.eq("device_code", registerId);
-                Device deviceStatus = new Device();
-                deviceStatus.setDeviceStatus(Constant.DEVICE_ONLINE);
-                deviceDAO.update(deviceStatus, deviceQueryWrapper);
+                addNettyChannel(channelId, username, registerId);
                 log.info("心跳 客户端【{}】与netty通道【{}】绑定", registerId, channelId);
             }
+            NettyServerHandler.clientMap.get(registerId).setDate(new Date());
             nettyServer.channelWriteByChannelId(channelId, JSONObject.toJSONString(nettyResponse));
         } else if (nettyPacketType.equals(NettyPacketType.REQUEST.getValue())) {
             // 对客户端请求的响应
@@ -108,6 +96,16 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
         } else {
             log.warn("unknown NettyPacketType!! channelId:{} event:{}", channelId, JSONObject.toJSONString(event));
         }
+    }
+
+    private void addNettyChannel(ChannelId channelId, String username, String registerId) {
+        NettyServerHandler.clientMap.put(registerId, new NettyClientChannel(channelId, registerId, username, new Date()));
+        QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
+        deviceQueryWrapper.eq("username", username);
+        deviceQueryWrapper.eq("device_code", registerId);
+        Device deviceStatus = new Device();
+        deviceStatus.setDeviceStatus(Constant.DEVICE_ONLINE);
+        deviceDAO.update(deviceStatus, deviceQueryWrapper);
     }
 
 }

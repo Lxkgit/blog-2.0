@@ -10,6 +10,7 @@ import com.blog.file.dao.DeviceDAO;
 import com.blog.file.netty.dto.NettyClientChannel;
 import com.blog.file.netty.dto.NettyPacket;
 import com.blog.file.netty.event.NettyPacketEvent;
+import com.blog.file.netty.schedule.DeviceStatusSchedule;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
@@ -84,23 +85,8 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         // 包含此客户端才去删除
         if (channelMap.containsKey(channelId)) {
             // 删除连接
-            channelMap.remove(channelId);
-            for (Map.Entry <String, NettyClientChannel>  entry : clientMap.entrySet()) {
-                NettyClientChannel channel = entry.getValue();
-                if (channel.getChannelId() == channelId) {
-                    QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
-                    deviceQueryWrapper.eq("username", channel.getUsername());
-                    deviceQueryWrapper.eq("device_code", channel.getRegisterId());
-                    Device deviceStatus = new Device();
-                    deviceStatus.setDeviceStatus(Constant.DEVICE_OFFLINE);
-                    deviceDAO.update(deviceStatus, deviceQueryWrapper);
-                    clientMap.remove(entry.getKey());
-                    break;
-                }
-            }
-
+            removeChannelByChannelId(channelId);
             log.warn("客户端【{}】断开Netty连接!![clientIp:{} clientPort:{}]", channelId, clientIp, clientPort);
-            log.info("channelId: 连接通道数量:{}, client: 绑定通道数量:{}", channelMap.size(), clientMap.size());
         }
     }
 
@@ -146,5 +132,15 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         // 当出现异常就关闭连接
         ctx.close();
+    }
+
+    public void removeChannelByChannelId(ChannelId channelId) {
+        for (Map.Entry <String, NettyClientChannel>  entry : NettyServerHandler.clientMap.entrySet()) {
+            NettyClientChannel channel = entry.getValue();
+            if (channel.getChannelId().equals(channelId)) {
+                DeviceStatusSchedule.removeNettyChannel(entry, channel, deviceDAO);
+                break;
+            }
+        }
     }
 }

@@ -5,7 +5,9 @@ import com.blog.common.constant.Constant;
 import com.blog.common.entity.file.Device;
 import com.blog.file.dao.DeviceDAO;
 import com.blog.file.netty.dto.NettyClientChannel;
+import com.blog.file.netty.service.NettyServer;
 import com.blog.file.netty.service.NettyServerHandler;
+import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -41,16 +43,31 @@ public class DeviceStatusSchedule {
             long interval = (date.getTime() - channel.getDate().getTime())/1000;
             // 设备最近的心跳如果在三分钟之前则说明设备已经离线 移除数据
             if (interval > Constant.DEVICE_WAIT_TIME) {
-                QueryWrapper<Device> queryWrapper = new QueryWrapper<>();
-                queryWrapper.eq("username", channel.getUsername());
-                queryWrapper.eq("device_code", channel.getRegisterId());
-                Device device = new Device();
-                device.setDeviceStatus(Constant.DEVICE_OFFLINE);
-                deviceDAO.update(device, queryWrapper);
-
-                NettyServerHandler.channelMap.remove(channel.getChannelId());
-                NettyServerHandler.clientMap.remove(entry.getKey());
+                removeChannelByRegisterId(channel.getRegisterId(), deviceDAO);
             }
         }
+    }
+
+    public static void removeChannelByRegisterId(String registerId, DeviceDAO deviceDAO) {
+        for (Map.Entry <String, NettyClientChannel>  entry : NettyServerHandler.clientMap.entrySet()) {
+            NettyClientChannel channel = entry.getValue();
+            if (channel.getRegisterId().equals(registerId)) {
+                removeNettyChannel(entry, channel, deviceDAO);
+                log.info("netty通道 username:【{}】 registerId:【{}】 已离线", channel.getUsername(), registerId);
+            }
+        }
+    }
+
+    public static void removeNettyChannel(Map.Entry<String, NettyClientChannel> entry, NettyClientChannel channel, DeviceDAO deviceDAO) {
+        QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
+        deviceQueryWrapper.eq("username", channel.getUsername());
+        deviceQueryWrapper.eq("device_code", channel.getRegisterId());
+        Device deviceStatus = new Device();
+        deviceStatus.setDeviceStatus(Constant.DEVICE_OFFLINE);
+        deviceDAO.update(deviceStatus, deviceQueryWrapper);
+        NettyServerHandler.channelMap.get(entry.getValue().getChannelId()).close();
+        NettyServerHandler.clientMap.remove(entry.getKey());
+        NettyServerHandler.channelMap.remove(entry.getValue().getChannelId());
+        log.info("channelId: 连接通道数量:{}, client: 绑定通道数量:{}", NettyServerHandler.channelMap.size(), NettyServerHandler.clientMap.size());
     }
 }

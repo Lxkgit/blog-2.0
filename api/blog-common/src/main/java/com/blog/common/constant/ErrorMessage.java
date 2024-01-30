@@ -62,6 +62,10 @@ public enum ErrorMessage {
     BASE_FILE_DIR_NOT_CREATE("050008","根目录下禁止创建目录"),
     BASE_FILE_DIR_NOT_DELETE("050009","基础文件目录无法删除"),
     BASE_FILE_NOT_RENAME("050010","基础文件目录禁止重命名"),
+
+    // 远程设备：01
+    DEVICE_CODE_EXISTS("050101", "设备编码已存在"),
+    DEVICE_NOT_EXISTS("050102", "设备不存在"),
     ;
 
 

@@ -105,6 +105,7 @@ public class NettyServer implements CommandLineRunner {
             log.warn("通道【{}】不存在!!", channelId);
             return false;
         }
+        NettyServerHandler.channelMap.remove(channelId);
         ctx.close();
         return true;
     }
