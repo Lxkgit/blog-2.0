@@ -18,18 +18,6 @@
   <component name="ChangeListManager">
     <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="23-12-30【功能修改】：修改文章界面展示，修改接口mq消息发送与接收代码逻辑">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/constant/ErrorMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/constant/ErrorMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/Device.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/Device.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/DeviceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/DeviceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/feign/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/feign/UserClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/listener/NettyServerPacketListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/listener/NettyServerPacketListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/DeviceStatusSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/DeviceStatusSchedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyServerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/DeviceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/DeviceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/DeviceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/DeviceServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/DeviceMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/DeviceMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/UserController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -465,13 +453,7 @@
       <workItem from="1705594148560" duration="2116000" />
       <workItem from="1706547877783" duration="301000" />
       <workItem from="1706628639382" duration="55000" />
-    </task>
-    <task id="LOCAL-00077" summary="23-04-02【bug修复】：前端vite项目打包正常，缺少新版本sql文件无法更新">
-      <created>1680446451801</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1680446451801</updated>
+      <workItem from="1706628737311" duration="918000" />
     </task>
     <task id="LOCAL-00078" summary="23-04-30【功能修改】：日记保存页面与文章保持页面修改">
       <created>1682844806610</created>
@@ -809,7 +791,14 @@
       <option name="project" value="LOCAL" />
       <updated>1706548150064</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="24-01-30【功能新增】：新增设备管理接口">
+      <created>1706628886691</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1706628886692</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -840,7 +829,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="23-07-30【功能新增】：设置功能新增完成" />
     <MESSAGE value="23-08-03【功能新增】：开始开发文件上传管理功能" />
     <MESSAGE value="23-08-05【功能新增】：博客文件上传接口开发完成" />
     <MESSAGE value="23-08-06【功能新增】：修改文件信息" />
@@ -865,7 +853,8 @@
     <MESSAGE value="24-01-12【功能新增】：编写netty服务文件同步功能" />
     <MESSAGE value="24-01-16【功能修改】：完善接口校验，开始编写接口文档" />
     <MESSAGE value="24-01-30【功能修改】：修改netty注册流程，新增设备注册功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="24-01-30【功能修改】：修改netty注册流程，新增设备注册功能" />
+    <MESSAGE value="24-01-30【功能新增】：新增设备管理接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="24-01-30【功能新增】：新增设备管理接口" />
   </component>
   <component name="WindowStateProjectService">
     <state x="842" y="386" key="#Notifications" timestamp="1702195519476">
@@ -984,11 +973,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="694" y="216" key="VCS.ChangeListViewerDialog/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705416831214" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1706548163436">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1706628982178">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1702226105158" />
-    <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1706548163436" />
+    <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1706628982178" />
     <state x="395" y="245" key="Vcs.Push.Dialog.v2/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1701962645226" />
     <state x="334" y="130" key="new project wizard" timestamp="1704508536693">
       <screen x="0" y="0" width="1920" height="1040" />

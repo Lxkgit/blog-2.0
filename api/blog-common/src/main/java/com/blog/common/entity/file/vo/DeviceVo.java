@@ -19,6 +19,12 @@ import javax.validation.constraints.*;
 public class DeviceVo extends Device {
 
     /**
+     * 设备名称
+     */
+    @Size(min = 1, max = 50, message = "设备部署位置长度范围是1-50个字符", groups = {AddGroup.class, UpdateGroup.class})
+    private String deviceName;
+
+    /**
      * 设备编码
      */
     @NotNull(message = "设备编码不能为空", groups = {AddGroup.class, UpdateGroup.class})
@@ -44,6 +50,9 @@ public class DeviceVo extends Device {
     @Size(min = 1, max = 255, message = "备注信息长度范围是1-255个字符", groups = {AddGroup.class, UpdateGroup.class})
     private String memo;
 
+    /**
+     * 设备id列表 多个id使用 , 间隔
+     */
     @Pattern(regexp = "^[0-9]+(,[0-9]+)+|[0-9]+$", message = "请输入正确的设备id字符串", groups = {DeleteGroup.class})
     private String ids;
 }

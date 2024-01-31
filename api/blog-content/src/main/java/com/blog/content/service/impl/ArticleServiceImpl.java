@@ -170,7 +170,7 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public MyPage<ArticleVo> selectArticleListByPageAndUserId(ArticleVo articleVoParam) throws ValidException {
-        MyPage<ArticleVo> myPage = null;
+
         QueryWrapper<Article> articleQueryWrapper = new QueryWrapper<>();
 
         // 管理页面只查询当前用户文章，首页查询全部和指定用户文章
@@ -242,13 +242,7 @@ public class ArticleServiceImpl implements ArticleService {
             setArticleTypeAndLabel(article, articleVo);
             articleVoList.add(articleVo);
         }
-        try {
-            myPage = MyPageUtils.pageUtil(articleVoList, articlePage.getPageNum(), articlePage.getPageSize(), (int) articlePage.getTotal());
-        } catch (Exception e) {
-            log.info("分页查询文章报错, param:{}", JSON.toJSONString(articleVoParam));
-            e.printStackTrace();
-        }
-        return myPage;
+        return MyPageUtils.pageUtil(articleVoList, articlePage.getPageNum(), articlePage.getPageSize(), (int) articlePage.getTotal());
     }
 
     /**

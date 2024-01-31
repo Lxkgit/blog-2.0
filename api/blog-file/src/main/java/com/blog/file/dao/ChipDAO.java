@@ -2,6 +2,9 @@ package com.blog.file.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blog.common.entity.file.Chip;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Set;
 
 /**
  * @description: 单片机数据层
@@ -11,4 +14,5 @@ import com.blog.common.entity.file.Chip;
 
 public interface ChipDAO extends BaseMapper<Chip> {
 
+    void updateChipStatus(@Param("ids")Set<String> ids, @Param("userId") Integer userId, @Param("chipStatus") Integer chipStatus);
 }

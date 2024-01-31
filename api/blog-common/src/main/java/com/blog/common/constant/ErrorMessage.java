@@ -66,6 +66,9 @@ public enum ErrorMessage {
     // 远程设备：01
     DEVICE_CODE_EXISTS("050101", "设备编码已存在"),
     DEVICE_NOT_EXISTS("050102", "设备不存在"),
+
+    // 单片机：02
+    CHIP_CODE_EXISTS("050201", "单片机编码已存在"),
     ;
 
 

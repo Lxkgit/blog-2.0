@@ -4,12 +4,28 @@
     <resultMap id="BaseResultMap" type="com.blog.common.entity.file.Chip">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="chip_name" property="chipName" jdbcType="VARCHAR"/>
+        <id column="chip_code" property="chipCode" jdbcType="VARCHAR"/>
+        <id column="chip_status" property="chipStatus" jdbcType="INTEGER"/>
+        <id column="chip_type" property="chipType" jdbcType="VARCHAR"/>
+        <id column="memo" property="memo" jdbcType="VARCHAR"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
 
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id
+        id, user_id, chip_name, chip_code, chip_status, chip_type, memo, create_time, update_time
     </sql>
 
+    <update id="updateChipStatus">
+        update article
+        set chip_status = #{chipStatus}
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and user_id = #{userId};
+    </update>
 
 </mapper>

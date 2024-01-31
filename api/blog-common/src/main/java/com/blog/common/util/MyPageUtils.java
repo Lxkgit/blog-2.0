@@ -9,7 +9,8 @@ import java.util.List;
  */
 
 public class MyPageUtils {
-    public static <T> MyPage<T> pageUtil(List<T> list, int page, int size, int total) throws Exception {
+
+    public static <T> MyPage<T> pageUtil(List<T> list, int page, int size, int total) {
         return new MyPage<>(list, page, size, total);
     }
 }

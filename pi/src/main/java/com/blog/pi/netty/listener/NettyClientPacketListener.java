@@ -42,7 +42,7 @@ public class NettyClientPacketListener implements ApplicationListener<NettyPacke
         String data = event.getNettyPacket().getData().toString();
         log.info("channelId:【{}】 requestId:【{}】 topic:【{}】 username:【{}】 registerId:【{}】 data:{}", channelId, requestId, topic, username, registerId, data);
         if (nettyPacketType.equals(NettyPacketType.HEARTBEAT.getValue())) {
-            log.info(data);
+//            log.info(data);
         } else if (nettyPacketType.equals(NettyPacketType.REQUEST.getValue())) {
             // 处理服务端请求
             // 处理文件下载同步

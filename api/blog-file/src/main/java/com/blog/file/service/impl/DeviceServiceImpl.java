@@ -107,7 +107,10 @@ public class DeviceServiceImpl implements DeviceService {
             throw new ValidException(ErrorMessage.DEVICE_CODE_EXISTS);
         }
         Device oldDevice = deviceDAO.selectById(deviceVo.getId());
-        DeviceStatusSchedule.removeChannelByRegisterId(oldDevice.getDeviceCode(), deviceDAO);
+        // 设备编码变化需要重新连接netty通道
+        if (!oldDevice.getDeviceCode().equals(deviceVo.getDeviceCode())) {
+            DeviceStatusSchedule.removeChannelByRegisterId(oldDevice.getDeviceCode(), deviceDAO);
+        }
         deviceDAO.updateById(deviceVo);
         return deviceVo.getId();
     }
