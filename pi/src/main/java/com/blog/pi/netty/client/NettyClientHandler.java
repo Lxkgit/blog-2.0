@@ -52,7 +52,7 @@ public class NettyClientHandler extends ChannelDuplexHandler {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("username", InitConfig.getRegisterConfig("netty", "username"));
         jsonObject.put("registerId", InitConfig.getRegisterConfig("netty", "registerId"));
-        NettyPacket<String> nettyRequest = NettyPacket.buildRequest(jsonObject.toJSONString());
+        NettyPacket<JSONObject> nettyRequest = NettyPacket.buildRequest(jsonObject);
         nettyRequest.setNettyPacketType(NettyPacketType.REGISTER.getValue());
         nettyRequest.setTopic(NettyPacketType.REGISTER.getValue());
         ctx.writeAndFlush(JSONObject.toJSONString(nettyRequest));

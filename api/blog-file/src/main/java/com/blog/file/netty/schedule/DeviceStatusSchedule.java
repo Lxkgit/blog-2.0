@@ -8,6 +8,7 @@ import com.blog.file.netty.dto.NettyClientChannel;
 import com.blog.file.netty.service.NettyServer;
 import com.blog.file.netty.service.NettyServerHandler;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelId;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -46,6 +47,16 @@ public class DeviceStatusSchedule {
                 removeChannelByRegisterId(channel.getRegisterId(), deviceDAO);
             }
         }
+    }
+
+    public static String getChannelRegisterIdByChannelId(ChannelId channelId) {
+        for (Map.Entry <String, NettyClientChannel>  entry : NettyServerHandler.clientMap.entrySet()) {
+            NettyClientChannel channel = entry.getValue();
+            if (channel.getChannelId().equals(channelId)) {
+                return channel.getRegisterId();
+            }
+        }
+        return "";
     }
 
     public static void removeChannelByRegisterId(String registerId, DeviceDAO deviceDAO) {

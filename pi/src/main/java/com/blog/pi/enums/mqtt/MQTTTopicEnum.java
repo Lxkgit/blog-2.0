@@ -9,8 +9,8 @@ public enum MQTTTopicEnum {
     SENSOR_DATA("SENSOR_DATA", 0),
     /*
     {
-        "chipType": "WeMos D1",
-        "sensorType": "DHT11",
+        "chipType": "WeMos_D1-01",
+        "sensorType": "DHT11-01",
         "data": [
             {"key":"温度", "value": "110℃"},
             {"key":"湿度", "value": "11.23"}

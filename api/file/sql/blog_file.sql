@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 31/01/2024 20:09:27
+ Date: 01/02/2024 17:19:13
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,12 @@ CREATE TABLE `blog_chip`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最近修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '博客单片机数据' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '博客单片机数据' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_chip
+-- ----------------------------
+INSERT INTO `blog_chip` VALUES (1, 1, 1, '窗台WeMos', 'WeMos_D1-01', 1, 'WeMos_D1', NULL, '2024-02-01 14:28:50', '2024-02-01 14:28:52');
 
 -- ----------------------------
 -- Table structure for blog_data
@@ -85,6 +90,27 @@ CREATE TABLE `blog_device`  (
 INSERT INTO `blog_device` VALUES (1, 1, 'gszero', '树莓派', 'SMP1', '家里', 1, NULL, '无', '2024-01-29 19:58:32', '2024-01-29 19:58:36');
 
 -- ----------------------------
+-- Table structure for blog_sensor
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_sensor`;
+CREATE TABLE `blog_sensor`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `user_id` int(0) NULL DEFAULT NULL COMMENT '所属用户id',
+  `chip_id` int(0) NULL DEFAULT NULL COMMENT 'blog_chip表主键',
+  `sensor_type_id` int(0) NULL DEFAULT NULL COMMENT 'blog_sersor_type表主键',
+  `sensor_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '传感器名称',
+  `sensor_code` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '传感器注册编码',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '传感器设备表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_sensor
+-- ----------------------------
+INSERT INTO `blog_sensor` VALUES (1, 1, 1, 1, '温湿度传感器', 'DHT11-01', '2024-02-01 14:30:33', '2024-02-01 14:30:36');
+
+-- ----------------------------
 -- Table structure for blog_sensor_control
 -- ----------------------------
 DROP TABLE IF EXISTS `blog_sensor_control`;
@@ -112,33 +138,22 @@ CREATE TABLE `blog_sensor_control_template`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `blog_sensor_data`;
 CREATE TABLE `blog_sensor_data`  (
-  `id` int(0) NOT NULL,
-  `user_id` int(0) NULL DEFAULT NULL COMMENT '用户id',
-  `sensor_type_id` int(0) NULL DEFAULT NULL COMMENT '传感器类型id',
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `sensor_id` int(0) NULL DEFAULT NULL COMMENT '传感器id',
   `sensor_data` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '传感器数据',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '传感器数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '传感器数据表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for blog_sersor
+-- Records of blog_sensor_data
 -- ----------------------------
-DROP TABLE IF EXISTS `blog_sersor`;
-CREATE TABLE `blog_sersor`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
-  `user_id` int(0) NULL DEFAULT NULL COMMENT '所属用户id',
-  `chip_id` int(0) NULL DEFAULT NULL COMMENT 'blog_chip表主键',
-  `sensor_id` int(0) NULL DEFAULT NULL COMMENT 'blog_sersor_type表主键',
-  `sensor_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '传感器名称',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最近修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '传感器设备表' ROW_FORMAT = Dynamic;
+INSERT INTO `blog_sensor_data` VALUES (10, 1, '[{\"value\":\"110℃\",\"key\":\"温度\"},{\"value\":\"11.23\",\"key\":\"湿度\"}]');
 
 -- ----------------------------
--- Table structure for blog_sersor_type
+-- Table structure for blog_sensor_type
 -- ----------------------------
-DROP TABLE IF EXISTS `blog_sersor_type`;
-CREATE TABLE `blog_sersor_type`  (
+DROP TABLE IF EXISTS `blog_sensor_type`;
+CREATE TABLE `blog_sensor_type`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `sensor_code` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '传感器编码',
   `sensor_type` tinyint(0) NULL DEFAULT NULL COMMENT '传感器类型（数据上报类：0 命令控制类：1）',

@@ -39,4 +39,8 @@ public class Constant {
     public static final Integer DEVICE_OFFLINE = 0;
     public static final Integer DEVICE_ONLINE = 1;
     public static final Integer DEVICE_DELETE = 2;
+    
+    // netty 消息内部字段
+    public static final String CHIP_TYPE = "chipType";
+    public static final String SENSOR_TYPE = "sensorType";
 }
