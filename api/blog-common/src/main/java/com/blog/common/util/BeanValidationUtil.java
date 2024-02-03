@@ -19,7 +19,7 @@ import java.util.*;
 
 public class BeanValidationUtil {
 
-    private static Validator validator;
+    private static final Validator validator;
 
     static {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -39,10 +39,21 @@ public class BeanValidationUtil {
             group = Default.class;
         }
         Set<ConstraintViolation<T>>  violations = validator.validate(t,group);
-        Map<String,String> errorMap = new HashMap<>();
+        Map<String, String> errorMap = new HashMap<>();
 
         Class<?> clazz = t.getClass();
         Field[] fields = clazz.getDeclaredFields();
+        /*
+         * java 反射
+         * 成员变量 Field[] fields
+         *              getDeclaredFields  获取全部成员变量 不考虑修饰符  getFields 获取public修饰的成员变量
+         * 构造方法 Constructor[] cons
+         *              Constructor constructor = personClass.getConstructor(String.class, int.class);
+         *              Object person = constructor.newInstance("张三", 23);
+         * 成员方法 Method[] methods
+         *
+         */
+
         for(Field f:fields){
             if(f.getAnnotation(ComapareProp.class)!=null){
                 f.setAccessible(true);
@@ -78,29 +89,11 @@ public class BeanValidationUtil {
             String fieldName = violation.getPropertyPath().toString();
             String value = String.valueOf(violation.getInvalidValue());
             String message = violation.getMessage();
-            errorMap.put(violation.getPropertyPath().toString(), message);
+            errorMap.put(fieldName, message);
 
         }
         return errorMap;
     }
-
-//    DeviceRuleVO rule = JSONObject.toJavaObject(JSONObject.parseObject(taskRelIvsVO.getConfig()),
-//            DeviceRuleEnum.getRuleImpl(taskRelIvsVO.getAlarmType()));
-//    ErrorMsgVO errorMsg = validateIvsRuleInfo(rule);
-//            if (errorMsg.getErrorMap() != null) {
-//        logger.info("ivsRule valid failed,:"+errorMsg.toString());
-//        throw new ValidException(BaseSpringErrorCode.COMMON_ILLEGAL_ARGUMENT);
-//    }
-
-//    private static ErrorMsgVO validateIvsRuleInfo(DeviceRuleVO rule) {
-//        ErrorMsgVO errorMsg = new ErrorMsgVO();
-//        Map<String,String> errorMap = BeanValidationUtil.validationBean(rule, AddGroup.class);
-//        errorMsg.setData(rule);
-//        if (!CollectionUtils.isEmpty(errorMap)) {
-//            errorMsg.setErrorMap(errorMap);
-//        }
-//        return errorMsg;
-//    }
 }
 
 

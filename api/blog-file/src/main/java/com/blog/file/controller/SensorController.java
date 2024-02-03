@@ -1,13 +1,16 @@
 package com.blog.file.controller;
 
+import com.blog.common.entity.file.vo.SensorControlVo;
 import com.blog.common.entity.file.vo.SensorVo;
 import com.blog.common.exception.ValidException;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
+import com.blog.common.valication.annotation.ParamValidated;
 import com.blog.common.valication.group.AddGroup;
 import com.blog.common.valication.group.SelectIdGroup;
 import com.blog.common.valication.group.SelectListGroup;
 import com.blog.common.valication.group.UpdateGroup;
+import com.blog.file.service.SensorControlService;
 import com.blog.file.service.SensorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,6 +33,9 @@ public class SensorController extends BaseController {
 
     @Resource
     private SensorService sensorService;
+
+    @Resource
+    private SensorControlService sensorControlService;
 
     @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('sys:sensor:save')")
@@ -61,17 +67,23 @@ public class SensorController extends BaseController {
         return ResultFactory.buildSuccessResult(sensorService.selectSensorId(getBlogUser(request).getId(), sensorVo.getId()));
     }
 
+    @PostMapping("/control/save")
+    @PreAuthorize("hasAnyAuthority('sys:sensor:control:save')")
+    public Result addSensorControl(HttpServletRequest request, @Validated(value = {AddGroup.class}) @RequestBody SensorControlVo sensorControlVo) throws ValidException {
+        return ResultFactory.buildSuccessResult(sensorControlService.createSensorControl(getBlogUser(request).getId(), sensorControlVo));
+    }
+
     /**
      * 发送传感器控制命令
      *
      * @param request
-     * @param sensorVo
+     * @param sensorControlVo
      * @return
      */
-    @GetMapping("/control")
-    @PreAuthorize("hasAnyAuthority('sys:sensor:control')")
-    public Result controlSensor(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) SensorVo sensorVo) {
-        sensorService.controlSensor(getBlogUser(request).getId(), sensorVo.getId());
+    @GetMapping("/control/send")
+    @PreAuthorize("hasAnyAuthority('sys:sensor:control:send')")
+    public Result controlSensor(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) SensorControlVo sensorControlVo) throws ValidException {
+        sensorControlService.controlSensor(getBlogUser(request).getId(), sensorControlVo.getId());
         return ResultFactory.buildSuccessResult();
     }
 

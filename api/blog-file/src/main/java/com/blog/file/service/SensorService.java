@@ -24,8 +24,4 @@ public interface SensorService {
 
     SensorVo selectSensorId(Integer userId, Integer id);
 
-    /**
-     * 下发传感器控制命令
-     */
-    void controlSensor(Integer userId, Integer id);
 }

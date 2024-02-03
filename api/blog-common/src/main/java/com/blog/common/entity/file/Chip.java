@@ -26,6 +26,11 @@ public class Chip {
     private Integer userId;
 
     /**
+     * 用户id
+     */
+    private Integer deviceId;
+
+    /**
      * 单片机名称
      */
     private String chipName;

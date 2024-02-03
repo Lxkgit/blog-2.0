@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 01/02/2024 17:19:13
+ Date: 02/02/2024 16:11:28
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `blog_chip`  (
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最近修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '博客单片机数据' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '博客单片机数据' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blog_chip
@@ -63,7 +63,7 @@ CREATE TABLE `blog_data`  (
 -- ----------------------------
 -- Records of blog_data
 -- ----------------------------
-INSERT INTO `blog_data` VALUES (1, NULL, 2355, 3, 1, 1, 0, 2, 0, 0, 0, 5);
+INSERT INTO `blog_data` VALUES (1, NULL, 2493, 3, 1, 1, 0, 2, 0, 0, 0, 5);
 
 -- ----------------------------
 -- Table structure for blog_device
@@ -87,7 +87,7 @@ CREATE TABLE `blog_device`  (
 -- ----------------------------
 -- Records of blog_device
 -- ----------------------------
-INSERT INTO `blog_device` VALUES (1, 1, 'gszero', '树莓派', 'SMP1', '家里', 1, NULL, '无', '2024-01-29 19:58:32', '2024-01-29 19:58:36');
+INSERT INTO `blog_device` VALUES (1, 1, 'gszero', '树莓派', 'SMP1', '家里', 0, NULL, '无', '2024-01-29 19:58:32', '2024-01-29 19:58:36');
 
 -- ----------------------------
 -- Table structure for blog_sensor
@@ -115,12 +115,25 @@ INSERT INTO `blog_sensor` VALUES (1, 1, 1, 1, '温湿度传感器', 'DHT11-01', 
 -- ----------------------------
 DROP TABLE IF EXISTS `blog_sensor_control`;
 CREATE TABLE `blog_sensor_control`  (
-  `id` int(0) NOT NULL,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `user_id` int(0) NULL DEFAULT NULL COMMENT '用户id',
   `sensor_id` int(0) NULL DEFAULT NULL COMMENT '传感器id',
   `control_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '命令备注名称',
   `control_message` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '控制下发命令消息',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '最近修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '控制类传感器命令下发表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of blog_sensor_control
+-- ----------------------------
+INSERT INTO `blog_sensor_control` VALUES (1, 1, 1, '开灯', '{\"data\": 180}', '2024-02-02 13:58:01', '2024-02-02 13:58:01');
+INSERT INTO `blog_sensor_control` VALUES (2, 1, 1, '开灯', '{\"data\": 180}', '2024-02-02 14:00:55', '2024-02-02 14:00:55');
+INSERT INTO `blog_sensor_control` VALUES (3, 1, 1, '开灯', '{\"data\": 180}', '2024-02-02 14:13:38', '2024-02-02 14:13:38');
+INSERT INTO `blog_sensor_control` VALUES (4, 1, 1, '开灯', '{\"data\": 180}', '2024-02-02 14:15:08', '2024-02-02 14:15:08');
+INSERT INTO `blog_sensor_control` VALUES (5, 1, 1, '开灯', '{\"data\": 179}', '2024-02-02 14:26:23', '2024-02-02 14:26:23');
+INSERT INTO `blog_sensor_control` VALUES (6, 1, 1, '开灯', '{\"data\": 179}', '2024-02-02 15:26:05', '2024-02-02 15:26:05');
 
 -- ----------------------------
 -- Table structure for blog_sensor_control_template

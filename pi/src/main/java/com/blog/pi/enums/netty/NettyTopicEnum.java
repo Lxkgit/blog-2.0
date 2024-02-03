@@ -12,7 +12,8 @@ public enum NettyTopicEnum {
     BLOG_FILE_SYNC("BLOG_FILE_SYNC"),
     // 传感器数据消息
     BLOG_SENSOR_DATA("BLOG_SENSOR_DATA"),
-
+    // 控制传感器数据消息
+    BLOG_SENSOR_CONTROL("BLOG_SENSOR_CONTROL"),
     ;
     /**
      * topic

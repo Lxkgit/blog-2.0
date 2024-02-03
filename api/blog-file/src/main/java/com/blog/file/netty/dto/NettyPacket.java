@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class NettyPacket<T> implements Serializable {
 
-//    private static final long serialVersionUID = 3450384644298931566L;
+    private static final long serialVersionUID = 3450384644298931566L;
 
     public static Map<String, NettyPacket<Object>> MESSAGE_QUEUE = new ConcurrentHashMap<>();
 

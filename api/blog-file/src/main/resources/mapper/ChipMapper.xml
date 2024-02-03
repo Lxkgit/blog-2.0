@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.blog.common.entity.file.Chip">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="device_id" property="deviceId" jdbcType="INTEGER"/>
         <id column="chip_name" property="chipName" jdbcType="VARCHAR"/>
         <id column="chip_code" property="chipCode" jdbcType="VARCHAR"/>
         <id column="chip_status" property="chipStatus" jdbcType="INTEGER"/>

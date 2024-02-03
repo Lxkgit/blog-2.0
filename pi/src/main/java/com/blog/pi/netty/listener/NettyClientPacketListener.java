@@ -40,7 +40,7 @@ public class NettyClientPacketListener implements ApplicationListener<NettyPacke
         String username = event.getNettyPacket().getUsername();
         String registerId = event.getNettyPacket().getRegisterId();
         String data = event.getNettyPacket().getData().toString();
-        log.info("channelId:【{}】 requestId:【{}】 topic:【{}】 username:【{}】 registerId:【{}】 data:{}", channelId, requestId, topic, username, registerId, data);
+        log.info("channelId:【{}】 requestId:【{}】 topic:【{}】 username:【{}】 registerId:【{}】 data:【{}】", channelId, requestId, topic, username, registerId, data);
         if (nettyPacketType.equals(NettyPacketType.HEARTBEAT.getValue())) {
 //            log.info(data);
         } else if (nettyPacketType.equals(NettyPacketType.REQUEST.getValue())) {

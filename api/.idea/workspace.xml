@@ -22,11 +22,6 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager">
-    <option name="groupingKeys">
-      <option value="directory" />
-    </option>
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -458,13 +453,7 @@
       <workItem from="1706628639382" duration="55000" />
       <workItem from="1706628737311" duration="918000" />
       <workItem from="1706711893988" duration="1212000" />
-    </task>
-    <task id="LOCAL-00079" summary="23-04-30【功能修改】：日记保存页面与文章保存页面修改">
-      <created>1682844894876</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1682844894876</updated>
+      <workItem from="1706795962355" duration="146000" />
     </task>
     <task id="LOCAL-00080" summary="23-05-07【功能新增】：新增图片上传功能，修改博客一键部署脚本">
       <created>1683473762639</created>
@@ -802,7 +791,14 @@
       <option name="project" value="LOCAL" />
       <updated>1706713085854</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="24-02-01【功能新增】：传感器数据上报开发完成">
+      <created>1706796067310</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1706796067311</updated>
+    </task>
+    <option name="localTasksCounter" value="129" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -833,7 +829,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="23-08-05【功能新增】：博客文件上传接口开发完成" />
     <MESSAGE value="23-08-06【功能新增】：修改文件信息" />
     <MESSAGE value="23-08-07【功能修改】：修改部署脚本，新增创建服务器虚拟内存" />
     <MESSAGE value="23-08-13【功能新增】：新增博客云盘功能，新版博客部署" />
@@ -858,7 +853,8 @@
     <MESSAGE value="24-01-30【功能修改】：修改netty注册流程，新增设备注册功能" />
     <MESSAGE value="24-01-30【功能新增】：新增设备管理接口" />
     <MESSAGE value="24-01-31【功能新增】：新增单片机相关接口" />
-    <option name="LAST_COMMIT_MESSAGE" value="24-01-31【功能新增】：新增单片机相关接口" />
+    <MESSAGE value="24-02-01【功能新增】：传感器数据上报开发完成" />
+    <option name="LAST_COMMIT_MESSAGE" value="24-02-01【功能新增】：传感器数据上报开发完成" />
   </component>
   <component name="WindowStateProjectService">
     <state x="842" y="386" key="#Notifications" timestamp="1702195519476">
@@ -977,11 +973,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="694" y="216" key="VCS.ChangeListViewerDialog/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705416831214" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1706713103106">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1706796080851">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1702226105158" />
-    <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1706713103106" />
+    <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1706796080851" />
     <state x="395" y="245" key="Vcs.Push.Dialog.v2/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1701962645226" />
     <state x="334" y="130" key="new project wizard" timestamp="1704508536693">
       <screen x="0" y="0" width="1920" height="1040" />

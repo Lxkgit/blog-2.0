@@ -68,7 +68,12 @@ public enum ErrorMessage {
     DEVICE_NOT_EXISTS("050102", "设备不存在"),
 
     // 单片机：02
-    CHIP_CODE_EXISTS("050201", "单片机编码已存在"),
+    CHIP_NOT_EXISTS("050201", "单片机不存在"),
+    CHIP_CODE_EXISTS("050202", "单片机编码已存在"),
+
+    // 传感器：03
+    SENSOR_NOT_EXISTS("050301", "传感器不存在"),
+    SENSOR_CONTROL_NOT_EXISTS("050302", "传感器控制指令不存在"),
     ;
 
 

@@ -81,7 +81,7 @@ public class NettyServer implements CommandLineRunner {
         log.warn("Netty服务关闭!!");
     }
 
-    public boolean channelWriteByChannelId(ChannelId channelId, Object msg) {
+    public boolean channelWriteByChannelId(ChannelId channelId, String msg) {
         ChannelHandlerContext ctx = NettyServerHandler.channelMap.get(channelId);
         if (ctx == null) {
             log.warn("通道【{}】不存在!!", channelId);
@@ -91,7 +91,7 @@ public class NettyServer implements CommandLineRunner {
         return true;
     }
 
-    public boolean channelWriteByClientId(String registerId, Object msg) {
+    public boolean channelWriteByClientId(String registerId, String msg) {
         ChannelId channelId = NettyServerHandler.clientMap.get(registerId).getChannelId();
         if (channelId != null) {
             return channelWriteByChannelId(channelId, msg);

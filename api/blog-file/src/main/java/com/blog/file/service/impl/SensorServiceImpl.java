@@ -56,17 +56,4 @@ public class SensorServiceImpl implements SensorService {
         return null;
     }
 
-    /**
-     *
-     * @param userId
-     * @param id
-     */
-    @Override
-    public void controlSensor(Integer userId, Integer id) {
-        QueryWrapper<Sensor> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id", id);
-        queryWrapper.eq("user_id", userId);
-        Sensor sensor = sensorDAO.selectOne(queryWrapper);
-
-    }
 }
