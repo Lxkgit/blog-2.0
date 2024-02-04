@@ -6,9 +6,9 @@
 #include <stdio.h>
 #include <string.h>
 
-const char* ssid = "TP-LINK_424D";       // wifi热点名称
-const char* passwd = (char*)"tplink96012";  // wifi热点密码
-const char* mqtt_server = "192.168.0.106"; // mqtt服务器地址
+const char* ssid = "ChinaNet-xEDd";       // wifi热点名称
+const char* passwd = (char*)"ektj699s";  // wifi热点密码
+const char* mqtt_server = "192.168.1.7"; // mqtt服务器地址
 const int port = 1883; // mqtt服务器端口号
 const char* MESSAGE_TOPIC = "SENSOR_DATA"; // 发送消息mqtt topic
 const char* CONTROL_TOPIC = "SENSOR_CONTROL";

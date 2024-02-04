@@ -1,11 +1,11 @@
-package com.blog.common.util;
+package com.blog.pi.mqtt;
 
 
-import com.blog.common.entity.file.LoginConfig;
+import com.blog.pi.enums.mqtt.MQTTTopicEnum;
+import com.blog.pi.mqtt.data.LoginConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.springframework.context.annotation.Bean;
 
 /**
  * @description: Mqtt连接发送工具
@@ -16,36 +16,9 @@ import org.springframework.context.annotation.Bean;
 @Slf4j
 public class MqttPushClient {
 
-    private static final byte[] WILL_DATA;
+    private static MqttClient client;
 
-    static {
-        WILL_DATA = "offline".getBytes();
-    }
-
-    private static volatile MqttPushClient mqttPushClient = null;
-
-    @Bean
-    public static MqttPushClient getInstance(LoginConfig config) throws MqttException {
-
-        if (null == mqttPushClient) {
-            synchronized (MqttPushClient.class) {
-                if (null == mqttPushClient) {
-                    mqttPushClient = new MqttPushClient(config);
-                }
-            }
-
-        }
-        return mqttPushClient;
-    }
-
-
-    public MqttPushClient(LoginConfig config) throws MqttException {
-        connect(config);
-    }
-
-    private MqttClient client;
-
-    private void connect(LoginConfig config) throws MqttException {
+    public static void connect(LoginConfig config) {
         try {
             log.info(">>>>>mqtt 正在连接中");
             if (config == null) {
@@ -54,7 +27,7 @@ public class MqttPushClient {
             log.info(">>>>>mqtt ip:{} port:{}", config.getIp(), config.getPort());
             String url = "tcp://" + config.getIp() + ":" + config.getPort();
             String password = config.getPassword();
-            String clientId = "blog service";
+            String clientId = config.getClientId();
             client = new MqttClient(url, clientId, new MemoryPersistence());
             MqttConnectOptions options = new MqttConnectOptions();
             // 设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，
@@ -74,15 +47,18 @@ public class MqttPushClient {
             options.setConnectionTimeout(100);
             // 设置会话心跳时间 单位为秒 服务器会每隔1.5*20秒的时间向客户端发送心跳判断客户端是否在线，但这个方法并没有重连的机制
             options.setKeepAliveInterval(20);
-            // 设置“遗嘱”消息的话题，若客户端与服务器之间的连接意外中断，服务器将发布客户端的“遗嘱”消息。
-            options.setWill("willTopic", WILL_DATA, 2, false);
             client.setCallback(new PushCallback());
+            client.setTimeToWait(2000);
             client.connect(options);
             log.info(">>>>>mqtt连接成功，ip：{},port：{}", config.getIp(), config.getPort());
+            subscribe();
         } catch (Exception e) {
             log.error(">>>>>mqtt 连接报错：" + e.getMessage(), e);
-            mqttPushClient = null;
         }
+    }
+
+    public static MqttClient getClient() {
+        return client;
     }
 
     /**
@@ -91,7 +67,7 @@ public class MqttPushClient {
      * @param topic
      * @param pushMessage
      */
-    public void publish(String topic, String pushMessage) {
+    public static void publish(String topic, String pushMessage) {
         publish(1, false, topic, pushMessage);
     }
 
@@ -103,7 +79,7 @@ public class MqttPushClient {
      * @param topic
      * @param pushMessage
      */
-    public void publish(int qos, boolean retained, String topic, String pushMessage) {
+    public static void publish(int qos, boolean retained, String topic, String pushMessage) {
         if (client.isConnected()) {
             MqttMessage message = new MqttMessage();
             message.setQos(qos);
@@ -129,10 +105,9 @@ public class MqttPushClient {
     /**
      * 订阅某个主题，qos默认为0
      *
-     * @param topic
      */
-    public void subscribe(String topic) {
-        subscribe(topic, 0);
+    public static void subscribe() {
+        subscribe(MQTTTopicEnum.SENSOR_DATA.getTopic(), 0);
     }
 
     /**
@@ -141,17 +116,13 @@ public class MqttPushClient {
      * @param topic
      * @param qos
      */
-    public void subscribe(String topic, int qos) {
+    public static void subscribe(String topic, int qos) {
         try {
             client.subscribe(topic, qos);
         } catch (MqttException e) {
             e.printStackTrace();
         }
 
-    }
-
-    public static void clearInstance() {
-        mqttPushClient = null;
     }
 
     /**

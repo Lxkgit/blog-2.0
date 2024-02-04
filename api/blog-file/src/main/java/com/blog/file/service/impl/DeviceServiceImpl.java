@@ -80,7 +80,7 @@ public class DeviceServiceImpl implements DeviceService {
             Device device = deviceDAO.selectById(Integer.parseInt(id));
             if (device != null) {
                 DeviceStatusSchedule.removeChannelByRegisterId(device.getDeviceCode(), deviceDAO);
-                deviceDAO.deleteById(device.getId());
+                deviceDAO.updateDeviceStatusById(id, userId, Constant.DEVICE_DELETE);
             } else {
                 throw new ValidException(ErrorMessage.DEVICE_NOT_EXISTS, "id: " + id);
             }

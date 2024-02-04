@@ -18,5 +18,21 @@
         id, user_id, username, device_name, device_code, device_position, device_status, memo, create_time, update_time
     </sql>
 
+    <update id="updateDeviceStatusById">
+        update blog_device
+        set device_status = #{deviceStatus}
+        where id = #{id}
+        and user_id = #{userId};
+    </update>
+
+    <update id="updateDeviceStatusByIds">
+        update blog_device
+        set device_status = #{deviceStatus}
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and user_id = #{userId};
+    </update>
 
 </mapper>

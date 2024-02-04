@@ -19,7 +19,7 @@ public enum MQTTTopicEnum {
      */
 
     // 传感器控制
-    SENSOR_CONTROL("SENSOR_CONTROL", 2),
+    SENSOR_CONTROL("SENSOR_CONTROL", 0),
     ;
 
 

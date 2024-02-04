@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.pi.dao.RegisterSettingDAO;
 import com.blog.pi.entity.RegisterSetting;
+import com.blog.pi.mqtt.MqttPushClient;
+import com.blog.pi.mqtt.data.LoginConfig;
 import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -36,6 +38,7 @@ public class InitConfig implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         System.out.println("开始加载配置 ");
         InitRegisterConfig();
+        MqttPushClient.connect(new LoginConfig("localhost", 1883, "admin", "public", "SMP"));
     }
 
     /**

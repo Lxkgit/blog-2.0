@@ -31,7 +31,7 @@ public class SyncBlogFileSchedule {
 
 
 //    @PostConstruct  // 项目启动时执行这个方法
-    @Scheduled(cron = "* * 1 * * ?")
+//    @Scheduled(cron = "* * 1 * * ?")
     public void initFile() {
         NettySyncBlogFile nettySyncBlogFile = new NettySyncBlogFile();
         nettySyncBlogFile.setSyncType(0);

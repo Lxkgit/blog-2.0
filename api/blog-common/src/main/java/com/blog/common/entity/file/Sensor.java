@@ -49,6 +49,11 @@ public class Sensor {
     private String sensorCode;
 
     /**
+     * 传感器状态 0:离线 1:在线 2:删除
+     */
+    private Integer sensorStatus;
+
+    /**
      * 创建时间
      */
     private Date createTime;
