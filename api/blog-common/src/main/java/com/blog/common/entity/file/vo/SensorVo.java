@@ -3,10 +3,7 @@ package com.blog.common.entity.file.vo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.blog.common.entity.file.Sensor;
-import com.blog.common.valication.group.AddGroup;
-import com.blog.common.valication.group.DeleteGroup;
-import com.blog.common.valication.group.SelectIdGroup;
-import com.blog.common.valication.group.UpdateGroup;
+import com.blog.common.valication.group.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -62,4 +59,19 @@ public class SensorVo extends Sensor {
      */
     @Pattern(regexp = "^[0-9]+(,[0-9]+)+|[0-9]+$", message = "请输入正确的设备id字符串", groups = {DeleteGroup.class})
     private String ids;
+
+    /**
+     * 页大小
+     */
+    @NotNull(message = "分页查询页大小不能为空", groups = {SelectListGroup.class})
+    @Max(value = 100, message = "分页大小最大为100", groups = {SelectListGroup.class})
+    @Min(value = 5, message = "分页大小最小为5", groups = {SelectListGroup.class})
+    private Integer pageSize;
+
+    /**
+     * 页数
+     */
+    @NotNull(message = "分页查询页数不能为空", groups = {SelectListGroup.class})
+    @Min(value = 1, message = "分页查询页数最小1", groups = {SelectListGroup.class})
+    private Integer pageNum;
 }

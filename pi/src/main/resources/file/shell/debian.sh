@@ -2,10 +2,10 @@
 
 # 安装系统基础服务
 base() {
-  sudo apt update
-  sudo apt install curl -y
-  sudo apt-get update -y
-  sudo apt-get install vim -y
+  apt update
+  apt install curl -y
+  apt-get update -y
+  apt-get install vim -y
   apt-get install lrzsz
 }
 
@@ -46,7 +46,7 @@ mysql() {
 
   docker exec -it mysql01 /bin/bash
 
-  mysql -u root -p
+  mysql -u root -proot
 
   USE mysql;
 
@@ -69,3 +69,5 @@ main() {
   mqtt
   mysql
 }
+
+#docker logs -f pi

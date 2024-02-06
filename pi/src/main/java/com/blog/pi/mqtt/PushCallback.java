@@ -1,10 +1,21 @@
 package com.blog.pi.mqtt;
 
+import com.alibaba.fastjson.JSONObject;
+import com.blog.pi.enums.netty.NettyTopicEnum;
+import com.blog.pi.mqtt.data.MQTTSensorData;
+import com.blog.pi.netty.client.NettyClient;
+import com.blog.pi.netty.dto.NettyPacket;
+import com.blog.pi.netty.enums.NettyPacketType;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
 
+import javax.annotation.Resource;
+
 @Slf4j
 public class PushCallback implements MqttCallback {
+
+    @Resource
+    private final NettyClient nettyClient = SpringUtils.getBean(NettyClient.class);
 
     /**
      * mqtt断线重连
@@ -45,9 +56,17 @@ public class PushCallback implements MqttCallback {
      */
     @Override
     public void messageArrived(String topic, MqttMessage message) {
-        System.out.println("接收消息主题 : " + topic);
-        System.out.println("接收消息Qos : " + message.getQos());
-        System.out.println("接收消息内容 : " + new String(message.getPayload()));
+        try {
+            String data = new String(message.getPayload());
+            log.info("MQTT Topic:【{}】 data:【{}】", topic, data);
+            MQTTSensorData mqttSensorData = JSONObject.toJavaObject(JSONObject.parseObject(data), MQTTSensorData.class);
+            NettyPacket<MQTTSensorData> nettyRequest = NettyPacket.buildRequest(mqttSensorData);
+            nettyRequest.setNettyPacketType(NettyPacketType.REQUEST.getValue());
+            nettyRequest.setTopic(NettyTopicEnum.BLOG_SENSOR_DATA.getTopic());
+            nettyClient.sendMsg(JSONObject.toJSONString(nettyRequest));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

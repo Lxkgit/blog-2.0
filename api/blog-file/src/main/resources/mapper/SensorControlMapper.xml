@@ -16,5 +16,10 @@
         id, user_id, sensor_id, control_name, control_message, create_time, update_time
     </sql>
 
+    <update id="updateSensorControlById" parameterType="com.blog.common.entity.file.SensorControl">
+        update blog_sensor_control
+        set control_name = #{controlName}, control_message = #{controlMessage}, update_time = #{updateTime}
+        where id = #{id} and user_id = #{userId}
+    </update>
 
 </mapper>

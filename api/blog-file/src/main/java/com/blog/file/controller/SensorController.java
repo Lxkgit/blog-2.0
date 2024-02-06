@@ -1,16 +1,14 @@
 package com.blog.file.controller;
 
 import com.blog.common.entity.file.vo.SensorControlVo;
+import com.blog.common.entity.file.vo.SensorDataVo;
 import com.blog.common.entity.file.vo.SensorVo;
 import com.blog.common.exception.ValidException;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
-import com.blog.common.valication.annotation.ParamValidated;
-import com.blog.common.valication.group.AddGroup;
-import com.blog.common.valication.group.SelectIdGroup;
-import com.blog.common.valication.group.SelectListGroup;
-import com.blog.common.valication.group.UpdateGroup;
+import com.blog.common.valication.group.*;
 import com.blog.file.service.SensorControlService;
+import com.blog.file.service.SensorDataService;
 import com.blog.file.service.SensorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,6 +34,9 @@ public class SensorController extends BaseController {
 
     @Resource
     private SensorControlService sensorControlService;
+
+    @Resource
+    private SensorDataService sensorDataService;
 
     /**
      * 创建传感器
@@ -121,6 +122,58 @@ public class SensorController extends BaseController {
     }
 
     /**
+     * 删除传感器指令
+     *
+     * @param request
+     * @param sensorControlVo
+     * @return
+     */
+    @DeleteMapping("/control/delete")
+    @PreAuthorize("hasAnyAuthority('sys:sensor:control:delete')")
+    public Result deleteSensorControl(HttpServletRequest request, @Validated(value = {DeleteGroup.class}) SensorControlVo sensorControlVo) {
+        return ResultFactory.buildSuccessResult(sensorControlService.deleteSensorControl(getBlogUser(request).getId(), sensorControlVo.getId()));
+    }
+
+    /**
+     * 修改传感器控制指令
+     *
+     * @param request
+     * @param sensorControlVo
+     * @return
+     */
+    @PostMapping("/control/update")
+    @PreAuthorize("hasAnyAuthority('sys:sensor:control:update')")
+    public Result updateSensorControl(HttpServletRequest request, @Validated(value = {UpdateGroup.class}) @RequestBody SensorControlVo sensorControlVo) {
+        return ResultFactory.buildSuccessResult(sensorControlService.updateSensorControl(getBlogUser(request).getId(), sensorControlVo));
+    }
+
+    /**
+     * 分页查询传感器控制指令
+     *
+     * @param request
+     * @param sensorControlVo
+     * @return
+     */
+    @GetMapping("/control/list")
+    @PreAuthorize("hasAnyAuthority('sys:sensor:control:select')")
+    public Result selectSensorControlList(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) SensorControlVo sensorControlVo) {
+        return ResultFactory.buildSuccessResult(sensorControlService.selectSensorControlList(getBlogUser(request).getId(), sensorControlVo));
+    }
+
+    /**
+     * 根据id查询传感器控制指令
+     *
+     * @param request
+     * @param sensorControlVo
+     * @return
+     */
+    @GetMapping("/control/id")
+    @PreAuthorize("hasAnyAuthority('sys:sensor:control:select')")
+    public Result selectSensorControlById(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) SensorControlVo sensorControlVo) {
+        return ResultFactory.buildSuccessResult(sensorControlService.selectSensorControlById(getBlogUser(request).getId(), sensorControlVo.getId()));
+    }
+
+    /**
      * 发送传感器控制命令
      *
      * @param request
@@ -132,6 +185,19 @@ public class SensorController extends BaseController {
     public Result controlSensor(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) SensorControlVo sensorControlVo) throws ValidException {
         sensorControlService.controlSensor(getBlogUser(request).getId(), sensorControlVo.getId());
         return ResultFactory.buildSuccessResult();
+    }
+
+    /**
+     * 查询传感器数据
+     *
+     * @param request
+     * @param sensorDataVo
+     * @return
+     */
+    @GetMapping("/data/id")
+    @PreAuthorize("hasAnyAuthority('sys:sensor:data:select')")
+    public Result selectSensorDataList(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) SensorDataVo sensorDataVo) {
+        return ResultFactory.buildSuccessResult(sensorDataService.selectSensorDataList(getBlogUser(request).getId(), sensorDataVo));
     }
 
 }

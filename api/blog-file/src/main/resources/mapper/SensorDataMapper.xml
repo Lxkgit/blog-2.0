@@ -5,11 +5,12 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <id column="sensor_id" property="sensorId" jdbcType="INTEGER"/>
         <id column="sensor_data" property="sensorData" jdbcType="VARCHAR"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
 
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, sensor_id, sensor_data
+        id, sensor_id, sensor_data, create_time
     </sql>
 
 

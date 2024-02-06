@@ -10,4 +10,6 @@ import com.blog.common.entity.file.SensorControl;
  */
 
 public interface SensorControlDAO extends BaseMapper<SensorControl> {
+
+    void updateSensorControlById(SensorControl sensorControl);
 }

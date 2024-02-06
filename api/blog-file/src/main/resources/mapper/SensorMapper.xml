@@ -11,5 +11,13 @@
         id, user_id
     </sql>
 
-
+    <update id="updateSensorStatusByIds">
+        update blog_sensor
+        set sensor_status = #{sensorStatus}
+        where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        and user_id = #{userId};
+    </update>
 </mapper>

@@ -74,6 +74,7 @@ public enum ErrorMessage {
     // 传感器：03
     SENSOR_NOT_EXISTS("050301", "传感器不存在"),
     SENSOR_CONTROL_NOT_EXISTS("050302", "传感器控制指令不存在"),
+    SENSOR_USER_ERROR("050303", "只允许修改自己的传感器"),
     ;
 
 

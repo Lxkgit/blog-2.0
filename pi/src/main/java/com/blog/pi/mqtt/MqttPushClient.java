@@ -48,7 +48,7 @@ public class MqttPushClient {
             // 设置会话心跳时间 单位为秒 服务器会每隔1.5*20秒的时间向客户端发送心跳判断客户端是否在线，但这个方法并没有重连的机制
             options.setKeepAliveInterval(20);
             client.setCallback(new PushCallback());
-            client.setTimeToWait(2000);
+            client.setTimeToWait(5000);
             client.connect(options);
             log.info(">>>>>mqtt连接成功，ip：{},port：{}", config.getIp(), config.getPort());
             subscribe();

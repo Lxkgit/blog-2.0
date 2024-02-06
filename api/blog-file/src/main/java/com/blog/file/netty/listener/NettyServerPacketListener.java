@@ -126,6 +126,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
                 Sensor sensor = sensorDAO.selectOne(wrapper);
                 sensorData.setSensorId(sensor.getId());
                 sensorData.setSensorData(jsonObject.getString("data"));
+                sensorData.setCreateTime(new Date());
                 sensorDataDAO.insert(sensorData);
 
                 NettyPacket<String> nettyResponse = NettyPacket.buildResponse(event.getNettyPacket().getRequestId(), "service receive data");
