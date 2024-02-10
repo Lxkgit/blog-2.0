@@ -224,6 +224,16 @@ const router = createRouter({
                     },
                 },
                 {
+                    path: 'device',
+                    name: 'Device',
+                    component: () => import('@/views/admin/device/ServiceManagement.vue'),
+                    meta: {
+                        title: '服务器设备',
+                        keepAlive: false,
+                        isAuth: true,
+                    },
+                },
+                {
                     path: 'setting/web',
                     name: 'WebSetting',
                     component: () => import('@/views/admin/setting/WebSetting.vue'),

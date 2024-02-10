@@ -156,7 +156,7 @@ public class SensorController extends BaseController {
      */
     @GetMapping("/control/list")
     @PreAuthorize("hasAnyAuthority('sys:sensor:control:select')")
-    public Result selectSensorControlList(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) SensorControlVo sensorControlVo) {
+    public Result selectSensorControlList(HttpServletRequest request, @Validated(value = {SelectListGroup.class}) SensorControlVo sensorControlVo) {
         return ResultFactory.buildSuccessResult(sensorControlService.selectSensorControlList(getBlogUser(request).getId(), sensorControlVo));
     }
 
@@ -194,7 +194,7 @@ public class SensorController extends BaseController {
      * @param sensorDataVo
      * @return
      */
-    @GetMapping("/data/id")
+    @GetMapping("/data")
     @PreAuthorize("hasAnyAuthority('sys:sensor:data:select')")
     public Result selectSensorDataList(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) SensorDataVo sensorDataVo) {
         return ResultFactory.buildSuccessResult(sensorDataService.selectSensorDataList(getBlogUser(request).getId(), sensorDataVo));

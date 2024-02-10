@@ -31,6 +31,12 @@ public class SensorControlVo extends SensorControl {
     private String sensorCode;
 
     /**
+     * 传感器id
+     */
+    @Min(value = 1, message = "传感器id值最小为1", groups = {UpdateGroup.class, SelectListGroup.class})
+    private Integer sensorId;
+
+    /**
      * 页大小
      */
     @NotNull(message = "分页查询页大小不能为空", groups = {SelectListGroup.class})

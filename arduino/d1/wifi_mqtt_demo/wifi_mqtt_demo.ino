@@ -8,7 +8,7 @@
 
 const char* ssid = "ChinaNet-xEDd";       // wifi热点名称
 const char* passwd = (char*)"ektj699s";  // wifi热点密码
-const char* mqtt_server = "192.168.1.7"; // mqtt服务器地址
+const char* mqtt_server = "192.168.1.28"; // mqtt服务器地址
 const int port = 1883; // mqtt服务器端口号
 const char* MESSAGE_TOPIC = "SENSOR_DATA"; // 发送消息mqtt topic
 const char* CONTROL_TOPIC = "SENSOR_CONTROL";
@@ -104,7 +104,7 @@ void setup() {
 }
 void loop() {
   reconnect();  //1.首先进行服务器的连接  因为这是循环函数 所以执行一次后判断就行了
-  delay(1000);
+  delay(20000);
   gettemp();
   client.loop();
 }

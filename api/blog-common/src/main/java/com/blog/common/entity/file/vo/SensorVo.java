@@ -3,6 +3,7 @@ package com.blog.common.entity.file.vo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.blog.common.entity.file.Sensor;
+import com.blog.common.entity.file.SensorType;
 import com.blog.common.valication.group.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,15 +30,15 @@ public class SensorVo extends Sensor {
     /**
      * 单片机id
      */
-    @NotNull(message = "单片机id不为空", groups = {UpdateGroup.class, SelectIdGroup.class})
-    @Min(value = 1, message = "单片机id值最小为1", groups = {UpdateGroup.class, SelectIdGroup.class})
+    @NotNull(message = "单片机id不为空", groups = {UpdateGroup.class})
+    @Min(value = 1, message = "单片机id值最小为1", groups = {UpdateGroup.class})
     private Integer chipId;
 
     /**
      * 传感器类型id
      */
-    @NotNull(message = "传感器类型id不为空", groups = {UpdateGroup.class, SelectIdGroup.class})
-    @Min(value = 1, message = "传感器类型id值最小为1", groups = {UpdateGroup.class, SelectIdGroup.class})
+    @NotNull(message = "传感器类型id不为空", groups = {UpdateGroup.class})
+    @Min(value = 1, message = "传感器类型id值最小为1", groups = {UpdateGroup.class})
     private Integer sensorTypeId;
 
     /**
@@ -74,4 +75,9 @@ public class SensorVo extends Sensor {
     @NotNull(message = "分页查询页数不能为空", groups = {SelectListGroup.class})
     @Min(value = 1, message = "分页查询页数最小1", groups = {SelectListGroup.class})
     private Integer pageNum;
+
+    /**
+     * 传感器类型
+     */
+    private SensorType sensorType;
 }

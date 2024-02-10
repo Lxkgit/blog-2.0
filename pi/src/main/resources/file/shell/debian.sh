@@ -67,7 +67,9 @@ jar() {
 main() {
   base
   mqtt
+  jdk
   mysql
+  jar
 }
 
 #docker logs -f pi

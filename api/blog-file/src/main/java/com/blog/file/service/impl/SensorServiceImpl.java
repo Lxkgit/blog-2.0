@@ -6,6 +6,7 @@ import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.Chip;
 import com.blog.common.entity.file.Sensor;
 import com.blog.common.entity.file.SensorData;
+import com.blog.common.entity.file.SensorType;
 import com.blog.common.entity.file.vo.ChipVo;
 import com.blog.common.entity.file.vo.SensorVo;
 import com.blog.common.exception.ValidException;
@@ -15,6 +16,7 @@ import com.blog.common.util.MyStringUtils;
 import com.blog.common.util.StringUtils;
 import com.blog.file.dao.SensorDAO;
 import com.blog.file.dao.SensorDataDAO;
+import com.blog.file.dao.SensorTypeDAO;
 import com.blog.file.service.SensorService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -42,7 +44,7 @@ public class SensorServiceImpl implements SensorService {
     private SensorDAO sensorDAO;
 
     @Resource
-    private SensorDataDAO sensorDataDAO;
+    private SensorTypeDAO sensorTypeDAO;
 
     /**
      * 创建传感器
@@ -120,6 +122,7 @@ public class SensorServiceImpl implements SensorService {
         for (Sensor sensor : sensorPage) {
             SensorVo sensorVo = new SensorVo();
             BeanUtils.copyProperties(sensor, sensorVo);
+            sensorVo.setSensorType(sensorTypeDAO.selectById(sensor.getSensorTypeId()));
             sensorVoList.add(sensorVo);
         }
 
@@ -136,7 +139,7 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public SensorVo selectSensorId(Integer userId, Integer id) {
         QueryWrapper<Sensor> wrapper = new QueryWrapper<>();
-        wrapper.ne("id", id);
+        wrapper.eq("id", id);
         wrapper.eq("user_id", userId);
         Sensor sensor = sensorDAO.selectOne(wrapper);
         SensorVo sensorVo = new SensorVo();

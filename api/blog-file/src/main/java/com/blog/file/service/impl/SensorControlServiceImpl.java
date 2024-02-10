@@ -123,7 +123,7 @@ public class SensorControlServiceImpl implements SensorControlService {
 
         QueryWrapper<SensorControl> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", userId);
-        wrapper.ne("sensor_id", sensorControlVoParam.getSensorId());
+        wrapper.eq("sensor_id", sensorControlVoParam.getSensorId());
 
         PageHelper.startPage(sensorControlVoParam.getPageNum(), sensorControlVoParam.getPageSize());
         Page<SensorControl> sensorControlPage = (Page<SensorControl>) sensorControlDAO.selectList(wrapper);

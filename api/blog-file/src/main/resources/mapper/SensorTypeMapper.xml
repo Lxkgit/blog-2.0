@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.file.dao.SensorTypeDAO">
+    <resultMap id="BaseResultMap" type="com.blog.common.entity.file.SensorType">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="sensor_code" property="sensorCode" jdbcType="VARCHAR"/>
+        <id column="sensor_type" property="sensorType" jdbcType="INTEGER"/>
+        <id column="sensor_name" property="sensorName" jdbcType="VARCHAR"/>
+        <id column="sensor_img" property="sensorImg" jdbcType="VARCHAR"/>
+        <id column="memo" property="memo" jdbcType="VARCHAR"/>
+        <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, sensor_code, sensor_type, sensor_name, sensor_img, memo, create_time, update_time
+    </sql>
+
+
+</mapper>

@@ -55,6 +55,7 @@ public class SensorDataServiceImpl implements SensorDataService {
 
         QueryWrapper<SensorData> wrapper = new QueryWrapper<>();
         wrapper.eq("sensor_id", sensorDataVoParam.getSensorId());
+        wrapper.orderByDesc("id");
 
         PageHelper.startPage(sensorDataVoParam.getPageNum(), sensorDataVoParam.getPageSize());
         Page<SensorData> sensorDataPage = (Page<SensorData>) sensorDataDAO.selectList(wrapper);

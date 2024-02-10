@@ -16,6 +16,7 @@ import com.blog.file.dao.DeviceDAO;
 import com.blog.file.feign.UserClient;
 import com.blog.file.netty.schedule.DeviceStatusSchedule;
 import com.blog.file.service.DeviceService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -126,5 +127,17 @@ public class DeviceServiceImpl implements DeviceService {
         QueryWrapper<Device> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", userId);
         return deviceDAO.selectList(wrapper);
+    }
+
+
+    @Override
+    public DeviceVo selectDeviceById(Integer userId, Integer id) {
+        QueryWrapper<Device> wrapper = new QueryWrapper<>();
+        wrapper.eq("id", id);
+        wrapper.eq("user_id", userId);
+        Device device = deviceDAO.selectOne(wrapper);
+        DeviceVo deviceVo = new DeviceVo();
+        BeanUtils.copyProperties(device, deviceVo);
+        return deviceVo;
     }
 }

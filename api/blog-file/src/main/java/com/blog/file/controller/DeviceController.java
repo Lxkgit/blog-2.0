@@ -6,6 +6,7 @@ import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.common.valication.group.AddGroup;
 import com.blog.common.valication.group.DeleteGroup;
+import com.blog.common.valication.group.SelectIdGroup;
 import com.blog.common.valication.group.UpdateGroup;
 import com.blog.file.service.DeviceService;
 import lombok.extern.slf4j.Slf4j;
@@ -79,10 +80,23 @@ public class DeviceController extends BaseController {
      * @param request
      * @return
      */
-    @GetMapping("/select")
+    @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('sys:device:select')")
     public Result selectDeviceList(HttpServletRequest request) {
         return ResultFactory.buildSuccessResult(deviceService.selectDeviceList(getBlogUser(request).getId()));
+    }
+
+    /**
+     * 根据id查询服务器设备信息
+     *
+     * @param request
+     * @param deviceVo
+     * @return
+     */
+    @GetMapping("/id")
+    @PreAuthorize("hasAnyAuthority('sys:device:select')")
+    public Result selectDeviceById(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) DeviceVo deviceVo) {
+        return ResultFactory.buildSuccessResult(deviceService.selectDeviceById(getBlogUser(request).getId(), deviceVo.getId()));
     }
 
 }
