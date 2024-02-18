@@ -38,7 +38,7 @@ public class InitConfig implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         System.out.println("开始加载配置 ");
         InitRegisterConfig();
-        MqttPushClient.connect(new LoginConfig("192.168.1.28", 1883, "admin", "public", "SMP1"));
+        MqttPushClient.connect(new LoginConfig("192.168.0.106", 1883, "admin", "public", "SMP1"));
     }
 
     /**

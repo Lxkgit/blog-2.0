@@ -57,7 +57,6 @@ const receiveSensor = (sensor: any) => {
   } else if (sensor.sensorType.sensorType === 1){
     showType.value = 5
   }
-  
   sensorData.value = sensor
 }
 

@@ -1,8 +1,6 @@
 package com.blog.file.controller;
 
-import com.blog.common.entity.file.Chip;
 import com.blog.common.entity.file.vo.ChipVo;
-import com.blog.common.entity.file.vo.DeviceVo;
 import com.blog.common.exception.ValidException;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
