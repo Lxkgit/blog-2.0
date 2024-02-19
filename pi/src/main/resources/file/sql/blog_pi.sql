@@ -11,7 +11,7 @@
  Target Server Version : 80100
  File Encoding         : 65001
 
- Date: 13/02/2024 16:01:52
+ Date: 19/02/2024 23:49:29
 */
 
 SET NAMES utf8mb4;
@@ -56,7 +56,7 @@ CREATE TABLE `register_setting`  (
 -- Records of register_setting
 -- ----------------------------
 INSERT INTO `register_setting` VALUES (1, 'netty', 'dev', '{\r\n	\"ip\": \"localhost\",\r\n	\"port\": 9092,\r\n	\"registerId\": \"SMP1\",\r\n	\"username\": \"gszero\"\r\n}');
-INSERT INTO `register_setting` VALUES (2, 'netty', 'pro', '{\r\n	\"ip\": \"localhost\",\r\n	\"port\": 9092,\r\n	\"registerId\": \"SMP1\",\r\n	\"username\": \"gszero\"\r\n}');
+INSERT INTO `register_setting` VALUES (2, 'netty', 'pro', '{\r\n	\"ip\": \"192.168.0.53\",\r\n	\"port\": 9092,\r\n	\"registerId\": \"SMP1\",\r\n	\"username\": \"gszero\"\r\n}');
 INSERT INTO `register_setting` VALUES (3, 'ftp', 'dev', '{\r\n	\"ip\": \"localhost\",\r\n	\"port\": 21,\r\n	\"username\": \"demo\",\r\n	\"password\": \"demo\",\r\n	\"basePath\": \"D:/files\"\r\n}');
 INSERT INTO `register_setting` VALUES (4, 'ftp', 'pro', '{\r\n	\"ip\": \"localhost\",\r\n	\"port\": 21,\r\n	\"username\": \"demo\",\r\n	\"password\": \"demo\",\r\n	\"basePath\": \"D:/files\"\r\n}');
 

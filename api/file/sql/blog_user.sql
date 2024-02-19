@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 124.221.12.158
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 50737
- Source Host           : 124.221.12.158:3306
+ Source Server Version : 80100
+ Source Host           : localhost:3306
  Source Schema         : blog_user
 
  Target Server Type    : MySQL
- Target Server Version : 50737
+ Target Server Version : 80100
  File Encoding         : 65001
 
- Date: 14/01/2024 21:09:39
+ Date: 19/02/2024 23:44:47
 */
 
 SET NAMES utf8mb4;
@@ -22,16 +22,16 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_permission`;
 CREATE TABLE `sys_permission`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `parent_id` int(11) NULL DEFAULT NULL COMMENT '父菜单id',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `parent_id` int(0) NULL DEFAULT NULL COMMENT '父菜单id',
   `menu_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单名称',
   `menu_icon` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
   `menu_path` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `permission` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限标识',
   `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `menu_type` int(5) NULL DEFAULT NULL COMMENT '类型 0:目录 1:菜单 2:按钮',
+  `menu_type` int(0) NULL DEFAULT NULL COMMENT '类型 0:目录 1:菜单 2:按钮',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 706 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限标识表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 705 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '权限标识表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_permission
@@ -39,7 +39,8 @@ CREATE TABLE `sys_permission`  (
 INSERT INTO `sys_permission` VALUES (1, 0, '用户管理', 'icon-people', '', 'sys:manage', '', 0);
 INSERT INTO `sys_permission` VALUES (2, 0, '内容管理', 'icon-book', '', 'sys:content', '', 0);
 INSERT INTO `sys_permission` VALUES (3, 0, '文件管理', 'icon-file', '', 'sys:file', '', 0);
-INSERT INTO `sys_permission` VALUES (4, 0, '系统设置', 'icon-setting', '', 'sys:setting', '', 0);
+INSERT INTO `sys_permission` VALUES (4, 0, '设备管理', 'icon-file', '', 'sys:device', '', 0);
+INSERT INTO `sys_permission` VALUES (5, 0, '系统设置', 'icon-setting', '', 'sys:setting', '', 0);
 INSERT INTO `sys_permission` VALUES (50, 1, '角色管理', '', '/admin/role', 'sys:role', '', 1);
 INSERT INTO `sys_permission` VALUES (51, 1, '用户管理', '', '/admin/user', 'sys:user', '', 1);
 INSERT INTO `sys_permission` VALUES (60, 2, '文章管理', '', '/admin/article', 'sys:article', '', 1);
@@ -48,8 +49,9 @@ INSERT INTO `sys_permission` VALUES (62, 2, '文章标签', '', '/admin/article/
 INSERT INTO `sys_permission` VALUES (63, 2, '日记管理', '', '/admin/diary', 'sys:diary', '', 1);
 INSERT INTO `sys_permission` VALUES (64, 2, '文档管理', '', '/admin/doc', 'sys:doc', '', 1);
 INSERT INTO `sys_permission` VALUES (70, 3, '文件云盘', '', '/admin/file', 'sys:file:user', '', 1);
-INSERT INTO `sys_permission` VALUES (80, 4, '网站设置', '', '/admin/setting/web', 'sys:setting:all', '', 1);
-INSERT INTO `sys_permission` VALUES (81, 4, '个人设置', '', '/admin/setting/user', 'sys:setting:user', '', 1);
+INSERT INTO `sys_permission` VALUES (80, 5, '网站设置', '', '/admin/setting/web', 'sys:setting:all', '', 1);
+INSERT INTO `sys_permission` VALUES (81, 5, '个人设置', '', '/admin/setting/user', 'sys:setting:user', '', 1);
+INSERT INTO `sys_permission` VALUES (90, 4, '服务器设备', '', '/admin/device', 'sys:device:service', '', 1);
 INSERT INTO `sys_permission` VALUES (100, 50, '角色列表', '', '', 'sys:role:select', '', 2);
 INSERT INTO `sys_permission` VALUES (101, 50, '添加角色', '', '', 'sys:role:insert', '', 2);
 INSERT INTO `sys_permission` VALUES (102, 50, '删除角色', '', '', 'sys:role:delete', '', 2);
@@ -84,30 +86,19 @@ INSERT INTO `sys_permission` VALUES (702, 64, '创建文档', '', '', 'sys:doc:i
 INSERT INTO `sys_permission` VALUES (703, 64, '修改文档', '', '', 'sys:doc:update', '', 2);
 INSERT INTO `sys_permission` VALUES (704, 64, '修改文档目录', '', '', 'sys:doc:catalog:update', '', 2);
 INSERT INTO `sys_permission` VALUES (705, 64, '删除文档', '', '', 'sys:doc:delete', '', 2);
-INSERT INTO `sys_permission` VALUES (800, 70, '查看文件', '', '', 'sys:file:user:select', '', 2);
-INSERT INTO `sys_permission` VALUES (801, 70, '创建目录', '', '', 'sys:file:user:save', '', 2);
-INSERT INTO `sys_permission` VALUES (802, 70, '上传文件', '', '', 'sys:file:user:upload', '', 2);
-INSERT INTO `sys_permission` VALUES (803, 70, '修改文件或目录名称', '', '', 'sys:file:user:update', '', 2);
-INSERT INTO `sys_permission` VALUES (804, 70, '删除文件或目录', '', '', 'sys:file:user:delete', '', 2);
-INSERT INTO `sys_permission` VALUES (805, 70, '获取剩余空间', '', '', 'sys:file:user:space', '', 2);
-INSERT INTO `sys_permission` VALUES (806, 70, '同步远程文件', '', '', 'sys:file:user:sync', '', 2);
-INSERT INTO `sys_permission` VALUES (900, 80, '查看网站设置', '', '', 'sys:setting:all:select', '', 2);
-INSERT INTO `sys_permission` VALUES (901, 80, '修改网站设置', '', '', 'sys:setting:all:update', '', 2);
-INSERT INTO `sys_permission` VALUES (1000, 81, '查看个人设置', '', '', 'sys:setting:user:select', '', 2);
-INSERT INTO `sys_permission` VALUES (1001, 81, '修改个人设置', '', '', 'sys:setting:user:update', '', 2);
 
 -- ----------------------------
 -- Table structure for sys_role
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `role_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色编码',
-  `role_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `role_code` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '角色编码',
+  `role_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '角色名称',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_role
@@ -121,8 +112,8 @@ INSERT INTO `sys_role` VALUES (3, 'VISITOR', ' 游客', '2022-12-20 15:16:31', '
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_permission`;
 CREATE TABLE `sys_role_permission`  (
-  `role_id` int(11) NOT NULL COMMENT '角色id',
-  `permission_id` int(11) NOT NULL COMMENT '权限id',
+  `role_id` int(0) NOT NULL COMMENT '角色id',
+  `permission_id` int(0) NOT NULL COMMENT '权限id',
   PRIMARY KEY (`role_id`, `permission_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色权限关系表' ROW_FORMAT = Dynamic;
 
@@ -179,6 +170,7 @@ INSERT INTO `sys_role_permission` VALUES (2, 1);
 INSERT INTO `sys_role_permission` VALUES (2, 2);
 INSERT INTO `sys_role_permission` VALUES (2, 3);
 INSERT INTO `sys_role_permission` VALUES (2, 4);
+INSERT INTO `sys_role_permission` VALUES (2, 5);
 INSERT INTO `sys_role_permission` VALUES (2, 50);
 INSERT INTO `sys_role_permission` VALUES (2, 51);
 INSERT INTO `sys_role_permission` VALUES (2, 60);
@@ -189,6 +181,7 @@ INSERT INTO `sys_role_permission` VALUES (2, 64);
 INSERT INTO `sys_role_permission` VALUES (2, 70);
 INSERT INTO `sys_role_permission` VALUES (2, 80);
 INSERT INTO `sys_role_permission` VALUES (2, 81);
+INSERT INTO `sys_role_permission` VALUES (2, 90);
 INSERT INTO `sys_role_permission` VALUES (2, 100);
 INSERT INTO `sys_role_permission` VALUES (2, 101);
 INSERT INTO `sys_role_permission` VALUES (2, 102);
@@ -229,8 +222,8 @@ INSERT INTO `sys_role_permission` VALUES (2, 705);
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_user`;
 CREATE TABLE `sys_role_user`  (
-  `user_id` int(11) NOT NULL COMMENT '用户id',
-  `role_id` int(11) NOT NULL COMMENT '角色id',
+  `user_id` int(0) NOT NULL COMMENT '用户id',
+  `role_id` int(0) NOT NULL COMMENT '角色id',
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色用户关系表' ROW_FORMAT = Dynamic;
 
@@ -249,7 +242,7 @@ INSERT INTO `sys_role_user` VALUES (5, 2);
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `username` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户名',
   `password` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
   `nickname` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '昵称',
@@ -260,7 +253,7 @@ CREATE TABLE `sys_user`  (
   `update_time` datetime(0) NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user
