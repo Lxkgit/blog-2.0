@@ -113,6 +113,7 @@ public class SensorServiceImpl implements SensorService {
 
         QueryWrapper<Sensor> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", userId);
+        wrapper.eq("chip_id", sensorVoParam.getChipId());
         wrapper.ne("sensor_status", Constant.DEVICE_DELETE);
 
         PageHelper.startPage(sensorVoParam.getPageNum(), sensorVoParam.getPageSize());

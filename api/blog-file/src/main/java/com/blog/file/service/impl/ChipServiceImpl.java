@@ -111,6 +111,7 @@ public class ChipServiceImpl implements ChipService {
     public MyPage<ChipVo> selectChipList(Integer userId, ChipVo chipVoParam) {
         QueryWrapper<Chip> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", userId);
+        wrapper.eq("device_id", chipVoParam.getDeviceId());
         wrapper.ne("chip_status", Constant.DEVICE_DELETE);
 
         PageHelper.startPage(chipVoParam.getPageNum(), chipVoParam.getPageSize());

@@ -17,3 +17,5 @@ CREATE TABLE `file_sync` (
   `file_client` varchar(255) DEFAULT NULL COMMENT '文件当前存放服务器编码（mqtt客户端编码 ClientId ）',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件同步数据库';
+
+ALTER TABLE blog_sensor ADD COLUMN `memo` VARCHAR(255) DEFAULT NULL COMMENT '传感器备注信息';

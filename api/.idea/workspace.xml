@@ -16,10 +16,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-02-10【功能新增】：前端页面展示传感器相关设备与数据完成">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file/sql/blog_user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/blog_user.sql" afterDir="false" />
-    </list>
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-02-19【功能修改】：修改数据库文件" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -488,14 +485,7 @@
       <workItem from="1708254688867" duration="2099000" />
       <workItem from="1708273221077" duration="226000" />
       <workItem from="1708357336015" duration="22000" />
-      <workItem from="1708357400595" duration="331000" />
-    </task>
-    <task id="LOCAL-00084" summary="23-05-19【功能新增】：文档删除功能完成，文档接口开发完成">
-      <created>1684419759804</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1684419759807</updated>
+      <workItem from="1708357400595" duration="877000" />
     </task>
     <task id="LOCAL-00085" summary="23-05-21【功能新增】：博客文档功能基础部分完成，开始部署测试第一版">
       <created>1684656836877</created>
@@ -833,7 +823,14 @@
       <option name="project" value="LOCAL" />
       <updated>1707575453596</updated>
     </task>
-    <option name="localTasksCounter" value="133" />
+    <task id="LOCAL-00133" summary="24-02-19【功能修改】：修改数据库文件">
+      <created>1708357853861</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1708357853863</updated>
+    </task>
+    <option name="localTasksCounter" value="134" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -864,7 +861,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="23-08-26【功能修改】：优化博客前端" />
     <MESSAGE value="23-09-02【功能修改】：优化博客前端" />
     <MESSAGE value="23-09-04【功能新增】：新增博客云盘功能，新版博客部署" />
     <MESSAGE value="23-09-15【功能修改】：修改文档功能" />
@@ -889,7 +885,8 @@
     <MESSAGE value="24-02-04【功能新增】：控制舵机功能开发完成" />
     <MESSAGE value="24-02-06【功能修改】：连接传感器上报数据，pi服务docker部署测试完成，数据上报博客微服务正常" />
     <MESSAGE value="24-02-10【功能新增】：前端页面展示传感器相关设备与数据完成" />
-    <option name="LAST_COMMIT_MESSAGE" value="24-02-10【功能新增】：前端页面展示传感器相关设备与数据完成" />
+    <MESSAGE value="24-02-19【功能修改】：修改数据库文件" />
+    <option name="LAST_COMMIT_MESSAGE" value="24-02-19【功能修改】：修改数据库文件" />
   </component>
   <component name="WindowStateProjectService">
     <state x="842" y="386" key="#Notifications" timestamp="1702195519476">
@@ -1019,11 +1016,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="694" y="216" key="VCS.ChangeListViewerDialog/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705416831214" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1707575458250">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1708357863371">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1702226105158" />
-    <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1707575458250" />
+    <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1708357863371" />
     <state x="395" y="245" key="Vcs.Push.Dialog.v2/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1701962645226" />
     <state x="662" y="252" width="596" height="560" key="find.popup" timestamp="1707553947936">
       <screen x="0" y="0" width="1920" height="1040" />

@@ -9,12 +9,13 @@
         <id column="sensor_name" property="sensorName" jdbcType="VARCHAR"/>
         <id column="sensor_code" property="sensorCode" jdbcType="VARCHAR"/>
         <id column="sensor_status" property="sensorStatus" jdbcType="INTEGER"/>
+        <id column="memo" property="memo" jdbcType="VARCHAR"/>
         <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, user_id, chip_id, sensor_type_id, sensor_name, sensor_code, sensor_status, create_time, update_time
+        id, user_id, chip_id, sensor_type_id, sensor_name, sensor_code, sensor_status, memo, create_time, update_time
     </sql>
 
     <update id="updateSensorStatusByIds">
