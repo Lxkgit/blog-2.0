@@ -92,7 +92,7 @@ public class SensorControlServiceImpl implements SensorControlService {
     public Integer deleteSensorControl(Integer userId, Integer id) {
         QueryWrapper<SensorControl> wrapper = new QueryWrapper<>();
         wrapper.eq("id", id);
-        wrapper.eq("userId", userId);
+        wrapper.eq("user_id", userId);
         return sensorControlDAO.delete(wrapper);
     }
 
@@ -149,7 +149,7 @@ public class SensorControlServiceImpl implements SensorControlService {
     public SensorControlVo selectSensorControlById(Integer userId, Integer id) {
         QueryWrapper<SensorControl> wrapper = new QueryWrapper<>();
         wrapper.eq("id", id);
-        wrapper.eq("userId", userId);
+        wrapper.eq("user_id", userId);
         SensorControl sensorControl = sensorControlDAO.selectOne(wrapper);
         SensorControlVo sensorControlVo = new SensorControlVo();
         BeanUtils.copyProperties(sensorControl, sensorControlVo);
@@ -196,7 +196,7 @@ public class SensorControlServiceImpl implements SensorControlService {
             throw new ValidException(ErrorMessage.DEVICE_NOT_EXISTS);
         }
 
-        SensorCommandVo commandVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControl.getControlMessage()), SensorTypeEnum.getRuleImpl("duo"));
+        SensorCommandVo commandVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControl.getControlMessage()), SensorTypeEnum.getRuleImpl("DUO"));
         commandVo.setChipType(chip.getChipType());
         commandVo.setSensorType(sensor.getSensorCode());
 

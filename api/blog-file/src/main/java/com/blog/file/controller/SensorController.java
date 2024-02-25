@@ -10,6 +10,7 @@ import com.blog.common.valication.group.*;
 import com.blog.file.service.SensorControlService;
 import com.blog.file.service.SensorDataService;
 import com.blog.file.service.SensorService;
+import com.blog.file.service.SensorTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -37,6 +38,9 @@ public class SensorController extends BaseController {
 
     @Resource
     private SensorDataService sensorDataService;
+
+    @Resource
+    private SensorTypeService sensorTypeService;
 
     /**
      * 创建传感器
@@ -105,6 +109,17 @@ public class SensorController extends BaseController {
     @PreAuthorize("hasAnyAuthority('sys:sensor:select')")
     public Result selectSensorId(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) SensorVo sensorVo) {
         return ResultFactory.buildSuccessResult(sensorService.selectSensorId(getBlogUser(request).getId(), sensorVo.getId()));
+    }
+
+    /**
+     * 查询平台支持的全部传感器，权限与新增传感器一致
+     *
+     * @return
+     */
+    @GetMapping("/type/list")
+    @PreAuthorize("hasAnyAuthority('sys:sensor:save')")
+    public Result selectSensorTypeList() {
+        return ResultFactory.buildSuccessResult(sensorTypeService.selectSensorTypeList());
     }
 
     /**

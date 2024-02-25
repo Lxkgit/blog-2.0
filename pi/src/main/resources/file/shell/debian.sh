@@ -40,9 +40,6 @@ mqtt() {
 jdk() {
 	docker pull openjdk:8
 	docker run -d -it --name java8 --restart=always openjdk:8
-#	docker exec -it java8 /bin/bash
-#	java -version
-#	exit
 }
 
 
@@ -89,4 +86,9 @@ main() {
 
 # apt-get install lrzsz
 
-# docker logs -f pi
+# docker logs -f pi  查看pi服务启动日志
+#	docker exec -it java8 /bin/bash  进入容器
+
+# docker stop
+# docker rm
+# docker rmi

@@ -9,7 +9,7 @@ import com.blog.common.entity.file.vo.sensor.control.SteeringEngineVo;
 
 public enum SensorTypeEnum {
 
-    DUO_JI("duo", "舵机", SteeringEngineVo.class),
+    DUO_JI("DUO", "舵机", SteeringEngineVo.class),
     ;
 
 

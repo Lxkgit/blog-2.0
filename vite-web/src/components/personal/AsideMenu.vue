@@ -1,5 +1,5 @@
 <template>
-  <div style="height: calc(100vh - 142px);" :class="{ 'side_bar_open': store.sideBar }">
+  <div  :class="{ 'side_bar_open': store.sideBar }">
     <div @click="store.sideBar = !store.sideBar" style="height: 40px; display: flex;
     align-items: center; padding-left: 25px; border-right: solid 1px var(--el-menu-border-color); border-bottom: solid 1px var(--el-menu-border-color); background-color: var(--el-menu-bg-color);
     border-top: solid 1px var(--el-menu-border-color);">
@@ -10,7 +10,7 @@
         <MyIcon type="icon-outdent" />
       </el-icon>
     </div>
-    <el-menu :collapse="store.sideBar" :collapse-transition="true" width="60px" class="el-menu-vertical-demo">
+    <el-menu :collapse="store.sideBar" :collapse-transition="true" width="60px" style="height: calc(100vh - 138px);" class="el-menu-vertical-demo">
       <el-menu-item index="/admin/index" @click="router.push('/admin/index')">
         <el-icon>
           <MyIcon type="icon-user"/>

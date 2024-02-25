@@ -178,3 +178,10 @@ export const selectSensorDataListApi = (params: any) => {
     const uri = "/file/sensor/data"
     return api.get(uri, params)
 }
+
+// --------------传感器类型接口-------------
+
+export const selectSensorTypeListApi = () => {
+    const uri = "/file/sensor/type/list"
+    return api.get(uri)
+}

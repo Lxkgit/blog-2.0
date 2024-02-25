@@ -86,7 +86,7 @@ public class ChipServiceImpl implements ChipService {
     @Override
     public Integer updateChip(Integer userId, ChipVo chipVo) throws ValidException {
         QueryWrapper<Chip> wrapper = new QueryWrapper<>();
-        wrapper.eq("userId", userId);
+        wrapper.eq("user_id", userId);
         wrapper.eq("chip_code", chipVo.getChipCode());
         wrapper.ne("id", chipVo.getId());
         Chip chip = chipDAO.selectOne(wrapper);

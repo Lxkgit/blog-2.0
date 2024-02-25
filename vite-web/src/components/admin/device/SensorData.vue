@@ -1,5 +1,5 @@
 <template>
-  <el-card style="margin: 18px 2%;width: 95%">
+  <el-card style="margin: 10px 2%; width: 94%;">
     <el-table :data="sensorDataList.data" stripe style="width: 100%; height: calc(100vh - 408px);">
       <el-table-column prop="sensorData" label="监测数据" fit>
       </el-table-column>
