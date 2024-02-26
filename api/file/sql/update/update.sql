@@ -19,3 +19,6 @@ CREATE TABLE `file_sync` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='文件同步数据库';
 
 ALTER TABLE blog_sensor ADD COLUMN `memo` VARCHAR(255) DEFAULT NULL COMMENT '传感器备注信息';
+
+INSERT INTO `register_setting` VALUES (5, 'mqtt', 'dev', '{\r\n	\"ip\": \"localhost\",\r\n	\"port\": 1883,\r\n	\"username\": \"admin\",\r\n	\"password\": \"public\",\r\n	\"clientId\": \"SMP1\"\r\n}');
+INSERT INTO `register_setting` VALUES (6, 'mqtt', 'pro', '{\r\n	\"ip\": \"192.168.0.106\",\r\n	\"port\": 1883,\r\n	\"username\": \"admin\",\r\n	\"password\": \"public\",\r\n	\"clientId\": \"SMP1\"\r\n}');

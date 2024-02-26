@@ -1,5 +1,5 @@
 <template>
-  <el-card style="margin: 10px 2%; width: 94%;">
+  <el-card style="margin: 10px 2%; width: 94%; height: calc(100vh - 308px); overflow-y: auto;">
     <div style="margin: 18px 2%; display: flex;">
       <div style="width:8%; min-width: 90px">
         <el-button @click="dialogFormVisible = true">创建命令</el-button>
@@ -25,7 +25,7 @@
         <img src="http://localhost/files/1/user/2024-02-08_17-00-49_47c7df_WeMos_D1.png" height="150" />
       </div>
     </div>
-    <el-table :data="sensorControlList.data" stripe style="width: 100%; height: calc(100vh - 597px);">
+    <el-table :data="sensorControlList.data" stripe style="width: 100%; height: 388px;">
       <el-table-column prop="controlName" label="控制命令名称" fit>
       </el-table-column>
       <el-table-column prop="controlMessage" label="控制命令" fit>
@@ -36,17 +36,17 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="110">
         <template #default="scope">
-          <el-button style="margin: 0; padding: 8px;" @click="sendSensorControlFun(scope.row)" size="small" text >
-            <MyIcon type="icon-send" title="发送命令"/>
+          <el-button style="margin: 0; padding: 8px;" @click="sendSensorControlFun(scope.row)" size="small" text>
+            <MyIcon type="icon-send" title="发送命令" />
           </el-button>
           <el-button style="margin: 0; padding: 8px;" @click="deleteSensorControlFun(scope.row.id)" size="small" text>
-            <MyIcon type="icon-delete" title="删除命令"/>
+            <MyIcon type="icon-delete" title="删除命令" />
           </el-button>
         </template>
       </el-table-column>
     </el-table>
     <div style="margin: 20px 0 50px 0">
-      <el-pagination background style="float:right;" layout="total, prev, pager, next, jumper" @current-change="selectSensorControlPageFun" :page-size="size" :total="total">
+      <el-pagination v-model:current-page="page" background style="float:right;" layout="total, prev, pager, next, jumper" @current-change="selectSensorControlPageFun" :page-size="size" :total="total">
       </el-pagination>
     </div>
   </el-card>
@@ -79,9 +79,10 @@ import {
   selectSensorControlListApi,
   sendSensorControlApi,
   saveSensorControlApi,
-  deleteSensorControlApi
+  deleteSensorControlApi,
 } from '@/api/file';
 let {
+  page,
   size,
   total,
   sensor,
@@ -99,7 +100,6 @@ let {
 } = sensorControlFun();
 import icon from '@/utils/icon';
 import { ElMessage } from 'element-plus';
-// import { fa } from 'element-plus/es/locale';
 
 let { MyIcon } = icon();
 
@@ -114,8 +114,12 @@ onMounted(() => {
 });
 
 function sensorControlFun() {
+  
   // 页面展示控制命令条数
-  let size = ref<number>(7);
+  let page = ref<number>(1);
+  
+  // 页面展示控制命令条数
+  let size = ref<number>(8);
 
   // 分页数据总数
   let total = ref<number>(0);
@@ -208,6 +212,8 @@ function sensorControlFun() {
       if (res.code === 200) {
         ElMessage.success('命令创建成功');
         dialogFormVisible.value = false;
+        page.value = 1;
+        sensorControl.controlName = '';
         selectSensorControlPageFun(1);
       }
     });
@@ -215,15 +221,17 @@ function sensorControlFun() {
 
   // 删除传感器控制命令
   const deleteSensorControlFun = (id: any) => {
-    deleteSensorControlApi({id: id}).then((res: any) => {
-      if(res.code === 200) {
+    deleteSensorControlApi({ id: id }).then((res: any) => {
+      if (res.code === 200) {
         ElMessage.success('命令删除成功');
+        page.value = 1;
         selectSensorControlPageFun(1);
       }
-    })
-  }
+    });
+  };
 
   return {
+    page,
     size,
     total,
     sensor,

@@ -3,7 +3,7 @@
     <div class="title_style">
       <span>服务器设备管理</span>
     </div>
-    <el-card style="margin: 18px 2%; width: 95%; height: calc(100vh - 206px);">
+    <el-card style="margin: 18px 2%; width: 95%; height: calc(100vh - 206px); overflow-y: auto;">
       <div style="height: 30px;">
         <el-breadcrumb separator="/">
           <el-breadcrumb-item style="cursor: pointer;" v-if="showType >= 1" @click="showType = 1">服务器设备</el-breadcrumb-item>
@@ -13,7 +13,7 @@
           <el-breadcrumb-item style="cursor: pointer;" v-if="showType == 5" @click="showType = 5">传感器控制</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
-      <div style="display: flex; flex-flow: wrap; overflow-y: auto; align-items:flex-start; ">
+      <div style="display: flex; flex-flow: wrap;  align-items:flex-start;">
         <Device v-if="showType === 1" @deviceId="receiveDeviceId" />
         <Chip v-else-if="showType === 2" :deviceId="deviceId" @chipId="receiveChipId" />
         <Sensor v-else-if="showType === 3" :chipId="chipId" @sersor="receiveSensor" />

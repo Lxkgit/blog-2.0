@@ -1,13 +1,13 @@
 <template>
-  <el-card style="margin: 10px 2%; width: 94%;">
-    <el-table :data="sensorDataList.data" stripe style="width: 100%; height: calc(100vh - 408px);">
+  <el-card style="margin: 10px 2%; width: 94%; height: calc(100vh - 308px); overflow-y: auto;">
+    <el-table :data="sensorDataList.data" stripe style="width: 100%; height: 520px; ">
       <el-table-column prop="sensorData" label="监测数据" fit>
       </el-table-column>
       <el-table-column prop="createTime" label="监测时间" fit>
       </el-table-column>
     </el-table>
     <div style="margin: 20px 0 50px 0">
-      <el-pagination background style="float:right;" layout="total, prev, pager, next, jumper" @current-change="selectSensorDataPageFun" :page-size="size" :total="total">
+      <el-pagination v-model:current-page="page" background style="float:right;" layout="total, prev, pager, next, jumper" @current-change="selectSensorDataPageFun" :page-size="size" :total="total">
       </el-pagination>
     </div>
   </el-card>
@@ -17,6 +17,7 @@
 import { ref, reactive, onMounted } from 'vue';
 import { selectSensorDataListApi } from '@/api/file';
 let {
+  page,
   size,
   total,
   sensorDataList,
@@ -35,6 +36,8 @@ onMounted(() => {
 });
 
 function sensorFun() {
+  // 页面展示数据条数
+  let page = ref<number>(1);
   // 页面展示传感器数据条数
   let size = ref<number>(12);
   // 总数据数
@@ -62,6 +65,7 @@ function sensorFun() {
   };
 
   return {
+    page,
     size,
     total,
     sensorDataList,

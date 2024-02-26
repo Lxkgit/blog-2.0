@@ -133,7 +133,7 @@ function deviceFun() {
     visible: false,
     left: 0,
     top: 0,
-    type: 0
+    type: 0,
   });
 
   // 新增设备表单验证规则
