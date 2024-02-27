@@ -16,7 +16,13 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-02-25【功能修改】：修改设备管理页面，完善设备管理接口" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-02-25【功能修改】：修改设备管理页面，完善设备管理接口">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file/config/runbroker.sh" beforeDir="false" afterPath="$PROJECT_DIR$/file/config/runbroker.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file/config/runserver.sh" beforeDir="false" afterPath="$PROJECT_DIR$/file/config/runserver.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file/shell/docker.sh" beforeDir="false" afterPath="$PROJECT_DIR$/file/shell/docker.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/resources/application.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -489,6 +495,8 @@
       <workItem from="1708448631168" duration="173000" />
       <workItem from="1708514268206" duration="720000" />
       <workItem from="1708849862113" duration="2989000" />
+      <workItem from="1708964199312" duration="671000" />
+      <workItem from="1709036152745" duration="2093000" />
     </task>
     <task id="LOCAL-00087" summary="23-05-21【功能新增】：博客手动部署成功，部署脚本存在问题">
       <created>1684683657485</created>
@@ -915,11 +923,11 @@
     </state>
     <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705417491239" />
     <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1704615326953" />
-    <state x="2660" y="287" key="FileChooserDialogImpl" timestamp="1708850306886">
+    <state x="2660" y="287" key="FileChooserDialogImpl" timestamp="1709036221718">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1707729866634" />
-    <state x="2660" y="287" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1708850306886" />
+    <state x="2660" y="287" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1709036221718" />
     <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1707015864782" />
     <state x="740" y="279" key="FileChooserDialogImpl/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1702198161755" />
     <state width="1877" height="205" key="GridCell.Tab.0.bottom" timestamp="1708867997082">

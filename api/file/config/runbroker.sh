@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -28,10 +28,6 @@ find_java_home()
 {
     case "`uname`" in
         Darwin)
-          if [ -n "$JAVA_HOME" ]; then
-            JAVA_HOME=$JAVA_HOME
-            return
-          fi
             JAVA_HOME=$(/usr/libexec/java_home)
         ;;
         *)
@@ -49,69 +45,103 @@ find_java_home
 export JAVA_HOME
 export JAVA="$JAVA_HOME/bin/java"
 export BASE_DIR=$(dirname $0)/..
-export CLASSPATH=.:${BASE_DIR}/conf:${BASE_DIR}/lib/*:${CLASSPATH}
+export CLASSPATH=.:${BASE_DIR}/conf:${CLASSPATH}
 
 #===========================================================================================
 # JVM Configuration
 #===========================================================================================
-# The RAMDisk initializing size in MB on Darwin OS for gc-log
-DIR_SIZE_IN_MB=600
-
-choose_gc_log_directory()
+calculate_heap_sizes()
 {
     case "`uname`" in
+        Linux)
+            system_memory_in_mb=`free -m| sed -n '2p' | awk '{print $2}'`
+            system_cpu_cores=`egrep -c 'processor([[:space:]]+):.*' /proc/cpuinfo`
+        ;;
+        FreeBSD)
+            system_memory_in_bytes=`sysctl hw.physmem | awk '{print $2}'`
+            system_memory_in_mb=`expr $system_memory_in_bytes / 1024 / 1024`
+            system_cpu_cores=`sysctl hw.ncpu | awk '{print $2}'`
+        ;;
+        SunOS)
+            system_memory_in_mb=`prtconf | awk '/Memory size:/ {print $3}'`
+            system_cpu_cores=`psrinfo | wc -l`
+        ;;
         Darwin)
-            if [ ! -d "/Volumes/RAMDisk" ]; then
-                # create ram disk on Darwin systems as gc-log directory
-                DEV=`hdiutil attach -nomount ram://$((2 * 1024 * DIR_SIZE_IN_MB))` > /dev/null
-                diskutil eraseVolume HFS+ RAMDisk ${DEV} > /dev/null
-                echo "Create RAMDisk /Volumes/RAMDisk for gc logging on Darwin OS."
-            fi
-            GC_LOG_DIR="/Volumes/RAMDisk"
+            system_memory_in_bytes=`sysctl hw.memsize | awk '{print $2}'`
+            system_memory_in_mb=`expr $system_memory_in_bytes / 1024 / 1024`
+            system_cpu_cores=`sysctl hw.ncpu | awk '{print $2}'`
         ;;
         *)
-            # check if /dev/shm exists on other systems
-            if [ -d "/dev/shm" ]; then
-                GC_LOG_DIR="/dev/shm"
-            else
-                GC_LOG_DIR=${BASE_DIR}
-            fi
+            # assume reasonable defaults for e.g. a modern desktop or
+            # cheap server
+            system_memory_in_mb="2048"
+            system_cpu_cores="2"
         ;;
     esac
-}
 
-choose_gc_options()
-{
-    JAVA_MAJOR_VERSION=$("$JAVA" -version 2>&1 | head -1 | cut -d'"' -f2 | sed 's/^1\.//' | cut -d'.' -f1)
-    if [ -z "$JAVA_MAJOR_VERSION" ] || [ "$JAVA_MAJOR_VERSION" -lt "8" ] ; then
-      JAVA_OPT="${JAVA_OPT} -Xmn4g -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8 -XX:-UseParNewGC"
-    else
-      JAVA_OPT="${JAVA_OPT} -XX:+UseG1GC -XX:G1HeapRegionSize=16m -XX:G1ReservePercent=25 -XX:InitiatingHeapOccupancyPercent=30 -XX:SoftRefLRUPolicyMSPerMB=0"
+    # some systems like the raspberry pi don't report cores, use at least 1
+    if [ "$system_cpu_cores" -lt "1" ]
+    then
+        system_cpu_cores="1"
     fi
 
-    if [ -z "$JAVA_MAJOR_VERSION" ] || [ "$JAVA_MAJOR_VERSION" -lt "9" ] ; then
-      JAVA_OPT="${JAVA_OPT} -verbose:gc -Xloggc:${GC_LOG_DIR}/rmq_srv_gc_%p_%t.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintAdaptiveSizePolicy"
-      JAVA_OPT="${JAVA_OPT} -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=30m"
+    # set max heap size based on the following
+    # max(min(1/2 ram, 1024MB), min(1/4 ram, 8GB))
+    # calculate 1/2 ram and cap to 1024MB
+    # calculate 1/4 ram and cap to 8192MB
+    # pick the max
+    half_system_memory_in_mb=`expr $system_memory_in_mb / 2`
+    quarter_system_memory_in_mb=`expr $half_system_memory_in_mb / 2`
+    if [ "$half_system_memory_in_mb" -gt "1024" ]
+    then
+        half_system_memory_in_mb="1024"
+    fi
+    if [ "$quarter_system_memory_in_mb" -gt "8192" ]
+    then
+        quarter_system_memory_in_mb="8192"
+    fi
+    if [ "$half_system_memory_in_mb" -gt "$quarter_system_memory_in_mb" ]
+    then
+        max_heap_size_in_mb="$half_system_memory_in_mb"
     else
-      JAVA_OPT="${JAVA_OPT} -XX:+UseG1GC -XX:G1HeapRegionSize=16m -XX:G1ReservePercent=25 -XX:InitiatingHeapOccupancyPercent=30 -XX:SoftRefLRUPolicyMSPerMB=0"
-      JAVA_OPT="${JAVA_OPT} -Xlog:gc*:file=${GC_LOG_DIR}/rmq_srv_gc_%p_%t.log:time,tags:filecount=5,filesize=30M"
+        max_heap_size_in_mb="$quarter_system_memory_in_mb"
+    fi
+    MAX_HEAP_SIZE="${max_heap_size_in_mb}M"
+
+    # Young gen: min(max_sensible_per_modern_cpu_core * num_cores, 1/4 * heap size)
+    max_sensible_yg_per_core_in_mb="100"
+    max_sensible_yg_in_mb=`expr $max_sensible_yg_per_core_in_mb "*" $system_cpu_cores`
+
+    desired_yg_in_mb=`expr $max_heap_size_in_mb / 4`
+
+    if [ "$desired_yg_in_mb" -gt "$max_sensible_yg_in_mb" ]
+    then
+        HEAP_NEWSIZE="${max_sensible_yg_in_mb}M"
+    else
+        HEAP_NEWSIZE="${desired_yg_in_mb}M"
     fi
 }
 
-choose_gc_log_directory
+#calculate_heap_sizes
 
-JAVA_OPT="${JAVA_OPT} -server -Xms256m -Xmx256m"
-choose_gc_options
+# Dynamically calculate parameters, for reference.
+Xms=$MAX_HEAP_SIZE
+Xmx=$MAX_HEAP_SIZE
+Xmn=$HEAP_NEWSIZE
+MaxDirectMemorySize=$MAX_HEAP_SIZE
+# Set for `JAVA_OPT`.
+JAVA_OPT="${JAVA_OPT} -server -Xms${Xms} -Xmx${Xmx} -Xmn${Xmn}"
+JAVA_OPT="${JAVA_OPT} -XX:+UseG1GC -XX:G1HeapRegionSize=16m -XX:G1ReservePercent=25 -XX:InitiatingHeapOccupancyPercent=30 -XX:SoftRefLRUPolicyMSPerMB=0 -XX:SurvivorRatio=8"
+JAVA_OPT="${JAVA_OPT} -verbose:gc -Xloggc:/dev/shm/mq_gc_%p.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintAdaptiveSizePolicy"
+JAVA_OPT="${JAVA_OPT} -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=30m"
 JAVA_OPT="${JAVA_OPT} -XX:-OmitStackTraceInFastThrow"
 JAVA_OPT="${JAVA_OPT} -XX:+AlwaysPreTouch"
-JAVA_OPT="${JAVA_OPT} -XX:MaxDirectMemorySize=15g"
+JAVA_OPT="${JAVA_OPT} -XX:MaxDirectMemorySize=${MaxDirectMemorySize}"
 JAVA_OPT="${JAVA_OPT} -XX:-UseLargePages -XX:-UseBiasedLocking"
-JAVA_OPT="${JAVA_OPT} -Drocketmq.client.logUseSlf4j=true"
+JAVA_OPT="${JAVA_OPT} -Djava.ext.dirs=${JAVA_HOME}/jre/lib/ext:${BASE_DIR}/lib"
 #JAVA_OPT="${JAVA_OPT} -Xdebug -Xrunjdwp:transport=dt_socket,address=9555,server=y,suspend=n"
 JAVA_OPT="${JAVA_OPT} ${JAVA_OPT_EXT}"
 JAVA_OPT="${JAVA_OPT} -cp ${CLASSPATH}"
-
-$JAVA ${JAVA_OPT} --add-exports=java.base/sun.nio.ch=ALL-UNNAMED $@
 
 numactl --interleave=all pwd > /dev/null 2>&1
 if [ $? -eq 0 ]
@@ -122,5 +152,5 @@ then
 		numactl --cpunodebind=$RMQ_NUMA_NODE --membind=$RMQ_NUMA_NODE $JAVA ${JAVA_OPT} $@
 	fi
 else
-	"$JAVA" ${JAVA_OPT} $@
+	$JAVA ${JAVA_OPT} $@
 fi

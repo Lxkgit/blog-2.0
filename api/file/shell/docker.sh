@@ -24,6 +24,91 @@ blogFileSql="blog_file"
 blogGatewaySql="blog_gateway"
 nacosSql="nacos"
 
+mkdir() {
+
+  # 上传部署压缩包解压目录
+  mkdir -p /opt/package
+
+  # docker镜像存放目录
+  mkdir -p /etc/docker
+  mkdir -p /opt/docker/images
+  # docker 全部容器共享目录
+  mkdir -p /opt/docker/files
+
+  # mysql文件目录
+  # mysql 初始化数据文件目录
+  mkdir -p /opt/docker/mysql/sql
+  # 宿主机创建数据存放目录映射到容器
+  mkdir -p /opt/docker/mysql/data
+  # 宿主机创建配置文件目录映射到容器
+  mkdir -p /opt/docker/mysql/conf
+  # 宿主机创建日志目录映射到容器
+  mkdir -p /opt/docker/mysql/logs
+
+  # nginx 目录创建
+  mkdir -p /opt/docker/nginx/conf.d
+	mkdir -p /opt/docker/nginx/html
+	mkdir -p /opt/docker/nginx/logs
+	mkdir -p /opt/docker/nginx/conf
+
+	# redis 目录创建
+	mkdir -p /opt/docker/redis/conf
+  mkdir -p /opt/docker/redis/data
+
+  # rocketMq 目录创建
+  # 创建namesrv数据存储路径
+  mkdir -p /opt/docker/rocketmq/namesrv/logs
+  mkdir -p /opt/docker/rocketmq/namesrv/bin
+  # 设置权限
+  chmod 777 -R /opt/docker/rocketmq/namesrv/*
+  #创建broker
+  mkdir -p /opt/docker/rocketmq/broker/logs
+  mkdir -p /opt/docker/rocketmq/broker/data
+  mkdir -p /opt/docker/rocketmq/broker/conf
+  mkdir -p /opt/docker/rocketmq/broker/bin
+  # 设置权限
+  chmod 777 -R /opt/docker/rocketmq/broker/*
+
+  # nacos 目录创建
+  mkdir -p /opt/docker/nacos/logs/
+	mkdir -p /opt/docker/nacos/conf/
+
+  # ------------ 配置文件移动 ----------
+  # docker 配置文件
+  mv /opt/package/conf/daemon.json /etc/docker
+
+  # mysql 数据文件
+  mv /opt/package/files/*.sql /opt/docker/mysql/sql
+  # mysql my.cnf 文件（文件配置存在变量使用函数生成）
+  touchMyCnf
+
+  # rocketmq 配置文件
+  # runserver 配置文件与默认相比注释了 calculate_heap_sizes
+  mv /opt/package/conf/runserver.sh /opt/docker/rocketmq/namesrv/bin/runserver.sh
+  mv /opt/package/conf/broker.sh /opt/docker/rocketmq/broker/conf/broker.conf
+  mv /opt/package/conf/runbroker.sh /opt/docker/rocketmq/broker/bin/runbroker.sh
+
+}
+
+touchMyCnf() {
+  cd /opt/docker/mysql/conf/
+	touch my.cnf
+	chmod 644 my.cnf
+	echo "[client]"  >> /opt/docker/mysql/conf/my.cnf
+	echo "port = 3306"  >> /opt/docker/mysql/conf/my.cnf
+	echo "[mysqld]"  >> /opt/docker/mysql/conf/my.cnf
+	echo "port = 3306"  >> /opt/docker/mysql/conf/my.cnf
+	echo "server_id = 1"  >> /opt/docker/mysql/conf/my.cnf
+	echo "user = mysql"  >> /opt/docker/mysql/conf/my.cnf
+	echo "character_set_server = utf8"  >> /opt/docker/mysql/conf/my.cnf
+	echo "max_connections = 100"  >> /opt/docker/mysql/conf/my.cnf
+	echo "max_connect_errors = 10"  >> /opt/docker/mysql/conf/my.cnf
+	echo "max_allowed_packet = 10M"  >> /opt/docker/mysql/conf/my.cnf
+	echo "[mysqldump]"  >> /opt/docker/mysql/conf/my.cnf
+	echo "user=root"  >> /opt/docker/mysql/conf/my.cnf
+	echo "password=${mysqlPassword}"  >> /opt/docker/mysql/conf/my.cnf
+}
+
 # 安装docker
 docker() {
 
@@ -35,84 +120,62 @@ docker() {
 	docker network create blog_network
 }
 
+# 安装jdk
+jdk() {
+	docker pull openjdk:8
+	docker run -d -it --name java8 --restart=always --network blog_network openjdk:8
+}
+
 # 安装MySQL
 mysql() {
 
-  cd /
-
-  # 宿主机创建数据存放目录映射到容器
-  mkdir -p /opt/docker/mysql/data
-  # 宿主机创建配置文件目录映射到容器
-  mkdir -p /opt/docker/mysql/conf
-  #(需要在此目录下创建"conf.d"、"mysql.conf.d"两个目录)
-  mkdir -p /opt/docker/mysql/conf/conf.d
-  #(建议在此目录创建my.cnf文件并进行相关MySQL配置)
-  mkdir -p /opt/docker/mysql/conf/mysql.conf.d
-  # 宿主机创建日志目录映射到容器
-  mkdir -p /opt/docker/mysql/logs
-
-	cd /opt/docker/mysql/conf/mysql.conf.d
-	touch my.cnf
-	chmod 644 my.cnf
-	echo "[client]"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "port = 3306"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "[mysqld]"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "port = 3306"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "server_id = 1"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "user = mysql"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "character_set_server = utf8"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "max_connections = 100"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "max_connect_errors = 10"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "max_allowed_packet = 10M"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "[mysqldump]"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "user=root"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-	echo "password=${mysqlPassword}"  >> /opt/docker/mysql/conf/mysql.conf.d/my.cnf
-
-  # 安装mysql5.7
-  docker pull mysql:5.7
+  # 安装mysql:8.0.32
+  docker pull mysql:8.0.32
 
   # 启动mysql
-	docker run --privileged=true --name mysql5.7 --restart=always --network blog_network -p 3306:3306 -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -d  -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf:/etc/mysql/ -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:5.7
+	docker run --privileged=true --name mysql8.0.32 --restart=always --network blog_network -p 3306:3306 -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -d  -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf:/etc/mysql/ -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:8.0.32
 
+  # 导入mysql数据
+  mysqlData
 }
 
 
 # 导入MySQL数据
 mysqlData() {
 
-	docker exec -it mysql5.7 bash
+	docker exec -it mysql8.0.32 bash
 
 	mysql -uroot -p${mysqlPassword} <<EOF
 
 	drop database if exists ${blogAuthSql};
 	CREATE DATABASE ${blogAuthSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 	use ${blogAuthSql};
-	source /opt/docker/files/sql/${blogAuthSql}.sql;
+	source /opt/docker/mysql/sql/${blogAuthSql}.sql;
 
   drop database if exists ${blogContentSql};
 	CREATE DATABASE ${blogContentSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 	use ${blogContentSql};
-	source /opt/docker/files/sql/${blogContentSql}.sql;
+	source /opt/docker/mysql/sql/${blogContentSql}.sql;
 
 	drop database if exists ${blogUserSql};
 	CREATE DATABASE ${blogUserSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 	use ${blogUserSql};
-	source /opt/docker/files/sql/${blogUserSql}.sql;
+	source /opt/docker/mysql/sql/${blogUserSql}.sql;
 
 	drop database if exists ${blogFileSql};
 	CREATE DATABASE ${blogFileSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 	use ${blogFileSql};
-	source /opt/docker/files/sql/${blogFileSql}.sql;
+	source /opt/docker/mysql/sql/${blogFileSql}.sql;
 
 	drop database if exists ${blogGatewaySql};
 	CREATE DATABASE ${blogGatewaySql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 	use ${blogGatewaySql};
-	source /opt/docker/files/sql/${blogGatewaySql}.sql;
+	source /opt/docker/mysql/sql/${blogGatewaySql}.sql;
 
 	drop database if exists ${nacosSql};
 	CREATE DATABASE ${nacosSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 	use ${nacosSql};
-	source /opt/docker/files/sql/${nacosSql}.sql;
+	source /opt/docker/mysql/sql/${nacosSql}.sql;
 
 	exit
 EOF
@@ -125,11 +188,6 @@ nginx() {
 	docker pull nginx:1.20.2
 
 	docker run --name nginx1.20.2 --restart=always --network blog_network -p 80:80 -d nginx:1.20.2
-
-	mkdir -p /opt/docker/nginx/conf.d
-	mkdir -p /opt/docker/nginx/html
-	mkdir -p /opt/docker/nginx/logs
-	mkdir -p /opt/docker/nginx/conf
 
 	docker cp nginx1.20.2:/etc/nginx/nginx.conf /opt/docker/nginx/conf/nginx.conf
 	docker cp nginx1.20.2:/etc/nginx/conf.d /opt/docker/nginx/conf.d
@@ -144,89 +202,32 @@ nginx() {
 
 # 安装rockermq
 rocketMq() {
+
   # docker 安装rocketmq
-  docker pull apache/rocketmq:5.1.3
-
-  # 创建namesrv数据存储路径
-  mkdir -p /opt/docker/rocketmq/namesrv/logs
-  mkdir -p /opt/docker/rocketmq/namesrv/bin
-
-  # 设置权限
-  chmod 777 -R /opt/docker/rocketmq/namesrv/*
-
+#  docker pull apache/rocketmq:5.1.3
   # 启动namesrv
-  docker run -d --privileged=true --name rmqnamesrv apache/rocketmq:5.1.3 sh mqnamesrv
-
+#  docker run -d --privileged=true --name rmqnamesrv apache/rocketmq:5.1.3 sh mqnamesrv
   # 脚本复制
-  docker cp rmqnamesrv:/home/rocketmq/rocketmq-5.1.3/bin/runserver.sh /opt/docker/rocketmq/namesrv/bin/runserver.sh
-
+#  docker cp rmqnamesrv:/home/rocketmq/rocketmq-5.1.3/bin/runserver.sh /opt/docker/rocketmq/namesrv/bin/runserver.sh
   # 注释掉：calculate_heap_sizes
 #  vim /opt/docker/rocketmq/namesrv/bin/runserver.sh
-
   # 移除nameserver容器
-  docker rm -f rmqnamesrv
+#  docker rm -f rmqnamesrv
 
   # 重启mqnamesrv
   docker run -d --privileged=true --restart=always --name rmqnamesrv -p 9876:9876 -v /opt/docker/rocketmq/namesrv/logs:/home/rocketmq/logs -v /opt/docker/rocketmq/namesrv/bin/runserver.sh:/home/rocketmq/rocketmq-5.1.3/bin/runserver.sh -e "MAX_HEAP_SIZE=256M" -e "HEAP_NEWSIZE=128M" apache/rocketmq:5.1.3 sh mqnamesrv
 
+#  docker run -d --name rmqbroker --privileged=true apache/rocketmq:5.1.3 sh mqbroker
 
-  #创建broker
-  mkdir -p /opt/docker/rocketmq/broker/logs
-  mkdir -p /opt/docker/rocketmq/broker/data
-  mkdir -p /opt/docker/rocketmq/broker/conf
-  mkdir -p /opt/docker/rocketmq/broker/bin
 
-  # 设置权限
-  chmod 777 -R /opt/docker/rocketmq/broker/*
-
-  touch /opt/docker/rocketmq/broker/conf/broker.conf
-  chmod 777 /opt/docker/rocketmq/broker/conf/broker.conf
-
-  echo "# nameServer 地址多个用;隔开 默认值null"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "# 例：127.0.0.1:6666;127.0.0.1:8888"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "namesrvAddr = 123.57.246.82:9876"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "# 集群名称"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "brokerClusterName = DefaultCluster"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "# 节点名称"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "brokerName = broker-a"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "# broker id节点ID， 0 表示 master, 其他的正整数表示 slave，不能小于0"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "brokerId = 0"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "# Broker服务地址	String	内部使用填内网ip，如果是需要给外部使用填公网ip"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "brokerIP1 = 123.57.246.82"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "# Broker角色"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "brokerRole = ASYNC_MASTER"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "# 刷盘方式"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "flushDiskType = ASYNC_FLUSH"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "# 在每天的什么时间删除已经超过文件保留时间的 commit log，默认值04"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "deleteWhen = 04"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "# 以小时计算的文件保留时间 默认值72小时"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "fileReservedTime = 72"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "# 是否允许Broker 自动创建Topic，建议线下开启，线上关闭"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "autoCreateTopicEnable=true"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "# 是否允许Broker自动创建订阅组，建议线下开启，线上关闭"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-  echo "autoCreateSubscriptionGroup=true"  >> /opt/docker/rocketmq/broker/conf/broker.conf
-
-  docker run -d --name rmqbroker --privileged=true apache/rocketmq:5.1.3 sh mqbroker
-
-  docker cp rmqbroker:/home/rocketmq/rocketmq-5.1.3/bin/runbroker.sh /opt/docker/rocketmq/broker/bin/runbroker.sh
 
   # 注释掉：calculate_heap_sizes
 #  vim /opt/docker/rocketmq/broker/bin/runbroker.sh
 
-  docker rm -f rmqbroker
+#  docker rm -f rmqbroker
 
   docker run -d --restart=always --name rmqbroker -p 10911:10911 -p 10909:10909 --privileged=true -v /opt/docker/rocketmq/broker/logs:/root/logs -v /opt/docker/rocketmq/broker/store:/root/store -v /opt/docker/rocketmq/broker/conf/broker.conf:/home/rocketmq/broker.conf -v /opt/docker/rocketmq/broker/bin/runbroker.sh:/home/rocketmq/rocketmq-5.1.3/bin/runbroker.sh -e "MAX_HEAP_SIZE=512M" -e "HEAP_NEWSIZE=256M" apache/rocketmq:5.1.3 sh mqbroker -c /home/rocketmq/broker.conf
 
-
-}
-
-# 安装jdk
-jdk() {
-	docker pull openjdk:8
-	docker run -d -it --name java8 --restart=always --network blog_network openjdk:8
-	docker exec -it java8 /bin/bash
-	java -version
-	exit
 }
 
 redis() {
@@ -234,9 +235,6 @@ redis() {
   docker pull redis:6.2.5
 
   # redis 配置
-
-  mkdir -p /opt/docker/redis/conf
-  mkdir -p /opt/docker/redis/data
   touch /opt/docker/redis/conf/redis.conf
 
   docker run -p 6379:6379 --name redis6.2.5 --restart=always --network blog_network -v /opt/docker/redis/conf/redis.conf:/etc/redis/redis.conf -v /opt/docker/redis/data:/data  -v /opt/docker/files:/opt/docker/files -d redis:6.2.5 redis-server /etc/redis/redis.conf
@@ -246,9 +244,6 @@ redis() {
 nacos() {
 
 	docker pull nacos/nacos-server:v2.1.0
-
-	mkdir -p /opt/docker/nacos/logs/
-	mkdir -p /opt/docker/nacos/conf/
 
 	docker run -p 8848:8848 --name nacos2.1.0 --restart=always --network blog_network -d nacos/nacos-server:v2.1.0
 	docker cp nacos2.1.0:/home/nacos/logs/ /opt/docker/nacos/
