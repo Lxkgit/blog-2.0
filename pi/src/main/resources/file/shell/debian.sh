@@ -40,6 +40,7 @@ mqtt() {
 
   # 下载emqx
   docker pull emqx/emqx:5.4.1
+#  docker pull --platform=linux/aarch64 emqx/emqx:5.4.1
 
   # 运行emqx
   docker run -d --name emqx -p 1883:1883 -p 8083:8083 -p 8084:8084 -p 8883:8883 -p 18083:18083 emqx/emqx:5.4.1
@@ -48,6 +49,7 @@ mqtt() {
 # 安装jdk
 jdk() {
 	docker pull openjdk:8
+#	docker pull --platform=linux/aarch64 openjdk:8
 	docker run -d -it --name java8 --restart=always openjdk:8
 }
 
@@ -57,6 +59,7 @@ jdk() {
 mysql() {
 
   docker pull mysql/mysql-server:8.0.32
+#  docker pull --platform=linux/aarch64 mysql/mysql-server:8.0.32
 
   docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -v /opt/docker/files:/opt/docker/files --name mysql01 mysql/mysql-server:8.0.32
 
@@ -99,6 +102,7 @@ main() {
 
 # docker logs -f pi  查看pi服务启动日志
 #	docker exec -it java8 /bin/bash  进入容器
+# docker save <镜像名> -o <xxx.tar>
 
 # docker stop
 # docker rm

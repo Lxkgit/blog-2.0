@@ -8,6 +8,9 @@ newServiceIp=""
 mysqlPassword="MySql@Admin123*."
 # redis登陆密码
 redisPassword="redis-960"
+# ftp登录默认用户
+ftpUsername="test"
+ftpPassword="test"
 
 # jar包名字
 blogAuthJar="blog-auth"
@@ -45,6 +48,9 @@ mkdir() {
   # 宿主机创建日志目录映射到容器
   mkdir -p /opt/docker/mysql/logs
 
+  # ftp 目录创建
+  mkdir -p /opt/docker/ftp
+
   # nginx 目录创建
   mkdir -p /opt/docker/nginx/conf.d
 	mkdir -p /opt/docker/nginx/html
@@ -58,16 +64,11 @@ mkdir() {
   # rocketMq 目录创建
   # 创建namesrv数据存储路径
   mkdir -p /opt/docker/rocketmq/namesrv/logs
-  mkdir -p /opt/docker/rocketmq/namesrv/bin
-  # 设置权限
-  chmod 777 -R /opt/docker/rocketmq/namesrv/*
+  mkdir -p /opt/docker/rocketmq/namesrv/store
   #创建broker
   mkdir -p /opt/docker/rocketmq/broker/logs
-  mkdir -p /opt/docker/rocketmq/broker/data
+  mkdir -p /opt/docker/rocketmq/broker/store
   mkdir -p /opt/docker/rocketmq/broker/conf
-  mkdir -p /opt/docker/rocketmq/broker/bin
-  # 设置权限
-  chmod 777 -R /opt/docker/rocketmq/broker/*
 
   # nacos 目录创建
   mkdir -p /opt/docker/nacos/logs/
@@ -94,8 +95,6 @@ touchMyCnf() {
   cd /opt/docker/mysql/conf/
 	touch my.cnf
 	chmod 644 my.cnf
-	echo "[client]"  >> /opt/docker/mysql/conf/my.cnf
-	echo "port = 3306"  >> /opt/docker/mysql/conf/my.cnf
 	echo "[mysqld]"  >> /opt/docker/mysql/conf/my.cnf
 	echo "port = 3306"  >> /opt/docker/mysql/conf/my.cnf
 	echo "server_id = 1"  >> /opt/docker/mysql/conf/my.cnf
@@ -104,6 +103,7 @@ touchMyCnf() {
 	echo "max_connections = 100"  >> /opt/docker/mysql/conf/my.cnf
 	echo "max_connect_errors = 10"  >> /opt/docker/mysql/conf/my.cnf
 	echo "max_allowed_packet = 10M"  >> /opt/docker/mysql/conf/my.cnf
+	echo "secure_file_priv=/var/lib/mysql"  >> /opt/docker/mysql/conf/my.cnf
 	echo "[mysqldump]"  >> /opt/docker/mysql/conf/my.cnf
 	echo "user=root"  >> /opt/docker/mysql/conf/my.cnf
 	echo "password=${mysqlPassword}"  >> /opt/docker/mysql/conf/my.cnf
@@ -129,11 +129,11 @@ jdk() {
 # 安装MySQL
 mysql() {
 
-  # 安装mysql:8.0.32
-  docker pull mysql:8.0.32
+  # 安装mysql:8.0.20
+  docker pull mysql:8.0.20
 
   # 启动mysql
-	docker run --privileged=true --name mysql8.0.32 --restart=always --network blog_network -p 3306:3306 -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -d  -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf:/etc/mysql/ -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:8.0.32
+	docker run -d -p 3306:3306 --privileged=true --name mysql8.0.20 --restart=always --network blog_network -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -d -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:8.0.20
 
   # 导入mysql数据
   mysqlData
@@ -143,7 +143,7 @@ mysql() {
 # 导入MySQL数据
 mysqlData() {
 
-	docker exec -it mysql8.0.32 bash
+	docker exec -it mysql8.0.20 bash
 
 	mysql -uroot -p${mysqlPassword} <<EOF
 
@@ -182,6 +182,26 @@ EOF
 	exit
 }
 
+ftp() {
+
+  docker pull fauria/vsftpd
+  docker run -d -v /opt/docker/ftp:/home/vsftpd -p 61120:20 -p 61121:21 -p  61100-61110:61100-61110 -e FTP_USER=${ftpUsername} -e FTP_PASS=${ftpPassword} -e PASV_ADDRESS=124.221.12.158 -e PASV_MIN_PORT=61100 -e PASV_MAX_PORT=61110 --name vsftpd --restart=always fauria/vsftpd
+
+  # 创建用户流程
+  # 进入容器
+  # docker exec -i -t vsftpd bash
+  # 创建用户文件夹
+  # mkdir /home/vsftpd/test2
+  # 编辑用户配置文件 新增俩行数据 分别是账号密码
+  # vi /etc/vsftpd/virtual_users.txt
+  # 保存退出后执行如下命令，把登录的验证信息写入数据库。
+  # /usr/bin/db_load -T -t hash -f /etc/vsftpd/virtual_users.txt /etc/vsftpd/virtual_users.db
+  # 重启容器
+  # exit
+  # docker restart vsftpd
+}
+
+
 # 安装nginx
 nginx() {
 
@@ -200,33 +220,17 @@ nginx() {
 
 }
 
-# 安装rockermq
+# 安装rockermq  https://blog.csdn.net/qq_43600166/article/details/136187969
 rocketMq() {
 
-  # docker 安装rocketmq
-#  docker pull apache/rocketmq:5.1.3
-  # 启动namesrv
-#  docker run -d --privileged=true --name rmqnamesrv apache/rocketmq:5.1.3 sh mqnamesrv
-  # 脚本复制
-#  docker cp rmqnamesrv:/home/rocketmq/rocketmq-5.1.3/bin/runserver.sh /opt/docker/rocketmq/namesrv/bin/runserver.sh
-  # 注释掉：calculate_heap_sizes
-#  vim /opt/docker/rocketmq/namesrv/bin/runserver.sh
-  # 移除nameserver容器
-#  docker rm -f rmqnamesrv
-
   # 重启mqnamesrv
-  docker run -d --privileged=true --restart=always --name rmqnamesrv -p 9876:9876 -v /opt/docker/rocketmq/namesrv/logs:/home/rocketmq/logs -v /opt/docker/rocketmq/namesrv/bin/runserver.sh:/home/rocketmq/rocketmq-5.1.3/bin/runserver.sh -e "MAX_HEAP_SIZE=256M" -e "HEAP_NEWSIZE=128M" apache/rocketmq:5.1.3 sh mqnamesrv
+  docker run -d --privileged=true --restart=always --name rmqnamesrv -p 9876:9876 -v /opt/docker/rocketmq/namesrv/logs:/home/rocketmq/logs -v /opt/docker/rocketmq/namesrv/store:/root/store -e "MAX_POSSIBLE_HEAP=100000000" -e "MAX_HEAP_SIZE=256M" -e "HEAP_NEWSIZE=128M" --network blog_network apache/rocketmq:5.1.3 sh mqnamesrv
 
-#  docker run -d --name rmqbroker --privileged=true apache/rocketmq:5.1.3 sh mqbroker
+  docker run -d --privileged=true --restart=always --name rmqbroker --link rmqnamesrv:namesrv -p 10911:10911 -p 10909:10909 -v /opt/docker/rocketmq/broker/logs:/root/logs -v /opt/docker/rocketmq/broker/store:/root/store -v /opt/docker/rocketmq/broker/conf/broker.conf:/home/rocketmq/broker.conf -e "NAMESRV_ADDR=namesrv:9876"  -e "MAX_POSSIBLE_HEAP=200000000" -e "MAX_HEAP_SIZE=512M" -e "HEAP_NEWSIZE=256M" --network blog_network apache/rocketmq:5.1.3 sh mqbroker -c /home/rocketmq/broker.conf
 
-
-
-  # 注释掉：calculate_heap_sizes
-#  vim /opt/docker/rocketmq/broker/bin/runbroker.sh
-
-#  docker rm -f rmqbroker
-
-  docker run -d --restart=always --name rmqbroker -p 10911:10911 -p 10909:10909 --privileged=true -v /opt/docker/rocketmq/broker/logs:/root/logs -v /opt/docker/rocketmq/broker/store:/root/store -v /opt/docker/rocketmq/broker/conf/broker.conf:/home/rocketmq/broker.conf -v /opt/docker/rocketmq/broker/bin/runbroker.sh:/home/rocketmq/rocketmq-5.1.3/bin/runbroker.sh -e "MAX_HEAP_SIZE=512M" -e "HEAP_NEWSIZE=256M" apache/rocketmq:5.1.3 sh mqbroker -c /home/rocketmq/broker.conf
+  # rocketmq-console可视化界面
+#  docker pull pangliang/rocketmq-console-ng
+#  docker run -d --restart=always --name rmqadmin -e "JAVA_OPTS=-Drocketmq.namesrv.addr=124.221.12.158:9876 -Dcom.rocketmqsendMessageWithVIPChannel=false"  -p 9999:8080 --network blog_network pangliang/rocketmq-console-ng
 
 }
 
