@@ -12,11 +12,3 @@ spring:
     url: jdbc:mysql://${devServiceIp}:3306/blog_pi?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
     username: root
     password: root
-
-mqtt:
-  host: tcp://${devServiceIp}:1883
-  username: admin
-  password: public
-  clientId: clientId1
-  timeout: 20
-  keepalive: 20

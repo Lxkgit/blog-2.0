@@ -1,7 +1,7 @@
 #! /bin/bash
 
-mkdir() {
-
+createDir() {
+  echo "创建目录 ... "
   mkdir -p /opt/docker/package
   mv pi.zip /opt/docker/package/pi.zip
 
@@ -16,30 +16,42 @@ mkdir() {
   mv ./sql/blog_pi.sql /opt/docker/files/sql
   mv ./jar/blog-pi.jar /opt/docker/files/jar
   mv ./conf/Dockerfile /opt/docker/files/jar
-
-  # 解压docker需要的images文件
-  cd /opt/docker/files/images
-  rm -rf *
-  mv /opt/docker/package/images.zip /opt/docker/files/images
-  unzip images.zip
+  # 存放docker需要导入的镜像文件
+  mv ./images/mysql.tar /opt/docker/files/images
+  mv ./images/emqx.tar /opt/docker/files/images
+  mv ./images/jdk.tar /opt/docker/files/images
 
   cd /
 }
 
+#util() {
+#  apt-get update
+#  apt-get install -y
+#}
+
 # 安装并配置docker
-docker() {
+dockerStart() {
+  echo "启动docker ... "
   # 一键安装docker
-	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-	# 指定docker的images文件位置
-  mv /opt/docker/package/conf/daemon.json /etc/docker
+#	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 	# 启动docker
 	systemctl start docker
 }
 
-mqtt() {
+# docker 镜像加载
+dockerLoad() {
+  echo "docker 镜像加载 ... "
+  cd /opt/docker/files/images
 
+  docker load < emqx.tar
+  docker load < mysql.tar
+  docker load < jdk.tar
+}
+
+mqtt() {
+  echo "启动mqtt ... "
   # 下载emqx
-  docker pull emqx/emqx:5.4.1
+#  docker pull emqx/emqx:5.4.1
 #  docker pull --platform=linux/aarch64 emqx/emqx:5.4.1
 
   # 运行emqx
@@ -48,7 +60,8 @@ mqtt() {
 
 # 安装jdk
 jdk() {
-	docker pull openjdk:8
+  echo "启动jdk ... "
+#	docker pull openjdk:8
 #	docker pull --platform=linux/aarch64 openjdk:8
 	docker run -d -it --name java8 --restart=always openjdk:8
 }
@@ -57,12 +70,13 @@ jdk() {
 
 # 安装MySQL
 mysql() {
-
-  docker pull mysql/mysql-server:8.0.32
+  echo "启动mysql ... "
+#  docker pull mysql/mysql-server:8.0.32
 #  docker pull --platform=linux/aarch64 mysql/mysql-server:8.0.32
 
   docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -v /opt/docker/files:/opt/docker/files --name mysql01 mysql/mysql-server:8.0.32
 
+  sleep 5m
   docker exec -it mysql01 /bin/bash
 
   mysql -uroot -proot <<EOF
@@ -82,7 +96,7 @@ EOF
 }
 
 jar() {
-
+  echo "启动pi项目 ... "
   cd /opt/docker/files/jar
 
   docker build -t pi:1 .
@@ -91,14 +105,20 @@ jar() {
 }
 
 main() {
-  mkdir
+  createDir
+  dockerStart
+  dockerLoad
   mqtt
   jdk
   mysql
   jar
+
+  echo "脚本执行完成 ... "
 }
 
-# apt-get install lrzsz
+main
+
+#
 
 # docker logs -f pi  查看pi服务启动日志
 #	docker exec -it java8 /bin/bash  进入容器
@@ -110,7 +130,19 @@ main() {
 
 # 压缩包pi.zip目录
 # pi.zip
-# - images.zip    # 存放docker镜像文件
+# - images    # 存放docker镜像文件
 # - jar           # 存放博客jar包
 # - sql           # 存放博客sql文件
 # - conf          # 存放需要替换的配置文件
+
+# 脚本执行
+'''
+sudo passwd root
+
+apt-get install lrzsz
+
+curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+chmod 777 debian.sh
+nohup sh debian.sh >my.log 2>&1 &
+
+'''
