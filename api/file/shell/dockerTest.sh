@@ -64,6 +64,17 @@ dockerInstall() {
   echo "开始安装docker..."
 	# 一键安装docker
 	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+
+  # 配置docker下载镜像源
+	touch /etc/docker/daemon.json
+	echo "{"  >> /etc/docker/daemon.json
+	echo '  "registry-mirrors": ['  >> /etc/docker/daemon.json
+	echo '      "http://hub-mirror.c.163.com",'  >> /etc/docker/daemon.json
+	echo '      "https://docker.mirrors.ustc.edu.cn",'  >> /etc/docker/daemon.json
+	echo '      "https://registry.docker-cn.com"'  >> /etc/docker/daemon.json
+	echo "  ]"  >> /etc/docker/daemon.json
+	echo "}"  >> /etc/docker/daemon.json
+
 	# 启动docker
 	sudo systemctl start docker
 	# 创建自定义网络
@@ -85,6 +96,7 @@ mysql() {
 
   # 启动mysql
 	docker run -d -p 3306:3306 --privileged=true --name mysql8.0.20 --restart=always --network blog_network -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -d -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:8.0.20
+#	docker run -d -p 3306:3306 --privileged=true --name mysql8.0.20 --restart=always --network blog_network -e MYSQL_ROOT_PASSWORD=MySql@Admin123*. -d -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:8.0.20
 
   nohup sudo docker exec mysql8.0.20 bash /opt/docker/files/mysql.sh >/dev/null 2>&1
 }
@@ -169,6 +181,34 @@ redis() {
 
 }
 
+# 安装nacos
+nacos() {
+
+	docker pull nacos/nacos-server:v2.1.0
+
+  docker run -d --name nacos2.1.0 --restart=always --network blog_network -p 8848:8848 -p 9848:9848 -p 9849:9849 -e JVM_XMS=256m -e JVM_XMX=256m -e MODE=standalone -e PREFER_HOST_MODE=hostname -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=mysql8.0.20 -e MYSQL_SERVICE_PORT=3306 -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=MySql@Admin123*. -e MYSQL_SERVICE_DB_NAME=nacos nacos/nacos-server:v2.1.0
+
+}
+
+# 安装rockermq  https://blog.csdn.net/qq_43600166/article/details/136187969
+rocketMq() {
+
+  docker pull apache/rocketmq:5.1.3
+
+  # rmqnamesrv
+  docker run -d --privileged=true --restart=always --name rmqnamesrv --network blog_network -p 9876:9876 -v /opt/docker/rocketmq/namesrv/logs:/home/rocketmq/logs -v /opt/docker/rocketmq/namesrv/store:/root/store -e "MAX_POSSIBLE_HEAP=100000000" -e "MAX_HEAP_SIZE=256M" -e "HEAP_NEWSIZE=128M" apache/rocketmq:5.1.3 sh mqnamesrv
+
+  # rmqbroker
+  docker run -d --privileged=true --restart=always --name rmqbroker --network blog_network -p 10911:10911 -p 10909:10909 -v /opt/docker/rocketmq/broker/logs:/root/logs -v /opt/docker/rocketmq/broker/store:/root/store -v /opt/docker/rocketmq/broker/conf/broker.conf:/home/rocketmq/broker.conf -e "NAMESRV_ADDR=namesrv:9876"  -e "MAX_POSSIBLE_HEAP=200000000" -e "MAX_HEAP_SIZE=512M" -e "HEAP_NEWSIZE=256M" apache/rocketmq:5.1.3 sh mqbroker -c /home/rocketmq/broker.conf
+
+# 获取rmqnamesrv ip
+# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rmqnamesrv
+  # rocketmq-console可视化界面
+#  docker pull pangliang/rocketmq-console-ng
+#  docker run -d --restart=always --name rmqadmin -e "JAVA_OPTS=-Drocketmq.namesrv.addr=172.18.0.4:9876 -Dcom.rocketmqsendMessageWithVIPChannel=false"  -p 9999:8080 --network blog_network pangliang/rocketmq-console-ng
+
+}
+
 # 添加4g的虚拟内存
 addVirtualMemory() {
   echo "开始创建虚拟内存..."
@@ -195,14 +235,14 @@ main() {
   addVirtualMemory
   createDir
   dockerInstall
-  jdk
+#  jdk
   touchMyCnf
   touchSql
   mysql
-  ftp
-  nginx
-  redis
-
+#  ftp
+#  nginx
+#  redis
+  nacos
 }
 
 main

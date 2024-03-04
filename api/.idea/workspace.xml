@@ -16,9 +16,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-02-29【功能修改】：docker部署脚本修改">
-      <change afterPath="$PROJECT_DIR$/file/shell/dockerTest.sh" afterDir="false" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-03-03【功能新增】：新增博客主体docker安装测试脚本">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file/shell/dockerTest.sh" beforeDir="false" afterPath="$PROJECT_DIR$/file/shell/dockerTest.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,19 +96,19 @@
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\workspace\java\blog-2.0\api\file\shell" />
-      <recent name="D:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\content\article\vo" />
-      <recent name="D:\workspace\blog-2.0\api\blog-content\src\main\resources\mapper" />
-      <recent name="D:\workspace\blog-2.0\api\blog-content\src\main\java\com\blog\content\dao" />
-      <recent name="D:\workspace\blog-2.0\api\blog-content\src\main\java\com\blog\content\service\impl" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\workspace\java\blog-2.0\api\file\shell" />
       <recent name="D:\workspace\java\blog-2.0\api\file\config" />
       <recent name="D:\workspace\java\blog-2.0\api\file\sql" />
       <recent name="D:\workspace\java\blog-2.0\api\blog-file" />
       <recent name="D:\workspace\java\blog-2.0\api" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace\java\blog-2.0\api\file\shell" />
+      <recent name="D:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\content\article\vo" />
+      <recent name="D:\workspace\blog-2.0\api\blog-content\src\main\resources\mapper" />
+      <recent name="D:\workspace\blog-2.0\api\blog-content\src\main\java\com\blog\content\dao" />
+      <recent name="D:\workspace\blog-2.0\api\blog-content\src\main\java\com\blog\content\service\impl" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -498,14 +498,8 @@
       <workItem from="1709210686837" duration="7618000" />
       <workItem from="1709227047156" duration="102000" />
       <workItem from="1709476888488" duration="30000" />
-      <workItem from="1709476956860" duration="881000" />
-    </task>
-    <task id="LOCAL-00088" summary="23-05-28【功能新增】：博客部署前版本">
-      <created>1685273322028</created>
-      <option name="number" value="00088" />
-      <option name="presentableId" value="LOCAL-00088" />
-      <option name="project" value="LOCAL" />
-      <updated>1685273322029</updated>
+      <workItem from="1709476956860" duration="1655000" />
+      <workItem from="1709565619549" duration="339000" />
     </task>
     <task id="LOCAL-00089" summary="23-05-28【功能新增】：博客部署完成">
       <created>1685284327484</created>
@@ -843,7 +837,14 @@
       <option name="project" value="LOCAL" />
       <updated>1709137623189</updated>
     </task>
-    <option name="localTasksCounter" value="137" />
+    <task id="LOCAL-00137" summary="24-03-03【功能新增】：新增博客主体docker安装测试脚本">
+      <created>1709478594725</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1709478594726</updated>
+    </task>
+    <option name="localTasksCounter" value="138" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -874,7 +875,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="23-09-17【功能修改】：前端页面样式微调，修改数据库sql bug" />
     <MESSAGE value="23-09-17【功能新增】：新增博客docker部署脚本" />
     <MESSAGE value="23-10-18【功能修改】：docker部署脚本修改" />
     <MESSAGE value="23-10-22【功能修改】：docker部署脚本修改-2" />
@@ -899,7 +899,8 @@
     <MESSAGE value="24-02-21【功能新增】：新增服务器设备创建，单片机设备创建功能" />
     <MESSAGE value="24-02-25【功能修改】：修改设备管理页面，完善设备管理接口" />
     <MESSAGE value="24-02-29【功能修改】：docker部署脚本修改" />
-    <option name="LAST_COMMIT_MESSAGE" value="24-02-29【功能修改】：docker部署脚本修改" />
+    <MESSAGE value="24-03-03【功能新增】：新增博客主体docker安装测试脚本" />
+    <option name="LAST_COMMIT_MESSAGE" value="24-03-03【功能新增】：新增博客主体docker安装测试脚本" />
   </component>
   <component name="WindowStateProjectService">
     <state x="842" y="386" key="#Notifications" timestamp="1702195519476">
@@ -1029,11 +1030,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="694" y="216" key="VCS.ChangeListViewerDialog/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1705416831214" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1709137627580">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1709478601105">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1702226105158" />
-    <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1709137627580" />
+    <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1709478601105" />
     <state x="395" y="245" key="Vcs.Push.Dialog.v2/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1701962645226" />
     <state x="662" y="252" width="596" height="560" key="find.popup" timestamp="1707553947936">
       <screen x="0" y="0" width="1920" height="1040" />
