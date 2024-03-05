@@ -1,8 +1,5 @@
 #! /bin/bash
-# 压缩包安装博客
-
-oldServiceIP="124.221.12.158"
-newServiceIp=""
+# docker 测试shell脚本
 
 # MySQL登陆密码
 mysqlPassword="MySql@Admin123*."
@@ -12,31 +9,16 @@ redisPassword="redis-960"
 ftpUsername="test"
 ftpPassword="test"
 
-# jar包名字
-blogAuthJar="blog-auth"
-blogContentJar="blog-content"
-blogGatewayJar="blog-gateway"
-blogUserJar="blog-user"
-blogFileJar="blog-file"
-
-# 数据库名字
-blogAuthSql="blog_auth"
-blogContentSql="blog_content"
-blogUserSql="blog_user"
-blogFileSql="blog_file"
-blogGatewaySql="blog_gateway"
-nacosSql="nacos"
-
-mkdir() {
-
-  # 上传部署压缩包解压目录
-  mkdir -p /opt/package
+createDir() {
+  echo "开始创建服务器目录..."
 
   # docker镜像存放目录
   mkdir -p /etc/docker
   mkdir -p /opt/docker/images
   # docker 全部容器共享目录
   mkdir -p /opt/docker/files
+  # 容器存放sql文件位置
+  mkdir -p /opt/docker/files/sql
 
   # mysql文件目录
   # mysql 初始化数据文件目录
@@ -74,24 +56,125 @@ mkdir() {
   mkdir -p /opt/docker/nacos/logs/
 	mkdir -p /opt/docker/nacos/conf/
 
-  # ------------ 配置文件移动 ----------
-  # docker 配置文件
-  mv /opt/package/conf/daemon.json /etc/docker
-
-  # mysql 数据文件
-  mv /opt/package/files/*.sql /opt/docker/mysql/sql
-  # mysql my.cnf 文件（文件配置存在变量使用函数生成）
-  touchMyCnf
-
-  # rocketmq 配置文件
-  # runserver 配置文件与默认相比注释了 calculate_heap_sizes
-  mv /opt/package/conf/runserver.sh /opt/docker/rocketmq/namesrv/bin/runserver.sh
-  mv /opt/package/conf/broker.sh /opt/docker/rocketmq/broker/conf/broker.conf
-  mv /opt/package/conf/runbroker.sh /opt/docker/rocketmq/broker/bin/runbroker.sh
+	# 文件位置移动
+  # sql文件
+  mv /opt/package/sql/*.sql /opt/docker/files/sql
+  # redis 配置
+  mv /opt/package/conf/redis.conf opt/docker/redis/conf
+  # rocketmq broker配置文件
+  mv /opt/package/conf/broker.conf /opt/docker/rocketmq/broker/conf/
+  # jar包相关移动
+  mv /opt/package/jar/*.jar /opt/docker/files/jar
+  mv /opt/package/conf/Dockerfile /opt/docker/files/jar
+  mv /opt/package/conf/run.sh /opt/docker/files/jar
 
 }
 
+# 安装docker
+dockerInstall() {
+  echo "开始安装docker..."
+	# 一键安装docker
+	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+
+  # 配置docker下载镜像源
+	touch /etc/docker/daemon.json
+	echo "{"  >> /etc/docker/daemon.json
+	echo '  "registry-mirrors": ['  >> /etc/docker/daemon.json
+	echo '      "http://hub-mirror.c.163.com",'  >> /etc/docker/daemon.json
+	echo '      "https://docker.mirrors.ustc.edu.cn",'  >> /etc/docker/daemon.json
+	echo '      "https://registry.docker-cn.com"'  >> /etc/docker/daemon.json
+	echo "  ]"  >> /etc/docker/daemon.json
+	echo "}"  >> /etc/docker/daemon.json
+
+	# 启动docker
+	sudo systemctl start docker
+	# 创建自定义网络
+	docker network create blog_network
+}
+
+# 安装jdk
+jdk() {
+  echo "开始安装jdk..."
+	docker pull openjdk:8
+	docker run -d -it --name java8 --restart=always --network blog_network openjdk:8
+}
+
+# 安装MySQL
+mysql() {
+  echo "开始安装mysql..."
+  # 安装mysql:8.0.20
+  docker pull mysql:8.0.20
+
+  # 启动mysql
+	docker run -d -p 3306:3306 --privileged=true --name mysql8.0.20 --restart=always --network blog_network -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -d -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:8.0.20
+#	docker run -d -p 3306:3306 --privileged=true --name mysql8.0.20 --restart=always --network blog_network -e MYSQL_ROOT_PASSWORD=MySql@Admin123*. -d -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:8.0.20
+
+  nohup sudo docker exec mysql8.0.20 bash /opt/docker/files/mysql.sh >/dev/null 2>&1
+}
+
+touchSql() {
+  echo "开始创建MySQL数据恢复脚本文件..."
+  cat > /opt/docker/files/mysql.sh << EOOF
+#! /bin/bash
+# docker 测试shell脚本
+
+# 数据库名字
+nacosSql="nacos"
+blogAuthSql="blog_auth"
+blogContentSql="blog_content"
+blogUserSql="blog_user"
+blogFileSql="blog_file"
+blogGatewaySql="blog_gateway"
+
+
+# MySQL登陆密码
+mysqlPassword="${mysqlPassword}"
+
+mysqlSQL() {
+  sleep 1m
+  mysql -uroot -p\${mysqlPassword} <<EOF
+
+  drop database if exists \${nacosSql};
+  CREATE DATABASE  \${nacosSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  use \${nacosSql};
+  source /opt/docker/files/sql/\${nacosSql}.sql;
+
+  drop database if exists \${blogAuthSql};
+  CREATE DATABASE  \${blogAuthSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  use \${blogAuthSql};
+  source /opt/docker/files/sql/\${blogAuthSql}.sql;
+
+  drop database if exists \${blogContentSql};
+  CREATE DATABASE  \${blogContentSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  use \${blogContentSql};
+  source /opt/docker/files/sql/\${blogContentSql}.sql;
+
+  drop database if exists \${blogUserSql};
+  CREATE DATABASE  \${blogUserSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  use \${blogUserSql};
+  source /opt/docker/files/sql/\${blogUserSql}.sql;
+
+  drop database if exists \${blogFileSql};
+  CREATE DATABASE  \${blogFileSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  use \${blogFileSql};
+  source /opt/docker/files/sql/\${blogFileSql}.sql;
+
+  drop database if exists \${blogGatewaySql};
+  CREATE DATABASE  \${blogGatewaySql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  use \${blogGatewaySql};
+  source /opt/docker/files/sql/\${blogGatewaySql}.sql;
+
+  exit
+
+EOF
+}
+
+mysqlSQL
+EOOF
+}
+
 touchMyCnf() {
+  echo "开始创建MySQL配置文件..."
   cd /opt/docker/mysql/conf/
 	touch my.cnf
 	chmod 644 my.cnf
@@ -109,102 +192,15 @@ touchMyCnf() {
 	echo "password=${mysqlPassword}"  >> /opt/docker/mysql/conf/my.cnf
 }
 
-# 安装docker
-docker() {
-
-	# 一键安装docker
-	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-	# 启动docker
-	sudo systemctl start docker
-	# 创建自定义网络
-	docker network create blog_network
-}
-
-# 安装jdk
-jdk() {
-	docker pull openjdk:8
-	docker run -d -it --name java8 --restart=always --network blog_network openjdk:8
-}
-
-# 安装MySQL
-mysql() {
-
-  # 安装mysql:8.0.20
-  docker pull mysql:8.0.20
-
-  # 启动mysql
-	docker run -d -p 3306:3306 --privileged=true --name mysql8.0.20 --restart=always --network blog_network -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -d -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:8.0.20
-
-  # 导入mysql数据
-  mysqlData
-}
-
-
-# 导入MySQL数据
-mysqlData() {
-
-	docker exec -it mysql8.0.20 bash
-
-	mysql -uroot -p${mysqlPassword} <<EOF
-
-	drop database if exists ${blogAuthSql};
-	CREATE DATABASE ${blogAuthSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-	use ${blogAuthSql};
-	source /opt/docker/mysql/sql/${blogAuthSql}.sql;
-
-  drop database if exists ${blogContentSql};
-	CREATE DATABASE ${blogContentSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-	use ${blogContentSql};
-	source /opt/docker/mysql/sql/${blogContentSql}.sql;
-
-	drop database if exists ${blogUserSql};
-	CREATE DATABASE ${blogUserSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-	use ${blogUserSql};
-	source /opt/docker/mysql/sql/${blogUserSql}.sql;
-
-	drop database if exists ${blogFileSql};
-	CREATE DATABASE ${blogFileSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-	use ${blogFileSql};
-	source /opt/docker/mysql/sql/${blogFileSql}.sql;
-
-	drop database if exists ${blogGatewaySql};
-	CREATE DATABASE ${blogGatewaySql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-	use ${blogGatewaySql};
-	source /opt/docker/mysql/sql/${blogGatewaySql}.sql;
-
-	drop database if exists ${nacosSql};
-	CREATE DATABASE ${nacosSql} DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-	use ${nacosSql};
-	source /opt/docker/mysql/sql/${nacosSql}.sql;
-
-	exit
-EOF
-	exit
-}
-
 ftp() {
-
+  echo "开始安装ftp..."
   docker pull fauria/vsftpd
   docker run -d -v /opt/docker/ftp:/home/vsftpd -p 61120:20 -p 61121:21 -p  61100-61110:61100-61110 -e FTP_USER=${ftpUsername} -e FTP_PASS=${ftpPassword} -e PASV_ADDRESS=124.221.12.158 -e PASV_MIN_PORT=61100 -e PASV_MAX_PORT=61110 --name vsftpd --restart=always fauria/vsftpd
-
-  # 创建用户流程
-  # 进入容器
-  # docker exec -i -t vsftpd bash
-  # 创建用户文件夹
-  # mkdir /home/vsftpd/test2
-  # 编辑用户配置文件 新增俩行数据 分别是账号密码
-  # vi /etc/vsftpd/virtual_users.txt
-  # 保存退出后执行如下命令，把登录的验证信息写入数据库。
-  # /usr/bin/db_load -T -t hash -f /etc/vsftpd/virtual_users.txt /etc/vsftpd/virtual_users.db
-  # 重启容器
-  # exit
-  # docker restart vsftpd
 }
-
 
 # 安装nginx
 nginx() {
-
+  echo "开始安装nginx..."
 	docker pull nginx:1.20.2
 
 	docker run --name nginx1.20.2 --restart=always --network blog_network -p 80:80 -d nginx:1.20.2
@@ -220,54 +216,51 @@ nginx() {
 
 }
 
-# 安装rockermq  https://blog.csdn.net/qq_43600166/article/details/136187969
-rocketMq() {
-
-  # 重启mqnamesrv
-  docker run -d --privileged=true --restart=always --name rmqnamesrv -p 9876:9876 -v /opt/docker/rocketmq/namesrv/logs:/home/rocketmq/logs -v /opt/docker/rocketmq/namesrv/store:/root/store -e "MAX_POSSIBLE_HEAP=100000000" -e "MAX_HEAP_SIZE=256M" -e "HEAP_NEWSIZE=128M" --network blog_network apache/rocketmq:5.1.3 sh mqnamesrv
-
-  docker run -d --privileged=true --restart=always --name rmqbroker --link rmqnamesrv:namesrv -p 10911:10911 -p 10909:10909 -v /opt/docker/rocketmq/broker/logs:/root/logs -v /opt/docker/rocketmq/broker/store:/root/store -v /opt/docker/rocketmq/broker/conf/broker.conf:/home/rocketmq/broker.conf -e "NAMESRV_ADDR=namesrv:9876"  -e "MAX_POSSIBLE_HEAP=200000000" -e "MAX_HEAP_SIZE=512M" -e "HEAP_NEWSIZE=256M" --network blog_network apache/rocketmq:5.1.3 sh mqbroker -c /home/rocketmq/broker.conf
-
-  # rocketmq-console可视化界面
-#  docker pull pangliang/rocketmq-console-ng
-#  docker run -d --restart=always --name rmqadmin -e "JAVA_OPTS=-Drocketmq.namesrv.addr=124.221.12.158:9876 -Dcom.rocketmqsendMessageWithVIPChannel=false"  -p 9999:8080 --network blog_network pangliang/rocketmq-console-ng
-
-}
-
 redis() {
+  echo "开始安装redis..."
   # 安装redis6.2.5
   docker pull redis:6.2.5
-
-  # redis 配置
-  touch /opt/docker/redis/conf/redis.conf
 
   docker run -p 6379:6379 --name redis6.2.5 --restart=always --network blog_network -v /opt/docker/redis/conf/redis.conf:/etc/redis/redis.conf -v /opt/docker/redis/data:/data  -v /opt/docker/files:/opt/docker/files -d redis:6.2.5 redis-server /etc/redis/redis.conf
 
 }
+
 # 安装nacos
 nacos() {
 
 	docker pull nacos/nacos-server:v2.1.0
 
-	docker run -p 8848:8848 --name nacos2.1.0 --restart=always --network blog_network -d nacos/nacos-server:v2.1.0
-	docker cp nacos2.1.0:/home/nacos/logs/ /opt/docker/nacos/
-	docker cp nacos2.1.0:/home/nacos/conf/ /opt/docker/nacos/
+  docker run -d --name nacos2.1.0 --restart=always --network blog_network -p 8848:8848 -p 9848:9848 -p 9849:9849 -e JVM_XMS=256m -e JVM_XMX=256m -e MODE=standalone -e PREFER_HOST_MODE=hostname -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=mysql8.0.20 -e MYSQL_SERVICE_PORT=3306 -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=MySql@Admin123*. -e MYSQL_SERVICE_DB_NAME=nacos nacos/nacos-server:v2.1.0
 
-	docker stop nacos2.1.0
-	docker rm nacos2.1.0
-
-	# 修改nacos配置文件
-	echo "spring.datasource.platform=mysql"  >> /opt/docker/nacos/conf/application.properties
-	echo "db.num=1"  >> /opt/docker/nacos/conf/application.properties
-	echo "db.url.0=jdbc:mysql://localhost:3306/nacos?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC"  >> /opt/docker/nacos/conf/application.properties
-	echo "db.user.0=root"  >> /opt/docker/nacos/conf/application.properties
-	echo "db.password.0=${mysqlPassword}"  >> /opt/docker/nacos/conf/application.properties
-
-	docker run -d --name nacos2.1.0 --restart=always --network blog_network -p 8848:8848 -p 9848:9848 -p 9849:9849 --privileged=true -e JVM_XMS=256m -e JVM_XMX=256m -e MODE=standalone -v /opt/docker/nacos/logs/:/home/nacos/logs -v /opt/docker/nacos/conf/:/home/nacos/conf/ -v /opt/docker/files:/opt/docker/files --restart=always nacos/nacos-server:v2.1.0
 }
+
+# 安装rockermq  https://blog.csdn.net/qq_43600166/article/details/136187969
+rocketMq() {
+
+  docker pull apache/rocketmq:5.1.3
+
+  # rmqnamesrv
+  docker run -d --privileged=true --restart=always --name rmqnamesrv --network blog_network -p 9876:9876 -v /opt/docker/rocketmq/namesrv/logs:/home/rocketmq/logs -v /opt/docker/rocketmq/namesrv/store:/root/store -e "MAX_POSSIBLE_HEAP=100000000" -e "MAX_HEAP_SIZE=256M" -e "HEAP_NEWSIZE=128M" apache/rocketmq:5.1.3 sh mqnamesrv
+
+  # rmqbroker
+  docker run -d --privileged=true --restart=always --name rmqbroker --network blog_network -p 10911:10911 -p 10909:10909 -v /opt/docker/rocketmq/broker/logs:/root/logs -v /opt/docker/rocketmq/broker/store:/root/store -v /opt/docker/rocketmq/broker/conf/broker.conf:/home/rocketmq/broker.conf -e "NAMESRV_ADDR=namesrv:9876"  -e "MAX_POSSIBLE_HEAP=200000000" -e "MAX_HEAP_SIZE=512M" -e "HEAP_NEWSIZE=256M" apache/rocketmq:5.1.3 sh mqbroker -c /home/rocketmq/broker.conf
+
+# 获取rmqnamesrv ip
+# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rmqnamesrv
+  # rocketmq-console可视化界面
+#  docker pull pangliang/rocketmq-console-ng
+#  docker run -d --restart=always --name rmqadmin -e "JAVA_OPTS=-Drocketmq.namesrv.addr=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rmqnamesrv`:9876 -Dcom.rocketmqsendMessageWithVIPChannel=false"  -p 9999:8080 --network blog_network pangliang/rocketmq-console-ng
+
+}
+
+# https://blog.csdn.net/weixin_41575023/article/details/111590597
+#jar() {
+#
+#}
 
 # 添加4g的虚拟内存
 addVirtualMemory() {
+  echo "开始创建虚拟内存..."
   cd /usr
   mkdir swap
   cd swap/
@@ -280,50 +273,40 @@ addVirtualMemory() {
 }
 
 util(){
-	echo "服务器环境所需依赖..."
+	echo "下载服务器环境所需依赖..."
 	# 压缩解压工具
 	yum install -y unzip zip
 	yum install -y lrzsz
 }
 
-createDir() {
-
-	# 博客文件服务器目录
-	mkdir -p /opt/files
-	# 博客微服务目录
-	mkdir -p /opt/blog/{blog-auth,blog-content,blog-gateway,blog-user,blog-file}
-	# 博客微服务日志目录
-	mkdir /opt/log
-
-	# 创建docker共享文件目录
-	mkdir -p /opt/docker/files
-
+unzipBlog() {
+  # 上传部署压缩包解压目录
+  mkdir -p /opt/package
+  mv ./blog.zip /opt/package
+  cd /opt/package
+  unzip blog.zip
 }
 
 main() {
-  $(cd `dirname $0`;pwd)
-  if [ ! -f "blog.zip" ]; then
-      echo "博客压缩包文件不存在，退出安装程序"
-      exit
-  fi
-  mkdir /opt/package
-  mv blog.zip /opt/package/blog.zip
-
-  echo "创建虚拟内存空间 ... "
+  util
+  unzipBlog
   addVirtualMemory
-
-  cd /opt/package
-  unzip blog.zip
-
-  echo "正在创建服务器目录 ... "
   createDir
-
+  dockerInstall
+  jdk
+  touchMyCnf
+  touchSql
+  mysql
+  ftp
+  nginx
+  redis
+  nacos
+  rocketMq
 }
 
 main
 
-
-# 执行脚本
-# yum install -y lrzsz
-# chmod 777 blog_package.sh
-# nohup sh blog_package.sh >my.log 2>&1 &
+```
+chmod +x docker.sh
+nohup sh docker.sh >my.log 2>&1 &
+```
