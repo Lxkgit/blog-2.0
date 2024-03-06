@@ -11,4 +11,4 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.0.106:3306/blog_pi?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
     username: root
-    password: root
+    password: MySql@Admin123*.

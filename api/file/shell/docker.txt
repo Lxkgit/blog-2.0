@@ -1,0 +1,29 @@
+
+# docker.sh 部署命令
+
+chmod +x docker.sh
+nohup sh docker.sh -d 0 >my.log 2>&1 &
+
+# 获取rmqnamesrv ip
+# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rmqnamesrv
+# rocketmq-console可视化界面
+#  docker pull pangliang/rocketmq-console-ng
+#  docker run -d --restart=always --name rmqadmin -e "JAVA_OPTS=-Drocketmq.namesrv.addr=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rmqnamesrv`:9876 -Dcom.rocketmqsendMessageWithVIPChannel=false"  -p 9999:8080 --network blog_network pangliang/rocketmq-console-ng
+
+
+# 查看xx服务启动日志
+docker logs -f xx
+# 进入容器
+docker exec -it java8 /bin/bash
+
+# 导出镜像文件
+docker save <镜像名> -o <xxx.tar>
+# 导入镜像文件
+docker load < xxx.tar
+
+# 停止docker容器
+docker stop xxx
+# 删除docker容器
+docker rm xxx
+# 删除docker镜像文件
+docker rmi xxx
