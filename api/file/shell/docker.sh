@@ -25,6 +25,8 @@ createDir() {
   mkdir -p /opt/docker/files
   # 容器存放sql文件位置
   mkdir -p /opt/docker/files/sql
+  # jar包存放目录
+  mkdir -p /opt/docker/files/jar
 
   # mysql文件目录
   # mysql 初始化数据文件目录
@@ -42,6 +44,7 @@ createDir() {
   # nginx 目录创建
   mkdir -p /opt/docker/nginx/conf.d
 	mkdir -p /opt/docker/nginx/html
+	mkdir -p /opt/docker/nginx/html/assets
 	mkdir -p /opt/docker/nginx/logs
 	mkdir -p /opt/docker/nginx/conf
 
@@ -73,13 +76,16 @@ createDir() {
   # redis 配置
   mv /opt/package/conf/redis.conf /opt/docker/redis/conf
   # nginx 配置文件
-  mv /opt/package/conf/nginx.conf /opt/docker/nginx/conf
+#  mv /opt/package/conf/nginx.conf /opt/docker/nginx/conf
   # rocketmq broker配置文件
   mv /opt/package/conf/broker.conf /opt/docker/rocketmq/broker/conf/
   # jar包相关移动
   mv /opt/package/jar/*.jar /opt/docker/files/jar
   mv /opt/package/conf/Dockerfile /opt/docker/files/jar
   mv /opt/package/conf/run.sh /opt/docker/files/jar
+  chmod +x /opt/docker/files/jar/run.sh
+  # web页面相关
+  mv /opt/package/web/dist/* /opt/docker/nginx/html
 
 }
 
@@ -93,6 +99,8 @@ dockerStart() {
 	touch /etc/docker/daemon.json
 	echo "{"  >> /etc/docker/daemon.json
 	echo '  "registry-mirrors": ['  >> /etc/docker/daemon.json
+	echo '      "https://docker.mirrors.ustc.edu.cn",'  >> /etc/docker/daemon.json
+	echo '      "https://kuamavit.mirror.aliyuncs.com",'  >> /etc/docker/daemon.json
 	echo '      "http://hub-mirror.c.163.com",'  >> /etc/docker/daemon.json
 	echo '      "https://docker.mirrors.ustc.edu.cn",'  >> /etc/docker/daemon.json
 	echo '      "https://registry.docker-cn.com"'  >> /etc/docker/daemon.json
@@ -141,9 +149,9 @@ nginx() {
   echo "正在启动nginx..."
 	docker run --name nginx1.20.2 --privileged=true --restart=always --network blog_network -p 80:80 -d nginx:1.20.2
 
-#	docker cp nginx1.20.2:/etc/nginx/nginx.conf /opt/docker/nginx/conf
-	docker cp nginx1.20.2:/etc/nginx/conf.d /opt/docker/nginx/conf.d
-	docker cp nginx1.20.2:/usr/share/nginx/html /opt/docker/nginx/html
+	docker cp nginx1.20.2:/etc/nginx/nginx.conf /opt/docker/nginx/conf
+	docker cp nginx1.20.2:/etc/nginx/conf.d /opt/docker/nginx
+#	docker cp nginx1.20.2:/usr/share/nginx/html /opt/docker/nginx/html
 
 	docker stop nginx1.20.2
 	docker rm nginx1.20.2
@@ -181,7 +189,7 @@ jar() {
   echo "正在启动博客服务..."
   cd /opt/docker/files/jar
   docker build -t blog:2.1 .
-  docker run -d --name blog --privileged=true --restart=always --network blog_network -p 9527:9527 blog:2.1
+  docker run -d --name blog --privileged=true --restart=always --network blog_network -p 9527:9527 -v /opt/docker/files:/opt/docker/files blog:2.1
 }
 
 # 添加4g的虚拟内存
