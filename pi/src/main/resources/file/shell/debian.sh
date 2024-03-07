@@ -29,6 +29,8 @@ dockerStart() {
 	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 	# 启动docker
 	systemctl start docker
+	# docker开始自启动
+	systemctl enable docker.service
 	# 创建自定义网络
 	docker network create blog_network
 }

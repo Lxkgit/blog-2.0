@@ -1,4 +1,4 @@
 spring:
   profiles:
-    active: dev # 开发环境
-#    active: pro # 生产环境
+    active: dev # 开发环境 本机部署 pi api
+#    active: pro # 生产环境 树莓派部署 pi 云服务器部署 api

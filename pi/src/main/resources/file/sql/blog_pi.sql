@@ -55,12 +55,12 @@ CREATE TABLE `register_setting`  (
 -- ----------------------------
 -- Records of register_setting
 -- ----------------------------
-INSERT INTO `register_setting` VALUES (1, 'netty', 'dev', '{\r\n	\"ip\": \"192.168.0.53\",\r\n	\"port\": 9092,\r\n	\"registerId\": \"SMP1\",\r\n	\"username\": \"gszero\"\r\n}');
+INSERT INTO `register_setting` VALUES (1, 'netty', 'dev', '{\r\n	\"ip\": \"localhost\",\r\n	\"port\": 9092,\r\n	\"registerId\": \"SMP1\",\r\n	\"username\": \"gszero\"\r\n}');
 INSERT INTO `register_setting` VALUES (2, 'netty', 'pro', '{\r\n	\"ip\": \"124.221.12.158\",\r\n	\"port\": 9092,\r\n	\"registerId\": \"SMP1\",\r\n	\"username\": \"gszero\"\r\n}');
-INSERT INTO `register_setting` VALUES (3, 'ftp', 'dev', '{\r\n	\"ip\": \"localhost\",\r\n	\"port\": 21,\r\n	\"username\": \"demo\",\r\n	\"password\": \"demo\",\r\n	\"basePath\": \"D:/files\"\r\n}');
-INSERT INTO `register_setting` VALUES (4, 'ftp', 'pro', '{\r\n	\"ip\": \"124.221.12.158\",\r\n	\"port\": 21,\r\n	\"username\": \"demo\",\r\n	\"password\": \"demo\",\r\n	\"basePath\": \"D:/files\"\r\n}');
-INSERT INTO `register_setting` VALUES (5, 'mqtt', 'dev', '{\r\n	\"ip\": \"192.168.0.106\",\r\n	\"port\": 1883,\r\n	\"username\": \"admin\",\r\n	\"password\": \"public\",\r\n	\"clientId\": \"SMP1\"\r\n}');
-INSERT INTO `register_setting` VALUES (6, 'mqtt', 'pro', '{\r\n	\"ip\": \"192.168.0.106\",\r\n	\"port\": 1883,\r\n	\"username\": \"admin\",\r\n	\"password\": \"public\",\r\n	\"clientId\": \"SMP1\"\r\n}');
+INSERT INTO `register_setting` VALUES (3, 'ftp', 'dev', '{\r\n	\"ip\": \"124.221.12.158\",\r\n	\"port\": 61121,\r\n	\"username\": \"system\",\r\n	\"password\": \"Ftp@Admin123*.\",\r\n	\"basePath\": \"D:/files\"\r\n}');
+INSERT INTO `register_setting` VALUES (4, 'ftp', 'pro', '{\r\n	\"ip\": \"124.221.12.158\",\r\n	\"port\": 61121,\r\n	\"username\": \"system\",\r\n	\"password\": \"Ftp@Admin123*.\",\r\n	\"basePath\": \"/opt/files\"\r\n}');
+INSERT INTO `register_setting` VALUES (5, 'mqtt', 'dev', '{\r\n	\"ip\": \"localhost\",\r\n	\"port\": 1883,\r\n	\"username\": \"admin\",\r\n	\"password\": \"public\",\r\n	\"clientId\": \"SMP1\"\r\n}');
+INSERT INTO `register_setting` VALUES (6, 'mqtt', 'pro', '{\r\n	\"ip\": \"124.221.12.158\",\r\n	\"port\": 1883,\r\n	\"username\": \"admin\",\r\n	\"password\": \"public\",\r\n	\"clientId\": \"SMP1\"\r\n}');
 
 -- ----------------------------
 -- Table structure for sensor_data

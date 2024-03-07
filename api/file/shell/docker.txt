@@ -2,7 +2,7 @@
 # docker.sh 部署命令
 
 chmod +x docker.sh
-nohup sh docker.sh -d 0 >my.log 2>&1 &
+nohup sh docker.sh >my.log 2>&1 &
 
 # 获取rmqnamesrv ip
 # docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rmqnamesrv
