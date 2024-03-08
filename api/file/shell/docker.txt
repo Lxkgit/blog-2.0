@@ -5,11 +5,14 @@ chmod +x docker.sh
 nohup sh docker.sh >my.log 2>&1 &
 
 # 获取rmqnamesrv ip
-# docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rmqnamesrv
-# rocketmq-console可视化界面
-#  docker pull pangliang/rocketmq-console-ng
-#  docker run -d --restart=always --name rmqadmin -e "JAVA_OPTS=-Drocketmq.namesrv.addr=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rmqnamesrv`:9876 -Dcom.rocketmqsendMessageWithVIPChannel=false"  -p 9999:8080 --network blog_network pangliang/rocketmq-console-ng
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rmqnamesrv
 
+# rocketmq-console可视化界面
+docker pull pangliang/rocketmq-console-ng
+docker run -d --restart=always --name rmqadmin -e "JAVA_OPTS=-Drocketmq.namesrv.addr=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' rmqnamesrv`:9876 -Dcom.rocketmqsendMessageWithVIPChannel=false"  -p 9999:8080 --network blog_network pangliang/rocketmq-console-ng
+
+# 查看docker全部容器对应的ip
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}} {{.Name}}' $(docker ps -q)
 
 # 查看xx服务启动日志
 docker logs -f xx

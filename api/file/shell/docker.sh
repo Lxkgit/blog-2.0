@@ -27,6 +27,8 @@ createDir() {
   mkdir -p /opt/docker/files/sql
   # jar包存放目录
   mkdir -p /opt/docker/files/jar
+  # jar包日志存放目录
+  mkdir -p /opt/docker/files/log
 
   # mysql文件目录
   # mysql 初始化数据文件目录
@@ -112,19 +114,19 @@ dockerStart() {
 	# docker开始自启动
 	systemctl enable docker.service
 	# 创建自定义网络
-	docker network create blog_network
+	docker network create --subnet=172.18.0.0/24 blog_network
 }
 
 # 安装jdk
 jdk() {
 	echo "正在启动jdk..."
-	docker run -d -it --name jdk8 --privileged=true --restart=always --network blog_network openjdk:8
+	docker run -d -it --name jdk8 --privileged=true --restart=always --network blog_network --ip 172.18.0.2 openjdk:8
 }
 
 # 安装MySQL
 mysql() {
   echo "正在启动mysql..."
-	docker run -d --name mysql8.0.20 --privileged=true --restart=always --network blog_network -p 3306:3306 -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:8.0.20
+	docker run -d --name mysql8.0.20 --privileged=true --restart=always --network blog_network --ip 172.18.0.3 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:8.0.20
   # 导入sql数据
   nohup sudo docker exec mysql8.0.20 bash /opt/docker/files/mysql.sh >/dev/null 2>&1
 }
@@ -141,13 +143,13 @@ updateMysqlConf() {
 
 ftp() {
   echo "正在启动ftp..."
-  docker run -d --name vsftpd --privileged=true --restart=always --network blog_network -p 61120:20 -p 61121:21 -p  61100-61110:61100-61110 -e FTP_USER=${ftpUsername} -e FTP_PASS=${ftpPassword} -e PASV_ADDRESS=124.221.12.158 -e PASV_MIN_PORT=61100 -e PASV_MAX_PORT=61110 -v /opt/docker/ftp:/home/vsftpd fauria/vsftpd
+  docker run -d --name vsftpd --privileged=true --restart=always --network blog_network --ip 172.18.0.4 -p 61120:20 -p 61121:21 -p  61110-61119:61110-61119 -e FTP_USER=${ftpUsername} -e FTP_PASS=${ftpPassword} -e PASV_ADDRESS=124.221.12.158 -e PASV_MIN_PORT=61110 -e PASV_MAX_PORT=61119 -v /opt/docker/ftp:/home/vsftpd fauria/vsftpd
 }
 
 # 安装nginx
 nginx() {
   echo "正在启动nginx..."
-	docker run --name nginx1.20.2 --privileged=true --restart=always --network blog_network -p 80:80 -d nginx:1.20.2
+	docker run --name nginx1.20.2 --privileged=true --restart=always --network blog_network --ip 172.18.0.5 -p 80:80 -d nginx:1.20.2
 
 	docker cp nginx1.20.2:/etc/nginx/nginx.conf /opt/docker/nginx/conf
 	docker cp nginx1.20.2:/etc/nginx/conf.d /opt/docker/nginx
@@ -156,7 +158,7 @@ nginx() {
 	docker stop nginx1.20.2
 	docker rm nginx1.20.2
 
-	docker run -d --name nginx1.20.2 --privileged=true --restart=always --network blog_network -p 80:80 -v /opt/docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf -v /opt/docker/nginx/html:/usr/share/nginx/html -v /opt/docker/nginx/logs:/var/log/nginx  -v /opt/docker/files:/opt/docker/files nginx:1.20.2
+	docker run -d --name nginx1.20.2 --privileged=true --restart=always --network blog_network --ip 172.18.0.5 -p 80:80 -v /opt/docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf -v /opt/docker/nginx/html:/usr/share/nginx/html -v /opt/docker/nginx/logs:/var/log/nginx  -v /opt/docker/files:/opt/docker/files -v /opt/files:/opt/files nginx:1.20.2
 }
 
 updateRedisConf() {
@@ -166,22 +168,22 @@ updateRedisConf() {
 
 redis() {
   echo "正在启动redis..."
-  docker run -d --name redis6.2.5 --privileged=true --restart=always --network blog_network -p 6379:6379 -v /opt/docker/redis/conf/redis.conf:/etc/redis/redis.conf -v /opt/docker/redis/data:/data  -v /opt/docker/files:/opt/docker/files redis:6.2.5 redis-server /etc/redis/redis.conf
+  docker run -d --name redis6.2.5 --privileged=true --restart=always --network blog_network --ip 172.18.0.6 -p 6379:6379 -v /opt/docker/redis/conf/redis.conf:/etc/redis/redis.conf -v /opt/docker/redis/data:/data  -v /opt/docker/files:/opt/docker/files redis:6.2.5 redis-server /etc/redis/redis.conf
 }
 
 # 安装nacos
 nacos() {
   echo "正在启动nacos..."
-  docker run -d --name nacos2.1.0 --privileged=true --restart=always --network blog_network -p 8848:8848 -p 9848:9848 -p 9849:9849 -e JVM_XMS=256m -e JVM_XMX=256m -e MODE=standalone -e PREFER_HOST_MODE=hostname -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=mysql8.0.20 -e MYSQL_SERVICE_PORT=3306 -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=${mysqlPassword} -e MYSQL_SERVICE_DB_NAME=nacos nacos/nacos-server:v2.1.0
+  docker run -d --name nacos2.1.0 --privileged=true --restart=always --network blog_network --ip 172.18.0.7 -p 8848:8848 -p 9848:9848 -p 9849:9849 -e JVM_XMS=256m -e JVM_XMX=256m -e MODE=standalone -e PREFER_HOST_MODE=hostname -e SPRING_DATASOURCE_PLATFORM=mysql -e MYSQL_SERVICE_HOST=172.18.0.3 -e MYSQL_SERVICE_PORT=3306 -e MYSQL_SERVICE_USER=root -e MYSQL_SERVICE_PASSWORD=${mysqlPassword} -e MYSQL_SERVICE_DB_NAME=nacos nacos/nacos-server:v2.1.0
 }
 
 # 安装rockermq  https://blog.csdn.net/qq_43600166/article/details/136187969
 rocketMq() {
   echo "正在启动rocketmq..."
   # rmqnamesrv
-  docker run -d --name rmqnamesrv --privileged=true --restart=always  --network blog_network -p 9876:9876 -e "MAX_POSSIBLE_HEAP=100000000" -e "MAX_HEAP_SIZE=256M" -e "HEAP_NEWSIZE=128M" -v /opt/docker/rocketmq/namesrv/logs:/home/rocketmq/logs -v /opt/docker/rocketmq/namesrv/store:/root/store apache/rocketmq:5.1.3 sh mqnamesrv
+  docker run -d --name rmqnamesrv --privileged=true --restart=always  --network blog_network --ip 172.18.0.8 -p 9876:9876 -e "MAX_POSSIBLE_HEAP=100000000" -e "MAX_HEAP_SIZE=256M" -e "HEAP_NEWSIZE=128M" -v /opt/docker/rocketmq/namesrv/logs:/home/rocketmq/logs -v /opt/docker/rocketmq/namesrv/store:/root/store apache/rocketmq:5.1.3 sh mqnamesrv
   # rmqbroker
-  docker run -d --name rmqbroker --privileged=true --restart=always --network blog_network -p 10911:10911 -p 10909:10909 -e "NAMESRV_ADDR=rmqnamesrv:9876"  -e "MAX_POSSIBLE_HEAP=200000000" -e "MAX_HEAP_SIZE=512M" -e "HEAP_NEWSIZE=256M" -v /opt/docker/rocketmq/broker/logs:/root/logs -v /opt/docker/rocketmq/broker/store:/root/store -v /opt/docker/rocketmq/broker/conf/broker.conf:/home/rocketmq/broker.conf apache/rocketmq:5.1.3 sh mqbroker -c /home/rocketmq/broker.conf
+  docker run -d --name rmqbroker --privileged=true --restart=always --network blog_network --ip 172.18.0.9 -p 10911:10911 -p 10909:10909 -e "NAMESRV_ADDR=172.18.0.8:9876"  -e "MAX_POSSIBLE_HEAP=200000000" -e "MAX_HEAP_SIZE=512M" -e "HEAP_NEWSIZE=256M" -v /opt/docker/rocketmq/broker/logs:/root/logs -v /opt/docker/rocketmq/broker/store:/root/store -v /opt/docker/rocketmq/broker/conf/broker.conf:/home/rocketmq/broker.conf apache/rocketmq:5.1.3 sh mqbroker -c /home/rocketmq/broker.conf
 }
 
 # https://blog.csdn.net/weixin_41575023/article/details/111590597
@@ -189,7 +191,7 @@ jar() {
   echo "正在启动博客服务..."
   cd /opt/docker/files/jar
   docker build -t blog:2.1 .
-  docker run -d --name blog --privileged=true --restart=always --network blog_network -p 9527:9527 -v /opt/docker/files:/opt/docker/files blog:2.1
+  docker run -d --name blog --privileged=true --restart=always --network blog_network --ip 172.18.0.10 -p 9527:9527 -p 9100:9100 -p 9200:9200 -p 10100:10100 -p 10200:10200 -v /opt/docker/files:/opt/docker/files -v /opt/files:/opt/files blog:2.1
 }
 
 # 添加4g的虚拟内存
