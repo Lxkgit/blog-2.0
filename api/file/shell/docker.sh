@@ -131,7 +131,7 @@ mysql() {
   echo "正在启动mysql..."
 	docker run -d --name mysql --privileged=true --restart=always --network blog_network --ip 172.18.0.3 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=${mysqlPassword} -v /opt/docker/mysql/data:/var/lib/mysql -v /opt/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf -v /opt/docker/mysql/logs:/var/log/mysql -v /opt/docker/files:/opt/docker/files mysql:8.0.20
   # 导入sql数据
-  nohup sudo docker exec mysql bash /opt/docker/files/mysql.sh >/dev/null 2>&1
+  nohup sudo docker exec mysql bash /opt/docker/files/mysql.sh >/opt/docker/mysql/logs/sql.log 2>&1
 }
 
 updateSqlFile() {
