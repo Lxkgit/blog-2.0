@@ -17,6 +17,7 @@ createDir() {
 
   # 项目相关文件
   mv /opt/package/jar/blog-pi.jar /opt/docker/files/jar
+  mv /opt/package/conf/run.sh /opt/docker/files/jar
   mv /opt/package/conf/Dockerfile /opt/docker/files/jar
 
   # MySQL数据文件

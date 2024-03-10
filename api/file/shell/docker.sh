@@ -188,11 +188,12 @@ rocketMq() {
 # https://blog.csdn.net/weixin_41575023/article/details/111590597
 jar() {
   # 等待nacos启动
+  echo "3分钟后启动博客服务..."
   sleep 3m
   echo "正在启动博客服务..."
   cd /opt/docker/files/jar
   docker build -t blog:2.1 .
-  docker run -d --name blog --privileged=true --restart=always --network blog_network --ip 172.18.0.10 -p 9527:9527 -p 9100:9100 -p 9200:9200 -p 10100:10100 -p 10200:10200 -v /opt/docker/files:/opt/docker/files -v /opt/files:/opt/files blog:2.1
+  docker run -d --name blog --privileged=true --restart=always --network blog_network --ip 172.18.0.10 -p 9527:9527 -p 9100:9100 -p 9200:9200 -p 10100:10100 -p 10200:10200 -p 9092:9092 -v /opt/docker/files:/opt/docker/files -v /opt/files:/opt/files blog:2.1
 }
 
 # 添加4g的虚拟内存

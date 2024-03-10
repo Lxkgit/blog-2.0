@@ -1,4 +1,4 @@
-# blog-2.1
+# blog-2.1(微服务版博客)
 ## 部署说明
 ### 博客部署
 
@@ -18,7 +18,7 @@
 
 系统环境：Debian 12
 
-部署文档：[树莓派部署文档]()
+部署文档：[树莓派部署文档](https://github.com/Lxkgit/blog-2.0/blob/blog-2.1/pi/src/main/resources/file/shell/%E6%A0%91%E8%8E%93%E6%B4%BE%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.md)
 
 
-微服务版博客
+## 系统架构
