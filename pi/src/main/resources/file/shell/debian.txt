@@ -1,0 +1,13 @@
+
+# debian.sh 部署命令
+
+## 树莓派安装系统需要设置root账号密码
+sudo passwd root
+
+## 下载rz、sz命令
+apt-get install lrzsz
+
+## 执行脚本
+chmod +x debian.sh
+nohup sh debian.sh >my.log 2>&1 &
+
