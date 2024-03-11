@@ -36,7 +36,7 @@ public class DeviceStatusSchedule {
      * 定时检测设备在离线，更新状态，推送页面
      * 每三分钟检测一次
      */
-    @Scheduled(cron = "* 0/3 * * * ?")
+    @Scheduled(cron = "0 0/3 * * * ?")
     public void updateDeviceStatus() {
         Date date = new Date();
         for (Map.Entry <String, NettyClientChannel>  entry : NettyServerHandler.clientMap.entrySet()) {
@@ -46,9 +46,32 @@ public class DeviceStatusSchedule {
             if (interval > Constant.DEVICE_WAIT_TIME) {
                 removeChannelByRegisterId(channel.getRegisterId(), deviceDAO);
             }
+            // 再次检测通道数据
+            NettyServerHandler.channelMap.keySet().removeIf(key -> !containChannelId(key));
+            log.info("channelId: 连接通道数量:{}, client: 绑定通道数量:{}", NettyServerHandler.channelMap.size(), NettyServerHandler.clientMap.size());
         }
     }
 
+    /**
+     * 判断 clientMap 中是否包含指定 channelId
+     * @param channelId
+     * @return
+     */
+    public static boolean containChannelId(ChannelId channelId) {
+        for (Map.Entry <String, NettyClientChannel>  entry : NettyServerHandler.clientMap.entrySet()) {
+            NettyClientChannel channel = entry.getValue();
+            if (channel.getChannelId().equals(channelId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 根据 channelId 客户端获取注册编码
+     * @param channelId
+     * @return
+     */
     public static String getChannelRegisterIdByChannelId(ChannelId channelId) {
         for (Map.Entry <String, NettyClientChannel>  entry : NettyServerHandler.clientMap.entrySet()) {
             NettyClientChannel channel = entry.getValue();
@@ -59,6 +82,11 @@ public class DeviceStatusSchedule {
         return "";
     }
 
+    /**
+     * 根据客户端注册编码删除通道
+     * @param registerId
+     * @param deviceDAO
+     */
     public static void removeChannelByRegisterId(String registerId, DeviceDAO deviceDAO) {
         for (Map.Entry <String, NettyClientChannel>  entry : NettyServerHandler.clientMap.entrySet()) {
             NettyClientChannel channel = entry.getValue();
@@ -79,6 +107,5 @@ public class DeviceStatusSchedule {
         NettyServerHandler.channelMap.get(entry.getValue().getChannelId()).close();
         NettyServerHandler.clientMap.remove(entry.getKey());
         NettyServerHandler.channelMap.remove(entry.getValue().getChannelId());
-        log.info("channelId: 连接通道数量:{}, client: 绑定通道数量:{}", NettyServerHandler.channelMap.size(), NettyServerHandler.clientMap.size());
     }
 }

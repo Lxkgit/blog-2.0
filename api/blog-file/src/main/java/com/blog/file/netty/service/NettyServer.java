@@ -1,6 +1,8 @@
 package com.blog.file.netty.service;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.blog.file.netty.dto.NettyMessageRetry;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -12,6 +14,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @description: Netty服务端
@@ -30,6 +35,9 @@ public class NettyServer implements CommandLineRunner {
     private final EventLoopGroup workerGroup = new NioEventLoopGroup();
 
     private final NettyServerInitializer nettyServerInitializer;
+
+    // netty 消息重发缓存
+    public static final Map<String, NettyMessageRetry> retryMap = new ConcurrentHashMap<>();
 
     @Value("${netty.port}")
     private Integer port;
@@ -82,12 +90,26 @@ public class NettyServer implements CommandLineRunner {
     }
 
     public boolean channelWriteByChannelId(ChannelId channelId, String msg) {
+        return channelWriteByChannelId(channelId, msg, true);
+    }
+
+    /**
+     * netty消息发送
+     * @param channelId 通道Id
+     * @param msg 发送消息
+     * @param retry 是否重发 是：true
+     * @return 消息是否发送成功
+     */
+    public boolean channelWriteByChannelId(ChannelId channelId, String msg, boolean retry) {
         ChannelHandlerContext ctx = NettyServerHandler.channelMap.get(channelId);
         if (ctx == null) {
             log.warn("通道【{}】不存在!!", channelId);
             return false;
         }
         ctx.writeAndFlush(msg);
+        if (retry) {
+            addNettyRetryMap(channelId, msg);
+        }
         return true;
     }
 
@@ -98,6 +120,17 @@ public class NettyServer implements CommandLineRunner {
         }
         return false;
     }
+
+    private void addNettyRetryMap(ChannelId channelId, String msg) {
+        JSONObject jsonObject = (JSONObject) JSONObject.parse(msg);
+        jsonObject.get("requestId");
+        retryMap.put(jsonObject.get("requestId").toString(), new NettyMessageRetry(channelId, msg, new Date(), 0));
+    }
+
+    public void removeNettyRetryMap(String requestId) {
+        retryMap.remove(requestId);
+    }
+
 
     public boolean close(ChannelId channelId) {
         ChannelHandlerContext ctx = NettyServerHandler.channelMap.get(channelId);

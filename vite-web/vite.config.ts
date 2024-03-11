@@ -11,6 +11,7 @@ export default defineConfig(
   ({ command, mode, ssrBuild }) => {
     const env = loadEnv(mode, process.cwd());
     const ip = env.VITE_BASE_API;
+    console.log("服务请求ip: " + ip)
     return {
       resolve: {
         alias: {
@@ -26,7 +27,8 @@ export default defineConfig(
       server: {
         proxy: {
           '/api': {
-            target: 'http://' + ip + ':9527',	//实际请求地址
+            // target: 'http://' + ip + ':9527',	//实际请求地址
+            target: 'http://localhost:9527',	//实际请求地址
             changeOrigin: true,
             secure: false,
             rewrite: (path) => path.replace(/^\/api/, ''),

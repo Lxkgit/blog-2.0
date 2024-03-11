@@ -98,7 +98,7 @@
                   <div v-else-if="item.status === 1">
                     <img :src="item.imgPath" class="image" style="width: 100%; height: 100%; object-fit: cover" loading="lazy" />
                     <div class="show_icon">
-                      <MyIcon title="同步" class="icon_type" type="icon-refresh" />
+                      <MyIcon title="同步" class="icon_type" type="icon-refresh" @click="syncFileFun(item)"/>
                       <MyIcon title="预览" class="icon_type" type="icon-search" @click="showImg(item)" />
                       <MyIcon title="查看文件信息" class="icon_type" type="icon-file" @click="showFileDesc(item)" />
                       <MyIcon title="删除" class="icon_type" type="icon-delete" @click="deleteFileDirOrFileFun(item)" />
@@ -203,6 +203,7 @@ import {
   deleteFileDirOrFileApi,
   uploadApi,
   saveFileDirApi,
+  syncFileApi
 } from '@/api/file';
 import icon from '@/utils/icon';
 import { onMounted, ref, reactive } from 'vue';
@@ -228,6 +229,7 @@ let {
   openFileDirFun,
   showImg,
   deleteFileDirOrFileFun,
+  syncFileFun
 } = fileFn();
 
 let { fileType } = mixin();
@@ -446,6 +448,20 @@ function fileFn(): any {
     });
   };
 
+  const syncFileFun = (item: any) => {
+    syncFileApi({
+      id: item.id,
+      filePath: filePath.value,
+      type: item.type,
+      dirType: item.dirType,
+      name: item.name,
+      syncType: 1,
+      fileCode: "1111"
+    }).then((res: any) => {
+
+    })
+  }
+
   return {
     createFileFormRef,
     createFileRules,
@@ -464,6 +480,7 @@ function fileFn(): any {
     openFileDirFun,
     showImg,
     deleteFileDirOrFileFun,
+    syncFileFun
   };
 }
 </script>

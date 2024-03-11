@@ -110,7 +110,7 @@ public class FileController extends BaseController {
      */
     @GetMapping("/sync")
     @PreAuthorize("hasAnyAuthority('sys:file:user:sync')")
-    public Result syncFile(HttpServletRequest request, FileDataVo fileDataVo) {
+    public Result syncFile(HttpServletRequest request,@Validated FileDataVo fileDataVo) {
         return ResultFactory.buildSuccessResult(fileService.syncFile(getBlogUser(request), fileDataVo));
     }
 

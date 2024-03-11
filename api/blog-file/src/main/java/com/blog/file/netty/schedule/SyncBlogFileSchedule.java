@@ -1,6 +1,8 @@
 package com.blog.file.netty.schedule;
 
 import com.alibaba.fastjson.JSONObject;
+import com.blog.common.constant.ShellCommand;
+import com.blog.common.util.ShellUtil;
 import com.blog.file.netty.common.NettyConstant;
 import com.blog.file.netty.dto.NettyPacket;
 import com.blog.file.netty.dto.NettySyncBlogFile;
@@ -31,13 +33,18 @@ public class SyncBlogFileSchedule {
 
 
 //    @PostConstruct  // 项目启动时执行这个方法
-//    @Scheduled(cron = "* * 1 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void initFile() {
+        if (!ShellUtil.shell(ShellCommand.exportBlogZip)) {
+            // 脚本执行失败停止执行
+            return;
+        }
+
         NettySyncBlogFile nettySyncBlogFile = new NettySyncBlogFile();
         nettySyncBlogFile.setSyncType(0);
-        nettySyncBlogFile.setFileCode("44");
-        nettySyncBlogFile.setFileName("ftpsUtil.jpg");
-        nettySyncBlogFile.setFilePath("/opt/ftps/test");
+        nettySyncBlogFile.setFileCode("blog.zip");
+        nettySyncBlogFile.setFileName("blog.zip");
+        nettySyncBlogFile.setFilePath("/");
 
         NettyPacket<NettySyncBlogFile> nettyResponse = NettyPacket.buildRequest(nettySyncBlogFile);
         nettyResponse.setNettyPacketType(NettyPacketType.REQUEST.getValue());
@@ -50,6 +57,7 @@ public class SyncBlogFileSchedule {
         } else {
             log.error("文件同步失败");
         }
-
     }
+
+
 }

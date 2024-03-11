@@ -58,6 +58,11 @@ export const selectFileDirOrFileApi = (params: any) => {
     return api.get(uri, params)
 }
 
+export const syncFileApi = (params: any) => {
+    const uri = "/file/dir/sync"
+    return api.get(uri, params)
+}
+
 // --------------服务器设备接口-------------
 
 export const saveDeviceApi = (params: any) => {

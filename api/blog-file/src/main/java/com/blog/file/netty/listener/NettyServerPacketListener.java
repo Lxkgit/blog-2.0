@@ -4,25 +4,19 @@ package com.blog.file.netty.listener;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.Constant;
-import com.blog.common.entity.file.Chip;
 import com.blog.common.entity.file.Device;
-import com.blog.common.entity.file.Sensor;
-import com.blog.common.entity.file.SensorData;
 import com.blog.common.entity.user.BlogUser;
-import com.blog.file.dao.ChipDAO;
 import com.blog.file.dao.DeviceDAO;
-import com.blog.file.dao.SensorDAO;
-import com.blog.file.dao.SensorDataDAO;
 import com.blog.file.feign.UserClient;
 import com.blog.file.netty.dto.NettyClientChannel;
 import com.blog.file.netty.dto.NettyPacket;
 import com.blog.file.netty.enums.NettyPacketType;
 import com.blog.file.netty.enums.NettyTopicEnum;
 import com.blog.file.netty.event.NettyPacketEvent;
-import com.blog.file.netty.schedule.DeviceStatusSchedule;
+import com.blog.file.netty.listener.service.NettyDeviceData;
+import com.blog.file.netty.listener.service.NettyFileSync;
 import com.blog.file.netty.service.NettyServer;
 import com.blog.file.netty.service.NettyServerHandler;
-import com.blog.file.service.SensorService;
 import io.netty.channel.ChannelId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,16 +46,10 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
     private DeviceDAO deviceDAO;
 
     @Resource
-    private SensorService sensorService;
+    private NettyDeviceData nettyDeviceData;
 
     @Resource
-    private SensorDAO sensorDAO;
-
-    @Resource
-    private ChipDAO chipDAO;
-
-    @Resource
-    private SensorDataDAO sensorDataDAO;
+    private NettyFileSync nettyFileSync;
 
     @Async
     @Override
@@ -73,7 +61,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
         String username = event.getNettyPacket().getUsername();
         String registerId = event.getNettyPacket().getRegisterId();
         String data = event.getNettyPacket().getData().toString();
-        log.info("channelId:【{}】 requestId:【{}】 topic:【{}】 username:【{}】 registerId:【{}】 data:【{}】", channelId, requestId, topic, username, registerId, data);
+        log.info("channelId:【{}】 nettyPacketType:【{}】 requestId:【{}】 topic:【{}】 username:【{}】 registerId:【{}】 data:【{}】", channelId, nettyPacketType, requestId, topic, username, registerId, data);
         if (nettyPacketType.equals(NettyPacketType.REGISTER.getValue())) {
             JSONObject jsonObject = (JSONObject) event.getNettyPacket().getData();
             QueryWrapper<Device> queryWrapper = new QueryWrapper<>();
@@ -102,44 +90,22 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
             nettyServer.channelWriteByChannelId(channelId, JSONObject.toJSONString(nettyResponse));
         } else if (nettyPacketType.equals(NettyPacketType.REQUEST.getValue())) {
             BlogUser blogUser = JSONObject.parseObject(JSONObject.toJSONString(userClient.getUserByUsername(username).getResult()), BlogUser.class);
+            JSONObject jsonObject = (JSONObject) event.getNettyPacket().getData();
             // 对客户端请求的响应
             // 收到传感器数据回复响应
             if (topic.equals(NettyTopicEnum.BLOG_SENSOR_DATA.getTopic())) {
-
-                JSONObject jsonObject = (JSONObject) event.getNettyPacket().getData();
-                SensorData sensorData = new SensorData();
-                QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
-                deviceQueryWrapper.eq("user_id", blogUser.getId());
-                deviceQueryWrapper.eq("device_code", registerId);
-                Device device = deviceDAO.selectOne(deviceQueryWrapper);
-                String chipType = (String) jsonObject.get(Constant.CHIP_TYPE);
-                String sensorType = (String) jsonObject.get(Constant.SENSOR_TYPE);
-                QueryWrapper<Chip> chipQueryWrapper = new QueryWrapper<>();
-                chipQueryWrapper.eq("user_id", blogUser.getId());
-                chipQueryWrapper.eq("device_id", device.getId());
-                chipQueryWrapper.eq("chip_code", chipType);
-                Chip chip = chipDAO.selectOne(chipQueryWrapper);
-                QueryWrapper<Sensor> wrapper = new QueryWrapper<>();
-                wrapper.eq("user_id", blogUser.getId());
-                wrapper.eq("chip_id", chip.getId());
-                wrapper.eq("sensor_code", sensorType);
-                Sensor sensor = sensorDAO.selectOne(wrapper);
-                sensorData.setSensorId(sensor.getId());
-                sensorData.setSensorData(jsonObject.getString("data"));
-                sensorData.setCreateTime(new Date());
-                sensorDataDAO.insert(sensorData);
-
-                NettyPacket<String> nettyResponse = NettyPacket.buildResponse(event.getNettyPacket().getRequestId(), "service receive data");
-                nettyResponse.setTopic(topic);
-                nettyResponse.setUsername(username);
-                nettyServer.channelWriteByChannelId(channelId, JSONObject.toJSONString(nettyResponse));
+                nettyDeviceData.SensorData(jsonObject, blogUser, channelId, topic, username, registerId);
+            }
+            if (topic.equals(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic())) {
+                nettyDeviceData.SensorControl();
+            }
+            if (topic.equals(NettyTopicEnum.BLOG_FILE_SYNC.getTopic())) {
+//                nettyFileSync
             }
 
         } else if (nettyPacketType.equals(NettyPacketType.RESPONSE.getValue())) {
-            // TODO RESPONSE
             log.info("channelId:{} RESPONSE!! data:{}", channelId, JSONObject.toJSONString(event.getNettyPacket().getData()));
-        } else {
-            log.warn("unknown NettyPacketType!! channelId:{} event:{}", channelId, JSONObject.toJSONString(event));
+            nettyServer.removeNettyRetryMap(requestId);
         }
     }
 
