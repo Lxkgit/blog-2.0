@@ -12,14 +12,30 @@ import lombok.Data;
 @Data
 public class NettySyncBlogFile {
 
+    /**
+     * 文件所属用户id
+     */
+    private Integer userId;
+
+    /**
+     * 文件路径
+     */
     private String filePath;
 
+    /**
+     * 文件名称
+     */
     private String fileName;
 
+    /**
+     * 文件唯一标识码
+     */
     private String fileCode;
 
-    // 文件同步类型 0: 文件同步至远程 1: 文件下载到本地
-    @Equal(value = "0,1,2", message = "文件同步类型必须是0/1")
+    /**
+     * 文件同步类型 0: 文件同步至远程 1: 文件下载到本地 2: 博客数据文件
+     */
+    @Equal(value = "0,1,2", message = "文件同步类型必须是0,1,2")
     private Integer syncType;
 
 }

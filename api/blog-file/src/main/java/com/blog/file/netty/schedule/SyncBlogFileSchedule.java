@@ -35,10 +35,11 @@ public class SyncBlogFileSchedule {
 //    @PostConstruct  // 项目启动时执行这个方法
     @Scheduled(cron = "0 0 0 * * ?")
     public void initFile() {
-        if (!ShellUtil.shell(ShellCommand.exportBlogZip)) {
-            // 脚本执行失败停止执行
-            return;
-        }
+        log.info("文件同步");
+//        if (!ShellUtil.shell(ShellCommand.exportBlogZip)) {
+//            // 脚本执行失败停止执行
+//            return;
+//        }
 
         NettySyncBlogFile nettySyncBlogFile = new NettySyncBlogFile();
         nettySyncBlogFile.setSyncType(0);

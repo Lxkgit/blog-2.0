@@ -1,11 +1,11 @@
-package com.blog.pi.netty.service;
+package com.blog.pi.netty.listener.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.blog.pi.config.InitConfig;
 import com.blog.pi.dao.FileSyncDAO;
 import com.blog.pi.entity.FileSync;
-import com.blog.pi.entity.SensorData;
-import com.blog.pi.ftp.FtpsUtil;
+import com.blog.pi.ftp.FtpUtil;
 import com.blog.pi.netty.client.NettyClient;
 import com.blog.pi.netty.dto.NettyPacket;
 import com.blog.pi.netty.dto.NettyResponse;
@@ -16,10 +16,8 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @description: 同步博客文章服务类
@@ -31,7 +29,7 @@ import java.util.Random;
 public class SyncBlogFileService {
 
     @Resource
-    private FtpsUtil ftpsUtil;
+    private FtpUtil ftpUtil;
 
     @Resource
     private NettyClient nettyClient;
@@ -46,16 +44,17 @@ public class SyncBlogFileService {
      * @param requestId 本次请求唯一编码
      */
     public void syncBlogFile(NettySyncBlogFile nettySyncBlogFile, String requestId) {
+        String basePath = (String) InitConfig.getRegisterConfig("ftp", "basePath");
+        String serviceFilePath = nettySyncBlogFile.getFilePath();
+        String serviceFileName = nettySyncBlogFile.getFileName();
+
         if (nettySyncBlogFile.getSyncType().equals(0)) {
-            String serviceFilePath = nettySyncBlogFile.getFilePath();
-            String serviceFileName = nettySyncBlogFile.getFileName();
 
             String fileType = serviceFileName.substring(serviceFileName.lastIndexOf("."));
             String fileName = serviceFileName.substring(0, serviceFileName.lastIndexOf("."));
 
-            String localFilePath = "D://testFtp";
             String localFileName = fileName + "_" + StringUtils.getRandomString(6) + fileType;
-            boolean success = ftpsUtil.downloadFtpFile(serviceFilePath, serviceFileName, localFilePath, localFileName);
+            boolean success = ftpUtil.downloadFtpFile(serviceFilePath, serviceFileName, basePath, localFileName);
 
             // 响应服务端处理结果
             NettyResponse nettyResponse = new NettyResponse(success);
@@ -63,13 +62,13 @@ public class SyncBlogFileService {
             nettyClient.sendMsg(JSONObject.toJSONString(nettyPacket));
 
             if (success) {
-                File file = new File(localFilePath + File.separatorChar + localFileName);
+                File file = new File(basePath + File.separatorChar + localFileName);
                 FileSync fileSync = new FileSync();
                 fileSync.setUserId(nettySyncBlogFile.getUserId());
                 fileSync.setFileCode(nettySyncBlogFile.getFileCode());
                 fileSync.setServiceFilePath(serviceFilePath);
                 fileSync.setServiceFileName(serviceFileName);
-                fileSync.setLocalFilePath(localFilePath);
+                fileSync.setLocalFilePath(basePath);
                 fileSync.setLocalFileName(localFileName);
                 fileSync.setFileSize(file.length());
                 fileSync.setCreateTime(new Date());
@@ -83,7 +82,7 @@ public class SyncBlogFileService {
             List<FileSync> fileSyncList = fileSyncDAO.selectList(queryWrapper);
             if (!CollectionUtils.isEmpty(fileSyncList)) {
                 FileSync fileSync = fileSyncList.get(0);
-                boolean success = ftpsUtil.uploadFtpFile(fileSync.getLocalFilePath(), fileSync.getLocalFileName(), fileSync.getServiceFilePath(), fileSync.getServiceFileName());
+                boolean success = ftpUtil.uploadFtpFile(fileSync.getLocalFilePath(), fileSync.getLocalFileName(), fileSync.getServiceFilePath(), fileSync.getServiceFileName());
 
                 // 响应服务端处理结果
                 NettyResponse nettyResponse = new NettyResponse(success);
@@ -93,6 +92,28 @@ public class SyncBlogFileService {
                 if (success) {
                     fileSyncDAO.deleteById(fileSync);
                 }
+            }
+        } else if (nettySyncBlogFile.getSyncType().equals(2)) {
+            String appendPath = "/blog";
+            String localFileName = "blog.zip";
+            boolean success = ftpUtil.downloadFtpFile(serviceFilePath, serviceFileName, basePath + appendPath, localFileName);
+            // 响应服务端处理结果
+            NettyResponse nettyResponse = new NettyResponse(success);
+            NettyPacket<NettyResponse> nettyPacket = NettyPacket.buildResponse(requestId, nettyResponse);
+            nettyClient.sendMsg(JSONObject.toJSONString(nettyPacket));
+
+            if (success) {
+                File file = new File(basePath + appendPath + File.separatorChar + localFileName);
+                FileSync fileSync = new FileSync();
+                fileSync.setUserId(nettySyncBlogFile.getUserId());
+                fileSync.setFileCode(nettySyncBlogFile.getFileCode());
+                fileSync.setServiceFilePath(serviceFilePath);
+                fileSync.setServiceFileName(serviceFileName);
+                fileSync.setLocalFilePath(basePath + appendPath);
+                fileSync.setLocalFileName(localFileName);
+                fileSync.setFileSize(file.length());
+                fileSync.setCreateTime(new Date());
+                fileSyncDAO.insert(fileSync);
             }
         }
 

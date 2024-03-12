@@ -1,13 +1,13 @@
-#devServiceIp: localhost
-devServiceIp: 172.18.0.7
+devServiceIp: localhost
+#devServiceIp: 172.18.0.7
 
 server:
   port: 10100
 
 spring:
   profiles:
-#    active: dev # 开发环境
-    active: pro # 生产环境
+    active: dev # 开发环境
+#    active: pro # 生产环境
 
   application:
     name: blog-content

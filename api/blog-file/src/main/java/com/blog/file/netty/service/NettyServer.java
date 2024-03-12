@@ -2,6 +2,7 @@ package com.blog.file.netty.service;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.blog.file.netty.dto.NettyClientChannel;
 import com.blog.file.netty.dto.NettyMessageRetry;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -95,9 +96,10 @@ public class NettyServer implements CommandLineRunner {
 
     /**
      * netty消息发送
+     *
      * @param channelId 通道Id
-     * @param msg 发送消息
-     * @param retry 是否重发 是：true
+     * @param msg       发送消息
+     * @param retry     是否重发 是：true
      * @return 消息是否发送成功
      */
     public boolean channelWriteByChannelId(ChannelId channelId, String msg, boolean retry) {
@@ -114,19 +116,35 @@ public class NettyServer implements CommandLineRunner {
     }
 
     public boolean channelWriteByClientId(String registerId, String msg) {
-        ChannelId channelId = NettyServerHandler.clientMap.get(registerId).getChannelId();
+        NettyClientChannel nettyClientChannel = NettyServerHandler.clientMap.get(registerId);
+        if (nettyClientChannel == null) {
+            log.warn("通道注册码【{}】不存在!!", registerId);
+            return false;
+        }
+        ChannelId channelId = nettyClientChannel.getChannelId();
         if (channelId != null) {
             return channelWriteByChannelId(channelId, msg);
         }
         return false;
     }
 
+    /**
+     * 新增重发消息
+     *
+     * @param channelId
+     * @param msg
+     */
     private void addNettyRetryMap(ChannelId channelId, String msg) {
         JSONObject jsonObject = (JSONObject) JSONObject.parse(msg);
         jsonObject.get("requestId");
         retryMap.put(jsonObject.get("requestId").toString(), new NettyMessageRetry(channelId, msg, new Date(), 0));
     }
 
+    /**
+     * 重发消息删除
+     *
+     * @param requestId
+     */
     public void removeNettyRetryMap(String requestId) {
         retryMap.remove(requestId);
     }
