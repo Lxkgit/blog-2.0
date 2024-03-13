@@ -115,7 +115,7 @@ public class NettyServer implements CommandLineRunner {
         return true;
     }
 
-    public boolean channelWriteByClientId(String registerId, String msg) {
+    public boolean channelWriteByRegisterId(String registerId, String msg) {
         NettyClientChannel nettyClientChannel = NettyServerHandler.clientMap.get(registerId);
         if (nettyClientChannel == null) {
             log.warn("通道注册码【{}】不存在!!", registerId);

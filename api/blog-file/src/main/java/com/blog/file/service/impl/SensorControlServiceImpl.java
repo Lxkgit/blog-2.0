@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.Constant;
 import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.*;
-import com.blog.common.entity.file.vo.ChipVo;
 import com.blog.common.entity.file.vo.SensorControlVo;
 import com.blog.common.entity.file.vo.sensor.control.SensorCommandVo;
 import com.blog.common.enums.file.SensorTypeEnum;
@@ -19,11 +18,9 @@ import com.blog.file.dao.DeviceDAO;
 import com.blog.file.dao.SensorControlDAO;
 import com.blog.file.dao.SensorDAO;
 import com.blog.file.netty.dto.NettyPacket;
-import com.blog.file.netty.dto.NettySyncBlogFile;
 import com.blog.file.netty.enums.NettyTopicEnum;
 import com.blog.file.netty.service.NettyServer;
 import com.blog.file.service.SensorControlService;
-import com.blog.file.service.SensorService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -164,7 +161,7 @@ public class SensorControlServiceImpl implements SensorControlService {
      * @throws ValidException
      */
     @Override
-    public void controlSensor(Integer userId, Integer id) throws ValidException {
+    public Boolean controlSensor(Integer userId, Integer id) throws ValidException {
         QueryWrapper<SensorControl> sensorControlQueryWrapper = new QueryWrapper<>();
         sensorControlQueryWrapper.eq("id", id);
         sensorControlQueryWrapper.eq("user_id", userId);
@@ -195,6 +192,9 @@ public class SensorControlServiceImpl implements SensorControlService {
         if (device == null) {
             throw new ValidException(ErrorMessage.DEVICE_NOT_EXISTS);
         }
+        if (device.getDeviceStatus().equals(Constant.DEVICE_OFFLINE)) {
+            throw new ValidException(ErrorMessage.DEVICE_OFFLINE);
+        }
 
         SensorCommandVo commandVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControl.getControlMessage()), SensorTypeEnum.getRuleImpl("DUO"));
         commandVo.setChipType(chip.getChipType());
@@ -203,7 +203,7 @@ public class SensorControlServiceImpl implements SensorControlService {
         NettyPacket<SensorCommandVo> sensorCommandRequest = NettyPacket.buildRequest(commandVo);
         sensorCommandRequest.setTopic(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic());
 
-        nettyServer.channelWriteByClientId(device.getDeviceCode(), JSONObject.toJSONString(sensorCommandRequest));
+        return nettyServer.channelWriteByRegisterId(device.getDeviceCode(), JSONObject.toJSONString(sensorCommandRequest));
     }
 
     private static void validateIvsRuleInfo(SensorCommandVo sensorCommandVo) throws ValidException {

@@ -36,13 +36,13 @@ public class SyncBlogFileSchedule {
     @Scheduled(cron = "0 0 0 * * ?")
     public void initFile() {
         log.info("文件同步");
-//        if (!ShellUtil.shell(ShellCommand.exportBlogZip)) {
-//            // 脚本执行失败停止执行
-//            return;
-//        }
+        if (!ShellUtil.shell(ShellCommand.exportBlogZip)) {
+            // 脚本执行失败停止执行
+            return;
+        }
 
         NettySyncBlogFile nettySyncBlogFile = new NettySyncBlogFile();
-        nettySyncBlogFile.setSyncType(0);
+        nettySyncBlogFile.setSyncType(2);
         nettySyncBlogFile.setFileCode("blog.zip");
         nettySyncBlogFile.setFileName("blog.zip");
         nettySyncBlogFile.setFilePath("/");
@@ -51,13 +51,8 @@ public class SyncBlogFileSchedule {
         nettyResponse.setNettyPacketType(NettyPacketType.REQUEST.getValue());
         nettyResponse.setTopic(NettyTopicEnum.BLOG_FILE_SYNC.getTopic());
 
+        nettyServer.channelWriteByRegisterId(NettyConstant.NETTY_CLIENT1, JSONObject.toJSONString(nettyResponse));
 
-        boolean success = nettyServer.channelWriteByClientId(NettyConstant.NETTY_CLIENT1, JSONObject.toJSONString(nettyResponse));
-        if (success) {
-            log.info("文件同步成功");
-        } else {
-            log.error("文件同步失败");
-        }
     }
 
 

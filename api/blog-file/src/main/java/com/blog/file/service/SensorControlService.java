@@ -25,5 +25,5 @@ public interface SensorControlService {
     /**
      * 下发传感器控制命令
      */
-    void controlSensor(Integer userId, Integer id) throws ValidException;
+    Boolean controlSensor(Integer userId, Integer id) throws ValidException;
 }

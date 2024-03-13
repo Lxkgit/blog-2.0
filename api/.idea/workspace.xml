@@ -16,21 +16,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-03-12【功能修改】：完善博客数据同步功能">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-auth/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-auth/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettySyncBlogFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettySyncBlogFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/SyncBlogFileSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/SyncBlogFileSchedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-gateway/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-gateway/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/ftp/FtpsUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/ftp/FtpUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/NettySyncBlogFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/NettySyncBlogFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/listener/NettyClientPacketListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/listener/NettyClientPacketListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/service/SyncBlogFileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/listener/service/SyncBlogFileService.java" afterDir="false" />
-    </list>
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-03-12【功能修改】：文件同步netty发送与接收处理流程修改" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -517,14 +503,7 @@
       <workItem from="1710039300828" duration="9166000" />
       <workItem from="1710086814333" duration="85000" />
       <workItem from="1710165828312" duration="4058000" />
-      <workItem from="1710255178059" duration="354000" />
-    </task>
-    <task id="LOCAL-00100" summary="23-07-30【功能新增】：设置功能新增完成">
-      <created>1690729214058</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1690729214060</updated>
+      <workItem from="1710255178059" duration="656000" />
     </task>
     <task id="LOCAL-00101" summary="23-08-03【功能新增】：开始开发文件上传管理功能">
       <created>1690992413904</created>
@@ -862,7 +841,14 @@
       <option name="project" value="LOCAL" />
       <updated>1710172900345</updated>
     </task>
-    <option name="localTasksCounter" value="149" />
+    <task id="LOCAL-00149" summary="24-03-12【功能修改】：文件同步netty发送与接收处理流程修改">
+      <created>1710255817063</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1710255817063</updated>
+    </task>
+    <option name="localTasksCounter" value="150" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -893,7 +879,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="24-01-16【功能修改】：完善接口校验，开始编写接口文档" />
     <MESSAGE value="24-01-30【功能修改】：修改netty注册流程，新增设备注册功能" />
     <MESSAGE value="24-01-30【功能新增】：新增设备管理接口" />
     <MESSAGE value="24-01-31【功能新增】：新增单片机相关接口" />
@@ -918,7 +903,8 @@
     <MESSAGE value="24-03-10【bug修复】：修复部署之后日志时间错误问题" />
     <MESSAGE value="24-03-11【功能新增】：前端添加开发环境与生产环境的配置" />
     <MESSAGE value="24-03-12【功能修改】：完善博客数据同步功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="24-03-12【功能修改】：完善博客数据同步功能" />
+    <MESSAGE value="24-03-12【功能修改】：文件同步netty发送与接收处理流程修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="24-03-12【功能修改】：文件同步netty发送与接收处理流程修改" />
   </component>
   <component name="WindowStateProjectService">
     <state x="842" y="386" key="#Notifications" timestamp="1702195519476">
@@ -1052,11 +1038,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="694" y="216" key="VCS.ChangeListViewerDialog/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1710051947710" />
-    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1710172911066">
+    <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2" timestamp="1710255826655">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="395" y="243" width="1228" height="534" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1702226105158" />
-    <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1710172911066" />
+    <state x="395" y="243" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1710255826655" />
     <state x="2315" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1080@1920.0.1920.1080" timestamp="1710043342253" />
     <state x="395" y="245" key="Vcs.Push.Dialog.v2/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1701962645226" />
     <state x="662" y="252" width="596" height="560" key="find.popup" timestamp="1709915046256">

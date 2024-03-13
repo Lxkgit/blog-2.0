@@ -1,6 +1,5 @@
 package com.blog.file.service.impl;
 
-import cn.hutool.json.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.Constant;
@@ -220,7 +219,7 @@ public class FileServiceImpl implements FileService {
         }
         NettyPacket<NettySyncBlogFile> syncFileRequest = NettyPacket.buildRequest(nettySyncBlogFile);
         syncFileRequest.setTopic(NettyTopicEnum.BLOG_FILE_SYNC.getTopic());
-        nettyServer.channelWriteByClientId(NettyConstant.NETTY_CLIENT1, JSONObject.toJSONString(syncFileRequest));
+        nettyServer.channelWriteByRegisterId(NettyConstant.NETTY_CLIENT1, JSONObject.toJSONString(syncFileRequest));
         return true;
     }
 

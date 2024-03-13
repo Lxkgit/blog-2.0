@@ -198,8 +198,11 @@ public class SensorController extends BaseController {
     @GetMapping("/control/send")
     @PreAuthorize("hasAnyAuthority('sys:sensor:control:send')")
     public Result controlSensor(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) SensorControlVo sensorControlVo) throws ValidException {
-        sensorControlService.controlSensor(getBlogUser(request).getId(), sensorControlVo.getId());
-        return ResultFactory.buildSuccessResult();
+        Boolean flag = sensorControlService.controlSensor(getBlogUser(request).getId(), sensorControlVo.getId());
+        if (flag) {
+            return ResultFactory.buildSuccessResult();
+        }
+        return ResultFactory.buildFailResult("命令下发失败");
     }
 
     /**
