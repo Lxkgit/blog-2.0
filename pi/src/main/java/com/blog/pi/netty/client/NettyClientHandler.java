@@ -4,7 +4,9 @@ package com.blog.pi.netty.client;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.blog.pi.config.InitConfig;
+import com.blog.pi.netty.dto.NettyHeartBeat;
 import com.blog.pi.netty.dto.NettyPacket;
+import com.blog.pi.netty.enums.HeartBeatType;
 import com.blog.pi.netty.enums.NettyPacketType;
 import com.blog.pi.netty.event.NettyPacketEvent;
 import io.netty.channel.ChannelDuplexHandler;
@@ -75,8 +77,12 @@ public class NettyClientHandler extends ChannelDuplexHandler {
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
             if (idleStateEvent.state() == IdleState.WRITER_IDLE) {
+                NettyHeartBeat nettyHeartBeat = new NettyHeartBeat();
+                nettyHeartBeat.setHeartBeat(new Date());
+                nettyHeartBeat.setFrom((String) InitConfig.getRegisterConfig("netty", "registerId"));
+                nettyHeartBeat.setType(HeartBeatType.SERVICE.getType());
                 // 向服务端发送心跳包
-                NettyPacket<String> nettyRequest = NettyPacket.buildRequest("client heartbeat " + new Date());
+                NettyPacket<NettyHeartBeat> nettyRequest = NettyPacket.buildRequest(nettyHeartBeat);
                 nettyRequest.setNettyPacketType(NettyPacketType.HEARTBEAT.getValue());
                 nettyRequest.setTopic(NettyPacketType.HEARTBEAT.getValue());
                 // 发送心跳消息，并在发送失败时关闭该连接

@@ -22,10 +22,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class NettyPacket<T> implements Serializable {
 
-//    private static final long serialVersionUID = -7355782421412073639L;
-
-    public static Map<String, NettyPacket<Object>> MESSAGE_QUEUE = new ConcurrentHashMap<>();
-
     // netty 消息唯一序列号
     private String requestId;
     // netty 请求类型
@@ -56,14 +52,6 @@ public class NettyPacket<T> implements Serializable {
         nettyPacket.setRegisterId((String) InitConfig.getRegisterConfig("netty", "registerId"));
         nettyPacket.setData(data);
         return nettyPacket;
-    }
-
-    public static void request(String requestId, NettyPacket<Object> nettyResponse) {
-        MESSAGE_QUEUE.put(requestId, nettyResponse);
-    }
-
-    public static void response(String requestId) {
-        MESSAGE_QUEUE.remove(requestId);
     }
 
     private static String getOnlyId() {

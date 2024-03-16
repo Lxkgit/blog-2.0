@@ -9,7 +9,9 @@ import com.blog.common.entity.user.BlogUser;
 import com.blog.file.dao.DeviceDAO;
 import com.blog.file.feign.UserClient;
 import com.blog.file.netty.dto.NettyClientChannel;
+import com.blog.file.netty.dto.NettyHeartBeat;
 import com.blog.file.netty.dto.NettyPacket;
+import com.blog.file.netty.enums.HeartBeatType;
 import com.blog.file.netty.enums.NettyPacketType;
 import com.blog.file.netty.enums.NettyTopicEnum;
 import com.blog.file.netty.event.NettyPacketEvent;
@@ -78,16 +80,15 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
                 }
             }
         } else if (nettyPacketType.equals(NettyPacketType.HEARTBEAT.getValue())) {
-            NettyPacket<String> nettyResponse = NettyPacket.buildResponse(event.getNettyPacket().getRequestId(), "service receive heartbeat");
-            nettyResponse.setNettyPacketType(NettyPacketType.HEARTBEAT.getValue());
-            nettyResponse.setTopic(NettyPacketType.HEARTBEAT.getValue());
-            nettyResponse.setUsername(username);
             if (!NettyServerHandler.clientMap.containsKey(registerId)) {
                 addNettyChannel(channelId, username, registerId);
                 log.info("心跳 客户端【{}】与netty通道【{}】绑定", registerId, channelId);
             }
             NettyServerHandler.clientMap.get(registerId).setDate(new Date());
-            nettyServer.channelWriteByChannelId(channelId, JSONObject.toJSONString(nettyResponse));
+            NettyHeartBeat nettyHeartBeat = JSONObject.parseObject(data, NettyHeartBeat.class);
+            if (nettyHeartBeat.getType().equals(HeartBeatType.SERVICE.getType())) {
+//                System.out.println(nettyHeartBeat.toString());
+            }
         } else if (nettyPacketType.equals(NettyPacketType.REQUEST.getValue())) {
             BlogUser blogUser = JSONObject.parseObject(JSONObject.toJSONString(userClient.getUserByUsername(username).getResult()), BlogUser.class);
             JSONObject jsonObject = (JSONObject) event.getNettyPacket().getData();

@@ -17,6 +17,7 @@ public class ShellUtil {
         try {
             Runtime runtime = Runtime.getRuntime();
             Process pro = runtime.exec(command);
+            // pro.waitFor()方法会阻塞到执行结束然后返回执行结果，0为执行成功，1为执行失败
             int status = pro.waitFor();
             if (status == 0) {
                 return true;
