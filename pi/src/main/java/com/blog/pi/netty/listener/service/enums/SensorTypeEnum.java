@@ -1,8 +1,8 @@
-package com.blog.common.enums.file;
+package com.blog.pi.netty.listener.service.enums;
 
-import com.blog.common.entity.file.vo.sensor.control.SensorCommandCheckVo;
-import com.blog.common.entity.file.vo.sensor.control.SensorCommandVo;
-import com.blog.common.entity.file.vo.sensor.control.SteeringEngineVo;
+
+import com.blog.pi.netty.listener.service.vo.SensorCommandVo;
+import com.blog.pi.netty.listener.service.vo.SteeringEngineVo;
 
 /**
  * 传感器类型枚举类
@@ -21,9 +21,9 @@ public enum SensorTypeEnum {
 
     private String sensorName;
 
-    private Class<? extends SensorCommandCheckVo> commandClass;
+    private Class<? extends SensorCommandVo> commandClass;
 
-    SensorTypeEnum(String sensorCode, String sensorName, Class<? extends SensorCommandCheckVo> analysisClass) {
+    SensorTypeEnum(String sensorCode, String sensorName, Class<? extends SensorCommandVo> analysisClass) {
         this.sensorCode = sensorCode;
         this.sensorName = sensorName;
         this.commandClass = analysisClass;
@@ -35,7 +35,7 @@ public enum SensorTypeEnum {
      * @param sensorCode
      * @return
      */
-    public static Class<? extends SensorCommandCheckVo> getRuleImpl(String sensorCode) {
+    public static Class<? extends SensorCommandVo> getRuleImpl(String sensorCode) {
         for (SensorTypeEnum sensorTypeEnum : SensorTypeEnum.values()) {
             if (sensorTypeEnum.getSensorCode().equals(sensorCode)) {
                 if (sensorTypeEnum.getCommandClass() != null) {
@@ -63,11 +63,11 @@ public enum SensorTypeEnum {
         this.sensorName = sensorName;
     }
 
-    public Class<? extends SensorCommandCheckVo> getCommandClass() {
+    public Class<? extends SensorCommandVo> getCommandClass() {
         return commandClass;
     }
 
-    public void setCommandClass(Class<? extends SensorCommandCheckVo> commandClass) {
+    public void setCommandClass(Class<? extends SensorCommandVo> commandClass) {
         this.commandClass = commandClass;
     }
 }

@@ -9,6 +9,7 @@ import com.blog.pi.mqtt.MqttPushClient;
 import com.blog.pi.netty.dto.NettySyncBlogFile;
 import com.blog.pi.netty.enums.NettyPacketType;
 import com.blog.pi.netty.event.NettyPacketEvent;
+import com.blog.pi.netty.listener.service.SensorControlService;
 import com.blog.pi.netty.listener.service.SyncBlogFileService;
 import io.netty.channel.ChannelId;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,9 @@ public class NettyClientPacketListener implements ApplicationListener<NettyPacke
     @Resource
     private SyncBlogFileService syncBlogFileService;
 
+    @Resource
+    private SensorControlService sensorControlService;
+
     @Async
     @Override
     public void onApplicationEvent(NettyPacketEvent event) {
@@ -52,12 +56,7 @@ public class NettyClientPacketListener implements ApplicationListener<NettyPacke
                 NettySyncBlogFile nettySyncBlogFile = JSON.parseObject(data, NettySyncBlogFile.class);
                 syncBlogFileService.syncBlogFile(nettySyncBlogFile, requestId);
             } else if (topic.equals(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic())) {
-                try {
-                    MqttPushClient.publish(MQTTTopicEnum.SENSOR_CONTROL.getTopic(), data);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                sensorControlService.sendCommand(data);
             }
         } else if (nettyPacketType.equals(NettyPacketType.RESPONSE.getValue())) {
             // 处理服务端数据响应

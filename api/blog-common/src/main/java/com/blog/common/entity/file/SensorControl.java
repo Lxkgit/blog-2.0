@@ -46,6 +46,11 @@ public class SensorControl {
     private String controlMessage;
 
     /**
+     * 命令类型 0:单条命令 1:组合命令
+     */
+    private Integer controlType;
+
+    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

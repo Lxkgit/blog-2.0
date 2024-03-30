@@ -34,7 +34,7 @@ public class BeanValidationUtil {
      * @auther 27919
      * @date 2020年4月18日
      */
-    public static <T> Map<String,String> validationBean(T t,Class<? extends Object> group) {
+    public static <T> Map<String,String> validationBean(T t,Class<?> group) {
         if (null == group) {
             group = Default.class;
         }

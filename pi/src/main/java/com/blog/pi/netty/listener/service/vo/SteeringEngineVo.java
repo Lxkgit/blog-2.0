@@ -1,7 +1,6 @@
-package com.blog.common.entity.file.vo.sensor.control;
+package com.blog.pi.netty.listener.service.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.blog.common.valication.group.AddGroup;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -13,16 +12,18 @@ import javax.validation.constraints.Min;
  */
 
 
-public class SteeringEngineVo extends SensorCommandCheckVo {
+public class SteeringEngineVo extends SensorCommandVo {
 
-    @Max(value = 180,message="舵机参数范围为0-180",groups={AddGroup.class})
-    @Min(value = 0,message="舵机参数范围为0-180",groups={AddGroup.class})
+    /**
+     * 舵机旋转角度
+     */
     @JSONField(name = "data")
     private Integer data;
 
     /**
      * 命令延时 多条组合命令延时使用,分隔
      */
+    @JSONField(name = "controlIntervalTime")
     private Integer controlIntervalTime;
 
     public Integer getData() {

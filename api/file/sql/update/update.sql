@@ -22,3 +22,5 @@ ALTER TABLE blog_sensor ADD COLUMN `memo` VARCHAR(255) DEFAULT NULL COMMENT '传
 
 INSERT INTO `register_setting` VALUES (5, 'mqtt', 'dev', '{\r\n	\"ip\": \"localhost\",\r\n	\"port\": 1883,\r\n	\"username\": \"admin\",\r\n	\"password\": \"public\",\r\n	\"clientId\": \"SMP1\"\r\n}');
 INSERT INTO `register_setting` VALUES (6, 'mqtt', 'pro', '{\r\n	\"ip\": \"192.168.0.106\",\r\n	\"port\": 1883,\r\n	\"username\": \"admin\",\r\n	\"password\": \"public\",\r\n	\"clientId\": \"SMP1\"\r\n}');
+
+ALTER TABLE blog_sensor_control ADD COLUMN `control_type` tinyint(4) DEFAULT 0 COMMENT '命令类型 0:单条命令 1:组合命令';

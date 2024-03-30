@@ -1,12 +1,15 @@
 package com.blog.file.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.Constant;
 import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.*;
 import com.blog.common.entity.file.vo.SensorControlVo;
+import com.blog.common.entity.file.vo.sensor.control.SensorCommandCheckVo;
 import com.blog.common.entity.file.vo.sensor.control.SensorCommandVo;
+import com.blog.common.entity.file.vo.sensor.control.SteeringEngineVo;
 import com.blog.common.enums.file.SensorTypeEnum;
 import com.blog.common.exception.ValidException;
 import com.blog.common.util.BeanValidationUtil;
@@ -24,6 +27,7 @@ import com.blog.file.service.SensorControlService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -67,9 +71,10 @@ public class SensorControlServiceImpl implements SensorControlService {
     @Override
     public Integer createSensorControl(Integer userId, SensorControlVo sensorControlVo) throws ValidException {
 
-        SensorCommandVo sensorCommandVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControlVo.getControlMessage()),
+        SensorCommandCheckVo sensorCommandCheckVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControlVo.getControlMessage()),
                 SensorTypeEnum.getRuleImpl(sensorControlVo.getSensorCode()));
-        validateIvsRuleInfo(sensorCommandVo);
+
+        validateIvsRuleInfo(sensorCommandCheckVo);
         sensorControlVo.setUserId(userId);
         sensorControlVo.setCreateTime(new Date());
         sensorControlVo.setUpdateTime(new Date());
@@ -196,19 +201,22 @@ public class SensorControlServiceImpl implements SensorControlService {
             throw new ValidException(ErrorMessage.DEVICE_OFFLINE);
         }
 
-        SensorCommandVo commandVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControl.getControlMessage()), SensorTypeEnum.getRuleImpl("DUO"));
+        List<SteeringEngineVo> list = JSONArray.parseArray(sensorControl.getControlMessage(), SteeringEngineVo.class);
+
+        SensorCommandVo<SteeringEngineVo> commandVo = new SensorCommandVo<>();
         commandVo.setChipType(chip.getChipType());
         commandVo.setSensorType(sensor.getSensorCode());
+        commandVo.setCommandList(list);
 
-        NettyPacket<SensorCommandVo> sensorCommandRequest = NettyPacket.buildRequest(commandVo);
+        NettyPacket<SensorCommandVo<SteeringEngineVo>> sensorCommandRequest = NettyPacket.buildRequest(commandVo);
         sensorCommandRequest.setTopic(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic());
 
         return nettyServer.channelWriteByRegisterId(device.getDeviceCode(), JSONObject.toJSONString(sensorCommandRequest));
     }
 
-    private static void validateIvsRuleInfo(SensorCommandVo sensorCommandVo) throws ValidException {
+    private static void validateIvsRuleInfo(SensorCommandCheckVo sensorCommandCheckVo) throws ValidException {
 
-        Map<String, String> errorMap = BeanValidationUtil.validationBean(sensorCommandVo, AddGroup.class);
+        Map<String, String> errorMap = BeanValidationUtil.validationBean(sensorCommandCheckVo, AddGroup.class);
 
         if (!CollectionUtils.isEmpty(errorMap)) {
             throw new ValidException(ErrorMessage.PARAMETER_VERIFICATION_ERROR, errorMap);

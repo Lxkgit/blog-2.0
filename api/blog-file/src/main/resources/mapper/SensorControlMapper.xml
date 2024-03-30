@@ -7,13 +7,14 @@
         <id column="sensor_id" property="sensorId" jdbcType="INTEGER"/>
         <id column="control_name" property="controlName" jdbcType="VARCHAR"/>
         <id column="control_message" property="controlMessage" jdbcType="VARCHAR"/>
+        <id column="control_type" property="controlType" jdbcType="INTEGER"/>
         <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
 
     <sql id="Base_Column_List">
-        id, user_id, sensor_id, control_name, control_message, create_time, update_time
+        id, user_id, sensor_id, control_name, control_message, control_type, create_time, update_time
     </sql>
 
     <update id="updateSensorControlById" parameterType="com.blog.common.entity.file.SensorControl">
