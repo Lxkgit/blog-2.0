@@ -56,7 +56,7 @@ public class NettyClientPacketListener implements ApplicationListener<NettyPacke
                 NettySyncBlogFile nettySyncBlogFile = JSON.parseObject(data, NettySyncBlogFile.class);
                 syncBlogFileService.syncBlogFile(nettySyncBlogFile, requestId);
             } else if (topic.equals(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic())) {
-                sensorControlService.sendCommand(data);
+                sensorControlService.sendCommand(data, requestId);
             }
         } else if (nettyPacketType.equals(NettyPacketType.RESPONSE.getValue())) {
             // 处理服务端数据响应

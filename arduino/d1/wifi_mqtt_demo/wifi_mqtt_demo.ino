@@ -6,9 +6,9 @@
 #include <stdio.h>
 #include <string.h>
 
-const char* ssid = "ChinaNet-xEDd";       // wifi热点名称
-const char* passwd = (char*)"ektj699s";  // wifi热点密码
-const char* mqtt_server = "192.168.1.28"; // mqtt服务器地址
+const char* ssid = "TP-LINK_424D";       // wifi热点名称
+const char* passwd = (char*)"tplink96012";  // wifi热点密码
+const char* mqtt_server = "192.168.0.106"; // mqtt服务器地址
 const int port = 1883; // mqtt服务器端口号
 const char* MESSAGE_TOPIC = "SENSOR_DATA"; // 发送消息mqtt topic
 const char* CONTROL_TOPIC = "SENSOR_CONTROL";
@@ -21,20 +21,25 @@ const char* client_id = "WeMosD1-01"; //这个是板子的编号
 
 
 DHT dht(DHTPIN, DHTTYPE);
-long lastSend;
+int lastSend;
 WiFiClient espclient;
 PubSubClient client(espclient);
 Servo myservo;  //创建一个舵机控制对象
 
 //获取传感器数据进行发送
 void gettemp() {
-  //上传的字符串进行拼接转义
-  float h = dht.readHumidity();//读湿度
-  float t = dht.readTemperature();//读温度，默认为摄氏度
+  lastSend = lastSend + 1;
+  if (lastSend % 30 == 0) {
+    lastSend = 0;
+    //上传的字符串进行拼接转义
+    float h = dht.readHumidity();//读湿度
+    float t = dht.readTemperature();//读温度，默认为摄氏度
 
-  char attributes[100];
-  sprintf(attributes, "{\"chipType\":\"%s\",\"sensorType\":\"DHT11\",\"data\":[{\"key\":\"温度\",\"value\":\"%.2f\"},{\"key\":\"湿度\",\"value\":\"%.2f\"}]}", client_id, t, h);
-  client.publish(MESSAGE_TOPIC, attributes );
+    char attributes[100];
+    sprintf(attributes, "{\"chipType\":\"%s\",\"sensorType\":\"DHT11\",\"data\":[{\"key\":\"温度\",\"value\":\"%.2f\"},{\"key\":\"湿度\",\"value\":\"%.2f\"}]}", client_id, t, h);
+    client.publish(MESSAGE_TOPIC, attributes );
+  }
+
 
 }
 //初始化wifi
@@ -104,7 +109,7 @@ void setup() {
 }
 void loop() {
   reconnect();  //1.首先进行服务器的连接  因为这是循环函数 所以执行一次后判断就行了
-  delay(20000);
+  delay(1000);
   gettemp();
   client.loop();
 }

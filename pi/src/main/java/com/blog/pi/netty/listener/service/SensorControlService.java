@@ -2,14 +2,19 @@ package com.blog.pi.netty.listener.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.blog.pi.enums.mqtt.MQTTTopicEnum;
-import com.blog.pi.mqtt.MqttPushClient;
+import com.blog.pi.netty.client.NettyClient;
+import com.blog.pi.netty.dto.NettyPacket;
+import com.blog.pi.netty.dto.NettyResponse;
 import com.blog.pi.netty.listener.service.enums.SensorTypeEnum;
+import com.blog.pi.netty.listener.service.thread.CommandSendThread;
+import com.blog.pi.netty.listener.service.thread.CommandThreadService;
 import com.blog.pi.netty.listener.service.vo.SensorCommandVo;
 import com.blog.pi.netty.listener.service.vo.SteeringEngineVo;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Proxy;
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @description: 传感器控制服务类
@@ -20,35 +25,34 @@ import java.lang.reflect.Proxy;
 @Component
 public class SensorControlService {
 
-    public void sendCommand(String command) {
+    @Resource
+    private NettyClient nettyClient;
+
+    public void sendCommand(String command, String requestId) {
         JSONObject jsonObject = JSONObject.parseObject(command);
-
-//        Class<? extends SensorCommandVo> sensorCommandVo = SensorTypeEnum.getRuleImpl(jsonObject.get("sensorType").toString());
-
+        List<SensorCommandVo> sensorCommandVoList = new ArrayList<>();
         if (SensorTypeEnum.DUO_JI.getSensorCode().equals(jsonObject.get("sensorType"))) {
-            SteeringEngineVo steeringEngineVo = new SteeringEngineVo();
-            steeringEngineVo.setSensorType(jsonObject.getString("sensorType"));
-            steeringEngineVo.setChipType(jsonObject.getString("chipType"));
             JSONArray jsonArray = (JSONArray) JSONArray.parse(jsonObject.get("commandList").toString());
             for (int i=0; i<jsonArray.size(); i++) {
-                steeringEngineVo.setData(jsonArray.get(i));
+                SteeringEngineVo steeringEngineVo = new SteeringEngineVo();
+                steeringEngineVo.setSensorType(jsonObject.getString("sensorType"));
+                steeringEngineVo.setChipType(jsonObject.getString("chipType"));
+                JSONObject data = JSONObject.parseObject(jsonArray.getString(i));
+                steeringEngineVo.setControlIntervalTime(data.getInteger("controlIntervalTime"));
+                steeringEngineVo.setData(data.getInteger("data"));
+                sensorCommandVoList.add(steeringEngineVo);
             }
         }
 
-        System.out.println(jsonObject.get("commandList"));
+        if (sensorCommandVoList.size() > 0) {
+            CommandSendThread commandThread = new CommandSendThread(sensorCommandVoList);
+            CommandThreadService.commandSendPool.execute(commandThread);
+        }
 
-        System.out.println(jsonArray.size());
+        // 响应服务端处理结果
+        NettyResponse nettyResponse = new NettyResponse(true);
+        NettyPacket<NettyResponse> nettyPacket = NettyPacket.buildResponse(requestId, nettyResponse);
+        nettyClient.sendMsg(JSONObject.toJSONString(nettyPacket));
 
-        SensorCommandVo sensorCommandVo = new SensorCommandVo();
-
-
-//        SensorCommandVo commandVo =
-//                SensorTypeEnum.getRuleImpl("DUO");
-
-//        try {
-//            MqttPushClient.publish(MQTTTopicEnum.SENSOR_CONTROL.getTopic(), data);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 }
