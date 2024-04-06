@@ -50,12 +50,27 @@ public class DiaryController extends BaseController {
         return ResultFactory.buildSuccessResult(diaryService.saveDiary(diaryVo));
     }
 
+    /**
+     * 批量删除日记
+     *
+     * @param request
+     * @param diaryVo
+     * @return
+     * @throws ValidException
+     */
     @DeleteMapping("/delete")
     @PreAuthorize("hasAnyAuthority('sys:diary:delete')")
     public Result deleteDiaryByDate(HttpServletRequest request, @Validated(value = {DeleteGroup.class}) DiaryVo diaryVo) throws ValidException {
         return ResultFactory.buildSuccessResult(diaryService.deleteDiary(diaryVo.getIds(), getBlogUser(request).getId()));
     }
 
+    /**
+     * 修改日记
+     *
+     * @param request
+     * @param diaryVo
+     * @return
+     */
     @PostMapping("/update")
     @PreAuthorize("hasAnyAuthority('sys:diary:update')")
     public Result updateDiary(HttpServletRequest request, @RequestBody @Validated(value = {UpdateGroup.class}) DiaryVo diaryVo) {
@@ -63,6 +78,13 @@ public class DiaryController extends BaseController {
         return ResultFactory.buildSuccessResult(diaryService.updateDiary(diaryVo));
     }
 
+    /**
+     * 分页查询日记
+     *
+     * @param request
+     * @param diaryVo
+     * @return
+     */
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('sys:diary:list')")
     public Result selectDiaryByDate(HttpServletRequest request, DiaryVo diaryVo) {

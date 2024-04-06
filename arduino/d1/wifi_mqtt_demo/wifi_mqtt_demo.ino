@@ -29,7 +29,7 @@ Servo myservo;  //创建一个舵机控制对象
 //获取传感器数据进行发送
 void gettemp() {
   lastSend = lastSend + 1;
-  if (lastSend % 30 == 0) {
+  if (lastSend % 300 == 0) {
     lastSend = 0;
     //上传的字符串进行拼接转义
     float h = dht.readHumidity();//读湿度

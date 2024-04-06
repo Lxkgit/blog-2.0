@@ -83,6 +83,7 @@ public class DiaryServiceImpl implements DiaryService {
         for (String id : idSet) {
             QueryWrapper<Diary> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("id", id);
+            queryWrapper.eq("user_id", userId);
             queryWrapper.ne("diary_status", Constant.DELETE);
             Diary diary = diaryDAO.selectOne(queryWrapper);
             if (diary == null) {

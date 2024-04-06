@@ -30,8 +30,7 @@ public class DocController {
 
     @PutMapping("/content/insert")
     @PreAuthorize("hasAnyAuthority('sys:doc:insert')")
-//    @RequestHeader(required = false,value = "Authorization")
-    public Result insertDocCatalog(@RequestHeader HttpHeaders headers,@RequestBody DocCatalog docCatalog) {
+    public Result insertDocCatalog(@RequestHeader HttpHeaders headers, @RequestBody DocCatalog docCatalog) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
         return ResultFactory.buildSuccessResult(docService.insertDocCatalog(blogUser, docCatalog));
@@ -47,7 +46,7 @@ public class DocController {
 
     @PostMapping("/content/update")
     @PreAuthorize("hasAnyAuthority('sys:doc:update')")
-    public Result updateDocContent(@RequestHeader HttpHeaders headers,@RequestBody DocContent docContent) {
+    public Result updateDocContent(@RequestHeader HttpHeaders headers, @RequestBody DocContent docContent) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
         return ResultFactory.buildSuccessResult(docService.updateDocContent(blogUser, docContent));
@@ -55,7 +54,7 @@ public class DocController {
 
     @PostMapping("/catalog/update")
     @PreAuthorize("hasAnyAuthority('sys:doc:catalog:update')")
-    public Result updateDocCatalog(@RequestHeader HttpHeaders headers,@RequestBody DocCatalog docCatalog){
+    public Result updateDocCatalog(@RequestHeader HttpHeaders headers, @RequestBody DocCatalog docCatalog) {
         String token = String.valueOf(headers.get("Authorization"));
         BlogUser blogUser = JwtUtil.getUserInfo(token);
         return ResultFactory.buildSuccessResult(docService.updateDocCatalog(blogUser, docCatalog));
@@ -64,10 +63,7 @@ public class DocController {
     @GetMapping("/catalog/tree")
     public Result selectDocCatalogTree(@RequestHeader HttpHeaders headers, DocCatalogVo docCatalogVo) {
         String token = String.valueOf(headers.get("Authorization"));
-        BlogUser blogUser = null;
-        if (token != null && (token.contains("bearer") || token.contains("Bearer"))) {
-            blogUser = JwtUtil.getUserInfo(token);
-        }
+        BlogUser blogUser = JwtUtil.getUserInfo(token);
         return ResultFactory.buildSuccessResult(docService.selectDocCatalogTree(blogUser, docCatalogVo));
     }
 
@@ -82,7 +78,7 @@ public class DocController {
     }
 
     @GetMapping("/content/user")
-    public  Result selectDocUserList() {
+    public Result selectDocUserList() {
         return ResultFactory.buildSuccessResult(docService.selectDocUserList());
     }
 

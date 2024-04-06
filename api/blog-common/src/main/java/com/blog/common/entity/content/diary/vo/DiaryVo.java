@@ -24,7 +24,6 @@ import java.util.Date;
 @Setter
 public class DiaryVo extends Diary {
 
-    @Pattern(regexp = "^20[0-9]{2}-[0-9]{1,2}-[0-9]{1,2}$", message = "请输入正确的日记日期格式(yyyy-MM-dd)", groups = {AddGroup.class, UpdateGroup.class})
     private Date diaryDate;
 
     @Equal(value = "0,1", message = "日记状态（1：发布 0：草稿）字段错误", groups = {AddGroup.class, UpdateGroup.class})

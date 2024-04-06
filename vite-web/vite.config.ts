@@ -4,8 +4,9 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { resolve } from "path";
+import fs from 'fs';
 
-
+const cert = fs.readFileSync('./ssl/keystore.p12', 'utf-8');
 // https://vitejs.dev/config/
 export default defineConfig(
   ({ command, mode, ssrBuild }) => {
@@ -25,12 +26,16 @@ export default defineConfig(
         })
       ],
       server: {
+        // https: {
+        //   // cert
+        // },
         proxy: {
           '/api': {
             // target: 'http://' + ip + ':9527',	//实际请求地址
             target: 'http://localhost:9527',	//实际请求地址
             changeOrigin: true,
             secure: false,
+            // protocolRewrite: "https",
             rewrite: (path) => path.replace(/^\/api/, ''),
           }
         },

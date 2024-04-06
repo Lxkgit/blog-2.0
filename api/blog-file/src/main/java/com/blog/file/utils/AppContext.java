@@ -1,5 +1,6 @@
 package com.blog.file.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -16,10 +17,11 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @date 2024/1/12 11:19
  */
 
+@Slf4j
 public abstract class AppContext implements ApplicationContextAware {
-    private static Logger logger = LoggerFactory.getLogger(AppContext.class);
+    
     private static ApplicationContext context = null;
-    private static Boolean serviceSatrtCompleted = false;
+    private static Boolean serviceStartCompleted = false;
 
     public AppContext() {
     }
@@ -27,7 +29,7 @@ public abstract class AppContext implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext context) throws BeansException {
         if (AppContext.context == null) {
             setContext(context, false);
-            logger.info("Spring init successfully");
+            log.info("Spring init successfully");
         }
 
     }
@@ -39,7 +41,7 @@ public abstract class AppContext implements ApplicationContextAware {
             try {
                 return (T) context.getBean(name);
             } catch (BeansException var2) {
-                logger.error(var2.getMessage(), var2);
+                log.error(var2.getMessage(), var2);
                 return null;
             }
         }
@@ -52,7 +54,7 @@ public abstract class AppContext implements ApplicationContextAware {
             try {
                 return context.getBean(clazz);
             } catch (BeansException var2) {
-                logger.error(var2.getMessage(), var2);
+                log.error(var2.getMessage(), var2);
                 return null;
             }
         }
@@ -67,16 +69,16 @@ public abstract class AppContext implements ApplicationContextAware {
     }
 
     public static boolean isStartCompleted() {
-        return serviceSatrtCompleted;
+        return serviceStartCompleted;
     }
 
-    public static void setServiceSatrtCompleted(Boolean serviceSatrtCompleted) {
-        AppContext.serviceSatrtCompleted = serviceSatrtCompleted;
+    public static void setServiceStartCompleted(Boolean serviceStartCompleted) {
+        AppContext.serviceStartCompleted = serviceStartCompleted;
     }
 
     public static ApplicationContext getContext() {
         if (context == null) {
-            throw new IllegalStateException("applicaitonContext inject failure，please restart the service");
+            throw new IllegalStateException("application Context inject failure，please restart the service");
         } else {
             return context;
         }
@@ -85,8 +87,8 @@ public abstract class AppContext implements ApplicationContextAware {
     public static void setContext(ApplicationContext context, boolean isStartCompleted) {
         if (context != null) {
             AppContext.context = context;
-            serviceSatrtCompleted = serviceSatrtCompleted ? serviceSatrtCompleted : isStartCompleted;
-            logger.info("Set ApplicationContext successfully");
+            serviceStartCompleted = serviceStartCompleted || isStartCompleted;
+            log.info("Set ApplicationContext successfully");
         }
 
     }
