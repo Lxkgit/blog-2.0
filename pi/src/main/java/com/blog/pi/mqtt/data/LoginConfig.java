@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @description: 登录第三方中间件实体类
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/8/8 14:33
  */
 

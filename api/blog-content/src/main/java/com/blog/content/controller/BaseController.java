@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @description: 基础接口类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/15 14:51
  */
 

@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * @description: 传感器命令基础类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/3/29 20:00
  */
 

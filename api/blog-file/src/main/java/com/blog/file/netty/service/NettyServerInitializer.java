@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @description: Netty服务端初始化配置
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/6 15:16
  */
 @Component

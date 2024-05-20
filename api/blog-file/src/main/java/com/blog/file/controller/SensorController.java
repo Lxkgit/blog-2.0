@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @description: 传感器接口类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/30 20:07
  */
 

@@ -5,7 +5,7 @@ import com.blog.common.entity.file.SensorControl;
 
 /**
  * @description: 传感器控制数据层
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/2/2 10:44
  */
 

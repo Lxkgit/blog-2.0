@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @description: 传感器控制服务类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/3/29 19:56
  */
 

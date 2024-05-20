@@ -5,7 +5,7 @@ import com.blog.pi.entity.RegisterSetting;
 
 /**
  * @description: 注册配置数据层
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/29 15:45
  */
 

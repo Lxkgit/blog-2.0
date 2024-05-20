@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 
 /**
  * @description: 设备
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/30 11:33
  */
 

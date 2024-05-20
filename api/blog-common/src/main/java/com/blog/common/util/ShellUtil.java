@@ -6,7 +6,7 @@ import java.io.IOException;
 
 /**
  * @description: shell 脚本执行工具
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/3/11 14:16
  */
 

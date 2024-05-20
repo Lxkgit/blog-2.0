@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * @description: Mqtt连接发送工具
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/8/8 14:18
  */
 

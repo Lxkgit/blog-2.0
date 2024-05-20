@@ -6,7 +6,7 @@ import lombok.Data;
 
 /**
  * @description: 文件同步数据库
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/5 16:05
  */
 

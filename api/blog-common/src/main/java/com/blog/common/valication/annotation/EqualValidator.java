@@ -7,7 +7,7 @@ import javax.validation.ConstraintValidatorContext;
 
 /**
  * @description: @Equal 注解验证器
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/12 10:16
  */
 

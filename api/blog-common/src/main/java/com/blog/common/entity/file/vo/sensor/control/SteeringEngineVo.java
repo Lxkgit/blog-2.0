@@ -8,7 +8,7 @@ import javax.validation.constraints.Min;
 
 /**
  * @description: 舵机命令下发参数
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/2/2 11:06
  */
 

@@ -7,7 +7,7 @@ import lombok.Data;
 
 /**
  * @description: 注册设置表
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/29 15:46
  */
 

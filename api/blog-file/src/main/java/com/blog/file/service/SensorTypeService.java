@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @description: 传感器类型服务类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/2/22 14:54
  */
 

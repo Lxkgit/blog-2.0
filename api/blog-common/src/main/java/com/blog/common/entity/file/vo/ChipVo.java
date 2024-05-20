@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 
 /**
  * @description: 单片机表Vo类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/31 11:38
  */
 

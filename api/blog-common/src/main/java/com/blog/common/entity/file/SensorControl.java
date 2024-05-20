@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  * @description: 传感器控制语句存储表
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/2/1 16:38
  */
 

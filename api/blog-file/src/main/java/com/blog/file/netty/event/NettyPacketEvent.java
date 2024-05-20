@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationEvent;
 
 /**
  * @description: 自定义Netty数据包处理事件
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/6 15:15
  */
 @Getter

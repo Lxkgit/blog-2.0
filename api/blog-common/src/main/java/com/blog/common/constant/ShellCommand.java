@@ -2,7 +2,7 @@ package com.blog.common.constant;
 
 /**
  * @description: shell 脚本命令
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/3/11 14:24
  */
 

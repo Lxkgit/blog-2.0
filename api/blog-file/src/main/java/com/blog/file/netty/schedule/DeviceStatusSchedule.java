@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * @description: 设备状态更新
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/29 19:17
  */
 @Slf4j

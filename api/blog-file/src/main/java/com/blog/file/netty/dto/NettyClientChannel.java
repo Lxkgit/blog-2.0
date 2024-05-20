@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * @description: netty客户端通道信息
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/29 19:32
  */
 

@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * @description: 传感器设备字典表
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/31 19:31
  */
 

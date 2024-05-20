@@ -5,7 +5,7 @@ import com.blog.common.entity.file.SensorData;
 
 /**
  * @description: 传感器数据
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/2/1 14:06
  */
 

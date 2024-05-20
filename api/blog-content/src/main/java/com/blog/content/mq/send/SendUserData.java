@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 
 /**
  * @description: MQ消息快速发送类 BLOG_USER_DATA("BLOG_USER_DATA", "CONTENT" , "博客用户内容统计数据"),
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/12/27 14:31
  */
 

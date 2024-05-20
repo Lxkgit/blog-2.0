@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @description: mqtt发送消息类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/5 15:55
  */
 

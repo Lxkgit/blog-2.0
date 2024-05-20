@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @description: netty 消息响应类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/11 14:13
  */
 

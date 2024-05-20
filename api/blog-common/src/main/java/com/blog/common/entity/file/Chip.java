@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  * @description: 单片机表字段
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/30 19:59
  */
 

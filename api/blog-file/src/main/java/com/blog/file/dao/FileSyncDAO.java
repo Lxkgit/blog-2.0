@@ -6,7 +6,7 @@ import com.blog.common.entity.file.FileSync;
 
 /**
  * @description: 远程同步文件
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/5 16:07
  */
 

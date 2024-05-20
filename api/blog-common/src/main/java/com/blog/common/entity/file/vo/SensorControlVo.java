@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @description: 传感器控制Vo类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/2/2 10:32
  */
 

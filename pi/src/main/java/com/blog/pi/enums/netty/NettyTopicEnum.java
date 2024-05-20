@@ -2,7 +2,7 @@ package com.blog.pi.enums.netty;
 
 /**
  * @description: Netty 消息枚举类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/11 10:01
  */
 

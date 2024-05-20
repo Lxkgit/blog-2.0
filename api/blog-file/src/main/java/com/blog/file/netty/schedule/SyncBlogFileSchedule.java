@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 
 /**
  * @description: 博客数据定时同步
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/11 10:26
  */
 

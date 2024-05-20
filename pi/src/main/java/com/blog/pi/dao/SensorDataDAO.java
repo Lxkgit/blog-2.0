@@ -5,7 +5,7 @@ import com.blog.pi.entity.SensorData;
 
 /**
  * @description: 传感器数据接口
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/9 11:01
  */
 

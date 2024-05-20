@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * @description: 心跳消息类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/3/14 15:12
  */
 

@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * @description: 传感器数据表
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/1/9 10:56
  */
 

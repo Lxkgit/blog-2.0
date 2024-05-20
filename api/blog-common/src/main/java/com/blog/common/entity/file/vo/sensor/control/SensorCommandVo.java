@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @description: 传感器下发命令Vo类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/2/2 11:04
  */
 

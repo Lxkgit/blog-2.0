@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @description: rockerMQ消息消费类
- * @Author: 308501
+ * @Author: lxk
  * @date 2023/12/26 10:47
  */
 

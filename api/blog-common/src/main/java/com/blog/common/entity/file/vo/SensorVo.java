@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 
 /**
  * @description: 传感器Vo类
- * @Author: 308501
+ * @Author: lxk
  * @date 2024/2/1 10:31
  */
 
