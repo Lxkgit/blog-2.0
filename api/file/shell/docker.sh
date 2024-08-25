@@ -98,17 +98,16 @@ createDir() {
 dockerStart() {
   echo "开始安装docker..."
 	# 一键安装docker
-	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+#	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+  curl -fsSL https://github.com/tech-shrimp/docker_installer/releases/download/latest/linux.sh| bash -s docker --mirror Aliyun
 
   # 配置docker下载镜像源
+  mkdir -p /etc/docker
 	touch /etc/docker/daemon.json
 	echo "{"  >> /etc/docker/daemon.json
 	echo '  "registry-mirrors": ['  >> /etc/docker/daemon.json
-	echo '      "https://docker.mirrors.ustc.edu.cn",'  >> /etc/docker/daemon.json
-	echo '      "https://kuamavit.mirror.aliyuncs.com",'  >> /etc/docker/daemon.json
-	echo '      "http://hub-mirror.c.163.com",'  >> /etc/docker/daemon.json
-	echo '      "https://docker.mirrors.ustc.edu.cn",'  >> /etc/docker/daemon.json
-	echo '      "https://registry.docker-cn.com"'  >> /etc/docker/daemon.json
+	echo '      "https://docker.m.daocloud.io",'  >> /etc/docker/daemon.json
+	echo '      "https://docker.1panel.live"'  >> /etc/docker/daemon.json
 	echo "  ]"  >> /etc/docker/daemon.json
 	echo "}"  >> /etc/docker/daemon.json
 
@@ -146,7 +145,7 @@ updateMysqlConf() {
 
 ftp() {
   echo "正在启动ftp..."
-  docker run -d --name vsftpd --privileged=true --restart=always --network blog_network --ip 172.18.0.4 -p 61120:20 -p 61121:21 -p  61110-61119:61110-61119 -e FTP_USER=${ftpUsername} -e FTP_PASS=${ftpPassword} -e PASV_ADDRESS=124.221.12.158 -e PASV_MIN_PORT=61110 -e PASV_MAX_PORT=61119 -v /opt/docker/ftp:/home/vsftpd fauria/vsftpd
+  docker run -d --name vsftpd --privileged=true --restart=always --network blog_network --ip 172.18.0.4 -p 61120:20 -p 61121:21 -p  61110-61119:61110-61119 -e FTP_USER=${ftpUsername} -e FTP_PASS=${ftpPassword} -e PASV_ADDRESS=49.232.129.253 -e PASV_MIN_PORT=61110 -e PASV_MAX_PORT=61119 -v /opt/docker/ftp:/home/vsftpd fauria/vsftpd
 }
 
 recoverFiles() {
