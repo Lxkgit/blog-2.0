@@ -3,7 +3,7 @@ package com.blog.user.controller;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
-import com.blog.common.util.JwtUtil;
+import com.blog.common.util.TokenUtil;
 import com.blog.user.service.SysPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class MenuController {
             token = request.getParameter("Authorization");
         }
         try {
-            BlogUser blogUser = JwtUtil.getUserInfo(token);
+            BlogUser blogUser = TokenUtil.getUserInfo(token);
             return ResultFactory.buildSuccessResult(sysPermissionService.selectPermissionListByUserId(blogUser.getId(), menuType));
         } catch (Exception e) {
             log.warn("" + e);

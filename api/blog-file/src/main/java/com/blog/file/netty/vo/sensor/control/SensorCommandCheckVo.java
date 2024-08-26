@@ -1,4 +1,4 @@
-package com.blog.common.entity.file.vo.sensor.control;
+package com.blog.file.netty.vo.sensor.control;
 
 /**
  * @description: 传感器下发命令参数校验基础类

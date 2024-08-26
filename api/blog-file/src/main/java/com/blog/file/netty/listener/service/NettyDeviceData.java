@@ -9,7 +9,7 @@ import com.blog.file.dao.ChipDAO;
 import com.blog.file.dao.DeviceDAO;
 import com.blog.file.dao.SensorDAO;
 import com.blog.file.dao.SensorDataDAO;
-import com.blog.file.netty.dto.NettyPacket;
+import com.blog.file.netty.vo.NettyPacket;
 import com.blog.file.netty.service.NettyServer;
 import io.netty.channel.ChannelId;
 import org.springframework.stereotype.Service;
@@ -41,6 +41,16 @@ public class NettyDeviceData {
     @Resource
     private SensorDataDAO sensorDataDAO;
 
+    /**
+     * 处理传感器数据上报消息，并发送消息接收相应
+     *
+     * @param jsonObject 上报消息json格式
+     * @param blogUser 设备所属用户
+     * @param channelId netty消息通道
+     * @param topic netty响应topic
+     * @param username 用户名
+     * @param registerId netty注册id
+     */
     public void SensorData(JSONObject jsonObject, BlogUser blogUser, ChannelId channelId, String topic, String username, String registerId) {
         SensorData sensorData = new SensorData();
         QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();

@@ -3,7 +3,7 @@ package com.blog.gateway.filiter;
 import com.blog.common.entity.gateway.RequestLog;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.util.IpUtil;
-import com.blog.common.util.JwtUtil;
+import com.blog.common.util.TokenUtil;
 import com.blog.gateway.service.BlacklistIpService;
 import com.blog.gateway.service.RequestLogService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class GatewayFilter implements GlobalFilter, Ordered {
         requestLog.setRequestIp(ip);
         List<String> authorization = exchange.getRequest().getHeaders().get("Authorization");
         if (authorization != null && authorization.size()>0) {
-            BlogUser blogUser = JwtUtil.getUserInfo(authorization.get(0));
+            BlogUser blogUser = TokenUtil.getUserInfo(authorization.get(0));
             requestLog.setUserId(blogUser.getId());
         }
         requestLogService.saveRequestLog(requestLog);

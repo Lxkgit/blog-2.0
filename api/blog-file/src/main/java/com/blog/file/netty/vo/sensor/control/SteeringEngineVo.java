@@ -1,7 +1,9 @@
-package com.blog.common.entity.file.vo.sensor.control;
+package com.blog.file.netty.vo.sensor.control;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.blog.common.valication.group.AddGroup;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -13,8 +15,13 @@ import javax.validation.constraints.Min;
  */
 
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class SteeringEngineVo extends SensorCommandCheckVo {
 
+    /**
+     * 舵机命令控制旋转角度
+     */
     @Max(value = 180,message="舵机参数范围为0-180",groups={AddGroup.class})
     @Min(value = 0,message="舵机参数范围为0-180",groups={AddGroup.class})
     @JSONField(name = "data")
@@ -25,19 +32,4 @@ public class SteeringEngineVo extends SensorCommandCheckVo {
      */
     private Integer controlIntervalTime;
 
-    public Integer getData() {
-        return data;
-    }
-
-    public void setData(Integer data) {
-        this.data = data;
-    }
-
-    public Integer getControlIntervalTime() {
-        return controlIntervalTime;
-    }
-
-    public void setControlIntervalTime(Integer controlIntervalTime) {
-        this.controlIntervalTime = controlIntervalTime;
-    }
 }

@@ -1,8 +1,8 @@
-package com.blog.common.enums.file;
+package com.blog.file.netty.enums.sensor;
 
-import com.blog.common.entity.file.vo.sensor.control.SensorCommandCheckVo;
-import com.blog.common.entity.file.vo.sensor.control.SensorCommandVo;
-import com.blog.common.entity.file.vo.sensor.control.SteeringEngineVo;
+
+import com.blog.file.netty.vo.sensor.control.SensorCommandCheckVo;
+import com.blog.file.netty.vo.sensor.control.SteeringEngineVo;
 
 /**
  * 传感器类型枚举类

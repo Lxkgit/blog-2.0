@@ -3,7 +3,7 @@ package com.blog.auth.controller;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
-import com.blog.common.util.JwtUtil;
+import com.blog.common.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.security.Principal;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,7 +51,7 @@ public class AuthController implements InitializingBean {
     @GetMapping(value = "/logout")
     public Result logout(@RequestHeader HttpHeaders headers) {
         String token = String.valueOf(headers.get("Authorization"));
-        BlogUser blogUser = JwtUtil.getUserInfo(token);
+        BlogUser blogUser = TokenUtil.getUserInfo(token);
         //生成模糊匹配的对应的set集合，字符串后面追加的*号做模糊匹配使用
         Set<String> keys = redisTemplate.keys("auth:" + blogUser.getId() +":*");
         if (!CollectionUtils.isEmpty(keys)) {

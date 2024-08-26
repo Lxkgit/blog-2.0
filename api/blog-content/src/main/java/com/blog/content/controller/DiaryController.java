@@ -2,17 +2,14 @@ package com.blog.content.controller;
 
 import com.blog.common.entity.content.diary.Diary;
 import com.blog.common.entity.content.diary.vo.DiaryVo;
-import com.blog.common.entity.user.BlogUser;
 import com.blog.common.exception.ValidException;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
-import com.blog.common.util.JwtUtil;
 import com.blog.common.valication.group.AddGroup;
 import com.blog.common.valication.group.DeleteGroup;
 import com.blog.common.valication.group.UpdateGroup;
 import com.blog.content.service.DiaryService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

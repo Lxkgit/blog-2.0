@@ -44,6 +44,10 @@ public class Constant {
     public static final String CHIP_TYPE = "chipType";
     public static final String SENSOR_TYPE = "sensorType";
 
+    public static final String CHIP_CODE = "chipCode";
+    public static final String SENSOR_CODE = "sensorCode";
+    public static final String MSG_CODE = "msgCode";
+
     // netty 消息重发时间
     public static final Long NETTY_MSG_RETRY = 5*60L;
     // netty 消息重发次数

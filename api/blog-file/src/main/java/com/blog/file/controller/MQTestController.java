@@ -1,20 +1,16 @@
 package com.blog.file.controller;
 
-import cn.hutool.core.exceptions.ValidateException;
 import com.alibaba.fastjson.JSON;
 import com.blog.common.constant.ErrorMessage;
-import com.blog.common.entity.file.FileSync;
 import com.blog.common.entity.file.vo.ContentCountVo;
 import com.blog.common.enums.mq.RocketMQTopicEnum;
 import com.blog.common.exception.ValidException;
 import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
-import com.blog.common.valication.annotation.ParamValidated;
 import com.blog.file.mq.MQProducerService;
-import com.blog.file.netty.dto.NettySyncBlogFile;
+import com.blog.file.netty.vo.file.NettySyncBlogFile;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Validate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

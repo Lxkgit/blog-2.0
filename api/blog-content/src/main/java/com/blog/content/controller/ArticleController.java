@@ -5,7 +5,7 @@ import com.blog.common.entity.user.BlogUser;
 import com.blog.common.exception.ValidException;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
-import com.blog.common.util.JwtUtil;
+import com.blog.common.util.TokenUtil;
 import com.blog.common.util.MyPage;
 import com.blog.common.valication.group.*;
 import com.blog.content.service.ArticleService;
@@ -88,7 +88,7 @@ public class ArticleController extends BaseController {
         BlogUser blogUser;
         String token = String.valueOf(headers.get("Authorization"));
         if (token != null && !token.equals("") && !token.equals("null")) {
-            blogUser = JwtUtil.getUserInfo(token);
+            blogUser = TokenUtil.getUserInfo(token);
             if (articleVo.getType() != null && articleVo.getType() == 1) {
                 articleVo.setUserId(blogUser.getId());
                 articleVo.setBlogUser(blogUser);

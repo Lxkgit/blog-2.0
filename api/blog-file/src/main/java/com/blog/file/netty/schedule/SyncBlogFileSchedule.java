@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.blog.common.constant.ShellCommand;
 import com.blog.common.util.ShellUtil;
 import com.blog.file.netty.common.NettyConstant;
-import com.blog.file.netty.dto.NettyPacket;
-import com.blog.file.netty.dto.NettySyncBlogFile;
+import com.blog.file.netty.vo.NettyPacket;
+import com.blog.file.netty.vo.file.NettySyncBlogFile;
 import com.blog.file.netty.enums.NettyPacketType;
 import com.blog.file.netty.enums.NettyTopicEnum;
 import com.blog.file.netty.service.NettyServer;
@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 /**

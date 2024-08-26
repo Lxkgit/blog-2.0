@@ -1,4 +1,4 @@
-package com.blog.file.netty.dto;
+package com.blog.file.netty.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

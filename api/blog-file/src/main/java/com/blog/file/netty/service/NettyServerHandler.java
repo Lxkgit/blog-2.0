@@ -3,12 +3,9 @@ package com.blog.file.netty.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.blog.common.constant.Constant;
-import com.blog.common.entity.file.Device;
 import com.blog.file.dao.DeviceDAO;
-import com.blog.file.netty.dto.NettyClientChannel;
-import com.blog.file.netty.dto.NettyPacket;
+import com.blog.file.netty.vo.NettyClientChannel;
+import com.blog.file.netty.vo.NettyPacket;
 import com.blog.file.netty.event.NettyPacketEvent;
 import com.blog.file.netty.schedule.DeviceStatusSchedule;
 import io.netty.channel.ChannelHandler;
@@ -24,8 +21,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.net.InetSocketAddress;
-import java.util.Collection;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

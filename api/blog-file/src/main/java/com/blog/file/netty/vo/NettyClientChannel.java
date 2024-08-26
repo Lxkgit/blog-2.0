@@ -1,4 +1,4 @@
-package com.blog.file.netty.dto;
+package com.blog.file.netty.vo;
 
 import io.netty.channel.ChannelId;
 import lombok.Data;
@@ -14,12 +14,24 @@ import java.util.Date;
 @Data
 public class NettyClientChannel {
 
+    /**
+     * netty通道
+     */
     private ChannelId channelId;
 
+    /**
+     * netty注册id
+     */
     private String registerId;
 
+    /**
+     * netty所属用户
+     */
     private String username;
 
+    /**
+     * netty传输消息数据
+     */
     private Date date;
 
     public NettyClientChannel(ChannelId channelId, String registerId, String username, Date date) {

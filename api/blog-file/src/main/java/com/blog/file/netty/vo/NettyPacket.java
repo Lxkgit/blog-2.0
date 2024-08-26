@@ -1,4 +1,4 @@
-package com.blog.file.netty.dto;
+package com.blog.file.netty.vo;
 
 
 import com.blog.file.netty.common.NettyConstant;
@@ -25,17 +25,34 @@ public class NettyPacket<T> implements Serializable {
 
     public static Map<String, NettyPacket<Object>> MESSAGE_QUEUE = new ConcurrentHashMap<>();
 
-    // netty 消息唯一序列号
+    /**
+     *  netty 消息唯一序列号
+     */
     private String requestId;
-    // netty 请求类型
+
+    /**
+     * netty 请求类型
+     */
     private String nettyPacketType;
-    // netty 消息Topic
+
+    /**
+     * netty 消息Topic
+     */
     private String topic;
-    // netty注册id
+
+    /**
+     * netty注册id
+     */
     private String registerId;
-    // 消息所属用户
+
+    /**
+     * 消息所属用户
+     */
     private String username;
-    // netty 消息内容
+
+    /**
+     * netty 消息内容
+     */
     private T data;
 
     public static <T> NettyPacket<T> buildRequest(T param) {

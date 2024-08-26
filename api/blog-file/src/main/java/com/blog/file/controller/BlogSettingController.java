@@ -1,13 +1,10 @@
 package com.blog.file.controller;
 
 import com.blog.common.entity.file.vo.BlogSettingVo;
-import com.blog.common.entity.user.BlogUser;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
-import com.blog.common.util.JwtUtil;
 import com.blog.file.service.BlogSettingService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
