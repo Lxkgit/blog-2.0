@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.blog.common.constant.ShellCommand;
 import com.blog.common.util.ShellUtil;
 import com.blog.file.netty.common.NettyConstant;
-import com.blog.file.netty.vo.NettyPacket;
-import com.blog.file.netty.vo.file.NettySyncBlogFile;
+import com.blog.file.netty.dto.NettyPacket;
+import com.blog.file.netty.dto.file.NettySyncBlogFileDto;
 import com.blog.file.netty.enums.NettyPacketType;
 import com.blog.file.netty.enums.NettyTopicEnum;
 import com.blog.file.netty.service.NettyServer;
@@ -40,13 +40,13 @@ public class SyncBlogFileSchedule {
             return;
         }
 
-        NettySyncBlogFile nettySyncBlogFile = new NettySyncBlogFile();
+        NettySyncBlogFileDto nettySyncBlogFile = new NettySyncBlogFileDto();
         nettySyncBlogFile.setSyncType(2);
         nettySyncBlogFile.setFileCode("blog.zip");
         nettySyncBlogFile.setFileName("blog.zip");
         nettySyncBlogFile.setFilePath("/");
 
-        NettyPacket<NettySyncBlogFile> nettyResponse = NettyPacket.buildRequest(nettySyncBlogFile);
+        NettyPacket<NettySyncBlogFileDto> nettyResponse = NettyPacket.buildRequest(nettySyncBlogFile);
         nettyResponse.setNettyPacketType(NettyPacketType.REQUEST.getValue());
         nettyResponse.setTopic(NettyTopicEnum.BLOG_FILE_SYNC.getTopic());
 

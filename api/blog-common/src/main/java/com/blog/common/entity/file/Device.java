@@ -28,11 +28,6 @@ public class Device {
     private Integer userId;
 
     /**
-     * 用户名
-     */
-    private String username;
-
-    /**
      * 设备名称
      */
     private String deviceName;
@@ -41,11 +36,6 @@ public class Device {
      * 设备编码
      */
     private String deviceCode;
-
-    /**
-     * 设备部署位置
-     */
-    private String devicePosition;
 
     /**
      * 设备在离线状态 0：离线 1：在线

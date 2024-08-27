@@ -1,4 +1,4 @@
-package com.blog.file.netty.vo.sensor.receive;
+package com.blog.file.netty.dto.sensor.receive;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 @Data
-public class SensorReceiveVo {
+public class SensorReceiveDto {
 
     /**
      * 单片机编码

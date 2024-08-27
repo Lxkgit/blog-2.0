@@ -13,7 +13,6 @@ import com.blog.common.exception.ValidException;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
 import com.blog.common.util.MyStringUtils;
-import com.blog.common.util.StringUtils;
 import com.blog.file.dao.SensorDAO;
 import com.blog.file.dao.SensorDataDAO;
 import com.blog.file.dao.SensorTypeDAO;

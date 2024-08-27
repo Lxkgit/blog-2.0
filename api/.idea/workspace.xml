@@ -16,37 +16,15 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-08-25【BUG修复】：修复未登录查看文档报错bug">
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/sensor/control/SensorCommandVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/sensor/receive/SensorReceiveVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-08-27【功能修改】：netty优化-1">
+      <change afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/sensor/control/SensorCommandCheckDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/sensor/control/SensorCommandDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/sensor/control/SteeringEngineDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/sensor/receive/SensorReceiveDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-auth/src/main/java/com/blog/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-auth/src/main/java/com/blog/auth/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/constant/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/constant/Constant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/sensor/control/SensorCommandCheckVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/sensor/control/SensorCommandCheckVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/sensor/control/SensorCommandVo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/sensor/control/SteeringEngineVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/sensor/control/SteeringEngineVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/enums/file/SensorTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/enums/sensor/SensorTypeEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/ClassUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/JwtUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/LunarCalendar.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/MqttPushClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/PushCallback.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/StringUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/TokenUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/util/TokenUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/ArticleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/DiaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/DiaryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/DocController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/java/com/blog/content/controller/DocController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/BlogSettingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/BlogSettingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/FileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/Device.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/Device.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/MQTestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/MQTestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/UploadFileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/UploadFileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyClientChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/NettyClientChannel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyHeartBeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/NettyHeartBeat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyMessageRetry.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/NettyMessageRetry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/NettyPacket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/NettyResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettySyncBlogFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/file/NettySyncBlogFile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/enums/sensor/SensorTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/enums/sensor/SensorTypeEnum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/event/NettyPacketEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/event/NettyPacketEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/listener/NettyServerPacketListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/listener/NettyServerPacketListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/listener/service/NettyDeviceData.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/listener/service/NettyDeviceData.java" afterDir="false" />
@@ -55,15 +33,36 @@
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/SyncBlogFileSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/SyncBlogFileSchedule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyServerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyServerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/NettyClientChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyClientChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/NettyHeartBeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/heart/NettyHeartBeatDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/NettyMessageRetry.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyMessageRetry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/NettyPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyPacket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/NettyResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/file/NettySyncBlogFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/file/NettySyncBlogFileDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/sensor/control/SensorCommandCheckVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/sensor/control/SensorCommandCheckDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/sensor/control/SensorCommandVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/sensor/control/SensorCommandDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/sensor/control/SteeringEngineVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/sensor/control/SteeringEngineDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/vo/sensor/receive/SensorReceiveVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/sensor/receive/SensorReceiveDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/DeviceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/DeviceServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/FileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/FileServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/SensorControlServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/SensorControlServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-gateway/src/main/java/com/blog/gateway/filiter/GatewayFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-gateway/src/main/java/com/blog/gateway/filiter/GatewayFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/java/com/blog/user/controller/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/SensorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/SensorServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/DeviceMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/DeviceMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file/sql/update/update.sql" beforeDir="false" afterPath="$PROJECT_DIR$/file/sql/update/update.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/client/NettyClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/client/NettyClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/NettyHeartBeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/heart/NettyHeartBeatDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/NettyResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/NettyResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/NettySyncBlogFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/dto/file/NettySyncBlogFileDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/listener/NettyClientPacketListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/listener/NettyClientPacketListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/listener/service/SyncBlogFileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/listener/service/SyncBlogFileService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -120,30 +119,33 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.3465909" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="fileTemplates" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace\java\blog-2.0\api\blog-file\src\main\java\com\blog\file\netty\dto" />
+      <recent name="D:\workspace\java\blog-2.0\api\file\config" />
+      <recent name="D:\workspace\java\blog-2.0\api\file\shell" />
+      <recent name="D:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\content\article\vo" />
+      <recent name="D:\workspace\blog-2.0\api\blog-content\src\main\resources\mapper" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.blog.file.netty.dto.heart" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\workspace\java\blog-2.0\api\file\sql" />
       <recent name="D:\workspace\java\blog-2.0\api\file" />
       <recent name="D:\workspace\java\blog-2.0\api\file\config" />
       <recent name="D:\workspace\java\blog-2.0\api\file\shell" />
       <recent name="D:\workspace\java\blog-2.0\api\blog-file" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\workspace\java\blog-2.0\api\file\config" />
-      <recent name="D:\workspace\java\blog-2.0\api\file\shell" />
-      <recent name="D:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\content\article\vo" />
-      <recent name="D:\workspace\blog-2.0\api\blog-content\src\main\resources\mapper" />
-      <recent name="D:\workspace\blog-2.0\api\blog-content\src\main\java\com\blog\content\dao" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -242,11 +244,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.UserApplication" />
-        <item itemvalue="Spring Boot.GatewayApplication" />
         <item itemvalue="Spring Boot.FileApplication" />
+        <item itemvalue="Spring Boot.UserApplication" />
         <item itemvalue="Spring Boot.AuthApplication" />
         <item itemvalue="Spring Boot.ContentApplication" />
+        <item itemvalue="Spring Boot.GatewayApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -592,14 +594,8 @@
       <workItem from="1724593739268" duration="992000" />
       <workItem from="1724594754092" duration="615000" />
       <workItem from="1724680649829" duration="1062000" />
-      <workItem from="1724681758933" duration="5057000" />
-    </task>
-    <task id="LOCAL-00104" summary="23-08-07【功能修改】：修改部署脚本，新增创建服务器虚拟内存">
-      <created>1691422974689</created>
-      <option name="number" value="00104" />
-      <option name="presentableId" value="LOCAL-00104" />
-      <option name="project" value="LOCAL" />
-      <updated>1691422974690</updated>
+      <workItem from="1724681758933" duration="5131000" />
+      <workItem from="1724772580205" duration="3182000" />
     </task>
     <task id="LOCAL-00105" summary="23-08-13【功能新增】：新增博客云盘功能，新版博客部署">
       <created>1691933470266</created>
@@ -937,7 +933,14 @@
       <option name="project" value="LOCAL" />
       <updated>1724594852101</updated>
     </task>
-    <option name="localTasksCounter" value="153" />
+    <task id="LOCAL-00153" summary="24-08-27【功能修改】：netty优化-1">
+      <created>1724688493670</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1724688493670</updated>
+    </task>
+    <option name="localTasksCounter" value="154" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -968,7 +971,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="24-02-01【功能新增】：传感器数据上报开发完成" />
     <MESSAGE value="24-02-03【功能新增】：传感器控制指令下发完成" />
     <MESSAGE value="24-02-04【功能新增】：控制舵机功能开发完成" />
     <MESSAGE value="24-02-06【功能修改】：连接传感器上报数据，pi服务docker部署测试完成，数据上报博客微服务正常" />
@@ -993,7 +995,8 @@
     <MESSAGE value="24-03-16【功能修改】：netty消息规范化" />
     <MESSAGE value="24-03-31【功能修改】：单片机命令组功能新增命令顺序排队执行功能" />
     <MESSAGE value="24-08-25【BUG修复】：修复未登录查看文档报错bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="24-08-25【BUG修复】：修复未登录查看文档报错bug" />
+    <MESSAGE value="24-08-27【功能修改】：netty优化-1" />
+    <option name="LAST_COMMIT_MESSAGE" value="24-08-27【功能修改】：netty优化-1" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="94" key="#Project_Structure" timestamp="1719405026561">
@@ -1008,59 +1011,68 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="481" y="443" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1724685942584" />
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1724775153568">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1724775153568" />
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1724687930703">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1724687930703" />
-    <state x="740" y="276" key="FileChooserDialogImpl" timestamp="1721725826073">
+    <state x="740" y="276" key="FileChooserDialogImpl" timestamp="1724773801731">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1721725826073" />
     <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719992923427" />
-    <state width="938" height="323" key="GridCell.Tab.0.bottom" timestamp="1724595375064">
+    <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1724773801731" />
+    <state width="723" height="406" key="GridCell.Tab.0.bottom" timestamp="1724774110506">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="938" height="323" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1724595375064" />
-    <state width="938" height="323" key="GridCell.Tab.0.center" timestamp="1724595375063">
+    <state width="723" height="406" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1724774110506" />
+    <state width="723" height="406" key="GridCell.Tab.0.center" timestamp="1724774110505">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722786" />
     <state width="1510" height="351" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="938" height="323" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1724595375063" />
-    <state width="938" height="323" key="GridCell.Tab.0.left" timestamp="1724595375063">
+    <state width="723" height="406" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1724774110505" />
+    <state width="723" height="406" key="GridCell.Tab.0.left" timestamp="1724774110505">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722786" />
     <state width="1510" height="351" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="938" height="323" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1724595375063" />
-    <state width="938" height="323" key="GridCell.Tab.0.right" timestamp="1724595375064">
+    <state width="723" height="406" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1724774110505" />
+    <state width="723" height="406" key="GridCell.Tab.0.right" timestamp="1724774110505">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="938" height="323" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1724595375064" />
-    <state width="1510" height="483" key="GridCell.Tab.1.bottom" timestamp="1722350722787">
+    <state width="723" height="406" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1724774110505" />
+    <state width="723" height="406" key="GridCell.Tab.1.bottom" timestamp="1724774110506">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744007" />
-    <state width="1510" height="483" key="GridCell.Tab.1.center" timestamp="1722350722787">
+    <state width="723" height="406" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1724774110506" />
+    <state width="723" height="406" key="GridCell.Tab.1.center" timestamp="1724774110506">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="1510" height="483" key="GridCell.Tab.1.left" timestamp="1722350722787">
+    <state width="723" height="406" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1724774110506" />
+    <state width="723" height="406" key="GridCell.Tab.1.left" timestamp="1724774110506">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="1510" height="483" key="GridCell.Tab.1.right" timestamp="1722350722787">
+    <state width="723" height="406" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1724774110506" />
+    <state width="723" height="406" key="GridCell.Tab.1.right" timestamp="1724774110506">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744007" />
+    <state width="723" height="406" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1724774110506" />
     <state width="1510" height="384" key="GridCell.Tab.2.bottom" timestamp="1719407646682">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -1081,25 +1093,25 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="490" y="175" key="Maven.ArtifactSearchDialog/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719404262933" />
-    <state x="441" y="112" key="SettingsEditor" timestamp="1724685118304">
+    <state x="725" y="180" key="SettingsEditor" timestamp="1724773573859">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="441" y="112" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719409395787" />
-    <state x="441" y="112" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1724685118304" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1724595362690">
+    <state x="725" y="180" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1724773573859" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1724688497996">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1724595362690" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1724688497996" />
     <state x="690" y="279" key="extract.method.dialog" timestamp="1724687702321">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="279" key="extract.method.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1724687702321" />
-    <state x="662" y="252" width="668" height="560" key="find.popup" timestamp="1724687775258">
+    <state x="662" y="252" width="668" height="560" key="find.popup" timestamp="1724774993453">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="662" y="252" width="668" height="560" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1721727362848" />
     <state x="662" y="252" width="668" height="560" key="find.popup/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1720870929996" />
-    <state x="662" y="252" width="668" height="560" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1724687775258" />
+    <state x="662" y="252" width="668" height="560" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1724774993453" />
     <state x="334" y="180" key="new project wizard" timestamp="1719408335681">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

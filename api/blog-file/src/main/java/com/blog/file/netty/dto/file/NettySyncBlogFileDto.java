@@ -1,5 +1,6 @@
-package com.blog.pi.netty.dto;
+package com.blog.file.netty.dto.file;
 
+import com.blog.common.valication.annotation.Equal;
 import lombok.Data;
 
 /**
@@ -9,7 +10,7 @@ import lombok.Data;
  */
 
 @Data
-public class NettySyncBlogFile {
+public class NettySyncBlogFileDto {
 
     /**
      * 文件所属用户id
@@ -32,8 +33,9 @@ public class NettySyncBlogFile {
     private String fileCode;
 
     /**
-     * 文件同步类型 0: 文件同步至远程 1: 文件下载到本地
+     * 文件同步类型 0: 文件同步至远程 1: 文件下载到本地 2: 博客数据文件
      */
+    @Equal(value = "0,1,2", message = "文件同步类型必须是0,1,2")
     private Integer syncType;
 
 }

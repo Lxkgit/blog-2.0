@@ -8,8 +8,8 @@ import com.blog.common.entity.file.Device;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.file.dao.DeviceDAO;
 import com.blog.file.feign.UserClient;
-import com.blog.file.netty.vo.NettyClientChannel;
-import com.blog.file.netty.vo.NettyHeartBeat;
+import com.blog.file.netty.dto.NettyClientChannel;
+import com.blog.file.netty.dto.heart.NettyHeartBeatDto;
 import com.blog.file.netty.enums.HeartBeatType;
 import com.blog.file.netty.enums.NettyPacketType;
 import com.blog.file.netty.enums.NettyTopicEnum;
@@ -84,7 +84,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
                 log.info("心跳 客户端【{}】与netty通道【{}】绑定", registerId, channelId);
             }
             NettyServerHandler.clientMap.get(registerId).setDate(new Date());
-            NettyHeartBeat nettyHeartBeat = JSONObject.parseObject(data, NettyHeartBeat.class);
+            NettyHeartBeatDto nettyHeartBeat = JSONObject.parseObject(data, NettyHeartBeatDto.class);
             if (nettyHeartBeat.getType().equals(HeartBeatType.SERVICE.getType())) {
 //                System.out.println(nettyHeartBeat.toString());
             }

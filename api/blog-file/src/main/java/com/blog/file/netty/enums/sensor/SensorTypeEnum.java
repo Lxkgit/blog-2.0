@@ -1,8 +1,8 @@
 package com.blog.file.netty.enums.sensor;
 
 
-import com.blog.file.netty.vo.sensor.control.SensorCommandCheckVo;
-import com.blog.file.netty.vo.sensor.control.SteeringEngineVo;
+import com.blog.file.netty.dto.sensor.control.SensorCommandCheckDto;
+import com.blog.file.netty.dto.sensor.control.SteeringEngineDto;
 
 /**
  * 传感器类型枚举类
@@ -10,7 +10,7 @@ import com.blog.file.netty.vo.sensor.control.SteeringEngineVo;
 
 public enum SensorTypeEnum {
 
-    DUO_JI("DUO", "舵机", SteeringEngineVo.class),
+    DUO_JI("DUO", "舵机", SteeringEngineDto.class),
     ;
 
 
@@ -21,9 +21,9 @@ public enum SensorTypeEnum {
 
     private String sensorName;
 
-    private Class<? extends SensorCommandCheckVo> commandClass;
+    private Class<? extends SensorCommandCheckDto> commandClass;
 
-    SensorTypeEnum(String sensorCode, String sensorName, Class<? extends SensorCommandCheckVo> analysisClass) {
+    SensorTypeEnum(String sensorCode, String sensorName, Class<? extends SensorCommandCheckDto> analysisClass) {
         this.sensorCode = sensorCode;
         this.sensorName = sensorName;
         this.commandClass = analysisClass;
@@ -35,7 +35,7 @@ public enum SensorTypeEnum {
      * @param sensorCode
      * @return
      */
-    public static Class<? extends SensorCommandCheckVo> getRuleImpl(String sensorCode) {
+    public static Class<? extends SensorCommandCheckDto> getRuleImpl(String sensorCode) {
         for (SensorTypeEnum sensorTypeEnum : SensorTypeEnum.values()) {
             if (sensorTypeEnum.getSensorCode().equals(sensorCode)) {
                 if (sensorTypeEnum.getCommandClass() != null) {
@@ -63,11 +63,11 @@ public enum SensorTypeEnum {
         this.sensorName = sensorName;
     }
 
-    public Class<? extends SensorCommandCheckVo> getCommandClass() {
+    public Class<? extends SensorCommandCheckDto> getCommandClass() {
         return commandClass;
     }
 
-    public void setCommandClass(Class<? extends SensorCommandCheckVo> commandClass) {
+    public void setCommandClass(Class<? extends SensorCommandCheckDto> commandClass) {
         this.commandClass = commandClass;
     }
 }

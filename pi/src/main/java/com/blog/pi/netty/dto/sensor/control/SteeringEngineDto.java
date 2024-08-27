@@ -1,7 +1,6 @@
-package com.blog.file.netty.vo.sensor.control;
+package com.blog.pi.netty.dto.sensor.control;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.blog.common.valication.group.AddGroup;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,13 +16,13 @@ import javax.validation.constraints.Min;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SteeringEngineVo extends SensorCommandCheckVo {
+public class SteeringEngineDto extends SensorCommandCheckDto {
 
     /**
      * 舵机命令控制旋转角度
      */
-    @Max(value = 180,message="舵机参数范围为0-180",groups={AddGroup.class})
-    @Min(value = 0,message="舵机参数范围为0-180",groups={AddGroup.class})
+//    @Max(value = 180,message="舵机参数范围为0-180",groups={AddGroup.class})
+//    @Min(value = 0,message="舵机参数范围为0-180",groups={AddGroup.class})
     @JSONField(name = "data")
     private Integer data;
 

@@ -1,4 +1,4 @@
-package com.blog.file.netty.vo;
+package com.blog.file.netty.dto;
 
 import lombok.Data;
 

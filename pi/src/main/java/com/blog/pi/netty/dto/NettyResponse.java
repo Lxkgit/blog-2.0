@@ -11,10 +11,19 @@ import lombok.Data;
 @Data
 public class NettyResponse {
 
-    // 消息处理结果
+    /**
+     * 消息唯一标识码
+     */
+    private String msgCode;
+
+    /**
+     * 消息处理结果
+     */
     private boolean result;
 
-    // 消息处理说明
+    /**
+     * 消息处理说明
+     */
     private String message;
 
     public NettyResponse(boolean result) {

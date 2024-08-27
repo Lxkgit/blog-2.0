@@ -1,4 +1,4 @@
-package com.blog.file.netty.vo.sensor.control;
+package com.blog.file.netty.dto.sensor.control;
 
 /**
  * @description: 传感器下发命令参数校验基础类
@@ -7,6 +7,6 @@ package com.blog.file.netty.vo.sensor.control;
  */
 
 
-public class SensorCommandCheckVo {
+public class SensorCommandCheckDto {
 
 }

@@ -9,7 +9,7 @@ import com.blog.file.dao.ChipDAO;
 import com.blog.file.dao.DeviceDAO;
 import com.blog.file.dao.SensorDAO;
 import com.blog.file.dao.SensorDataDAO;
-import com.blog.file.netty.vo.NettyPacket;
+import com.blog.file.netty.dto.NettyPacket;
 import com.blog.file.netty.service.NettyServer;
 import io.netty.channel.ChannelId;
 import org.springframework.stereotype.Service;

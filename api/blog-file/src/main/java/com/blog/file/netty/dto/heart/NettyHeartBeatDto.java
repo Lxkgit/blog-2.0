@@ -1,4 +1,4 @@
-package com.blog.file.netty.vo;
+package com.blog.file.netty.dto.heart;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.Date;
  */
 
 @Data
-public class NettyHeartBeat {
+public class NettyHeartBeatDto {
 
     /**
      * 心跳时间

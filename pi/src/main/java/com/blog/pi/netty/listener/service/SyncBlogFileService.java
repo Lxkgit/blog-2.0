@@ -9,7 +9,7 @@ import com.blog.pi.ftp.FtpUtil;
 import com.blog.pi.netty.client.NettyClient;
 import com.blog.pi.netty.dto.NettyPacket;
 import com.blog.pi.netty.dto.NettyResponse;
-import com.blog.pi.netty.dto.NettySyncBlogFile;
+import com.blog.pi.netty.dto.file.NettySyncBlogFileDto;
 import com.blog.pi.utils.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -43,7 +43,7 @@ public class SyncBlogFileService {
      * @param nettySyncBlogFile netty收到的消息
      * @param requestId 本次请求唯一编码
      */
-    public void syncBlogFile(NettySyncBlogFile nettySyncBlogFile, String requestId) {
+    public void syncBlogFile(NettySyncBlogFileDto nettySyncBlogFile, String requestId) {
         String basePath = (String) InitConfig.getRegisterConfig("ftp", "basePath");
         String serviceFilePath = nettySyncBlogFile.getFilePath();
         String serviceFileName = nettySyncBlogFile.getFileName();

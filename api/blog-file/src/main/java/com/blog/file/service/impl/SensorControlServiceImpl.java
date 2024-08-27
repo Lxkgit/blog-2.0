@@ -7,9 +7,9 @@ import com.blog.common.constant.Constant;
 import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.*;
 import com.blog.common.entity.file.vo.SensorControlVo;
-import com.blog.file.netty.vo.sensor.control.SensorCommandCheckVo;
-import com.blog.file.netty.vo.sensor.control.SensorCommandVo;
-import com.blog.file.netty.vo.sensor.control.SteeringEngineVo;
+import com.blog.file.netty.dto.sensor.control.SensorCommandCheckDto;
+import com.blog.file.netty.dto.sensor.control.SensorCommandDto;
+import com.blog.file.netty.dto.sensor.control.SteeringEngineDto;
 import com.blog.file.netty.enums.sensor.SensorTypeEnum;
 import com.blog.common.exception.ValidException;
 import com.blog.common.util.BeanValidationUtil;
@@ -20,7 +20,7 @@ import com.blog.file.dao.ChipDAO;
 import com.blog.file.dao.DeviceDAO;
 import com.blog.file.dao.SensorControlDAO;
 import com.blog.file.dao.SensorDAO;
-import com.blog.file.netty.vo.NettyPacket;
+import com.blog.file.netty.dto.NettyPacket;
 import com.blog.file.netty.enums.NettyTopicEnum;
 import com.blog.file.netty.service.NettyServer;
 import com.blog.file.service.SensorControlService;
@@ -70,7 +70,7 @@ public class SensorControlServiceImpl implements SensorControlService {
     @Override
     public Integer createSensorControl(Integer userId, SensorControlVo sensorControlVo) throws ValidException {
 
-        SensorCommandCheckVo sensorCommandCheckVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControlVo.getControlMessage()),
+        SensorCommandCheckDto sensorCommandCheckVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControlVo.getControlMessage()),
                 SensorTypeEnum.getRuleImpl(sensorControlVo.getSensorCode()));
 
         validateIvsRuleInfo(sensorCommandCheckVo);
@@ -200,20 +200,20 @@ public class SensorControlServiceImpl implements SensorControlService {
             throw new ValidException(ErrorMessage.DEVICE_OFFLINE);
         }
 
-        List<SteeringEngineVo> list = JSONArray.parseArray(sensorControl.getControlMessage(), SteeringEngineVo.class);
+        List<SteeringEngineDto> list = JSONArray.parseArray(sensorControl.getControlMessage(), SteeringEngineDto.class);
 
-        SensorCommandVo<SteeringEngineVo> commandVo = new SensorCommandVo<>();
+        SensorCommandDto<SteeringEngineDto> commandVo = new SensorCommandDto<>();
         commandVo.setChipType(chip.getChipType());
         commandVo.setSensorType(sensor.getSensorCode());
         commandVo.setCommandList(list);
 
-        NettyPacket<SensorCommandVo<SteeringEngineVo>> sensorCommandRequest = NettyPacket.buildRequest(commandVo);
+        NettyPacket<SensorCommandDto<SteeringEngineDto>> sensorCommandRequest = NettyPacket.buildRequest(commandVo);
         sensorCommandRequest.setTopic(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic());
 
         return nettyServer.channelWriteByRegisterId(device.getDeviceCode(), JSONObject.toJSONString(sensorCommandRequest));
     }
 
-    private static void validateIvsRuleInfo(SensorCommandCheckVo sensorCommandCheckVo) throws ValidException {
+    private static void validateIvsRuleInfo(SensorCommandCheckDto sensorCommandCheckVo) throws ValidException {
 
         Map<String, String> errorMap = BeanValidationUtil.validationBean(sensorCommandCheckVo, AddGroup.class);
 

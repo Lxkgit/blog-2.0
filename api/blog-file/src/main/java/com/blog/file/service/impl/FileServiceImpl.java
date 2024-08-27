@@ -12,8 +12,8 @@ import com.blog.common.exception.ValidException;
 import com.blog.file.dao.FileDataDAO;
 import com.blog.file.dao.FileSyncDAO;
 import com.blog.file.netty.common.NettyConstant;
-import com.blog.file.netty.vo.NettyPacket;
-import com.blog.file.netty.vo.file.NettySyncBlogFile;
+import com.blog.file.netty.dto.NettyPacket;
+import com.blog.file.netty.dto.file.NettySyncBlogFileDto;
 import com.blog.file.netty.enums.NettyTopicEnum;
 import com.blog.file.netty.service.NettyServer;
 import com.blog.file.service.FileService;
@@ -204,7 +204,7 @@ public class FileServiceImpl implements FileService {
             return false;
         }
 
-        NettySyncBlogFile nettySyncBlogFile = new NettySyncBlogFile();
+        NettySyncBlogFileDto nettySyncBlogFile = new NettySyncBlogFileDto();
         nettySyncBlogFile.setFilePath(fileDataVo.getFilePath());
         nettySyncBlogFile.setFileName(fileDataVo.getName());
         nettySyncBlogFile.setSyncType(fileDataVo.getSyncType());
@@ -217,7 +217,7 @@ public class FileServiceImpl implements FileService {
             FileData fileData = fileDataDAO.selectById(fileDataVo.getId());
             nettySyncBlogFile.setFileCode(fileData.getFileCode());
         }
-        NettyPacket<NettySyncBlogFile> syncFileRequest = NettyPacket.buildRequest(nettySyncBlogFile);
+        NettyPacket<NettySyncBlogFileDto> syncFileRequest = NettyPacket.buildRequest(nettySyncBlogFile);
         syncFileRequest.setTopic(NettyTopicEnum.BLOG_FILE_SYNC.getTopic());
         nettyServer.channelWriteByRegisterId(NettyConstant.NETTY_CLIENT1, JSONObject.toJSONString(syncFileRequest));
         return true;

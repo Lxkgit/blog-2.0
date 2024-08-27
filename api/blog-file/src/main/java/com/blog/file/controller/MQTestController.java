@@ -9,7 +9,7 @@ import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.file.mq.MQProducerService;
-import com.blog.file.netty.vo.file.NettySyncBlogFile;
+import com.blog.file.netty.dto.file.NettySyncBlogFileDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +48,7 @@ public class MQTestController {
     }
 
     @PostMapping("/test")
-    public Result test(@RequestBody @Validated NettySyncBlogFile fileSync) throws ValidException {
+    public Result test(@RequestBody @Validated NettySyncBlogFileDto fileSync) throws ValidException {
         log.info(fileSync.toString());
         if (fileSync.getSyncType().equals(1)) {
             throw new ValidException(ErrorMessage.BASE_FILE_DIR_NOT_CREATE);

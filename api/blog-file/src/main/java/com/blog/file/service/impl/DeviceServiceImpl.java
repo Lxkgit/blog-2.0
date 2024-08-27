@@ -58,7 +58,6 @@ public class DeviceServiceImpl implements DeviceService {
         }
         BlogUser blogUser = JSONObject.parseObject(JSONObject.toJSONString(userClient.getUserById(userId).getResult()), BlogUser.class);
         deviceVo.setUserId(blogUser.getId());
-        deviceVo.setUsername(blogUser.getUsername());
         deviceVo.setDeviceStatus(Constant.DEVICE_OFFLINE);
         deviceVo.setCreateTime(new Date());
         deviceVo.setUpdateTime(new Date());

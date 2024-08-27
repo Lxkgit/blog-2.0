@@ -3,10 +3,8 @@ package com.blog.pi.netty.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.blog.pi.enums.mqtt.MQTTTopicEnum;
 import com.blog.pi.enums.netty.NettyTopicEnum;
-import com.blog.pi.mqtt.MqttPushClient;
-import com.blog.pi.netty.dto.NettySyncBlogFile;
+import com.blog.pi.netty.dto.file.NettySyncBlogFileDto;
 import com.blog.pi.netty.enums.NettyPacketType;
 import com.blog.pi.netty.event.NettyPacketEvent;
 import com.blog.pi.netty.listener.service.SensorControlService;
@@ -53,7 +51,7 @@ public class NettyClientPacketListener implements ApplicationListener<NettyPacke
             // 处理服务端请求
             // 处理文件下载同步
             if (topic.equals(NettyTopicEnum.BLOG_FILE_SYNC.getTopic())) {
-                NettySyncBlogFile nettySyncBlogFile = JSON.parseObject(data, NettySyncBlogFile.class);
+                NettySyncBlogFileDto nettySyncBlogFile = JSON.parseObject(data, NettySyncBlogFileDto.class);
                 syncBlogFileService.syncBlogFile(nettySyncBlogFile, requestId);
             } else if (topic.equals(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic())) {
                 sensorControlService.sendCommand(data, requestId);

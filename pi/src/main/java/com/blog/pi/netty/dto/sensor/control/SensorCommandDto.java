@@ -1,4 +1,4 @@
-package com.blog.file.netty.vo.sensor.control;
+package com.blog.pi.netty.dto.sensor.control;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @Data
-public class SensorCommandVo<T> {
+public class SensorCommandDto<T> {
 
     /**
      * 设备类型
