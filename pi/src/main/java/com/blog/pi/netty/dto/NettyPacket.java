@@ -3,13 +3,12 @@ package com.blog.pi.netty.dto;
 
 import com.blog.pi.config.InitConfig;
 import com.blog.pi.netty.enums.NettyPacketType;
+import com.blog.pi.utils.MyUUID;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -29,18 +28,15 @@ public class NettyPacket<T> implements Serializable {
     // netty 消息Topic
     private String topic;
     // netty注册id
-    private String registerId;
-    // 消息所属用户
-    private String username;
+    private String deviceCode;
     // netty 消息内容
     private T data;
 
     public static <T> NettyPacket<T> buildRequest(T param) {
         NettyPacket<T> nettyPacket = new NettyPacket<>();
-        nettyPacket.setRequestId(getOnlyId());
+        nettyPacket.setRequestId(MyUUID.getRandomString());
         nettyPacket.setNettyPacketType(NettyPacketType.REQUEST.getValue());
-        nettyPacket.setRegisterId((String) InitConfig.getRegisterConfig("netty", "registerId"));
-        nettyPacket.setUsername((String) InitConfig.getRegisterConfig("netty", "username"));
+        nettyPacket.setDeviceCode("2ecfb95116de4967afe7710e11ac00b4");
         nettyPacket.setData(param);
         return nettyPacket;
     }
@@ -49,7 +45,7 @@ public class NettyPacket<T> implements Serializable {
         NettyPacket<T> nettyPacket = new NettyPacket<>();
         nettyPacket.setRequestId(requestId);
         nettyPacket.setNettyPacketType(NettyPacketType.RESPONSE.getValue());
-        nettyPacket.setRegisterId((String) InitConfig.getRegisterConfig("netty", "registerId"));
+        nettyPacket.setDeviceCode((String) InitConfig.getRegisterConfig("netty", "registerId"));
         nettyPacket.setData(data);
         return nettyPacket;
     }

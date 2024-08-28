@@ -4,11 +4,13 @@ package com.blog.pi.netty.client;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.blog.pi.config.InitConfig;
+import com.blog.pi.netty.dto.NettyRegisterDto;
 import com.blog.pi.netty.dto.heart.NettyHeartBeatDto;
 import com.blog.pi.netty.dto.NettyPacket;
 import com.blog.pi.netty.enums.HeartBeatType;
 import com.blog.pi.netty.enums.NettyPacketType;
 import com.blog.pi.netty.event.NettyPacketEvent;
+import com.blog.pi.service.impl.TestService;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -16,9 +18,13 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import oshi.SystemInfo;
+import oshi.hardware.CentralProcessor;
+import oshi.hardware.HardwareAbstractionLayer;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -39,7 +45,11 @@ public class NettyClientHandler extends ChannelDuplexHandler {
     @Resource
     private NettyClient nettyClient;
 
+    @Resource
+    private TestService testService;
+
     private final ApplicationEventPublisher applicationEventPublisher;
+
 
     /**
      * 客户端连接到服务端后调用
@@ -47,15 +57,22 @@ public class NettyClientHandler extends ChannelDuplexHandler {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        log.info("建立Netty连接!!");
+        log.info("开始建立Netty连接!!");
+
+        // 组装netty注册消息类
+        NettyRegisterDto nettyRegisterDto = new NettyRegisterDto();
+        nettyRegisterDto.setDeviceCode((String) InitConfig.registerConfigMap.get("nettyDeviceCode"));
+
+        testService.getMsg();
+
+
         // 发送注册消息
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("username", InitConfig.getRegisterConfig("netty", "username"));
-        jsonObject.put("registerId", InitConfig.getRegisterConfig("netty", "registerId"));
-        NettyPacket<JSONObject> nettyRequest = NettyPacket.buildRequest(jsonObject);
+        NettyPacket<NettyRegisterDto> nettyRequest = NettyPacket.buildRequest(nettyRegisterDto);
         nettyRequest.setNettyPacketType(NettyPacketType.REGISTER.getValue());
         nettyRequest.setTopic(NettyPacketType.REGISTER.getValue());
-        ctx.writeAndFlush(JSONObject.toJSONString(nettyRequest));
+        String nettyRegister = JSONObject.toJSONString(nettyRequest);
+        log.info("Netty 注册消息：" + nettyRegister);
+        ctx.writeAndFlush(nettyRegister);
     }
 
     /**

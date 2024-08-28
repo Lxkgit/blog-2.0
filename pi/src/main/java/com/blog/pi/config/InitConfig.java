@@ -6,6 +6,7 @@ import com.blog.pi.dao.RegisterSettingDAO;
 import com.blog.pi.entity.RegisterSetting;
 import com.blog.pi.mqtt.MqttPushClient;
 import com.blog.pi.mqtt.data.LoginConfig;
+import com.blog.pi.service.impl.TestService;
 import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -26,8 +27,20 @@ import java.util.Map;
 @Component
 public class InitConfig implements ApplicationRunner {
 
+    /**
+     * 服务启动类型
+     */
     @Value("${spring.profiles.active}")
     private String type;
+
+    /**
+     * netty设备注册码
+     */
+    @Value("${netty.deviceCode}")
+    private String deviceCode;
+
+    @Resource
+    private TestService service;
 
     public static Map<String, Object> registerConfigMap = new HashMap<>();
 
@@ -38,6 +51,8 @@ public class InitConfig implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         System.out.println("开始加载配置 ");
         InitRegisterConfig();
+        // 加载netty注册码
+        InitNettyRegisterConfig();
         MqttPushClient.connect(new LoginConfig(
                 (String) getRegisterConfig("mqtt","ip"),
                 (Integer) getRegisterConfig("mqtt","port"),
@@ -64,4 +79,7 @@ public class InitConfig implements ApplicationRunner {
         return jsonObject.get(settingField);
     }
 
+    private void InitNettyRegisterConfig() {
+        registerConfigMap.put("nettyDeviceCode", deviceCode);
+    }
 }
