@@ -1,15 +1,15 @@
-package com.blog.pi.service.impl;
+package com.blog.pi.netty.service;
 
 import cn.hutool.core.io.unit.DataUnit;
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
+import com.blog.pi.netty.dto.register.NettyRegisterDto;
 import com.blog.pi.netty.dto.heart.NettyHeartBeatDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
-import oshi.hardware.CentralProcessor;
 import oshi.hardware.GlobalMemory;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.hardware.NetworkIF;
@@ -17,32 +17,41 @@ import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
 
-import java.net.InetAddress;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Description
+ * @Description 设备信息服务
  * @Author lxk
  * @CreateTime 2024-08-28
  */
 
 @Slf4j
 @Service
-public class TestService {
+public class DeviceInfoService {
 
+    /**
+     * 注册获取设备信息
+     * @param registerDto
+     */
+    public void setRegisterMsg(NettyRegisterDto registerDto) {
 
-    public void getMsg() {
+        registerDto.setSysInfo(sysInfo());
+    }
 
-        log.info(net().toString());
-        log.info(cpuInfo().toString());
-        log.info(memInfo().toString());
-        log.info(sysInfo().toString());
-        log.info(sysFiles().toString());
+    /**
+     * 心跳上报获取设备信息
+     * @param heartBeatDto
+     */
+    public void setHeartBeatMsg(NettyHeartBeatDto heartBeatDto) {
+
+        heartBeatDto.setCpuInfo(cpuInfo());
+        heartBeatDto.setMemInfo(memInfo());
+        heartBeatDto.setNetInfo(net());
+        heartBeatDto.setSysFile(sysFiles());
     }
 
     public NettyHeartBeatDto.NetInfo net() {
@@ -123,8 +132,8 @@ public class TestService {
     /**
      * 设置服务器信息
      */
-    public NettyHeartBeatDto.SysInfo sysInfo() {
-        NettyHeartBeatDto.SysInfo sys = new NettyHeartBeatDto.SysInfo();
+    public NettyRegisterDto.SysInfo sysInfo() {
+        NettyRegisterDto.SysInfo sys = new NettyRegisterDto.SysInfo();
         Properties props = System.getProperties();
         sys.setComputerName(NetUtil.getLocalHostName());
         sys.setComputerIp(NetUtil.getLocalhostStr());

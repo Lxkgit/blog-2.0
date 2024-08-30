@@ -21,15 +21,34 @@ import java.util.UUID;
 @Slf4j
 public class NettyPacket<T> implements Serializable {
 
-    // netty 消息唯一序列号
+    /**
+     *  netty 消息唯一序列号
+     */
     private String requestId;
-    // netty 请求类型
+
+    /**
+     * netty 请求类型
+     */
     private String nettyPacketType;
-    // netty 消息Topic
+
+    /**
+     * netty 消息Topic
+     */
     private String topic;
-    // netty注册id
+
+    /**
+     * 消息所属用户
+     */
+    private String username;
+
+    /**
+     * netty注册id
+     */
     private String deviceCode;
-    // netty 消息内容
+
+    /**
+     * netty 消息内容
+     */
     private T data;
 
     public static <T> NettyPacket<T> buildRequest(T param) {

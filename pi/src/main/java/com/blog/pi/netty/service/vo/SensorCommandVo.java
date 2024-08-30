@@ -1,6 +1,5 @@
-package com.blog.pi.netty.listener.service.vo;
+package com.blog.pi.netty.service.vo;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 /**

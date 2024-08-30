@@ -6,8 +6,7 @@ import com.blog.pi.dao.RegisterSettingDAO;
 import com.blog.pi.entity.RegisterSetting;
 import com.blog.pi.mqtt.MqttPushClient;
 import com.blog.pi.mqtt.data.LoginConfig;
-import com.blog.pi.service.impl.TestService;
-import netscape.javascript.JSObject;
+import com.blog.pi.netty.service.DeviceInfoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -40,7 +39,7 @@ public class InitConfig implements ApplicationRunner {
     private String deviceCode;
 
     @Resource
-    private TestService service;
+    private DeviceInfoService service;
 
     public static Map<String, Object> registerConfigMap = new HashMap<>();
 

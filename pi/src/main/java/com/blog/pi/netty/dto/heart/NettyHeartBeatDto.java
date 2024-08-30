@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.lang.management.ManagementFactory;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @description: 心跳消息类
@@ -36,6 +37,26 @@ public class NettyHeartBeatDto {
      * 1： 树莓派等服务器设备
      */
     private Integer type;
+
+    /**
+     * CPU信息
+     */
+    private CpuInfo cpuInfo;
+
+    /**
+     * 内存信息
+     */
+    private MemInfo memInfo;
+
+    /**
+     * 网络信息
+     */
+    private NetInfo netInfo;
+
+    /**
+     * 磁盘信息
+     */
+    private List<SysFile> sysFile;
 
     @Data
     public static class CpuInfo {
@@ -293,32 +314,5 @@ public class NettyHeartBeatDto {
         private double usage;
     }
 
-    @Data
-    public static class SysInfo {
 
-        /**
-         * 服务器名称
-         */
-        private String computerName;
-
-        /**
-         * 服务器Ip
-         */
-        private String computerIp;
-
-        /**
-         * 项目路径
-         */
-        private String userDir;
-
-        /**
-         * 操作系统
-         */
-        private String osName;
-
-        /**
-         * 系统架构
-         */
-        private String osArch;
-    }
 }

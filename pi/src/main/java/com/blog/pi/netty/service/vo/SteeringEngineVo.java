@@ -1,11 +1,6 @@
-package com.blog.pi.netty.listener.service.vo;
+package com.blog.pi.netty.service.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import lombok.Data;
-import lombok.ToString;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
 /**
  * @description: 舵机命令下发参数

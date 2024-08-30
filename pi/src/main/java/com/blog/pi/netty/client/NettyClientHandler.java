@@ -4,13 +4,13 @@ package com.blog.pi.netty.client;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.blog.pi.config.InitConfig;
-import com.blog.pi.netty.dto.NettyRegisterDto;
+import com.blog.pi.netty.dto.register.NettyRegisterDto;
 import com.blog.pi.netty.dto.heart.NettyHeartBeatDto;
 import com.blog.pi.netty.dto.NettyPacket;
 import com.blog.pi.netty.enums.HeartBeatType;
 import com.blog.pi.netty.enums.NettyPacketType;
 import com.blog.pi.netty.event.NettyPacketEvent;
-import com.blog.pi.service.impl.TestService;
+import com.blog.pi.netty.service.DeviceInfoService;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -18,13 +18,9 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import oshi.SystemInfo;
-import oshi.hardware.CentralProcessor;
-import oshi.hardware.HardwareAbstractionLayer;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -46,7 +42,7 @@ public class NettyClientHandler extends ChannelDuplexHandler {
     private NettyClient nettyClient;
 
     @Resource
-    private TestService testService;
+    private DeviceInfoService deviceInfoService;
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -61,13 +57,15 @@ public class NettyClientHandler extends ChannelDuplexHandler {
 
         // 组装netty注册消息类
         NettyRegisterDto nettyRegisterDto = new NettyRegisterDto();
+
         nettyRegisterDto.setDeviceCode((String) InitConfig.registerConfigMap.get("nettyDeviceCode"));
 
-        testService.getMsg();
-
+        deviceInfoService.setRegisterMsg(nettyRegisterDto);
 
         // 发送注册消息
         NettyPacket<NettyRegisterDto> nettyRequest = NettyPacket.buildRequest(nettyRegisterDto);
+        nettyRequest.setUsername("gszero");
+        nettyRequest.setDeviceCode("2ecfb95116de4967afe7710e11ac00b4");
         nettyRequest.setNettyPacketType(NettyPacketType.REGISTER.getValue());
         nettyRequest.setTopic(NettyPacketType.REGISTER.getValue());
         String nettyRegister = JSONObject.toJSONString(nettyRequest);
@@ -96,6 +94,7 @@ public class NettyClientHandler extends ChannelDuplexHandler {
                 nettyHeartBeat.setHeartBeat(new Date());
                 nettyHeartBeat.setFrom((String) InitConfig.getRegisterConfig("netty", "registerId"));
                 nettyHeartBeat.setType(HeartBeatType.SERVICE.getType());
+                deviceInfoService.setHeartBeatMsg(nettyHeartBeat);
                 // 向服务端发送心跳包
                 NettyPacket<NettyHeartBeatDto> nettyRequest = NettyPacket.buildRequest(nettyHeartBeat);
                 nettyRequest.setNettyPacketType(NettyPacketType.HEARTBEAT.getValue());

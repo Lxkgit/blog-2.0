@@ -1,4 +1,4 @@
-package com.blog.file.netty.listener.service;
+package com.blog.file.netty.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -10,7 +10,6 @@ import com.blog.file.dao.DeviceDAO;
 import com.blog.file.dao.SensorDAO;
 import com.blog.file.dao.SensorDataDAO;
 import com.blog.file.netty.dto.NettyPacket;
-import com.blog.file.netty.service.NettyServer;
 import io.netty.channel.ChannelId;
 import org.springframework.stereotype.Service;
 
@@ -77,7 +76,6 @@ public class NettyDeviceData {
         // 消息响应
         NettyPacket<String> nettyResponse = NettyPacket.buildResponse(registerId, "service receive data");
         nettyResponse.setTopic(topic);
-        nettyResponse.setUsername(username);
         nettyServer.channelWriteByChannelId(channelId, JSONObject.toJSONString(nettyResponse));
     }
 

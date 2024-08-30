@@ -1,8 +1,8 @@
-package com.blog.pi.netty.listener.service.enums;
+package com.blog.pi.netty.enums;
 
 
-import com.blog.pi.netty.listener.service.vo.SensorCommandVo;
-import com.blog.pi.netty.listener.service.vo.SteeringEngineVo;
+import com.blog.pi.netty.service.vo.SensorCommandVo;
+import com.blog.pi.netty.service.vo.SteeringEngineVo;
 
 /**
  * 传感器类型枚举类

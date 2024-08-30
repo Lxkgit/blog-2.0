@@ -1,12 +1,10 @@
-package com.blog.pi.netty.listener.service.thread;
+package com.blog.pi.netty.thread;
 
 import com.alibaba.fastjson.JSONObject;
 import com.blog.pi.enums.mqtt.MQTTTopicEnum;
 import com.blog.pi.mqtt.MqttPushClient;
-import com.blog.pi.netty.listener.service.vo.SensorCommandVo;
+import com.blog.pi.netty.service.vo.SensorCommandVo;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 
 /**
  * @description: 命令执行线程

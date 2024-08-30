@@ -23,9 +23,9 @@ public class Device {
     private Integer id;
 
     /**
-     * 用户id
+     * 用户名称
      */
-    private Integer userId;
+    private String username;
 
     /**
      * 设备名称
@@ -46,6 +46,11 @@ public class Device {
      * 设备在离线时间模板
      */
     private Integer timeTemplate;
+
+    /**
+     * json 数据
+     */
+    private String dataJson;
 
     /**
      * 备注信息

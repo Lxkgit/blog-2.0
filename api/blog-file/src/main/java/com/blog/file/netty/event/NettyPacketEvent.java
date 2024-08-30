@@ -13,7 +13,9 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 public class NettyPacketEvent extends ApplicationEvent {
 
-    private NettyPacket<Object> nettyPacket;
+    private static final long serialVersionUID = 386562306947250643L;
+
+    private final NettyPacket<Object> nettyPacket;
 
     public NettyPacketEvent(Object source, NettyPacket<Object> nettyPacket) {
         super(source);
