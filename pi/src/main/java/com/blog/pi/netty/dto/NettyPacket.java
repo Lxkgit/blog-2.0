@@ -21,6 +21,8 @@ import java.util.UUID;
 @Slf4j
 public class NettyPacket<T> implements Serializable {
 
+    private static final long serialVersionUID = 410568910242170750L;
+
     /**
      *  netty 消息唯一序列号
      */
@@ -54,8 +56,9 @@ public class NettyPacket<T> implements Serializable {
     public static <T> NettyPacket<T> buildRequest(T param) {
         NettyPacket<T> nettyPacket = new NettyPacket<>();
         nettyPacket.setRequestId(MyUUID.getRandomString());
-        nettyPacket.setNettyPacketType(NettyPacketType.REQUEST.getValue());
+        nettyPacket.setUsername("gszero");
         nettyPacket.setDeviceCode("2ecfb95116de4967afe7710e11ac00b4");
+        nettyPacket.setNettyPacketType(NettyPacketType.REQUEST.getValue());
         nettyPacket.setData(param);
         return nettyPacket;
     }
@@ -67,9 +70,5 @@ public class NettyPacket<T> implements Serializable {
         nettyPacket.setDeviceCode((String) InitConfig.getRegisterConfig("netty", "registerId"));
         nettyPacket.setData(data);
         return nettyPacket;
-    }
-
-    private static String getOnlyId() {
-        return UUID.randomUUID().toString();
     }
 }

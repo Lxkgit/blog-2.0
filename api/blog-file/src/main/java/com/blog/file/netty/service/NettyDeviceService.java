@@ -10,6 +10,8 @@ import com.blog.file.dao.DeviceDAO;
 import com.blog.file.dao.SensorDAO;
 import com.blog.file.dao.SensorDataDAO;
 import com.blog.file.netty.dto.NettyPacket;
+import com.blog.file.netty.dto.heart.NettyHeartBeatDto;
+import com.blog.file.netty.dto.register.NettyChipRegisterDto;
 import io.netty.channel.ChannelId;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,7 @@ import java.util.Date;
  */
 
 @Service
-public class NettyDeviceData {
+public class NettyDeviceService {
 
     @Resource
     private NettyServer nettyServer;
@@ -39,6 +41,13 @@ public class NettyDeviceData {
 
     @Resource
     private SensorDataDAO sensorDataDAO;
+
+    public void ChipAndSensorRegister(String data) {
+
+        NettyChipRegisterDto nettyChipRegisterDto = JSONObject.parseObject(data, NettyChipRegisterDto.class);
+        
+
+    }
 
     /**
      * 处理传感器数据上报消息，并发送消息接收相应

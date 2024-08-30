@@ -12,11 +12,14 @@ import lombok.Data;
 public class NettyRegisterDto {
 
     /**
-     * 设备唯一码
+     * 设备名称
      */
-//    private String deviceCode;
-
     private String deviceName;
+
+    /**
+     * 设备备注信息
+     */
+    private String memo;
 
     /**
      * 注册上班系统消息

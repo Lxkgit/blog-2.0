@@ -57,7 +57,7 @@ public class DeviceServiceImpl implements DeviceService {
             throw new ValidException(ErrorMessage.DEVICE_CODE_EXISTS);
         }
         BlogUser blogUser = JSONObject.parseObject(JSONObject.toJSONString(userClient.getUserById(userId).getResult()), BlogUser.class);
-        deviceVo.setUserId(blogUser.getId());
+//        deviceVo.setUserId(blogUser.getId());
         deviceVo.setDeviceStatus(Constant.DEVICE_OFFLINE);
         deviceVo.setCreateTime(new Date());
         deviceVo.setUpdateTime(new Date());

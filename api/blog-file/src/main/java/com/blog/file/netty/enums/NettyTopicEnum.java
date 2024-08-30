@@ -8,6 +8,9 @@ package com.blog.file.netty.enums;
 
 public enum NettyTopicEnum {
 
+    // 博客单片机设备注册
+    BLOG_CHIP_REGISTER("BLOG_CHIP_REGISTER"),
+
     // 博客MySQL数据与数据文件同步
     BLOG_FILE_SYNC("BLOG_FILE_SYNC"),
     // 传感器数据消息

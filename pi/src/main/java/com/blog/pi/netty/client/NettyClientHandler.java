@@ -58,14 +58,12 @@ public class NettyClientHandler extends ChannelDuplexHandler {
         // 组装netty注册消息类
         NettyRegisterDto nettyRegisterDto = new NettyRegisterDto();
 
-        nettyRegisterDto.setDeviceCode((String) InitConfig.registerConfigMap.get("nettyDeviceCode"));
-
+        nettyRegisterDto.setDeviceName("SMP");
+        nettyRegisterDto.setMemo("这个是设备备注信息");
         deviceInfoService.setRegisterMsg(nettyRegisterDto);
 
         // 发送注册消息
         NettyPacket<NettyRegisterDto> nettyRequest = NettyPacket.buildRequest(nettyRegisterDto);
-        nettyRequest.setUsername("gszero");
-        nettyRequest.setDeviceCode("2ecfb95116de4967afe7710e11ac00b4");
         nettyRequest.setNettyPacketType(NettyPacketType.REGISTER.getValue());
         nettyRequest.setTopic(NettyPacketType.REGISTER.getValue());
         String nettyRegister = JSONObject.toJSONString(nettyRequest);
@@ -83,7 +81,7 @@ public class NettyClientHandler extends ChannelDuplexHandler {
     }
 
     /**
-     * 心跳处理，每5秒发送一次心跳请求
+     * 心跳处理，每30秒发送一次心跳请求
      */
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
@@ -92,7 +90,6 @@ public class NettyClientHandler extends ChannelDuplexHandler {
             if (idleStateEvent.state() == IdleState.WRITER_IDLE) {
                 NettyHeartBeatDto nettyHeartBeat = new NettyHeartBeatDto();
                 nettyHeartBeat.setHeartBeat(new Date());
-                nettyHeartBeat.setFrom((String) InitConfig.getRegisterConfig("netty", "registerId"));
                 nettyHeartBeat.setType(HeartBeatType.SERVICE.getType());
                 deviceInfoService.setHeartBeatMsg(nettyHeartBeat);
                 // 向服务端发送心跳包
@@ -131,6 +128,8 @@ public class NettyClientHandler extends ChannelDuplexHandler {
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        log.info(cause.getMessage());
+        cause.getStackTrace();
         // 当出现异常就关闭连接
         ctx.close();
     }

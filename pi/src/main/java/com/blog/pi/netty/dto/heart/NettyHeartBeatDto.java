@@ -28,11 +28,6 @@ public class NettyHeartBeatDto {
     private Date heartBeat;
 
     /**
-     * 消息来源
-     */
-    private String from;
-
-    /**
      * 心跳类型
      * 1： 树莓派等服务器设备
      */
