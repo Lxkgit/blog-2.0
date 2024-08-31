@@ -3,6 +3,7 @@ package com.blog.pi.mqtt;
 import com.alibaba.fastjson.JSONObject;
 import com.blog.pi.enums.netty.NettyTopicEnum;
 import com.blog.pi.mqtt.data.MQTTSensorData;
+import com.blog.pi.mqtt.enums.MQTTTopicEnum;
 import com.blog.pi.netty.client.NettyClient;
 import com.blog.pi.netty.dto.NettyPacket;
 import com.blog.pi.netty.enums.NettyPacketType;
@@ -59,11 +60,18 @@ public class PushCallback implements MqttCallback {
         try {
             String data = new String(message.getPayload());
             log.info("MQTT Topic:【{}】 data:【{}】", topic, data);
-            MQTTSensorData mqttSensorData = JSONObject.toJavaObject(JSONObject.parseObject(data), MQTTSensorData.class);
-            NettyPacket<MQTTSensorData> nettyRequest = NettyPacket.buildRequest(mqttSensorData);
-            nettyRequest.setNettyPacketType(NettyPacketType.REQUEST.getValue());
-            nettyRequest.setTopic(NettyTopicEnum.BLOG_SENSOR_DATA.getTopic());
-            nettyClient.sendMsg(JSONObject.toJSONString(nettyRequest));
+            if (MQTTTopicEnum.CHIP_SENSOR_REGISTER.getTopic().equals(topic)) {
+                NettyPacket<String> nettyRequest = NettyPacket.buildRequest(data);
+                nettyRequest.setNettyPacketType(NettyPacketType.REQUEST.getValue());
+                nettyRequest.setTopic(NettyTopicEnum.CHIP_SENSOR_REGISTER.getTopic());
+                nettyClient.sendMsg(JSONObject.toJSONString(nettyRequest));
+            }
+
+//            MQTTSensorData mqttSensorData = JSONObject.toJavaObject(JSONObject.parseObject(data), MQTTSensorData.class);
+//            NettyPacket<MQTTSensorData> nettyRequest = NettyPacket.buildRequest(mqttSensorData);
+//            nettyRequest.setNettyPacketType(NettyPacketType.REQUEST.getValue());
+//            nettyRequest.setTopic(NettyTopicEnum.BLOG_SENSOR_DATA.getTopic());
+//            nettyClient.sendMsg(JSONObject.toJSONString(nettyRequest));
         } catch (Exception e) {
             e.printStackTrace();
         }

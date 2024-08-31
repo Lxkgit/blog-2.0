@@ -23,14 +23,14 @@ public class Chip {
     private Integer id;
 
     /**
-     * 用户id
+     * 用户名
      */
-    private Integer userId;
+    private String username;
 
     /**
-     * 用户id
+     * 单片机所属设备编码
      */
-    private Integer deviceId;
+    private String deviceCode;
 
     /**
      * 单片机名称

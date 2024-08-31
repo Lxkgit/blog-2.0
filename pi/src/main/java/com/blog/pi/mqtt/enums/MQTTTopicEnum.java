@@ -1,6 +1,8 @@
-package com.blog.pi.enums.mqtt;
+package com.blog.pi.mqtt.enums;
 
 public enum MQTTTopicEnum {
+
+    CHIP_SENSOR_REGISTER("CHIP_SENSOR_REGISTER", 1),
 
     // 芯片心跳
     CHIP_HEART("CHIP_HEART", 0),

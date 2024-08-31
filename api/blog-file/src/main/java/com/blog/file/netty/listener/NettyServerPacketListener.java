@@ -134,25 +134,25 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
 
 
         } else if (nettyPacketType.equals(NettyPacketType.REQUEST.getValue())) {
-            BlogUser blogUser = JSONObject.parseObject(JSONObject.toJSONString(userClient.getUserByUsername(username).getResult()), BlogUser.class);
-            JSONObject jsonObject = (JSONObject) event.getNettyPacket().getData();
+//            BlogUser blogUser = JSONObject.parseObject(JSONObject.toJSONString(userClient.getUserByUsername(username).getResult()), BlogUser.class);
+//            JSONObject jsonObject = (JSONObject) event.getNettyPacket().getData();
 
-            if (topic.equals(NettyTopicEnum.BLOG_CHIP_REGISTER.getTopic())) {
-                nettyDeviceData.ChipAndSensorRegister(data);
+            if (topic.equals(NettyTopicEnum.CHIP_SENSOR_REGISTER.getTopic())) {
+                nettyDeviceData.ChipAndSensorRegister(data, deviceCode);
             }
 
 
-            // 对客户端请求的响应
-            // 收到传感器数据回复响应
-            if (topic.equals(NettyTopicEnum.BLOG_SENSOR_DATA.getTopic())) {
-                nettyDeviceData.SensorData(jsonObject, blogUser, channelId, topic, username, deviceCode);
-            }
-            if (topic.equals(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic())) {
-                nettyDeviceData.SensorControl();
-            }
-            if (topic.equals(NettyTopicEnum.BLOG_FILE_SYNC.getTopic())) {
-//                nettyFileSync
-            }
+//            // 对客户端请求的响应
+//            // 收到传感器数据回复响应
+//            if (topic.equals(NettyTopicEnum.BLOG_SENSOR_DATA.getTopic())) {
+//                nettyDeviceData.SensorData(jsonObject, blogUser, channelId, topic, username, deviceCode);
+//            }
+//            if (topic.equals(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic())) {
+//                nettyDeviceData.SensorControl();
+//            }
+//            if (topic.equals(NettyTopicEnum.BLOG_FILE_SYNC.getTopic())) {
+////                nettyFileSync
+//            }
 
         } else if (nettyPacketType.equals(NettyPacketType.RESPONSE.getValue())) {
             log.info("channelId:{} RESPONSE!! data:{}", channelId, JSONObject.toJSONString(event.getNettyPacket().getData()));

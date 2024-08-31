@@ -14,6 +14,8 @@ public enum NettyTopicEnum {
     BLOG_SENSOR_DATA("BLOG_SENSOR_DATA"),
     // 控制传感器数据消息
     BLOG_SENSOR_CONTROL("BLOG_SENSOR_CONTROL"),
+
+    CHIP_SENSOR_REGISTER("CHIP_SENSOR_REGISTER"),
     ;
     /**
      * topic

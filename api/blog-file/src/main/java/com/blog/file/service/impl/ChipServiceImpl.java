@@ -53,7 +53,7 @@ public class ChipServiceImpl implements ChipService {
         if (chip != null) {
             throw new ValidException(ErrorMessage.CHIP_CODE_EXISTS);
         }
-        chipVo.setUserId(userId);
+//        chipVo.setUserId(userId);
         chipVo.setChipStatus(Constant.DEVICE_OFFLINE);
         chipVo.setCreateTime(new Date());
         chipVo.setUpdateTime(new Date());
@@ -93,7 +93,7 @@ public class ChipServiceImpl implements ChipService {
         if (chip != null) {
             throw new ValidException(ErrorMessage.CHIP_CODE_EXISTS);
         }
-        chipVo.setUserId(userId);
+//        chipVo.setUserId(userId);
         chipVo.setChipStatus(Constant.DEVICE_OFFLINE);
         chipVo.setUpdateTime(new Date());
         chipDAO.updateById(chipVo);
@@ -111,7 +111,7 @@ public class ChipServiceImpl implements ChipService {
     public MyPage<ChipVo> selectChipList(Integer userId, ChipVo chipVoParam) {
         QueryWrapper<Chip> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", userId);
-        wrapper.eq("device_id", chipVoParam.getDeviceId());
+//        wrapper.eq("device_id", chipVoParam.getDeviceId());
         wrapper.ne("chip_status", Constant.DEVICE_DELETE);
 
         PageHelper.startPage(chipVoParam.getPageNum(), chipVoParam.getPageSize());

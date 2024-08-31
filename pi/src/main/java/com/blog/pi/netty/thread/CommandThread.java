@@ -1,7 +1,7 @@
 package com.blog.pi.netty.thread;
 
 import com.alibaba.fastjson.JSONObject;
-import com.blog.pi.enums.mqtt.MQTTTopicEnum;
+import com.blog.pi.mqtt.enums.MQTTTopicEnum;
 import com.blog.pi.mqtt.MqttPushClient;
 import com.blog.pi.netty.service.vo.SensorCommandVo;
 import lombok.extern.slf4j.Slf4j;

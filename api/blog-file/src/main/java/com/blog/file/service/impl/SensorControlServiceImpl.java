@@ -182,7 +182,7 @@ public class SensorControlServiceImpl implements SensorControlService {
         }
 
         QueryWrapper<Chip> chipQueryWrapper = new QueryWrapper<>();
-        chipQueryWrapper.eq("id", sensor.getChipId());
+//        chipQueryWrapper.eq("id", sensor.getChipId());
         chipQueryWrapper.eq("user_id", userId);
         Chip chip = chipDAO.selectOne(chipQueryWrapper);
         if (chip == null) {
@@ -190,7 +190,7 @@ public class SensorControlServiceImpl implements SensorControlService {
         }
 
         QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
-        deviceQueryWrapper.eq("id", chip.getDeviceId());
+//        deviceQueryWrapper.eq("id", chip.getDeviceId());
         deviceQueryWrapper.eq("user_id", userId);
         Device device = deviceDAO.selectOne(deviceQueryWrapper);
         if (device == null) {

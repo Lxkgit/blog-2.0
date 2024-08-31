@@ -1,7 +1,7 @@
 package com.blog.pi.mqtt;
 
 
-import com.blog.pi.enums.mqtt.MQTTTopicEnum;
+import com.blog.pi.mqtt.enums.MQTTTopicEnum;
 import com.blog.pi.mqtt.data.LoginConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
@@ -107,6 +107,7 @@ public class MqttPushClient {
      *
      */
     public static void subscribe() {
+        subscribe(MQTTTopicEnum.CHIP_SENSOR_REGISTER.getTopic(), 0);
         subscribe(MQTTTopicEnum.SENSOR_DATA.getTopic(), 0);
     }
 

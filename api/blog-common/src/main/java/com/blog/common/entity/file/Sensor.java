@@ -26,19 +26,9 @@ public class Sensor {
     private Integer id;
 
     /**
-     * 用户id
+     * 传感器所属单片机编码
      */
-    private Integer userId;
-
-    /**
-     * 单片机id
-     */
-    private Integer chipId;
-
-    /**
-     * 传感器类型id
-     */
-    private Integer sensorTypeId;
+    private String chipCode;
 
     /**
      * 传感器名称
@@ -54,6 +44,11 @@ public class Sensor {
      * 传感器状态 0:离线 1:在线 2:删除
      */
     private Integer sensorStatus;
+
+    /**
+     * 传感器类型
+     */
+    private String sensorType;
 
     /**
      * 传感器备注信息
