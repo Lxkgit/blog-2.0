@@ -26,6 +26,7 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
+
         <!-- 添加Nacos相关依赖-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -36,6 +37,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+
         <!-- 引入lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -46,10 +48,19 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>gszero.blog</groupId>
             <artifactId>blog-common</artifactId>
             <version>${project.parent.version}</version>
+
+            <exclusions>
+                <!-- 排除内嵌的 redis -->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-redis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>

@@ -2,10 +2,8 @@ package com.blog.pi.mqtt.enums;
 
 public enum MQTTTopicEnum {
 
+    // 芯片传感器设备注册
     CHIP_SENSOR_REGISTER("CHIP_SENSOR_REGISTER", 1),
-
-    // 芯片心跳
-    CHIP_HEART("CHIP_HEART", 0),
 
     // 传感器数据
     SENSOR_DATA("SENSOR_DATA", 0),

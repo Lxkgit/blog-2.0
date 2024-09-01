@@ -42,13 +42,13 @@ public class UserServiceImpl implements UserService {
     @Resource
     private SysUserDAO sysUserDAO;
 
-    @Autowired
+    @Resource
     private SysRoleService sysRoleService;
 
-    @Autowired
+    @Resource
     private SysPermissionService sysPermissionService;
 
-    @Autowired
+    @Resource
     private BCryptPasswordEncoder passwordEncoder;
 
     @Resource

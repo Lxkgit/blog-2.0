@@ -107,8 +107,8 @@ public class MqttPushClient {
      *
      */
     public static void subscribe() {
-        subscribe(MQTTTopicEnum.CHIP_SENSOR_REGISTER.getTopic(), 0);
-        subscribe(MQTTTopicEnum.SENSOR_DATA.getTopic(), 0);
+        subscribe(MQTTTopicEnum.CHIP_SENSOR_REGISTER.getTopic(), MQTTTopicEnum.CHIP_SENSOR_REGISTER.getQos());
+        subscribe(MQTTTopicEnum.SENSOR_DATA.getTopic(), MQTTTopicEnum.SENSOR_DATA.getQos());
     }
 
     /**

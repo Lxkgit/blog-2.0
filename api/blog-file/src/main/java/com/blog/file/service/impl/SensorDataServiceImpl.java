@@ -53,20 +53,21 @@ public class SensorDataServiceImpl implements SensorDataService {
     @Override
     public MyPage<SensorDataVo> selectSensorDataList(Integer userId, SensorDataVo sensorDataVoParam) {
 
-        QueryWrapper<SensorData> wrapper = new QueryWrapper<>();
-        wrapper.eq("sensor_id", sensorDataVoParam.getSensorId());
-        wrapper.orderByDesc("id");
-
-        PageHelper.startPage(sensorDataVoParam.getPageNum(), sensorDataVoParam.getPageSize());
-        Page<SensorData> sensorDataPage = (Page<SensorData>) sensorDataDAO.selectList(wrapper);
-
-        List<SensorDataVo> sensorDataVoList = new ArrayList<>();
-        for (SensorData sensorData : sensorDataPage) {
-            SensorDataVo sensorDataVo = new SensorDataVo();
-            BeanUtils.copyProperties(sensorData, sensorDataVo);
-            sensorDataVoList.add(sensorDataVo);
-        }
-
-        return MyPageUtils.pageUtil(sensorDataVoList, sensorDataPage.getPageNum(), sensorDataPage.getPageSize(), (int) sensorDataPage.getTotal());
+//        QueryWrapper<SensorData> wrapper = new QueryWrapper<>();
+//        wrapper.eq("sensor_id", sensorDataVoParam.getSensorId());
+//        wrapper.orderByDesc("id");
+//
+//        PageHelper.startPage(sensorDataVoParam.getPageNum(), sensorDataVoParam.getPageSize());
+//        Page<SensorData> sensorDataPage = (Page<SensorData>) sensorDataDAO.selectList(wrapper);
+//
+//        List<SensorDataVo> sensorDataVoList = new ArrayList<>();
+//        for (SensorData sensorData : sensorDataPage) {
+//            SensorDataVo sensorDataVo = new SensorDataVo();
+//            BeanUtils.copyProperties(sensorData, sensorDataVo);
+//            sensorDataVoList.add(sensorDataVo);
+//        }
+//
+//        return MyPageUtils.pageUtil(sensorDataVoList, sensorDataPage.getPageNum(), sensorDataPage.getPageSize(), (int) sensorDataPage.getTotal());
+        return null;
     }
 }

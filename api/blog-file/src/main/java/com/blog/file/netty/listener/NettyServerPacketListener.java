@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.entity.file.Device;
 import com.blog.common.entity.file.DeviceHeartbeat;
 import com.blog.common.entity.file.UserDevice;
-import com.blog.common.entity.user.BlogUser;
 import com.blog.file.dao.DeviceDAO;
 import com.blog.file.dao.DeviceHeartbeatDAO;
 import com.blog.file.dao.UserDeviceDAO;
@@ -76,19 +75,23 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
                 channelId, nettyPacketType, topic, username, deviceCode, data);
         if (nettyPacketType.equals(NettyPacketType.REGISTER.getValue())) {
 
-            // username & deviceCode 查找
+            // netty设备注册 单片机 传感器注册流程
             QueryWrapper<UserDevice> userDeviceQueryWrapper = new QueryWrapper<>();
             userDeviceQueryWrapper.eq("username", username).eq("device_code", deviceCode);
             UserDevice selectDevice = userDeviceDAO.selectOne(userDeviceQueryWrapper);
+            // 设备编码错误拒绝注册
             if (selectDevice == null) {
                 log.error("用户与编码匹配失败，拒绝连接");
                 nettyServer.close(channelId);
             } else {
+                // netty 设备通道绑定 后续发送消息获取通道
                 NettyRegisterDto nettyRegisterDto = JSONObject.parseObject(data, NettyRegisterDto.class);
                 if (!NettyServerHandler.clientMap.containsKey(deviceCode)) {
                     addNettyChannel(channelId, username, deviceCode);
                     log.info("注册 客户端【{}】与netty通道【{}】绑定", deviceCode, channelId);
                 }
+
+                // 创建设备 写入数据
                 Device device = new Device();
                 device.setUsername(username);
                 device.setDeviceName(nettyRegisterDto.getDeviceName());
@@ -98,10 +101,12 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
                 device.setDeviceStatus(1);
                 device.setMemo(nettyRegisterDto.getMemo());
 
+                // 当前设备未注册 首次注册创建设备
                 if (selectDevice.getCodeStatus() == 0) {
                     device.setCreateTime(new Date());
                     deviceDAO.insert(device);
 
+                    // 将设备状态修改为已注册
                     UserDevice userDevice = new UserDevice();
                     userDevice.setId(selectDevice.getId());
                     userDevice.setCodeStatus(1);
@@ -109,6 +114,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
                     userDeviceDAO.updateById(userDevice);
                 } else {
 
+                    // 当前设备已注册 更新设备数据
                     QueryWrapper<Device> wrapper = new QueryWrapper<>();
                     wrapper.eq("username", username).eq("device_code", deviceCode);
                     deviceDAO.update(device, wrapper);
@@ -117,14 +123,17 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
             }
 
         } else if (nettyPacketType.equals(NettyPacketType.HEARTBEAT.getValue())) {
+            // 记录的通道数据丢失 由心跳恢复通道数据
             if (!NettyServerHandler.clientMap.containsKey(deviceCode)) {
                 addNettyChannel(channelId, username, deviceCode);
                 log.info("心跳 客户端【{}】与netty通道【{}】绑定", deviceCode, channelId);
             }
 
+            // 更新通道最近心跳时间 防止被定时任务清除通道
             NettyServerHandler.clientMap.get(deviceCode).setDate(new Date());
             NettyHeartBeatDto nettyHeartBeat = JSONObject.parseObject(data, NettyHeartBeatDto.class);
 
+            // 记录心跳中携带的 cpu 内存 网络 状态数据
             DeviceHeartbeat deviceHeartbeat = new DeviceHeartbeat();
             deviceHeartbeat.setUsername(username);
             deviceHeartbeat.setDeviceCode(deviceCode);
@@ -137,8 +146,11 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
 //            BlogUser blogUser = JSONObject.parseObject(JSONObject.toJSONString(userClient.getUserByUsername(username).getResult()), BlogUser.class);
 //            JSONObject jsonObject = (JSONObject) event.getNettyPacket().getData();
 
+            // 处理单片机、传感器注册数据
             if (topic.equals(NettyTopicEnum.CHIP_SENSOR_REGISTER.getTopic())) {
-                nettyDeviceData.ChipAndSensorRegister(data, deviceCode);
+                nettyDeviceData.chipAndSensorRegister(data, deviceCode);
+            } else if (topic.equals(NettyTopicEnum.SENSOR_DATA.getTopic())) {
+                nettyDeviceData.receiveSensorData(data, deviceCode);
             }
 
 

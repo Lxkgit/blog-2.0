@@ -11,7 +11,12 @@ import java.util.List;
  */
 
 @Data
-public class SensorReceiveDto {
+public class SensorDataDto {
+
+    /**
+     * 设备编码
+     */
+    private String deviceCode;
 
     /**
      * 单片机编码
@@ -20,6 +25,7 @@ public class SensorReceiveDto {
 
     /**
      * 消息编码
+     * 上电随机生成
      */
     private String msgCode;
 
@@ -27,12 +33,12 @@ public class SensorReceiveDto {
      * 消息条数
      * 单片机每次上电从1开始计数
      */
-    private String msgCount;
+    private Integer msgCount;
 
     /**
      * 传感器接受消息列表
      */
-    private List<ReceiveData> msgList;
+    private List<ReceiveData> dataList;
 
     public static class ReceiveData {
 

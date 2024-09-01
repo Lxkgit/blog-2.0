@@ -3,7 +3,7 @@ package com.blog.pi.netty.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.blog.pi.enums.netty.NettyTopicEnum;
+import com.blog.pi.netty.enums.NettyTopicEnum;
 import com.blog.pi.netty.dto.file.NettySyncBlogFileDto;
 import com.blog.pi.netty.enums.NettyPacketType;
 import com.blog.pi.netty.event.NettyPacketEvent;

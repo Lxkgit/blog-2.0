@@ -8,6 +8,13 @@ package com.blog.file.netty.enums;
 
 public enum NettyTopicEnum {
 
+    // 芯片传感器设备注册
+    CHIP_SENSOR_REGISTER("CHIP_SENSOR_REGISTER"),
+
+    // 传感器数据
+    SENSOR_DATA("SENSOR_DATA"),
+
+
     // 博客单片机设备注册
     BLOG_CHIP_REGISTER("BLOG_CHIP_REGISTER"),
 
@@ -18,7 +25,7 @@ public enum NettyTopicEnum {
     // 控制传感器数据消息
     BLOG_SENSOR_CONTROL("BLOG_SENSOR_CONTROL"),
 
-    CHIP_SENSOR_REGISTER("CHIP_SENSOR_REGISTER"),
+
 
     ;
     /**
