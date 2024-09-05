@@ -15,29 +15,14 @@ import java.util.List;
 public class SensorCommandDto<T> {
 
     /**
-     * 设备类型
-     */
-    private String chipType;
-
-    /**
      * 设备编码
      */
     private String chipCode;
 
     /**
-     * 传感器类型
-     */
-    private String sensorType;
-
-    /**
      * 传感器编码
      */
     private String sensorCode;
-
-    /**
-     * 下发消息编码
-     */
-    private String msgCode;
 
     /**
      * 下发控制消息命令列表

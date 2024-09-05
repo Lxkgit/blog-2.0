@@ -26,9 +26,9 @@ public class DeviceHeartbeat {
     private Integer id;
 
     /**
-     * 设备所属用户
+     * 设备所属用户id
      */
-    private String username;
+    private Integer userId;
 
     /**
      * 设备唯一编码

@@ -82,7 +82,7 @@ public class DeviceController extends BaseController {
      */
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('sys:device:select')")
-    public Result selectDeviceList(HttpServletRequest request) {
+    public Result selectDeviceList(HttpServletRequest request) throws ValidException {
         return ResultFactory.buildSuccessResult(deviceService.selectDeviceList(getBlogUser(request).getId()));
     }
 
@@ -95,7 +95,7 @@ public class DeviceController extends BaseController {
      */
     @GetMapping("/id")
     @PreAuthorize("hasAnyAuthority('sys:device:select')")
-    public Result selectDeviceById(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) DeviceVo deviceVo) {
+    public Result selectDeviceById(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) DeviceVo deviceVo) throws ValidException {
         return ResultFactory.buildSuccessResult(deviceService.selectDeviceById(getBlogUser(request).getId(), deviceVo.getId()));
     }
 

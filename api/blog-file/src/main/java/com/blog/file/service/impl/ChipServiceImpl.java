@@ -1,15 +1,21 @@
 package com.blog.file.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.Constant;
 import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.Chip;
+import com.blog.common.entity.file.Device;
+import com.blog.common.entity.file.Sensor;
 import com.blog.common.entity.file.vo.ChipVo;
+import com.blog.common.entity.user.BlogUser;
 import com.blog.common.exception.ValidException;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
 import com.blog.common.util.MyStringUtils;
 import com.blog.file.dao.ChipDAO;
+import com.blog.file.dao.SensorDAO;
+import com.blog.file.feign.service.UserService;
 import com.blog.file.service.ChipService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -35,6 +41,12 @@ public class ChipServiceImpl implements ChipService {
 
     @Resource
     private ChipDAO chipDAO;
+
+    @Resource
+    private UserService userService;
+
+    @Resource
+    private SensorDAO sensorDAO;
 
     /**
      * 新增单片机
@@ -135,13 +147,23 @@ public class ChipServiceImpl implements ChipService {
      * @return
      */
     @Override
-    public ChipVo selectChipId(Integer userId, Integer id) {
-        QueryWrapper<Chip> wrapper = new QueryWrapper<>();
-        wrapper.eq("id", id);
-        wrapper.eq("user_id", userId);
+    public ChipVo selectChipId(Integer userId, Integer id) throws ValidException {
+        BlogUser blogUser = userService.getBlogUserById(userId);
+
+        LambdaQueryWrapper<Chip> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Chip::getId, id);
+        wrapper.eq(Chip::getUserId, blogUser.getId());
         Chip chip = chipDAO.selectOne(wrapper);
+
         ChipVo chipVo = new ChipVo();
         BeanUtils.copyProperties(chip, chipVo);
+
+        LambdaQueryWrapper<Sensor> sensorLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        sensorLambdaQueryWrapper.eq(Sensor::getDeviceCode, chip.getDeviceCode());
+        sensorLambdaQueryWrapper.eq(Sensor::getChipCode, chip.getChipCode());
+        List<Sensor> sensorList = sensorDAO.selectList(sensorLambdaQueryWrapper);
+
+        chipVo.setSensorList(sensorList);
         return chipVo;
     }
 }

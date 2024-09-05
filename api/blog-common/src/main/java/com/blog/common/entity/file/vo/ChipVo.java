@@ -1,12 +1,14 @@
 package com.blog.common.entity.file.vo;
 
 import com.blog.common.entity.file.Chip;
+import com.blog.common.entity.file.Sensor;
 import com.blog.common.valication.annotation.Equal;
 import com.blog.common.valication.group.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
 /**
  * @description: 单片机表Vo类
@@ -71,4 +73,9 @@ public class ChipVo extends Chip {
     @NotNull(message = "分页查询页数不能为空", groups = {SelectListGroup.class})
     @Min(value = 1, message = "分页查询页数最小1", groups = {SelectListGroup.class})
     private Integer pageNum;
+
+    /**
+     * 单片机下传感器列表
+     */
+    private List<Sensor> sensorList;
 }

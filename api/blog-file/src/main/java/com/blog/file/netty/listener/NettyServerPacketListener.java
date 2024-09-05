@@ -6,22 +6,22 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.entity.file.Device;
 import com.blog.common.entity.file.DeviceHeartbeat;
 import com.blog.common.entity.file.UserDevice;
+import com.blog.common.entity.user.BlogUser;
 import com.blog.file.dao.DeviceDAO;
 import com.blog.file.dao.DeviceHeartbeatDAO;
 import com.blog.file.dao.UserDeviceDAO;
 import com.blog.file.feign.UserClient;
+import com.blog.file.feign.service.UserService;
 import com.blog.file.netty.dto.NettyClientChannel;
 import com.blog.file.netty.dto.heart.NettyHeartBeatDto;
 import com.blog.file.netty.dto.register.NettyRegisterDto;
 import com.blog.file.netty.enums.NettyPacketType;
 import com.blog.file.netty.enums.NettyTopicEnum;
 import com.blog.file.netty.event.NettyPacketEvent;
-import com.blog.file.netty.service.NettyDeviceService;
-import com.blog.file.netty.service.NettyFileSync;
-import com.blog.file.netty.service.NettyServer;
-import com.blog.file.netty.service.NettyServerHandler;
+import com.blog.file.netty.service.*;
 import io.netty.channel.ChannelId;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
@@ -60,7 +60,13 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
     @Resource
     private DeviceHeartbeatDAO deviceHeartbeatDAO;
 
+    @Resource
+    private UserService userService;
 
+    @Resource
+    private NettyUserService nettyUserService;
+
+    @SneakyThrows
     @Async
     @Override
     public void onApplicationEvent(NettyPacketEvent event) {
@@ -69,6 +75,14 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
         String requestId = event.getNettyPacket().getRequestId();
         String topic = event.getNettyPacket().getTopic();
         String username = event.getNettyPacket().getUsername();
+
+        BlogUser blogUser = nettyUserService.UserRegister(requestId, channelId, username);
+        if (blogUser == null) {
+            return;
+        }
+
+        Integer userId = blogUser.getId();
+
         String deviceCode = event.getNettyPacket().getDeviceCode();
         String data = event.getNettyPacket().getData().toString();
         log.info("channelId:【{}】 nettyPacketType:【{}】 topic:【{}】 username:【{}】 deviceCode:【{}】 data:【{}】",
@@ -77,7 +91,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
 
             // netty设备注册 单片机 传感器注册流程
             QueryWrapper<UserDevice> userDeviceQueryWrapper = new QueryWrapper<>();
-            userDeviceQueryWrapper.eq("username", username).eq("device_code", deviceCode);
+            userDeviceQueryWrapper.eq("user_id", userId).eq("device_code", deviceCode);
             UserDevice selectDevice = userDeviceDAO.selectOne(userDeviceQueryWrapper);
             // 设备编码错误拒绝注册
             if (selectDevice == null) {
@@ -87,13 +101,13 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
                 // netty 设备通道绑定 后续发送消息获取通道
                 NettyRegisterDto nettyRegisterDto = JSONObject.parseObject(data, NettyRegisterDto.class);
                 if (!NettyServerHandler.clientMap.containsKey(deviceCode)) {
-                    addNettyChannel(channelId, username, deviceCode);
+                    addNettyChannel(channelId, userId, deviceCode);
                     log.info("注册 客户端【{}】与netty通道【{}】绑定", deviceCode, channelId);
                 }
 
                 // 创建设备 写入数据
                 Device device = new Device();
-                device.setUsername(username);
+                device.setUserId(blogUser.getId());
                 device.setDeviceName(nettyRegisterDto.getDeviceName());
                 device.setDeviceCode(deviceCode);
                 device.setDataJson(JSONObject.toJSONString(data));
@@ -116,7 +130,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
 
                     // 当前设备已注册 更新设备数据
                     QueryWrapper<Device> wrapper = new QueryWrapper<>();
-                    wrapper.eq("username", username).eq("device_code", deviceCode);
+                    wrapper.eq("user_id", userId).eq("device_code", deviceCode);
                     deviceDAO.update(device, wrapper);
                 }
 
@@ -125,7 +139,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
         } else if (nettyPacketType.equals(NettyPacketType.HEARTBEAT.getValue())) {
             // 记录的通道数据丢失 由心跳恢复通道数据
             if (!NettyServerHandler.clientMap.containsKey(deviceCode)) {
-                addNettyChannel(channelId, username, deviceCode);
+                addNettyChannel(channelId, userId, deviceCode);
                 log.info("心跳 客户端【{}】与netty通道【{}】绑定", deviceCode, channelId);
             }
 
@@ -135,7 +149,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
 
             // 记录心跳中携带的 cpu 内存 网络 状态数据
             DeviceHeartbeat deviceHeartbeat = new DeviceHeartbeat();
-            deviceHeartbeat.setUsername(username);
+            deviceHeartbeat.setUserId(userId);
             deviceHeartbeat.setDeviceCode(deviceCode);
             deviceHeartbeat.setDeviceJson(JSONObject.toJSONString(data));
             deviceHeartbeat.setCreateTime(nettyHeartBeat.getHeartBeat());
@@ -148,7 +162,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
 
             // 处理单片机、传感器注册数据
             if (topic.equals(NettyTopicEnum.CHIP_SENSOR_REGISTER.getTopic())) {
-                nettyDeviceData.chipAndSensorRegister(data, deviceCode);
+                nettyDeviceData.chipAndSensorRegister(data, deviceCode, blogUser.getId());
             } else if (topic.equals(NettyTopicEnum.SENSOR_DATA.getTopic())) {
                 nettyDeviceData.receiveSensorData(data, deviceCode);
             }
@@ -172,8 +186,8 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
         }
     }
 
-    private void addNettyChannel(ChannelId channelId, String username, String registerId) {
-        NettyServerHandler.clientMap.put(registerId, new NettyClientChannel(channelId, registerId, username, new Date()));
+    private void addNettyChannel(ChannelId channelId, Integer userId, String registerId) {
+        NettyServerHandler.clientMap.put(registerId, new NettyClientChannel(channelId, registerId, userId, new Date()));
 //        QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
 //        deviceQueryWrapper.eq("username", username);
 //        deviceQueryWrapper.eq("device_code", registerId);

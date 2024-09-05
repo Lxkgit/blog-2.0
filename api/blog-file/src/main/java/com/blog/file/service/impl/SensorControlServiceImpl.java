@@ -2,11 +2,15 @@ package com.blog.file.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.Constant;
 import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.*;
 import com.blog.common.entity.file.vo.SensorControlVo;
+import com.blog.common.entity.user.BlogUser;
+import com.blog.file.dao.*;
+import com.blog.file.feign.service.UserService;
 import com.blog.file.netty.dto.sensor.control.SensorCommandCheckDto;
 import com.blog.file.netty.dto.sensor.control.SensorCommandDto;
 import com.blog.file.netty.dto.sensor.control.SteeringEngineDto;
@@ -16,10 +20,6 @@ import com.blog.common.util.BeanValidationUtil;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
 import com.blog.common.valication.group.AddGroup;
-import com.blog.file.dao.ChipDAO;
-import com.blog.file.dao.DeviceDAO;
-import com.blog.file.dao.SensorControlDAO;
-import com.blog.file.dao.SensorDAO;
 import com.blog.file.netty.dto.NettyPacket;
 import com.blog.file.netty.enums.NettyTopicEnum;
 import com.blog.file.netty.service.NettyServer;
@@ -58,6 +58,47 @@ public class SensorControlServiceImpl implements SensorControlService {
 
     @Resource
     private NettyServer nettyServer;
+
+    @Resource
+    private UserService userService;
+
+    @Resource
+    private UserDeviceDAO userDeviceDAO;
+
+    /**
+     * 下发传感器控制指令
+     *
+     * @param userId
+     * @param id 控制命令消息id
+     * @throws ValidException
+     */
+    @Override
+    public Boolean controlSensor(Integer userId, Integer id) throws ValidException {
+
+        SensorControl sensorControl = sensorControlDAO.selectById(id);
+
+        if (sensorControl == null) {
+            throw new ValidException(ErrorMessage.SENSOR_CONTROL_NOT_EXISTS);
+        }
+
+        if (!userId.equals(sensorControl.getUserId())) {
+            throw new ValidException("只能控制自己的传感器");
+        }
+
+        Sensor sensor = sensorDAO.selectById(sensorControl.getSensorId());
+
+        List<SteeringEngineDto> list = JSONArray.parseArray(sensorControl.getControlMessage(), SteeringEngineDto.class);
+
+        SensorCommandDto<SteeringEngineDto> commandVo = new SensorCommandDto<>();
+        commandVo.setChipCode(sensor.getChipCode());
+        commandVo.setSensorCode(sensor.getSensorCode());
+        commandVo.setCommandList(list);
+
+        NettyPacket<SensorCommandDto<SteeringEngineDto>> sensorCommandRequest = NettyPacket.buildRequest(commandVo);
+        sensorCommandRequest.setTopic(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic());
+
+        return nettyServer.channelWriteByRegisterId(sensor.getDeviceCode(), JSONObject.toJSONString(sensorCommandRequest));
+    }
 
     /**
      * 创建传感器控制指令
@@ -157,61 +198,7 @@ public class SensorControlServiceImpl implements SensorControlService {
         return sensorControlVo;
     }
 
-    /**
-     * 下发传感器控制指令
-     *
-     * @param userId
-     * @param id
-     * @throws ValidException
-     */
-    @Override
-    public Boolean controlSensor(Integer userId, Integer id) throws ValidException {
-        QueryWrapper<SensorControl> sensorControlQueryWrapper = new QueryWrapper<>();
-        sensorControlQueryWrapper.eq("id", id);
-        sensorControlQueryWrapper.eq("user_id", userId);
-        SensorControl sensorControl = sensorControlDAO.selectOne(sensorControlQueryWrapper);
-        if (sensorControl == null) {
-            throw new ValidException(ErrorMessage.SENSOR_CONTROL_NOT_EXISTS);
-        }
-        QueryWrapper<Sensor> sensorQueryWrapper = new QueryWrapper<>();
-        sensorQueryWrapper.eq("id", sensorControl.getSensorId());
-        sensorQueryWrapper.eq("user_id", userId);
-        Sensor sensor = sensorDAO.selectOne(sensorQueryWrapper);
-        if (sensor == null) {
-            throw new ValidException(ErrorMessage.SENSOR_NOT_EXISTS);
-        }
 
-        QueryWrapper<Chip> chipQueryWrapper = new QueryWrapper<>();
-//        chipQueryWrapper.eq("id", sensor.getChipId());
-        chipQueryWrapper.eq("user_id", userId);
-        Chip chip = chipDAO.selectOne(chipQueryWrapper);
-        if (chip == null) {
-            throw new ValidException(ErrorMessage.CHIP_NOT_EXISTS);
-        }
-
-        QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
-//        deviceQueryWrapper.eq("id", chip.getDeviceId());
-        deviceQueryWrapper.eq("user_id", userId);
-        Device device = deviceDAO.selectOne(deviceQueryWrapper);
-        if (device == null) {
-            throw new ValidException(ErrorMessage.DEVICE_NOT_EXISTS);
-        }
-        if (device.getDeviceStatus().equals(Constant.DEVICE_OFFLINE)) {
-            throw new ValidException(ErrorMessage.DEVICE_OFFLINE);
-        }
-
-        List<SteeringEngineDto> list = JSONArray.parseArray(sensorControl.getControlMessage(), SteeringEngineDto.class);
-
-        SensorCommandDto<SteeringEngineDto> commandVo = new SensorCommandDto<>();
-        commandVo.setChipType(chip.getChipType());
-        commandVo.setSensorType(sensor.getSensorCode());
-        commandVo.setCommandList(list);
-
-        NettyPacket<SensorCommandDto<SteeringEngineDto>> sensorCommandRequest = NettyPacket.buildRequest(commandVo);
-        sensorCommandRequest.setTopic(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic());
-
-        return nettyServer.channelWriteByRegisterId(device.getDeviceCode(), JSONObject.toJSONString(sensorCommandRequest));
-    }
 
     private static void validateIvsRuleInfo(SensorCommandCheckDto sensorCommandCheckVo) throws ValidException {
 

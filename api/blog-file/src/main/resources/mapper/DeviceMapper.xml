@@ -3,7 +3,7 @@
 <mapper namespace="com.blog.file.dao.DeviceDAO">
     <resultMap id="BaseResultMap" type="com.blog.common.entity.file.Device">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <id column="username" property="username" jdbcType="VARCHAR"/>
+        <id column="user_id" property="userId" jdbcType="VARCHAR"/>
         <id column="device_name" property="deviceName" jdbcType="VARCHAR"/>
         <id column="device_code" property="deviceCode" jdbcType="VARCHAR"/>
         <id column="device_status" property="deviceStatus" jdbcType="INTEGER"/>
@@ -14,7 +14,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, username, device_name, device_code, device_status, data_json, memo, create_time, update_time
+        id, user_id, device_name, device_code, device_status, data_json, memo, create_time, update_time
     </sql>
 
     <update id="updateDeviceStatusById">

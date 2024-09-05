@@ -1,5 +1,6 @@
 package com.blog.common.entity.file.vo;
 
+import com.blog.common.entity.file.Chip;
 import com.blog.common.entity.file.Device;
 import com.blog.common.valication.annotation.Equal;
 import com.blog.common.valication.group.*;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
 /**
  * @description: 设备
@@ -55,4 +57,9 @@ public class DeviceVo extends Device {
      */
     @Pattern(regexp = "^[0-9]+(,[0-9]+)+|[0-9]+$", message = "请输入正确的设备id字符串", groups = {DeleteGroup.class})
     private String ids;
+
+    /**
+     * 设备下单片机列表
+     */
+    private List<Chip> chipList;
 }

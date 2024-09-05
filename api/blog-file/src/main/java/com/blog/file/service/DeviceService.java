@@ -21,7 +21,7 @@ public interface DeviceService {
 
     Integer deleteDevice(Integer userId, String ids) throws ValidException;
 
-    List<Device> selectDeviceList(Integer userId);
+    List<Device> selectDeviceList(Integer userId) throws ValidException;
 
-    DeviceVo selectDeviceById(Integer userId, Integer id);
+    DeviceVo selectDeviceById(Integer userId, Integer id) throws ValidException;
 }

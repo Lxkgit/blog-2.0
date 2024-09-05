@@ -90,14 +90,14 @@ public class DeviceStatusSchedule {
             NettyClientChannel channel = entry.getValue();
             if (channel.getRegisterId().equals(registerId)) {
                 removeNettyChannel(entry, channel, deviceDAO);
-                log.info("netty通道 username:【{}】 registerId:【{}】 已离线", channel.getUsername(), registerId);
+                log.info("netty通道 userId:【{}】 registerId:【{}】 已离线", channel.getUserId(), registerId);
             }
         }
     }
 
     public static void removeNettyChannel(Map.Entry<String, NettyClientChannel> entry, NettyClientChannel channel, DeviceDAO deviceDAO) {
         QueryWrapper<Device> deviceQueryWrapper = new QueryWrapper<>();
-        deviceQueryWrapper.eq("username", channel.getUsername());
+        deviceQueryWrapper.eq("user_id", channel.getUserId());
         deviceQueryWrapper.eq("device_code", channel.getRegisterId());
         Device deviceStatus = new Device();
         deviceStatus.setDeviceStatus(Constant.DEVICE_OFFLINE);

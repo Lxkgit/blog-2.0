@@ -1,19 +1,23 @@
 package com.blog.file.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.Constant;
 import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.content.article.Article;
 import com.blog.common.entity.content.article.ArticleType;
 import com.blog.common.entity.content.article.bo.ArticleBo;
+import com.blog.common.entity.file.Chip;
 import com.blog.common.entity.file.Device;
 import com.blog.common.entity.file.vo.DeviceVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.exception.ValidException;
 import com.blog.common.util.MyStringUtils;
+import com.blog.file.dao.ChipDAO;
 import com.blog.file.dao.DeviceDAO;
 import com.blog.file.feign.UserClient;
+import com.blog.file.feign.service.UserService;
 import com.blog.file.netty.schedule.DeviceStatusSchedule;
 import com.blog.file.service.DeviceService;
 import org.springframework.beans.BeanUtils;
@@ -38,6 +42,12 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Resource
     private UserClient userClient;
+
+    @Resource
+    private UserService userService;
+
+    @Resource
+    private ChipDAO chipDAO;
 
     /**
      * 新增设备
@@ -122,21 +132,32 @@ public class DeviceServiceImpl implements DeviceService {
      * @return
      */
     @Override
-    public List<Device> selectDeviceList(Integer userId) {
-        QueryWrapper<Device> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_id", userId);
+    public List<Device> selectDeviceList(Integer userId) throws ValidException {
+        BlogUser blogUser = userService.getBlogUserById(userId);
+        LambdaQueryWrapper<Device> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Device::getUserId, blogUser.getId());
         return deviceDAO.selectList(wrapper);
     }
 
 
     @Override
-    public DeviceVo selectDeviceById(Integer userId, Integer id) {
-        QueryWrapper<Device> wrapper = new QueryWrapper<>();
-        wrapper.eq("id", id);
-        wrapper.eq("user_id", userId);
+    public DeviceVo selectDeviceById(Integer userId, Integer id) throws ValidException {
+
+        BlogUser blogUser = userService.getBlogUserById(userId);
+
+        LambdaQueryWrapper<Device> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Device::getId, id);
+        wrapper.eq(Device::getUserId, blogUser.getId());
         Device device = deviceDAO.selectOne(wrapper);
+
         DeviceVo deviceVo = new DeviceVo();
         BeanUtils.copyProperties(device, deviceVo);
+
+        LambdaQueryWrapper<Chip> chipLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        chipLambdaQueryWrapper.eq(Chip::getDeviceCode, device.getDeviceCode());
+        List<Chip> chipList = chipDAO.selectList(chipLambdaQueryWrapper);
+        deviceVo.setChipList(chipList);
+
         return deviceVo;
     }
 }

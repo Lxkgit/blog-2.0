@@ -23,9 +23,9 @@ public class Chip {
     private Integer id;
 
     /**
-     * 用户名
+     * 用户id
      */
-    private String username;
+    private Integer userId;
 
     /**
      * 单片机所属设备编码

@@ -25,19 +25,19 @@ public class NettyClientChannel {
     private String registerId;
 
     /**
-     * netty所属用户
+     * netty所属用户id
      */
-    private String username;
+    private Integer userId;
 
     /**
      * netty传输消息数据
      */
     private Date date;
 
-    public NettyClientChannel(ChannelId channelId, String registerId, String username, Date date) {
+    public NettyClientChannel(ChannelId channelId, String registerId, Integer userId, Date date) {
         this.channelId = channelId;
         this.registerId = registerId;
-        this.username = username;
+        this.userId = userId;
         this.date = date;
     }
 }

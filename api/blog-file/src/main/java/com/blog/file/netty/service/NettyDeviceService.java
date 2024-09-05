@@ -54,7 +54,7 @@ public class NettyDeviceService {
      * @param data
      * @param deviceCode
      */
-    public void chipAndSensorRegister(String data, String deviceCode) {
+    public void chipAndSensorRegister(String data, String deviceCode, Integer userId) {
         NettyChipRegisterDto nettyChipRegisterDto = JSONObject.parseObject(data, NettyChipRegisterDto.class);
 
         QueryWrapper<DeviceChip> chipQueryWrapper = new QueryWrapper<>();
@@ -62,6 +62,7 @@ public class NettyDeviceService {
         DeviceChip selectChip = deviceChipDAO.selectOne(chipQueryWrapper);
         if (selectChip != null) {
             Chip chip = new Chip();
+            chip.setUserId(userId);
             chip.setDeviceCode(deviceCode);
             chip.setChipCode(nettyChipRegisterDto.getChipCode());
             chip.setChipName(nettyChipRegisterDto.getChipName());
@@ -91,6 +92,7 @@ public class NettyDeviceService {
                 ChipSensor selectSensor = chipSensorDAO.selectOne(sensorQueryWrapper);
                 if (selectSensor != null) {
                     Sensor sensor = new Sensor();
+                    sensor.setDeviceCode(deviceCode);
                     sensor.setChipCode(nettyChipRegisterDto.getChipCode());
                     sensor.setSensorName(nettySensorRegisterDto.getSensorName());
                     sensor.setSensorCode(nettySensorRegisterDto.getSensorCode());
@@ -148,7 +150,7 @@ public class NettyDeviceService {
             sensorDataDAO.insert(sensorData);
         }
 
-        redisUtil.set("add", "asd");
+        redisUtil.setString("add", "asd");
 
 //        redisUtil.expire("test", 80);
     }

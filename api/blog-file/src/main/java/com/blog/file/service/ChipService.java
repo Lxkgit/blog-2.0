@@ -23,6 +23,6 @@ public interface ChipService {
 
     MyPage<ChipVo> selectChipList(Integer userId, ChipVo chipVo);
 
-    ChipVo selectChipId(Integer userId, Integer id);
+    ChipVo selectChipId(Integer userId, Integer id) throws ValidException;
 
 }

@@ -14,6 +14,10 @@ public enum NettyTopicEnum {
     // 传感器数据
     SENSOR_DATA("SENSOR_DATA"),
 
+    // 控制传感器数据消息
+    BLOG_SENSOR_CONTROL("BLOG_SENSOR_CONTROL"),
+
+
 
     // 博客单片机设备注册
     BLOG_CHIP_REGISTER("BLOG_CHIP_REGISTER"),
@@ -22,8 +26,7 @@ public enum NettyTopicEnum {
     BLOG_FILE_SYNC("BLOG_FILE_SYNC"),
     // 传感器数据消息
     BLOG_SENSOR_DATA("BLOG_SENSOR_DATA"),
-    // 控制传感器数据消息
-    BLOG_SENSOR_CONTROL("BLOG_SENSOR_CONTROL"),
+
 
 
 
