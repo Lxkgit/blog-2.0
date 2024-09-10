@@ -1,5 +1,6 @@
 package com.blog.pi.netty.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.pi.config.InitConfig;
@@ -40,10 +41,14 @@ public class SyncBlogFileService {
     /**
      * 下载服务器指定文件
      *
-     * @param nettySyncBlogFile netty收到的消息
+     * @param data netty收到的消息
      * @param requestId 本次请求唯一编码
      */
-    public void syncBlogFile(NettySyncBlogFileDto nettySyncBlogFile, String requestId) {
+    public void syncBlogFile(String data, String requestId) {
+        // 解析netty接收数据
+        NettySyncBlogFileDto nettySyncBlogFile = JSON.parseObject(data, NettySyncBlogFileDto.class);
+
+        // 获取文件存储基础路径
         String basePath = (String) InitConfig.getRegisterConfig("ftp", "basePath");
         String serviceFilePath = nettySyncBlogFile.getFilePath();
         String serviceFileName = nettySyncBlogFile.getFileName();
@@ -53,8 +58,10 @@ public class SyncBlogFileService {
             String fileType = serviceFileName.substring(serviceFileName.lastIndexOf("."));
             String fileName = serviceFileName.substring(0, serviceFileName.lastIndexOf("."));
 
+            String filePath = basePath + "/" + nettySyncBlogFile.getUserId();
+
             String localFileName = fileName + "_" + StringUtils.getRandomString(6) + fileType;
-            boolean success = ftpUtil.downloadFtpFile(serviceFilePath, serviceFileName, basePath, localFileName);
+            boolean success = ftpUtil.downloadFtpFile(serviceFilePath, serviceFileName, filePath, localFileName);
 
             // 响应服务端处理结果
             NettyResponse nettyResponse = new NettyResponse(success);
@@ -68,7 +75,7 @@ public class SyncBlogFileService {
                 fileSync.setFileCode(nettySyncBlogFile.getFileCode());
                 fileSync.setServiceFilePath(serviceFilePath);
                 fileSync.setServiceFileName(serviceFileName);
-                fileSync.setLocalFilePath(basePath);
+                fileSync.setLocalFilePath(filePath);
                 fileSync.setLocalFileName(localFileName);
                 fileSync.setFileSize(file.length());
                 fileSync.setCreateTime(new Date());

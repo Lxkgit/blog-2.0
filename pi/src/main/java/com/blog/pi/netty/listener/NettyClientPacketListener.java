@@ -50,8 +50,7 @@ public class NettyClientPacketListener implements ApplicationListener<NettyPacke
             // 处理服务端请求
             // 处理文件下载同步
             if (topic.equals(NettyTopicEnum.BLOG_FILE_SYNC.getTopic())) {
-                NettySyncBlogFileDto nettySyncBlogFile = JSON.parseObject(data, NettySyncBlogFileDto.class);
-                syncBlogFileService.syncBlogFile(nettySyncBlogFile, requestId);
+                syncBlogFileService.syncBlogFile(data, requestId);
             } else if (topic.equals(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic())) {
                 sensorControlService.sendCommand(data, requestId);
             }

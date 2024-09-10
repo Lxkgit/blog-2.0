@@ -43,9 +43,6 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
     private final NettyServer nettyServer;
 
     @Resource
-    private UserClient userClient;
-
-    @Resource
     private DeviceDAO deviceDAO;
 
     @Resource
@@ -59,9 +56,6 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
 
     @Resource
     private DeviceHeartbeatDAO deviceHeartbeatDAO;
-
-    @Resource
-    private UserService userService;
 
     @Resource
     private NettyUserService nettyUserService;

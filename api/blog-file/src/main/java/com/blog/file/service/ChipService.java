@@ -25,4 +25,6 @@ public interface ChipService {
 
     ChipVo selectChipId(Integer userId, Integer id) throws ValidException;
 
+    ChipVo selectChipInfo(Integer userId, ChipVo chipVo);
+
 }

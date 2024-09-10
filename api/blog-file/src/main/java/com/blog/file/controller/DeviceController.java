@@ -99,4 +99,10 @@ public class DeviceController extends BaseController {
         return ResultFactory.buildSuccessResult(deviceService.selectDeviceById(getBlogUser(request).getId(), deviceVo.getId()));
     }
 
+    @GetMapping("/info")
+    @PreAuthorize("hasAnyAuthority('sys:device:select')")
+    public Result selectDeviceInfo(HttpServletRequest request, @RequestParam("deviceCode") String deviceCode) {
+        return ResultFactory.buildSuccessResult(deviceService.selectDeviceInfoById(getBlogUser(request).getId(), deviceCode));
+    }
+
 }

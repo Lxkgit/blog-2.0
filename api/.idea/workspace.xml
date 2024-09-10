@@ -16,37 +16,17 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-09-01【功能修改】：单片机数据上报流程完成，新增redis工具类">
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/feign/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyUserService.java" afterDir="false" />
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-09-05【功能修改】：修改单片机相关接口，新增netty注册用户名验证">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/Chip.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/Chip.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/Device.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/Device.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/DeviceHeartbeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/DeviceHeartbeat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/Sensor.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/Sensor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/UserDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/UserDevice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/ChipVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/ChipVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/DeviceVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/entity/file/vo/DeviceVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-content/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/ChipController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/ChipController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/DeviceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/controller/DeviceController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyClientChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/NettyClientChannel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/sensor/control/SensorCommandDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/dto/sensor/control/SensorCommandDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/enums/NettyTopicEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/enums/NettyTopicEnum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/listener/NettyServerPacketListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/listener/NettyServerPacketListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/DeviceStatusSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/DeviceStatusSchedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyDeviceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyDeviceService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/ChipService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/ChipService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/DeviceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/DeviceService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/ChipServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/ChipServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/DeviceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/DeviceServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/SensorControlServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/SensorControlServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/ChipMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/ChipMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/DeviceMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/DeviceMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/UserDeviceMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/UserDeviceMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/listener/NettyClientPacketListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/listener/NettyClientPacketListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/service/SyncBlogFileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/service/SyncBlogFileService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,12 +102,12 @@
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\workspace\java\blog-2.0\api\blog-file\src\main\resources\mapper" />
-      <recent name="D:\workspace\java\blog-2.0\api\blog-file\src\main\java\com\blog\file\netty\dto" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\workspace\java\blog-2.0\api\file\sql" />
+      <recent name="D:\workspace\java\blog-2.0\api\file" />
       <recent name="D:\workspace\java\blog-2.0\api\file\config" />
       <recent name="D:\workspace\java\blog-2.0\api\file\shell" />
-      <recent name="D:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\content\article\vo" />
+      <recent name="D:\workspace\java\blog-2.0\api\blog-file" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.blog.file.redis" />
@@ -136,12 +116,12 @@
       <recent name="com.blog.file.netty.dto" />
       <recent name="com.blog.file.netty.dto.heart" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\workspace\java\blog-2.0\api\file\sql" />
-      <recent name="D:\workspace\java\blog-2.0\api\file" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace\java\blog-2.0\api\blog-file\src\main\resources\mapper" />
+      <recent name="D:\workspace\java\blog-2.0\api\blog-file\src\main\java\com\blog\file\netty\dto" />
       <recent name="D:\workspace\java\blog-2.0\api\file\config" />
       <recent name="D:\workspace\java\blog-2.0\api\file\shell" />
-      <recent name="D:\workspace\java\blog-2.0\api\blog-file" />
+      <recent name="D:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\content\article\vo" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -240,11 +220,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.FileApplication" />
         <item itemvalue="Spring Boot.UserApplication" />
         <item itemvalue="Spring Boot.GatewayApplication" />
         <item itemvalue="Spring Boot.AuthApplication" />
         <item itemvalue="Spring Boot.ContentApplication" />
+        <item itemvalue="Spring Boot.FileApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -609,14 +589,19 @@
       <workItem from="1725280573951" duration="787000" />
       <workItem from="1725328781587" duration="2123000" />
       <workItem from="1725505679868" duration="10205000" />
-      <workItem from="1725548361371" duration="3172000" />
-    </task>
-    <task id="LOCAL-00108" summary="23-09-02【功能修改】：优化博客前端">
-      <created>1693662875220</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1693662875221</updated>
+      <workItem from="1725548361371" duration="3663000" />
+      <workItem from="1725627369375" duration="2133000" />
+      <workItem from="1725700575902" duration="1022000" />
+      <workItem from="1725858624587" duration="6115000" />
+      <workItem from="1725965834378" duration="24000" />
+      <workItem from="1725966340045" duration="119000" />
+      <workItem from="1725966480533" duration="5000" />
+      <workItem from="1725966532395" duration="104000" />
+      <workItem from="1725966660413" duration="738000" />
+      <workItem from="1725968330636" duration="1183000" />
+      <workItem from="1725969800027" duration="283000" />
+      <workItem from="1725980778217" duration="600000" />
+      <workItem from="1725982956525" duration="636000" />
     </task>
     <task id="LOCAL-00109" summary="23-09-04【功能新增】：新增博客云盘功能，新版博客部署">
       <created>1693757353141</created>
@@ -954,7 +939,14 @@
       <option name="project" value="LOCAL" />
       <updated>1725204340864</updated>
     </task>
-    <option name="localTasksCounter" value="157" />
+    <task id="LOCAL-00157" summary="24-09-05【功能修改】：修改单片机相关接口，新增netty注册用户名验证">
+      <created>1725551948195</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1725551948196</updated>
+    </task>
+    <option name="localTasksCounter" value="158" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -985,7 +977,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="24-02-10【功能新增】：前端页面展示传感器相关设备与数据完成" />
     <MESSAGE value="24-02-19【功能修改】：修改数据库文件" />
     <MESSAGE value="24-02-21【功能新增】：新增服务器设备创建，单片机设备创建功能" />
     <MESSAGE value="24-02-25【功能修改】：修改设备管理页面，完善设备管理接口" />
@@ -1010,17 +1001,18 @@
     <MESSAGE value="24-08-28【功能修改】：netty优化-2" />
     <MESSAGE value="24-08-30【功能修改】：netty优化-3" />
     <MESSAGE value="24-09-01【功能修改】：单片机数据上报流程完成，新增redis工具类" />
-    <option name="LAST_COMMIT_MESSAGE" value="24-09-01【功能修改】：单片机数据上报流程完成，新增redis工具类" />
+    <MESSAGE value="24-09-05【功能修改】：修改单片机相关接口，新增netty注册用户名验证" />
+    <option name="LAST_COMMIT_MESSAGE" value="24-09-05【功能修改】：修改单片机相关接口，新增netty注册用户名验证" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="94" key="#Project_Structure" timestamp="1719405026561">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="440" y="94" key="#Project_Structure/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719405026561" />
-    <state x="753" y="236" key="#com.intellij.ide.util.MemberChooser" timestamp="1724684569170">
+    <state x="753" y="236" key="#com.intellij.ide.util.MemberChooser" timestamp="1725894202516">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="753" y="236" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1724684569170" />
+    <state x="753" y="236" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1725894202516" />
     <state x="481" y="443" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1724925396427">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -1033,67 +1025,67 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1724687930703" />
-    <state x="740" y="276" key="FileChooserDialogImpl" timestamp="1725524735054">
+    <state x="740" y="276" key="FileChooserDialogImpl" timestamp="1725968489874">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1721725826073" />
     <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719992923427" />
-    <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1725524735054" />
-    <state width="1510" height="351" key="GridCell.Tab.0.bottom" timestamp="1725551298833">
+    <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1725968489874" />
+    <state width="723" height="347" key="GridCell.Tab.0.bottom" timestamp="1725968266398">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="1510" height="351" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1725551298833" />
+    <state width="723" height="347" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1725968266398" />
     <state width="1510" height="406" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1510" height="351" key="GridCell.Tab.0.center" timestamp="1725551298833">
+    <state width="723" height="347" key="GridCell.Tab.0.center" timestamp="1725968266398">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722786" />
     <state width="1510" height="351" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="1510" height="351" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1725551298833" />
+    <state width="723" height="347" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1725968266398" />
     <state width="1510" height="406" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1510" height="351" key="GridCell.Tab.0.left" timestamp="1725551298833">
+    <state width="723" height="347" key="GridCell.Tab.0.left" timestamp="1725968266398">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722786" />
     <state width="1510" height="351" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="1510" height="351" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1725551298833" />
+    <state width="723" height="347" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1725968266398" />
     <state width="1510" height="406" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1510" height="351" key="GridCell.Tab.0.right" timestamp="1725551298833">
+    <state width="723" height="347" key="GridCell.Tab.0.right" timestamp="1725968266398">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="1510" height="351" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1725551298833" />
+    <state width="723" height="347" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1725968266398" />
     <state width="1510" height="406" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1510" height="351" key="GridCell.Tab.1.bottom" timestamp="1725551298834">
+    <state width="723" height="347" key="GridCell.Tab.1.bottom" timestamp="1725968266399">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744007" />
-    <state width="1510" height="351" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1725551298834" />
+    <state width="723" height="347" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1725968266399" />
     <state width="1510" height="406" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1510" height="351" key="GridCell.Tab.1.center" timestamp="1725551298834">
+    <state width="723" height="347" key="GridCell.Tab.1.center" timestamp="1725968266398">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="1510" height="351" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1725551298834" />
+    <state width="723" height="347" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1725968266398" />
     <state width="1510" height="406" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1510" height="351" key="GridCell.Tab.1.left" timestamp="1725551298834">
+    <state width="723" height="347" key="GridCell.Tab.1.left" timestamp="1725968266398">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744006" />
-    <state width="1510" height="351" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1725551298834" />
+    <state width="723" height="347" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1725968266398" />
     <state width="1510" height="406" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1510" height="351" key="GridCell.Tab.1.right" timestamp="1725551298834">
+    <state width="723" height="347" key="GridCell.Tab.1.right" timestamp="1725968266399">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1510" height="483" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
     <state width="1510" height="351" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719412744007" />
-    <state width="1510" height="351" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1725551298834" />
+    <state width="723" height="347" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1725968266399" />
     <state width="1510" height="406" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
     <state width="1510" height="547" key="GridCell.Tab.2.bottom" timestamp="1725549967207">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -1124,20 +1116,20 @@
     </state>
     <state x="441" y="112" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1719409395787" />
     <state x="725" y="180" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1725524348589" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1725204362618">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1725552038703">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1725204362618" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1725552038703" />
     <state x="690" y="279" key="extract.method.dialog" timestamp="1724687702321">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="279" key="extract.method.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1724687702321" />
-    <state x="1041" y="192" width="879" height="630" key="find.popup" timestamp="1725544483982">
+    <state x="936" y="282" width="879" height="630" key="find.popup" timestamp="1725966345312">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="662" y="252" width="668" height="560" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1721727362848" />
     <state x="662" y="252" width="668" height="560" key="find.popup/0.0.1920.1040/1920.0.1920.1080@0.0.1920.1040" timestamp="1720870929996" />
-    <state x="1041" y="192" width="879" height="630" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1725544483982" />
+    <state x="936" y="282" width="879" height="630" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1725966345312" />
     <state x="334" y="180" key="new project wizard" timestamp="1719408335681">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -1148,7 +1140,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/listener/NettyServerPacketListener.java</url>
-          <line>159</line>
+          <line>153</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

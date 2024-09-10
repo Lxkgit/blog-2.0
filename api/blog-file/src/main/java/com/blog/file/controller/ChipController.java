@@ -98,4 +98,9 @@ public class ChipController extends BaseController {
         return ResultFactory.buildSuccessResult(chipService.selectChipId(getBlogUser(request).getId(), chipVo.getId()));
     }
 
+    @GetMapping("/info")
+    @PreAuthorize("hasAnyAuthority('sys:chip:select')")
+    public Result selectChipInfo(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) ChipVo chipVo) {
+        return ResultFactory.buildSuccessResult(chipService.selectChipInfo(getBlogUser(request).getId(), chipVo));
+    }
 }

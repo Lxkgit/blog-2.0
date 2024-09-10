@@ -10,12 +10,16 @@ import com.blog.common.entity.content.article.ArticleType;
 import com.blog.common.entity.content.article.bo.ArticleBo;
 import com.blog.common.entity.file.Chip;
 import com.blog.common.entity.file.Device;
+import com.blog.common.entity.file.DeviceHeartbeat;
+import com.blog.common.entity.file.UserDevice;
 import com.blog.common.entity.file.vo.DeviceVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.exception.ValidException;
 import com.blog.common.util.MyStringUtils;
 import com.blog.file.dao.ChipDAO;
 import com.blog.file.dao.DeviceDAO;
+import com.blog.file.dao.DeviceHeartbeatDAO;
+import com.blog.file.dao.UserDeviceDAO;
 import com.blog.file.feign.UserClient;
 import com.blog.file.feign.service.UserService;
 import com.blog.file.netty.schedule.DeviceStatusSchedule;
@@ -48,6 +52,12 @@ public class DeviceServiceImpl implements DeviceService {
 
     @Resource
     private ChipDAO chipDAO;
+
+    @Resource
+    private UserDeviceDAO userDeviceDAO;
+
+    @Resource
+    private DeviceHeartbeatDAO deviceHeartbeatDAO;
 
     /**
      * 新增设备
@@ -159,5 +169,29 @@ public class DeviceServiceImpl implements DeviceService {
         deviceVo.setChipList(chipList);
 
         return deviceVo;
+    }
+
+    /**
+     * 查询设备详细信息
+     * @param userId 用户id
+     * @param deviceCode 设备编码
+     * @return
+     */
+    @Override
+    public List<DeviceHeartbeat> selectDeviceInfoById(Integer userId, String deviceCode) {
+
+        int dataCount = 100;
+
+        LambdaQueryWrapper<DeviceHeartbeat> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(DeviceHeartbeat::getUserId, userId);
+        wrapper.eq(DeviceHeartbeat::getDeviceCode, deviceCode);
+        wrapper.orderByDesc(DeviceHeartbeat::getId);
+        wrapper.last("LIMIT " + dataCount);
+
+        List<DeviceHeartbeat> list = deviceHeartbeatDAO.selectList(wrapper);
+
+
+
+        return list;
     }
 }

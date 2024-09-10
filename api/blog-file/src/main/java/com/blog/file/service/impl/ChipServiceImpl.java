@@ -166,4 +166,11 @@ public class ChipServiceImpl implements ChipService {
         chipVo.setSensorList(sensorList);
         return chipVo;
     }
+
+    @Override
+    public ChipVo selectChipInfo(Integer userId, ChipVo chipVo) {
+        
+
+        return null;
+    }
 }
