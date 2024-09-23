@@ -6,6 +6,7 @@ package com.blog.common.netty.common;
  * @date 2024/1/11 10:29
  */
 
+
 public class NettyConstant {
 
     // netty 本机Netty编码

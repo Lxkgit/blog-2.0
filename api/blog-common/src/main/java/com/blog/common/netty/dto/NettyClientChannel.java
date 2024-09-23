@@ -11,7 +11,9 @@ import java.util.Date;
  * @date 2024/1/29 19:32
  */
 
+
 @Data
+
 public class NettyClientChannel {
 
     /**

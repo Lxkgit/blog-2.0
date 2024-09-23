@@ -1,11 +1,14 @@
 package com.blog.common.netty.enums;
 
+import lombok.Getter;
+
 /**
  * @description: Netty 消息枚举类
  * @Author: lxk
  * @date 2024/1/11 10:01
  */
 
+@Getter
 public enum NettyTopicEnum {
 
     // 芯片传感器设备注册
