@@ -1,4 +1,4 @@
-package com.blog.file.netty.dto.file;
+package com.blog.common.netty.dto.file;
 
 import com.blog.common.valication.annotation.Equal;
 import lombok.Data;

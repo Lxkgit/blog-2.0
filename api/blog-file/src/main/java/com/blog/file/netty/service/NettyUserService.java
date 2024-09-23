@@ -1,11 +1,9 @@
 package com.blog.file.netty.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.blog.common.entity.user.BlogUser;
-import com.blog.common.exception.ValidException;
 import com.blog.file.feign.service.UserService;
-import com.blog.file.netty.dto.NettyPacket;
+import com.blog.common.netty.dto.NettyPacket;
 import com.blog.file.redis.RedisUtil;
 import io.netty.channel.ChannelId;
 import lombok.extern.slf4j.Slf4j;

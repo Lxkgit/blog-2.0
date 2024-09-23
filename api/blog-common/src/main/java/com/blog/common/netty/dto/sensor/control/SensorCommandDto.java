@@ -1,4 +1,4 @@
-package com.blog.file.netty.dto.sensor.control;
+package com.blog.common.netty.dto.sensor.control;
 
 import lombok.Data;
 

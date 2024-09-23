@@ -1,4 +1,4 @@
-package com.blog.file.netty.dto.heart;
+package com.blog.common.netty.dto.heart;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;

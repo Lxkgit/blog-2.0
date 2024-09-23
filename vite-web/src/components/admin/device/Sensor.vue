@@ -1,5 +1,5 @@
 <template>
-  <el-card style="margin: 18px 2%; width: 94%">
+  <el-card style="margin: 18px 2%; width: 94%; cursor: pointer;" @click="openChipInfo(props.chipId)">
     <div style="margin: 18px 2%; display: flex">
       <div style="width: 80%">
         <div>
@@ -126,6 +126,7 @@ let {
   chip,
   sensorList,
   sensorTypeList,
+  openChipInfo,
   selectChipByIdFun,
   selectSensorListFun,
   saveSensorFun,
@@ -133,7 +134,7 @@ let {
   openSensor,
 } = sensorFun();
 
-const emit = defineEmits(["sersor"]);
+const emit = defineEmits(["sersor", "chipId"]);
 
 const props = defineProps({
   chipId: Number,
@@ -207,6 +208,11 @@ function sensorFun() {
     });
   };
 
+  
+  const openChipInfo = (chipId: any) => {
+    emit('chipId', chipId);
+  };
+
   // 查询单片机下全部传感器
   const selectSensorListFun = () => {
     selectSensorListApi({
@@ -261,6 +267,7 @@ function sensorFun() {
     chip,
     sensorList,
     sensorTypeList,
+    openChipInfo,
     selectChipByIdFun,
     selectSensorListFun,
     saveSensorFun,

@@ -1,4 +1,4 @@
-package com.blog.file.netty.dto.register;
+package com.blog.common.netty.dto.register;
 
 import lombok.Data;
 

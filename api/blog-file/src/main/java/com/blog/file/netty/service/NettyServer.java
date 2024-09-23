@@ -2,8 +2,8 @@ package com.blog.file.netty.service;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.blog.file.netty.dto.NettyClientChannel;
-import com.blog.file.netty.dto.NettyMessageRetry;
+import com.blog.common.netty.dto.NettyClientChannel;
+import com.blog.common.netty.dto.NettyMessageRetry;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

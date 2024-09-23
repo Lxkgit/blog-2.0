@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.Constant;
 import com.blog.common.entity.file.Device;
 import com.blog.file.dao.DeviceDAO;
-import com.blog.file.netty.dto.NettyClientChannel;
+import com.blog.common.netty.dto.NettyClientChannel;
 import com.blog.file.netty.service.NettyServerHandler;
 import io.netty.channel.ChannelId;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.blog.file.netty.dto.sensor.control;
+package com.blog.common.netty.dto.sensor.control;
 
 /**
  * @description: 传感器下发命令参数校验基础类

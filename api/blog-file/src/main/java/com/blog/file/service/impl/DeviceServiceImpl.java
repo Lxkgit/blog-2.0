@@ -12,9 +12,11 @@ import com.blog.common.entity.file.Chip;
 import com.blog.common.entity.file.Device;
 import com.blog.common.entity.file.DeviceHeartbeat;
 import com.blog.common.entity.file.UserDevice;
+import com.blog.common.entity.file.vo.DeviceHeartbeatVo;
 import com.blog.common.entity.file.vo.DeviceVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.exception.ValidException;
+import com.blog.common.netty.dto.heart.NettyHeartBeatDto;
 import com.blog.common.util.MyStringUtils;
 import com.blog.file.dao.ChipDAO;
 import com.blog.file.dao.DeviceDAO;
@@ -28,6 +30,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -174,24 +177,34 @@ public class DeviceServiceImpl implements DeviceService {
     /**
      * 查询设备详细信息
      * @param userId 用户id
-     * @param deviceCode 设备编码
+     * @param id 设备id
      * @return
      */
     @Override
-    public List<DeviceHeartbeat> selectDeviceInfoById(Integer userId, String deviceCode) {
+    public List<DeviceHeartbeatVo> selectDeviceInfoById(Integer userId, Integer id) {
 
         int dataCount = 100;
 
+        Device device = deviceDAO.selectById(id);
+
         LambdaQueryWrapper<DeviceHeartbeat> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(DeviceHeartbeat::getUserId, userId);
-        wrapper.eq(DeviceHeartbeat::getDeviceCode, deviceCode);
+        wrapper.eq(DeviceHeartbeat::getDeviceCode, device.getDeviceCode());
         wrapper.orderByDesc(DeviceHeartbeat::getId);
         wrapper.last("LIMIT " + dataCount);
 
         List<DeviceHeartbeat> list = deviceHeartbeatDAO.selectList(wrapper);
 
+        List<DeviceHeartbeatVo> voList = new ArrayList<>();
 
+        list.forEach(item -> {
+            DeviceHeartbeatVo vo = new DeviceHeartbeatVo();
+            BeanUtils.copyProperties(item, vo);
+            vo.setNettyHeartBeatDto(JSONObject.parseObject(item.getDeviceJson(), NettyHeartBeatDto.class));
+            vo.setDeviceJson(null);
+            voList.add(vo);
+        });
 
-        return list;
+        return voList;
     }
 }

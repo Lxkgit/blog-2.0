@@ -1,8 +1,8 @@
-package com.blog.file.netty.enums.sensor;
+package com.blog.common.netty.enums.sensor;
 
 
-import com.blog.file.netty.dto.sensor.control.SensorCommandCheckDto;
-import com.blog.file.netty.dto.sensor.control.SteeringEngineDto;
+import com.blog.common.netty.dto.sensor.control.SensorCommandCheckDto;
+import com.blog.common.netty.dto.sensor.control.SteeringEngineDto;
 
 /**
  * 传感器类型枚举类

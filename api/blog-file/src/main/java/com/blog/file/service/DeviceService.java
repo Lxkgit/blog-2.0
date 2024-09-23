@@ -2,6 +2,7 @@ package com.blog.file.service;
 
 import com.blog.common.entity.file.Device;
 import com.blog.common.entity.file.DeviceHeartbeat;
+import com.blog.common.entity.file.vo.DeviceHeartbeatVo;
 import com.blog.common.entity.file.vo.DeviceVo;
 import com.blog.common.entity.user.BlogUser;
 import com.blog.common.exception.ValidException;
@@ -26,5 +27,5 @@ public interface DeviceService {
 
     DeviceVo selectDeviceById(Integer userId, Integer id) throws ValidException;
 
-    List<DeviceHeartbeat> selectDeviceInfoById(Integer userId, String deviceCode);
+    List<DeviceHeartbeatVo> selectDeviceInfoById(Integer userId, Integer id);
 }

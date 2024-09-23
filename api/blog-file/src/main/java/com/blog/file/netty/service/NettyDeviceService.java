@@ -2,17 +2,13 @@ package com.blog.file.netty.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.blog.common.constant.Constant;
 import com.blog.common.entity.file.*;
-import com.blog.common.entity.user.BlogUser;
 import com.blog.file.dao.*;
-import com.blog.file.netty.dto.NettyPacket;
-import com.blog.file.netty.dto.heart.NettyHeartBeatDto;
-import com.blog.file.netty.dto.register.NettyChipRegisterDto;
-import com.blog.file.netty.dto.register.NettySensorRegisterDto;
-import com.blog.file.netty.dto.sensor.receive.SensorDataDto;
+import com.blog.common.netty.dto.NettyPacket;
+import com.blog.common.netty.dto.register.NettyChipRegisterDto;
+import com.blog.common.netty.dto.register.NettySensorRegisterDto;
+import com.blog.common.netty.dto.sensor.receive.SensorDataDto;
 import com.blog.file.redis.RedisUtil;
-import io.netty.channel.ChannelId;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 

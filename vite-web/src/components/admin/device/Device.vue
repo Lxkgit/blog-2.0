@@ -1,4 +1,5 @@
 <template>
+
   <div style="width: 100%; height: 100%; display: flex; flex-flow: wrap;overflow-y: auto; align-items:flex-start;" @contextmenu.prevent="openMenu($event, null)">
     <el-card v-for="(device, id) in deviceList.data" @click="openDevice(device)" :key="id" @contextmenu.prevent.stop="openMenu($event, device)" style="
       margin: 18px 2%;
@@ -37,12 +38,10 @@
           </div>
         </div>
         <div style="width: 40%">
-          <img src="http://localhost/files/1/user/2024-02-08_13-44-10_739305_树莓派4b.png" height="150" />
+          <MyIcon type="icon-device"/>
+          <!-- <img src="http://localhost/files/1/user/2024-02-08_13-44-10_739305_树莓派4b.png" height="150" /> -->
         </div>
       </div>
-    </el-card>
-    <el-card style="margin: 18px 2%; width: 45%; height: 200px; cursor: pointer" @click="dialogFormVisible = true">
-      + 新增设备
     </el-card>
 
     <el-dialog v-model="dialogFormVisible" title="新增服务器设备" width="500" :close-on-click-modal="false">
@@ -90,6 +89,10 @@ import { ref, reactive, onMounted } from 'vue';
 import { selectDeviceListApi, saveDeviceApi } from '@/api/file';
 import { ElMessage } from 'element-plus';
 import mixin from '@/mixins/device';
+import icon from '@/utils/icon';
+
+let { MyIcon } = icon();
+
 
 let { deviceStatus } = mixin();
 

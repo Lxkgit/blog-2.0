@@ -85,8 +85,13 @@ export const selectDeviceListApi = () => {
     return api.get(uri)
 }
 
-export const selectDeviceByIdApi = (params: any) => {
+export const selectDeviceByDeviceIdApi = (params: any) => {
     const uri = "/file/device/id"
+    return api.get(uri, params)
+}
+
+export const selectDeviceInfoByIdApi = (params: any) => {
+    const uri = "/file/device/info"
     return api.get(uri, params)
 }
 

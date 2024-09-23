@@ -10,13 +10,11 @@ import com.blog.common.entity.user.BlogUser;
 import com.blog.file.dao.DeviceDAO;
 import com.blog.file.dao.DeviceHeartbeatDAO;
 import com.blog.file.dao.UserDeviceDAO;
-import com.blog.file.feign.UserClient;
-import com.blog.file.feign.service.UserService;
-import com.blog.file.netty.dto.NettyClientChannel;
-import com.blog.file.netty.dto.heart.NettyHeartBeatDto;
-import com.blog.file.netty.dto.register.NettyRegisterDto;
-import com.blog.file.netty.enums.NettyPacketType;
-import com.blog.file.netty.enums.NettyTopicEnum;
+import com.blog.common.netty.dto.NettyClientChannel;
+import com.blog.common.netty.dto.heart.NettyHeartBeatDto;
+import com.blog.common.netty.dto.register.NettyRegisterDto;
+import com.blog.common.netty.enums.NettyPacketType;
+import com.blog.common.netty.enums.NettyTopicEnum;
 import com.blog.file.netty.event.NettyPacketEvent;
 import com.blog.file.netty.service.*;
 import io.netty.channel.ChannelId;
@@ -145,7 +143,7 @@ public class NettyServerPacketListener implements ApplicationListener<NettyPacke
             DeviceHeartbeat deviceHeartbeat = new DeviceHeartbeat();
             deviceHeartbeat.setUserId(userId);
             deviceHeartbeat.setDeviceCode(deviceCode);
-            deviceHeartbeat.setDeviceJson(JSONObject.toJSONString(data));
+            deviceHeartbeat.setDeviceJson(data);
             deviceHeartbeat.setCreateTime(nettyHeartBeat.getHeartBeat());
             deviceHeartbeatDAO.insert(deviceHeartbeat);
 

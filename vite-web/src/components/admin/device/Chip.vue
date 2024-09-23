@@ -1,5 +1,5 @@
 <template>
-  <el-card style="margin: 18px 2%; width: 94%;">
+  <el-card style="margin: 18px 2%; width: 94%; cursor: pointer;" @click="openDeviceInfo(props.deviceId)">
     <div style="margin: 18px 2%; display: flex">
       <div style="width:80%">
         <div>
@@ -27,9 +27,9 @@
           <span>修改时间：</span> <span>{{ device.updateTime }}</span>
         </div>
       </div>
-      <div style="width: 15%">
+      <!-- <div style="width: 15%">
         <img src="http://localhost/files/1/user/2024-02-08_13-44-10_739305_树莓派4b.png" height="150" class="image" />
-      </div>
+      </div> -->
     </div>
   </el-card>
   <el-card v-for="(chip, id) in chipList.data" style="margin: 18px 2%; width: 45%; height: 200px; margin-bottom: 20px; cursor: pointer;" @click="openChip(chip)" :key="id">
@@ -92,8 +92,9 @@
   
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
-import { selectDeviceByIdApi, selectChipListApi, saveChipApi } from '@/api/file';
+import { selectDeviceByDeviceIdApi, selectChipListApi, saveChipApi } from '@/api/file';
 import { ElMessage } from 'element-plus';
+
 let {
   chipRef,
   dialogFormVisible,
@@ -104,6 +105,7 @@ let {
   chipList,
   selectDeviceByIdFun,
   selectChipListFun,
+  openDeviceInfo,
   openChip,
   addChipFun
 } = chipFun();
@@ -112,7 +114,7 @@ const props = defineProps({
   deviceId: Number,
 });
 
-const emit = defineEmits(['chipId']);
+const emit = defineEmits(['chipId', 'deviceId']);
 
 onMounted(() => {
   selectDeviceByIdFun(props.deviceId);
@@ -170,7 +172,7 @@ function chipFun() {
 
   // 获取设备信息
   const selectDeviceByIdFun = (id: any) => {
-    selectDeviceByIdApi({ id: id }).then((res: any) => {
+    selectDeviceByDeviceIdApi({ id: id }).then((res: any) => {
       if (res.code === 200) {
         device.value = res.result;
       }
@@ -188,6 +190,10 @@ function chipFun() {
         chipList.data = res.result.list;
       }
     });
+  };
+
+  const openDeviceInfo = (deviceId: any) => {
+    emit('deviceId', deviceId);
   };
 
   // 打开单片机
@@ -231,6 +237,7 @@ function chipFun() {
     chipList,
     selectDeviceByIdFun,
     selectChipListFun,
+    openDeviceInfo,
     openChip,
     addChipFun
   };

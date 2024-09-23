@@ -1,4 +1,4 @@
-package com.blog.file.netty.dto.sensor.control;
+package com.blog.common.netty.dto.sensor.control;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.blog.common.valication.group.AddGroup;

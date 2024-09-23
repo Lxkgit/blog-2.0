@@ -1,4 +1,4 @@
-package com.blog.file.netty.enums;
+package com.blog.common.netty.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

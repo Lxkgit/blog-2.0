@@ -1,4 +1,4 @@
-package com.blog.file.netty.dto.sensor.receive;
+package com.blog.common.netty.dto.sensor.receive;
 
 import lombok.Data;
 

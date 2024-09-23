@@ -1,4 +1,4 @@
-package com.blog.file.netty.common;
+package com.blog.common.netty.common;
 
 /**
  * @description: Netty专用协议字段

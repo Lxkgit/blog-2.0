@@ -2,7 +2,7 @@ package com.blog.file.netty.schedule;
 
 import com.alibaba.fastjson.JSONObject;
 import com.blog.common.constant.Constant;
-import com.blog.file.netty.dto.NettyMessageRetry;
+import com.blog.common.netty.dto.NettyMessageRetry;
 import com.blog.file.netty.service.NettyServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;

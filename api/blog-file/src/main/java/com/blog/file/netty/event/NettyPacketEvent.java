@@ -1,7 +1,7 @@
 package com.blog.file.netty.event;
 
 
-import com.blog.file.netty.dto.NettyPacket;
+import com.blog.common.netty.dto.NettyPacket;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 

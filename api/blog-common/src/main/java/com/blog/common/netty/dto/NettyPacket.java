@@ -1,8 +1,8 @@
-package com.blog.file.netty.dto;
+package com.blog.common.netty.dto;
 
 
-import com.blog.file.netty.common.NettyConstant;
-import com.blog.file.netty.enums.NettyPacketType;
+import com.blog.common.netty.common.NettyConstant;
+import com.blog.common.netty.enums.NettyPacketType;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

@@ -101,8 +101,8 @@ public class DeviceController extends BaseController {
 
     @GetMapping("/info")
     @PreAuthorize("hasAnyAuthority('sys:device:select')")
-    public Result selectDeviceInfo(HttpServletRequest request, @RequestParam("deviceCode") String deviceCode) {
-        return ResultFactory.buildSuccessResult(deviceService.selectDeviceInfoById(getBlogUser(request).getId(), deviceCode));
+    public Result selectDeviceInfo(HttpServletRequest request, @Validated(value = {SelectIdGroup.class}) DeviceVo deviceVo) {
+        return ResultFactory.buildSuccessResult(deviceService.selectDeviceInfoById(getBlogUser(request).getId(), deviceVo.getId()));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.blog.file.netty.enums;
+package com.blog.common.netty.enums;
 
 /**
  * @description: Netty 消息枚举类

@@ -9,7 +9,7 @@ import com.blog.common.message.mq.RocketMQMessage;
 import com.blog.common.result.Result;
 import com.blog.common.result.ResultFactory;
 import com.blog.file.mq.MQProducerService;
-import com.blog.file.netty.dto.file.NettySyncBlogFileDto;
+import com.blog.common.netty.dto.file.NettySyncBlogFileDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
