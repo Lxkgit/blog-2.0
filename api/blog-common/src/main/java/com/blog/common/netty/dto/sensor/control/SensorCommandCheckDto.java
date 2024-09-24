@@ -7,6 +7,7 @@ package com.blog.common.netty.dto.sensor.control;
  */
 
 
+
 public class SensorCommandCheckDto {
 
 }

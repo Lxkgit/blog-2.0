@@ -28,7 +28,10 @@ public class SensorControlVo extends SensorControl {
     @Min(value = 1, message = "传感器id值最小为1", groups = {UpdateGroup.class, SelectIdGroup.class})
     private Integer id;
 
-    private String sensorCode;
+    /**
+     * 传感器类型
+     */
+    private String sensorType;
 
     /**
      * 传感器id

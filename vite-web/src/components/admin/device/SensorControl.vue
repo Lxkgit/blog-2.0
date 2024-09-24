@@ -21,9 +21,7 @@
           <span>修改时间：</span> <span>{{ sensor.updateTime }}</span>
         </div>
       </div>
-      <div style="width: 15%">
-        <img src="http://localhost/files/1/user/2024-02-08_17-00-49_47c7df_WeMos_D1.png" height="150" />
-      </div>
+      
     </div>
     <el-table :data="sensorControlList.data" stripe style="width: 100%; height: 388px;">
       <el-table-column prop="controlName" label="控制命令名称" fit>
@@ -108,7 +106,7 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  setFromItemsFun(props.sensor?.sensorCode);
+  setFromItemsFun(props.sensor?.sensorType);
   selectSensorByIdFun(props.sensor?.id);
   selectSensorControlListFun(props.sensor?.id, 1);
 });
@@ -204,7 +202,7 @@ function sensorControlFun() {
       json[formItems.data[i].key] = formItems.data[i].value;
     }
     saveSensorControlApi({
-      sensorCode: props.sensor?.sensorCode,
+      sensorType: props.sensor?.sensorType,
       sensorId: props.sensor?.id,
       controlName: sensorControl.controlName,
       controlMessage: JSON.stringify(json),

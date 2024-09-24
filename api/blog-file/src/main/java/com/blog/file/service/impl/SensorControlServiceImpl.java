@@ -2,6 +2,7 @@ package com.blog.file.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.*;
@@ -109,7 +110,7 @@ public class SensorControlServiceImpl implements SensorControlService {
     public Integer createSensorControl(Integer userId, SensorControlVo sensorControlVo) throws ValidException {
 
         SensorCommandCheckDto sensorCommandCheckVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControlVo.getControlMessage()),
-                SensorTypeEnum.getRuleImpl(sensorControlVo.getSensorCode()));
+                SensorTypeEnum.getRuleImpl(sensorControlVo.getSensorType()));
 
         validateIvsRuleInfo(sensorCommandCheckVo);
         sensorControlVo.setUserId(userId);
@@ -160,9 +161,9 @@ public class SensorControlServiceImpl implements SensorControlService {
     @Override
     public MyPage<SensorControlVo> selectSensorControlList(Integer userId, SensorControlVo sensorControlVoParam) {
 
-        QueryWrapper<SensorControl> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_id", userId);
-        wrapper.eq("sensor_id", sensorControlVoParam.getSensorId());
+        LambdaQueryWrapper<SensorControl> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SensorControl::getUserId, userId);
+        wrapper.eq(SensorControl::getSensorId, sensorControlVoParam.getSensorId());
 
         PageHelper.startPage(sensorControlVoParam.getPageNum(), sensorControlVoParam.getPageSize());
         Page<SensorControl> sensorControlPage = (Page<SensorControl>) sensorControlDAO.selectList(wrapper);

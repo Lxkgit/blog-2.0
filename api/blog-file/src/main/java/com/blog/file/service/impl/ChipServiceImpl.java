@@ -14,6 +14,7 @@ import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
 import com.blog.common.util.MyStringUtils;
 import com.blog.file.dao.ChipDAO;
+import com.blog.file.dao.DeviceDAO;
 import com.blog.file.dao.SensorDAO;
 import com.blog.file.feign.service.UserService;
 import com.blog.file.service.ChipService;
@@ -47,6 +48,9 @@ public class ChipServiceImpl implements ChipService {
 
     @Resource
     private SensorDAO sensorDAO;
+
+    @Resource
+    private DeviceDAO deviceDAO;
 
     /**
      * 新增单片机
@@ -121,10 +125,12 @@ public class ChipServiceImpl implements ChipService {
      */
     @Override
     public MyPage<ChipVo> selectChipList(Integer userId, ChipVo chipVoParam) {
-        QueryWrapper<Chip> wrapper = new QueryWrapper<>();
-//        wrapper.eq("user_id", userId);
-//        wrapper.eq("device_id", chipVoParam.getDeviceId());
-        wrapper.ne("chip_status", Constant.DEVICE_DELETE);
+        Device device = deviceDAO.selectById(chipVoParam.getDeviceId());
+
+        LambdaQueryWrapper<Chip> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Chip::getUserId, userId);
+        wrapper.eq(Chip::getDeviceCode, device.getDeviceCode());
+        wrapper.ne(Chip::getChipStatus, Constant.DEVICE_DELETE);
 
         PageHelper.startPage(chipVoParam.getPageNum(), chipVoParam.getPageSize());
         Page<Chip> chipPage = (Page<Chip>) chipDAO.selectList(wrapper);

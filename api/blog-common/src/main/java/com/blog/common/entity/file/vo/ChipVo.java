@@ -21,6 +21,11 @@ import java.util.List;
 public class ChipVo extends Chip {
 
     /**
+     * 设备id
+     */
+    private String deviceId;
+
+    /**
      * 单片机id
      */
     @NotNull(message = "文章id不为空", groups = {UpdateGroup.class, SelectIdGroup.class})

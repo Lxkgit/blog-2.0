@@ -3,11 +3,13 @@ package com.blog.common.netty.enums.sensor;
 
 import com.blog.common.netty.dto.sensor.control.SensorCommandCheckDto;
 import com.blog.common.netty.dto.sensor.control.SteeringEngineDto;
+import lombok.Getter;
 
 /**
  * 传感器类型枚举类
  */
 
+@Getter
 public enum SensorTypeEnum {
 
     DUO_JI("DUO", "舵机", SteeringEngineDto.class),
@@ -17,14 +19,14 @@ public enum SensorTypeEnum {
     /**
      * 传感器类型编码
      */
-    private String sensorCode;
+    private String sensorType;
 
     private String sensorName;
 
     private Class<? extends SensorCommandCheckDto> commandClass;
 
-    SensorTypeEnum(String sensorCode, String sensorName, Class<? extends SensorCommandCheckDto> analysisClass) {
-        this.sensorCode = sensorCode;
+    SensorTypeEnum(String sensorType, String sensorName, Class<? extends SensorCommandCheckDto> analysisClass) {
+        this.sensorType = sensorType;
         this.sensorName = sensorName;
         this.commandClass = analysisClass;
     }
@@ -32,12 +34,12 @@ public enum SensorTypeEnum {
     /**
      * 根据sensorCode返回对应的封装类
      *
-     * @param sensorCode
+     * @param sensorType
      * @return
      */
-    public static Class<? extends SensorCommandCheckDto> getRuleImpl(String sensorCode) {
+    public static Class<? extends SensorCommandCheckDto> getRuleImpl(String sensorType) {
         for (SensorTypeEnum sensorTypeEnum : SensorTypeEnum.values()) {
-            if (sensorTypeEnum.getSensorCode().equals(sensorCode)) {
+            if (sensorTypeEnum.getSensorType().equals(sensorType)) {
                 if (sensorTypeEnum.getCommandClass() != null) {
                     return sensorTypeEnum.getCommandClass();
                 }
@@ -47,12 +49,12 @@ public enum SensorTypeEnum {
         return null;
     }
 
-    public String getSensorCode() {
-        return sensorCode;
+    public String getSensorType() {
+        return sensorType;
     }
 
-    public void setSensorCode(String sensorCode) {
-        this.sensorCode = sensorCode;
+    public void setSensorType(String sensorType) {
+        this.sensorType = sensorType;
     }
 
     public String getSensorName() {

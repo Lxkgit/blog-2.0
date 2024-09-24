@@ -1,17 +1,23 @@
 <template>
-  <el-card style="margin: 18px 2%; width: 94%; cursor: pointer;" @click="openChipInfo(props.chipId)">
+  <el-card style="margin: 18px 2%; width: 94%;">
     <div style="margin: 18px 2%; display: flex">
       <div style="width: 80%; display: flex;">
         <div style="flex: 1;">
+          <div style="margin-bottom: 10px;">
+            <el-button @click="openChipInfo(props.chipId)" type='success' text>
+              查看单片机详情
+            </el-button>
+          </div>
           <div>
             <span>设备类型：</span> <el-tag type="success">单片机</el-tag>
+          </div>
+          <div>
+            <span>单片机名称：</span> <span>{{ chip.chipName }}</span>
           </div>
         </div>
 
         <div style="flex: 1;">
-          <div>
-            <span>单片机名称：</span> <span>{{ chip.chipName }}</span>
-          </div>
+
           <div>
             <span>单片机编码：</span> <span>{{ chip.chipCode }}</span>
           </div>
@@ -35,17 +41,22 @@
 
     </div>
   </el-card>
-  <el-card v-for="(sensor, id) in sensorList.data" @click="openSensor(sensor)" style="
+  <el-card v-for="(sensor, id) in sensorList.data" style="
       margin: 18px 2%;
       width: 45%;
       height: 200px;
       margin-bottom: 20px;
-      cursor: pointer;
+      
     " :key="id">
     <div style="display: flex">
       <div style="width: 80%; display: flex">
 
         <div style="flex: 1;">
+          <div style="margin-bottom: 10px;">
+            <el-button @click="openSensor(sensor)" type='danger' text>
+              打开传感器
+            </el-button>
+          </div>
           <div>
             <span>设备类型：</span> <el-tag type="danger">传感器</el-tag>
           </div>
@@ -53,22 +64,22 @@
 
         <div style="flex: 1;">
           <div>
-          <span>传感器名称：</span> <span>{{ sensor.sensorName }}</span>
+            <span>传感器名称：</span> <span>{{ sensor.sensorName }}</span>
+          </div>
+          <div>
+            <span>传感器编码：</span> <span>{{ sensor.sensorCode }}</span>
+          </div>
+          <div>
+            <span>备注信息：</span> <span>{{ sensor.memo }}</span>
+          </div>
+          <div>
+            <span>创建时间：</span> <span>{{ sensor.createTime }}</span>
+          </div>
+          <div>
+            <span>修改时间：</span> <span>{{ sensor.updateTime }}</span>
+          </div>
         </div>
-        <div>
-          <span>传感器编码：</span> <span>{{ sensor.sensorCode }}</span>
-        </div>
-        <div>
-          <span>备注信息：</span> <span>{{ sensor.memo }}</span>
-        </div>
-        <div>
-          <span>创建时间：</span> <span>{{ sensor.createTime }}</span>
-        </div>
-        <div>
-          <span>修改时间：</span> <span>{{ sensor.updateTime }}</span>
-        </div>
-        </div>
-        
+
       </div>
 
     </div>
@@ -101,7 +112,7 @@
         <el-button type="primary" @click="saveSensorFun()"> 保存 </el-button>
       </div>
     </template>
-  </el-dialog> -->
+</el-dialog> -->
 </template>
 
 <script setup lang="ts">

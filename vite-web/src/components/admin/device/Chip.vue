@@ -1,20 +1,26 @@
 <template>
-  <el-card style="margin: 18px 2%; width: 94%; cursor: pointer;" @click="openDeviceInfo(props.deviceId)">
+  <el-card style="margin: 18px 2%; width: 94%;">
     <div style="margin: 18px 2%; display: flex">
       <div style="width:80%; display: flex;">
         <div style="flex: 1;">
+          <div style="margin-bottom: 10px;">
+            <el-button @click="openDeviceInfo(device)" type='primary' text>
+              查看设备详情
+            </el-button>
+          </div>
           <div>
             <span>设备类型：</span> <el-tag type="primary">设备</el-tag>
           </div>
-        </div>
-
-        <div style="flex: 1;">
           <div>
             <span>设备名称：</span> <span>{{ device.deviceName }}</span>
           </div>
           <div>
             <span>设备编码：</span> <span>{{ device.deviceCode }}</span>
           </div>
+        </div>
+
+        <div style="flex: 1;">
+          
           <div>
             <span>设备位置：</span> <span>{{ device.devicePosition }}</span>
           </div>
@@ -44,15 +50,21 @@
     <div style="display: flex;">
       <div style="width: 80%; display: flex;">
         <div style="flex: 1;">
+          <div style="margin-bottom: 10px;">
+            <el-button @click="openChip(chip)" type='success' text>
+              打开单片机
+            </el-button>
+          </div>
           <div>
             <span>设备类型：</span> <el-tag type="success">单片机</el-tag>
+          </div>
+          <div>
+            <span>单片机名称：</span> <span>{{ chip.chipName }}</span>
           </div>
         </div>
 
         <div style="flex: 1;">
-          <div>
-            <span>单片机名称：</span> <span>{{ chip.chipName }}</span>
-          </div>
+          
           <div>
             <span>单片机类型：</span> <span>{{ chip.chipType }}</span>
           </div>
@@ -102,7 +114,7 @@
         <el-button type="primary" @click="addChipFun"> 保存 </el-button>
       </div>
     </template>
-  </el-dialog> -->
+</el-dialog> -->
 </template>
 
 <script setup lang="ts">
