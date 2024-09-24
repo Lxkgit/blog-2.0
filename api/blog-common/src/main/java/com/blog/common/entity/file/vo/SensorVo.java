@@ -79,5 +79,5 @@ public class SensorVo extends Sensor {
     /**
      * 传感器类型
      */
-    private SensorType sensorType1;
+    private SensorType sensorTypeObj;
 }

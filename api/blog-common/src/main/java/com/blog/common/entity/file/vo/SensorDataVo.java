@@ -19,6 +19,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class SensorDataVo extends SensorData {
 
+    private Integer sensorId;
+
     /**
      * 页大小
      */

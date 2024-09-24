@@ -88,6 +88,7 @@ public class NettyDeviceService {
                 ChipSensor selectSensor = chipSensorDAO.selectOne(sensorQueryWrapper);
                 if (selectSensor != null) {
                     Sensor sensor = new Sensor();
+                    sensor.setUserId(userId);
                     sensor.setDeviceCode(deviceCode);
                     sensor.setChipCode(nettyChipRegisterDto.getChipCode());
                     sensor.setSensorName(nettySensorRegisterDto.getSensorName());

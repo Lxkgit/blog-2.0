@@ -1,14 +1,17 @@
 package com.blog.file.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.Constant;
-import com.blog.common.constant.ErrorMessage;
+import com.blog.common.entity.file.Chip;
 import com.blog.common.entity.file.Sensor;
+import com.blog.common.entity.file.SensorType;
 import com.blog.common.entity.file.vo.SensorVo;
 import com.blog.common.exception.ValidException;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
 import com.blog.common.util.MyStringUtils;
+import com.blog.file.dao.ChipDAO;
 import com.blog.file.dao.SensorDAO;
 import com.blog.file.dao.SensorTypeDAO;
 import com.blog.file.service.SensorService;
@@ -19,10 +22,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @description: 传感器服务业务层
@@ -33,6 +35,9 @@ import java.util.Set;
 @Slf4j
 @Service
 public class SensorServiceImpl implements SensorService {
+
+    @Resource
+    private ChipDAO chipDAO;
 
     @Resource
     private SensorDAO sensorDAO;
@@ -106,10 +111,16 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public MyPage<SensorVo> selectSensorList(Integer userId, SensorVo sensorVoParam) {
 
-        QueryWrapper<Sensor> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_id", userId);
-        wrapper.eq("chip_id", sensorVoParam.getChipId());
-        wrapper.ne("sensor_status", Constant.DEVICE_DELETE);
+        List<SensorType> sensorTypeList = sensorTypeDAO.selectList(null);
+
+        Map<String, SensorType> map = sensorTypeList.stream().collect(Collectors.toMap(SensorType::getSensorCode, Function.identity()));
+
+        Chip chip = chipDAO.selectById(sensorVoParam.getChipId());
+
+        LambdaQueryWrapper<Sensor> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Sensor::getUserId, userId);
+        wrapper.eq(Sensor::getDeviceCode, chip.getDeviceCode());
+        wrapper.eq(Sensor::getChipCode, chip.getChipCode());
 
         PageHelper.startPage(sensorVoParam.getPageNum(), sensorVoParam.getPageSize());
         Page<Sensor> sensorPage = (Page<Sensor>) sensorDAO.selectList(wrapper);
@@ -118,7 +129,8 @@ public class SensorServiceImpl implements SensorService {
         for (Sensor sensor : sensorPage) {
             SensorVo sensorVo = new SensorVo();
             BeanUtils.copyProperties(sensor, sensorVo);
-//            sensorVo.setSensorType1(sensorTypeDAO.selectById(sensor.getSensorTypeId()));
+
+            sensorVo.setSensorTypeObj(map.get(sensor.getSensorType()));
             sensorVoList.add(sensorVo);
         }
 

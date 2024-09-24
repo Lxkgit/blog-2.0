@@ -26,6 +26,11 @@ public class Sensor {
     private Integer id;
 
     /**
+     * 用户id
+     */
+    private Integer userId;
+
+    /**
      * 单片机所属设备编码
      */
     private String deviceCode;

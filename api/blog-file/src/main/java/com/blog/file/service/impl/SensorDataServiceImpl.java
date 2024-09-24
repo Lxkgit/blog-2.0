@@ -1,12 +1,15 @@
 package com.blog.file.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.blog.common.entity.file.Sensor;
 import com.blog.common.entity.file.SensorControl;
 import com.blog.common.entity.file.SensorData;
 import com.blog.common.entity.file.vo.SensorControlVo;
 import com.blog.common.entity.file.vo.SensorDataVo;
 import com.blog.common.util.MyPage;
 import com.blog.common.util.MyPageUtils;
+import com.blog.file.dao.SensorDAO;
 import com.blog.file.dao.SensorDataDAO;
 import com.blog.file.service.SensorDataService;
 import com.github.pagehelper.Page;
@@ -31,6 +34,9 @@ public class SensorDataServiceImpl implements SensorDataService {
     @Resource
     private SensorDataDAO sensorDataDAO;
 
+    @Resource
+    private SensorDAO sensorDAO;
+
     /**
      * 保存传感器上报数据
      *
@@ -53,21 +59,24 @@ public class SensorDataServiceImpl implements SensorDataService {
     @Override
     public MyPage<SensorDataVo> selectSensorDataList(Integer userId, SensorDataVo sensorDataVoParam) {
 
-//        QueryWrapper<SensorData> wrapper = new QueryWrapper<>();
-//        wrapper.eq("sensor_id", sensorDataVoParam.getSensorId());
-//        wrapper.orderByDesc("id");
-//
-//        PageHelper.startPage(sensorDataVoParam.getPageNum(), sensorDataVoParam.getPageSize());
-//        Page<SensorData> sensorDataPage = (Page<SensorData>) sensorDataDAO.selectList(wrapper);
-//
-//        List<SensorDataVo> sensorDataVoList = new ArrayList<>();
-//        for (SensorData sensorData : sensorDataPage) {
-//            SensorDataVo sensorDataVo = new SensorDataVo();
-//            BeanUtils.copyProperties(sensorData, sensorDataVo);
-//            sensorDataVoList.add(sensorDataVo);
-//        }
-//
-//        return MyPageUtils.pageUtil(sensorDataVoList, sensorDataPage.getPageNum(), sensorDataPage.getPageSize(), (int) sensorDataPage.getTotal());
-        return null;
+        Sensor sensor = sensorDAO.selectById(sensorDataVoParam.getSensorId());
+        LambdaQueryWrapper<SensorData> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SensorData::getDeviceCode, sensor.getDeviceCode());
+        wrapper.eq(SensorData::getChipCode, sensor.getChipCode());
+        wrapper.eq(SensorData::getSensorCode, sensor.getSensorCode());
+
+
+        PageHelper.startPage(sensorDataVoParam.getPageNum(), sensorDataVoParam.getPageSize());
+        Page<SensorData> sensorDataPage = (Page<SensorData>) sensorDataDAO.selectList(wrapper);
+
+        List<SensorDataVo> sensorDataVoList = new ArrayList<>();
+        for (SensorData sensorData : sensorDataPage) {
+            SensorDataVo sensorDataVo = new SensorDataVo();
+            BeanUtils.copyProperties(sensorData, sensorDataVo);
+            sensorDataVoList.add(sensorDataVo);
+        }
+
+        return MyPageUtils.pageUtil(sensorDataVoList, sensorDataPage.getPageNum(), sensorDataPage.getPageSize(), (int) sensorDataPage.getTotal());
+
     }
 }

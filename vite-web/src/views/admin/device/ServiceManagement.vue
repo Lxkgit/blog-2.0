@@ -73,9 +73,10 @@ const receiveChipId = (id: any) => {
 };
 
 const receiveSensor = (sensor: any) => {
-  if (sensor.sensorType.sensorType === 0) {
+  console.log(sensor)
+  if (sensor.sensorTypeObj.sensorType === 0) {
     showType.value = 6;
-  } else if (sensor.sensorType.sensorType === 1) {
+  } else if (sensor.sensorTypeObj.sensorType === 1) {
     showType.value = 7;
   }
   sensorData.value = sensor;
