@@ -31,6 +31,8 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @description: 传感器控制服务类
@@ -159,19 +161,48 @@ public class SensorControlServiceImpl implements SensorControlService {
      * @return
      */
     @Override
-    public MyPage<SensorControlVo> selectSensorControlList(Integer userId, SensorControlVo sensorControlVoParam) {
+    public MyPage<SensorControlVo> selectSensorControlList(Integer userId, SensorControlVo sensorControlVoParam) throws ValidException {
+
+        Integer sensorId = sensorControlVoParam.getSensorId();
+        Integer chipId = sensorControlVoParam.getChipId();
 
         LambdaQueryWrapper<SensorControl> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SensorControl::getUserId, userId);
-        wrapper.eq(SensorControl::getSensorId, sensorControlVoParam.getSensorId());
+        if (sensorId != null) {
+            wrapper.eq(SensorControl::getSensorId, sensorId);
+        } else if (chipId != null) {
+            wrapper.eq(SensorControl::getChipId, chipId);
+            // 以单片机为条件查询时可以查询单片机下全部命令组 包括单传感器控制命令与多传感器控制命令
+            if (sensorControlVoParam.getCommandGroup() != null) {
+                wrapper.eq(SensorControl::getCommandGroup, sensorControlVoParam.getCommandGroup());
+            }
+        } else {
+            throw new ValidException("传感器id与单片机id不可同时为空");
+        }
 
         PageHelper.startPage(sensorControlVoParam.getPageNum(), sensorControlVoParam.getPageSize());
         Page<SensorControl> sensorControlPage = (Page<SensorControl>) sensorControlDAO.selectList(wrapper);
 
         List<SensorControlVo> sensorControlVoList = new ArrayList<>();
+        Chip chip = chipDAO.selectById(chipId);
+
+        Map<Integer, Sensor> sensorMap = sensorDAO.selectList(new LambdaQueryWrapper<Sensor>().eq(Sensor::getUserId, userId)
+                .eq(Sensor::getDeviceCode, chip.getDeviceCode()).eq(Sensor::getChipCode, chip.getChipCode())).stream()
+                .collect(Collectors.toMap(Sensor::getId, Function.identity()));
+
         for (SensorControl sensorControl : sensorControlPage) {
             SensorControlVo sensorControlVo = new SensorControlVo();
             BeanUtils.copyProperties(sensorControl, sensorControlVo);
+
+            // 单条命令直接取传感器
+            if (sensorControl.getCommandGroup() == 0) {
+                sensorControlVo.setSensorList(Collections.singletonList(sensorMap.get(sensorControl.getSensorId())));
+            } else {
+                // 命令组切割转换之后获取传感器
+                sensorControlVo.setSensorList(new ArrayList<>());
+                List<String> ids = Arrays.asList(sensorControl.getSensorIdGroup().split(","));
+                ids.forEach(id -> sensorControlVo.getSensorList().add(sensorMap.get(Integer.parseInt(id))));
+            }
             sensorControlVoList.add(sensorControlVo);
         }
 

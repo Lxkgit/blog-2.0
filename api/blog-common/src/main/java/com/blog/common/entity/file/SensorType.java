@@ -20,12 +20,12 @@ public class SensorType {
     /**
      * 传感器型号编码
      */
-    private String sensorCode;
+    private String sensorType;
 
     /**
      * 传感器类型（数据上报类：0 命令控制类：1）
      */
-    private Integer sensorType;
+    private Integer sensorControlType;
 
     /**
      * 传感器名称

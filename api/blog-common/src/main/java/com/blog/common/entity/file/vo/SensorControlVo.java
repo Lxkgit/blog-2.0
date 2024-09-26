@@ -1,6 +1,9 @@
 package com.blog.common.entity.file.vo;
 
+import com.blog.common.entity.file.Sensor;
 import com.blog.common.entity.file.SensorControl;
+import com.blog.common.valication.annotation.Equal;
+import com.blog.common.valication.group.AddGroup;
 import com.blog.common.valication.group.SelectIdGroup;
 import com.blog.common.valication.group.SelectListGroup;
 import com.blog.common.valication.group.UpdateGroup;
@@ -10,6 +13,7 @@ import lombok.Setter;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @description: 传感器控制Vo类
@@ -40,6 +44,12 @@ public class SensorControlVo extends SensorControl {
     private Integer sensorId;
 
     /**
+     * 是否为命令组 1：命令组 0：单条命令
+     */
+    @Equal(value = "0,1", message = "传感器控制命令组必须是0或1", groups = {AddGroup.class})
+    private Integer commandGroup;
+
+    /**
      * 页大小
      */
     @NotNull(message = "分页查询页大小不能为空", groups = {SelectListGroup.class})
@@ -53,4 +63,9 @@ public class SensorControlVo extends SensorControl {
     @NotNull(message = "分页查询页数不能为空", groups = {SelectListGroup.class})
     @Min(value = 1, message = "分页查询页数最小1", groups = {SelectListGroup.class})
     private Integer pageNum;
+
+    /**
+     * 命令控制的传感器
+     */
+    private List<Sensor> sensorList;
 }

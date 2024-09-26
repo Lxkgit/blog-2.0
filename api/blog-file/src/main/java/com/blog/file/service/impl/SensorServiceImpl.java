@@ -113,7 +113,7 @@ public class SensorServiceImpl implements SensorService {
 
         List<SensorType> sensorTypeList = sensorTypeDAO.selectList(null);
 
-        Map<String, SensorType> map = sensorTypeList.stream().collect(Collectors.toMap(SensorType::getSensorCode, Function.identity()));
+        Map<String, SensorType> map = sensorTypeList.stream().collect(Collectors.toMap(SensorType::getSensorType, Function.identity()));
 
         Chip chip = chipDAO.selectById(sensorVoParam.getChipId());
 
@@ -121,6 +121,13 @@ public class SensorServiceImpl implements SensorService {
         wrapper.eq(Sensor::getUserId, userId);
         wrapper.eq(Sensor::getDeviceCode, chip.getDeviceCode());
         wrapper.eq(Sensor::getChipCode, chip.getChipCode());
+
+        if (sensorVoParam.getSensorControlType() != null) {
+            // 快速获取对应控制类型的传感器类型编码
+            wrapper.in(Sensor::getSensorType, sensorTypeDAO.selectList(new LambdaQueryWrapper<SensorType>()
+                    .eq(SensorType::getSensorControlType, sensorVoParam.getSensorControlType()))
+                    .stream().map(SensorType::getSensorType).collect(Collectors.toList()));
+        }
 
         PageHelper.startPage(sensorVoParam.getPageNum(), sensorVoParam.getPageSize());
         Page<Sensor> sensorPage = (Page<Sensor>) sensorDAO.selectList(wrapper);

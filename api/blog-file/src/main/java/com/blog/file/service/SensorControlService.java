@@ -19,7 +19,7 @@ public interface SensorControlService {
 
     Integer updateSensorControl(Integer userId, SensorControlVo sensorControlVo);
 
-    MyPage<SensorControlVo> selectSensorControlList(Integer userId, SensorControlVo sensorControlVo);
+    MyPage<SensorControlVo> selectSensorControlList(Integer userId, SensorControlVo sensorControlVo) throws ValidException;
 
     SensorControlVo selectSensorControlById(Integer userId, Integer id);
     /**

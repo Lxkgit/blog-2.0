@@ -4,9 +4,12 @@
     <resultMap id="BaseResultMap" type="com.blog.common.entity.file.SensorControl">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <id column="chip_id" property="chipId" jdbcType="INTEGER"/>
         <id column="sensor_id" property="sensorId" jdbcType="INTEGER"/>
         <id column="control_name" property="controlName" jdbcType="VARCHAR"/>
         <id column="control_message" property="controlMessage" jdbcType="VARCHAR"/>
+        <id column="command_group" property="commandGroup" jdbcType="INTEGER"/>
+        <id column="sensor_id_group" property="sensorIdGroup" jdbcType="VARCHAR"/>
         <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <id column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>

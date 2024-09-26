@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.blog.common.entity.file.Sensor;
 import com.blog.common.entity.file.SensorType;
+import com.blog.common.valication.annotation.Equal;
 import com.blog.common.valication.group.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -80,4 +81,10 @@ public class SensorVo extends Sensor {
      * 传感器类型
      */
     private SensorType sensorTypeObj;
+
+    /**
+     * 传感器类型（数据上报类：0 命令控制类：1）
+     */
+    @Equal(value = "0,1", message = "传感器控制类型必须是0或1", groups = {SelectListGroup.class})
+    private Integer sensorControlType;
 }

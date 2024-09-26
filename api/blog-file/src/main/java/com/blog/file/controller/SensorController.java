@@ -171,7 +171,7 @@ public class SensorController extends BaseController {
      */
     @GetMapping("/control/list")
     @PreAuthorize("hasAnyAuthority('sys:sensor:control:select')")
-    public Result selectSensorControlList(HttpServletRequest request, @Validated(value = {SelectListGroup.class}) SensorControlVo sensorControlVo) {
+    public Result selectSensorControlList(HttpServletRequest request, @Validated(value = {SelectListGroup.class}) SensorControlVo sensorControlVo) throws ValidException {
         return ResultFactory.buildSuccessResult(sensorControlService.selectSensorControlList(getBlogUser(request).getId(), sensorControlVo));
     }
 

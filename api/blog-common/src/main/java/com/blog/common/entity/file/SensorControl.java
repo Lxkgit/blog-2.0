@@ -31,6 +31,11 @@ public class SensorControl {
     private Integer userId;
 
     /**
+     * 单片机id
+     */
+    private Integer chipId;
+
+    /**
      * 传感器id
      */
     private Integer sensorId;
@@ -44,6 +49,16 @@ public class SensorControl {
      * 控制命令消息内容
      */
     private String controlMessage;
+
+    /**
+     * 是否为命令组 1：命令组 0：单条命令
+     */
+    private Integer commandGroup;
+
+    /**
+     * 命令组对应的传感器id 使用 , 分割
+     */
+    private String sensorIdGroup;
 
     /**
      * 创建时间

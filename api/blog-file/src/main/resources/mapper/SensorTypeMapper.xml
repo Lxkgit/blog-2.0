@@ -3,8 +3,8 @@
 <mapper namespace="com.blog.file.dao.SensorTypeDAO">
     <resultMap id="BaseResultMap" type="com.blog.common.entity.file.SensorType">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <id column="sensor_code" property="sensorCode" jdbcType="VARCHAR"/>
-        <id column="sensor_type" property="sensorType" jdbcType="INTEGER"/>
+        <id column="sensor_type" property="sensorType" jdbcType="VARCHAR"/>
+        <id column="sensor_control_type" property="sensorControlType" jdbcType="INTEGER"/>
         <id column="sensor_name" property="sensorName" jdbcType="VARCHAR"/>
         <id column="sensor_img" property="sensorImg" jdbcType="VARCHAR"/>
         <id column="memo" property="memo" jdbcType="VARCHAR"/>
@@ -13,7 +13,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, sensor_code, sensor_type, sensor_name, sensor_img, memo, create_time, update_time
+        id, sensor_type, sensor_control_type, sensor_name, sensor_img, memo, create_time, update_time
     </sql>
 
 

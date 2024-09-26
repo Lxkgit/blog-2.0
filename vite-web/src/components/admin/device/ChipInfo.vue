@@ -8,11 +8,22 @@
           <el-tab-pane label="传感器控制命令" name="sensorControl">
             <el-button @click="dialogFormVisible = true">创建</el-button>
             <el-button>删除</el-button>
-            <el-table :data="tableData" @selection-change="">
+            <!-- 传感器控制命令表 -->
+            <el-table :data="sensorControlList.data" @selection-change="">
               <el-table-column type="selection" width="55"> </el-table-column>
-              <el-table-column prop="date" label="Date" width="180" />
-              <el-table-column prop="name" label="Name" width="180" />
-              <el-table-column prop="address" label="Address" />
+              <el-table-column prop="controlName" label="名称" width="180" />
+              <el-table-column prop="name" label="控制传感器" width="360">
+                <template #default="scope">
+                  <el-tag :style="'color: ' + tagColor(item.id)" style="margin-right: 2px; margin-bottom: 2px"
+                    v-for="item in scope.row.sensorList">
+                    {{ item.sensorName }}
+                  </el-tag>
+                </template>
+              </el-table-column>
+              <!-- <el-table-column prop="commandGroup" label="命令组" /> -->
+              <el-table-column prop="controlMessage" label="消息内容" />
+              <el-table-column prop="createTime" label="创建时间" width="180" />
+              <el-table-column prop="updateTime" label="最近修改时间" width="180" />
               <el-table-column fixed="right" label="操作" width="110">
                 <template #default="scope">
                   <el-button style="margin: 0; padding: 8px;" @click="" size="small" text>
@@ -42,32 +53,39 @@
 
                     <div v-for="(id, idx) in length">
                       <el-divider />
+
                       <div style="display: flex;">
                         <div style="flex: 1;">
-                          <el-form-item label="传感器" :label-width="formLabelWidth">
+                          <el-form-item :label="'传感器 ' + id" :label-width="formLabelWidth">
                             <el-select v-model="sensorControlForm.sensor[idx].type" placeholder="选择传感器"
                               @change="selectSensor(idx)">
-                              <el-option v-for="(item, sidx) in sensorList.data" :key="idx" :label="item.label"
-                                :value="item.value" />
+                              <el-option v-for="(item, sidx) in sensorList.data" :key="idx" :label="item.sensorName"
+                                :value="item.sensorType" />
                             </el-select>
                           </el-form-item>
                         </div>
                         <div style="flex: 1; margin-left: 20px;">
 
+                          <template v-if="idx !== 0">
+                            <el-form-item label="命令执行前延时(ms)" prop="" :label-width="formLabelWidth">
+                              <el-input-number :min="1" :max="10000" @change="" />
+                            </el-form-item>
+                          </template>
+
                           <template v-if="sensorControlForm.sensor[idx].type === 'DUO-180'" :key="idx">
                             <el-form-item v-if="sensorControlForm.sensor[idx].from.type === 'input-number'"
                               :label="sensorControlForm.sensor[idx].from.label"
-                              :prop="sensorControlForm.sensor[idx].from.key">
+                              :prop="sensorControlForm.sensor[idx].from.key" :label-width="formLabelWidth">
                               <el-input-number v-model="sensorControlForm.sensor[idx].from.value"
                                 :min="sensorControlForm.sensor[idx].from.min"
                                 :max="sensorControlForm.sensor[idx].from.max" />
                             </el-form-item>
-                          </template> 
+                          </template>
 
                           <template v-if="sensorControlForm.sensor[idx].type === 'DUO-360'" :key="idx">
                             <el-form-item v-if="sensorControlForm.sensor[idx].from.type === 'input-number'"
                               :label="sensorControlForm.sensor[idx].from.label"
-                              :prop="sensorControlForm.sensor[idx].from.key">
+                              :prop="sensorControlForm.sensor[idx].from.key" :label-width="formLabelWidth">
                               <el-input-number v-model="sensorControlForm.sensor[idx].from.value"
                                 :min="sensorControlForm.sensor[idx].from.min"
                                 :max="sensorControlForm.sensor[idx].from.max" />
@@ -81,7 +99,8 @@
                   </div>
 
                   <span style="margin-left: 50px; cursor: pointer;" @click="addSensor">增加传感器</span>
-                  <span style="display: float; float: right; margin-right: 50px; cursor: pointer;" @click="deleteSensor">删除传感器</span>
+                  <span style="display: float; float: right; margin-right: 50px; cursor: pointer;"
+                    @click="deleteSensor">删除传感器</span>
 
 
                 </div>
@@ -132,20 +151,38 @@ import { ref, reactive, onMounted } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import icon from '@/utils/icon';
 import { ElMessage } from 'element-plus';
+import {
+  selectSensorControlListApi,
+  selectSensorListApi,
+} from '@/api/file';
+
+import color from "@/utils/color";
+
+
 
 let {
   length,
   sensorControlForm,
   sensorList,
+  sensorControlList,
+  selectSensorListFun,
   selectSensor,
   addSensor,
-  deleteSensor
+  deleteSensor,
+  selectSensorControlListFun
 } = sensorControlFun();
 
 let { MyIcon } = icon();
+let { tagColor } = color();
+
+onMounted(() => {
+  selectSensorControlListFun();
+  selectSensorListFun();
+});
 
 
 
+// 传感器控制方法
 function sensorControlFun() {
 
   // 传感器命令组中传感器数量
@@ -162,19 +199,25 @@ function sensorControlFun() {
     ],
   })
 
+  // 传感器控制命令数据
+  let sensorControlList: any = reactive({ data: [] });
+
   // 传感器列表
-  let sensorList: any = reactive({
-    data: [
-      {
-        label: "舵机-180",
-        value: "DUO-180"
-      },
-      {
-        label: "舵机-360",
-        value: "DUO-360"
+  let sensorList: any = reactive({data: []});
+
+  // 查询单片机下全部传感器
+  const selectSensorListFun = () => {
+    selectSensorListApi({
+      pageNum: 1,
+      pageSize: 20,
+      chipId: props.chipId,
+      sensorControlType: 1
+    }).then((res: any) => {
+      if (res.code === 200) {
+        sensorList.data = res.result.list;
       }
-    ]
-  });
+    });
+  };
 
   // 舵机表单参数格式
   const duoFrom: any = [
@@ -203,21 +246,25 @@ function sensorControlFun() {
     sensorControlForm.sensor[idx].idx = idx;
     if (sensorControlForm.sensor[idx].type === 'DUO-180') {
       sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom[0]));
-    } else if(sensorControlForm.sensor[idx].type === 'DUO-360') {
+    } else if (sensorControlForm.sensor[idx].type === 'DUO-360') {
       sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom[1]));
     }
-    
-
   };
 
+  // 表单新增一个传感器
   const addSensor = () => {
+    if (length.value == 20) {
+      ElMessage.error('传感器数量至少为 20')
+      return;
+    }
     //@ts-ignore 单行忽略
     sensorControlForm.sensor.push({});
     length.value++;
   }
 
+  // 表单删除一个传感器
   const deleteSensor = () => {
-    if(length.value == 1) {
+    if (length.value == 1) {
       ElMessage.error('传感器数量至少为 1')
     } else {
       sensorControlForm.sensor.pop();
@@ -225,6 +272,20 @@ function sensorControlFun() {
     }
   }
 
+  // 查询传感器控制命令
+  const selectSensorControlListFun = () => {
+    selectSensorControlListApi({
+      pageNum: 1,
+      pageSize: 10,
+      chipId: props.chipId,
+    }).then((res: any) => {
+      if (res.code === 200) {
+
+        sensorControlList.data = res.result.list;
+
+      }
+    });
+  };
 
 
 
@@ -232,9 +293,12 @@ function sensorControlFun() {
     length,
     sensorControlForm,
     sensorList,
+    sensorControlList,
+    selectSensorListFun,
     selectSensor,
     addSensor,
-    deleteSensor
+    deleteSensor,
+    selectSensorControlListFun
   }
 
 }
