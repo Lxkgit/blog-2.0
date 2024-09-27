@@ -57,7 +57,7 @@
                       <div style="display: flex;">
                         <div style="flex: 1;">
                           <el-form-item :label="'传感器 ' + id" :label-width="formLabelWidth">
-                            <el-select v-model="sensorControlForm.sensor[idx].type" placeholder="选择传感器"
+                            <el-select v-model="sensorControlForm.sensor[idx].sensorType" placeholder="选择传感器"
                               @change="selectSensor(idx)">
                               <el-option v-for="(item, sidx) in sensorList.data" :key="idx" :label="item.sensorName"
                                 :value="item.sensorType" />
@@ -67,30 +67,31 @@
                         <div style="flex: 1; margin-left: 20px;">
 
                           <template v-if="idx !== 0">
-                            <el-form-item label="命令执行前延时(ms)" prop="" :label-width="formLabelWidth">
-                              <el-input-number :min="1" :max="10000" @change="" />
+                            <el-form-item label="命令执行前延时(ms)" :label-width="formLabelWidth">
+                              <el-input-number v-model="sensorControlForm.sensor[idx].delay" :min="1" :max="10000" />
                             </el-form-item>
                           </template>
+                          <div v-for="item in sensorControlForm.sensor[idx].from">
 
-                          <template v-if="sensorControlForm.sensor[idx].type === 'DUO-180'" :key="idx">
-                            <el-form-item v-if="sensorControlForm.sensor[idx].from.type === 'input-number'"
-                              :label="sensorControlForm.sensor[idx].from.label"
-                              :prop="sensorControlForm.sensor[idx].from.key" :label-width="formLabelWidth">
-                              <el-input-number v-model="sensorControlForm.sensor[idx].from.value"
-                                :min="sensorControlForm.sensor[idx].from.min"
-                                :max="sensorControlForm.sensor[idx].from.max" />
-                            </el-form-item>
-                          </template>
 
-                          <template v-if="sensorControlForm.sensor[idx].type === 'DUO-360'" :key="idx">
-                            <el-form-item v-if="sensorControlForm.sensor[idx].from.type === 'input-number'"
-                              :label="sensorControlForm.sensor[idx].from.label"
-                              :prop="sensorControlForm.sensor[idx].from.key" :label-width="formLabelWidth">
-                              <el-input-number v-model="sensorControlForm.sensor[idx].from.value"
-                                :min="sensorControlForm.sensor[idx].from.min"
-                                :max="sensorControlForm.sensor[idx].from.max" />
-                            </el-form-item>
-                          </template>
+                            <!-- 传感器控制 数字输入模板 -->
+                            <template v-if="item.type === 'input-number'" :key="idx">
+                              <el-form-item :label="item.label" :label-width="formLabelWidth">
+                                <el-input-number v-model="item.value" :min="item.min" :max="item.max" />
+                              </el-form-item>
+                            </template>
+
+                            <!-- 360度舵机模板 -->
+                            <!-- <template v-if="sensorControlForm.sensor[idx].type === 'DUO-360'" :key="idx">
+                              <el-form-item :label="sensorControlForm.sensor[idx].from.label"
+                                :prop="sensorControlForm.sensor[idx].from.key" :label-width="formLabelWidth">
+                                <el-input-number v-model="sensorControlForm.sensor[idx].from.value"
+                                  :min="sensorControlForm.sensor[idx].from.min"
+                                  :max="sensorControlForm.sensor[idx].from.max" />
+                              </el-form-item>
+                            </template> -->
+                          </div>
+
                         </div>
                       </div>
                     </div>
@@ -108,7 +109,7 @@
               <template #footer>
                 <div class="dialog-footer">
                   <el-button @click="dialogFormVisible = false">取消</el-button>
-                  <el-button type="primary" @click="dialogFormVisible = false">
+                  <el-button type="primary" @click="saveSensorControlFun">
                     确认
                   </el-button>
                 </div>
@@ -154,6 +155,7 @@ import { ElMessage } from 'element-plus';
 import {
   selectSensorControlListApi,
   selectSensorListApi,
+  saveSensorControlApi,
 } from '@/api/file';
 
 import color from "@/utils/color";
@@ -169,7 +171,8 @@ let {
   selectSensor,
   addSensor,
   deleteSensor,
-  selectSensorControlListFun
+  selectSensorControlListFun,
+  saveSensorControlFun
 } = sensorControlFun();
 
 let { MyIcon } = icon();
@@ -187,14 +190,16 @@ function sensorControlFun() {
 
   // 传感器命令组中传感器数量
   let length = ref(1);
+
   // 传感器控制表单
   const sensorControlForm = reactive({
     name: '',
     sensor: [
       {
-        type: '',
         idx: 0,
-        from: {} as any
+        sensorType: '',
+        delay: 0,
+        from: [] as any
       }
     ],
   })
@@ -203,7 +208,7 @@ function sensorControlFun() {
   let sensorControlList: any = reactive({ data: [] });
 
   // 传感器列表
-  let sensorList: any = reactive({data: []});
+  let sensorList: any = reactive({ data: [] });
 
   // 查询单片机下全部传感器
   const selectSensorListFun = () => {
@@ -220,34 +225,53 @@ function sensorControlFun() {
   };
 
   // 舵机表单参数格式
-  const duoFrom: any = [
-    {
-      label: '舵机旋转角度180',
-      type: 'input-number',
-      min: 0,
-      max: 180,
-      key: 'data',
-      value: 0,
-    },
-    {
-      label: '舵机旋转角度360',
-      type: 'input-number',
-      min: 0,
-      max: 360,
-      key: 'data',
-      value: 0,
-    }
-  ];
+  const duoFrom1: any = {
+    sensorType: "DUO-180",
+    from: [
+      {
+        label: '舵机1',
+        type: 'input-number',
+        min: 0,
+        max: 180,
+        key: 'data',
+        value: 0,
+      },
+      {
+        label: '舵机2',
+        type: 'input-number',
+        min: 0,
+        max: 360,
+        key: 'data',
+        value: 0,
+      }
+    ]
+  };
 
+  // 舵机表单参数格式
+  const duoFrom2: any = {
+    sensorType: "DUO-360",
+    from: [
+      {
+        label: '舵机3',
+        type: 'input-number',
+        min: 0,
+        max: 180,
+        key: 'data',
+        value: 0,
+      }
+    ]
+  };
 
   // 选择要控制的传感器
   const selectSensor = (idx: any) => {
-
+    // idx 用于传感器排序
     sensorControlForm.sensor[idx].idx = idx;
-    if (sensorControlForm.sensor[idx].type === 'DUO-180') {
-      sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom[0]));
-    } else if (sensorControlForm.sensor[idx].type === 'DUO-360') {
-      sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom[1]));
+    // 传感器执行前默认延时为 100ms
+    sensorControlForm.sensor[idx].delay = 100;
+    if (sensorControlForm.sensor[idx].sensorType === 'DUO-180') {
+      sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom1.from));
+    } else if (sensorControlForm.sensor[idx].sensorType === 'DUO-360') {
+      sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom2.from));
     }
   };
 
@@ -280,13 +304,46 @@ function sensorControlFun() {
       chipId: props.chipId,
     }).then((res: any) => {
       if (res.code === 200) {
-
         sensorControlList.data = res.result.list;
-
       }
     });
   };
 
+  // 创建传感器控制命令
+  const saveSensorControlFun = () => {
+    dialogFormVisible.value = false;
+
+    console.log(sensorControlForm)
+    // 传感器命令组保存
+    saveSensorControlApi({
+      commandGroup: 1,
+      controlName: sensorControlForm.name,
+      controlMessage: JSON.stringify(sensorControlForm.sensor)
+    }).then((res: any) => {
+      if(res.code === 200) {
+        ElMessage.success('命令创建成功');
+        console.log(res)
+      }
+    })
+    // let json: any = {};
+    // for (let i = 0; i < formItems.data.length; i++) {
+    //   json[formItems.data[i].key] = formItems.data[i].value;
+    // }
+    // saveSensorControlApi({
+    //   sensorType: props.sensor?.sensorType,
+    //   sensorId: props.sensor?.id,
+    //   controlName: sensorControl.controlName,
+    //   controlMessage: JSON.stringify(json),
+    // }).then((res: any) => {
+    //   if (res.code === 200) {
+    //     ElMessage.success('命令创建成功');
+    //     dialogFormVisible.value = false;
+    //     page.value = 1;
+    //     sensorControl.controlName = '';
+    //     selectSensorControlPageFun(1);
+    //   }
+    // });
+  };
 
 
   return {
@@ -298,7 +355,8 @@ function sensorControlFun() {
     selectSensor,
     addSensor,
     deleteSensor,
-    selectSensorControlListFun
+    selectSensorControlListFun,
+    saveSensorControlFun
   }
 
 }
@@ -326,6 +384,7 @@ let formItems: any = reactive({ data: [] });
 // 舵机表单参数格式
 const duoFrom: any = [
   {
+    sensorType: '',
     label: '舵机旋转角度',
     type: 'input-number',
     min: 0,

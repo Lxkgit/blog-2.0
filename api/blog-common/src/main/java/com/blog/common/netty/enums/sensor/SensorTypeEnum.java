@@ -2,7 +2,8 @@ package com.blog.common.netty.enums.sensor;
 
 
 import com.blog.common.netty.dto.sensor.control.SensorCommandCheckDto;
-import com.blog.common.netty.dto.sensor.control.SteeringEngineDto;
+import com.blog.common.netty.dto.sensor.control.SteeringEngine180Dto;
+import com.blog.common.netty.dto.sensor.control.SteeringEngine360Dto;
 import lombok.Getter;
 
 /**
@@ -12,7 +13,8 @@ import lombok.Getter;
 @Getter
 public enum SensorTypeEnum {
 
-    DUO_JI("DUO", "舵机", SteeringEngineDto.class),
+    DUO_JI_180("DUO-180", "180度舵机", SteeringEngine180Dto.class),
+    DUO_JI_360("DUO-360", "360度舵机", SteeringEngine360Dto.class),
     ;
 
 

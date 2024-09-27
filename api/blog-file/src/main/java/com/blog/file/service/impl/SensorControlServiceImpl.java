@@ -1,5 +1,6 @@
 package com.blog.file.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -11,7 +12,7 @@ import com.blog.file.dao.*;
 import com.blog.file.feign.service.UserService;
 import com.blog.common.netty.dto.sensor.control.SensorCommandCheckDto;
 import com.blog.common.netty.dto.sensor.control.SensorCommandDto;
-import com.blog.common.netty.dto.sensor.control.SteeringEngineDto;
+import com.blog.common.netty.dto.sensor.control.SteeringEngine180Dto;
 import com.blog.common.netty.enums.sensor.SensorTypeEnum;
 import com.blog.common.exception.ValidException;
 import com.blog.common.util.BeanValidationUtil;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -87,14 +89,14 @@ public class SensorControlServiceImpl implements SensorControlService {
 
         Sensor sensor = sensorDAO.selectById(sensorControl.getSensorId());
 
-        List<SteeringEngineDto> list = JSONArray.parseArray(sensorControl.getControlMessage(), SteeringEngineDto.class);
+        List<SteeringEngine180Dto> list = JSONArray.parseArray(sensorControl.getControlMessage(), SteeringEngine180Dto.class);
 
-        SensorCommandDto<SteeringEngineDto> commandVo = new SensorCommandDto<>();
+        SensorCommandDto<SteeringEngine180Dto> commandVo = new SensorCommandDto<>();
         commandVo.setChipCode(sensor.getChipCode());
         commandVo.setSensorCode(sensor.getSensorCode());
         commandVo.setCommandList(list);
 
-        NettyPacket<SensorCommandDto<SteeringEngineDto>> sensorCommandRequest = NettyPacket.buildRequest(commandVo);
+        NettyPacket<SensorCommandDto<SteeringEngine180Dto>> sensorCommandRequest = NettyPacket.buildRequest(commandVo);
         sensorCommandRequest.setTopic(NettyTopicEnum.BLOG_SENSOR_CONTROL.getTopic());
 
         return nettyServer.channelWriteByRegisterId(sensor.getDeviceCode(), JSONObject.toJSONString(sensorCommandRequest));
@@ -109,16 +111,53 @@ public class SensorControlServiceImpl implements SensorControlService {
      * @throws ValidException
      */
     @Override
-    public Integer createSensorControl(Integer userId, SensorControlVo sensorControlVo) throws ValidException {
+    public Integer createSensorControl(Integer userId, SensorControlVo sensorControlVo) throws ValidException, IllegalAccessException, InstantiationException, NoSuchFieldException {
 
-        SensorCommandCheckDto sensorCommandCheckVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControlVo.getControlMessage()),
-                SensorTypeEnum.getRuleImpl(sensorControlVo.getSensorType()));
+        log.info(sensorControlVo.toString());
 
-        validateIvsRuleInfo(sensorCommandCheckVo);
+        JSONArray jsonArray = JSONArray.parseArray(sensorControlVo.getControlMessage());
+
+        for (int i = 0; i< jsonArray.size(); i++) {
+
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+            String sensorType = jsonObject.getString("sensorType");
+//            SensorCommandCheckDto sensorCommandCheckVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControlVo.getControlMessage()),
+//                    SensorTypeEnum.getRuleImpl(sensorType));
+
+            SensorCommandCheckDto commandCheckDto = Objects.requireNonNull(SensorTypeEnum.getRuleImpl(sensorType)).newInstance();
+
+            JSONArray dataJsonArray = JSONArray.parseArray(jsonObject.getString("from"));
+            for (int j = 0; j< dataJsonArray.size(); j++) {
+                JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
+                // 获取对象的属性
+                Field field = commandCheckDto.getClass().getDeclaredField(dataJsonObject.getString("key"));
+                // 设置属性访问权限，以便私有属性也能访问
+                field.setAccessible(true);
+                // 设置属性值
+                field.set(commandCheckDto, Integer.parseInt(dataJsonObject.getString("value")));
+            }
+
+
+
+
+
+//            if (commandCheckDto instanceof SteeringEngine180Dto) {
+//
+////                ((SteeringEngine180Dto) commandCheckDto).setData();
+//            }
+            System.out.println(commandCheckDto.getSensorType().toString());
+//            commandCheckDto
+
+
+//            validateIvsRuleInfo(sensorCommandCheckVo);
+//            sensorCommandCheckDtoList.add(sensorCommandCheckDto);
+        }
+
         sensorControlVo.setUserId(userId);
         sensorControlVo.setCreateTime(new Date());
         sensorControlVo.setUpdateTime(new Date());
-
+//        sensorControlVo.setControlMessage(JSONObject.toJSONString(sensorCommandCheckDtoList));
         sensorControlDAO.insert(sensorControlVo);
         return null;
     }

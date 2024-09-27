@@ -132,7 +132,7 @@ public class SensorController extends BaseController {
      */
     @PostMapping("/control/save")
     @PreAuthorize("hasAnyAuthority('sys:sensor:control:save')")
-    public Result addSensorControl(HttpServletRequest request, @Validated(value = {AddGroup.class}) @RequestBody SensorControlVo sensorControlVo) throws ValidException {
+    public Result addSensorControl(HttpServletRequest request, @Validated(value = {AddGroup.class}) @RequestBody SensorControlVo sensorControlVo) throws ValidException, InstantiationException, IllegalAccessException, NoSuchFieldException {
         return ResultFactory.buildSuccessResult(sensorControlService.createSensorControl(getBlogUser(request).getId(), sensorControlVo));
     }
 

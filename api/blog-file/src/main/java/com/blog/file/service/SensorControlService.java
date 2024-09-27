@@ -13,7 +13,7 @@ import com.blog.common.util.MyPage;
 
 public interface SensorControlService {
 
-    Integer createSensorControl(Integer userId, SensorControlVo sensorControlVo) throws ValidException;
+    Integer createSensorControl(Integer userId, SensorControlVo sensorControlVo) throws ValidException, IllegalAccessException, InstantiationException, NoSuchFieldException;
 
     Integer deleteSensorControl(Integer userId, Integer id);
 
