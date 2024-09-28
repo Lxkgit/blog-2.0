@@ -26,7 +26,12 @@ public class SensorCommandCheckDto {
     private Integer delay;
 
     /**
-     * 传感器类型
+     * 被控制传感器编码
      */
-    private String sensorType;
+    private String sensorCode;
+
+    /**
+     * 传感器命令执行顺序
+     */
+    private Integer idx;
 }

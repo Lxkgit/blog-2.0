@@ -1,6 +1,5 @@
 package com.blog.file.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -71,7 +70,7 @@ public class SensorControlServiceImpl implements SensorControlService {
      * 下发传感器控制指令
      *
      * @param userId
-     * @param id 控制命令消息id
+     * @param id     控制命令消息id
      * @throws ValidException
      */
     @Override
@@ -113,68 +112,75 @@ public class SensorControlServiceImpl implements SensorControlService {
     @Override
     public Integer createSensorControl(Integer userId, SensorControlVo sensorControlVo) throws ValidException, IllegalAccessException, InstantiationException, NoSuchFieldException {
 
-        log.info(sensorControlVo.toString());
-
         JSONArray jsonArray = JSONArray.parseArray(sensorControlVo.getControlMessage());
-
-        for (int i = 0; i< jsonArray.size(); i++) {
-
+        List<SensorCommandCheckDto> sensorCommandCheckDtoList = new ArrayList<>();
+        StringBuilder sensorIdGroup = new StringBuilder();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            // 获取传感器组中数据
             JSONObject jsonObject = jsonArray.getJSONObject(i);
 
+            // 通过传感器型号构建对应参数接收类型
             String sensorType = jsonObject.getString("sensorType");
-//            SensorCommandCheckDto sensorCommandCheckVo = JSONObject.toJavaObject(JSONObject.parseObject(sensorControlVo.getControlMessage()),
-//                    SensorTypeEnum.getRuleImpl(sensorType));
-
             SensorCommandCheckDto commandCheckDto = Objects.requireNonNull(SensorTypeEnum.getRuleImpl(sensorType)).newInstance();
 
+            // 填充命令下发对象
+            commandCheckDto.setSensorCode(jsonObject.getString("sensorCode"));
+            commandCheckDto.setDelay(jsonObject.getInteger("delay"));
+            commandCheckDto.setIdx(jsonObject.getInteger("idx"));
+
+            if (i != 0) {
+                sensorIdGroup.append(",");
+            }
+            sensorIdGroup.append(jsonObject.getInteger("id"));
+
+
+            // 解析传入参数表单 一个传感器可以有多个参数 循环解析 数据放入同一对象
             JSONArray dataJsonArray = JSONArray.parseArray(jsonObject.getString("from"));
-            for (int j = 0; j< dataJsonArray.size(); j++) {
-                JSONObject dataJsonObject = dataJsonArray.getJSONObject(i);
+            for (int j = 0; j < dataJsonArray.size(); j++) {
+                JSONObject dataJsonObject = dataJsonArray.getJSONObject(j);
                 // 获取对象的属性
-                Field field = commandCheckDto.getClass().getDeclaredField(dataJsonObject.getString("key"));
+                Field field = commandCheckDto.getClass().getDeclaredField(dataJsonObject.getString("columnKey"));
                 // 设置属性访问权限，以便私有属性也能访问
                 field.setAccessible(true);
-                // 设置属性值
-                field.set(commandCheckDto, Integer.parseInt(dataJsonObject.getString("value")));
+                if (dataJsonObject.getString("columnType").equals("Integer")) {
+                    // 设置属性值
+                    field.set(commandCheckDto, dataJsonObject.getInteger("value"));
+                } else if (dataJsonObject.getString("columnType").equals("String")) {
+                    // 设置属性值
+                    field.set(commandCheckDto, dataJsonObject.getString("value"));
+                } else {
+                    throw new ValidException("传感器属性值类型错误");
+                }
             }
-
-
-
-
-
-//            if (commandCheckDto instanceof SteeringEngine180Dto) {
-//
-////                ((SteeringEngine180Dto) commandCheckDto).setData();
-//            }
-            System.out.println(commandCheckDto.getSensorType().toString());
-//            commandCheckDto
-
-
-//            validateIvsRuleInfo(sensorCommandCheckVo);
-//            sensorCommandCheckDtoList.add(sensorCommandCheckDto);
+            // 校验命令
+            validateIvsRuleInfo(commandCheckDto);
+            sensorCommandCheckDtoList.add(commandCheckDto);
         }
 
         sensorControlVo.setUserId(userId);
+        sensorControlVo.setSensorIdGroup(sensorIdGroup.toString());
         sensorControlVo.setCreateTime(new Date());
         sensorControlVo.setUpdateTime(new Date());
-//        sensorControlVo.setControlMessage(JSONObject.toJSONString(sensorCommandCheckDtoList));
+
+        // 保存命令
+        sensorControlVo.setControlMessage(JSONObject.toJSONString(sensorCommandCheckDtoList));
         sensorControlDAO.insert(sensorControlVo);
-        return null;
+        return sensorControlVo.getId();
     }
 
     /**
      * 删除传感器控制指令
      *
      * @param userId
-     * @param id
+     * @param ids
      * @return
      */
     @Override
-    public Integer deleteSensorControl(Integer userId, Integer id) {
-        QueryWrapper<SensorControl> wrapper = new QueryWrapper<>();
-        wrapper.eq("id", id);
-        wrapper.eq("user_id", userId);
-        return sensorControlDAO.delete(wrapper);
+    public Integer deleteSensorControl(Integer userId, List<Integer> ids) {
+        LambdaQueryWrapper<SensorControl> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(SensorControl::getId, ids);
+        lambdaQueryWrapper.eq(SensorControl::getUserId, userId);
+        return sensorControlDAO.delete(lambdaQueryWrapper);
     }
 
     /**
@@ -202,39 +208,55 @@ public class SensorControlServiceImpl implements SensorControlService {
     @Override
     public MyPage<SensorControlVo> selectSensorControlList(Integer userId, SensorControlVo sensorControlVoParam) throws ValidException {
 
+        // 传感器与单片机id
         Integer sensorId = sensorControlVoParam.getSensorId();
         Integer chipId = sensorControlVoParam.getChipId();
 
         LambdaQueryWrapper<SensorControl> wrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<Sensor> sensorLambdaQueryWrapper;
         wrapper.eq(SensorControl::getUserId, userId);
+
+        // 传感器map 组装到控制命令中 key为传感器id
+        Map<Integer, Sensor> sensorMap;
+
+        // 通过传感器id查询传感器控制命令
         if (sensorId != null) {
             wrapper.eq(SensorControl::getSensorId, sensorId);
+            sensorLambdaQueryWrapper = new LambdaQueryWrapper<Sensor>().eq(Sensor::getUserId, userId).eq(Sensor::getId, sensorId);
         } else if (chipId != null) {
+            // 通过单片机id查询传感器控制命令
             wrapper.eq(SensorControl::getChipId, chipId);
             // 以单片机为条件查询时可以查询单片机下全部命令组 包括单传感器控制命令与多传感器控制命令
             if (sensorControlVoParam.getCommandGroup() != null) {
                 wrapper.eq(SensorControl::getCommandGroup, sensorControlVoParam.getCommandGroup());
             }
+            Chip chip = chipDAO.selectById(chipId);
+            sensorLambdaQueryWrapper = new LambdaQueryWrapper<Sensor>().eq(Sensor::getUserId, userId)
+                    .eq(Sensor::getDeviceCode, chip.getDeviceCode()).eq(Sensor::getChipCode, chip.getChipCode());
+
         } else {
             throw new ValidException("传感器id与单片机id不可同时为空");
         }
 
+        // 获取到传感器控制命令
         PageHelper.startPage(sensorControlVoParam.getPageNum(), sensorControlVoParam.getPageSize());
         Page<SensorControl> sensorControlPage = (Page<SensorControl>) sensorControlDAO.selectList(wrapper);
 
-        List<SensorControlVo> sensorControlVoList = new ArrayList<>();
-        Chip chip = chipDAO.selectById(chipId);
+        // 获取传感器
+        sensorMap = sensorDAO.selectList(sensorLambdaQueryWrapper).stream().collect(Collectors.toMap(Sensor::getId, Function.identity()));
 
-        Map<Integer, Sensor> sensorMap = sensorDAO.selectList(new LambdaQueryWrapper<Sensor>().eq(Sensor::getUserId, userId)
-                .eq(Sensor::getDeviceCode, chip.getDeviceCode()).eq(Sensor::getChipCode, chip.getChipCode())).stream()
-                .collect(Collectors.toMap(Sensor::getId, Function.identity()));
+        // 返回的传感器命令数据
+       List<SensorControlVo> sensorControlVoList = new ArrayList<>();
 
         for (SensorControl sensorControl : sensorControlPage) {
+
+            // 复制数据
             SensorControlVo sensorControlVo = new SensorControlVo();
             BeanUtils.copyProperties(sensorControl, sensorControlVo);
 
-            // 单条命令直接取传感器
+            // 命令添加传感器数据
             if (sensorControl.getCommandGroup() == 0) {
+                // 单条命令直接取传感器
                 sensorControlVo.setSensorList(Collections.singletonList(sensorMap.get(sensorControl.getSensorId())));
             } else {
                 // 命令组切割转换之后获取传感器
@@ -265,7 +287,6 @@ public class SensorControlServiceImpl implements SensorControlService {
         BeanUtils.copyProperties(sensorControl, sensorControlVo);
         return sensorControlVo;
     }
-
 
 
     private static void validateIvsRuleInfo(SensorCommandCheckDto sensorCommandCheckVo) throws ValidException {

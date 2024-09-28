@@ -27,7 +27,7 @@
         <DeviceInfo v-else-if="showType === 2" :deviceId="deviceId" />
         <Chip v-else-if="showType === 3" :deviceId="deviceId" @chipId="receiveChipId" @deviceId="receiveDeviceInfoId" />
         <ChipInfo v-else-if="showType === 4" :chipId="chipId" />
-        <Sensor v-else-if="showType === 5" :chipId="chipId" @sersor="receiveSensor" @chipId="receiveChipInfoId" />
+        <Sensor v-else-if="showType === 5" :chipId="chipId" @sensor="receiveSensor" @chipId="receiveChipInfoId" />
         <SensorData v-else-if="showType === 6" :sensor="sensorData" />
         <SensorControl v-else-if="showType === 7" :sensor="sensorData" />
       </div>
@@ -74,9 +74,9 @@ const receiveChipId = (id: any) => {
 
 const receiveSensor = (sensor: any) => {
   console.log(sensor)
-  if (sensor.sensorTypeObj.sensorType === 0) {
+  if (sensor.sensorTypeObj.sensorControlType === 0) {
     showType.value = 6;
-  } else if (sensor.sensorTypeObj.sensorType === 1) {
+  } else if (sensor.sensorTypeObj.sensorControlType === 1) {
     showType.value = 7;
   }
   sensorData.value = sensor;

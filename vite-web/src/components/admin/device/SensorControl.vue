@@ -54,8 +54,8 @@
       <el-form-item prop="controlName" label="指令名称" :label-width="100">
         <el-input v-model="sensorControl.controlName" autocomplete="off" />
       </el-form-item>
-      <template v-for="(item, id) in formItems.data">
-        <el-form-item v-if="item.type==='input-number'" :label="item.label" :prop="item.key" :key="id">
+      <template v-for="(item, id) in formItems.data.from">
+        <el-form-item v-if="item.type==='input-number'" :label="item.label" :prop="item.key" :key="id" :label-width="100">
           <el-input-number v-model="item.value" :min="item.min" :max="item.max" />
         </el-form-item>
       </template>
@@ -140,20 +140,24 @@ function sensorControlFun() {
   let formItems: any = reactive({ data: [] });
 
   // 舵机表单参数格式
-  const duoFrom: any = [
-    {
-      label: '舵机旋转角度',
-      type: 'input-number',
-      min: 0,
-      max: 180,
-      key: 'data',
-      value: 0,
-    },
-  ];
+  const duoFrom: any = {
+    sensorType: "DUO-180",
+    from: [
+      {
+        label: '180度舵机',
+        type: 'input-number',
+        min: 0,
+        max: 180,
+        value: 0,
+        columnKey: 'data',
+        columnType: 'Integer'
+      }
+    ]
+  };
 
   // 传感器表单赋值
-  const setFromItemsFun = (sensorCode: any) => {
-    if (sensorCode === 'DUO') {
+  const setFromItemsFun = (sensorType: any) => {
+    if (sensorType === 'DUO-180') {
       formItems.data = duoFrom;
     }
   };
@@ -219,7 +223,7 @@ function sensorControlFun() {
 
   // 删除传感器控制命令
   const deleteSensorControlFun = (id: any) => {
-    deleteSensorControlApi({ id: id }).then((res: any) => {
+    deleteSensorControlApi({ ids: id }).then((res: any) => {
       if (res.code === 200) {
         ElMessage.success('命令删除成功');
         page.value = 1;

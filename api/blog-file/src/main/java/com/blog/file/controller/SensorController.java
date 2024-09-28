@@ -146,7 +146,7 @@ public class SensorController extends BaseController {
     @DeleteMapping("/control/delete")
     @PreAuthorize("hasAnyAuthority('sys:sensor:control:delete')")
     public Result deleteSensorControl(HttpServletRequest request, @Validated(value = {DeleteGroup.class}) SensorControlVo sensorControlVo) {
-        return ResultFactory.buildSuccessResult(sensorControlService.deleteSensorControl(getBlogUser(request).getId(), sensorControlVo.getId()));
+        return ResultFactory.buildSuccessResult(sensorControlService.deleteSensorControl(getBlogUser(request).getId(), sensorControlVo.getIds()));
     }
 
     /**

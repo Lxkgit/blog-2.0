@@ -7,9 +7,19 @@
         <el-tabs v-model="sensorControlActiveTab">
           <el-tab-pane label="传感器控制命令" name="sensorControl">
             <el-button @click="dialogFormVisible = true">创建</el-button>
-            <el-button>删除</el-button>
+            <el-popover :visible="deleteCommandBtnPopoverByIds" placement="top" :width="160">
+              <p>删除所选命令？</p>
+              <div style="text-align: right; margin: 0">
+                <el-button size="small" text @click="deleteCommandBtnPopoverByIds = false">取消</el-button>
+                <el-button size="small" type="primary" @click="deleteSensorControlFun(0)">删除</el-button>
+              </div>
+              <template #reference>
+                <el-button :disabled="commandIds.length > 0 ? false : true" type="danger" plain
+                  @click="deleteCommandBtnPopoverByIds = true">删除</el-button>
+              </template>
+            </el-popover>
             <!-- 传感器控制命令表 -->
-            <el-table :data="sensorControlList.data" @selection-change="">
+            <el-table :data="sensorControlList.data" @selection-change="checkCommandId">
               <el-table-column type="selection" width="55"> </el-table-column>
               <el-table-column prop="controlName" label="名称" width="180" />
               <el-table-column prop="name" label="控制传感器" width="360">
@@ -29,7 +39,8 @@
                   <el-button style="margin: 0; padding: 8px;" @click="" size="small" text>
                     <MyIcon type="icon-send" title="发送命令" />
                   </el-button>
-                  <el-button style="margin: 0; padding: 8px;" @click="" size="small" text>
+                  <el-button style="margin: 0; padding: 8px;" @click="deleteSensorControlFun(scope.row.id)" size="small"
+                    text>
                     <MyIcon type="icon-delete" title="删除命令" />
                   </el-button>
                 </template>
@@ -57,10 +68,10 @@
                       <div style="display: flex;">
                         <div style="flex: 1;">
                           <el-form-item :label="'传感器 ' + id" :label-width="formLabelWidth">
-                            <el-select v-model="sensorControlForm.sensor[idx].sensorType" placeholder="选择传感器"
-                              @change="selectSensor(idx)">
+                            <el-select v-model="sensorControlForm.sensor[idx].sensorData" placeholder="选择传感器"
+                              @change="selectSensor(idx)" value-key="id">
                               <el-option v-for="(item, sidx) in sensorList.data" :key="idx" :label="item.sensorName"
-                                :value="item.sensorType" />
+                                :value="item" />
                             </el-select>
                           </el-form-item>
                         </div>
@@ -71,25 +82,15 @@
                               <el-input-number v-model="sensorControlForm.sensor[idx].delay" :min="1" :max="10000" />
                             </el-form-item>
                           </template>
+
+
                           <div v-for="item in sensorControlForm.sensor[idx].from">
-
-
                             <!-- 传感器控制 数字输入模板 -->
                             <template v-if="item.type === 'input-number'" :key="idx">
                               <el-form-item :label="item.label" :label-width="formLabelWidth">
                                 <el-input-number v-model="item.value" :min="item.min" :max="item.max" />
                               </el-form-item>
                             </template>
-
-                            <!-- 360度舵机模板 -->
-                            <!-- <template v-if="sensorControlForm.sensor[idx].type === 'DUO-360'" :key="idx">
-                              <el-form-item :label="sensorControlForm.sensor[idx].from.label"
-                                :prop="sensorControlForm.sensor[idx].from.key" :label-width="formLabelWidth">
-                                <el-input-number v-model="sensorControlForm.sensor[idx].from.value"
-                                  :min="sensorControlForm.sensor[idx].from.min"
-                                  :max="sensorControlForm.sensor[idx].from.max" />
-                              </el-form-item>
-                            </template> -->
                           </div>
 
                         </div>
@@ -156,6 +157,7 @@ import {
   selectSensorControlListApi,
   selectSensorListApi,
   saveSensorControlApi,
+  deleteSensorControlApi
 } from '@/api/file';
 
 import color from "@/utils/color";
@@ -167,12 +169,16 @@ let {
   sensorControlForm,
   sensorList,
   sensorControlList,
+  deleteCommandBtnPopoverByIds,
+  commandIds,
   selectSensorListFun,
   selectSensor,
   addSensor,
   deleteSensor,
   selectSensorControlListFun,
-  saveSensorControlFun
+  saveSensorControlFun,
+  checkCommandId,
+  deleteSensorControlFun
 } = sensorControlFun();
 
 let { MyIcon } = icon();
@@ -191,13 +197,22 @@ function sensorControlFun() {
   // 传感器命令组中传感器数量
   let length = ref(1);
 
+  // 勾选命令id 用于批量删除
+  let commandIds = reactive([]);
+
+  // 多选删除命令Popover弹窗展示
+  let deleteCommandBtnPopoverByIds = ref(false);
+
   // 传感器控制表单
   const sensorControlForm = reactive({
     name: '',
     sensor: [
       {
+        id: 0,
         idx: 0,
+        sensorData: {} as any,
         sensorType: '',
+        sensorCode: '',
         delay: 0,
         from: [] as any
       }
@@ -229,20 +244,13 @@ function sensorControlFun() {
     sensorType: "DUO-180",
     from: [
       {
-        label: '舵机1',
+        label: '180度舵机',
         type: 'input-number',
         min: 0,
         max: 180,
-        key: 'data',
         value: 0,
-      },
-      {
-        label: '舵机2',
-        type: 'input-number',
-        min: 0,
-        max: 360,
-        key: 'data',
-        value: 0,
+        columnKey: 'data',
+        columnType: 'Integer'
       }
     ]
   };
@@ -252,22 +260,27 @@ function sensorControlFun() {
     sensorType: "DUO-360",
     from: [
       {
-        label: '舵机3',
+        label: '360度舵机',
         type: 'input-number',
         min: 0,
-        max: 180,
-        key: 'data',
+        max: 360,
         value: 0,
+        columnKey: 'data',
+        columnType: 'Integer'
       }
     ]
   };
 
   // 选择要控制的传感器
   const selectSensor = (idx: any) => {
+
+    sensorControlForm.sensor[idx].id = sensorControlForm.sensor[idx].sensorData.id;
+    sensorControlForm.sensor[idx].sensorType = sensorControlForm.sensor[idx].sensorData.sensorType;
+    sensorControlForm.sensor[idx].sensorCode = sensorControlForm.sensor[idx].sensorData.sensorCode;
     // idx 用于传感器排序
     sensorControlForm.sensor[idx].idx = idx;
     // 传感器执行前默认延时为 100ms
-    sensorControlForm.sensor[idx].delay = 100;
+    sensorControlForm.sensor[idx].delay = idx === 0 ? 0 : 100;
     if (sensorControlForm.sensor[idx].sensorType === 'DUO-180') {
       sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom1.from));
     } else if (sensorControlForm.sensor[idx].sensorType === 'DUO-360') {
@@ -316,13 +329,14 @@ function sensorControlFun() {
     console.log(sensorControlForm)
     // 传感器命令组保存
     saveSensorControlApi({
+      chipId: props.chipId,
       commandGroup: 1,
       controlName: sensorControlForm.name,
       controlMessage: JSON.stringify(sensorControlForm.sensor)
     }).then((res: any) => {
-      if(res.code === 200) {
+      if (res.code === 200) {
         ElMessage.success('命令创建成功');
-        console.log(res)
+        selectSensorControlListFun();
       }
     })
     // let json: any = {};
@@ -345,18 +359,57 @@ function sensorControlFun() {
     // });
   };
 
+  /**
+ * 获取勾选文章id
+ */
+  const checkCommandId = (val: any[]) => {
+    commandIds.splice(0, commandIds.length);
+    for (let i = 0; i < val.length; i++) {
+      //@ts-ignore 单行忽略
+      commandIds.unshift(val[i].id);
+    }
+  };
+
+  // 删除传感器控制命令
+  const deleteSensorControlFun = (id: any) => {
+
+    if (id === 0) {
+      deleteCommandBtnPopoverByIds.value = false;
+      if (commandIds.length !== 0) {
+        deleteSensorControlApi({ ids: commandIds.join() }).then((res: any) => {
+          if (res.code === 200) {
+            ElMessage.success('命令删除成功');
+            selectSensorControlListFun();
+          }
+        });
+      }
+    } else {
+
+      deleteSensorControlApi({ ids: id }).then((res: any) => {
+        if (res.code === 200) {
+          ElMessage.success('命令删除成功');
+          selectSensorControlListFun();
+        }
+      });
+    }
+  };
+
 
   return {
     length,
     sensorControlForm,
     sensorList,
     sensorControlList,
+    deleteCommandBtnPopoverByIds,
+    commandIds,
     selectSensorListFun,
     selectSensor,
     addSensor,
     deleteSensor,
     selectSensorControlListFun,
-    saveSensorControlFun
+    saveSensorControlFun,
+    checkCommandId,
+    deleteSensorControlFun
   }
 
 }

@@ -141,7 +141,7 @@ let {
   openSensor,
 } = sensorFun();
 
-const emit = defineEmits(["sersor", "chipId"]);
+const emit = defineEmits(["sensor", "chipId"]);
 
 const props = defineProps({
   chipId: Number,
@@ -262,7 +262,7 @@ function sensorFun() {
 
   // 打开传感器
   const openSensor = (sensor: any) => {
-    emit("sersor", sensor);
+    emit("sensor", sensor);
   };
 
   return {

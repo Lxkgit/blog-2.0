@@ -3,16 +3,14 @@ package com.blog.common.entity.file.vo;
 import com.blog.common.entity.file.Sensor;
 import com.blog.common.entity.file.SensorControl;
 import com.blog.common.valication.annotation.Equal;
-import com.blog.common.valication.group.AddGroup;
-import com.blog.common.valication.group.SelectIdGroup;
-import com.blog.common.valication.group.SelectListGroup;
-import com.blog.common.valication.group.UpdateGroup;
+import com.blog.common.valication.group.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 /**
@@ -63,6 +61,12 @@ public class SensorControlVo extends SensorControl {
     @NotNull(message = "分页查询页数不能为空", groups = {SelectListGroup.class})
     @Min(value = 1, message = "分页查询页数最小1", groups = {SelectListGroup.class})
     private Integer pageNum;
+
+    /**
+     * 传感器ids
+     */
+//    @Pattern(regexp = "^[0-9]+(,[0-9]+)+|[0-9]+$", message = "请输入正确的传感器id字符串", groups = {DeleteGroup.class})
+    private List<Integer> ids;
 
     /**
      * 命令控制的传感器
