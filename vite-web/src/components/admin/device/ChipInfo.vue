@@ -157,7 +157,8 @@ import {
   selectSensorControlListApi,
   selectSensorListApi,
   saveSensorControlApi,
-  deleteSensorControlApi
+  deleteSensorControlApi,
+  selectSensorTemplateByChipOrSensorIdApi
 } from '@/api/file';
 
 import color from "@/utils/color";
@@ -178,7 +179,8 @@ let {
   selectSensorControlListFun,
   saveSensorControlFun,
   checkCommandId,
-  deleteSensorControlFun
+  deleteSensorControlFun,
+  selectSensorTemplateByChipOrSensorIdFun
 } = sensorControlFun();
 
 let { MyIcon } = icon();
@@ -187,6 +189,7 @@ let { tagColor } = color();
 onMounted(() => {
   selectSensorControlListFun();
   selectSensorListFun();
+  selectSensorTemplateByChipOrSensorIdFun();
 });
 
 
@@ -255,6 +258,8 @@ function sensorControlFun() {
     ]
   };
 
+  const sensorTemplateFrom: any = reactive({ data: [] });
+
   // 舵机表单参数格式
   const duoFrom2: any = {
     sensorType: "DUO-360",
@@ -281,11 +286,23 @@ function sensorControlFun() {
     sensorControlForm.sensor[idx].idx = idx;
     // 传感器执行前默认延时为 100ms
     sensorControlForm.sensor[idx].delay = idx === 0 ? 0 : 100;
-    if (sensorControlForm.sensor[idx].sensorType === 'DUO-180') {
-      sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom1.from));
-    } else if (sensorControlForm.sensor[idx].sensorType === 'DUO-360') {
-      sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom2.from));
+
+    console.log(sensorTemplateFrom)
+
+    for (let i = 0; i < sensorTemplateFrom.data.length; i++) {
+      if (sensorControlForm.sensor[idx].sensorType === sensorTemplateFrom.data[i].sensorType) {
+        sensorControlForm.sensor[idx].from = JSON.parse(sensorTemplateFrom.data[i].template);
+
+        // console.log(sensorTemplateFrom.data[i].template)
+      }
     }
+
+    
+    // if (sensorControlForm.sensor[idx].sensorType === 'DUO-180') {
+    //   sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom1.from));
+    // } else if (sensorControlForm.sensor[idx].sensorType === 'DUO-360') {
+    //   sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom2.from));
+    // }
   };
 
   // 表单新增一个传感器
@@ -394,6 +411,14 @@ function sensorControlFun() {
     }
   };
 
+  const selectSensorTemplateByChipOrSensorIdFun = () => {
+    selectSensorTemplateByChipOrSensorIdApi({ chipId: props.chipId }).then((res: any) => {
+      if (res.code === 200) {
+        sensorTemplateFrom.data = res.result;
+      }
+    })
+  }
+
 
   return {
     length,
@@ -409,7 +434,8 @@ function sensorControlFun() {
     selectSensorControlListFun,
     saveSensorControlFun,
     checkCommandId,
-    deleteSensorControlFun
+    deleteSensorControlFun,
+    selectSensorTemplateByChipOrSensorIdFun
   }
 
 }

@@ -28,8 +28,13 @@ export function request(config: any) {
     if (response.data.code === "200") {
       response.data.code = 200
     } else {
+      console.log(response)
       if (response.data.result != null) {
-        ElMessage.error(response.data.result)
+        if(response.data.result.data  != null) {
+          ElMessage.error(response.data.result.data)  
+        } else {
+          ElMessage.error(response.data.result)
+        } 
       } else {
         ElMessage.error(response.data.message)
       }
