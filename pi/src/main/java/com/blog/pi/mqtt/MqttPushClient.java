@@ -30,6 +30,7 @@ public class MqttPushClient {
             String clientId = config.getClientId();
             client = new MqttClient(url, clientId, new MemoryPersistence());
             MqttConnectOptions options = new MqttConnectOptions();
+
             // 设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，
             // 这里设置为true表示每次连接到服务器都以新的身份连接
             options.setCleanSession(true);
@@ -43,14 +44,20 @@ public class MqttPushClient {
             }
             options.setUserName(options.getUserName());
             options.setPassword(options.getPassword());
+
             // 设置超时时间 单位为秒
             options.setConnectionTimeout(100);
+
             // 设置会话心跳时间 单位为秒 服务器会每隔1.5*20秒的时间向客户端发送心跳判断客户端是否在线，但这个方法并没有重连的机制
             options.setKeepAliveInterval(20);
+
+            // 消息回调函数
             client.setCallback(new PushCallback());
             client.setTimeToWait(5000);
             client.connect(options);
             log.info(">>>>>mqtt连接成功，ip：{},port：{}", config.getIp(), config.getPort());
+
+            // 订阅 topic
             subscribe();
         } catch (Exception e) {
             log.error(">>>>>mqtt 连接报错：" + e.getMessage(), e);

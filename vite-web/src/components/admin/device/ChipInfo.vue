@@ -22,7 +22,7 @@
             <el-table :data="sensorControlList.data" @selection-change="checkCommandId">
               <el-table-column type="selection" width="55"> </el-table-column>
               <el-table-column prop="controlName" label="名称" width="180" />
-              <el-table-column prop="name" label="控制传感器" width="360">
+              <el-table-column prop="name" label="控制传感器" width="300">
                 <template #default="scope">
                   <el-tag :style="'color: ' + tagColor(item.id)" style="margin-right: 2px; margin-bottom: 2px"
                     v-for="item in scope.row.sensorList">
@@ -31,7 +31,7 @@
                 </template>
               </el-table-column>
               <!-- <el-table-column prop="commandGroup" label="命令组" /> -->
-              <el-table-column prop="controlMessage" label="消息内容" />
+              <el-table-column prop="controlMessage" label="消息内容" fit/>
               <el-table-column prop="createTime" label="创建时间" width="180" />
               <el-table-column prop="updateTime" label="最近修改时间" width="180" />
               <el-table-column fixed="right" label="操作" width="110">
@@ -242,39 +242,9 @@ function sensorControlFun() {
     });
   };
 
-  // 舵机表单参数格式
-  const duoFrom1: any = {
-    sensorType: "DUO-180",
-    from: [
-      {
-        label: '180度舵机',
-        type: 'input-number',
-        min: 0,
-        max: 180,
-        value: 0,
-        columnKey: 'data',
-        columnType: 'Integer'
-      }
-    ]
-  };
-
+  // 传感器表单模板
   const sensorTemplateFrom: any = reactive({ data: [] });
 
-  // 舵机表单参数格式
-  const duoFrom2: any = {
-    sensorType: "DUO-360",
-    from: [
-      {
-        label: '360度舵机',
-        type: 'input-number',
-        min: 0,
-        max: 360,
-        value: 0,
-        columnKey: 'data',
-        columnType: 'Integer'
-      }
-    ]
-  };
 
   // 选择要控制的传感器
   const selectSensor = (idx: any) => {
@@ -287,22 +257,12 @@ function sensorControlFun() {
     // 传感器执行前默认延时为 100ms
     sensorControlForm.sensor[idx].delay = idx === 0 ? 0 : 100;
 
-    console.log(sensorTemplateFrom)
-
+    // 接口获取到模板信息进行匹配
     for (let i = 0; i < sensorTemplateFrom.data.length; i++) {
       if (sensorControlForm.sensor[idx].sensorType === sensorTemplateFrom.data[i].sensorType) {
         sensorControlForm.sensor[idx].from = JSON.parse(sensorTemplateFrom.data[i].template);
-
-        // console.log(sensorTemplateFrom.data[i].template)
       }
     }
-
-    
-    // if (sensorControlForm.sensor[idx].sensorType === 'DUO-180') {
-    //   sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom1.from));
-    // } else if (sensorControlForm.sensor[idx].sensorType === 'DUO-360') {
-    //   sensorControlForm.sensor[idx].from = JSON.parse(JSON.stringify(duoFrom2.from));
-    // }
   };
 
   // 表单新增一个传感器
@@ -342,8 +302,6 @@ function sensorControlFun() {
   // 创建传感器控制命令
   const saveSensorControlFun = () => {
     dialogFormVisible.value = false;
-
-    console.log(sensorControlForm)
     // 传感器命令组保存
     saveSensorControlApi({
       chipId: props.chipId,
@@ -356,24 +314,6 @@ function sensorControlFun() {
         selectSensorControlListFun();
       }
     })
-    // let json: any = {};
-    // for (let i = 0; i < formItems.data.length; i++) {
-    //   json[formItems.data[i].key] = formItems.data[i].value;
-    // }
-    // saveSensorControlApi({
-    //   sensorType: props.sensor?.sensorType,
-    //   sensorId: props.sensor?.id,
-    //   controlName: sensorControl.controlName,
-    //   controlMessage: JSON.stringify(json),
-    // }).then((res: any) => {
-    //   if (res.code === 200) {
-    //     ElMessage.success('命令创建成功');
-    //     dialogFormVisible.value = false;
-    //     page.value = 1;
-    //     sensorControl.controlName = '';
-    //     selectSensorControlPageFun(1);
-    //   }
-    // });
   };
 
   /**
@@ -411,6 +351,7 @@ function sensorControlFun() {
     }
   };
 
+  // 根据单片机id查询传感器模板
   const selectSensorTemplateByChipOrSensorIdFun = () => {
     selectSensorTemplateByChipOrSensorIdApi({ chipId: props.chipId }).then((res: any) => {
       if (res.code === 200) {

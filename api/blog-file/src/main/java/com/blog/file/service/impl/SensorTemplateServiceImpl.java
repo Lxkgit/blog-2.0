@@ -61,7 +61,6 @@ public class SensorTemplateServiceImpl implements SensorTemplateService {
         sensorTemplateList.forEach(item -> {
             SensorTemplateVO sensorTemplateVO = new SensorTemplateVO();
             BeanUtils.copyProperties(item, sensorTemplateVO);
-            sensorTemplateVO.setFrom(JSONObject.toJSONString(item.getTemplate()));
             sensorTemplateVOList.add(sensorTemplateVO);
         });
 
