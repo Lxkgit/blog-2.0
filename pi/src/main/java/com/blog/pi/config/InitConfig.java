@@ -6,6 +6,7 @@ import com.blog.pi.dao.RegisterSettingDAO;
 import com.blog.pi.entity.RegisterSetting;
 import com.blog.pi.mqtt.MqttPushClient;
 import com.blog.pi.mqtt.data.LoginConfig;
+import com.blog.pi.mqtt.http.ChipStatusService;
 import com.blog.pi.netty.service.DeviceInfoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -45,6 +46,9 @@ public class InitConfig implements ApplicationRunner {
 
     @Resource
     private RegisterSettingDAO registerSettingDAO;
+
+    @Resource
+    private ChipStatusService chipStatusService;
 
     @Override
     public void run(ApplicationArguments args) {
