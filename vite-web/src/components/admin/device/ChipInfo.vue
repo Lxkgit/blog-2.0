@@ -36,9 +36,16 @@
               <el-table-column prop="updateTime" label="最近修改时间" width="180" />
               <el-table-column fixed="right" label="操作" width="110">
                 <template #default="scope">
+
+
                   <el-button style="margin: 0; padding: 8px;" @click="" size="small" text>
                     <MyIcon type="icon-send" title="发送命令" />
                   </el-button>
+
+                  <el-button style="margin: 0; padding: 8px;" @click="updateSensorControlFun(scope.row.id)" size="small" text>
+                    <MyIcon type="icon-edit" title="修改命令"/>
+                  </el-button>
+
                   <el-button style="margin: 0; padding: 8px;" @click="deleteSensorControlFun(scope.row.id)" size="small"
                     text>
                     <MyIcon type="icon-delete" title="删除命令" />
@@ -179,6 +186,7 @@ let {
   selectSensorControlListFun,
   saveSensorControlFun,
   checkCommandId,
+  updateSensorControlFun,
   deleteSensorControlFun,
   selectSensorTemplateByChipOrSensorIdFun
 } = sensorControlFun();
@@ -213,6 +221,7 @@ function sensorControlFun() {
       {
         id: 0,
         idx: 0,
+        // 与下拉框联动 保存勾选的传感器信息
         sensorData: {} as any,
         sensorType: '',
         sensorCode: '',
@@ -249,6 +258,7 @@ function sensorControlFun() {
   // 选择要控制的传感器
   const selectSensor = (idx: any) => {
 
+    // 记录选择的传感器 id 型号 编码
     sensorControlForm.sensor[idx].id = sensorControlForm.sensor[idx].sensorData.id;
     sensorControlForm.sensor[idx].sensorType = sensorControlForm.sensor[idx].sensorData.sensorType;
     sensorControlForm.sensor[idx].sensorCode = sensorControlForm.sensor[idx].sensorData.sensorCode;
@@ -327,6 +337,15 @@ function sensorControlFun() {
     }
   };
 
+  const selectSensorControlByIdFun = (id: any) => {
+
+  }
+
+  // 修改传感器控制命令
+  const updateSensorControlFun = (id: any) => {
+    
+  }
+
   // 删除传感器控制命令
   const deleteSensorControlFun = (id: any) => {
 
@@ -375,6 +394,7 @@ function sensorControlFun() {
     selectSensorControlListFun,
     saveSensorControlFun,
     checkCommandId,
+    updateSensorControlFun,
     deleteSensorControlFun,
     selectSensorTemplateByChipOrSensorIdFun
   }

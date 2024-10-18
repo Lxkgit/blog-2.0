@@ -1,5 +1,6 @@
 package com.blog.file.service.impl;
 
+import cn.hutool.core.stream.CollectorUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -66,6 +67,9 @@ public class SensorControlServiceImpl implements SensorControlService {
     @Resource
     private UserDeviceDAO userDeviceDAO;
 
+    @Resource
+    private SensorTemplateDAO sensorTemplateDAO;
+
     /**
      * 下发传感器控制指令
      *
@@ -128,11 +132,14 @@ public class SensorControlServiceImpl implements SensorControlService {
             commandCheckDto.setDelay(jsonObject.getInteger("delay"));
             commandCheckDto.setIdx(jsonObject.getInteger("idx"));
 
+            // 修改命令数据回显需要
+            commandCheckDto.setSensorType(sensorType);
+            commandCheckDto.setId(jsonObject.getInteger("id"));
+
             if (i != 0) {
                 sensorIdGroup.append(",");
             }
             sensorIdGroup.append(jsonObject.getInteger("id"));
-
 
             // 解析传入参数表单 一个传感器可以有多个参数 循环解析 数据放入同一对象
             JSONArray dataJsonArray = JSONArray.parseArray(jsonObject.getString("from"));
@@ -273,19 +280,78 @@ public class SensorControlServiceImpl implements SensorControlService {
     /**
      * 根据id查询传感器指令
      *
+     * 数据返回格式 固定格式用于界面解析
+     * {
+     *     name: 'test',
+     *     sensor: [
+     *       {
+     *         idx: 0,
+     *         sensorData: { id: 10, sensorType: "DUO-180", sensorCode: "duo-180"},
+     *         delay: 0,
+     *         from: []
+     *       }
+     *     ]
+     * }
+     *
      * @param userId
      * @param id
      * @return
      */
     @Override
     public SensorControlVo selectSensorControlById(Integer userId, Integer id) {
-        QueryWrapper<SensorControl> wrapper = new QueryWrapper<>();
-        wrapper.eq("id", id);
-        wrapper.eq("user_id", userId);
-        SensorControl sensorControl = sensorControlDAO.selectOne(wrapper);
-        SensorControlVo sensorControlVo = new SensorControlVo();
-        BeanUtils.copyProperties(sensorControl, sensorControlVo);
-        return sensorControlVo;
+        SensorControl sensorControl = sensorControlDAO.selectOne(new LambdaQueryWrapper<SensorControl>().eq(SensorControl::getUserId, userId).eq(SensorControl::getId, id));
+        JSONObject result = new JSONObject();
+        result.put("name", sensorControl.getControlName());
+        JSONArray sensor = new JSONArray();
+
+
+        List<String> sensorTemplate;
+
+
+        // 从命令组中获取传感器id
+        List<String> sensorIds;
+        if (sensorControl.getCommandGroup() == 1) {
+            sensorIds = Arrays.asList(sensorControl.getSensorIdGroup().split(","));
+        } else {
+            sensorIds = Collections.singletonList(String.valueOf(sensorControl.getSensorId()));
+        }
+
+        // 获取命令组中的传感器类型
+        Set<String> sensorTypeSet = sensorDAO.selectList(new LambdaQueryWrapper<Sensor>().in(Sensor::getId, sensorIds))
+                .stream().map(Sensor::getSensorType).collect(Collectors.toSet());
+
+        Map<String, SensorTemplate> sensorTemplateMap = sensorTemplateDAO.selectList(new LambdaQueryWrapper<SensorTemplate>()
+                .in(SensorTemplate::getSensorType, sensorTypeSet)).stream().collect(Collectors.toMap(SensorTemplate::getSensorType, Function.identity()));
+
+        sensorTemplateDAO.selectList(new LambdaQueryWrapper<SensorTemplate>().eq(SensorTemplate::getSensorType, ""));
+        // 解析控制命令
+        JSONArray jsonArray = JSONArray.parseArray(sensorControl.getControlMessage());
+        for (int i=0; i<jsonArray.size(); i++) {
+            JSONObject js = jsonArray.getJSONObject(i);
+            JSONObject sensorData = new JSONObject();
+            sensorData.put("id", js.getInteger("id"));
+            sensorData.put("sensorType", js.getString("sensorType"));
+            sensorData.put("sensorCode", js.getString("sensorCode"));
+            js.put("sensorData", sensorData);
+
+            SensorTemplate from = sensorTemplateMap.get(js.getString("sensorType"));
+
+
+
+        }
+
+
+        result.put("sensor", sensor);
+
+
+//        QueryWrapper<SensorControl> wrapper = new QueryWrapper<>();
+//        wrapper.eq("id", id);
+//        wrapper.eq("user_id", userId);
+//        SensorControl sensorControl = sensorControlDAO.selectOne(wrapper);
+//        SensorControlVo sensorControlVo = new SensorControlVo();
+//        BeanUtils.copyProperties(sensorControl, sensorControlVo);
+//        return sensorControlVo;
+        return null;
     }
 
 

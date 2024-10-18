@@ -45,13 +45,11 @@ public class HttpUtil {
 
         //获取服务端返回的状态码   getStatusLine()获取响应行
         int statusCode = response.getStatusLine().getStatusCode();
-        System.out.println("服务端返回的状态码为：" + statusCode);
 
         HttpEntity entity = response.getEntity();//获取响应体
 
         //借用EntityUtils工具类toString方法将其转为Json字符串
         String body = EntityUtils.toString(entity);
-        System.out.println("服务端返回的数据为：" + body);
 
         //关闭资源
         response.close();
@@ -99,11 +97,9 @@ public class HttpUtil {
 
         // 解析返回结果
         int statusCode = response.getStatusLine().getStatusCode();
-        System.out.println("响应码为：" + statusCode);
 
         HttpEntity entity1 = response.getEntity();
         String body = EntityUtils.toString(entity1);
-        System.out.println("响应数据为：" + body);
 
         //关闭资源
         response.close();

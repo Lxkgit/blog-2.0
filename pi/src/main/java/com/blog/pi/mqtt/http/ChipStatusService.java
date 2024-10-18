@@ -1,11 +1,13 @@
 package com.blog.pi.mqtt.http;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.blog.pi.utils.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +46,7 @@ public class ChipStatusService {
 
             Map<String, Object> result = HttpUtil.httpPost("http://localhost:18083/api/v5/login", null, param);
 
-            JSONObject jsonObject = (JSONObject) result.get("data");
+            JSONObject jsonObject = JSONObject.parseObject((String) result.get("data"));
 
             if (Integer.parseInt(String.valueOf(result.get("code"))) == 200) {
                 MQTT_AUTHORIZATION = "Bearer " + jsonObject.get("token");
@@ -53,11 +55,6 @@ public class ChipStatusService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        Map<String, Object> param = new HashMap<>();
-//        param.put("username", "admin");
-//        param.put("password", "public");
-//        String result = HttpUtil.post("http://localhost:18083/api/v5/login", param);
     }
 
     /**
@@ -78,15 +75,22 @@ public class ChipStatusService {
     public List<String> getMqttClientId(boolean flag) {
 
         try {
-
+            List<String> clientId = new ArrayList<>();
             Map<String, String> header = new HashMap<>();
             header.put("Authorization", MQTT_AUTHORIZATION);
             Map<String, Object> result = HttpUtil.httpGet("http://localhost:18083/api/v5/clients", header);
             if (Integer.parseInt(String.valueOf(result.get("code"))) == 200) {
 
-                return null;
-            } else if (Integer.parseInt(String.valueOf(result.get("code"))) == 401 && flag){
-                log.error("mqtt 登陆信息失效");
+                JSONObject jsonObject = JSONObject.parseObject((String) result.get("data"));
+                JSONArray jsonArray = JSONArray.parseArray(jsonObject.getString("data"));
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JSONObject mqttClient = jsonArray.getJSONObject(i);
+                    clientId.add((String) mqttClient.get("clientid"));
+                }
+                jsonObject.getString("data");
+                return clientId;
+            } else if (flag){
+                log.error("mqtt 登陆信息失效,重新获取mqtt登陆token信息");
 
                 // 登陆mqtt
                 loginMqtt();

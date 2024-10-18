@@ -34,4 +34,14 @@ public class SensorCommandCheckDto {
      * 传感器命令执行顺序
      */
     private Integer idx;
+
+    /**
+     * 传感器id
+     */
+    private Integer id;
+
+    /**
+     * 传感器类型
+     */
+    private String sensorType;
 }

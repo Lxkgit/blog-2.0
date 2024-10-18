@@ -58,6 +58,11 @@ public class NettyHeartBeatDto {
      */
     private List<SysFile> sysFile;
 
+    /**
+     * mqtt上注册的单片机id
+     */
+    private List<String> clientIds;
+
     @Data
     public static class CpuInfo {
 

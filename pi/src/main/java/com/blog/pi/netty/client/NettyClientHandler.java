@@ -4,6 +4,7 @@ package com.blog.pi.netty.client;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.blog.pi.config.InitConfig;
+import com.blog.pi.mqtt.http.ChipStatusService;
 import com.blog.pi.netty.dto.register.NettyRegisterDto;
 import com.blog.pi.netty.dto.heart.NettyHeartBeatDto;
 import com.blog.pi.netty.dto.NettyPacket;
@@ -43,6 +44,9 @@ public class NettyClientHandler extends ChannelDuplexHandler {
 
     @Resource
     private DeviceInfoService deviceInfoService;
+
+    @Resource
+    private ChipStatusService chipStatusService;
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -91,11 +95,15 @@ public class NettyClientHandler extends ChannelDuplexHandler {
                 NettyHeartBeatDto nettyHeartBeat = new NettyHeartBeatDto();
                 nettyHeartBeat.setHeartBeat(new Date());
                 nettyHeartBeat.setType(HeartBeatType.SERVICE.getType());
+
+                nettyHeartBeat.setClientIds(chipStatusService.getMqttClientId(true));
+
                 deviceInfoService.setHeartBeatMsg(nettyHeartBeat);
                 // 向服务端发送心跳包
                 NettyPacket<NettyHeartBeatDto> nettyRequest = NettyPacket.buildRequest(nettyHeartBeat);
                 nettyRequest.setNettyPacketType(NettyPacketType.HEARTBEAT.getValue());
                 nettyRequest.setTopic(NettyPacketType.HEARTBEAT.getValue());
+
                 // 发送心跳消息，并在发送失败时关闭该连接
                 ctx.writeAndFlush(JSONObject.toJSONString(nettyRequest));
             }
