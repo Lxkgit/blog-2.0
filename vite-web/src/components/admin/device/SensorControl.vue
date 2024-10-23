@@ -37,6 +37,10 @@
           <el-button style="margin: 0; padding: 8px;" @click="sendSensorControlFun(scope.row.id)" size="small" text>
             <MyIcon type="icon-send" title="发送命令" />
           </el-button>
+          <el-button style="margin: 0; padding: 8px;" @click="updateSensorControlFun(scope.row.id)" size="small"
+                    text>
+                    <MyIcon type="icon-edit" title="修改命令" />
+                  </el-button>
           <el-button style="margin: 0; padding: 8px;" @click="deleteSensorControlFun(scope.row.id)" size="small" text>
             <MyIcon type="icon-delete" title="删除命令" />
           </el-button>
@@ -85,6 +89,7 @@ import {
   selectSensorControlListApi,
   sendSensorControlApi,
   saveSensorControlApi,
+  selectSensorControlByIdApi,
   deleteSensorControlApi,
   selectSensorTemplateByChipOrSensorIdApi,
 } from '@/api/file';
@@ -101,6 +106,7 @@ let {
   selectSensorControlListFun,
   sendSensorControlFun,
   saveSensorControlFun,
+  updateSensorControlFun,
   deleteSensorControlFun,
   selectSensorTemplateByChipOrSensorIdFun,
 } = sensorControlFun();
@@ -141,11 +147,14 @@ function sensorControlFun() {
 
   // 新增设备信息
   const sensorControlForm = reactive({
+    id: 0,
     name: '',
     sensor: [
       {
+        // 只有一个传感器，没有下拉选择，所以默认为传感器id
         id: 0,
         idx: 0,
+        // 与下拉框联动 保存勾选的传感器信息
         sensorData: {} as any,
         sensorType: '',
         sensorCode: '',
@@ -153,7 +162,7 @@ function sensorControlFun() {
         from: [] as any
       }
     ],
-  });
+  })
 
   // 传感器表单模板
   const sensorTemplateFrom: any = reactive({ data: [] });
@@ -208,20 +217,29 @@ function sensorControlFun() {
 
   // 创建传感器控制命令
   const saveSensorControlFun = () => {
-    saveSensorControlApi({
+
+    sensorControlForm.sensor[0].id = props.sensor?.id
+
+     // 传感器命令组保存
+     saveSensorControlApi({
+      id: sensorControlForm.id === 0 ? null : sensorControlForm.id,
       sensorId: props.sensor?.id,
       commandGroup: 0,
       controlName: sensorControlForm.name,
       controlMessage: JSON.stringify(sensorControlForm.sensor)
     }).then((res: any) => {
       if (res.code === 200) {
-        ElMessage.success('命令创建成功');
+        if(sensorControlForm.id === 0) {
+          ElMessage.success('命令创建成功');
+        } else {
+          ElMessage.success('命令修改成功');
+        }
         dialogFormVisible.value = false;
         page.value = 1;
         sensorControlForm.name = '';
         selectSensorControlPageFun(1);
       }
-    });
+    })
   };
 
   // 删除传感器控制命令
@@ -234,6 +252,20 @@ function sensorControlFun() {
       }
     });
   };
+
+  const selectSensorControlByIdFun = (id: any) => {
+    selectSensorControlByIdApi(id).then((res: any) => {
+      sensorControlForm.id = res.result.id
+      sensorControlForm.name = res.result.name
+      sensorControlForm.sensor = JSON.parse(res.result.sensor)
+    })
+  }
+
+  // 修改传感器控制命令
+  const updateSensorControlFun = (id: any) => {
+    dialogFormVisible.value = true;
+    selectSensorControlByIdFun(id)
+  }
 
   // 根据传感器id查询传感器模板
   const selectSensorTemplateByChipOrSensorIdFun = (sensorId: any) => {
@@ -259,6 +291,7 @@ function sensorControlFun() {
     selectSensorControlListFun,
     sendSensorControlFun,
     saveSensorControlFun,
+    updateSensorControlFun,
     deleteSensorControlFun,
     selectSensorTemplateByChipOrSensorIdFun,
 

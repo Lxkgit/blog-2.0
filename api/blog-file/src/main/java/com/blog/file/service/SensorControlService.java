@@ -1,5 +1,6 @@
 package com.blog.file.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.blog.common.entity.file.vo.ChipVo;
 import com.blog.common.entity.file.vo.SensorControlVo;
 import com.blog.common.exception.ValidException;
@@ -23,7 +24,7 @@ public interface SensorControlService {
 
     MyPage<SensorControlVo> selectSensorControlList(Integer userId, SensorControlVo sensorControlVo) throws ValidException;
 
-    SensorControlVo selectSensorControlById(Integer userId, Integer id);
+    JSONObject selectSensorControlById(Integer userId, Integer id);
 
     /**
      * 下发传感器控制命令

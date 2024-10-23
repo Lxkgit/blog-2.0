@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.blog.common.constant.ErrorMessage;
 import com.blog.common.entity.file.*;
 import com.blog.common.entity.file.vo.SensorControlVo;
+import com.blog.common.entity.file.vo.SensorVo;
 import com.blog.file.dao.*;
 import com.blog.file.feign.service.UserService;
 import com.blog.common.netty.dto.sensor.control.SensorCommandCheckDto;
@@ -171,7 +172,12 @@ public class SensorControlServiceImpl implements SensorControlService {
 
         // 保存命令
         sensorControlVo.setControlMessage(JSONObject.toJSONString(sensorCommandCheckDtoList));
-        sensorControlDAO.insert(sensorControlVo);
+
+        if (sensorControlVo.getId() != null) {
+            sensorControlDAO.updateById(sensorControlVo);
+        } else {
+            sensorControlDAO.insert(sensorControlVo);
+        }
         return sensorControlVo.getId();
     }
 
@@ -282,15 +288,19 @@ public class SensorControlServiceImpl implements SensorControlService {
      *
      * 数据返回格式 固定格式用于界面解析
      * {
-     *     name: 'test',
-     *     sensor: [
-     *       {
-     *         idx: 0,
-     *         sensorData: { id: 10, sensorType: "DUO-180", sensorCode: "duo-180"},
-     *         delay: 0,
-     *         from: []
-     *       }
-     *     ]
+     *      name: '',
+     *      sensor: [
+     *          {
+     *              id: 0,
+     *              idx: 0,
+     *              // 与下拉框联动 保存勾选的传感器信息
+     *              sensorData: {} as any,
+     *              sensorType: '',
+     *              sensorCode: '',
+     *              delay: 0,
+     *              from: [] as any
+     *          }
+     *      ]
      * }
      *
      * @param userId
@@ -298,9 +308,10 @@ public class SensorControlServiceImpl implements SensorControlService {
      * @return
      */
     @Override
-    public SensorControlVo selectSensorControlById(Integer userId, Integer id) {
+    public JSONObject selectSensorControlById(Integer userId, Integer id) {
         SensorControl sensorControl = sensorControlDAO.selectOne(new LambdaQueryWrapper<SensorControl>().eq(SensorControl::getUserId, userId).eq(SensorControl::getId, id));
         JSONObject result = new JSONObject();
+        result.put("id", id);
         result.put("name", sensorControl.getControlName());
         JSONArray sensor = new JSONArray();
 
@@ -323,25 +334,37 @@ public class SensorControlServiceImpl implements SensorControlService {
         Map<String, SensorTemplate> sensorTemplateMap = sensorTemplateDAO.selectList(new LambdaQueryWrapper<SensorTemplate>()
                 .in(SensorTemplate::getSensorType, sensorTypeSet)).stream().collect(Collectors.toMap(SensorTemplate::getSensorType, Function.identity()));
 
-        sensorTemplateDAO.selectList(new LambdaQueryWrapper<SensorTemplate>().eq(SensorTemplate::getSensorType, ""));
         // 解析控制命令
         JSONArray jsonArray = JSONArray.parseArray(sensorControl.getControlMessage());
         for (int i=0; i<jsonArray.size(); i++) {
             JSONObject js = jsonArray.getJSONObject(i);
             JSONObject sensorData = new JSONObject();
+            sensorData.put("idx", js.getInteger("idx"));
             sensorData.put("id", js.getInteger("id"));
             sensorData.put("sensorType", js.getString("sensorType"));
             sensorData.put("sensorCode", js.getString("sensorCode"));
-            js.put("sensorData", sensorData);
+
+            SensorVo sensorVo = new SensorVo();
+            BeanUtils.copyProperties(sensorDAO.selectById(js.getInteger("id")), sensorVo);
+            sensorData.put("sensorData", sensorVo);
 
             SensorTemplate from = sensorTemplateMap.get(js.getString("sensorType"));
+            JSONArray fromJsonArray = JSONArray.parseArray(from.getTemplate());
+            for (int fi=0; fi< fromJsonArray.size(); fi++) {
+                JSONObject fjs = fromJsonArray.getJSONObject(fi);
+                fjs.put("value", js.getInteger("data"));
+            }
+            sensorData.put("from", fromJsonArray);
 
 
+            sensorData.put("delay", i == 0 ? 0 : js.getString("delay"));
 
+            sensor.add(sensorData);
         }
 
 
-        result.put("sensor", sensor);
+
+        result.put("sensor", sensor.toString());
 
 
 //        QueryWrapper<SensorControl> wrapper = new QueryWrapper<>();
@@ -351,7 +374,7 @@ public class SensorControlServiceImpl implements SensorControlService {
 //        SensorControlVo sensorControlVo = new SensorControlVo();
 //        BeanUtils.copyProperties(sensorControl, sensorControlVo);
 //        return sensorControlVo;
-        return null;
+        return result;
     }
 
 

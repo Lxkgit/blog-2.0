@@ -173,7 +173,7 @@ export const selectSensorControlListApi = (params: any) => {
 }
 
 export const selectSensorControlByIdApi = (id: any) => {
-    const uri = "/file/sensor/control/id=" + id
+    const uri = "/file/sensor/control/id?id=" + id
     return api.get(uri)
 }
 

@@ -31,19 +31,21 @@
                 </template>
               </el-table-column>
               <!-- <el-table-column prop="commandGroup" label="命令组" /> -->
-              <el-table-column prop="controlMessage" label="消息内容" fit/>
+              <el-table-column prop="controlMessage" label="消息内容" fit />
               <el-table-column prop="createTime" label="创建时间" width="180" />
               <el-table-column prop="updateTime" label="最近修改时间" width="180" />
               <el-table-column fixed="right" label="操作" width="110">
                 <template #default="scope">
 
 
-                  <el-button style="margin: 0; padding: 8px;" @click="" size="small" text>
+                  <el-button style="margin: 0; padding: 8px;" @click="selectSensorControlByIdFun(scope.row.id)"
+                    size="small" text>
                     <MyIcon type="icon-send" title="发送命令" />
                   </el-button>
 
-                  <el-button style="margin: 0; padding: 8px;" @click="updateSensorControlFun(scope.row.id)" size="small" text>
-                    <MyIcon type="icon-edit" title="修改命令"/>
+                  <el-button style="margin: 0; padding: 8px;" @click="updateSensorControlFun(scope.row.id)" size="small"
+                    text>
+                    <MyIcon type="icon-edit" title="修改命令" />
                   </el-button>
 
                   <el-button style="margin: 0; padding: 8px;" @click="deleteSensorControlFun(scope.row.id)" size="small"
@@ -103,15 +105,10 @@
                         </div>
                       </div>
                     </div>
-
-
                   </div>
-
                   <span style="margin-left: 50px; cursor: pointer;" @click="addSensor">增加传感器</span>
                   <span style="display: float; float: right; margin-right: 50px; cursor: pointer;"
                     @click="deleteSensor">删除传感器</span>
-
-
                 </div>
               </el-form>
               <template #footer>
@@ -123,7 +120,6 @@
                 </div>
               </template>
             </el-dialog>
-
           </el-tab-pane>
           <el-tab-pane label="传感器控制历史" name="sensorControlHistory">
             <el-table :data="tableData">
@@ -164,8 +160,10 @@ import {
   selectSensorControlListApi,
   selectSensorListApi,
   saveSensorControlApi,
+  updateSensorControlApi,
   deleteSensorControlApi,
-  selectSensorTemplateByChipOrSensorIdApi
+  selectSensorTemplateByChipOrSensorIdApi,
+  selectSensorControlByIdApi
 } from '@/api/file';
 
 import color from "@/utils/color";
@@ -188,7 +186,8 @@ let {
   checkCommandId,
   updateSensorControlFun,
   deleteSensorControlFun,
-  selectSensorTemplateByChipOrSensorIdFun
+  selectSensorTemplateByChipOrSensorIdFun,
+  selectSensorControlByIdFun
 } = sensorControlFun();
 
 let { MyIcon } = icon();
@@ -216,6 +215,7 @@ function sensorControlFun() {
 
   // 传感器控制表单
   const sensorControlForm = reactive({
+    id: 0,
     name: '',
     sensor: [
       {
@@ -312,18 +312,27 @@ function sensorControlFun() {
   // 创建传感器控制命令
   const saveSensorControlFun = () => {
     dialogFormVisible.value = false;
+
     // 传感器命令组保存
     saveSensorControlApi({
+      id: sensorControlForm.id === 0 ? null : sensorControlForm.id,
       chipId: props.chipId,
       commandGroup: 1,
       controlName: sensorControlForm.name,
       controlMessage: JSON.stringify(sensorControlForm.sensor)
     }).then((res: any) => {
       if (res.code === 200) {
-        ElMessage.success('命令创建成功');
+        if(sensorControlForm.id === 0) {
+          ElMessage.success('命令创建成功');
+        } else {
+          ElMessage.success('命令修改成功');
+        }
         selectSensorControlListFun();
       }
     })
+
+
+
   };
 
   /**
@@ -338,12 +347,19 @@ function sensorControlFun() {
   };
 
   const selectSensorControlByIdFun = (id: any) => {
+    selectSensorControlByIdApi(id).then((res: any) => {
+      sensorControlForm.id = res.result.id
+      sensorControlForm.name = res.result.name
+      sensorControlForm.sensor = JSON.parse(res.result.sensor)
 
+      length.value = sensorControlForm.sensor.length
+    })
   }
 
   // 修改传感器控制命令
   const updateSensorControlFun = (id: any) => {
-    
+    dialogFormVisible.value = true;
+    selectSensorControlByIdFun(id)
   }
 
   // 删除传感器控制命令
@@ -396,7 +412,8 @@ function sensorControlFun() {
     checkCommandId,
     updateSensorControlFun,
     deleteSensorControlFun,
-    selectSensorTemplateByChipOrSensorIdFun
+    selectSensorTemplateByChipOrSensorIdFun,
+    selectSensorControlByIdFun
   }
 
 }
