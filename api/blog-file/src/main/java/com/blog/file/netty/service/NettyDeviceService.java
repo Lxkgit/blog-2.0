@@ -62,6 +62,7 @@ public class NettyDeviceService {
             chip.setDeviceCode(deviceCode);
             chip.setChipCode(nettyChipRegisterDto.getChipCode());
             chip.setChipName(nettyChipRegisterDto.getChipName());
+            chip.setChipStatus(1);
             chip.setChipType(nettyChipRegisterDto.getChipType());
             chip.setMemo(nettyChipRegisterDto.getMemo());
             chip.setUpdateTime(new Date());

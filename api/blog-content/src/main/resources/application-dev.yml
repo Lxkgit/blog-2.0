@@ -1,0 +1,58 @@
+devServiceIp: localhost
+server:
+  port: 10100
+  servlet:
+    context-path: /content
+
+  ssl:
+    # enabled: true  #开启ssl验证
+    enabled: false  #开启ssl验证
+    key-store: classpath:keystore.p12 #证书文件位置
+    key-store-password: gszero  #上面的密钥口令
+    key-store-type: PKCS12   #storetype 上面的类型
+    key-alias: tomcat    #tomcat上面的alias  别名
+
+spring:
+  application:
+    name: blog-content
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${devServiceIp}:8848
+  redis:
+    database: 0
+    host: ${devServiceIp}
+    port: 6379
+    password: redis-960
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${devServiceIp}:3306/blog_content?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: root
+    password: root
+
+rocketmq:
+  name-server: ${devServiceIp}:9876 # 访问地址
+  producer:
+    group: blog # 必须指定group
+    send-message-timeout: 3000 # 消息发送超时时长，默认3s
+    retry-times-when-send-failed: 3 # 同步发送消息失败重试次数，默认2
+    retry-times-when-send-async-failed: 3 # 异步发送消息失败重试次数，默认2
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+
+logging:
+  level:
+    com.alibaba.nacos.client.config.impl: WARN
+
+security:
+  oauth2:
+    resource:
+      id: blog-content
+      user-info-uri: http://${devServiceIp}:9200/auth/user-me
+      prefer-token-info: false

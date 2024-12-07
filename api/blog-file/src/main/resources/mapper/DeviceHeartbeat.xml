@@ -3,7 +3,7 @@
 <mapper namespace="com.blog.file.dao.DeviceHeartbeatDAO">
     <resultMap id="BaseResultMap" type="com.blog.common.entity.file.DeviceHeartbeat">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <id column="username" property="username" jdbcType="VARCHAR"/>
+        <id column="user_id" property="userId" jdbcType="VARCHAR"/>
         <id column="device_code" property="deviceCode" jdbcType="VARCHAR"/>
         <id column="device_json" property="deviceJson" jdbcType="VARCHAR"/>
         <id column="create_time" property="createTime" jdbcType="TIMESTAMP"/>

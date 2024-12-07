@@ -1,0 +1,58 @@
+devServiceIp: localhost
+server:
+  port: 9200
+  servlet:
+    context-path: /auth
+
+  ssl:
+    # enabled: true  #开启ssl验证
+    enabled: false  #开启ssl验证
+    key-store: classpath:keystore.p12 #证书文件位置
+    key-store-password: gszero  #上面的密钥口令
+    key-store-type: PKCS12   #storetype 上面的类型
+    key-alias: tomcat    #tomcat上面的alias  别名
+
+spring:
+  application:
+    name: blog-auth
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${devServiceIp}:8848
+  redis:
+    database: 0
+    host: ${devServiceIp}
+    port: 6379
+    password: redis-960
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${devServiceIp}:3306/blog_auth?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
+    username: root
+    password: MySql@Admin123*.
+
+rocketmq:
+  name-server: ${devServiceIp}:9876 # 访问地址
+  producer:
+    group: blog # 必须指定group
+    send-message-timeout: 3000 # 消息发送超时时长，默认3s
+    retry-times-when-send-failed: 3 # 同步发送消息失败重试次数，默认2
+    retry-times-when-send-async-failed: 3 # 异步发送消息失败重试次数，默认2
+
+logging:
+  level:
+    com.alibaba.nacos.client.config.impl: WARN
+
+access_token:
+  jwt-signing-key: gszero
+  add-userInfo: false
+
+oauth:
+  gitee:
+    clientId: b56892ea476c32e017d279841a6422bd1dce3c5d87985588c206075f8e55e0a4
+    clientSecret: 761846f04570945c1add7dba4dc9e3512238b3ce9ed3ca5449dad9a2b32d563a
+    callbackUrl: https://124.221.12.158:9527/auth/gitee/callback

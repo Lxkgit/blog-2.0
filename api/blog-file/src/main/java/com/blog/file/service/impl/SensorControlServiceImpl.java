@@ -259,7 +259,7 @@ public class SensorControlServiceImpl implements SensorControlService {
         sensorMap = sensorDAO.selectList(sensorLambdaQueryWrapper).stream().collect(Collectors.toMap(Sensor::getId, Function.identity()));
 
         // 返回的传感器命令数据
-       List<SensorControlVo> sensorControlVoList = new ArrayList<>();
+        List<SensorControlVo> sensorControlVoList = new ArrayList<>();
 
         for (SensorControl sensorControl : sensorControlPage) {
 
@@ -315,10 +315,6 @@ public class SensorControlServiceImpl implements SensorControlService {
         result.put("name", sensorControl.getControlName());
         JSONArray sensor = new JSONArray();
 
-
-        List<String> sensorTemplate;
-
-
         // 从命令组中获取传感器id
         List<String> sensorIds;
         if (sensorControl.getCommandGroup() == 1) {
@@ -350,7 +346,7 @@ public class SensorControlServiceImpl implements SensorControlService {
 
             SensorTemplate from = sensorTemplateMap.get(js.getString("sensorType"));
             JSONArray fromJsonArray = JSONArray.parseArray(from.getTemplate());
-            for (int fi=0; fi< fromJsonArray.size(); fi++) {
+            for (int fi = 0; fi < fromJsonArray.size(); fi++) {
                 JSONObject fjs = fromJsonArray.getJSONObject(fi);
                 fjs.put("value", js.getInteger("data"));
             }
@@ -361,23 +357,16 @@ public class SensorControlServiceImpl implements SensorControlService {
 
             sensor.add(sensorData);
         }
-
-
-
         result.put("sensor", sensor.toString());
-
-
-//        QueryWrapper<SensorControl> wrapper = new QueryWrapper<>();
-//        wrapper.eq("id", id);
-//        wrapper.eq("user_id", userId);
-//        SensorControl sensorControl = sensorControlDAO.selectOne(wrapper);
-//        SensorControlVo sensorControlVo = new SensorControlVo();
-//        BeanUtils.copyProperties(sensorControl, sensorControlVo);
-//        return sensorControlVo;
         return result;
     }
 
-
+    /**
+     * 校验命令数据
+     *
+     * @param sensorCommandCheckVo
+     * @throws ValidException
+     */
     private static void validateIvsRuleInfo(SensorCommandCheckDto sensorCommandCheckVo) throws ValidException {
 
         Map<String, String> errorMap = BeanValidationUtil.validationBean(sensorCommandCheckVo, AddGroup.class);

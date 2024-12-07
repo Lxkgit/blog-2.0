@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BranchesTreeState">
-    <expand />
-    <select />
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:blog-2.1" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-10-18【功能修改】：历史修改提交">
+    <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-10-18【功能修改】：传感器控制命令修改完成">
+      <change afterPath="$PROJECT_DIR$/blog-file/src/main/resources/application-pro.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-gateway/src/main/resources/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-gateway/src/main/resources/application-pro.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-user/src/main/resources/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/blog-user/src/main/resources/application-pro.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/SensorControlService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/SensorControlService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-auth/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-auth/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-auth/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-auth/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-auth/src/main/resources/application-pro.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyDeviceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/service/NettyDeviceService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/SensorControlServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/SensorControlServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/src/api/file.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/api/file.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/admin/device/ChipInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/admin/device/ChipInfo.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/admin/device/SensorControl.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/admin/device/SensorControl.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/DeviceHeartbeat.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/mapper/DeviceHeartbeat.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/resources/application-pro.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-gateway/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-gateway/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-user/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/application-dev.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-user/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/components/admin/device/DeviceInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/components/admin/device/DeviceInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../vite-web/src/views/personal/LoginRegister.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../vite-web/src/views/personal/LoginRegister.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,12 +114,12 @@
     <option name="notificationShown" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\workspace\java\blog-2.0\api\blog-file\src\main\resources\mapper" />
-      <recent name="D:\workspace\java\blog-2.0\api\blog-file\src\main\java\com\blog\file\netty\dto" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\workspace\java\blog-2.0\api\file\sql" />
+      <recent name="D:\workspace\java\blog-2.0\api\file" />
       <recent name="D:\workspace\java\blog-2.0\api\file\config" />
       <recent name="D:\workspace\java\blog-2.0\api\file\shell" />
-      <recent name="D:\workspace\blog-2.0\api\blog-common\src\main\java\com\blog\common\entity\content\article\vo" />
+      <recent name="D:\workspace\java\blog-2.0\api\blog-file" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.blog.common.netty.dto.sensor.control" />
@@ -102,12 +128,12 @@
       <recent name="com.blog.file.dao" />
       <recent name="com.blog.file.netty.dto" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\workspace\java\blog-2.0\api\file\sql" />
-      <recent name="D:\workspace\java\blog-2.0\api\file" />
-      <recent name="D:\workspace\java\blog-2.0\api\file\config" />
-      <recent name="D:\workspace\java\blog-2.0\api\file\shell" />
-      <recent name="D:\workspace\java\blog-2.0\api\blog-file" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace\java\blog-2.0\api\blog-user\src\main\resources" />
+      <recent name="D:\workspace\java\blog-2.0\api\blog-auth\src\main\resources" />
+      <recent name="D:\workspace\java\blog-2.0\api\blog-content\src\main\resources" />
+      <recent name="D:\workspace\java\blog-2.0\api\blog-file\src\main\resources" />
+      <recent name="D:\workspace\java\blog-2.0\api\blog-gateway\src\main\resources" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -198,19 +224,19 @@
     </configuration>
     <list>
       <item itemvalue="Remote.Unnamed" />
-      <item itemvalue="Spring Boot.FileApplication" />
-      <item itemvalue="Spring Boot.ContentApplication" />
       <item itemvalue="Spring Boot.AuthApplication" />
+      <item itemvalue="Spring Boot.ContentApplication" />
+      <item itemvalue="Spring Boot.FileApplication" />
       <item itemvalue="Spring Boot.GatewayApplication" />
       <item itemvalue="Spring Boot.UserApplication" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.FileApplication" />
         <item itemvalue="Spring Boot.UserApplication" />
         <item itemvalue="Spring Boot.GatewayApplication" />
-        <item itemvalue="Spring Boot.AuthApplication" />
+        <item itemvalue="Spring Boot.FileApplication" />
         <item itemvalue="Spring Boot.ContentApplication" />
+        <item itemvalue="Spring Boot.AuthApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -613,14 +639,31 @@
       <workItem from="1729222143790" duration="2244000" />
       <workItem from="1729509935118" duration="3231000" />
       <workItem from="1729573532224" duration="2304000" />
-      <workItem from="1729645983977" duration="8915000" />
-    </task>
-    <task id="LOCAL-00121" summary="23-12-30【功能修改】：修改文章界面展示，修改接口mq消息发送与接收代码逻辑">
-      <created>1703945623124</created>
-      <option name="number" value="00121" />
-      <option name="presentableId" value="LOCAL-00121" />
-      <option name="project" value="LOCAL" />
-      <updated>1703945623124</updated>
+      <workItem from="1729645983977" duration="10053000" />
+      <workItem from="1729746476134" duration="2773000" />
+      <workItem from="1730872726195" duration="27000" />
+      <workItem from="1730955012975" duration="2000" />
+      <workItem from="1730955110276" duration="335000" />
+      <workItem from="1731044724935" duration="41000" />
+      <workItem from="1731044831283" duration="36000" />
+      <workItem from="1731044981515" duration="1147000" />
+      <workItem from="1731392825405" duration="1961000" />
+      <workItem from="1731479020605" duration="1104000" />
+      <workItem from="1732517381084" duration="8000" />
+      <workItem from="1732517476799" duration="23000" />
+      <workItem from="1732517538471" duration="594000" />
+      <workItem from="1732597465493" duration="3523000" />
+      <workItem from="1733028881997" duration="904000" />
+      <workItem from="1733201881709" duration="2340000" />
+      <workItem from="1733376144236" duration="634000" />
+      <workItem from="1733458994464" duration="38000" />
+      <workItem from="1733459106004" duration="9802000" />
+      <workItem from="1733472755735" duration="3179000" />
+      <workItem from="1733482190587" duration="859000" />
+      <workItem from="1733545907654" duration="341000" />
+      <workItem from="1733546302198" duration="10000" />
+      <workItem from="1733546649637" duration="240000" />
+      <workItem from="1733547713639" duration="822000" />
     </task>
     <task id="LOCAL-00122" summary="24-01-02【功能新增】：项目集成mqtt与ftps">
       <created>1704205835270</created>
@@ -958,7 +1001,14 @@
       <option name="project" value="LOCAL" />
       <updated>1729222206728</updated>
     </task>
-    <option name="localTasksCounter" value="170" />
+    <task id="LOCAL-00170" summary="24-10-18【功能修改】：传感器控制命令修改完成">
+      <created>1729674197409</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1729674197410</updated>
+    </task>
+    <option name="localTasksCounter" value="171" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -989,7 +1039,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="24-03-10【功能新增】：添加博客部署文档" />
     <MESSAGE value="24-03-10【bug修复】：修复部署之后日志时间错误问题" />
     <MESSAGE value="24-03-11【功能新增】：前端添加开发环境与生产环境的配置" />
     <MESSAGE value="24-03-12【功能修改】：完善博客数据同步功能" />
@@ -1014,13 +1063,14 @@
     <MESSAGE value="24-09-28【功能新增】：新增查询传感器模板接口" />
     <MESSAGE value="24-10-01【功能新增】：单传感器控制命令保存调整成功" />
     <MESSAGE value="24-10-18【功能修改】：历史修改提交" />
-    <option name="LAST_COMMIT_MESSAGE" value="24-10-18【功能修改】：历史修改提交" />
+    <MESSAGE value="24-10-18【功能修改】：传感器控制命令修改完成" />
+    <option name="LAST_COMMIT_MESSAGE" value="24-10-18【功能修改】：传感器控制命令修改完成" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="440" y="94" key="#Project_Structure" timestamp="1727342803986">
+    <state x="440" y="94" key="#Project_Structure" timestamp="1732607309643">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1727342803986" />
+    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1732607309643" />
     <state x="753" y="236" key="#com.intellij.ide.util.MemberChooser" timestamp="1727614455586">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -1033,99 +1083,96 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1727155953328" />
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1724687930703">
+    <state x="740" y="276" key="FileChooserDialogImpl" timestamp="1733462225297">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1724687930703" />
-    <state x="740" y="276" key="FileChooserDialogImpl" timestamp="1727956060728">
+    <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733462225297" />
+    <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1730955175213" />
+    <state width="1564" height="302" key="GridCell.Tab.0.bottom" timestamp="1733548315439">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1721725826073" />
-    <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1727956060728" />
-    <state width="1564" height="417" key="GridCell.Tab.0.bottom" timestamp="1729674013268">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1510" height="483" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
-    <state width="1564" height="417" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013268" />
+    <state width="1564" height="302" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733548315439" />
+    <state width="1564" height="550" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
     <state width="1510" height="406" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1564" height="417" key="GridCell.Tab.0.center" timestamp="1729674013268">
+    <state width="1564" height="302" key="GridCell.Tab.0.center" timestamp="1733548315439">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1510" height="483" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722786" />
-    <state width="1564" height="417" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013268" />
+    <state width="1564" height="302" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733548315439" />
+    <state width="1564" height="550" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
     <state width="1510" height="406" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1564" height="417" key="GridCell.Tab.0.left" timestamp="1729674013268">
+    <state width="1564" height="302" key="GridCell.Tab.0.left" timestamp="1733548315439">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1510" height="483" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722786" />
-    <state width="1564" height="417" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013268" />
+    <state width="1564" height="302" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733548315439" />
+    <state width="1564" height="550" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
     <state width="1510" height="406" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1564" height="417" key="GridCell.Tab.0.right" timestamp="1729674013268">
+    <state width="1564" height="302" key="GridCell.Tab.0.right" timestamp="1733548315439">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1510" height="483" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
-    <state width="1564" height="417" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013268" />
+    <state width="1564" height="302" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733548315439" />
+    <state width="1564" height="550" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
     <state width="1510" height="406" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1564" height="417" key="GridCell.Tab.1.bottom" timestamp="1729674013269">
+    <state width="1564" height="302" key="GridCell.Tab.1.bottom" timestamp="1733548315439">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1510" height="483" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
-    <state width="1564" height="417" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013269" />
+    <state width="1564" height="302" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733548315439" />
+    <state width="1564" height="550" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
     <state width="1510" height="406" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1564" height="417" key="GridCell.Tab.1.center" timestamp="1729674013269">
+    <state width="1564" height="302" key="GridCell.Tab.1.center" timestamp="1733548315439">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1510" height="483" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
-    <state width="1564" height="417" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013269" />
+    <state width="1564" height="302" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733548315439" />
+    <state width="1564" height="550" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
     <state width="1510" height="406" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1564" height="417" key="GridCell.Tab.1.left" timestamp="1729674013268">
+    <state width="1564" height="302" key="GridCell.Tab.1.left" timestamp="1733548315439">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1510" height="483" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
-    <state width="1564" height="417" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013268" />
+    <state width="1564" height="302" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733548315439" />
+    <state width="1564" height="550" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
     <state width="1510" height="406" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1564" height="417" key="GridCell.Tab.1.right" timestamp="1729674013269">
+    <state width="1564" height="302" key="GridCell.Tab.1.right" timestamp="1733548315439">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1510" height="483" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1722350722787" />
-    <state width="1564" height="417" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013269" />
+    <state width="1564" height="302" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733548315439" />
+    <state width="1564" height="550" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
     <state width="1510" height="406" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1724932975934" />
-    <state width="1564" height="417" key="GridCell.Tab.2.bottom" timestamp="1729674013197">
+    <state width="1564" height="405" key="GridCell.Tab.2.bottom" timestamp="1733474927407">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1564" height="405" key="GridCell.Tab.2.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733474927407" />
     <state width="1564" height="417" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013197" />
-    <state width="1564" height="417" key="GridCell.Tab.2.center" timestamp="1729674013197">
+    <state width="1564" height="405" key="GridCell.Tab.2.center" timestamp="1733474927407">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1564" height="405" key="GridCell.Tab.2.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733474927407" />
     <state width="1564" height="417" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013197" />
-    <state width="1564" height="417" key="GridCell.Tab.2.left" timestamp="1729674013197">
+    <state width="1564" height="405" key="GridCell.Tab.2.left" timestamp="1733474927407">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1564" height="405" key="GridCell.Tab.2.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733474927407" />
     <state width="1564" height="417" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013197" />
-    <state width="1564" height="417" key="GridCell.Tab.2.right" timestamp="1729674013197">
+    <state width="1564" height="405" key="GridCell.Tab.2.right" timestamp="1733474927407">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="1564" height="405" key="GridCell.Tab.2.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733474927407" />
     <state width="1564" height="417" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1729674013197" />
-    <state x="725" y="180" key="SettingsEditor" timestamp="1725524348589">
+    <state x="725" y="180" key="SettingsEditor" timestamp="1730955168400">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="725" y="180" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1725524348589" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1729222336590">
+    <state x="725" y="180" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1730955168400" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1729674348162">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1729222336590" />
-    <state width="968" height="528" key="XDebugger.FullValuePopup" timestamp="1727495774463">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1729674348162" />
+    <state width="968" height="528" key="XDebugger.FullValuePopup" timestamp="1733473587876">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state width="968" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733473587876" />
     <state width="968" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040@0.0.1920.1040" timestamp="1727495774463" />
-    <state x="690" y="279" key="extract.method.dialog" timestamp="1724687702321">
+    <state x="581" y="242" width="879" height="630" key="find.popup" timestamp="1733474129319">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="279" key="extract.method.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1724687702321" />
-    <state x="581" y="242" width="879" height="630" key="find.popup" timestamp="1729664035206">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="662" y="252" width="668" height="560" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1721727362848" />
+    <state x="581" y="242" width="879" height="630" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733474129319" />
     <state x="581" y="242" width="879" height="630" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1729664035206" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1727958947965">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -1146,11 +1193,6 @@
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/DeviceServiceImpl.java</url>
-          <line>185</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/SensorDataServiceImpl.java</url>
           <line>61</line>
           <option name="timeStamp" value="11" />
@@ -1167,8 +1209,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/SensorControlServiceImpl.java</url>
-          <line>350</line>
+          <line>346</line>
           <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/service/impl/SensorServiceImpl.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

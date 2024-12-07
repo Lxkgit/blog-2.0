@@ -252,7 +252,7 @@ function loginFn(): any {
   // 是否记住密码
   const remember = ref(false)
   // 滑块验证是否通过
-  const isPassing = ref(false)
+  const isPassing = ref(true)
   // 滑块验证按钮样式
   const btnType = ref('default')
   // 滑块验证通过事件
