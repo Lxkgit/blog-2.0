@@ -1,4 +1,4 @@
-devServiceIp: localhost
+devServiceIp: 49.232.129.253
 server:
   port: 10100
   servlet:
@@ -18,10 +18,10 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: ${devServiceIp}:8848
+        server-addr: 172.18.0.7:8848
   redis:
     database: 0
-    host: ${devServiceIp}
+    host: 172.18.0.6
     port: 6379
     password: redis-960
     jedis:
@@ -30,16 +30,16 @@ spring:
         max-idle: 8
         min-idle: 0
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://${devServiceIp}:3306/blog_content?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.18.0.3:3306/blog_content?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=GMT%2B8
     username: root
     password: MySql@Admin123*.
 
 rocketmq:
-  name-server: ${devServiceIp}:9876 # 访问地址
+  name-server: 172.18.0.8:9876 # 访问地址
   producer:
     group: blog # 必须指定group
-    send-message-timeout: 3000 # 消息发送超时时长，默认3s
+    send-message-timeout: 5000 # 消息发送超时时长，默认3s
     retry-times-when-send-failed: 3 # 同步发送消息失败重试次数，默认2
     retry-times-when-send-async-failed: 3 # 异步发送消息失败重试次数，默认2
 
@@ -54,5 +54,5 @@ security:
   oauth2:
     resource:
       id: blog-content
-      user-info-uri: http://${devServiceIp}:9200/auth/user-me
+      user-info-uri: http://172.18.0.10:9200/auth/user-me
       prefer-token-info: false

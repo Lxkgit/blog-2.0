@@ -73,6 +73,8 @@ createDir() {
   mv /opt/package/sql/*.sql /opt/docker/files/sql
   # sql执行脚本
   mv /opt/package/conf/mysql.sh /opt/docker/files/mysql.sh
+  # win和linux字符引起的错误
+  sed -i 's/\r$//' /opt/docker/files/mysql.sh
   chmod +x /opt/docker/files/mysql.sh
   # mysql 配置
   mv /opt/package/conf/my.cnf /opt/docker/mysql/conf
@@ -87,6 +89,8 @@ createDir() {
   mv /opt/package/conf/Dockerfile /opt/docker/files/jar
   mv /opt/package/conf/run.sh /opt/docker/files/jar
   chmod +x /opt/docker/files/jar/run.sh
+  # win和linux字符引起的错误
+  sed -i 's/\r$//' /opt/docker/files/jar/run.sh
   # web页面相关
   mv /opt/package/web/dist/* /opt/docker/nginx/html
   # 博客文件数据
@@ -98,8 +102,7 @@ createDir() {
 dockerStart() {
   echo "开始安装docker..."
 	# 一键安装docker
-#	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-  curl -fsSL https://github.com/tech-shrimp/docker_installer/releases/download/latest/linux.sh| bash -s docker --mirror Aliyun
+	curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 
   # 配置docker下载镜像源
   mkdir -p /etc/docker
