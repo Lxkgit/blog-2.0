@@ -47,11 +47,16 @@ public class DeviceInfoService {
      * @param heartBeatDto
      */
     public void setHeartBeatMsg(NettyHeartBeatDto heartBeatDto) {
+        try {
+//            heartBeatDto.setCpuInfo(cpuInfo());
+            heartBeatDto.setMemInfo(memInfo());
+//            heartBeatDto.setNetInfo(net());
+//            heartBeatDto.setSysFile(sysFiles());
+        } catch (Exception e) {
+            log.error("获取设备信息失败：" + e.getMessage());
+            e.printStackTrace();
+        }
 
-        heartBeatDto.setCpuInfo(cpuInfo());
-        heartBeatDto.setMemInfo(memInfo());
-        heartBeatDto.setNetInfo(net());
-//        heartBeatDto.setSysFile(sysFiles());
     }
 
     public NettyHeartBeatDto.NetInfo net() {

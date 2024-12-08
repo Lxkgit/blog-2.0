@@ -3,6 +3,7 @@ package com.blog.pi.mqtt.http;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.blog.pi.config.InitConfig;
 import com.blog.pi.utils.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,7 @@ public class ChipStatusService {
             param.put("username","admin");
             param.put("password","public");
 
-            Map<String, Object> result = HttpUtil.httpPost("http://localhost:18083/api/v5/login", null, param);
-
+            Map<String, Object> result = HttpUtil.httpPost("http://" + InitConfig.getRegisterConfig("mqtt", "ip") + ":18083/api/v5/login", null, param);
             JSONObject jsonObject = JSONObject.parseObject((String) result.get("data"));
 
             if (Integer.parseInt(String.valueOf(result.get("code"))) == 200) {
@@ -78,7 +78,7 @@ public class ChipStatusService {
             List<String> clientId = new ArrayList<>();
             Map<String, String> header = new HashMap<>();
             header.put("Authorization", MQTT_AUTHORIZATION);
-            Map<String, Object> result = HttpUtil.httpGet("http://localhost:18083/api/v5/clients", header);
+            Map<String, Object> result = HttpUtil.httpGet("http://" + InitConfig.getRegisterConfig("mqtt", "ip") + ":18083/api/v5/clients", header);
             if (Integer.parseInt(String.valueOf(result.get("code"))) == 200) {
 
                 JSONObject jsonObject = JSONObject.parseObject((String) result.get("data"));
