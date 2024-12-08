@@ -18,11 +18,17 @@
   <component name="ChangeListManager">
     <list default="true" id="daabf9f0-7eae-4209-b806-97543cb1e909" name="Default Changelist" comment="24-12-07【功能修改】：取消nacos配置中心的使用，博客新版服务部署完成">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/mqtt/http/ChipStatusService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/mqtt/http/ChipStatusService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/service/DeviceInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/netty/service/DeviceInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-auth/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-auth/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/netty/common/NettyConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-common/src/main/java/com/blog/common/netty/common/NettyConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-content/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-content/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/SyncBlogFileSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/java/com/blog/file/netty/schedule/SyncBlogFileSchedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-file/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-file/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-gateway/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-gateway/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-user/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-user/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file/shell/business/zipBlog.sh" beforeDir="false" afterPath="$PROJECT_DIR$/file/shell/business/zipBlog.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file/shell/docker.sh" beforeDir="false" afterPath="$PROJECT_DIR$/file/shell/docker.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/ftp/FtpUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/java/com/blog/pi/ftp/FtpUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pi/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/src/main/resources/file/conf/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/resources/file/conf/run.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pi/src/main/resources/file/shell/debian.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../pi/src/main/resources/file/shell/debian.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -654,7 +660,7 @@
       <workItem from="1733565562526" duration="3827000" />
       <workItem from="1733574302757" duration="8500000" />
       <workItem from="1733584911836" duration="151000" />
-      <workItem from="1733639092409" duration="1429000" />
+      <workItem from="1733639092409" duration="8409000" />
     </task>
     <task id="LOCAL-00124" summary="24-01-16【功能修改】：完善接口校验，开始编写接口文档">
       <created>1705417151653</created>
@@ -1079,28 +1085,28 @@
     </state>
     <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733569145081" />
     <state x="740" y="276" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1730955175213" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1733584862524">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1733646770098">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733584862524" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733646770098" />
     <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1733580190264" />
     <state width="1564" height="550" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1733584862524">
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1733646770098">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733584862524" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733646770098" />
     <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1733580190264" />
     <state width="1564" height="550" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1733584862524">
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1733646770098">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733584862524" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733646770098" />
     <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1733580190264" />
     <state width="1564" height="550" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1733584862524">
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1733646770098">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733584862524" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733646770098" />
     <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1733580190264" />
     <state width="1564" height="550" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1732624764217" />
     <state width="1564" height="259" key="GridCell.Tab.1.bottom" timestamp="1733584862520">
@@ -1162,10 +1168,10 @@
     </state>
     <state width="968" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733473587876" />
     <state width="968" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040@0.0.1920.1040" timestamp="1727495774463" />
-    <state x="2700" y="373" width="879" height="630" key="find.popup" timestamp="1733579274471">
-      <screen x="1920" y="0" width="1920" height="1040" />
+    <state x="780" y="373" width="879" height="630" key="find.popup" timestamp="1733644042051">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="780" y="373" width="879" height="630" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733578378680" />
+    <state x="780" y="373" width="879" height="630" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1733644042051" />
     <state x="2700" y="373" width="879" height="630" key="find.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1733579274471" />
     <state x="581" y="242" width="879" height="630" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1729664035206" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1727958947965">

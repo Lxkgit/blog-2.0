@@ -36,7 +36,7 @@ public class FtpUtil {
             int ftpPort = (int) InitConfig.getRegisterConfig("ftp", "port");
             String ftpUsername = (String) InitConfig.getRegisterConfig("ftp", "username");
             String ftpPassword = (String) InitConfig.getRegisterConfig("ftp", "password");
-            ftpClient.setConnectTimeout(5000);
+            ftpClient.setConnectTimeout(10000);
             ftpClient.connect(ftpIp, ftpPort);
             ftpClient.login(ftpUsername, ftpPassword);
             reply = ftpClient.getReplyCode();

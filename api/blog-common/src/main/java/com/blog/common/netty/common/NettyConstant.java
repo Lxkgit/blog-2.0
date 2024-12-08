@@ -12,6 +12,6 @@ public class NettyConstant {
     // netty 本机Netty编码
     public static final String NETTY_SENDER = "service";
 
-    // netty 客户端编码
-    public static final String NETTY_CLIENT1 = "SMP1";
+    // netty 客户端编码（用于存放博客数据同步文件）
+    public static final String NETTY_CLIENT1 = "2ecfb95116de4967afe7710e11ac00b4";
 }

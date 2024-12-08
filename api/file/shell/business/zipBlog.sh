@@ -9,24 +9,20 @@ rm -rf /opt/files/files.zip
 cd /opt/files
 zip -r files.zip /opt/files/*
 
-# 创建临时目录
-mkdir -p /opt/temp/blog
-mkdir -p /opt/temp/blog/sql
-mkdir -p /opt/temp/blog/files
-
 # 移动文件
-mv /opt/docker/files/sql/* /opt/temp/blog/sql
-mv /opt/files/files.zip /opt/temp/blog/files
+mv /opt/docker/files/sql/* /opt/docker/files/sync/
+mv /opt/files/files.zip /opt/docker/files/sync/
 
 # 压缩文件
-cd /opt/temp/blog
-zip -r blog.zip /opt/temp/blog/*
+cd /opt/docker/files/sync/
+zip -r blog.zip /opt/docker/files/sync/*
 
 # 导出文件移至ftp system用户目录
 mkdir -p /opt/docker/ftp/system
-mv /opt/temp/blog/blog.zip /opt/docker/ftp/system
+mv /opt/docker/files/sync/blog.zip /opt/docker/files/ftp/system
+
 # 临时文件删除
-rm -rf /opt/temp/blog/*
+rm -rf /opt/docker/files/sync/*
 
 
 

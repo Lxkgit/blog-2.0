@@ -29,6 +29,10 @@ createDir() {
   mkdir -p /opt/docker/files/jar
   # jar包日志存放目录
   mkdir -p /opt/docker/files/log
+  # 存放目录执行shell脚本
+  mkdir -p /opt/docker/files/shell
+  # 存放博客数据同步文件
+  mkdir -p /opt/docker/files/sync
   # 博客文件数据目录
   mkdir -p /opt/files
   # mysql文件目录
@@ -42,7 +46,7 @@ createDir() {
   mkdir -p /opt/docker/mysql/logs
 
   # ftp 目录创建
-  mkdir -p /opt/docker/ftp
+  mkdir -p /opt/docker/files/ftp
 
   # nginx 目录创建
   mkdir -p /opt/docker/nginx/conf.d
@@ -88,6 +92,9 @@ createDir() {
   mv /opt/package/jar/*.jar /opt/docker/files/jar
   mv /opt/package/conf/Dockerfile /opt/docker/files/jar
   mv /opt/package/conf/run.sh /opt/docker/files/jar
+  # 服务使用到的shell脚本移动
+  mv /opt/package/shell/* /opt/docker/files/shell
+  sed -i 's/\r$//' /opt/docker/files/shell/*.sh
   chmod +x /opt/docker/files/jar/run.sh
   # win和linux字符引起的错误
   sed -i 's/\r$//' /opt/docker/files/jar/run.sh
@@ -148,7 +155,7 @@ updateMysqlConf() {
 
 ftp() {
   echo "正在启动ftp..."
-  docker run -d --name vsftpd --privileged=true --restart=always --network blog_network --ip 172.18.0.4 -p 61120:20 -p 61121:21 -p  61110-61119:61110-61119 -e FTP_USER=${ftpUsername} -e FTP_PASS=${ftpPassword} -e PASV_ADDRESS=49.232.129.253 -e PASV_MIN_PORT=61110 -e PASV_MAX_PORT=61119 -v /opt/docker/ftp:/home/vsftpd fauria/vsftpd
+  docker run -d --name vsftpd --privileged=true --restart=always --network blog_network --ip 172.18.0.4 -p 61120:20 -p 61121:21 -p  61110-61119:61110-61119 -e FTP_USER=${ftpUsername} -e FTP_PASS=${ftpPassword} -e PASV_ADDRESS=49.232.129.253 -e PASV_MIN_PORT=61110 -e PASV_MAX_PORT=61119 -v /opt/docker/files/ftp:/home/vsftpd fauria/vsftpd
 }
 
 recoverFiles() {
@@ -195,7 +202,7 @@ jar() {
   echo "正在启动博客服务..."
   cd /opt/docker/files/jar
   docker build -t blog:2.1 .
-  docker run -d --name blog --privileged=true --restart=always --network blog_network --ip 172.18.0.10 -p 9527:9527 -p 9100:9100 -p 9200:9200 -p 10100:10100 -p 10200:10200 -p 9092:9092 -v /opt/docker/files:/opt/docker/files -v /opt/files:/opt/files blog:2.1
+  docker run -d --name blog --privileged=true --restart=always --network blog_network --ip 172.18.0.10 -p 9527:9527 -p 9100:9100 -p 9200:9200 -p 10100:10100 -p 10200:10200 -p 9092:9092 -p 21:21 -v /opt/docker/files:/opt/docker/files -v /opt/files:/opt/files blog:2.1
 }
 
 # 添加4g的虚拟内存

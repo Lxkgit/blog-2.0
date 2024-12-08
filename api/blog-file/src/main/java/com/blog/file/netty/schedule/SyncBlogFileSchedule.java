@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 /**
@@ -32,7 +33,7 @@ public class SyncBlogFileSchedule {
 
 
 //    @PostConstruct  // 项目启动时执行这个方法
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void initFile() {
         log.info("文件同步");
         if (!ShellUtil.shell(ShellCommand.exportBlogZip)) {
