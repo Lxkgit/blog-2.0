@@ -33,7 +33,7 @@ public class SyncBlogFileSchedule {
 
 
 //    @PostConstruct  // 项目启动时执行这个方法
-    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void initFile() {
         log.info("文件同步");
         if (!ShellUtil.shell(ShellCommand.exportBlogZip)) {
@@ -45,7 +45,7 @@ public class SyncBlogFileSchedule {
         nettySyncBlogFile.setSyncType(2);
         nettySyncBlogFile.setFileCode("blog.zip");
         nettySyncBlogFile.setFileName("blog.zip");
-        nettySyncBlogFile.setFilePath("/");
+        nettySyncBlogFile.setFilePath("/sync");
 
         NettyPacket<NettySyncBlogFileDto> nettyResponse = NettyPacket.buildRequest(nettySyncBlogFile);
         nettyResponse.setNettyPacketType(NettyPacketType.REQUEST.getValue());

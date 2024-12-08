@@ -101,7 +101,7 @@ public class SyncBlogFileService {
                 }
             }
         } else if (nettySyncBlogFile.getSyncType().equals(2)) {
-            String appendPath = "/blog";
+            String appendPath = "/sync";
             String localFileName = "blog.zip";
             boolean success = ftpUtil.downloadFtpFile(serviceFilePath, serviceFileName, basePath + appendPath, localFileName);
             // 响应服务端处理结果

@@ -2,7 +2,7 @@
 # docker 测试shell脚本
 
 # 下载失败重新尝试次数
-reload=5
+reload=10
 
 # 将命令赋值给变量
 command=""
@@ -335,3 +335,4 @@ main
 # - conf    # 存放需要替换的配置文件
 # - web     # 存放前端包
 # - files   # 存放博客已有数据文件
+# - shell   # 存放Java服务用到的shell脚本
