@@ -15,4 +15,13 @@
 # /etc/crontab  是系统级定时任务
 # /var/spool/cron/{用户名} 是用户级脚本
 
-echo "0 0 * * * /opt/docker/files/log/renameLog.sh  > /dev/null 2>&1 &"  >> /etc/crontab
+# 重命名日志
+#LOG_COMMAND="0 0 * * * /opt/docker/files/log/renameLog.sh>/dev/null 2>&1 &"
+#(crontab -l 2>/dev/null; echo "$LOG_COMMAND") | crontab
+
+# 导出博客数据文件
+FILE_COMMAND="0 0 * * * /opt/docker/files/shell/zipBlog.sh>/dev/null 2>&1 &"
+(crontab -l 2>/dev/null; echo "$FILE_COMMAND") | crontab
+
+
+#(echo "* * * * * sh /root/proxy/pull_server.sh >> /dev/null 2>&1" ; crontab -l ) | crontab

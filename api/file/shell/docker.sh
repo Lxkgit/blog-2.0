@@ -95,9 +95,10 @@ createDir() {
   # 服务使用到的shell脚本移动
   mv /opt/package/shell/* /opt/docker/files/shell
   sed -i 's/\r$//' /opt/docker/files/shell/*.sh
-  chmod +x /opt/docker/files/jar/run.sh
+  chmod +x /opt/docker/files/shell/*.sh
   # win和linux字符引起的错误
   sed -i 's/\r$//' /opt/docker/files/jar/run.sh
+  chmod +x /opt/docker/files/jar/run.sh
   # web页面相关
   mv /opt/package/web/dist/* /opt/docker/nginx/html
   # 博客文件数据
@@ -284,6 +285,10 @@ dockerLoad() {
   reLoad
 }
 
+shell() {
+  sudo /opt/docker/files/shell/crontab.sh
+}
+
 main() {
   timer_start=`date "+%Y-%m-%d %H:%M:%S"`
   dockerStart
@@ -304,6 +309,7 @@ main() {
   nacos
   rocketMq
   jar
+  shell
   timer_end=`date "+%Y-%m-%d %H:%M:%S"`
   duration=`echo $(($(date +%s -d "${timer_end}") - $(date +%s -d "${timer_start}"))) | awk '{t=split("60 s 60 m 24 h 999 d",a);for(n=1;n<t;n+=2){if($1==0)break;s=$1%a[n]a[n+1]s;$1=int($1/a[n])}print s}'`
   echo "脚本执行完成 耗时： $duration "

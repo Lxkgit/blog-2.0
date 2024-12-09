@@ -32,14 +32,19 @@ public class SyncBlogFileSchedule {
     private NettyServer nettyServer;
 
 
-//    @PostConstruct  // 项目启动时执行这个方法
-    @Scheduled(cron = "0 0 0 * * ?")
+    /**
+     * 定时同步博客数据
+     *
+     */
+    @Scheduled(cron = "0 0 1 * * ?")
     public void initFile() {
         log.info("文件同步");
-        if (!ShellUtil.shell(ShellCommand.exportBlogZip)) {
-            // 脚本执行失败停止执行
-            return;
-        }
+
+        // 容器内无法在宿主机内执行脚本
+//        if (!ShellUtil.shell(ShellCommand.exportBlogZip)) {
+//            // 脚本执行失败停止执行
+//            return;
+//        }
 
         NettySyncBlogFileDto nettySyncBlogFile = new NettySyncBlogFileDto();
         nettySyncBlogFile.setSyncType(2);
