@@ -32,7 +32,10 @@ createDir() {
   # 存放目录执行shell脚本
   mkdir -p /opt/docker/files/shell
   # 存放博客数据同步文件
-  mkdir -p /opt/docker/files/sync
+  # 博客数据文件临时存放目录
+  mkdir -p /opt/docker/files/sync/
+  # ftp目录下同步文件存放位置
+  mkdir -p /opt/docker/files/ftp/system/sync
   # 博客文件数据目录
   mkdir -p /opt/files
   # mysql文件目录
