@@ -7,17 +7,11 @@ const socketUser = () => {
   async function openSocketUser(userId): Promise<void> {
     //判断当前浏览器是否支持WebSocket, 主要此处要更换为自己的地址
     if ('WebSocket' in window) {
-      let url = "http://"+ store.serviceIP + ":9527/file/client/" + userId;
-      // let url = window.blog.socket + "/file/client/" + userId;
-      url = url.replace("https", "wss").replace("http", "ws");
+      let url = "ws://localhost/socket/file/client/" + userId;
       if (websocket == null && !socketLink) {
         websocket = new WebSocket(url);
         socketLink = true
       }
-      // else {
-      //   console.log("用户websocket已连接");
-      // }
-
 
       //连接发生错误的回调方法
       websocket.onerror = function () {

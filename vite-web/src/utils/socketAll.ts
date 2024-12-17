@@ -9,10 +9,8 @@ const socketAll = () => {
   const instance = getCurrentInstance();
   const openSocketAll = () => {
     //判断当前浏览器是否支持WebSocket, 主要此处要更换为自己的地址
-    let url = "http://"+ store.serviceIP + ":9527/file/result";
-    // let url = window.config.socket + "/file/result";
+    let url = "ws://localhost/socket/file/result";
     if ('WebSocket' in window) {
-      url = url.replace("https", "wss").replace("http", "ws");
       if (websocket == null) {
         websocket = new WebSocket(url);
       }
