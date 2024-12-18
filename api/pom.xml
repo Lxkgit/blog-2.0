@@ -86,11 +86,11 @@
                 <version>${feign.version}</version>
             </dependency>
             <!-- Feign Client for loadBalancing -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-loadbalancer</artifactId>
-                <version>${loadbalancer.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-loadbalancer</artifactId>-->
+<!--                <version>${loadbalancer.version}</version>-->
+<!--            </dependency>-->
             <!--spring boot test-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -189,6 +189,30 @@
 
         </dependencies>
     </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <devServiceIp>127.0.0.1</devServiceIp>
+                <env>dev</env>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>pro</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <devServiceIp>172.18.0.7</devServiceIp>
+                <env>pro</env>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
